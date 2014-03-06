@@ -16,17 +16,29 @@
   </head>
   <body ng-controller="jlpkgCtrl">
     <!-- HEADER -->
-    <div class="container">
-      <h1>Julia Package Listing</h1>
-      <p>Experimental and unofficial</p>
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Julia Package Listing</h1>
+        <p>Experimental and unofficial</p>
+        <p>Search package names: <input type="text" ng-model="search.name"></p>
+        <p>Search package README: <input type="text" ng-model="search.details"></p>
+      </div>
     </div>
+
 
     <!-- LISTING -->
     <div class="container">
-      <div class="row" ng-repeat="pkg in stable">
-        <h2>{{pkg.name}}</h2>
-        <h3>{{pkg.owner}} - Version {{pkg.json}}</h3>
-        <hr>
+      <div class="row" ng-repeat="pkg in stable | filter:search:strict">
+        <!-- First line - name, version -->
+        <div class="row">
+          <div class="col-md-7"><h2>{{pkg.name}}</h2></div>
+          <div class="col-md-3"><h3>{{pkg.owner}}</h3></div>
+          <div class="col-md-2"><h3>{{pkg.version}}</h3></div>
+        </div>
+        <!-- Description -->
+        <div class="row">
+          <div class="col-md-12">{{pkg.details}}</div>
+        </div>
       </div>
     </div>
 

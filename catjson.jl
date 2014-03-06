@@ -1,6 +1,6 @@
 using JSON
 outfp = open("all.json","w")
-println(outfp, "{")
+println(outfp, "[")
 first = true
 for file in readdir("json")
     if !first
@@ -11,8 +11,8 @@ for file in readdir("json")
     data = readall(joinpath("json",file))
     js   = JSON.parse(data)
     pkg  = js["name"]
-    println(outfp, "\"$pkg\":")
+    #println(outfp, "\"$pkg\":")
     println(outfp, data)
     
 end
-println(outfp, "}")
+println(outfp, "]")
