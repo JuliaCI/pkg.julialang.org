@@ -19,6 +19,18 @@ jlpkgApp.controller('jlpkgCtrl', function ($scope, $http) {
     }
   });
 
-  
+  $scope.humanStatus = function(status){
+    if (status == "full_pass") {
+      return "Tests Pass";
+    } else if (status == "full_fail") {
+      return "Tests Fail";
+    } else if (status == "using_pass") {
+      return "Can Load";
+    } else if (status == "using_fail") {
+      return "Can't Load";
+    } else {
+      return "Unknown";
+    }
+  };
 
 });

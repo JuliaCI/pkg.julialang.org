@@ -6,8 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Julia Package Listing (Unofficial)</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <style>
+      .full_pass    { background-color: #55FF55; } /*Tests passing*/
+      .full_fail    { background-color: #FF9922; } /*Tests failed*/
+      .using_pass   { background-color: #AAAAFF; } /*Tests missing*/
+      .using_fail   { background-color: #FF4444; } /*Package unloadable*/
+      .not_possible { background-color: #AFAFAF; } /*Package excused*/
+
+      .cell_using_fail   { background-color: #ffcccc; }
+      .cell_using_pass   { background-color: #ddddff; }
+      .cell_full_fail    { background-color: #ffddcc; }
+      .cell_full_pass    { background-color: #ddffdd; }
+      .cell_not_possible { background-color: #eeeeee; }
+    </style>
 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -21,7 +33,10 @@
         <h1>Julia Package Listing</h1>
         <p>Experimental and unofficial</p>
         <p>Search package names: <input type="text" ng-model="search.name"></p>
-        <p>Search package README: <input type="text" ng-model="search.details"></p>
+        <p>Search package description: <input type="text" ng-model="search.details"></p>
+        <p>Show packages that:
+        </p>
+        </p>
       </div>
     </div>
 
@@ -31,14 +46,21 @@
       <div class="row" ng-repeat="pkg in stable | filter:search:strict">
         <!-- First line - name, version -->
         <div class="row">
-          <div class="col-md-7"><h2>{{pkg.name}}</h2></div>
+          <div class="col-md-7"><h2><a href="{{pkg.url}}">{{pkg.name}}</a></h2></div>
           <div class="col-md-3"><h3>{{pkg.owner}}</h3></div>
           <div class="col-md-2"><h3>{{pkg.version}}</h3></div>
         </div>
         <!-- Description -->
         <div class="row">
-          <div class="col-md-12">{{pkg.details}}</div>
+          <div class="col-md-12"><p>Package description goes here.</p></div>
         </div>
+        <!-- Testing status -->
+        <div class="row">
+          <div class="col-xs-1 {{pkg.status}}">{{humanStatus(pkg.status)}}</div>
+          <div class="col-x2-11">&nbsp;&nbsp;<em>{{pkg.details}}</em></div>
+        </div>
+
+        <hr>
       </div>
     </div>
 
