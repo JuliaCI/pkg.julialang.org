@@ -16,6 +16,11 @@ jlpkgApp.controller('jlpkgCtrl', function ($scope, $http) {
       $scope.stable[i].showtestlog = false;
       $scope.stable[i].l_owner = url_split[url_split.length-2].toLowerCase();
       $scope.stable[i].l_name = $scope.stable[i].name.toLowerCase();
+      if ($scope.stable[i].licfile != "") {
+        $scope.stable[i].licurl = $scope.stable[i].url + "/blob/" + $scope.stable[i].gitsha + "/" + $scope.stable[i].licfile;
+      } else {
+        $scope.stable[i].licurl = $scope.stable[i].url + "/tree/" + $scope.stable[i].gitsha;
+      }
     }
   });
 
@@ -40,14 +45,24 @@ jlpkgApp.controller('jlpkgCtrl', function ($scope, $http) {
                      "not_possible":true};
   $scope.searchName = "";
   $scope.searchAuthor = "";
+  $scope.licenseShow = {"MIT":true, "BSD":true, "GPLv2":true, "GPLv3":true, "Other":true}
 
   $scope.isVisible = function(item) {
     var lowerName   = $scope.searchName.toLowerCase();
     var lowerAuthor = $scope.searchAuthor.toLowerCase();
+    var licstatus = false;
+    licstatus = licstatus || (item.license == "MIT" && $scope.licenseShow["MIT"])
+    licstatus = licstatus || (item.license == "BSD" && $scope.licenseShow["BSD"])
+    licstatus = licstatus || (item.license == "GPL v2" && $scope.licenseShow["GPLv2"])
+    licstatus = licstatus || (item.license == "GPL v3" && $scope.licenseShow["GPLv3"])
+    licstatus = licstatus || (item.license != "MIT" && item.license != "BSD" &&
+                              item.license != "GPL v2" && item.license != "GPL v3" &&
+                              $scope.licenseShow["Other"])
     return ($scope.jlVer == item.jlver && 
             $scope.testShow[item.status] &&
             item.l_name.indexOf(lowerName)    != -1 &&
-            item.l_owner.indexOf(lowerAuthor) != -1);
+            item.l_owner.indexOf(lowerAuthor) != -1 &&
+            licstatus);
   };
 
   $scope.filterMsg = function() {
