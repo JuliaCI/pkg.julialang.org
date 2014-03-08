@@ -1,4 +1,4 @@
-var jlpkgApp = angular.module('jlpkgApp', ['ui.bootstrap']);
+var jlpkgApp = angular.module('jlpkgApp', ['ui.bootstrap','once']);
 
  
 jlpkgApp.controller('jlpkgCtrl', function ($scope, $http) {
@@ -14,6 +14,8 @@ jlpkgApp.controller('jlpkgCtrl', function ($scope, $http) {
       url_split = $scope.stable[i].url.split('/');
       $scope.stable[i].owner = url_split[url_split.length-2];
       $scope.stable[i].showtestlog = false;
+      $scope.stable[i].l_owner = url_split[url_split.length-2].toLowerCase();
+      $scope.stable[i].l_name = $scope.stable[i].name.toLowerCase();
     }
   });
 
@@ -38,17 +40,27 @@ jlpkgApp.controller('jlpkgCtrl', function ($scope, $http) {
                      "not_possible":true};
   $scope.searchName = "";
   $scope.searchAuthor = "";
+  $scope.isVisible = function(item) {
+    lowerName   = $scope.searchName.toLowerCase();
+    lowerAuthor = $scope.searchAuthor.toLowerCase();
+    return ($scope.jlVer == item.jlver && 
+            $scope.testShow[item.status] &&
+            item.l_name.indexOf(lowerName)    != -1 &&
+            item.l_owner.indexOf(lowerAuthor) != -1);
+  }
 });
-
 
 jlpkgApp.filter('pkgFilter', function() {
     return function(items, jlVer, testShow, searchName, searchAuthor) {
       var filtered = [];
+      lowerName   = searchName.toLowerCase();
+      lowerAuthor = searchAuthor.toLowerCase();
+
       angular.forEach(items, function(item) {
         if( jlVer == item.jlver && 
             testShow[item.status] &&
-            item.name.indexOf(searchName) != -1 &&
-            item.owner.indexOf(searchAuthor) != -1) {
+            item.l_name.indexOf(lowerName) != -1 &&
+            item.l_owner.indexOf(lowerAuthor) != -1) {
           filtered.push(item);
         }
       });

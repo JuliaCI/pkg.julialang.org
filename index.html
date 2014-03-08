@@ -40,11 +40,21 @@
     <div class="row">
       <div class="col-sm-6">
         <h3>Search package name:</h3>
-        <input type="text" class="form-control" ng-model="searchName">
+        <div class="input-group">
+          <input type="text" class="form-control" ng-model="searchName">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button" ng-click="searchName=''">Clear</button>
+          </span>
+        </div>
       </div>
       <div class="col-sm-6">
         <h3>Search package author:</h3>
-        <input type="text" class="form-control" ng-model="searchAuthor">
+        <div class="input-group">
+          <input type="text" class="form-control" ng-model="searchAuthor">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button" ng-click="searchAuthor=''">Clear</button>
+          </span>
+        </div>
       </div>
     </div>
     <div class="row">
@@ -77,8 +87,8 @@
     <hr>
 
     <!-- LISTING -->
-    <div class="container" ng-repeat="pkg in stable  | pkgFilter:jlVer:testShow:searchName:searchAuthor">
-      
+    <!-- <div class="container" ng-repeat="pkg in stable  | pkgFilter:jlVer:testShow:searchName:searchAuthor"> -->
+    <div class="container" ng-repeat="pkg in stable" ng-show="isVisible(pkg)">
         <!-- First lines - names, version -->
         <div class="row">
           <div class="col-xs-9"><h2><a href="{{pkg.url}}">{{pkg.name}}</a></h2></div>
@@ -99,7 +109,7 @@
               <span class="cell_{{pkg.status}}">{{humanStatus(pkg.status)}}</span> -
               <a herf="#" ng-click="pkg.showtestlog = !pkg.showtestlog">{{pkg.showtestlog ? "Hide log" : "Show log"}}</a>
             </p>
-            <pre ng-show="pkg.showtestlog">"{{pkg.details}}"
+            <pre ng-if="pkg.showtestlog">"{{pkg.details}}"
 {{pkg.testlog}}</pre>
           </div>
         </div>
@@ -107,6 +117,7 @@
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+    <script src="once.js"></script>
     <script src="jlpkg.js"></script>
     <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>-->
