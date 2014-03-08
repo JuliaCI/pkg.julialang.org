@@ -91,11 +91,11 @@
     <div class="container" ng-repeat="pkg in stable" ng-show="isVisible(pkg)">
         <!-- First lines - names, version -->
         <div class="row">
-          <div class="col-xs-9"><h2><a href="{{pkg.url}}">{{pkg.name}}</a></h2></div>
-          <div class="col-xs-3"><h3><a href="http://github.com/{{pkg.owner}}">{{pkg.owner}}</a></h3></div>
+          <div class="col-xs-9"><h2><a once-href="pkg.url" once-text="pkg.name"></a></h2></div>
+          <div class="col-xs-3"><h3><a once-href="'http://github.com/'+pkg.owner" once-text="pkg.owner"></a></h3></div>
         </div>
         <div class="row">
-          <div class="col-xs-6"><h4>Current version: <a href="{{pkg.url}}/tree/{{pkg.gitsha}}">{{pkg.version}} ({{pkg.gitsha.substr(0,8)}})</a></h4></div>
+          <div class="col-xs-6"><h4>Current version: <a once-href="pkg.url+'/tree/'+pkg.gitsha" once-text="pkg.version+' ('+pkg.gitsha.substr(0,8)+')'"></a></h4></div>
         </div>
         <!-- Description -->
         <div class="row">
@@ -106,11 +106,10 @@
           <div class="col-md-12">
             <p>
               <b>Test status</b>: 
-              <span class="cell_{{pkg.status}}">{{humanStatus(pkg.status)}}</span> -
-              <a herf="#" ng-click="pkg.showtestlog = !pkg.showtestlog">{{pkg.showtestlog ? "Hide log" : "Show log"}}</a>
+              <span class="cell_{{pkg.status}}" once-text="humanStatus(pkg.status)"></span> -
+              <a ng-click="pkg.showtestlog = !pkg.showtestlog">{{pkg.showtestlog ? "Hide log" : "Show log"}}</a>
             </p>
-            <pre ng-if="pkg.showtestlog">"{{pkg.details}}"
-{{pkg.testlog}}</pre>
+            <pre ng-if="pkg.showtestlog" once-text="pkg.details+'\n'+pkg.testlog"></pre>
           </div>
         </div>
         <hr>
