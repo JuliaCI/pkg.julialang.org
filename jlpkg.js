@@ -36,34 +36,51 @@ jlpkgApp.controller('jlpkgCtrl', function ($scope, $http) {
   // Filtering
   $scope.jlVer = "0.2";
   $scope.testShow = {"full_pass":true,"full_fail":true,
-                     "using_pass":true,"using_fail":false,
+                     "using_pass":true,"using_fail":true,
                      "not_possible":true};
   $scope.searchName = "";
   $scope.searchAuthor = "";
+
   $scope.isVisible = function(item) {
-    lowerName   = $scope.searchName.toLowerCase();
-    lowerAuthor = $scope.searchAuthor.toLowerCase();
+    var lowerName   = $scope.searchName.toLowerCase();
+    var lowerAuthor = $scope.searchAuthor.toLowerCase();
     return ($scope.jlVer == item.jlver && 
             $scope.testShow[item.status] &&
             item.l_name.indexOf(lowerName)    != -1 &&
             item.l_owner.indexOf(lowerAuthor) != -1);
-  }
-});
+  };
 
-jlpkgApp.filter('pkgFilter', function() {
-    return function(items, jlVer, testShow, searchName, searchAuthor) {
-      var filtered = [];
-      lowerName   = searchName.toLowerCase();
-      lowerAuthor = searchAuthor.toLowerCase();
+  $scope.filterMsg = function() {
+    var sN = $scope.searchName;
+    var sA = $scope.searchAuthor;
+    if (sN == "" && sA == "") {
+      return "";
+    } else if (sN != "" && sA == "") {
+      return "('" + sN + "')";
+    } else if (sN == "" && sA != "") {
+      return "('" + sA + "')";
+    } else {
+      return "('" + sN + "', '" + sA + "')";
+    }
+  };
 
-      angular.forEach(items, function(item) {
-        if( jlVer == item.jlver && 
-            testShow[item.status] &&
-            item.l_name.indexOf(lowerName) != -1 &&
-            item.l_owner.indexOf(lowerAuthor) != -1) {
-          filtered.push(item);
-        }
-      });
-      return filtered;
-    };
+  $scope.countPkgs = function() {
+    var count = 0;
+    var people = {};
+    
+    angular.forEach($scope.stable, function(item) {
+      if ($scope.isVisible(item)) {
+        count += 1;
+        people[item.owner] = true;
+      }
+    });
+
+    var people_count = 0;
+    angular.forEach(people, function(item) {
+      people_count += 1;
+    });
+
+    return count + ' packages from ' + people_count + ' people and organizations.';
+  };
+
 });
