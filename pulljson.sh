@@ -5,3 +5,4 @@ cat stable.json >> all.json
 echo "," >> all.json
 cat nightly.json >> all.json
 echo "]" >> all.json
+julia add_desc.jl
