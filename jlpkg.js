@@ -14,6 +14,7 @@ jlpkgApp.controller('jlpkgCtrl', function ($scope, $http) {
       url_split = $scope.stable[i].url.split('/');
       $scope.stable[i].owner = url_split[url_split.length-2];
       $scope.stable[i].showtestlog = false;
+      $scope.stable[i].showexpnames = false;
       $scope.stable[i].l_owner = url_split[url_split.length-2].toLowerCase();
       $scope.stable[i].l_name = $scope.stable[i].name.toLowerCase();
       if ($scope.stable[i].licfile != "") {
@@ -32,7 +33,7 @@ jlpkgApp.controller('jlpkgCtrl', function ($scope, $http) {
     } else if (status == "using_pass") {
       return "No tests, package loads.";
     } else if (status == "using_fail") {
-      return "No tests, package doesn't load.";
+      return "Package doesn't load.";
     } else {
       return "Package was untestable due to binary dependency.";
     }

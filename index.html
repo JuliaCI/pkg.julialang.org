@@ -118,31 +118,40 @@
 
     <!-- LISTING -->
     <div class="container" ng-repeat="pkg in stable" ng-show="isVisible(pkg)">
-        <!-- First lines - names, version -->
-        <div class="row">
-          <div class="col-xs-12"><h2><a once-href="pkg.url" once-text="pkg.name"></a></h2></div>
+      <!-- First lines - names, version -->
+      <div class="row">
+        <div class="col-xs-12"><h2><a once-href="pkg.url" once-text="pkg.name"></a></h2></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4"><h4>Current version: <a once-href="pkg.url+'/tree/'+pkg.gitsha" once-text="pkg.version+' ('+pkg.gitsha.substr(0,8)+')'"></a></h4></div>
+        <div class="col-sm-4"><h4>License: <a once-href="pkg.licurl" once-text="pkg.license"></a></h4></div>
+        <div class="col-sm-4"><h4>Author: <a once-href="'http://github.com/'+pkg.owner" once-text="pkg.owner"></a></h3></div>
+      </div>
+      <!-- Description -->
+      <div class="row">
+        <div class="col-md-12"><p>Package description goes here.</p></div>
+      </div>
+      <!-- Exported names -->
+      <div class="row" ng-if="pkg.expnames.length > 0">
+        <div class="col-md-12">
+          <p>
+            <b>Exported names:</b> <a ng-click="pkg.showexpnames = !pkg.showexpnames">{{pkg.showexpnames ? "Hide" : "Show"}}</a>
+          </p>
+          <pre ng-if="pkg.showexpnames" once-text="pkg.expnames"></pre>
         </div>
-        <div class="row">
-          <div class="col-sm-4"><h4>Current version: <a once-href="pkg.url+'/tree/'+pkg.gitsha" once-text="pkg.version+' ('+pkg.gitsha.substr(0,8)+')'"></a></h4></div>
-          <div class="col-sm-4"><h4>License: <a once-href="pkg.licurl" once-text="pkg.license"></a></h4></div>
-          <div class="col-sm-4"><h4>Author: <a once-href="'http://github.com/'+pkg.owner" once-text="pkg.owner"></a></h3></div>
+      </div>
+      <!-- Testing status -->
+      <div class="row">
+        <div class="col-md-12">
+          <p>
+            <b>Test status</b>: 
+            <span class="cell_{{pkg.status}}" once-text="humanStatus(pkg.status)"></span> -
+            <a ng-click="pkg.showtestlog = !pkg.showtestlog">{{pkg.showtestlog ? "Hide log" : "Show log"}}</a>
+          </p>
+          <pre ng-if="pkg.showtestlog" once-text="pkg.details+'\n'+pkg.testlog"></pre>
         </div>
-        <!-- Description -->
-        <div class="row">
-          <div class="col-md-12"><p>Package description goes here.</p></div>
-        </div>
-        <!-- Testing status -->
-        <div class="row">
-          <div class="col-md-12">
-            <p>
-              <b>Test status</b>: 
-              <span class="cell_{{pkg.status}}" once-text="humanStatus(pkg.status)"></span> -
-              <a ng-click="pkg.showtestlog = !pkg.showtestlog">{{pkg.showtestlog ? "Hide log" : "Show log"}}</a>
-            </p>
-            <pre ng-if="pkg.showtestlog" once-text="pkg.details+'\n'+pkg.testlog"></pre>
-          </div>
-        </div>
-        <hr>
+      </div>
+      <hr>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
