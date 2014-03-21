@@ -29,9 +29,9 @@ jlpkgApp.controller('jlpkgCtrl', function ($scope, $http) {
     if (status == "full_pass") {
       return "Tests pass.";
     } else if (status == "full_fail") {
-      return "Tests fail.";
+      return "Tests fail, but package loads.";
     } else if (status == "using_pass") {
-      return "No tests, package loads.";
+      return "No tests, but package loads.";
     } else if (status == "using_fail") {
       return "Package doesn't load.";
     } else {
