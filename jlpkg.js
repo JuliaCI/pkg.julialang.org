@@ -14,6 +14,7 @@ jlpkgApp.controller('jlpkgCtrl', function ($scope, $http) {
       url_split = $scope.stable[i].url.split('/');
       $scope.stable[i].owner = url_split[url_split.length-2];
       $scope.stable[i].showtestlog = false;
+      $scope.stable[i].showtesthist = false;
       $scope.stable[i].showexpnames = false;
       $scope.stable[i].l_owner = url_split[url_split.length-2].toLowerCase();
       $scope.stable[i].l_name = $scope.stable[i].name.toLowerCase();
