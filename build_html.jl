@@ -26,6 +26,7 @@ for pkg in pkgs
     cur_listing  = "<div class=\"container pkglisting\" "
     cur_listing *= "data-pkg=\"" * lowercase(pkg["name"])  * "\" "
     cur_listing *= "data-ver=\"" * pkg["jlver"] * "\" "
+    cur_listing *= "data-status=\"" * pkg["status"] * "\" "
     cur_listing *= ">\n"
 
     # First line - Name
@@ -78,6 +79,6 @@ for pkg in pkgs
 end
 
 # Output
-fp = open("newindex.html","w")
+fp = open("index.html","w")
 print(fp, index_head * join(listing,"\n") * index_tail)
 close(fp)
