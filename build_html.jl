@@ -23,10 +23,14 @@ listing = String[]
 pkgs = JSON.parse(readall("all.json"))
 
 for pkg in pkgs
+    owner = split(pkg["url"],"/")[end-1]
+
     cur_listing  = "<div class=\"container pkglisting\" "
     cur_listing *= "data-pkg=\"" * lowercase(pkg["name"])  * "\" "
+    cur_listing *= "data-owner=\"" * lowercase(owner) * "\" "
     cur_listing *= "data-ver=\"" * pkg["jlver"] * "\" "
     cur_listing *= "data-status=\"" * pkg["status"] * "\" "
+    cur_listing *= "data-lic=\"" * pkg["license"] * "\" "
     cur_listing *= ">\n"
 
     # First line - Name
@@ -57,7 +61,6 @@ for pkg in pkgs
                         licurl * "\">" * pkg["license"] * "</a></b></p></div>\n"
 
         # Owner
-        owner = split(pkg["url"],"/")[end-1]
         cur_listing *= "<div class=\"col-sm-3\"><p><b>Author: <a href=\"http://github.com/" *
                         owner * "\">" * owner * "</a></b></p></div>\n"
     cur_listing *= "</div>\n"
@@ -67,10 +70,15 @@ for pkg in pkgs
     cur_listing *= "<a href=\"badges/" * pkg["name"] * "_" * pkg["jlver"] * ".svg" * "\">" *
                    "<img src=\"badges/" * pkg["status"] * ".svg" * "\" alt=\"" * humanStatus(pkg["status"]) * "\"></a> "
     cur_listing *= humanStatus(pkg["status"]) * " "
-    cur_listing *= "<a class=\"showlog\" data-pkg=\"" * pkg["name"] * "\" data-ver=\"" * pkg["jlver"] * "\"><span id=\"" * pkg["name"] * "_loglink\">Show log</span></a> - "
-    cur_listing *= "<a class=\"showhist\" data-pkg=\"" * pkg["name"] * "\"><span id=\"" * pkg["name"] * "_histlink\">Show history</span></a></p>"
-    cur_listing *= "<pre style=\"display: none;\" class=\"testlog\" id=\"" * pkg["name"] * "_log\"></pre>"
-    cur_listing *= "<pre style=\"display: none;\" class=\"testhist\" id=\"" * pkg["name"] * "_hist\">" * pkg["hist"] * "</pre>"
+    
+    cur_listing *= "<a class=\"showlog\" data-pkg=\"" * pkg["name"] * "\" data-ver=\"" * pkg["jlver"] * "\">"
+    cur_listing *= "<span id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_loglink\">Show log</span></a> - "
+    
+    cur_listing *= "<a class=\"showhist\" data-pkg=\"" * pkg["name"] * "\" data-ver=\"" * pkg["jlver"] * "\">"
+    cur_listing *= "<span id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_histlink\">Show history</span></a></p>"
+
+    cur_listing *= "<pre style=\"display: none;\" class=\"testlog\" id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_log\"></pre>"
+    cur_listing *= "<pre style=\"display: none;\" class=\"testhist\" id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_hist\">" * pkg["hist"] * "</pre>"
     cur_listing *= "</div></div>"
 
 

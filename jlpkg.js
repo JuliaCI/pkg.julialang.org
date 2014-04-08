@@ -13,15 +13,22 @@ window.license = {"MIT"  :true, "BSD"  :true,
 // Filtering function
 function updateFilter() {
   var lowerSearchName = window.searchName.toLowerCase();
+  var lowerSearchAuthor = window.searchAuthor.toLowerCase();
   var visibleCount = 0;
   $('.pkglisting').each(function(){
-     var pkg    = $(this).data('pkg');  // pre-lowered
+     var pkg    = $(this).data('pkg');    // pre-lowered
+     var owner  = $(this).data('owner');  // pre-lowered
      var ver    = $(this).data('ver');
      var status = $(this).data('status');
+     var lic    = $(this).data('lic');
 
-     if (ver == window.juliaVersion &&
+     if (
+         pkg.indexOf(lowerSearchName) != -1 &&
+         owner.indexOf(lowerSearchAuthor) != -1 &&
+         ver == window.juliaVersion &&
          window.testStatus[status] &&
-         pkg.indexOf(lowerSearchName) != -1) {
+         window.license[licenseSumary(lic)]
+         ) {
       $(this).show();
       visibleCount += 1;
      } else {
@@ -29,24 +36,15 @@ function updateFilter() {
      }
   });
 
-  var lowerName   = $scope.searchName.toLowerCase();
-    var lowerAuthor = $scope.searchAuthor.toLowerCase();
-    var licstatus = false;
-    licstatus = licstatus || (item.license == "MIT" && $scope.licenseShow["MIT"])
-    licstatus = licstatus || (item.license == "BSD" && $scope.licenseShow["BSD"])
-    licstatus = licstatus || (item.license == "GPL v2" && $scope.licenseShow["GPLv2"])
-    licstatus = licstatus || (item.license == "GPL v3" && $scope.licenseShow["GPLv3"])
-    licstatus = licstatus || (item.license != "MIT" && item.license != "BSD" &&
-                              item.license != "GPL v2" && item.license != "GPL v3" &&
-                              $scope.licenseShow["Other"])
-    return (
-            $scope.testShow[item.status] &&
-            item.l_name.indexOf(lowerName)    != -1 &&
-            item.l_owner.indexOf(lowerAuthor) != -1 &&
-            licstatus);
-
-
   $("#pkgcount").text(visibleCount);
+}
+
+function licenseSumary(license) {
+  if (license == "MIT") return "MIT";
+  if (license == "BSD") return "BSD";
+  if (license == "GPL v2") return "GPLv2";
+  if (license == "GPL v3") return "GPLv3";
+  return "Other";
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -128,8 +126,9 @@ $('#license .btn').click( function() {
 $('.showlog').click( function() {
   var pkg = $(this).data('pkg');
   var ver = $(this).data('ver');
-  var logbox = $('#'+pkg+'_log');
-  var loglink = $('#'+pkg+'_loglink');
+  var vers = (''+ver).substr(2,1);
+  var logbox = $('#'+pkg+vers+'_log');
+  var loglink = $('#'+pkg+vers+'_loglink');
   
   if (loglink.text() == 'Show log') {
     loglink.text('Hide log');
@@ -145,13 +144,17 @@ $('.showlog').click( function() {
     });
   }
 });
+
 $('.showhist').click( function() {
   var pkg = $(this).data('pkg');
-  $('#'+pkg+'_hist').toggle();
-  if ($('#'+pkg+'_histlink').text() == 'Show history') {
-    $('#'+pkg+'_histlink').text('Hide history');
+  var ver = $(this).data('ver');
+  var vers = (''+ver).substr(2,1);
+  console.log('#'+pkg+vers+'_hist')
+  $('#'+pkg+vers+'_hist').toggle();
+  if ($('#'+pkg+vers+'_histlink').text() == 'Show history') {
+    $('#'+pkg+vers+'_histlink').text('Hide history');
   } else {
-    $('#'+pkg+'_histlink').text('Show history');
+    $('#'+pkg+vers+'_histlink').text('Show history');
   }
 });
 
