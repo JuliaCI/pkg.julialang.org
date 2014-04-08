@@ -13,6 +13,11 @@ for pkg in all_pkgs
     source_file = joinpath("badges", string(pkg["status"],".svg"))
     dest_file   = joinpath("badges", string(pkg["name"],"_",pkg["jlver"],".svg"))
     run(`cp $source_file $dest_file`)
+    # Make log file
+    log_file = joinpath("logs", string(pkg["name"],"_",pkg["jlver"],".log"))
+    logfp = open(log_file,"w")
+    println(logfp, pkg["details"]*"\n"*pkg["testlog"])
+    close(logfp)
 end
 fp = open("all.json","w")
 print(fp, JSON.json(all_pkgs))
