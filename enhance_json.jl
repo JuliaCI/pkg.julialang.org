@@ -44,10 +44,11 @@ end
 # Output new combined JSON
 fp = open("all.json","w")
 print(fp, JSON.json(all_pkgs))
+close(fp)
 
 # Update history file
 datestr = ARGS[1]
 push!(hist, [datestr => newday])
-#hist_fp = open("hist.json","w")
-#print(hist_fp, JSON.json(hist))
-#close(hist_fp)
+hist_fp = open("hist.json","w")
+print(hist_fp, JSON.json(hist))
+close(hist_fp)

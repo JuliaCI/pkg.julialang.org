@@ -15,7 +15,7 @@ function humanStatus(status)
     elseif status == "using_fail"
         return "Package doesn't load."
     else
-        return "Package was untestable due to binary dependency."
+        return "Package was untestable."
     end
 end
 

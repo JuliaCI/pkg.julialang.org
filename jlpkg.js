@@ -160,4 +160,28 @@ $('.showhist').click( function() {
 
 
 // Initial hiding
+var spl = window.location.search.substr(1).split('&');
+for (var i = 0; i < spl.length; i++) {
+  var subspl = spl[i].split('=');
+  if (subspl.length != 2) continue;
+  var lhs = subspl[0];
+  var rhs = subspl[1];
+  if (rhs[rhs.length-1] == '/') {
+    rhs = rhs.substr(0,rhs.length-1);
+  }
+  rhs = decodeURIComponent(rhs);
+  if (lhs == 'pkg') {
+    window.searchName = rhs;
+    $('#searchName').val(rhs);
+  }
+  if (lhs == 'ver') {
+    window.juliaVersion = rhs;
+    $('#juliaVersion .btn').removeClass('active');
+    if (rhs == '0.2') {
+      $('#releaseButton').addClass('active');
+    } else {
+      $('#nightlyButton').addClass('active');
+    }
+  }
+}
 updateFilter();

@@ -10,7 +10,7 @@ function humanStatus(status)
     elseif status == "using_fail"
         return "Package doesn't load."
     else
-        return "Package was untestable due to binary dependency."
+        return "Package was untestable."
     end
 end
 
@@ -40,13 +40,14 @@ for pkg in pkgs
 
     # Second line - Description
     cur_listing *= "<div class=\"row\">\n"
-        cur_listing *= "<div class=\"col-xs-12\"><h4>" * (pkg["githubdesc"] == nothing ? "" : pkg["githubdesc"]) * "</h4></div>\n"
+        cur_listing *= "<div class=\"col-xs-12\"><h4>" * (pkg["githubdesc"] == nothing ? "" : pkg["githubdesc"]) * "</h4>"
+        cur_listing *= "</div>\n"
     cur_listing *= "</div>\n"
 
     # Third line - Info
     cur_listing *= "<div class=\"row\">\n"
         # Version
-        cur_listing *= "<div class=\"col-sm-6\"><p><b>Current version: <a href=\"" * 
+        cur_listing *= "<div class=\"col-sm-4\"><p><b>Version: <a href=\"" * 
                         pkg["url"] * "/tree/" * pkg["gitsha"] * "\">" * pkg["version"] * " (" *
                         pkg["gitsha"][1:8] * ")</a></b></p></div>\n"
 
@@ -63,6 +64,12 @@ for pkg in pkgs
         # Owner
         cur_listing *= "<div class=\"col-sm-3\"><p><b>Author: <a href=\"http://github.com/" *
                         owner * "\">" * owner * "</a></b></p></div>\n"
+
+        # Permalink
+        cur_listing *= "<div class=\"col-sm-2\">"
+        cur_listing *= "<p><a href=\"" * "http://iainnz.github.io/packages.julialang.org/?pkg=" * pkg["name"] * "&ver=" * pkg["jlver"] * "\">" 
+        cur_listing *= "<i class=\"glyphicon glyphicon-link\"></i> <b>Permalink</b></a></p></div>"
+
     cur_listing *= "</div>\n"
 
     # Fourth line - testing info
