@@ -87,8 +87,8 @@ $('#juliaVersion .btn').click( function() {
     $('#nightlyButton i').addClass('glyphicon-remove');
   } else {
     $('#nightlyButton').addClass('active');
-    $('#nightlyButton').addClass('glyphicon-ok');
-    $('#releaseButton').addClass('glyphicon-remove');
+    $('#nightlyButton i').addClass('glyphicon-ok');
+    $('#releaseButton i').addClass('glyphicon-remove');
   }
   updateFilter();
 });
@@ -193,8 +193,8 @@ for (var i = 0; i < spl.length; i++) {
       $('#nightlyButton i').addClass('glyphicon-remove');
     } else {
       $('#nightlyButton').addClass('active');
-      $('#nightlyButton').addClass('glyphicon-ok');
-      $('#releaseButton').addClass('glyphicon-remove');
+      $('#nightlyButton i').addClass('glyphicon-ok');
+      $('#releaseButton i').addClass('glyphicon-remove');
     }
   }
 }
