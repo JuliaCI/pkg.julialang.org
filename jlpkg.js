@@ -82,7 +82,7 @@ $('#juliaVersion .btn').click( function() {
   $('#juliaVersion .btn').removeClass('active');
   $('#juliaVersion i').removeClass('glyphicon-ok glyphicon-remove');
   if (window.juliaVersion == '0.2') {
-    $('#releaseButton').addClass(active);
+    $('#releaseButton').addClass('active');
     $('#releaseButton i').addClass('glyphicon-ok');
     $('#nightlyButton i').addClass('glyphicon-remove');
   } else {
@@ -188,7 +188,7 @@ for (var i = 0; i < spl.length; i++) {
     $('#juliaVersion .btn').removeClass('active');
     $('#juliaVersion i').removeClass('glyphicon-ok glyphicon-remove');
     if (window.juliaVersion == '0.2') {
-      $('#releaseButton').addClass(active);
+      $('#releaseButton').addClass('active');
       $('#releaseButton i').addClass('glyphicon-ok');
       $('#nightlyButton i').addClass('glyphicon-remove');
     } else {
