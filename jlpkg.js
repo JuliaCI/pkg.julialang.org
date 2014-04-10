@@ -79,12 +79,15 @@ $('#clearAuthor').click( function() {
 // Julia version
 $('#juliaVersion .btn').click( function() { 
   window.juliaVersion = $(this).data('jlver');
-  $('#juliaVersion .btn').removeClass('active glyphicon-ok glyphicon-remove');
+  $('#juliaVersion .btn').removeClass('active');
+  $('#juliaVersion i').removeClass('glyphicon-ok glyphicon-remove');
   if (window.juliaVersion == '0.2') {
-    $('#releaseButton').addClass('glyphicon-ok active');
-    $('#nightlyButton').addClass('glyphicon-remove');
+    $('#releaseButton').addClass(active);
+    $('#releaseButton i').addClass('glyphicon-ok');
+    $('#nightlyButton i').addClass('glyphicon-remove');
   } else {
-    $('#nightlyButton').addClass('glyphicon-ok active');
+    $('#nightlyButton').addClass('active');
+    $('#nightlyButton').addClass('glyphicon-ok');
     $('#releaseButton').addClass('glyphicon-remove');
   }
   updateFilter();
@@ -182,12 +185,15 @@ for (var i = 0; i < spl.length; i++) {
   }
   if (lhs == 'ver') {
     window.juliaVersion = rhs;
-    $('#juliaVersion .btn').removeClass('active glyphicon-ok glyphicon-remove');
-    if (rhs == '0.2') {
-      $('#releaseButton').addClass('glyphicon-ok active');
-      $('#nightlyButton').addClass('glyphicon-remove');
+    $('#juliaVersion .btn').removeClass('active');
+    $('#juliaVersion i').removeClass('glyphicon-ok glyphicon-remove');
+    if (window.juliaVersion == '0.2') {
+      $('#releaseButton').addClass(active);
+      $('#releaseButton i').addClass('glyphicon-ok');
+      $('#nightlyButton i').addClass('glyphicon-remove');
     } else {
-      $('#nightlyButton').addClass('glyphicon-ok active');
+      $('#nightlyButton').addClass('active');
+      $('#nightlyButton').addClass('glyphicon-ok');
       $('#releaseButton').addClass('glyphicon-remove');
     }
   }
