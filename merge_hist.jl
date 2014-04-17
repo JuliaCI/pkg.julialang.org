@@ -26,6 +26,10 @@ for day_ind in length(all_hist):-1:1
     for pkg in all_pkgs
         !(pkg["name"] in keys(all_hist[day_ind][cur_day])) && continue
         hist_for_pkg = all_hist[day_ind][cur_day][pkg["name"]]
+        if !(pkg["jlver"] in keys(hist_for_pkg))
+            println("Something wrong with ", pkg["name"], " ", pkg["jlver"])
+            continue
+        end
         pkg["hist"] *= nice_day * ", v" * hist_for_pkg[pkg["jlver"]][1] *
                                   ", " * humanStatus(hist_for_pkg[pkg["jlver"]][2]) * "\n"
     end
