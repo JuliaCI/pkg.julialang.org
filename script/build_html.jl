@@ -14,6 +14,48 @@ function humanStatus(status)
     end
 end
 
+# create_hist_db
+# Load the history database CSV, turn it into a dictionary keyed on
+# the package name and the Julia version
+function create_hist_db()
+    all_hist = readcsv("../db/hist_db.csv", String)
+    # Remove all the whitespace
+    map!(strip, all_hist)
+    # Form the dictionary
+    hist_db = Dict()
+    for row in 1:size(all_hist,1)
+        col_DATE    = all_hist[row,1]
+        col_JLVER   = all_hist[row,2]
+        col_NAME    = all_hist[row,3]
+        col_PKGVER  = all_hist[row,4]
+        col_STATUS  = all_hist[row,5]
+        key         = col_JLVER * col_NAME
+        value       = [col_DATE col_PKGVER col_STATUS]
+
+        hist_db[key] = key in keys(hist_db) ? 
+                        vcat(hist_db[key], value) :
+                        value
+    end
+    return hist_db
+end
+
+# hist_to_html
+# Take a matrix [DATE PKGVER STATUS; ...] and turn it into something
+# we can inject into the web page
+function hist_to_html(hist)
+    hist = sort(hist, 1, rev=true)
+    output_str = ""
+    for i = 1:size(hist,1)
+        col_DATE    = hist[i,1]
+        col_PKGVER  = hist[i,2]
+        col_STATUS  = hist[i,3]
+        nice_day    = col_DATE[1:4]*"-"*col_DATE[5:6]*"-"*col_DATE[7:8]
+        output_str *= nice_day * ", v" * col_PKGVER * ", " * col_STATUS * "\n"         
+    end
+    return output_str
+end
+
+
 # First get head and tail
 index_head = readall("index.html.head")
 index_tail = readall("index.html.tail")
@@ -21,6 +63,10 @@ listing = String[]
 
 # Load package listing
 pkgs = JSON.parse(readall("all.json"))
+
+# Load history
+hist_db = create_hist_db()
+
 
 for pkg in pkgs
     owner = split(pkg["url"],"/")[end-1]
@@ -85,7 +131,8 @@ for pkg in pkgs
     cur_listing *= "<span id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_histlink\">Show history</span></a></p>"
 
     cur_listing *= "<pre style=\"display: none;\" class=\"testlog\" id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_log\"></pre>"
-    cur_listing *= "<pre style=\"display: none;\" class=\"testhist\" id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_hist\">" * pkg["hist"] * "</pre>"
+    hist_data = hist_to_html(hist_db[pkg["jlver"]*pkg["name"]])
+    cur_listing *= "<pre style=\"display: none;\" class=\"testhist\" id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_hist\">" * hist_data * "</pre>"
     cur_listing *= "</div></div>"
 
 
@@ -94,6 +141,6 @@ for pkg in pkgs
 end
 
 # Output
-fp = open("index.html","w")
+fp = open("../index.html","w")
 print(fp, index_head * join(listing,"\n") * index_tail)
 close(fp)
