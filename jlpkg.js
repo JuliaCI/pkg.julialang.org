@@ -129,6 +129,11 @@ $('#license .btn').click( function() {
   updateFilter();
 });
 
+// Statistics
+$('#displayStats').click( function() {
+  $('#pkgstats').toggle();
+})
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // Package toggles (+ AJAX loading of logs)

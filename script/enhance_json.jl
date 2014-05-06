@@ -6,11 +6,13 @@
 #   list of JSON dicts
 # - For every package, pull its description from Github and place it
 #   in the JSON dict
+# - Produce .log and badge .svg files
 # - Add the latest test results to history database
 # - Write out the concatenated-description-enhanced JSON dicts out to
 #   a file all.json
 # Takes one command line argument - todays date, in the YYYYMMDD 
 # format.
+#######################################################################
 
 using JSON
 
