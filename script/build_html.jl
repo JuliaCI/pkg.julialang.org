@@ -49,7 +49,8 @@ end
 # Take a matrix [DATE PKGVER STATUS; ...] and turn it into something
 # we can inject into the web page
 function hist_to_html(hist)
-    hist = sort(hist, 1, rev=true)
+    perm = sortperm(hist[:,1], rev=true)
+    hist = hist[perm,:]
     output_str = ""
     for i = 1:size(hist,1)
         col_DATE    = hist[i,1]
