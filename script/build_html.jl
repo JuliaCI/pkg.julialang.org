@@ -16,9 +16,15 @@ const HUMANSTATUS = [
     "using_fail" => "Package doesn't load.",
     "not_possible" => "Package was untestable."]
 
+
 # create_hist_db
 # Load the history database CSV, turn it into a dictionary keyed on
 # the package name and the Julia version
+# Returns 
+#  - Dictionary keyed on a string "$jlver$pkgname" with value being
+#    a matrix [dates pkgver status] sorted so most recent is at top
+#  - a set of all package names seen
+#  - a set of all dates seen
 function create_hist_db()
     all_hist = readcsv("../db/hist_db.csv", String)
     # Remove all the whitespace
@@ -42,15 +48,20 @@ function create_hist_db()
         push!(pkg_set,  col_NAME)
         push!(date_set, col_DATE)
     end
-    return hist_db, pkg_set, date_set
+    # Sort by descending dates
+    for key in keys(hist_db)
+        val = hist_db[key]
+        hist_db[key] = val[sortperm(val[:,1], rev=true),:]
+    end
+    return hist_db, pkg_set, sort(collect(date_set),rev=true)
 end
 
+
 # hist_to_html
-# Take a matrix [DATE PKGVER STATUS; ...] and turn it into something
-# we can inject into the web page
+# Take a matrix [dates pkgver status] and turns it into a simple
+# multiline string that is used in the dropdown for each individual
+# package
 function hist_to_html(hist)
-    perm = sortperm(hist[:,1], rev=true)
-    hist = hist[perm,:]
     output_str = ""
     for i = 1:size(hist,1)
         col_DATE    = hist[i,1]
@@ -62,77 +73,115 @@ function hist_to_html(hist)
     return output_str
 end
 
-# build_stats
-# Take the history database and extract summary statistics for it
-function extract_stats(hist_db, pkg_set, date_set)
-    # Want to count number of packages are in each category on 
-    # each day
-    totals_by_day = Dict()
-    for date in date_set
-        totals_by_day[date] = [ "full_pass" => 0,
-                                "full_fail" => 0,
-                                "using_pass" => 0,
-                                "using_fail" => 0,
-                                "not_possible" => 0,
-                                "total" => 0]
-    end
 
+# generate_changelog
+# Take the history database and generate an HTML list of the changes
+function generate_changelog(hist_db, pkg_set, date_set)
+    changes = [date=>{} for date in date_set]
+
+    # Walk through every package and day
     for pkg in pkg_set
-        key  = "0.3"*pkg
+        key = "0.3"*pkg
         !(key in keys(hist_db)) && continue
         hist = hist_db[key]
-        for i = 1:size(hist,1)
-            col_DATE    = hist[i,1]
-            col_STATUS  = hist[i,3]
-            totals_by_day[col_DATE][col_STATUS] += 1
-            totals_by_day[col_DATE]["total"] += 1
+        hist_size = size(hist,1)
+        for i = 1:hist_size
+            status  = hist[i,3]
+            prev    = i < hist_size ? hist[i+1,3] : "new"
+            status != prev && push!(changes[hist[i,1]], (pkg, prev, status))
         end
     end
 
-    sorted_dates = sort(collect(date_set),rev=true)
-    output_table = "<table class=\"table healthtable\"><tr>" * 
-                                 "<td>Date</td>" *
-                                 "<td>Full Pass</td>" *
-                                 "<td>Full Fail</td>" *
-                                 "<td>Using Pass</td>" *
-                                 "<td>Using Fail</td>" *
-                                 "<td>Not Possible</td>" *
-                                 "<td>Total</td></tr>"
-    data_matrix = zeros(length(sorted_dates), 7)
-    function to_td(d,s,r,c)  # Has sideeffects on data_matrix!
-        v = totals_by_day[d][s]
-        t = totals_by_day[d]["total"]
-        data_matrix[r,c] = v #/t*100
-        return string("<td>", v, " (", int(round(v/t*100,0)), "%)</td>")
+    # Convert to HTML
+    function day_to_list(date)
+        length(changes[date]) == 0 && return "<h4>$date - no changes.</h4>\n"
+        function pkg_to_item(pkg_change)
+            pkg, prev, now = pkg_change
+            "<li><b class=\"$now\">$pkg</b> " * (
+                prev == "new" ?
+                    "added to METADATA, status is '$(HUMANSTATUS[now])'" :
+                    "changed to '$(HUMANSTATUS[now])' from '$(HUMANSTATUS[prev])'") *
+            "</li>\n"
+        end
+        "<h4>$date</h4><ul>\n" * join(map(pkg_to_item, changes[date])) * "</ul>\n"
     end
-    row = 0
-    baseline_day = strptime("%Y%m%d", sorted_dates[1]).yday
-    for date in sorted_dates
-        row += 1
-        output_table *= "<tr><td>$date</td>" *
-                        to_td(date,"full_pass",row,2) *
-                        to_td(date,"full_fail",row,3) *
-                        to_td(date,"using_pass",row,4) *
-                        to_td(date,"using_fail",row,5) *
-                        to_td(date,"not_possible",row,6) *
-                        to_td(date,"total",row,7) * "</tr>"
-        data_matrix[row,1] = strptime("%Y%m%d", date).yday - baseline_day
-    end
-    output_table *= "</table>"
+    #return "<ul>\n" * join(map(day_to_list, date_set[1:5])) * "</ul>\n"
+    return join(map(day_to_list, date_set[1:5]))
+end
 
-    # Turn data_matrix into a plot
-    plt.plot(data_matrix[:,1], data_matrix[:,2], color="green", label="Full Pass", linewidth=2, marker="o")
-    plt.plot(data_matrix[:,1], data_matrix[:,3], color="orange", label="Full Fail", linewidth=2, marker="o")
-    plt.plot(data_matrix[:,1], data_matrix[:,4], color="blue", label="Using Pass", linewidth=2, marker="o")
-    plt.plot(data_matrix[:,1], data_matrix[:,5], color="red", label="Using Fail", linewidth=2, marker="o")
-    plt.plot(data_matrix[:,1], data_matrix[:,6], color="grey", label="Not Tested", linewidth=2, marker="o")
+
+# generate_totals
+# Take the history database and generate a dictionary of status counts
+function generate_totals(hist_db, pkg_set, date_set)
+    totals  = [date => ["full_pass" => 0,     "full_fail" => 0,
+                        "using_pass" => 0,    "using_fail" => 0,
+                        "not_possible" => 0,  "total" => 0]
+                        for date in date_set]
+    for pkg in pkg_set
+        key = "0.3"*pkg
+        !(key in keys(hist_db)) && continue
+        hist = hist_db[key]
+        for i = 1:size(hist,1)
+            totals[hist[i,1]][hist[i,3]] += 1
+            totals[hist[i,1]]["total"] += 1
+        end
+    end
+    return totals
+end
+
+# generate_plot
+# Take the history database and generate a plot of changes in package
+# status counts over time
+function generate_plot(hist_db, pkg_set, date_set)
+    totals = generate_totals(hist_db, pkg_set, date_set)
+
+    # Turn dictionary into a matrix, and do dates relative to the
+    # current day (e.g. "days ago")
+    data = zeros(length(date_set), 6)
+    baseline_day = strptime("%Y%m%d", date_set[1]).yday
+    for row in 1:length(date_set)
+        data[row,1] = strptime("%Y%m%d", date_set[row]).yday - baseline_day
+        data[row,2] = totals[date_set[row]]["full_pass"]
+        data[row,3] = totals[date_set[row]]["full_fail"]
+        data[row,4] = totals[date_set[row]]["using_pass"]
+        data[row,5] = totals[date_set[row]]["using_fail"]
+        data[row,6] = totals[date_set[row]]["not_possible"]
+    end
+
+    # Create plot with PyPlot
+    plt.plot(data[:,1], data[:,2], color="green", label="Full Pass",  linewidth=2, marker="o")
+    plt.plot(data[:,1], data[:,3], color="orange",label="Full Fail",  linewidth=2, marker="o")
+    plt.plot(data[:,1], data[:,4], color="blue",  label="Using Pass", linewidth=2, marker="o")
+    plt.plot(data[:,1], data[:,5], color="red",   label="Using Fail", linewidth=2, marker="o")
+    plt.plot(data[:,1], data[:,6], color="grey",  label="Not Tested", linewidth=2, marker="o")
     plt.legend(loc=7)
     plt.xlabel("Days Ago")
     plt.ylabel("Number of Packages")
     plt.title("Package Test Status Counts for Julia 0.3")
     savefig("../pkghist.png")
+end
 
-    return output_table
+# generate_table
+# Take the history database and generate a table of changes in package
+# status counts over time
+function generate_table(hist_db, pkg_set, date_set)
+    totals = generate_totals(hist_db, pkg_set, date_set)
+    
+    header= "<table class=\"table healthtable\"><tr>" * "<td>Date</td>" *
+            "<td>Full Pass</td>" *      "<td>Full Fail</td>" *
+            "<td>Using Pass</td>" *     "<td>Using Fail</td>" *
+            "<td>Not Possible</td>" *   "<td>Total</td></tr>"
+    function to_td(d,s)
+        v = totals[d][s]
+        t = totals[d]["total"]
+        return string("<td>", v, " (", int(round(v/t*100,0)), "%)</td>")
+    end
+    rows = map( date ->("<tr><td>$date</td>" *
+                        to_td(date,"full_pass") *   to_td(date,"full_fail") *
+                        to_td(date,"using_pass") *  to_td(date,"using_fail") *
+                        to_td(date,"not_possible")* to_td(date,"total") * "</tr>"),
+                date_set)
+    return header * join(rows) * "</table>"
 end
 
 #######################################################################
@@ -220,12 +269,15 @@ for pkg in pkgs
     #break
 end
 
-# Build package ecoystem health indicator
-output_table = extract_stats(hist_db, pkg_set, date_set)
+# Build package ecoystem health indicators
+generate_plot(hist_db, pkg_set, date_set)
+output_table = generate_table(hist_db, pkg_set, date_set)
+change_list  = generate_changelog(hist_db, pkg_set, date_set)
 health = "<div class=\"container\" id=\"pkgstats\"><div class=\"row\"><div class=\"col-md-6\">" *
          "<img src=\"pkghist.png\" alt=\"Package test history\" class=\"img-responsive\">" *
-         "</div><div class=\"col-md-6\">" * 
          output_table *
+         "</div><div class=\"col-md-6\">" * 
+         change_list * 
          "</div></div></div>"
 
 # Output
