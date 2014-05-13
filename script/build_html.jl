@@ -4,6 +4,9 @@
 # Build the actual site by sticking together a header and footer
 #######################################################################
 
+const STABLEVER = "0.2"
+const NIGHTLYVER = "0.3"
+
 using JSON
 using PyPlot
 
@@ -81,7 +84,7 @@ function generate_changelog(hist_db, pkg_set, date_set)
 
     # Walk through every package and day
     for pkg in pkg_set
-        key = "0.3"*pkg
+        key = NIGHTLYVER*pkg
         !(key in keys(hist_db)) && continue
         hist = hist_db[key]
         hist_size = size(hist,1)
@@ -118,7 +121,7 @@ function generate_totals(hist_db, pkg_set, date_set)
                         "not_possible" => 0,  "total" => 0]
                         for date in date_set]
     for pkg in pkg_set
-        key = "0.3"*pkg
+        key = NIGHTLYVER*pkg
         !(key in keys(hist_db)) && continue
         hist = hist_db[key]
         for i = 1:size(hist,1)
@@ -149,15 +152,15 @@ function generate_plot(hist_db, pkg_set, date_set)
     end
 
     # Create plot with PyPlot
-    plt.plot(data[:,1], data[:,2], color="green", label="Full Pass",  linewidth=2, marker="o")
-    plt.plot(data[:,1], data[:,3], color="orange",label="Full Fail",  linewidth=2, marker="o")
+    plt.plot(data[:,1], data[:,2], color="green", label="Test Pass",  linewidth=2, marker="o")
+    plt.plot(data[:,1], data[:,3], color="orange",label="Test Fail",  linewidth=2, marker="o")
     plt.plot(data[:,1], data[:,4], color="blue",  label="Using Pass", linewidth=2, marker="o")
     plt.plot(data[:,1], data[:,5], color="red",   label="Using Fail", linewidth=2, marker="o")
     plt.plot(data[:,1], data[:,6], color="grey",  label="Not Tested", linewidth=2, marker="o")
     plt.legend(loc=7)
     plt.xlabel("Days Ago")
     plt.ylabel("Number of Packages")
-    plt.title("Package Test Status Counts for Julia 0.3")
+    plt.title("Package Test Status Counts for Julia $NIGHTLYVER")
     savefig("../pkghist.png")
 end
 
@@ -168,7 +171,7 @@ function generate_table(hist_db, pkg_set, date_set)
     totals = generate_totals(hist_db, pkg_set, date_set)
     
     header= "<table class=\"table healthtable\"><tr>" * "<td>Date</td>" *
-            "<td>Full Pass</td>" *      "<td>Full Fail</td>" *
+            "<td>Test Pass</td>" *      "<td>Test Fail</td>" *
             "<td>Using Pass</td>" *     "<td>Using Fail</td>" *
             "<td>Not Possible</td>" *   "<td>Total</td></tr>"
     function to_td(d,s)
@@ -243,7 +246,7 @@ for pkg in pkgs
         # Permalink
         cur_listing *= "<div class=\"col-sm-2\">"
         cur_listing *= "<p><a href=\"" * "http://iainnz.github.io/packages.julialang.org/?pkg=" * pkg["name"] * "&ver=" * pkg["jlver"] * "\">" 
-        cur_listing *= "<i class=\"glyphicon glyphicon-link\"></i> <b>Permalink</b></a></p></div>"
+        cur_listing *= "<i class=\"glyphicon glyphicon-link\"></i>&nbsp;<b>Permalink</b></a></p></div>"
 
     cur_listing *= "</div>\n"
 
