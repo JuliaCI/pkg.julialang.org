@@ -8,11 +8,26 @@ module PackageFuncs
     # Human-readable versions of the test codes
     export HUMANSTATUS
     const HUMANSTATUS = [
-        "full_pass" => "Tests pass.",
-        "full_fail" => "Tests fail, but package loads.",
-        "using_pass" => "No tests, but package loads.",
-        "using_fail" => "Package doesn't load.",
+        "full_pass"    => "Tests pass.",
+        "full_fail"    => "Tests fail, but package loads.",
+        "using_pass"   => "No tests, but package loads.",
+        "using_fail"   => "Package doesn't load.",
         "not_possible" => "Package was untestable."]
+
+    # STATUSNUM
+    # Status code -> number, to induce an ordering
+    # Notably, we treat using_pass as higher than full_fail.
+    # Probably a good idea because the transtion from using_pass to full_fail
+    # likely indicates someone added tests which don't work - so would like to
+    # know. The other way implies removal of broken tests, which they probably
+    # already do know about.
+    export STATUSNUM
+    const STATUSNUM = [
+        "full_pass"    => 4,
+        "full_fail"    => 2,
+        "using_pass"   => 3,
+        "using_fail"   => 1,
+        "not_possible" => 0]
 
     # create_hist_db
     # Load the history database CSV, turn it into a dictionary keyed on
