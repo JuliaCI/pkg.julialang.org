@@ -61,7 +61,7 @@ function change_file(hist_db, pkg_set, date_set)
     # Walk through every package and day
     for JLVER = [STABLEVER, NIGHTLYVER]
     for pkg in pkg_set
-        key = NIGHTLYVER*pkg
+        key = JLVER*pkg
         !(key in keys(hist_db)) && continue  # Guess it doesn't exist
         hist = hist_db[key]
         size(hist,1) <= 1 && continue  # Nothing to compare with - this could be handled though
