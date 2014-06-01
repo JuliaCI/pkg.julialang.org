@@ -49,7 +49,7 @@ for pkg in all_pkgs
     # Make log file
     log_file = joinpath("..", "logs", string(pkg["name"],"_",pkg["jlver"],".log"))
     logfp = open(log_file,"w")
-    println(logfp, pkg["details"]*"\n"*pkg["testlog"])
+    println(logfp, pkg["testlog"])
     close(logfp)
 
     # Update history
