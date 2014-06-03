@@ -76,8 +76,8 @@ function change_file(hist_db, pkg_set, date_set)
         issue_body = """[PackageEvaluator.jl](https://github.com/IainNZ/PackageEvaluator.jl) is a script that runs nightly. It attempts to load all Julia packages and run their tests (if available) on both the stable version of Julia ($STABLEVER) and the nightly build of the unstable version ($NIGHTLYVER). The results of this script are used to generate a [package listing](http://iainnz.github.io/packages.julialang.org/) enhanced with testing results.
 
 #### On Julia $JLVER
-* On **$(nice_prev)** the testing status was `$(HUMANSTATUS[status_prev])`.
-* On **$(nice_today)** the testing status changed to `$(HUMANSTATUS[status_now])`.
+* On **$(nice_prev)** the testing status was `$(HUMANSTATUS[status_prev])`
+* On **$(nice_today)** the testing status changed to `$(HUMANSTATUS[status_now])`
 
 """
         
@@ -96,6 +96,12 @@ function change_file(hist_db, pkg_set, date_set)
 
         issue_body *= """
 *This issue was filed because your testing status became worse. No additional issues will be filed if your package remains in this state, and no issue will be filed if it improves. If you'd like to opt-out of these status-change messages, reply to this message saying you'd like to and @IainNZ will add an exception. If you'd like to discuss [PackageEvaluator.jl](https://github.com/IainNZ/PackageEvaluator.jl) please file an issue at the repository. For example, your package may be untestable on the test machine due to a dependency - an exception can be added.*"""
+
+        if JLVER == STABLEVER
+            issue_body *= "\n\n*Test log*:\n```\n" * pkg_log_stable[pkg] * "\n```"
+        else
+            issue_body *= "\n\n*Test log*:\n```\n" * pkg_log_nightly[pkg] * "\n```"
+        end
 
         #println(issue_title)
         #println(issue_body)
@@ -120,10 +126,19 @@ end
 
 # Load package listing
 pkg_owners = Dict()
+pkg_log_stable = Dict()
+pkg_log_nightly = Dict()
 pkgs = JSON.parse(readall("all.json"))
 for pkg_dict in pkgs
     owner = split(pkg_dict["url"],"/")[end-1]
     pkg_owners[pkg_dict["name"]] = owner
+    if pkg_dict["jlver"] == STABLEVER 
+        pkg_log_stable[pkg_dict["name"]] = pkg_dict["testlog"]
+    elseif pkg_dict["jlver"] == NIGHTLYVER 
+        pkg_log_nightly[pkg_dict["name"]] = pkg_dict["testlog"]
+    else
+        error("Unrecognized jlver $(pkg_dict["jlver"])")
+    end
 end
 
 # Load history
