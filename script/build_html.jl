@@ -5,7 +5,7 @@
 #######################################################################
 
 using JSON
-using PyPlot
+#using PyPlot
 using PackageFuncs
 
 # hist_to_html
@@ -190,16 +190,18 @@ for pkg in pkgs
 
     # Second line - Description
     cur_listing *= "<div class=\"row\">\n"
-        cur_listing *= "<div class=\"col-sm-12\"><h4>" * (pkg["githubdesc"] == nothing ? "" : pkg["githubdesc"]) * "</h4>"
+        cur_listing *= "<div class=\"col-sm-12\"><h4>" * (pkg["githubdesc"] == nothing ? "<i>No description available</i>" : pkg["githubdesc"]) * "</h4>"
         cur_listing *= "</div>\n"
     cur_listing *= "</div>\n"
 
     # Third line - Info
     cur_listing *= "<div class=\"row\">\n<div class=\"col-sm-12\"><p>"
         # Version
-        cur_listing *= "Current version: <a href=\"" * 
-                        pkg["url"] * "/tree/" * pkg["gitsha"] * "\">" * pkg["version"] * " (" *
-                        pkg["gitsha"][1:8] * ")</a> / "
+        cur_listing *= "Current version: <a href=\"$(pkg["url"])/tree/$(pkg["gitsha"])\" "
+        cur_listing *= "title=\"$(pkg["gitsha"])\">$(pkg["version"])</a> "
+        
+        # Time ago
+        cur_listing *= "(<abbr class=\"timeago\" title=\"$(pkg["gitdate"])\"></abbr>) / "       
 
         # License
         licurl = ""
@@ -258,7 +260,7 @@ for pkg in pkgs
 end
 
 # Build package ecoystem health indicators
-generate_plot(hist_db, pkg_set, date_set)
+#generate_plot(hist_db, pkg_set, date_set)
 output_table = generate_table(hist_db, pkg_set, date_set)
 change_list  = generate_changelog(hist_db, pkg_set, date_set)
 health = "<div class=\"container\" id=\"pkgstats\"><div class=\"row\"><div class=\"col-md-6\">" *

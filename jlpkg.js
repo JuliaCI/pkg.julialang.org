@@ -218,3 +218,9 @@ for (var i = 0; i < spl.length; i++) {
   }
 }
 updateFilter();
+
+
+// Time agos
+jQuery(document).ready(function() {
+  jQuery("abbr.timeago").timeago();
+});
