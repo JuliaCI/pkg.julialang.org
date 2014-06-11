@@ -190,12 +190,8 @@ for pkg in pkgs
 
     # Second line - Description
     cur_listing *= "<div class=\"row\">\n"
-        cur_listing *= "<div class=\"col-sm-10\"><h4>" * (pkg["githubdesc"] == nothing ? "" : pkg["githubdesc"]) * "</h4>"
+        cur_listing *= "<div class=\"col-sm-12\"><h4>" * (pkg["githubdesc"] == nothing ? "" : pkg["githubdesc"]) * "</h4>"
         cur_listing *= "</div>\n"
-
-        cur_listing *= "<div class=\"col-sm-2\">"
-        cur_listing *= "<p><a href=\"" * "http://pkg.julialang.org/?pkg=" * pkg["name"] * "&ver=" * pkg["jlver"] * "\">" 
-        cur_listing *= "<i class=\"glyphicon glyphicon-link\"></i>&nbsp;<b>Permalink</b></a></p></div>"
     cur_listing *= "</div>\n"
 
     # Third line - Info
