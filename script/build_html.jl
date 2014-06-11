@@ -173,90 +173,57 @@ pkgs = JSON.parse(readall("all.json"))
 hist_db, pkg_set, date_set = create_hist_db()
 
 for pkg in pkgs
-    owner = split(pkg["url"],"/")[end-1]
-
-    cur_listing  = "<div class=\"container pkglisting\" "
-    cur_listing *= "data-pkg=\"" * lowercase(pkg["name"])  * "\" "
-    cur_listing *= "data-owner=\"" * lowercase(owner) * "\" "
-    cur_listing *= "data-ver=\"" * pkg["jlver"] * "\" "
-    cur_listing *= "data-status=\"" * pkg["status"] * "\" "
-    cur_listing *= "data-lic=\"" * pkg["license"] * "\" "
-    cur_listing *= ">\n<hr>\n"
-
-    # First line - Name
-    cur_listing *= "<div class=\"row\">\n"
-        cur_listing *= "<div class=\"col-xs-12\"><h2><a href=\"" * pkg["url"] * "\">" * pkg["name"] * "</a></h2></div>\n"
-    cur_listing *= "</div>\n"
-
-    # Second line - Description
-    cur_listing *= "<div class=\"row\">\n"
-        cur_listing *= "<div class=\"col-sm-12\"><h4>" * (pkg["githubdesc"] == nothing ? "<i>No description available</i>" : pkg["githubdesc"]) * "</h4>"
-        cur_listing *= "</div>\n"
-    cur_listing *= "</div>\n"
-
-    # Third line - Info
-    cur_listing *= "<div class=\"row\">\n<div class=\"col-sm-12\"><p>"
-        # Version
-        cur_listing *= "Current version: <a href=\"$(pkg["url"])/tree/$(pkg["gitsha"])\" "
-        cur_listing *= "title=\"$(pkg["gitsha"])\">$(pkg["version"])</a> "
-        
-        # Time ago
-        cur_listing *= "(<abbr class=\"timeago\" title=\"$(pkg["gitdate"])\"></abbr>) / "       
-
-        # License
-        licurl = ""
-        if pkg["licfile"] != ""
-            licurl = pkg["url"] * "/blob/" * pkg["gitsha"] * "/" * pkg["licfile"]
-        else
-            licurl = pkg["url"] * "/tree/" * pkg["gitsha"]
-        end
-        cur_listing *= "<a href=\"" *
-                        licurl * "\">" * pkg["license"] * "</a> license / "
-
-        # Owner
-        cur_listing *= "Owner: <a href=\"http://github.com/" *
-                        owner * "\">" * owner * "</a>\n"
-
-    cur_listing *= "</p></div></div>\n"
-
-    # Fourth line - testing info
-    cur_listing *= "<div class=\"row\">\n<div class=\"col-md-12\"><p>\nTest status: "
-    cur_listing *= "<i class=\"glyphicon glyphicon-stop $(pkg["status"])\"></i> "
-    cur_listing *= HUMANSTATUS[pkg["status"]] * " "
-    
-    cur_listing *= "<small>"
-    cur_listing *= "<a class=\"showbadge\" data-pkg=\"" * pkg["name"] * "\" data-ver=\"" * pkg["jlver"] * "\">"
-    cur_listing *= "<span id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_badgelink\">Get permalink/badge</span></a> - "
-
-    cur_listing *= "<a class=\"showhist\" data-pkg=\"" * pkg["name"] * "\" data-ver=\"" * pkg["jlver"] * "\">"
-    cur_listing *= "<span id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_histlink\">Show version and test history</span></a> - "
-
-    cur_listing *= "<a class=\"showlog\" data-pkg=\"" * pkg["name"] * "\" data-ver=\"" * pkg["jlver"] * "\">"
-    cur_listing *= "<span id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_loglink\">Show last test log</span></a>"
-    cur_listing *= "</small></p>"
-
-    # BADGE PRE  
-    cur_listing *= "<pre style=\"display: none;\" class=\"badgelinks\" id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_badge\">"
-    cur_listing *= "BADGE:     <a href=\"http://pkg.julialang.org/?pkg=$(pkg["name"])&ver=$(pkg["jlver"])\">" *
-                   "<img src=\"http://pkg.julialang.org/badges/$(pkg["name"])_$(pkg["jlver"]).svg\"></a> \n"
-    cur_listing *= "PERMALINK: http://pkg.julialang.org/?pkg=$(pkg["name"])&ver=$(pkg["jlver"]) \n"
-    cur_listing *= "BADGE SVG: http://pkg.julialang.org/badges/$(pkg["name"])_$(pkg["jlver"]).svg \n"
-    cur_listing *= "MARKDOWN:  [![$(pkg["name"])](http://pkg.julialang.org/badges/$(pkg["name"])_$(pkg["jlver"]).svg)]"
-    cur_listing *= "(http://pkg.julialang.org/?pkg=$(pkg["name"])&ver=$(pkg["jlver"]))"
-    
-    cur_listing *= "</pre>"
-
-    # LOG PRE
-    cur_listing *= "<pre style=\"display: none;\" class=\"testlog\" id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_log\"></pre>"
-    # HIST PRE
+    # Dump dictionary out into locals for easier interpolation
+    P_OWNER = split(pkg["url"],"/")[end-1]
+    P_NAME  = pkg["name"]
+    P_URL   = pkg["url"]
+    P_DESC  = pkg["githubdesc"] == nothing ? "" : pkg["githubdesc"]
+    P_SHA   = pkg["gitsha"]
+    P_VER   = pkg["version"]
+    P_DATE  = pkg["gitdate"]
+    P_LURL  = pkg["licfile"] != "" ? "$P_URL/blob/$P_SHA/$(pkg["licfile"])" : "$P_URL/tree/$P_SHA"
+    P_LIC   = pkg["license"]
+    P_STAT  = pkg["status"]
+    P_HSTAT = HUMANSTATUS[pkg["status"]]
+    P_JLVER = pkg["jlver"]
+    P_MINOR = pkg["jlver"][end:end]
+    P_LINK  = "http://pkg.julialang.org/?pkg=$P_NAME&ver=$P_JLVER"
+    P_SVG   = "http://pkg.julialang.org/badges/$(P_NAME)_$P_JLVER.svg"
+    P_SVG2  = "http://pkg.julialang.org/badges/$P_STAT.svg"
     hist_data = hist_to_html(hist_db[pkg["jlver"]*pkg["name"]])
-    cur_listing *= "<pre style=\"display: none;\" class=\"testhist\" id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_hist\">" * hist_data * "</pre>"
-    cur_listing *= "</div></div>"
 
+    cur_listing = """
+<div class="container pkglisting" data-pkg="$(lowercase(P_NAME))"
+ data-owner="$(lowercase(P_OWNER))" data-ver="$(pkg["jlver"])"
+ data-status="$(pkg["status"])"   data-lic   ="$(pkg["license"])">
+<hr>
+<div class="row"><div class="col-xs-12">
+<h2><a href="$P_URL">$P_NAME</a></h2>\n
+<h4>$P_DESC</h4>
+<p>Current version: <a href="$P_URL/tree/$P_SHA" title="$P_SHA">$P_VER</a>
+(<abbr class="timeago" title="$P_DATE"></abbr>) /
+<a href="$P_LURL">$P_LIC</a> license /
+Owner: <a href="http://github.com/$P_OWNER">$P_OWNER</a></p>
+<p>Test status: <i class="glyphicon glyphicon-stop $P_STAT"></i> $P_HSTAT
+<small>
+<a class="showbadge" data-pkg="$P_NAME" data-ver="$P_JLVER">
+<span id="$(P_NAME)$(P_MINOR)_badgelink">Get permalink/badge</span></a> -
+<a class="showhist" data-pkg="$P_NAME" data-ver="$P_JLVER">
+<span id="$(P_NAME)$(P_MINOR)_histlink">Show version and test history</span></a> -
+<a class="showlog" data-pkg="$P_NAME" data-ver="$P_JLVER">
+<span id="$(P_NAME)$(P_MINOR)_loglink">Show last test log</span></a>
+</small></p>
+<pre style="display: none;" class="badgelinks" id="$(P_NAME)$(P_MINOR)_badge">
+BADGE:     <a href="$P_LINK"><img src="$P_SVG2"></a>
+PERMALINK: $P_LINK
+BADGE SVG: $P_SVG
+MARKDOWN:  [![$P_NAME]($P_SVG)]($P_LINK)
+</pre>
+<pre style="display: none;" class="testlog" id="$(P_NAME)$(P_MINOR)_log"></pre>
+<pre style="display: none;" class="testhist" id="$(P_NAME)$(P_MINOR)_hist">$hist_data</pre>
+</div></div></div>"""  # /COL, /ROW, /CONTAINER
 
-
-    push!(listing, cur_listing * "</div>")
-    #break
+    push!(listing, cur_listing)
 end
 
 # Build package ecoystem health indicators
