@@ -69,4 +69,9 @@ module PackageFuncs
         return hist_db, pkg_set, sort(collect(date_set),rev=true)
     end
 
+    # date_nice
+    # Take the YYYYMMDD date format and turn it in YYYY-MM-DD
+    export date_nice
+    date_nice(orig::String) = orig[1:4]*"-"*orig[5:6]*"-"*orig[7:8]
+    date_nice(orig::Int) = date_nice(string(orig))
 end

@@ -5,7 +5,7 @@
 #######################################################################
 
 using JSON
-using PyPlot
+#using PyPlot
 using PackageFuncs
 
 # hist_to_html
@@ -13,15 +13,39 @@ using PackageFuncs
 # multiline string that is used in the dropdown for each individual
 # package
 function hist_to_html(hist)
-    output_str = ""
-    for i = 1:size(hist,1)
-        col_DATE    = hist[i,1]
-        col_PKGVER  = hist[i,2]
-        col_STATUS  = HUMANSTATUS[hist[i,3]]
-        nice_day    = col_DATE[1:4]*"-"*col_DATE[5:6]*"-"*col_DATE[7:8]
-        output_str *= nice_day * ", v" * col_PKGVER * ", " * col_STATUS * "\n"         
+    output_strs = {}
+
+    pos = size(hist,1)
+    cur_start_date = date_nice(hist[pos,1])
+    cur_end_date   = date_nice(hist[pos,1])
+    cur_version    = hist[pos,2]
+    cur_status     = HUMANSTATUS[hist[pos,3]]
+    while true
+        pos -= 1
+        if pos == 0
+            # End of history
+            push!(output_strs, cur_start_date * " to " * cur_end_date *
+                    ", v" * cur_version * ", " * cur_status * "\n")
+            break
+        end
+        pos_date    = date_nice(hist[pos,1])
+        pos_version = hist[pos,2]
+        pos_status  = HUMANSTATUS[hist[pos,3]]
+        if pos_version != cur_version || pos_status != cur_status
+            # Change in state
+            push!(output_strs, cur_start_date * " to " * cur_end_date *
+                    ", v" * cur_version * ", " * cur_status * "\n")
+            cur_start_date  = pos_date
+            cur_end_date    = pos_date
+            cur_version     = pos_version
+            cur_status      = pos_status
+        else
+            # No changes to worry about it
+            cur_end_date = pos_date
+        end
     end
-    return output_str
+
+    return join(reverse(output_strs))
 end
 
 
@@ -54,7 +78,7 @@ function generate_changelog(hist_db, pkg_set, date_set)
                     "changed to '$(HUMANSTATUS[now])' from '$(HUMANSTATUS[prev])'") *
             "</li>\n"
         end
-        "<h4>$date</h4><ul>\n" * join(map(pkg_to_item, changes[date])) * "</ul>\n"
+        "<h4>$date</h4><ul>\n" * join(sort(map(pkg_to_item, changes[date]))) * "</ul>\n"
     end
     #return "<ul>\n" * join(map(day_to_list, date_set[1:5])) * "</ul>\n"
     return join(map(day_to_list, date_set[1:5]))
@@ -132,7 +156,7 @@ function generate_table(hist_db, pkg_set, date_set)
                         to_td(date,"using_pass") *  to_td(date,"using_fail") *
                         to_td(date,"not_possible")* to_td(date,"total") * "</tr>"),
                 date_set)
-    return header * join(rows) * "</table>"
+    return header * join(rows[1:min(5,end)]) * "</table>"
 end
 
 #######################################################################
@@ -157,7 +181,7 @@ for pkg in pkgs
     cur_listing *= "data-ver=\"" * pkg["jlver"] * "\" "
     cur_listing *= "data-status=\"" * pkg["status"] * "\" "
     cur_listing *= "data-lic=\"" * pkg["license"] * "\" "
-    cur_listing *= ">\n"
+    cur_listing *= ">\n<hr>\n"
 
     # First line - Name
     cur_listing *= "<div class=\"row\">\n"
@@ -166,16 +190,20 @@ for pkg in pkgs
 
     # Second line - Description
     cur_listing *= "<div class=\"row\">\n"
-        cur_listing *= "<div class=\"col-xs-12\"><h4>" * (pkg["githubdesc"] == nothing ? "" : pkg["githubdesc"]) * "</h4>"
+        cur_listing *= "<div class=\"col-sm-10\"><h4>" * (pkg["githubdesc"] == nothing ? "" : pkg["githubdesc"]) * "</h4>"
         cur_listing *= "</div>\n"
+
+        cur_listing *= "<div class=\"col-sm-2\">"
+        cur_listing *= "<p><a href=\"" * "http://pkg.julialang.org/?pkg=" * pkg["name"] * "&ver=" * pkg["jlver"] * "\">" 
+        cur_listing *= "<i class=\"glyphicon glyphicon-link\"></i>&nbsp;<b>Permalink</b></a></p></div>"
     cur_listing *= "</div>\n"
 
     # Third line - Info
-    cur_listing *= "<div class=\"row\">\n"
+    cur_listing *= "<div class=\"row\">\n<div class=\"col-sm-12\"><p>"
         # Version
-        cur_listing *= "<div class=\"col-sm-4\"><p><b>Version: <a href=\"" * 
+        cur_listing *= "Current version: <a href=\"" * 
                         pkg["url"] * "/tree/" * pkg["gitsha"] * "\">" * pkg["version"] * " (" *
-                        pkg["gitsha"][1:8] * ")</a></b></p></div>\n"
+                        pkg["gitsha"][1:8] * ")</a> / "
 
         # License
         licurl = ""
@@ -184,44 +212,57 @@ for pkg in pkgs
         else
             licurl = pkg["url"] * "/tree/" * pkg["gitsha"]
         end
-        cur_listing *= "<div class=\"col-sm-3\"><p><b>License: <a href=\"" *
-                        licurl * "\">" * pkg["license"] * "</a></b></p></div>\n"
+        cur_listing *= "<a href=\"" *
+                        licurl * "\">" * pkg["license"] * "</a> license / "
 
         # Owner
-        cur_listing *= "<div class=\"col-sm-3\"><p><b>Author: <a href=\"http://github.com/" *
-                        owner * "\">" * owner * "</a></b></p></div>\n"
+        cur_listing *= "Owner: <a href=\"http://github.com/" *
+                        owner * "\">" * owner * "</a>\n"
 
-        # Permalink
-        cur_listing *= "<div class=\"col-sm-2\">"
-        cur_listing *= "<p><a href=\"" * "http://iainnz.github.io/packages.julialang.org/?pkg=" * pkg["name"] * "&ver=" * pkg["jlver"] * "\">" 
-        cur_listing *= "<i class=\"glyphicon glyphicon-link\"></i>&nbsp;<b>Permalink</b></a></p></div>"
-
-    cur_listing *= "</div>\n"
+    cur_listing *= "</p></div></div>\n"
 
     # Fourth line - testing info
-    cur_listing *= "<div class=\"row\">\n<div class=\"col-md-12\"><p>\n<b>Test status</b>: "
-    cur_listing *= "<a href=\"badges/" * pkg["name"] * "_" * pkg["jlver"] * ".svg" * "\">" *
-                   "<img src=\"badges/" * pkg["status"] * ".svg" * "\" alt=\"" * HUMANSTATUS[pkg["status"]] * "\"></a> "
+    cur_listing *= "<div class=\"row\">\n<div class=\"col-md-12\"><p>\nTest status: "
+    cur_listing *= "<i class=\"glyphicon glyphicon-stop $(pkg["status"])\"></i> "
     cur_listing *= HUMANSTATUS[pkg["status"]] * " "
     
-    cur_listing *= "<a class=\"showlog\" data-pkg=\"" * pkg["name"] * "\" data-ver=\"" * pkg["jlver"] * "\">"
-    cur_listing *= "<span id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_loglink\">Show log</span></a> - "
-    
-    cur_listing *= "<a class=\"showhist\" data-pkg=\"" * pkg["name"] * "\" data-ver=\"" * pkg["jlver"] * "\">"
-    cur_listing *= "<span id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_histlink\">Show history</span></a></p>"
+    cur_listing *= "<small>"
+    cur_listing *= "<a class=\"showbadge\" data-pkg=\"" * pkg["name"] * "\" data-ver=\"" * pkg["jlver"] * "\">"
+    cur_listing *= "<span id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_badgelink\">Get permalink/badge</span></a> - "
 
+    cur_listing *= "<a class=\"showhist\" data-pkg=\"" * pkg["name"] * "\" data-ver=\"" * pkg["jlver"] * "\">"
+    cur_listing *= "<span id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_histlink\">Show version and test history</span></a> - "
+
+    cur_listing *= "<a class=\"showlog\" data-pkg=\"" * pkg["name"] * "\" data-ver=\"" * pkg["jlver"] * "\">"
+    cur_listing *= "<span id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_loglink\">Show last test log</span></a>"
+    cur_listing *= "</small></p>"
+
+    # BADGE PRE  
+    cur_listing *= "<pre style=\"display: none;\" class=\"badgelinks\" id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_badge\">"
+    cur_listing *= "BADGE:     <a href=\"http://pkg.julialang.org/?pkg=$(pkg["name"])&ver=$(pkg["jlver"])\">" *
+                   "<img src=\"http://pkg.julialang.org/badges/$(pkg["name"])_$(pkg["jlver"]).svg\"></a> \n"
+    cur_listing *= "PERMALINK: http://pkg.julialang.org/?pkg=$(pkg["name"])&ver=$(pkg["jlver"]) \n"
+    cur_listing *= "BADGE SVG: http://pkg.julialang.org/badges/$(pkg["name"])_$(pkg["jlver"]).svg \n"
+    cur_listing *= "MARKDOWN:  [![$(pkg["name"])](http://pkg.julialang.org/badges/$(pkg["name"])_$(pkg["jlver"]).svg)]"
+    cur_listing *= "(http://pkg.julialang.org/?pkg=$(pkg["name"])&ver=$(pkg["jlver"]))"
+    
+    cur_listing *= "</pre>"
+
+    # LOG PRE
     cur_listing *= "<pre style=\"display: none;\" class=\"testlog\" id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_log\"></pre>"
+    # HIST PRE
     hist_data = hist_to_html(hist_db[pkg["jlver"]*pkg["name"]])
     cur_listing *= "<pre style=\"display: none;\" class=\"testhist\" id=\"" * pkg["name"] * pkg["jlver"][end:end] * "_hist\">" * hist_data * "</pre>"
     cur_listing *= "</div></div>"
 
 
-    push!(listing, cur_listing * "<hr></div>")
+
+    push!(listing, cur_listing * "</div>")
     #break
 end
 
 # Build package ecoystem health indicators
-generate_plot(hist_db, pkg_set, date_set)
+#generate_plot(hist_db, pkg_set, date_set)
 output_table = generate_table(hist_db, pkg_set, date_set)
 change_list  = generate_changelog(hist_db, pkg_set, date_set)
 health = "<div class=\"container\" id=\"pkgstats\"><div class=\"row\"><div class=\"col-md-6\">" *

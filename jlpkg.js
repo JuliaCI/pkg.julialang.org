@@ -50,6 +50,12 @@ function licenseSumary(license) {
 ///////////////////////////////////////////////////////////////////////////////
 // Filter controls
 
+// Hide/show them
+$('#showMoreOpts').click( function() {
+  $('#rowtwo').toggle();
+  $('#rowthree').toggle();
+})
+
 // Package name
 $('#searchName').change( function () {
   window.searchName = $(this).val();
@@ -144,10 +150,10 @@ $('.showlog').click( function() {
   var logbox = $('#'+pkg+vers+'_log');
   var loglink = $('#'+pkg+vers+'_loglink');
   
-  if (loglink.text() == 'Show log') {
-    loglink.text('Hide log');
+  if (loglink.text() == 'Show last test log') {
+    loglink.text('Hide last test log');
   } else {
-    loglink.text('Show log');
+    loglink.text('Show last test log');
   }
 
   logbox.toggle();
@@ -165,13 +171,21 @@ $('.showhist').click( function() {
   var vers = (''+ver).substr(2,1);
   console.log('#'+pkg+vers+'_hist')
   $('#'+pkg+vers+'_hist').toggle();
-  if ($('#'+pkg+vers+'_histlink').text() == 'Show history') {
-    $('#'+pkg+vers+'_histlink').text('Hide history');
+  if ($('#'+pkg+vers+'_histlink').text() == 'Show version and test history') {
+    $('#'+pkg+vers+'_histlink').text('Hide version and test history');
   } else {
-    $('#'+pkg+vers+'_histlink').text('Show history');
+    $('#'+pkg+vers+'_histlink').text('Show version and test history');
   }
 });
 
+
+$('.showbadge').click( function() {
+  var pkg = $(this).data('pkg');
+  var ver = $(this).data('ver');
+  var vers = (''+ver).substr(2,1);
+  console.log('#'+pkg+vers+'_badge')
+  $('#'+pkg+vers+'_badge').toggle();
+});
 
 // Initial hiding
 var spl = window.location.search.substr(1).split('&');
