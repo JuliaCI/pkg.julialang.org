@@ -5,7 +5,7 @@
 #######################################################################
 
 using JSON
-#using PyPlot
+using PyPlot
 using PackageFuncs
 
 # hist_to_html
@@ -227,7 +227,7 @@ MARKDOWN:  [![$P_NAME]($P_SVG)]($P_LINK)
 end
 
 # Build package ecoystem health indicators
-#generate_plot(hist_db, pkg_set, date_set)
+generate_plot(hist_db, pkg_set, date_set)
 output_table = generate_table(hist_db, pkg_set, date_set)
 change_list  = generate_changelog(hist_db, pkg_set, date_set)
 health = "<div class=\"container\" id=\"pkgstats\"><div class=\"row\"><div class=\"col-md-6\">" *
