@@ -177,7 +177,7 @@ for pkg in pkgs
     P_OWNER = split(pkg["url"],"/")[end-1]
     P_NAME  = pkg["name"]
     P_URL   = pkg["url"]
-    P_DESC  = pkg["githubdesc"] == nothing ? "" : pkg["githubdesc"]
+    P_DESC  = pkg["githubdesc"] == "nothing" ? "" : pkg["githubdesc"]
     P_SHA   = pkg["gitsha"]
     P_VER   = pkg["version"]
     P_DATE  = pkg["gitdate"]
@@ -191,7 +191,7 @@ for pkg in pkgs
     P_SVG   = "http://pkg.julialang.org/badges/$(P_NAME)_$P_JLVER.svg"
     P_SVG2  = "http://pkg.julialang.org/badges/$P_STAT.svg"
     hist_data = hist_to_html(hist_db[pkg["jlver"]*pkg["name"]])
-
+    
     cur_listing = """
 <div class="container pkglisting" data-pkg="$(lowercase(P_NAME))"
  data-owner="$(lowercase(P_OWNER))" data-ver="$(pkg["jlver"])"
@@ -199,7 +199,7 @@ for pkg in pkgs
 <hr>
 <div class="row"><div class="col-xs-12">
 <h2><a href="$P_URL">$P_NAME</a></h2>\n
-<h4>$P_DESC</h4>
+<h4>$(P_DESC)</h4>
 <p>Current version: <a href="$P_URL/tree/$P_SHA" title="$P_SHA">$P_VER</a>
 (<abbr class="timeago" title="$P_DATE"></abbr>) /
 <a href="$P_LURL">$P_LIC</a> license /
