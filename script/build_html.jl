@@ -124,6 +124,7 @@ function generate_plot(hist_db, pkg_set, date_set)
     end
 
     # Create plot with PyPlot
+    plt.figure(figsize=(8, 5))
     plt.plot(data[:,1], data[:,2], color="green", label="Test Pass",  linewidth=2, marker="o")
     plt.plot(data[:,1], data[:,3], color="orange",label="Test Fail",  linewidth=2, marker="o")
     plt.plot(data[:,1], data[:,4], color="blue",  label="Using Pass", linewidth=2, marker="o")
