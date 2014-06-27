@@ -14,7 +14,8 @@
 # format.
 #######################################################################
 
-using JSON
+import Requests
+import JSON
 
 # Produce concatenated file
 stable   = readall("stable.json")
@@ -23,17 +24,17 @@ combined = "[" * stable * "," * nightly * "]"
 all_pkgs = JSON.parse(combined)
 
 # Load GitHub auth token (NOT CHECKED IN!!)
-auth_token = readall("token")
+const auth_token = readall("token")
 
-# Load description cache
+# Load description/star cache
 desc_cache = Dict()
+star_cache = Dict()
 cache_fp = open("../db/descriptions","r")
 for line in readlines(cache_fp)
     spl = split(line,"#####")
-    if length(spl) < 2
-        continue
-    end
+    length(spl) < 3 && continue
     desc_cache[spl[1]] = chomp(spl[2])
+    star_cache[spl[1]] = int(chomp(spl[3]))
 end
 close(cache_fp)
 
@@ -44,15 +45,39 @@ end
 datestr = ARGS[1]
 hist_fp = open("../db/hist_db.csv","a")  # APPEND
 
+star_counts = {}
+
 for pkg in all_pkgs
     # Add description from Github
     if !(pkg["name"] in keys(desc_cache))
+        println("Pulling description for ", pkg["name"])
         url_split = split(pkg["url"], "/")
+        # GET /repos/:owner/:repo/
         github_url = "https://api.github.com/repos/$(url_split[end-1])/$(url_split[end])?access_token=$(auth_token)"
-        github_resp = JSON.parse(readall(download(github_url)))
-        desc_cache[pkg["name"]] = get(github_resp, "description", "No description available.")
+        resp = JSON.parse(Requests.get(github_url).data)
+        desc_cache[pkg["name"]] = get(resp, "description", "No description available.")
     end
     pkg["githubdesc"] = desc_cache[pkg["name"]]
+
+    # Add starts from Github
+    if !(pkg["name"] in keys(star_cache))
+        println("Pulling stars for ", pkg["name"])
+        # GET /repos/:owner/:repo/stargazers
+        url_split = split(pkg["url"], "/")
+        total_stars = 0
+        for page in 1:10
+            println("  Page $page")
+            github_url = "https://api.github.com/repos/$(url_split[end-1])/$(url_split[end])/stargazers?page=$(page)&per_page=100&access_token=$(auth_token)"
+            resp = Requests.get(github_url).data
+            contains(resp,"Not Found") && break  # Probably a moved package
+            star_count = length(JSON.parse(resp))
+            star_count == 0 && break
+            total_stars += star_count
+        end
+        star_cache[pkg["name"]] = total_stars
+    end
+    pkg["githubstars"] = star_cache[pkg["name"]]
+    push!(star_counts, (pkg["githubstars"], pkg["name"]) )
 
     # Make badge
     source_file = joinpath("..", "badges", string(pkg["status"],".svg"))
@@ -66,12 +91,16 @@ for pkg in all_pkgs
     close(logfp)
 
     # Update history
+    datestr == "nohist" && continue 
     println(hist_fp,datestr         * ", " * 
                     pkg["jlver"]    * ","  *
                     lpad(pkg["name"],   30," ") * ","  *
                     lpad(pkg["version"],10," ") * ", " *
                     pkg["status"])
 end
+
+#sort!(star_counts)
+#println(star_counts)
 
 # Output new combined JSON
 fp = open("all.json","w")
@@ -81,7 +110,7 @@ close(fp)
 # Update cache
 cache_fp = open("../db/descriptions","w")
 for pkg in keys(desc_cache)
-    println(cache_fp, "$(pkg)#####$(desc_cache[pkg])")
+    println(cache_fp, "$(pkg)#####$(desc_cache[pkg])#####$(star_cache[pkg])")
 end
 close(cache_fp)
 

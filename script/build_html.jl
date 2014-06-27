@@ -179,6 +179,7 @@ for pkg in pkgs
     P_NAME  = pkg["name"]
     P_URL   = pkg["url"]
     P_DESC  = pkg["githubdesc"] == "nothing" ? "" : pkg["githubdesc"]
+    P_STAR  = pkg["githubstars"]
     P_SHA   = pkg["gitsha"]
     P_VER   = pkg["version"]
     P_DATE  = pkg["gitdate"]
@@ -204,7 +205,8 @@ for pkg in pkgs
 <p>Current version: <a href="$P_URL/tree/$P_SHA" title="$P_SHA">$P_VER</a>
 (<abbr class="timeago" title="$P_DATE"></abbr>) /
 <a href="$P_LURL">$P_LIC</a> license /
-Owner: <a href="http://github.com/$P_OWNER">$P_OWNER</a></p>
+Owner: <a href="http://github.com/$P_OWNER">$P_OWNER</a> / 
+<span title="GitHub stars">$(P_STAR) <i class="glyphicon glyphicon-star"></i></span></p>
 <p>Test status: <i class="glyphicon glyphicon-stop $P_STAT"></i> $P_HSTAT
 <small>
 <a class="showbadge" data-pkg="$P_NAME" data-ver="$P_JLVER">
