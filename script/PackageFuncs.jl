@@ -29,6 +29,27 @@ module PackageFuncs
         "using_fail"   => 1,
         "not_possible" => 0]
 
+    # ORGLINKS
+    # List of Julia organizations and a link to their best webpage
+    # and logo (if applicable)
+    export ORGLINKS
+    const ORGLINKS = [
+        "JuliaOpt"      => ("http://www.juliaopt.org", 
+                            "http://www.juliaopt.org/images/logo300.png"),
+        "JuliaStats"    => ("https://github.com/JuliaStats",
+                            ""),
+        "JuliaGPU"      => ("https://github.com/JuliaGPU",
+                            "https://avatars3.githubusercontent.com/u/7346142"),
+        "JuliaAstro"    => ("http://juliaastro.github.io/",
+                            ""),
+        "JuliaDSP"      => ("https://github.com/JuliaDSP",
+                            ""),
+        "JuliaDiff"     => ("http://www.juliadiff.org/",
+                            ""),
+        "JuliaQuant"    => ("https://github.com/JuliaQuant",
+                            "https://avatars3.githubusercontent.com/u/5839427")
+    ]
+
     # create_hist_db
     # Load the history database CSV, turn it into a dictionary keyed on
     # the package name and the Julia version
