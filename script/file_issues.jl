@@ -30,12 +30,12 @@ function initial_file(hist_db, pkg_set)
 
 [PackageEvaluator.jl](https://github.com/IainNZ/PackageEvaluator.jl) is a script that runs nightly. It attempts to load all Julia packages and run their test (if available) on both the stable version of Julia ($STABLEVER) and the nightly build of the unstable version ($NIGHTLYVER).
 
-The results of this script are used to generate a [package listing](http://iainnz.github.io/packages.julialang.org/) enhanced with testing results.
+The results of this script are used to generate a [package listing](http://pkg.julialang.org/) enhanced with testing results.
 
 The status of this package, $pkg, on...
 
-* Julia $STABLEVER is **'$(HUMANSTATUS[stable_status])'** [![PackageEvaluator.jl](http://iainnz.github.io/packages.julialang.org/badges/$stable_status.svg)](http://iainnz.github.io/packages.julialang.org/?pkg=$pkg&ver=$STABLEVER)
-* Julia $NIGHTLYVER is **'$(HUMANSTATUS[nightly_status])'** [![PackageEvaluator.jl](http://iainnz.github.io/packages.julialang.org/badges/$nightly_status.svg)](http://iainnz.github.io/packages.julialang.org/?pkg=$pkg&ver=$NIGHTLYVER)
+* Julia $STABLEVER is **'$(HUMANSTATUS[stable_status])'** [![PackageEvaluator.jl](http://pkg.julialang.org/badges/$stable_status.svg)](http://pkg.julialang.org/?pkg=$pkg&ver=$STABLEVER)
+* Julia $NIGHTLYVER is **'$(HUMANSTATUS[nightly_status])'** [![PackageEvaluator.jl](http://pkg.julialang.org/badges/$nightly_status.svg)](http://pkg.julialang.org/?pkg=$pkg&ver=$NIGHTLYVER)
 
 *'$(HUMANSTATUS["using_pass"])'* can be due to their being no tests (you should write some if you can!) but can also be due to PackageEvaluator not being able to find your tests. Consider adding a [`test/runtests.jl`](https://github.com/JuliaLang/julia/pull/6191) file.
 
@@ -73,7 +73,7 @@ function change_file(hist_db, pkg_set, date_set)
         nice_today = hist[1,1][1:4] * "-" * hist[1,1][5:6] * "-" * hist[1,1][7:8]
         nice_prev  = hist[2,1][1:4] * "-" * hist[2,1][5:6] * "-" * hist[2,1][7:8]
         issue_title = "[PkgEval] $pkg may have a testing issue on Julia $JLVER ($nice_today)"
-        issue_body = """[PackageEvaluator.jl](https://github.com/IainNZ/PackageEvaluator.jl) is a script that runs nightly. It attempts to load all Julia packages and run their tests (if available) on both the stable version of Julia ($STABLEVER) and the nightly build of the unstable version ($NIGHTLYVER). The results of this script are used to generate a [package listing](http://iainnz.github.io/packages.julialang.org/) enhanced with testing results.
+        issue_body = """[PackageEvaluator.jl](https://github.com/IainNZ/PackageEvaluator.jl) is a script that runs nightly. It attempts to load all Julia packages and run their tests (if available) on both the stable version of Julia ($STABLEVER) and the nightly build of the unstable version ($NIGHTLYVER). The results of this script are used to generate a [package listing](http://pkg.julialang.org/) enhanced with testing results.
 
 #### On Julia $JLVER
 * On **$(nice_prev)** the testing status was `$(HUMANSTATUS[status_prev])`
