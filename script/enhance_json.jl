@@ -16,6 +16,7 @@
 
 import Requests
 import JSON
+import PackageEvaluator.MetaTools
 
 # Produce concatenated file
 stable   = readall("stable.json")
@@ -38,6 +39,14 @@ for line in readlines(cache_fp)
 end
 close(cache_fp)
 
+# Load METADATA into memory, get deprecations
+metadata_pkgs = MetaTools.get_all_pkg(Pkg.dir("METADATA"))
+deprecations = Dict()
+for pkg_meta in metadata_pkgs
+    ul = MetaTools.get_upper_limit(pkg_meta)
+    deprecations[pkg_meta.name] = (ul != v"0.0.0")
+end
+
 # Open up history file
 if length(ARGS) != 1
     error("Need to provide date! YYYYMMDD")
@@ -47,6 +56,7 @@ hist_fp = open("../db/hist_db.csv","a")  # APPEND
 
 star_counts = {}
 
+# Note: will repeat for the release and nightly entry
 for pkg in all_pkgs
     # Add description from Github
     if !(pkg["name"] in keys(desc_cache))
@@ -89,6 +99,9 @@ for pkg in all_pkgs
     logfp = open(log_file,"w")
     println(logfp, pkg["testlog"])
     close(logfp)
+
+    # Add deprecation notice
+    pkg["deprecated"] = deprecations[pkg["name"]]
 
     # Update history
     datestr == "nohist" && continue 

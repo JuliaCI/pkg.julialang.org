@@ -204,6 +204,7 @@ for pkg in pkgs
 <h4>$(P_DESC)</h4>
 <p>Current version: <a href="$P_URL/tree/$P_SHA" title="$P_SHA">$P_VER</a>
 (<abbr class="timeago" title="$P_DATE"></abbr>) /
+$(pkg["deprecated"] ? " <span class=\"using_fail\" title=\"Package is no longer supported and may not install on the next Julia release\">deprecated</span> / " : "")
 <a href="$P_LURL">$P_LIC</a> license /
 Owner: <a href="http://github.com/$P_OWNER">$P_OWNER</a> / 
 <span title="GitHub stars">$(P_STAR) <i class="glyphicon glyphicon-star"></i></span></p>
