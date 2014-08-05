@@ -17,6 +17,7 @@
 import Requests
 import JSON
 import PackageEvaluator.MetaTools
+using PackageFuncs
 
 # Produce concatenated file
 stable   = readall("stable.json")
@@ -97,7 +98,7 @@ for pkg in all_pkgs
     # Make log file
     log_file = joinpath("..", "logs", string(pkg["name"],"_",pkg["jlver"],".log"))
     logfp = open(log_file,"w")
-    println(logfp, pkg["testlog"])
+    println(logfp, build_log(pkg))
     close(logfp)
 
     # Add deprecation notice

@@ -95,4 +95,25 @@ module PackageFuncs
     export date_nice
     date_nice(orig::String) = orig[1:4]*"-"*orig[5:6]*"-"*orig[7:8]
     date_nice(orig::Int) = date_nice(string(orig))
+
+    # build_log
+    # Take the three log components and make a smaller log
+    export build_log
+    function build_log(pkg)
+        function trunc_section(s)
+            l = split(s,"\n")
+            if length(l) >= 55
+                return join(vcat(l[1:20],{"... truncated ..."},l[end-30:end]),"\n")
+            end
+            return s
+        end
+        log_str  = ">>> 'Pkg.add(\"$(pkg["name"])\")' log\n"
+        log_str *= trunc_section(pkg["add_log"])
+        log_str *= "\n>>> 'using $(pkg["name"])' log\n"
+        log_str *= trunc_section(pkg["using_log"])
+        log_str *= "\n>>> test log\n"
+        log_str *= trunc_section(pkg["full_log"])
+        log_str *= "\n>>> end of log"
+        return log_str
+    end
 end

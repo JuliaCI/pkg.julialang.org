@@ -54,6 +54,9 @@ function licenseSumary(license) {
 $('#showMoreOpts').click( function() {
   $('#rowtwo').toggle();
   $('#rowthree').toggle();
+  if (! $('#rowthree').is(":visible")) {
+    $('#pkgstats').hide();
+  }
 })
 
 // Package name

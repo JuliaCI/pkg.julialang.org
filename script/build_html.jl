@@ -51,12 +51,12 @@ end
 
 # generate_changelog
 # Take the history database and generate an HTML list of the changes
-function generate_changelog(hist_db, pkg_set, date_set)
+function generate_changelog(hist_db, pkg_set, date_set, verprefix)
     changes = [date=>{} for date in date_set]
 
     # Walk through every package and day
     for pkg in pkg_set
-        key = NIGHTLYVER*pkg
+        key = verprefix*pkg
         !(key in keys(hist_db)) && continue
         hist = hist_db[key]
         hist_size = size(hist,1)
@@ -72,7 +72,7 @@ function generate_changelog(hist_db, pkg_set, date_set)
         length(changes[date]) == 0 && return "<h4>$date - no changes.</h4>\n"
         function pkg_to_item(pkg_change)
             pkg, prev, now = pkg_change
-            "<li><b class=\"$now\">$pkg</b> " * (
+            "<li><a href=\"http://pkg.julialang.org/?pkg=$pkg&ver=$verprefix\"><b class=\"$now\">$pkg</b></a> " * (
                 prev == "new" ?
                     "added to METADATA, status is '$(HUMANSTATUS[now])'" :
                     "changed to '$(HUMANSTATUS[now])' from '$(HUMANSTATUS[prev])'") *
@@ -87,13 +87,13 @@ end
 
 # generate_totals
 # Take the history database and generate a dictionary of status counts
-function generate_totals(hist_db, pkg_set, date_set)
+function generate_totals(hist_db, pkg_set, date_set, verprefix)
     totals  = [date => ["full_pass" => 0,     "full_fail" => 0,
                         "using_pass" => 0,    "using_fail" => 0,
                         "not_possible" => 0,  "total" => 0]
                         for date in date_set]
     for pkg in pkg_set
-        key = NIGHTLYVER*pkg
+        key = verprefix*pkg
         !(key in keys(hist_db)) && continue
         hist = hist_db[key]
         for i = 1:size(hist,1)
@@ -107,8 +107,8 @@ end
 # generate_plot
 # Take the history database and generate a plot of changes in package
 # status counts over time
-function generate_plot(hist_db, pkg_set, date_set)
-    totals = generate_totals(hist_db, pkg_set, date_set)
+function generate_plot(hist_db, pkg_set, date_set, verprefix)
+    totals = generate_totals(hist_db, pkg_set, date_set, verprefix)
 
     # Turn dictionary into a matrix, and do dates relative to the
     # current day (e.g. "days ago")
@@ -124,7 +124,7 @@ function generate_plot(hist_db, pkg_set, date_set)
     end
 
     # Create plot with PyPlot
-    plt.figure(figsize=(8, 5))
+    plt.figure(figsize=(8, 4))
     plt.plot(data[:,1], data[:,2], color="green", label="Test Pass",  linewidth=2, marker="o")
     plt.plot(data[:,1], data[:,3], color="orange",label="Test Fail",  linewidth=2, marker="o")
     plt.plot(data[:,1], data[:,4], color="blue",  label="Using Pass", linewidth=2, marker="o")
@@ -133,15 +133,15 @@ function generate_plot(hist_db, pkg_set, date_set)
     plt.legend(loc=7)
     plt.xlabel("Days Ago")
     plt.ylabel("Number of Packages")
-    plt.title("Package Test Status Counts for Julia $NIGHTLYVER")
-    savefig("../pkghist.png")
+    plt.title("Package Test Status Counts for Julia $verprefix")
+    savefig("../pkghist_$(verprefix).png")
 end
 
 # generate_table
 # Take the history database and generate a table of changes in package
 # status counts over time
-function generate_table(hist_db, pkg_set, date_set)
-    totals = generate_totals(hist_db, pkg_set, date_set)
+function generate_table(hist_db, pkg_set, date_set, verprefix)
+    totals = generate_totals(hist_db, pkg_set, date_set, verprefix)
     
     header= "<table class=\"table healthtable\"><tr>" * "<td>Date</td>" *
             "<td>Test Pass</td>" *      "<td>Test Fail</td>" *
@@ -231,15 +231,20 @@ MARKDOWN:  [![$P_NAME]($P_SVG)]($P_LINK)
 end
 
 # Build package ecoystem health indicators
-generate_plot(hist_db, pkg_set, date_set)
-output_table = generate_table(hist_db, pkg_set, date_set)
-change_list  = generate_changelog(hist_db, pkg_set, date_set)
-health = "<div class=\"container\" id=\"pkgstats\"><div class=\"row\"><div class=\"col-md-6\">" *
-         "<img src=\"pkghist.png\" alt=\"Package test history\" class=\"img-responsive\">" *
-         output_table *
-         "</div><div class=\"col-md-6\">" * 
-         change_list * 
-         "</div></div></div>"
+health = "<div class=\"container\" id=\"pkgstats\"><div class=\"row\">"
+for ver in [STABLEVER, NIGHTLYVER]
+    generate_plot(hist_db, pkg_set, date_set, ver)
+    output_table = generate_table(hist_db, pkg_set, date_set, ver)
+    change_list  = generate_changelog(hist_db, pkg_set, date_set, ver)
+    health *=   """
+                <div class="col-md-6">
+                <h3>Statistics for Julia $ver </h3>
+                <img src="pkghist_$(ver).png" alt="Package test result history" class="img-responsive">
+                $output_table
+                $change_list
+                </div>"""
+end
+health *= "</div></div>"
 
 # Output
 fp = open("../index.html","w")
