@@ -19,11 +19,14 @@ import JSON
 import PackageEvaluator.MetaTools
 using PackageFuncs
 
-# Produce concatenated file
-stable   = readall("stable.json")
-nightly  = readall("nightly.json")
-combined = "[" * stable * "," * nightly * "]"
-all_pkgs = JSON.parse(combined)
+raw_json = readall("all.json")
+clean_json = replace(raw_json, "\\e", "")
+clean_json = replace(clean_json, "\\u", "\\\\u")
+clean_json = replace(clean_json, "\\x", "escx")
+clean_json = replace(clean_json, "\\e", "\\\\e")
+clean_json = replace(clean_json, "\\0", "\\\\0")
+clean_json = ascii(map(c->(c>=128 ? 'a' : c), bytestring(clean_json)))
+all_pkgs = JSON.parse("["*clean_json*"]")
 
 # Load GitHub auth token (NOT CHECKED IN!!)
 const auth_token = readall("token")
@@ -59,6 +62,7 @@ star_counts = {}
 
 # Note: will repeat for the release and nightly entry
 for pkg in all_pkgs
+
     # Add description from Github
     if !(pkg["name"] in keys(desc_cache))
         println("Pulling description for ", pkg["name"])
@@ -98,7 +102,7 @@ for pkg in all_pkgs
     # Make log file
     log_file = joinpath("..", "logs", string(pkg["name"],"_",pkg["jlver"],".log"))
     logfp = open(log_file,"w")
-    println(logfp, build_log(pkg))
+    println(logfp, pkg["log"])
     close(logfp)
 
     # Add deprecation notice
@@ -112,9 +116,6 @@ for pkg in all_pkgs
                     lpad(pkg["version"],10," ") * ", " *
                     pkg["status"])
 end
-
-#sort!(star_counts)
-#println(star_counts)
 
 # Output new combined JSON
 fp = open("all.json","w")
