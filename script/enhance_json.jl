@@ -102,7 +102,7 @@ for pkg in all_pkgs
     # Make log file
     log_file = joinpath("..", "logs", string(pkg["name"],"_",pkg["jlver"],".log"))
     logfp = open(log_file,"w")
-    println(logfp, pkg["log"])
+    println(logfp, unescape_string(pkg["log"]))
     close(logfp)
 
     # Add deprecation notice
