@@ -133,9 +133,9 @@ for pkg_dict in pkgs
     owner = split(pkg_dict["url"],"/")[end-1]
     pkg_owners[pkg_dict["name"]] = owner
     if pkg_dict["jlver"] == STABLEVER 
-        pkg_log_stable[pkg_dict["name"]] = pkg_dict["testlog"]
+        pkg_log_stable[pkg_dict["name"]] = pkg_dict["log"]
     elseif pkg_dict["jlver"] == NIGHTLYVER 
-        pkg_log_nightly[pkg_dict["name"]] = pkg_dict["testlog"]
+        pkg_log_nightly[pkg_dict["name"]] = pkg_dict["log"]
     else
         error("Unrecognized jlver $(pkg_dict["jlver"])")
     end
