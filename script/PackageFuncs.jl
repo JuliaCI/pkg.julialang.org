@@ -12,7 +12,8 @@ module PackageFuncs
         "full_fail"    => "Tests fail, but package loads.",
         "using_pass"   => "No tests, but package loads.",
         "using_fail"   => "Package doesn't load.",
-        "not_possible" => "Package was untestable."]
+        "not_possible" => "Package was untestable.",
+        "new_pkg"      => "N/A - new package."]
 
     # STATUSNUM
     # Status code -> number, to induce an ordering
@@ -27,7 +28,8 @@ module PackageFuncs
         "full_fail"    => 2,
         "using_pass"   => 3,
         "using_fail"   => 1,
-        "not_possible" => 0]
+        "not_possible" => 0,
+        "new_pkg"      => 9]
 
     # ORGLINKS
     # List of Julia organizations and a link to their best webpage
