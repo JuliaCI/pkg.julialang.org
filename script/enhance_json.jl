@@ -62,6 +62,11 @@ star_counts = {}
 
 # Note: will repeat for the release and nightly entry
 for pkg in all_pkgs
+    
+    if pkg["jlver"] == "0.4"
+        # TEMP HACK
+        pkg["jlver"] = "0.3"
+    end
 
     # Add description from Github
     if !(pkg["name"] in keys(desc_cache))
