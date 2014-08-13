@@ -109,7 +109,12 @@ for pkg in all_pkgs
     close(logfp)
 
     # Add deprecation notice
-    pkg["deprecated"] = deprecations[pkg["name"]]
+    try
+        pkg["deprecated"] = deprecations[pkg["name"]]
+    catch
+        println("Didn't figure out deprecation for $(pkg["name"])")
+        pkg["deprecated"] = false
+    end
 
     # Update history
     datestr == "nohist" && continue 

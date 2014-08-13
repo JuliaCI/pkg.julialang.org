@@ -190,15 +190,16 @@ for pkg in pkgs
     P_HSTAT = HUMANSTATUS[pkg["status"]]
     P_JLVER = pkg["jlver"]
     P_MINOR = pkg["jlver"][end:end]
+    P_NICEJLVER = pkg["jlver"] == STABLEVER ? "release" : "nightly"
     P_LINK  = "http://pkg.julialang.org/?pkg=$P_NAME&ver=$P_JLVER"
-    P_SVG   = "http://pkg.julialang.org/badges/$(P_NAME)_$P_JLVER.svg"
+    P_SVG   = "http://pkg.julialang.org/badges/$(P_NAME)_$(P_NICEJLVER).svg"
     P_SVG2  = "http://pkg.julialang.org/badges/$P_STAT.svg"
     hist_data = hist_to_html(hist_db[pkg["jlver"]*pkg["name"]])
     
     cur_listing = """
 <div class="container pkglisting" data-pkg="$(lowercase(P_NAME))"
  data-owner="$(lowercase(P_OWNER))" data-ver="$(pkg["jlver"])"
- data-status="$(pkg["status"])"   data-lic   ="$(pkg["license"])">
+ data-status="$(pkg["status"])"   data-lic="$(pkg["license"])">
 <hr>
 <div class="row"><div class="col-xs-12">
 <h2><a href="$P_URL">$P_NAME</a></h2>\n
