@@ -150,7 +150,8 @@ function generate_table(hist_db, pkg_set, date_set, verprefix)
     function to_td(d,s)
         v = totals[d][s]
         t = totals[d]["total"]
-        return string("<td>", v, " (", int(round(v/t*100,0)), "%)</td>")
+        p = t > 0 ? round(v/t*100,0) : 0.0
+        return string("<td>", v, " (", int(p), "%)</td>")
     end
     rows = map( date ->("<tr><td>$date</td>" *
                         to_td(date,"full_pass") *   to_td(date,"full_fail") *

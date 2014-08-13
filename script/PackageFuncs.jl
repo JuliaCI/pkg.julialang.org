@@ -1,8 +1,8 @@
 module PackageFuncs
 
     export STABLEVER, NIGHTLYVER
-    const STABLEVER  = "0.2"
-    const NIGHTLYVER = "0.3"
+    const STABLEVER  = "0.3"
+    const NIGHTLYVER = "0.4"
 
     # HUMANSTATUS
     # Human-readable versions of the test codes

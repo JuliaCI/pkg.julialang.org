@@ -62,11 +62,6 @@ star_counts = {}
 
 # Note: will repeat for the release and nightly entry
 for pkg in all_pkgs
-    
-    if pkg["jlver"] == "0.4"
-        # TEMP HACK
-        pkg["jlver"] = "0.3"
-    end
 
     # Add description from Github
     if !(pkg["name"] in keys(desc_cache))
@@ -99,13 +94,16 @@ for pkg in all_pkgs
     pkg["githubstars"] = star_cache[pkg["name"]]
     push!(star_counts, (pkg["githubstars"], pkg["name"]) )
 
+    # Get _stable or _nightly
+    jlvertype = (pkg["jlver"] == STABLEVER) ? "_release" : "_nightly"
+
     # Make badge
     source_file = joinpath("..", "badges", string(pkg["status"],".svg"))
-    dest_file   = joinpath("..", "badges", string(pkg["name"],"_",pkg["jlver"],".svg"))
+    dest_file   = joinpath("..", "badges", string(pkg["name"],jlvertype,".svg"))
     run(`cp $source_file $dest_file`)
 
     # Make log file
-    log_file = joinpath("..", "logs", string(pkg["name"],"_",pkg["jlver"],".log"))
+    log_file = joinpath("..", "logs", string(pkg["name"],jlvertype,".log"))
     logfp = open(log_file,"w")
     println(logfp, unescape_string(pkg["log"]))
     close(logfp)
