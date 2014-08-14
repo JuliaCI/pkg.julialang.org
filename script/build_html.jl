@@ -53,6 +53,7 @@ end
 # Take the history database and generate an HTML list of the changes
 function generate_changelog(hist_db, pkg_set, date_set, verprefix)
     changes = [date=>{} for date in date_set]
+    niceprefix = (verprefix == STABLEVER) ? "release" : "nightly"
 
     # Walk through every package and day
     for pkg in pkg_set
@@ -72,7 +73,7 @@ function generate_changelog(hist_db, pkg_set, date_set, verprefix)
         length(changes[date]) == 0 && return "<h4>$date - no changes.</h4>\n"
         function pkg_to_item(pkg_change)
             pkg, prev, now = pkg_change
-            "<li><a href=\"http://pkg.julialang.org/?pkg=$pkg&ver=$verprefix\"><b class=\"$now\">$pkg</b></a> " * (
+            "<li><a href=\"http://pkg.julialang.org/?pkg=$pkg&ver=$niceprefix\"><b class=\"$now\">$pkg</b></a> " * (
                 prev == "new" ?
                     "added to METADATA, status is '$(HUMANSTATUS[now])'" :
                     "changed to '$(HUMANSTATUS[now])' from '$(HUMANSTATUS[prev])'") *
