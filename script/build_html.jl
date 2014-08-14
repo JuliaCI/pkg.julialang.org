@@ -81,7 +81,7 @@ function generate_changelog(hist_db, pkg_set, date_set, verprefix)
         "<h4>$date</h4><ul>\n" * join(sort(map(pkg_to_item, changes[date]))) * "</ul>\n"
     end
     #return "<ul>\n" * join(map(day_to_list, date_set[1:5])) * "</ul>\n"
-    return join(map(day_to_list, date_set[1:5]))
+    return (verprefix == "0.3") ? join(map(day_to_list, date_set[1:5])) : "Insufficient data"
 end
 
 
@@ -112,9 +112,18 @@ function generate_plot(hist_db, pkg_set, date_set, verprefix)
 
     # Turn dictionary into a matrix, and do dates relative to the
     # current day (e.g. "days ago")
-    data = zeros(length(date_set), 6)
-    baseline_day = strptime("%Y%m%d", date_set[1]).yday
+    # First, determine row of useful data
+    last_row = length(date_set)
     for row in 1:length(date_set)
+        if totals[date_set[row]]["total"] == 0
+            last_row = row - 1
+            break
+        end
+    end
+    
+    data = zeros(last_row, 6)
+    baseline_day = strptime("%Y%m%d", date_set[1]).yday
+    for row in 1:last_row
         data[row,1] = strptime("%Y%m%d", date_set[row]).yday - baseline_day
         data[row,2] = totals[date_set[row]]["full_pass"]
         data[row,3] = totals[date_set[row]]["full_fail"]
@@ -191,7 +200,7 @@ for pkg in pkgs
     P_JLVER = pkg["jlver"]
     P_MINOR = pkg["jlver"][end:end]
     P_NICEJLVER = pkg["jlver"] == STABLEVER ? "release" : "nightly"
-    P_LINK  = "http://pkg.julialang.org/?pkg=$P_NAME&ver=$P_JLVER"
+    P_LINK  = "http://pkg.julialang.org/?pkg=$P_NAME&ver=$P_NICEJLVER"
     P_SVG   = "http://pkg.julialang.org/badges/$(P_NAME)_$(P_NICEJLVER).svg"
     P_SVG2  = "http://pkg.julialang.org/badges/$P_STAT.svg"
     hist_data = hist_to_html(hist_db[pkg["jlver"]*pkg["name"]])

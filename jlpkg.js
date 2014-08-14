@@ -1,5 +1,6 @@
 // Initialize globals
 window.RELEASEVER = '0.3';
+window.NIGHTLYVER = '0.4';
 window.searchName = '';
 window.searchAuthor = '';
 window.juliaVersion = window.RELEASEVER;
@@ -207,7 +208,11 @@ for (var i = 0; i < spl.length; i++) {
     $('#searchName').val(rhs);
   }
   if (lhs == 'ver') {
-    window.juliaVersion = rhs;
+    if (rhs == 'release') {
+      window.juliaVersion = window.RELEASEVER;
+    } else {
+      window.juliaVersion = window.NIGHTLYVER;
+    }
     $('#juliaVersion .btn').removeClass('active');
     $('#juliaVersion i').removeClass('glyphicon-ok glyphicon-remove');
     if (window.juliaVersion == window.RELEASEVER) {
