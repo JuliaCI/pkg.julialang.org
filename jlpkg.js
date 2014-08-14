@@ -164,7 +164,7 @@ $('.showlog').click( function() {
   logbox.toggle();
   if (logbox.html() == '') {
     // Haven't loaded yet
-    $.get('logs/' + pkg + '_' + (ver==window.RELEASEVER ? "release" : "nightyl") + '.log', function(data) {
+    $.get('logs/' + pkg + '_' + (ver==window.RELEASEVER ? "release" : "nightly") + '.log', function(data) {
       logbox.html(data);
     });
   }
