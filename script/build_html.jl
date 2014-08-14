@@ -81,7 +81,7 @@ function generate_changelog(hist_db, pkg_set, date_set, verprefix)
         "<h4>$date</h4><ul>\n" * join(sort(map(pkg_to_item, changes[date]))) * "</ul>\n"
     end
     #return "<ul>\n" * join(map(day_to_list, date_set[1:5])) * "</ul>\n"
-    return (verprefix == "0.3") ? join(map(day_to_list, date_set[1:5])) : "Insufficient data"
+    return join(map(day_to_list, date_set[1:5]))
 end
 
 
