@@ -16,7 +16,7 @@
 
 import Requests
 import JSON
-import PackageEvaluator.MetaTools
+import MetadataTools
 using PackageFuncs
 
 raw_json = readall("all.json")
@@ -44,10 +44,10 @@ end
 close(cache_fp)
 
 # Load METADATA into memory, get deprecations
-metadata_pkgs = MetaTools.get_all_pkg(Pkg.dir("METADATA"))
+metadata_pkgs = MetadataTools.get_all_pkg(Pkg.dir("METADATA"))
 deprecations = Dict()
 for pkg_meta in metadata_pkgs
-    ul = MetaTools.get_upper_limit(pkg_meta)
+    ul = MetadataTools.get_upper_limit(pkg_meta)
     deprecations[pkg_meta.name] = (ul != v"0.0.0")
 end
 

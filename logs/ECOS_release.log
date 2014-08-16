@@ -1,8 +1,8 @@
 >>> 'Pkg.add("ECOS")' log
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   155    0   155    0     0   1101      0 --:--:-- --:--:-- --:--:--  1107
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0 1445k    0     0  1136k      0 --:--:--  0:00:01 --:--:-- 1571k  0     0    0 7954k    0     0  4225k      0 --:--:--  0:00:01 --:--:-- 5205k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   155    0   155    0     0   1040      0 --:--:-- --:--:-- --:--:--  1047
+  0     0    0   832    0     0   1174      0 --:--:-- --:--:-- --:--:--  1174  0     0    0 3445k    0     0  2140k      0 --:--:--  0:00:01 --:--:-- 3819k  0     0    0 7954k    0     0  4266k      0 --:--:--  0:00:01 --:--:-- 6885k
 ( cd external/ldl    ; make )
 make[1]: Entering directory '/home/idunning/pkgtest/.julia/v0.3/ECOS/deps/src/ecos-d206a556a83396756f3200964de162b4a7523c62/external/ldl'
 cc -O2 -Wall -DLDL_LONG -DDLONG -Wextra -fPIC  -I../SuiteSparse_config -Iinclude -c src/ldl.c -o ldl.o
@@ -20,9 +20,6 @@ cc -O2 -Wall -DLDL_LONG -DDLONG -Wextra -fPIC  -Iinclude -I../SuiteSparse_config
 cc -O2 -Wall -DLDL_LONG -DDLONG -Wextra -fPIC  -Iinclude -I../SuiteSparse_config -DDINT -c src/amd_dump.c -o amd_i_dump.o
 cc -O2 -Wall -DLDL_LONG -DDLONG -Wextra -fPIC  -Iinclude -I../SuiteSparse_config -DDINT -c src/amd_postorder.c -o amd_i_postorder.o
 ... truncated ...
-     pfloat a, b, c, d, w, temp, divisor;
-               ^
-src/cone.c:104:21: warning: variable apm1a set but not used [-Wunused-but-set-variable]
   idxint i, l, k, p, pm1;
                      ^
 cc -O2 -Wall -DLDL_LONG -DDLONG -Wextra -fPIC  -Iinclude -Iexternal/ldl/include -Iexternal/amd/include -Iexternal/SuiteSparse_config -c src/spla.c -o spla.o
@@ -34,9 +31,10 @@ ar rcs libecos.a *.o
 ranlib libecos.a
 cc -O2 -Wall -DLDL_LONG -DDLONG -Wextra -fPIC  -Iinclude -Iexternal/ldl/include -Iexternal/amd/include -Iexternal/SuiteSparse_config -shared -o libecos.so ecos.o kkt.o cone.o preproc.o spla.o splamm.o timer.o equil.o -lldl -lamd -Lexternal/amd/ -Lexternal/ldl/ -lm -lrt
 INFO: Cloning cache of ECOS from git://github.com/JuliaOpt/ECOS.jl.git
-INFO: Installing BinDeps v0.2.14
+INFO: Installing BinDeps v0.3.0
 INFO: Installing ECOS v0.1.0
 INFO: Installing MathProgBase v0.2.5
+INFO: Installing SHA v0.0.2
 INFO: Installing URIParser v0.0.2
 INFO: Building ECOS
 INFO: Attempting to Create directory /home/idunning/pkgtest/.julia/v0.3/ECOS/deps/downloads
@@ -50,6 +48,8 @@ INFO: Attempting to Create directory /home/idunning/pkgtest/.julia/v0.3/ECOS/dep
 INFO: Changing Directory to /home/idunning/pkgtest/.julia/v0.3/ECOS/deps/src/ecos-d206a556a83396756f3200964de162b4a7523c62
 INFO: Changing Directory to /home/idunning/pkgtest/.julia/v0.3/ECOS/deps/src/ecos-d206a556a83396756f3200964de162b4a7523c62
 INFO: Package database updated
+INFO: METADATA is out-of-date a you may not have the latest version of ECOS
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'using ECOS' log
 
@@ -72,11 +72,11 @@ It     pcost         dcost      gap     pres    dres     k/t     mu      step   
 11   +1.927e-01   +1.927e-01   +6e-08   1e-09   1e-10   7e-11   3e-10   0.9899   2 3 2
 
 OPTIMAL (within feastol=1.3e-09, reltol=3.0e-07, abstol=5.8e-08).
-Runtime: 0.003207 seconds.
+Runtime: 0.003152 seconds.
 
 ... truncated ...
 OPTIMAL (within feastol=7.2e-08, reltol=5.9e-08, abstol=6.4e-07).
-Runtime: 0.000078 seconds.
+Runtime: 0.000071 seconds.
 
 
 ECOS 1.0.5 - (c) A. Domahidi, ETH Zurich & embotech 2012-14. Support: ecos@embotech.com
@@ -89,7 +89,7 @@ It     pcost         dcost      gap     pres    dres     k/t     mu      step   
  4   -8.200e+01   -8.200e+01   +2e-07   2e-10   3e-09   1e-08   7e-08   0.9899   2 1 1
 
 OPTIMAL (within feastol=2.8e-09, reltol=2.5e-09, abstol=2.0e-07).
-Runtime: 0.000079 seconds.
+Runtime: 0.000081 seconds.
 
 
 ECOS 1.0.5 - (c) A. Domahidi, ETH Zurich & embotech 2012-14. Support: ecos@embotech.com
@@ -103,7 +103,7 @@ It     pcost         dcost      gap     pres    dres     k/t     mu      step   
  5   -1.414e+00   -1.414e+00   +3e-09   2e-11   1e-09   2e-09   2e-09   0.9899   3 1 1
 
 OPTIMAL (within feastol=1.3e-09, reltol=2.0e-09, abstol=2.8e-09).
-Runtime: 0.000076 seconds.
+Runtime: 0.000074 seconds.
 
 
 >>> end of log
