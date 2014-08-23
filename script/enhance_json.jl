@@ -25,6 +25,7 @@ clean_json = replace(clean_json, "\\u", "\\\\u")
 clean_json = replace(clean_json, "\\x", "escx")
 clean_json = replace(clean_json, "\\e", "\\\\e")
 clean_json = replace(clean_json, "\\0", "\\\\0")
+clean_json = replace(clean_json, "\\[", "[")
 clean_json = ascii(map(c->(c>=128 ? 'a' : c), bytestring(clean_json)))
 all_pkgs = JSON.parse("["*clean_json*"]")
 
