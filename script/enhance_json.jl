@@ -19,6 +19,7 @@ import JSON
 import MetadataTools
 using PackageFuncs
 
+# So bad...
 raw_json = readall("all.json")
 clean_json = replace(raw_json, "\\e", "")
 clean_json = replace(clean_json, "\\u", "\\\\u")
@@ -45,9 +46,9 @@ end
 close(cache_fp)
 
 # Load METADATA into memory, get deprecations
-metadata_pkgs = MetadataTools.get_all_pkg(Pkg.dir("METADATA"))
+metadata_pkgs = MetadataTools.get_all_pkg()
 deprecations = Dict()
-for pkg_meta in metadata_pkgs
+for pkg_meta in values(metadata_pkgs)
     ul = MetadataTools.get_upper_limit(pkg_meta)
     deprecations[pkg_meta.name] = (ul != v"0.0.0")
 end
