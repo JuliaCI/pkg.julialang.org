@@ -51,7 +51,7 @@ function change_file(hist_db, pkg_set, date_set)
             issue_body *= "`$(HUMANSTATUS["using_fail"])` means that PackageEvaluator did not find tests for your package. Additionally, trying to load your package with `using` failed.\n\n"""
         end
 
-        if JLVER = NIGHTLYVER
+        if JLVER == NIGHTLYVER
             issue_body *= """
 \nThis error on Julia 0.4 is possibly due to recently merged pull request https://github.com/JuliaLang/julia/pull/8420.
 """
