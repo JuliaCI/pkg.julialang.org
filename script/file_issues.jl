@@ -25,7 +25,7 @@ function change_file(hist_db, pkg_set, date_set)
             status_prev = hist[2,3]
         end
         status_now == "not_possible" && continue  # Stopped testing this
-        STATUSNUM[status_now] >= STATUSNUM[status_prev] && continue  # Same or better
+        STATUSNUM[status_now] == STATUSNUM[status_prev] && continue  # Same or better
         # Ok, so we have a package that got worse
         nice_today = hist[1,1][1:4] * "-" * hist[1,1][5:6] * "-" * hist[1,1][7:8]
         nice_prev  = hist[2,1][1:4] * "-" * hist[2,1][5:6] * "-" * hist[2,1][7:8]
@@ -50,12 +50,19 @@ function change_file(hist_db, pkg_set, date_set)
         if status_prev == "using_fail" || status_now == "using_fail"
             issue_body *= "`$(HUMANSTATUS["using_fail"])` means that PackageEvaluator did not find tests for your package. Additionally, trying to load your package with `using` failed.\n\n"""
         end
-
-#        if JLVER == NIGHTLYVER
-#            issue_body *= """
-#\nThis error on Julia 0.4 is possibly due to recently merged pull request https://github.com/JuliaLang/julia/pull/8493.
-#"""
-#        end
+#=
+        if JLVER == NIGHTLYVER
+            issue_body *= """
+\n
+Special message from @IainNZ:
+> This issue is being filed even though test status improved. Because 
+> there were issues in some important packages like JSON, other test
+> failures were hidden. I'm filing this issue in the hopes it helps
+> you find those remaining issues.
+\n
+"""
+        end
+=#
 
         issue_body *= """
 *This issue was filed because your testing status became worse. No additional issues will be filed if your package remains in this state, and no issue will be filed if it improves. If you'd like to opt-out of these status-change messages, reply to this message saying you'd like to and @IainNZ will add an exception. If you'd like to discuss [PackageEvaluator.jl](https://github.com/IainNZ/PackageEvaluator.jl) please file an issue at the repository. For example, your package may be untestable on the test machine due to a dependency - an exception can be added.*"""
