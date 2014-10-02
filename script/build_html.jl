@@ -6,6 +6,8 @@
 
 using JSON
 using PackageFuncs
+using Humanize
+using Dates
 
 # hist_to_html
 # Take a matrix [dates pkgver status] and turns it into a simple
@@ -70,6 +72,8 @@ for pkg in pkgs
     P_SHA   = pkg["gitsha"]
     P_VER   = pkg["version"]
     P_DATE  = pkg["gitdate"]
+    P_DT    = Dates.now() - DateTime(P_DATE,"y-m-d H:M:S +")
+    P_DTSTR = timedelta(P_DT)
     P_LURL  = pkg["licfile"] != "" ? "$P_URL/blob/$P_SHA/$(pkg["licfile"])" : "$P_URL/tree/$P_SHA"
     P_LIC   = pkg["license"]
     P_STAT  = pkg["status"]
@@ -91,7 +95,7 @@ for pkg in pkgs
 <h2><a href="$P_URL">$P_NAME</a></h2>\n
 <h4>$(P_DESC)</h4>
 <p>Current version: <a href="$P_URL/tree/$P_SHA" title="$P_SHA">$P_VER</a>
-(<abbr class="timeago" title="$P_DATE"></abbr>) /
+($P_DTSTR ago) /
 $(pkg["deprecated"] ? " <span class=\"using_fail\" title=\"Package is no longer supported and may not install on the next Julia release\">deprecated</span> / " : "")
 <a href="$P_LURL">$P_LIC</a> license /
 Owner: <a href="http://github.com/$P_OWNER">$P_OWNER</a> / 
