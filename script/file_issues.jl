@@ -25,7 +25,7 @@ function change_file(hist_db, pkg_set, date_set)
             status_prev = hist[2,3]
         end
         status_now == "not_possible" && continue  # Stopped testing this
-        STATUSNUM[status_now] == STATUSNUM[status_prev] && continue  # Same or better
+        STATUSNUM[status_now] >= STATUSNUM[status_prev] && continue  # Same or better
         # Ok, so we have a package that got worse
         nice_today = hist[1,1][1:4] * "-" * hist[1,1][5:6] * "-" * hist[1,1][7:8]
         nice_prev  = hist[2,1][1:4] * "-" * hist[2,1][5:6] * "-" * hist[2,1][7:8]
