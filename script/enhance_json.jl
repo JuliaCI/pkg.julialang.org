@@ -19,6 +19,11 @@ import JSON
 import MetadataTools
 using PackageFuncs
 
+if length(ARGS) != 1
+    error("Need to provide date! YYYYMMDD")
+end
+datestr = ARGS[1]
+
 # So bad...
 raw_json = readall("all.json")
 clean_json = replace(raw_json, "\\e", "")
@@ -37,68 +42,39 @@ all_pkgs = JSON.parse("["*clean_json*"]")
 # Load GitHub auth token (NOT CHECKED IN!!)
 const auth_token = readall("token")
 
-# Load description/star cache
-desc_cache = Dict()
-star_cache = Dict()
-cache_fp = open("../db/descriptions","r")
-for line in readlines(cache_fp)
-    spl = split(line,"#####")
-    length(spl) < 3 && continue
-    desc_cache[spl[1]] = chomp(spl[2])
-    star_cache[spl[1]] = int(chomp(spl[3]))
-end
-close(cache_fp)
-
-# Load METADATA into memory, get deprecations
+# Load METADATA into memory, get deprecations and GitHub data
 metadata_pkgs = MetadataTools.get_all_pkg()
 deprecations = Dict()
+pkg_infos = Dict()
 for pkg_meta in values(metadata_pkgs)
     ul = MetadataTools.get_upper_limit(pkg_meta)
     deprecations[pkg_meta.name] = (ul != v"0.0.0")
+    pkg_infos[pkg_meta.name] = MetadataTools.get_pkg_info(pkg_meta,token=auth_token)
 end
 
-# Open up history file
-if length(ARGS) != 1
-    error("Need to provide date! YYYYMMDD")
+# Update star history
+star_fp = open("../db/star_db.csv","a")  # APPEND
+for pkg_meta in values(metadata_pkgs)
+    println(star_fp, string(
+                datestr, ", ", 
+                lpad(pkg_meta.name,30," "), ",",
+                lpad(string(pkg_infos[pkg_meta.name].stars),5," ") ))
 end
-datestr = ARGS[1]
+close(star_fp)
+
+# Open up test history file
 hist_fp = open("../db/hist_db.csv","a")  # APPEND
-
-star_counts = {}
 
 # Note: will repeat for the release and nightly entry
 for pkg in all_pkgs
-
-    # Add description from Github
-    if !(pkg["name"] in keys(desc_cache))
-        println("Pulling description for ", pkg["name"])
-        url_split = split(pkg["url"], "/")
-        # GET /repos/:owner/:repo/
-        github_url = "https://api.github.com/repos/$(url_split[end-1])/$(url_split[end])?access_token=$(auth_token)"
-        resp = JSON.parse(Requests.get(github_url).data)
-        desc_cache[pkg["name"]] = get(resp, "description", "No description available.")
+    # Add description and stars to the JSON
+    if pkg["name"] in keys(pkg_infos)
+        pkg["githubdesc"]  = pkg_infos[pkg["name"]].description
+        pkg["githubstars"] = pkg_infos[pkg["name"]].stars
+    else
+        pkg["githubdesc"]  = "No description available."
+        pkg["githubstars"] = 0
     end
-    pkg["githubdesc"] = desc_cache[pkg["name"]]
-
-    # Add starts from Github
-    if !(pkg["name"] in keys(star_cache))
-        println("Pulling stars for ", pkg["name"])
-        # GET /repos/:owner/:repo/stargazers
-        url_split = split(pkg["url"], "/")
-        total_stars = 0
-        for page in 1:10
-            println("  Page $page")
-            github_url = "https://api.github.com/repos/$(url_split[end-1])/$(url_split[end])/stargazers?page=$(page)&per_page=100&access_token=$(auth_token)"
-            resp = Requests.get(github_url).data
-            contains(resp,"Not Found") && break  # Probably a moved package
-            star_count = length(JSON.parse(resp))
-            star_count == 0 && break
-            total_stars += star_count
-        end
-        star_cache[pkg["name"]] = total_stars
-    end
-    pkg["githubstars"] = star_cache[pkg["name"]]
-    push!(star_counts, (pkg["githubstars"], pkg["name"]) )
 
     # Get _stable or _nightly
     jlvertype = (pkg["jlver"] == STABLEVER) ? "_release" : "_nightly"
@@ -135,13 +111,6 @@ end
 fp = open("all.json","w")
 print(fp, JSON.json(all_pkgs))
 close(fp)
-
-# Update cache
-cache_fp = open("../db/descriptions","w")
-for pkg in keys(desc_cache)
-    println(cache_fp, "$(pkg)#####$(desc_cache[pkg])#####$(star_cache[pkg])")
-end
-close(cache_fp)
 
 # Update history file
 close(hist_fp)
