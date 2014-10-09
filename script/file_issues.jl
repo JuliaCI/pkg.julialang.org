@@ -9,6 +9,7 @@ const auth_token = readall("issuetoken")
 # Files issues when package test status gets worse
 function change_file(hist_db, pkg_set, date_set)
     # Walk through every package and day
+    pkg_set = sort(collect(pkg_set))
     for JLVER = [STABLEVER, NIGHTLYVER]
     for pkg in pkg_set
         key = JLVER*pkg
@@ -63,6 +64,17 @@ Special message from @IainNZ:
 """
         end
 =#
+#=
+        if JLVER == NIGHTLYVER
+            issue_body *= """
+\n
+Special message from @IainNZ: This change may be due to breaking changes to `Dict` in https://github.com/JuliaLang/julia/pull/8521, or the removal of deprecated syntax in https://github.com/JuliaLang/julia/pull/8607.
+\n
+\n
+"""
+        end
+=#
+
 
         issue_body *= """
 *This issue was filed because your testing status became worse. No additional issues will be filed if your package remains in this state, and no issue will be filed if it improves. If you'd like to opt-out of these status-change messages, reply to this message saying you'd like to and @IainNZ will add an exception. If you'd like to discuss [PackageEvaluator.jl](https://github.com/IainNZ/PackageEvaluator.jl) please file an issue at the repository. For example, your package may be untestable on the test machine due to a dependency - an exception can be added.*"""
