@@ -2,10 +2,9 @@
 # packages.julialang.org
 # enhance_json.jl
 # Does the following
-# - Take the stable and nightly results and concatenate them into one
-#   list of JSON dicts
-# - For every package, pull its description from Github and place it
-#   in the JSON dict (use a cache to reduce repeated effort)
+# - For every package, pull its description and star count, attach
+#   to each packages entry in the JSON
+# - Record the star counts
 # - Produce .log and badge .svg files
 # - Add the latest test results to history database
 # - Write out the concatenated-description-enhanced JSON dicts out to
