@@ -68,7 +68,7 @@ Special message from @IainNZ:
         if JLVER == NIGHTLYVER
             issue_body *= """
 \n
-Special message from @IainNZ: This change may be due to breaking changes to `Dict` in https://github.com/JuliaLang/julia/pull/8521, or the removal of deprecated syntax in https://github.com/JuliaLang/julia/pull/8607.
+Special message from @IainNZ: This change may be due to https://github.com/JuliaLang/julia/pull/8712.
 \n
 \n
 """
