@@ -2,23 +2,25 @@
 
 WARNING: deprecated syntax "[a=>b, ...]" at /home/idunning/pkgtest/.julia/v0.4/HDF5/deps/build.jl:23.
 Use "Dict(a=>b, ...)" instead.
+Running `g++ -fPIC -Wall -O3 -shared -fopenmp -o libmochaext.so im2col.cpp pooling.cpp`
 INFO: Installing BinDeps v0.3.7
 INFO: Installing Blosc v0.1.0
 INFO: Installing Compat v0.2.5
 INFO: Installing HDF5 v0.4.7
 INFO: Installing Logging v0.0.4
-INFO: Installing Mocha v0.0.3
+INFO: Installing Mocha v0.0.4
 INFO: Installing SHA v0.0.3
 INFO: Installing URIParser v0.0.3
 INFO: Building Blosc
 INFO: Building HDF5
 INFO: Building Mocha
 INFO: Package database updated
-Running `g++ -fPIC -Wall -O3 -shared -fopenmp -o libmochaext.so im2col.cpp pooling.cpp`
+INFO: METADATA is out-of-date a you may not have the latest version of Mocha
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'using Mocha' log
-Julia Version 0.4.0-dev+1986
-Commit 1b9041c (2014-12-08 08:41 UTC)
+Julia Version 0.4.0-dev+2068
+Commit 0d50a12 (2014-12-11 07:07 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E5-2650 0 @ 2.00GHz
@@ -27,82 +29,85 @@ Platform Info:
   LAPACK: libopenblas
   LIBM: libopenlibm
   LLVM: libLLVM-3.3
-08-Dec 08:24:53:INFO:root:Configuring Mocha...
-08-Dec 08:24:53:INFO:root: * CUDA       disabled by default
-08-Dec 08:24:53:INFO:root: * Native Ext disabled by default
-08-Dec 08:24:53:INFO:root:Mocha configured, continue loading module...
-Warning: Method definition eltype in module HDF5 at /home/idunning/pkgtest/.julia/v0.4/HDF5/src/plain.jl:899 overwritten in module Mocha at /home/idunning/pkgtest/.julia/v0.4/Mocha/src/utils/hdf5.jl:10.
-(Union(HDF5.HDF5Attribute,HDF5.HDF5Dataset),)
+11-Dec 08:17:38:INFO:root:Configuring Mocha...
+11-Dec 08:17:38:INFO:root: * CUDA       disabled by default
+11-Dec 08:17:38:INFO:root: * Native Ext disabled by default
+11-Dec 08:17:38:INFO:root:Mocha configured, continue loading module...
+Warning: error initializing module HDF5:
+UndefVarError(var=:rehash)
+Warning: error initializing module JLD:
+UndefVarError(var=:rehash)
+
 >>> test log
-08-Dec 08:24:57:INFO:root:Configuring Mocha...
-08-Dec 08:24:57:INFO:root: * CUDA       disabled by default
-08-Dec 08:24:57:INFO:root: * Native Ext disabled by default
-08-Dec 08:24:57:INFO:root:Mocha configured, continue loading module...
-Warning: Method definition eltype in module HDF5 at /home/idunning/pkgtest/.julia/v0.4/HDF5/src/plain.jl:899 overwritten in module Mocha at /home/idunning/pkgtest/.julia/v0.4/Mocha/src/utils/hdf5.jl:10.
--- Testing RawBLAS{Float32} Utilities
--- Testing RawBLAS{Float64} Utilities
--- Testing shared blob on Mocha.CPUBackend{Float32}...
--- Testing shared blob on Mocha.CPUBackend{Float64}...
--- Testing ReLU neuron on Mocha.CPUBackend{Float32}...
-    > Forward
-    > Backward
--- Testing ReLU neuron on Mocha.CPUBackend{Float64}...
-    > Forward
-    > Backward
--- Testing Sigmoid neuron on Mocha.CPUBackend{Float32}...
-    > Forward
-    > Backward
--- Testing Sigmoid neuron on Mocha.CPUBackend{Float64}...
-    > Forward
+11-Dec 08:17:43:INFO:root:Configuring Mocha...
+11-Dec 08:17:43:INFO:root: * CUDA       disabled by default
+11-Dec 08:17:43:INFO:root: * Native Ext disabled by default
+11-Dec 08:17:43:INFO:root:Mocha configured, continue loading module...
+Warning: error initializing module HDF5:
+UndefVarError(var=:rehash)
+Warning: error initializing module JLD:
+UndefVarError(var=:rehash)
+-- Testing network topology with duplicated blobs
+-- Testing network topology with missing blobs
+-- Testing network topology with circular dependency
+-- Testing network topology with multiple back-propagate path
+    > Good blob sharing
+11-Dec 08:17:49:DEBUG:root:Destroying network net
+    > Bad blob sharing
+-- Testing network topology with dangling blob
+    > Good case
+11-Dec 08:17:49:DEBUG:root:Destroying network net
+    > Bad case
+11-Dec 08:17:49:DEBUG:root:Destroying network net
 ... truncated ...
+    > Forward
+    > Backward
+-- Testing ConcatLayer(dim=4) on Mocha.CPUBackend{Float64}...
+    > Forward
+    > Backward
+-- Testing ConcatLayer(dim=1) on Mocha.CPUBackend{Float32}...
+    > Forward
+    > Backward
+-- Testing ConcatLayer(dim=2) on Mocha.CPUBackend{Float32}...
+    > Forward
+    > Backward
+-- Testing ConcatLayer(dim=3) on Mocha.CPUBackend{Float32}...
+    > Forward
+    > Backward
+-- Testing ConcatLayer(dim=4) on Mocha.CPUBackend{Float32}...
+    > Forward
+    > Backward
+-- Testing ChannelPooling(Mocha.Pooling.Max) on Mocha.CPUBackend{Float32}...
     > Setup
     > Forward
     > Backward
--- Testing ReshapeLayer on Mocha.CPUBackend{Float64}...
+-- Testing ChannelPooling(Mocha.Pooling.Mean) on Mocha.CPUBackend{Float32}...
     > Setup
     > Forward
     > Backward
--- Testing ReshapeLayer on Mocha.CPUBackend{Float32}...
+-- Testing ChannelPooling(Mocha.Pooling.Max) on Mocha.CPUBackend{Float64}...
     > Setup
     > Forward
     > Backward
--- Testing CropLayer on Mocha.CPUBackend{Float64} ...
+-- Testing ChannelPooling(Mocha.Pooling.Mean) on Mocha.CPUBackend{Float64}...
     > Setup
     > Forward
--- Testing CropLayer on Mocha.CPUBackend{Float64} with mirror...
+    > Backward
+-- Testing ArgmaxLayer on Mocha.CPUBackend{Float64}...
     > Setup
     > Forward
--- Testing CropLayer on Mocha.CPUBackend{Float32} ...
+-- Testing ArgmaxLayer on Mocha.CPUBackend{Float32}...
     > Setup
     > Forward
--- Testing CropLayer on Mocha.CPUBackend{Float32} with mirror...
-    > Setup
+-- Testing AccuracyLayer on Mocha.CPUBackend{Float32}...
     > Forward
--- Testing SquareLossLayer on Mocha.CPUBackend{Float32}...
--- Testing SquareLossLayer on Mocha.CPUBackend{Float64}...
--- Testing MultinomialLogisticLossLayer{equal,local} on Mocha.CPUBackend{Float32}...
--- Testing MultinomialLogisticLossLayer{local,local} on Mocha.CPUBackend{Float32}...
--- Testing MultinomialLogisticLossLayer{global,global} on Mocha.CPUBackend{Float32}...
--- Testing MultinomialLogisticLossLayer{global,local} on Mocha.CPUBackend{Float32}...
--- Testing MultinomialLogisticLossLayer{no,no} on Mocha.CPUBackend{Float32}...
--- Testing MultinomialLogisticLossLayer{equal,local} on Mocha.CPUBackend{Float64}...
--- Testing MultinomialLogisticLossLayer{local,local} on Mocha.CPUBackend{Float64}...
--- Testing MultinomialLogisticLossLayer{global,global} on Mocha.CPUBackend{Float64}...
--- Testing MultinomialLogisticLossLayer{global,local} on Mocha.CPUBackend{Float64}...
--- Testing MultinomialLogisticLossLayer{no,no} on Mocha.CPUBackend{Float64}...
--- Testing SoftmaxLossLayer on Mocha.CPUBackend{Float64} ...
+    > Forward Again
+    > Forward Again and Again
+-- Testing AccuracyLayer on Mocha.CPUBackend{Float64}...
     > Forward
-    > Backward
--- Testing SoftmaxLossLayer on Mocha.CPUBackend{Float64} (with weights)...
-    > Forward
-    > Backward
--- Testing SoftmaxLossLayer on Mocha.CPUBackend{Float32} ...
-    > Forward
-    > Backward
--- Testing SoftmaxLossLayer on Mocha.CPUBackend{Float32} (with weights)...
-    > Forward
-    > Backward
-(Union(HDF5.HDF5Attribute,HDF5.HDF5Dataset),)INFO: Testing Mocha
+    > Forward Again
+    > Forward Again and Again
+INFO: Testing Mocha
 INFO: Mocha tests passed
 INFO: No packages to install, update or remove
 
