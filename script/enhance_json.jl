@@ -25,13 +25,15 @@ datestr = ARGS[1]
 
 # So bad...
 raw_json = readall("all.json")
-clean_json = replace(raw_json, "\\e", "")
+clean_json = replace(raw_json,   "\\e", "")
 clean_json = replace(clean_json, "\\x", "")
 clean_json = replace(clean_json, "\\u", "")
 clean_json = replace(clean_json, "\\e", "")
 clean_json = replace(clean_json, "\\0", "")
 clean_json = replace(clean_json, "\\[", "")
 clean_json = replace(clean_json, "\\o", "")
+clean_json = replace(clean_json, "\\c", "")
+clean_json = replace(clean_json, "\\a", "")
 clean_json = replace(clean_json, "\\'", "")
 clean_json = replace(clean_json, "\\\\", "\\\\ \\\\")
 clean_json = ascii(map(c->(c>=128 ? 'a' : c), bytestring(clean_json)))
