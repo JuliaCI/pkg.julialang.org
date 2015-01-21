@@ -1,12 +1,37 @@
 >>> 'Pkg.add("Convex")' log
+INFO: Installing Convex v0.0.3
+INFO: Installing MathProgBase v0.3.8
+INFO: Package database updated
+
+>>> 'using Convex' log
+Julia Version 0.4.0-dev+2839
+Commit 8b4e9e9 (2015-01-21 02:39 UTC)
+Platform Info:
+  System: Linux (x86_64-unknown-linux-gnu)
+  CPU: Intel(R) Xeon(R) CPU E5-2650 0 @ 2.00GHz
+  WORD_SIZE: 64
+  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Sandybridge)
+  LAPACK: libopenblas
+  LIBM: libopenlibm
+  LLVM: libLLVM-3.3
+WARNING: No default solver currently set.
+WARNING: ***********************************************************************************************
+       You don't have any of
+       SCS | ECOS | Gurobi | Mosek | GLPKMathProgInterface |  installed.
+       You must have at least one of these solvers. You can install a solver such as SCS by running:
+       Pkg.add("SCS")
+       You will have to restart Julia after that.
+       ***********************************************************************************************
+
+>>> test log
 
 WARNING: deprecated syntax "[a=>b, ...]" at /home/idunning/pkgtest/.julia/v0.4/ECOS/deps/build.jl:48.
 Use "Dict(a=>b, ...)" instead.
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   154    0   154    0     0   1616      0 --:--:-- --:--:-- --:--:--  1621
-100   155    0   155    0     0   1275      0 --:--:-- --:--:-- --:--:--  1275
-100   832    0   832    0     0   1404      0 --:--:-- --:--:-- --:--:--  1404100 7954k    0 7954k    0     0  6018k      0 --:--:--  0:00:01 --:--:-- 10.6M
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   154    0   154    0     0   1730      0 --:--:-- --:--:-- --:--:--  1750
+100   155    0   155    0     0   1370      0 --:--:-- --:--:-- --:--:--  1370
+100  130k    0  130k    0     0   194k      0 --:--:-- --:--:-- --:--:--  194k100 7954k    0 7954k    0     0  5877k      0 --:--:--  0:00:01 --:--:-- 11.1M
 ( cd external/ldl    ; make )
 make[1]: Entering directory '/home/idunning/pkgtest/.julia/v0.4/ECOS/deps/src/ecos-e05a605588c38ad72e843f36af17f8f84e4e2ccb/external/ldl'
 cc -O2 -Wall -DLDL_LONG -DDLONG -Wextra -fPIC  -I../SuiteSparse_config -Iinclude -c src/ldl.c -o ldl.o
@@ -20,42 +45,9 @@ make[1]: Entering directory '/home/idunning/pkgtest/.julia/v0.4/ECOS/deps/src/ec
 cc -O2 -Wall -DLDL_LONG -DDLONG -Wextra -fPIC  -Iinclude -I../SuiteSparse_config -c src/amd_global.c -o amd_global.o
 cc -O2 -Wall -DLDL_LONG -DDLONG -Wextra -fPIC  -Iinclude -I../SuiteSparse_config -DDINT -c src/amd_aat.c -o amd_i_aat.o
 ... truncated ...
-cc -O2 -Wall -DLDL_LONG -DDLONG -Wextra -fPIC  -Iinclude -Iexternal/ldl/include -Iexternal/amd/include -Iexternal/SuiteSparse_config -c src/ecos.c -o ecos.o
-src/ecos.c: In function aECOS_solvea:
-src/ecos.c:764:22: warning: variable aKKT_FACTOR_RETURN_CODEa set but not used [-Wunused-but-set-variable]
-  idxint i, initcode, KKT_FACTOR_RETURN_CODE;
-                      ^
-src/ecos.c:822:60: warning: apres_preva may be used uninitialized in this function [-Wmaybe-uninitialized]
-         if( w->info->iter > 0 && (w->info->pres > SAFEGUARD*pres_prev || w->info->gap < 0) ){
-                                                            ^
-cc -O2 -Wall -DLDL_LONG -DDLONG -Wextra -fPIC  -Iinclude -Iexternal/ldl/include -Iexternal/amd/include -Iexternal/SuiteSparse_config -c src/kkt.c -o kkt.o
-src/kkt.c: In function akkt_solvea:
-src/kkt.c:109:12: warning: variable aneya set but not used [-Wunused-but-set-variable]
-     pfloat ney = 0;
-            ^
-src/kkt.c:192:24: warning: anerr_preva may be used uninitialized in this function [-Wmaybe-uninitialized]
-         if( kItRef > 0 && nerr > nerr_prev ){
-                        ^
-cc -O2 -Wall -DLDL_LONG -DDLONG -Wextra -fPIC  -Iinclude -Iexternal/ldl/include -Iexternal/amd/include -Iexternal/SuiteSparse_config -c src/cone.c -o cone.o
-src/cone.c: In function aupdateScalingsa:
-src/cone.c:108:15: warning: variable aba set but not used [-Wunused-but-set-variable]
-     pfloat a, b, c, d, w, temp, divisor;
-               ^
-src/cone.c:104:21: warning: variable apm1a set but not used [-Wunused-but-set-variable]
-  idxint i, l, k, p, pm1;
-                     ^
-cc -O2 -Wall -DLDL_LONG -DDLONG -Wextra -fPIC  -Iinclude -Iexternal/ldl/include -Iexternal/amd/include -Iexternal/SuiteSparse_config -c src/spla.c -o spla.o
-cc -O2 -Wall -DLDL_LONG -DDLONG -Wextra -fPIC  -Iinclude -Iexternal/ldl/include -Iexternal/amd/include -Iexternal/SuiteSparse_config -c src/timer.c -o timer.o
-cc -O2 -Wall -DLDL_LONG -DDLONG -Wextra -fPIC  -Iinclude -Iexternal/ldl/include -Iexternal/amd/include -Iexternal/SuiteSparse_config -c src/preproc.c -o preproc.o
-cc -O2 -Wall -DLDL_LONG -DDLONG -Wextra -fPIC  -Iinclude -Iexternal/ldl/include -Iexternal/amd/include -Iexternal/SuiteSparse_config -c src/splamm.c -o splamm.o
-cc -O2 -Wall -DLDL_LONG -DDLONG -Wextra -fPIC  -Iinclude -Iexternal/ldl/include -Iexternal/amd/include -Iexternal/SuiteSparse_config -c src/equil.c -o equil.o
-ar rcs libecos.a *.o
-ranlib libecos.a
-cc -O2 -Wall -DLDL_LONG -DDLONG -Wextra -fPIC  -Iinclude -Iexternal/ldl/include -Iexternal/amd/include -Iexternal/SuiteSparse_config -shared -o libecos.so ecos.o kkt.o cone.o preproc.o spla.o splamm.o timer.o equil.o -lldl -lamd -Lexternal/amd/ -Lexternal/ldl/ -lm -lrt
-INFO: Installing BinDeps v0.3.7
-INFO: Installing Convex v0.0.2
-INFO: Installing ECOS v0.4.1
-INFO: Installing MathProgBase v0.3.8
+INFO: Installing GLPK v0.2.13
+INFO: Installing GLPKMathProgInterface v0.1.11
+INFO: Installing SCS v0.0.1
 INFO: Installing SHA v0.0.3
 INFO: Installing URIParser v0.0.3
 INFO: Building ECOS
@@ -69,91 +61,39 @@ INFO: Attempting to Create directory /home/idunning/pkgtest/.julia/v0.4/ECOS/dep
 INFO: Attempting to Create directory /home/idunning/pkgtest/.julia/v0.4/ECOS/deps/usr/lib
 INFO: Changing Directory to /home/idunning/pkgtest/.julia/v0.4/ECOS/deps/src/ecos-e05a605588c38ad72e843f36af17f8f84e4e2ccb
 INFO: Changing Directory to /home/idunning/pkgtest/.julia/v0.4/ECOS/deps/src/ecos-e05a605588c38ad72e843f36af17f8f84e4e2ccb
-INFO: Package database updated
-
->>> 'using Convex' log
-Julia Version 0.4.0-dev+2806
-Commit 239ca2f (2015-01-19 05:27 UTC)
-Platform Info:
-  System: Linux (x86_64-unknown-linux-gnu)
-  CPU: Intel(R) Xeon(R) CPU E5-2650 0 @ 2.00GHz
-  WORD_SIZE: 64
-  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Sandybridge)
-  LAPACK: libopenblas
-  LIBM: libopenlibm
-  LLVM: libLLVM-3.3
-
->>> test log
-
-ECOS 1.0.5 - (c) A. Domahidi, ETH Zurich & embotech 2012-14. Support: ecos@embotech.com
-
-It     pcost         dcost      gap     pres    dres     k/t     mu      step     IR
- 0   +0.000e+00   -0.000e+00   +1e+00   1e+00   1e-02   1e+00   1e+00    N/A     0 2 -
- 1   -8.588e-07   -0.000e+00   +1e-02   1e-02   1e-04   1e-02   1e-02   0.9899   2 2 2
- 2   -8.775e-09   -0.000e+00   +1e-04   1e-04   1e-06   1e-04   1e-04   0.9899   2 2 2
- 3   -8.863e-11   -0.000e+00   +1e-06   1e-06   1e-08   1e-06   1e-06   0.9899   2 1 1
- 4   -8.950e-13   -0.000e+00   +1e-08   1e-08   1e-10   1e-08   1e-08   0.9899   2 1 1
-
-OPTIMAL (within feastol=1.1e-08, reltol=1.2e+04, abstol=1.1e-08).
-Runtime: 0.000104 seconds.
-
-
-ECOS 1.0.5 - (c) A. Domahidi, ETH Zurich & embotech 2012-14. Support: ecos@embotech.com
-
-It     pcost         dcost      gap     pres    dres     k/t     mu      step     IR
- 0   +3.000e+00   +8.882e-16   +3e+00   3e-03   4e-16   1e+00   1e+00    N/A     2 2 -
- 1   +2.462e+00   +1.980e+00   +5e-01   5e-04   8e-16   2e-01   2e-01   0.8500   2 2 2
- 2   +2.005e+00   +1.995e+00   +1e-02   1e-05   1e-15   4e-03   5e-03   0.9899   2 2 2
-... truncated ...
-INFO: Only SCSSolver and SCSMathProgModel can solve exponential programs
-INFO: Only SCSSolver, MosekSolver and SCSMathProgModel can solve semidefinite programs
-INFO: Only GurobiSolver, MosekSolver and GLPKSolverMIP can solve mixed integer programs
-Running tests:
- Domahidi, ETH Zurich & embotech 2012-14. Support: ecos@embotech.com
-
-It     pcost         dcost      gap     pres    dres     k/t     mu      step     IR
- 0   +1.000e+00   +4.430e+01   +3e+01   6e-01   5e+00   1e+00   1e+00    N/A     2 2 -
- 1   +1.068e+00   +4.222e+00   +3e+00   4e-02   4e-01   7e-03   1e-01   0.9031   2 2 2
- 2   +1.001e+00   +1.033e+00   +3e-02   4e-04   4e-03   2e-04   1e-03   0.9899   3 2 2
- 3   +1.000e+00   +1.000e+00   +3e-04   4e-06   4e-05   2e-06   1e-05   0.9899   5 3 3
- 4   +1.000e+00   +1.000e+00   +3e-06   5e-08   4e-07   2e-08   1e-07   0.9899   5 5 5
- 5   +1.000e+00   +1.000e+00   +3e-08   5e-10   4e-09   2e-10   1e-09   0.9899   2 1 2
-
-OPTIMAL (within feastol=4.0e-09, reltol=3.4e-08, abstol=3.4e-08).
-Runtime: 0.000204 seconds.
-
-
-ECOS 1.0.5 - (c) A. Domahidi, ETH Zurich & embotech 2012-14. Support: ecos@embotech.com
-
-It     pcost         dcost      gap     pres    dres     k/t     mu      step     IR
- 0   -9.167e-01   -5.417e+00   +5e+00   1e-02   7e-16   1e+00   8e-01    N/A     2 2 -
- 1   -1.292e+00   -2.009e+00   +7e-01   2e-03   1e-15   2e-01   1e-01   0.8523   2 2 2
- 2   -1.813e+00   -1.863e+00   +5e-02   2e-04   1e-15   1e-02   9e-03   0.9624   2 2 2
- 3   -1.833e+00   -1.834e+00   +5e-04   2e-06   2e-16   1e-04   9e-05   0.9899   2 2 2
- 4   -1.833e+00   -1.833e+00   +5e-06   2e-08   0e+00   1e-06   9e-07   0.9899   2 2 2
- 5   -1.833e+00   -1.833e+00   +5e-08   2e-10   3e-16   1e-08   9e-09   0.9899   2 1 1
-
-OPTIMAL (within feastol=1.6e-10, reltol=3.0e-08, abstol=5.5e-08).
-Runtime: 0.000071 seconds.
-
-
-ECOS 1.0.5 - (c) A. Domahidi, ETH Zurich & embotech 2012-14. Support: ecos@embotech.com
-
-It     pcost         dcost      gap     pres    dres     k/t     mu      step     IR
- 0   +7.365e-17   +2.079e+00   +4e+01   2e+00   2e+00   1e+00   3e+00    N/A     2 3 -
- 1   +3.987e+00   +4.997e+00   +1e+01   5e-01   7e-01   7e-01   1e+00   0.7150   3 3 3
- 2   +8.113e+00   +8.354e+00   +2e+00   7e-02   1e-01   2e-01   1e-01   0.9001   3 3 3
- 3   +8.913e+00   +8.949e+00   +3e-01   1e-02   2e-02   3e-02   2e-02   0.8537   3 3 3
- 4   +8.987e+00   +8.991e+00   +4e-02   2e-03   2e-03   3e-03   3e-03   0.9530   3 2 3
- 5   +8.999e+00   +9.000e+00   +5e-03   2e-04   3e-04   5e-04   4e-04   0.8669   3 2 2
- 6   +9.000e+00   +9.000e+00   +9e-04   3e-05   5e-05   7e-05   6e-05   0.9422   4 2 2
- 7   +9.000e+00   +9.000e+00   +1e-04   4e-06   6e-06   8e-06   7e-06   0.8828   3 2 2
- 8   +9.000e+00   +9.000e+00   +1e-05   5e-07   8e-07   1e-06   9e-07   0.9545   3 2 2
- 9   +9.000e+00   +9.000e+00   +1e-06   6e-08   9e-08   1e-07   1e-07   0.8924   3 2 2
-10   +9.000e+00   +9.000e+00   +2e-07   7e-09   1e-08   1e-08   1e-08   0.9575   3 2 2
-
-OPTIMAL (within feastol=1.1e-08, reltol=2.0e-08, abstol=1.8e-07).
-Runtime: 0.000309 seconds.
-
+INFO: Building GLPK
+INFO: Attempting to Create directory /home/idunning/pkgtest/.julia/v0.4/GLPK/deps/downloads
+INFO: Downloading file http://ftp.gnu.org/gnu/glpk/glpk-4.52.tar.gz
+INFO: Done downloading file http://ftp.gnu.org/gnu/glpk/glpk-4.52.tar.gz
+INFO: Attempting to Create directory /home/idunning/pkgtest/.julia/v0.4/GLPK/deps/src
+INFO: Attempting to Create directory /home/idunning/pkgtest/.julia/v0.4/GLPK/deps
+INFO: Directory /home/idunning/pkgtest/.julia/v0.4/GLPK/deps already created
+INFO: Attempting to Create directory /home/idunning/pkgtest/.julia/v0.4/GLPK/deps/src/glpk-4.52
+INFO: Attempting to Create directory /home/idunning/pkgtest/.julia/v0.4/GLPK/deps/builds/libglpk
+INFO: Changing Directory to /home/idunning/pkgtest/.julia/v0.4/GLPK/deps/builds/libglpk
+INFO: Changing Directory to /home/idunning/pkgtest/.julia/v0.4/GLPK/deps/builds/libglpk
+INFO: Changing Directory to /home/idunning/pkgtest/.julia/v0.4/GLPK/deps/builds/libglpk
+INFO: Building SCS
+INFO: Attempting to Create directory /home/idunning/pkgtest/.julia/v0.4/SCS/deps/downloads
+INFO: Downloading file https://github.com/cvxgrp/scs/archive/v1.0.7.tar.gz
+INFO: Done downloading file https://github.com/cvxgrp/scs/archive/v1.0.7.tar.gz
+INFO: Attempting to Create directory /home/idunning/pkgtest/.julia/v0.4/SCS/deps/src
+INFO: Attempting to Create directory /home/idunning/pkgtest/.julia/v0.4/SCS/deps
+INFO: Directory /home/idunning/pkgtest/.julia/v0.4/SCS/deps already created
+INFO: Attempting to Create directory /home/idunning/pkgtest/.julia/v0.4/SCS/deps/src/scs-1.0.7
+INFO: Attempting to Create directory /home/idunning/pkgtest/.julia/v0.4/SCS/deps/usr/lib
+INFO: Changing Directory to /home/idunning/pkgtest/.julia/v0.4/SCS/deps/src/scs-1.0.7/
+INFO: Changing Directory to /home/idunning/pkgtest/.julia/v0.4/SCS/deps/src/scs-1.0.7/
+INFO: Testing Convex
+INFO: Convex tests passed
+INFO: Removing BinDeps v0.3.7
+INFO: Removing Compat v0.2.9
+INFO: Removing ECOS v0.4.1
+INFO: Removing FactCheck v0.2.5
+INFO: Removing GLPK v0.2.13
+INFO: Removing GLPKMathProgInterface v0.1.11
+INFO: Removing SCS v0.0.1
+INFO: Removing SHA v0.0.3
+INFO: Removing URIParser v0.0.3
 
 >>> end of log
