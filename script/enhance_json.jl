@@ -76,13 +76,15 @@ for pkg in all_pkgs
     end
 
     # Get _stable or _nightly
-    #jlvertype = (pkg["jlver"] == STABLEVER) ? "_release" : "_nightly"
     jlvertype = pkg["jlver"]
+    jlvertype_old = (pkg["jlver"] == STABLEVER) ? "release" : "nightly"
 
     # Make badge
     source_file = joinpath("..", "badgesrc", string(pkg["status"],"_",jlvertype,".svg"))
     dest_file   = joinpath("..", "badges", string(pkg["name"],"_",jlvertype,".svg"))
-    run(`cp $source_file $dest_file`)
+    dest_file_old = joinpath("..", "badges", string(pkg["name"],"_",jlvertype_old,".svg"))
+    run(`cp $(source_file) $(dest_file)`)
+    run(`cp $(source_file) $(dest_file_old)`)
 
     # Make log file
     log_file = joinpath("..", "logs", string(pkg["name"],"_",jlvertype,".log"))
