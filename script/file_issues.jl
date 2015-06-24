@@ -2,7 +2,7 @@ using Requests
 using PackageFuncs
 using JSON
 
-const auth_token = readall("issuetoken")
+const auth_token = readall("token")
 
 ###############################################################################
 # change_file
@@ -37,56 +37,21 @@ function change_file(hist_db, pkg_set, date_set)
 * On **$(nice_prev)** the testing status was `$(HUMANSTATUS[status_prev])`
 * On **$(nice_today)** the testing status changed to `$(HUMANSTATUS[status_now])`
 
-"""
-        
-        if status_prev == "full_pass" || status_now == "full_pass"
-            issue_body *= "`$(HUMANSTATUS["full_pass"])` means that PackageEvaluator found the tests for your package, executed them, and they all passed.\n\n"""
-        end
-        if status_prev == "full_fail" || status_now == "full_fail"
-            issue_body *= "`$(HUMANSTATUS["full_fail"])` means that PackageEvaluator found the tests for your package, executed them, and they didn't pass. However, trying to load your package with `using` worked.\n\n"""
-        end
-        if status_prev == "using_pass" || status_now == "using_pass"
-            issue_body *= "`$(HUMANSTATUS["using_pass"])` means that PackageEvaluator did not find tests for your package. However, trying to load your package with `using` worked.\n\n"""
-        end
-        if status_prev == "using_fail" || status_now == "using_fail"
-            issue_body *= "`$(HUMANSTATUS["using_fail"])` means that PackageEvaluator did not find tests for your package. Additionally, trying to load your package with `using` failed.\n\n"""
-        end
-#=
-        if JLVER == NIGHTLYVER
-            issue_body *= """
-\n
-Special message from @IainNZ:
-> This issue is being filed even though test status improved. Because 
-> there were issues in some important packages like JSON, other test
-> failures were hidden. I'm filing this issue in the hopes it helps
-> you find those remaining issues.
-\n
-"""
-        end
-=#
-#=
-        if JLVER == NIGHTLYVER
-            issue_body *= """
-\n
-Special message from @IainNZ: This change may be due to https://github.com/JuliaLang/julia/pull/8712.
-\n
-\n
-"""
-        end
-=#
-
-
-        issue_body *= """
 *This issue was filed because your testing status became worse. No additional issues will be filed if your package remains in this state, and no issue will be filed if it improves. If you'd like to opt-out of these status-change messages, reply to this message saying you'd like to and @IainNZ will add an exception. If you'd like to discuss [PackageEvaluator.jl](https://github.com/IainNZ/PackageEvaluator.jl) please file an issue at the repository. For example, your package may be untestable on the test machine due to a dependency - an exception can be added.*"""
 
-        if JLVER == STABLEVER
-            issue_body *= "\n\n*Test log*:\n```\n" * pkg_log_stable[pkg] * "\n```"
-        else
-            issue_body *= "\n\n*Test log*:\n```\n" * pkg_log_nightly[pkg] * "\n```"
+        try
+            if JLVER == STABLEVER
+                issue_body *= "\n\n*Test log*:\n```\n" * pkg_log_stable[pkg] * "\n```"
+            else
+                issue_body *= "\n\n*Test log*:\n```\n" * pkg_log_nightly[pkg] * "\n```"
+            end
+        catch
+            println("Weirdness with $pkg")
+            continue
         end
 
-        #println(issue_title)
-        #println(issue_body)
+        println(issue_body)
+
         println(string(JLVER, " ", pkg, " ", status_prev, " ", status_now))
         iain_input = readline()
         if iain_input == "y\n"
