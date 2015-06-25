@@ -36,7 +36,7 @@ function plot_total_allvers(totals, dates, outfile="")
         layer(x=x_dates["0.4"],y=y_totals["0.4"],color=fill("0.4",length(x_dates["0.4"])),Geom.line),
         layer(xintercept=jl_date_vers[:,1],Geom.vline(color="gray20",size=1px)),
         layer(x=jl_date_vers[:,1],y=jl_date_vers[:,3],label=jl_date_vers[:,2],Geom.label),
-        Scale.y_continuous(minvalue=250,maxvalue=600),
+        Scale.y_continuous(minvalue=250,maxvalue=650),
         Guide.ylabel("Number of Tagged Packages"),
         Guide.xlabel("Date"),
         Guide.colorkey("Julia ver."),
@@ -87,14 +87,13 @@ function plot_status_ver(totals, dates, ver, outfile=""; aspercent=false)
         end
     end
     p = plot(
-        [layer(x=x_dates_old,y=y_totals_old[key],color=fill(HUMANSTATUS[key],length(x_dates_old)),Geom.line) 
+        [layer(x=x_dates_old,y=y_totals_old[key],color=fill("old"*key,length(x_dates_old)),Geom.line) 
             for key in DBSTATUSCODES[1:5]]...,
-        [layer(x=x_dates,y=y_totals[key],color=fill(HUMANSTATUS[key],length(x_dates)),Geom.line) 
+        [layer(x=x_dates,y=y_totals[key],color=fill("new"*key,length(x_dates)),Geom.line) 
             for key in DBSTATUSCODES[5:8]]...,
         Scale.y_continuous(minvalue=0,maxvalue=aspercent?100:350),
         Guide.ylabel((aspercent?"Percentage":"Number")*" of Packages",orientation=:vertical),
         Guide.xlabel("Date"),
-        Guide.colorkey("Test status"),
         Guide.title("Julia $ver"),
         #Scale.x_continuous(labels=f->string(f)),
         Scale.color_discrete_manual("green","orange","blue","red","grey",
