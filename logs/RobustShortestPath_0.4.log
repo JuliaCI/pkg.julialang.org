@@ -1,14 +1,14 @@
 >>> 'Pkg.add("RobustShortestPath")' log
 INFO: Cloning cache of RobustShortestPath from git://github.com/chkwon/RobustShortestPath.jl.git
 INFO: Installing DataStructures v0.3.9
-INFO: Installing Docile v0.5.9
-INFO: Installing Graphs v0.5.4
+INFO: Installing Docile v0.5.10
+INFO: Installing Graphs v0.5.5
 INFO: Installing RobustShortestPath v0.0.1
 INFO: Package database updated
 
 >>> 'Pkg.test("RobustShortestPath")' log
-Julia Version 0.4.0-dev+5511
-Commit 1e081b7 (2015-06-22 05:05 UTC)
+Julia Version 0.4.0-dev+5624
+Commit 2b07246* (2015-06-26 20:21 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E5-2650 0 @ 2.00GHz
@@ -21,45 +21,61 @@ INFO: Testing RobustShortestPath
 Warning: New definition 
     serialize(Any, DataStructures.HashDict) at /home/vagrant/.julia/v0.4/DataStructures/src/hashdict.jl:91
 is ambiguous with: 
-    serialize(Base.SerializationState, Any) at serialize.jl:399.
+    serialize(Base.SerializationState, Any) at serialize.jl:400.
 To fix, define 
     serialize(Base.SerializationState, DataStructures.HashDict)
 before the new definition.
 Warning: New definition 
     serialize(Any, DataStructures.HashDict) at /home/vagrant/.julia/v0.4/DataStructures/src/hashdict.jl:91
 is ambiguous with: 
-    serialize(Base.IO, Any) at serialize.jl:421.
+    serialize(Base.IO, Any) at serialize.jl:422.
 To fix, define 
     serialize(Base.IO, DataStructures.HashDict)
 before the new definition.
 Warning: New definition 
     deserialize(Any, Type{DataStructures.HashDict{#K<:Any, #V<:Any, #O<:Any}}) at /home/vagrant/.julia/v0.4/DataStructures/src/hashdict.jl:100
 is ambiguous with: 
-    deserialize(Base.SerializationState, DataType) at serialize.jl:653.
+    deserialize(Base.SerializationState, DataType) at serialize.jl:654.
 To fix, define 
     deserialize(Base.SerializationState, Type{DataStructures.HashDict{#K<:Any, #V<:Any, #O<:Any}})
 before the new definition.
-ERROR: LoadError: LoadError: LoadError: LoadError: UndefVarError: Range1 not defined
- in include at ./boot.jl:254
- in include_from_node1 at ./loading.jl:133
- in include at ./boot.jl:254
- in include_from_node1 at ./loading.jl:133
- in reload_path at ./loading.jl:157
- in _require at ./loading.jl:69
- in require at ./loading.jl:55
- in include at ./boot.jl:254
- in include_from_node1 at ./loading.jl:133
- in reload_path at ./loading.jl:157
- in _require at ./loading.jl:69
- in require at ./loading.jl:52
+Origin=1, Destination=15
+----------------------------------------------------
+Single Coefficient Case
+WARNING: [a,b] concatenation is deprecated; use [a;b] instead
+ in depwarn at ./deprecated.jl:62
+ in oldstyle_vcat_warning at ./abstractarray.jl:29
+ in vect at abstractarray.jl:38
+ in get_robust_path at /home/vagrant/.julia/v0.4/RobustShortestPath/src/one.jl:10
+ in anonymous at no file:66
  in include at ./boot.jl:254
  in include_from_node1 at loading.jl:133
- in process_options at ./client.jl:304
- in _start at ./client.jl:404
-while loading /home/vagrant/.julia/v0.4/Graphs/src/edge_list.jl, in expression starting on line 11
-while loading /home/vagrant/.julia/v0.4/Graphs/src/Graphs.jl, in expression starting on line 127
-while loading /home/vagrant/.julia/v0.4/RobustShortestPath/src/RobustShortestPath.jl, in expression starting on line 5
-while loading /home/vagrant/.julia/v0.4/RobustShortestPath/test/runtests.jl, in expression starting on line 1
+ in process_options at ./client.jl:305
+ in _start at ./client.jl:405
+while loading /home/vagrant/.julia/v0.4/RobustShortestPath/test/runtests.jl, in expression starting on line 65
+Gamma=0: Robust Path from node 1 to node 15 is [1 2 4 3 8 12 14 15]
+Gamma=1: Robust Path from node 1 to node 15 is [1 4 3 8 12 14 15]
+Gamma=2: Robust Path from node 1 to node 15 is [1 4 3 8 12 14 15]
+Gamma=3: Robust Path from node 1 to node 15 is [1 4 3 8 12 14 15]
+Gamma=4: Robust Path from node 1 to node 15 is [1 4 3 7 12 15]
+Gamma=5: Robust Path from node 1 to node 15 is [1 4 3 8 12 15]
+Gamma=6: Robust Path from node 1 to node 15 is [1 4 3 8 12 15]
+----------------------------------------------------
+Two Coefficient Case
+ERROR: LoadError: MethodError: `convert` has no method matching convert(::Type{Array{T,N}}, ::Tuple{DataType,DataType}, ::Int64)
+This may have arisen from a call to the constructor Array{T,N}(...),
+since type constructors fall back to convert methods.
+Closest candidates are:
+  Array{T}(!Matched::Type{T}, ::Integer)
+  Array{T}(!Matched::Type{T}, ::Integer, !Matched::Integer)
+  Array{T}(!Matched::Type{T}, ::Integer, !Matched::Integer, !Matched::Integer)
+  ...
+ in get_robust_path_two at /home/vagrant/.julia/v0.4/RobustShortestPath/src/two.jl:14
+ in include at ./boot.jl:254
+ in include_from_node1 at loading.jl:133
+ in process_options at ./client.jl:305
+ in _start at ./client.jl:405
+while loading /home/vagrant/.julia/v0.4/RobustShortestPath/test/runtests.jl, in expression starting on line 78
 
 =========================[ ERROR: RobustShortestPath ]==========================
 
@@ -74,8 +90,8 @@ ERROR: RobustShortestPath had test errors
  in cd at file.jl:22
  in cd at pkg/dir.jl:31
  in test at pkg.jl:71
- in process_options at ./client.jl:280
- in _start at ./client.jl:404
+ in process_options at ./client.jl:281
+ in _start at ./client.jl:405
 
 
 >>> End of log
