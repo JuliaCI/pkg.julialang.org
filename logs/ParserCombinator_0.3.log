@@ -2,7 +2,7 @@
 INFO: Cloning cache of AutoHashEquals from git://github.com/andrewcooke/AutoHashEquals.jl.git
 INFO: Cloning cache of ParserCombinator from git://github.com/andrewcooke/ParserCombinator.jl.git
 INFO: Installing AutoHashEquals v0.0.4
-INFO: Installing ParserCombinator v1.2.0
+INFO: Installing ParserCombinator v1.3.0
 INFO: Package database updated
 
 >>> 'Pkg.test("ParserCombinator")' log
@@ -17,75 +17,147 @@ Platform Info:
   LIBM: libopenlibm
   LLVM: libLLVM-3.3
 INFO: Testing ParserCombinator
+ 1  = 1
+ - 1  = -1
+ 1 + 1  = 2
+ 1 - 1  = 0
+ - 1 - 1  = -2
+fix ok
+Seq
+Transform
++-Alt
+| +-[1]:Seq
+| | +-[1]:Equal
+| | | `-"a"
+| | `-[2]:Drop
+| |   `-Equal
+| |     `-"b"
+| `-[2]:Pattern
+|   `-r"c"
+`-f
+print ok
 names ok
-one level
-  1:ab         00 Trace->Dot
-  2:b          00 Trace<-{'a'}
-multiple
-  2:b          00 Trace->Depth
-  2:b          01  Depth->Dot
-  3:           01  Depth<-{'b'}
-  3:           01  Depth->Dot
-  3:           01  Depth<-!!!
-  3:           00 Trace<-{'b'}
-  2:b          00 Trace->Depth
-  2:b          01  Depth->Dot
-  2:b          01  Depth<-!!!
-  2:b          00 Trace<-{}
-debug ok
-1 1 aaa r"a{1,1}"
-2 4 aa r"a{2,4}?"
-0 2 aa r"a{0,2}"
-1 3  r"a{1,3}?"
-0 1 aa r"a{0,1}"
-1 2 aaa r"a{1,2}?"
-1 3 aa r"a{1,3}"
+2 2 a r"a{2,2}"
+3 4  r"a{3,4}?"
+3 5  r"a{3,5}"
+0 1 a r"a{0,1}?"
+0 0 aaa r"a{0,0}"
+3 3 aa r"a{3,3}?"
+1 1 aa r"a{1,1}"
 1 3 aaaa r"a{1,3}?"
-3 5 aa r"a{3,5}"
-2 3 aa r"a{2,3}?"
-1 1 aaa r"a{1,1}"
-3 4 a r"a{3,4}?"
-0 2 aaa r"a{0,2}"
-0 2 aa r"a{0,2}?"
-1 1 aa r"a{1,1}"
-0 2 aa r"a{0,2}?"
-1 1 aa r"a{1,1}"
-3 5  r"a{3,5}?"
-3 5 aaaa r"a{3,5}"
-3 3 a r"a{3,3}?"
+0 0 aaa r"a{0,0}"
+1 2  r"a{1,2}?"
+1 2  r"a{1,2}"
+0 2 aaa r"a{0,2}?"
+0 1 aa r"a{0,1}"
+3 5 aaa r"a{3,5}?"
+1 2  r"a{1,2}"
+2 2 a r"a{2,2}?"
+2 3  r"a{2,3}"
+1 1  r"a{1,1}?"
+1 1  r"a{1,1}"
+1 3 aa r"a{1,3}?"
 tests ok
 greedy true
 NoCache
-elapsed time: 0.117771654 seconds (5255884 bytes allocated)
-elapsed time: 0.007809755 seconds (792272 bytes allocated)
+elapsed time: 0.033565242 seconds (1525592 bytes allocated)
+elapsed time: 0.007211247 seconds (772112 bytes allocated)
 n results: 35
 max depth: 5
 max iter: 4
 n calls: 323
 Cache
-elapsed time: 0.157697836 seconds (2277388 bytes allocated)
-elapsed time: 0.016060266 seconds (879336 bytes allocated)
+elapsed time: 0.403263837 seconds (4027412 bytes allocated)
+elapsed time: 0.020907962 seconds (792088 bytes allocated)
 n results: 35
 max depth: 5
 max iter: 4
-n calls: 233
+n calls: 230
 slow ok
+  1:foo        00 Trace->Case
+  1:foo        01  Case->Pattern
+  4:           01  Case<-{"foo"}
+  4:           00 Trace<-{"Foo"}
 case ok
+all
++-[1]:sum
+| `-Transform
+|   +-Seq
+|   | +-[1]:prd
+|   | | +-Seq
+|   | | | +-[1]:neg
+|   | | | | `-Alt
+|   | | | |   +-[1]:Seq
+|   | | | |   | +-[1]:Drop
+|   | | | |   | | `-Equal
+|   | | | |   | |   `-"("
+|   | | | |   | +-[2]:sum...
+|   | | | |   | `-[3]:Drop
+|   | | | |   |   `-Equal
+|   | | | |   |     `-")"
+|   | | | |   +-[2]:Transform
+|   | | | |   | +-Pattern
+|   | | | |   | | `-r"-?(\d*\.?\d+|\d+\.\d*)([eE]\d+)?"
+|   | | | |   | `-f
+|   | | | |   `-[3]:Transform
+|   | | | |     +-Seq
+|   | | | |     | +-[1]:Drop
+|   | | | |     | | `-Equal
+|   | | | |     | |   `-"-"
+|   | | | |     | `-[2]:neg...
+|   | | | |     `-f
+|   | | | `-[2]:Depth
+|   | | |   +-Alt
+|   | | |   | +-[1]:mul
+|   | | |   | | +-[1]:Drop
+|   | | |   | | | `-Equal
+|   | | |   | | |   `-"*"
+|   | | |   | | `-[2]:neg...
+|   | | |   | `-[2]:div
+|   | | |   |   +-Seq
+|   | | |   |   | +-[1]:Drop
+|   | | |   |   | | `-Equal
+|   | | |   |   | |   `-"/"
+|   | | |   |   | `-[2]:neg...
+|   | | |   |   `-f
+|   | | |   +-lo=0
+|   | | |   +-hi=9223372036854775807
+|   | | |   `-flatten=true
+|   | | `-f
+|   | `-[2]:Depth
+|   |   +-Alt
+|   |   | +-[1]:add
+|   |   | | +-[1]:Drop
+|   |   | | | `-Equal
+|   |   | | |   `-"+"
+|   |   | | `-[2]:prd...
+|   |   | `-[2]:sub
+|   |   |   +-Seq
+|   |   |   | +-[1]:Drop
+|   |   |   | | `-Equal
+|   |   |   | |   `-"-"
+|   |   |   | `-[2]:prd...
+|   |   |   `-f
+|   |   +-lo=0
+|   |   +-hi=9223372036854775807
+|   |   `-flatten=true
+|   `-f
+`-[2]:Eos
   1:1+2*3/4    00 Trace->all
   1:1+2*3/4    01  all->sum
-  1:1+2*3/4    02   TransSuccess->Seq
+  1:1+2*3/4    02   Transform->Seq
   1:1+2*3/4    03    Seq->prd
   1:1+2*3/4    04     prd->Seq
   1:1+2*3/4    05      Seq->neg
   1:1+2*3/4    06       Alt->Seq
   1:1+2*3/4    07        Seq->Drop
   1:1+2*3/4    08         Drop->Equal
-  2:+2*3/4     08         Drop<-!!!
-  2:+2*3/4     07        Seq<-!!!
-  1:1+2*3/4    06       Alt<-!!!
-  1:1+2*3/4    06       Alt->TransSuccess
-  1:1+2*3/4    07        TransSuccess->Pattern
-  2:+2*3/4     07        TransSuccess<-{"1"}
+   :           08         Drop<-!!!
+   :           07        Seq<-!!!
+   :           06       Alt<-!!!
+  1:1+2*3/4    06       Alt->Transform
+  1:1+2*3/4    07        Transform->Pattern
+  2:+2*3/4     07        Transform<-{"1"}
   2:+2*3/4     06       Alt<-{1.0}
   2:+2*3/4     05      Seq<-{1.0}
   2:+2*3/4     05      Seq->Depth
@@ -93,18 +165,18 @@ case ok
   2:+2*3/4     07        Alt->mul
   2:+2*3/4     08         mul->Drop
   2:+2*3/4     09          Drop->Equal
-  3:2*3/4      09          Drop<-!!!
-  3:2*3/4      08         mul<-!!!
-  2:+2*3/4     07        Alt<-!!!
+   :           09          Drop<-!!!
+   :           08         mul<-!!!
+   :           07        Alt<-!!!
   2:+2*3/4     07        Alt->div
   2:+2*3/4     08         div->Seq
   2:+2*3/4     09          Seq->Drop
   2:+2*3/4     10 Drop->Equal
-  3:2*3/4      10 Drop<-!!!
-  3:2*3/4      09          Seq<-!!!
-  2:+2*3/4     08         div<-!!!
-  2:+2*3/4     07        Alt<-!!!
-  2:+2*3/4     06       Depth<-!!!
+   :           10 Drop<-!!!
+   :           09          Seq<-!!!
+   :           08         div<-!!!
+   :           07        Alt<-!!!
+   :           06       Depth<-!!!
   2:+2*3/4     05      Seq<-{}
   2:+2*3/4     04     prd<-{1.0}
   2:+2*3/4     03    Seq<-{Prd({1.0})}
@@ -121,12 +193,12 @@ case ok
   3:2*3/4      09          Alt->Seq
   3:2*3/4      10 Seq->Drop
   3:2*3/4      11  Drop->Equal
-  4:*3/4       11  Drop<-!!!
-  4:*3/4       10 Seq<-!!!
-  3:2*3/4      09          Alt<-!!!
-  3:2*3/4      09          Alt->TransSuccess
-  3:2*3/4      10 TransSuccess->Pattern
-  4:*3/4       10 TransSuccess<-{"2"}
+   :           11  Drop<-!!!
+   :           10 Seq<-!!!
+   :           09          Alt<-!!!
+  3:2*3/4      09          Alt->Transform
+  3:2*3/4      10 Transform->Pattern
+  4:*3/4       10 Transform<-{"2"}
   4:*3/4       09          Alt<-{2.0}
   4:*3/4       08         Seq<-{2.0}
   4:*3/4       08         Seq->Depth
@@ -140,12 +212,12 @@ case ok
   5:3/4        12   Alt->Seq
   5:3/4        13    Seq->Drop
   5:3/4        14     Drop->Equal
-  6:/4         14     Drop<-!!!
-  6:/4         13    Seq<-!!!
-  5:3/4        12   Alt<-!!!
-  5:3/4        12   Alt->TransSuccess
-  5:3/4        13    TransSuccess->Pattern
-  6:/4         13    TransSuccess<-{"3"}
+   :           14     Drop<-!!!
+   :           13    Seq<-!!!
+   :           12   Alt<-!!!
+  5:3/4        12   Alt->Transform
+  5:3/4        13    Transform->Pattern
+  6:/4         13    Transform<-{"3"}
   6:/4         12   Alt<-{3.0}
   6:/4         11  mul<-{3.0}
   6:/4         10 Alt<-{3.0}
@@ -154,9 +226,9 @@ case ok
   6:/4         10 Alt->mul
   6:/4         11  mul->Drop
   6:/4         12   Drop->Equal
-  7:4          12   Drop<-!!!
-  7:4          11  mul<-!!!
-  6:/4         10 Alt<-!!!
+   :           12   Drop<-!!!
+   :           11  mul<-!!!
+   :           10 Alt<-!!!
   6:/4         10 Alt->div
   6:/4         11  div->Seq
   6:/4         12   Seq->Drop
@@ -167,12 +239,12 @@ case ok
   7:4          13    Alt->Seq
   7:4          14     Seq->Drop
   7:4          15      Drop->Equal
-  8:           15      Drop<-!!!
-  8:           14     Seq<-!!!
-  7:4          13    Alt<-!!!
-  7:4          13    Alt->TransSuccess
-  7:4          14     TransSuccess->Pattern
-  8:           14     TransSuccess<-{"4"}
+   :           15      Drop<-!!!
+   :           14     Seq<-!!!
+   :           13    Alt<-!!!
+  7:4          13    Alt->Transform
+  7:4          14     Transform->Pattern
+  8:           14     Transform<-{"4"}
   8:           13    Alt<-{4.0}
   8:           12   Seq<-{4.0}
   8:           11  div<-{4.0}
@@ -182,18 +254,18 @@ case ok
   8:           10 Alt->mul
   8:           11  mul->Drop
   8:           12   Drop->Equal
-  8:           12   Drop<-!!!
-  8:           11  mul<-!!!
-  8:           10 Alt<-!!!
+   :           12   Drop<-!!!
+   :           11  mul<-!!!
+   :           10 Alt<-!!!
   8:           10 Alt->div
   8:           11  div->Seq
   8:           12   Seq->Drop
   8:           13    Drop->Equal
-  8:           13    Drop<-!!!
-  8:           12   Seq<-!!!
-  8:           11  div<-!!!
-  8:           10 Alt<-!!!
-  8:           09          Depth<-!!!
+   :           13    Drop<-!!!
+   :           12   Seq<-!!!
+   :           11  div<-!!!
+   :           10 Alt<-!!!
+   :           09          Depth<-!!!
   8:           08         Seq<-{3.0,Inv(4.0)}
   8:           07        prd<-{2.0,3.0,Inv(4.0)}
   8:           06       add<-{Prd({2.0,3.0,Inv(4.0)})}
@@ -203,20 +275,20 @@ case ok
   8:           05      Alt->add
   8:           06       add->Drop
   8:           07        Drop->Equal
-  8:           07        Drop<-!!!
-  8:           06       add<-!!!
-  8:           05      Alt<-!!!
+   :           07        Drop<-!!!
+   :           06       add<-!!!
+   :           05      Alt<-!!!
   8:           05      Alt->sub
   8:           06       sub->Seq
   8:           07        Seq->Drop
   8:           08         Drop->Equal
-  8:           08         Drop<-!!!
-  8:           07        Seq<-!!!
-  8:           06       sub<-!!!
-  8:           05      Alt<-!!!
-  8:           04     Depth<-!!!
+   :           08         Drop<-!!!
+   :           07        Seq<-!!!
+   :           06       sub<-!!!
+   :           05      Alt<-!!!
+   :           04     Depth<-!!!
   8:           03    Seq<-{Prd({2.0,3.0,Inv(4.0)})}
-  8:           02   TransSuccess<-{Prd({1.0}),Prd({2.0,3.0,Inv(4.0)})}
+  8:           02   Transform<-{Prd({1.0}),Prd({2.0,3.0,Inv(4.0)})}
   8:           01  all<-{Sum({Prd({1.0}),Prd({2.0,3.0,Inv(4.0)})})}
   8:           01  all->Eos
   8:           01  all<-{}
@@ -237,27 +309,67 @@ Inv(Prd({Neg(Sum({Prd({0.0})}))})) -Inf
 Inv(Sum({Prd({Neg(Sum({Prd({0.0})}))})})) -Inf
 Neg(Prd({7.0,Inv(0.0),Inv(2.0),Inv(Sum({Prd({Neg(Sum({Prd({0.0})}))})})),3.0})) Inf Inf
 Inf Sum({Prd({-9.0}),Neg(Prd({7.0,Inv(0.0),Inv(2.0),Inv(Sum({Prd({Neg(Sum({Prd({0.0})}))})})),3.0})),Neg(Prd({7.0,Inv(Neg(Sum({Prd({9.0}),Prd({5.0})})))})),Prd({5.0}),Neg(Prd({7.0}))}) Inf
-expr -8.0*7.0/6.0-7.0
-expr 1.0*0.0*2.0+(5.0-0.0)-6.0/2.0+8.0
-expr (-(1.0))*6.0+((2.0+2.0))-2.0-5.0/2.0*3.0/9.0
-expr 8.0-6.0+3.0/8.0+7.0-0.0-6.0*7.0+5.0
-expr (4.0)*-6.0+6.0-(7.0)+4.0-(1.0*2.0+3.0)
-expr 3.0/7.0*(9.0)*3.0+-6.0*1.0*9.0-8.0
-expr -9.0/8.0*5.0/-2.0*8.0/4.0-9.0-3.0*8.0+9.0-7.0+9.0+3.0/7.0+(2.0)/1.0+6.0/6.0-5.0
-expr 7.0-2.0+9.0*5.0/9.0-0.0-((0.0+7.0-6.0))/(9.0+8.0)+((0.0+3.0))/0.0-9.0+1.0*4.0
-expr (-6.0/2.0)/6.0*5.0+-4.0*7.0*1.0+1.0+5.0-(2.0+9.0)*6.0-(2.0/7.0-7.0)
-expr (3.0)/4.0-(((9.0)*1.0*9.0))-(-5.0)-7.0/6.0+-5.0*9.0/3.0
-expr 1.0/8.0*8.0-7.0+7.0-1.0/1.0/2.0/2.0/2.0
-expr 2.0/0.0/0.0/-9.0/0.0/7.0*4.0/-2.0/3.0*9.0-0.0/8.0
-expr (-(0.0)+0.0)/0.0-4.0-7.0*5.0-(3.0-0.0/7.0)+7.0-2.0+1.0-4.0/0.0-6.0/9.0
-expr (5.0)+0.0*7.0+-8.0+2.0+7.0-2.0+0.0+3.0+3.0+5.0+8.0/2.0
-expr 8.0*5.0*((6.0*3.0))/1.0
-expr 0.0/3.0+-5.0+6.0/9.0+0.0*5.0-9.0+1.0*9.0
-expr -8.0/6.0-5.0+(8.0*5.0+3.0)+9.0/4.0*-0.0-4.0-4.0+0.0-(0.0)
-expr -3.0+6.0*7.0-2.0-2.0
-expr 2.0-2.0*3.0*9.0/3.0-7.0+1.0+2.0+7.0*-6.0/5.0*6.0+6.0+7.0+4.0
-expr (3.0+5.0+1.0)/4.0*6.0
+expr -0.0-3.0+1.0*8.0+-7.0+(8.0)*(-3.0)*3.0*2.0*4.0
+-578.0 -578.0
+expr 9.0*1.0+2.0+4.0*0.0
+11.0 11.0
+expr ((-1.0+5.0*9.0))*7.0/3.0
+102.66666666666667 102.66666666666666
+expr (9.0)*2.0*1.0/1.0-8.0*-((6.0))-9.0+2.0-7.0-7.0*-2.0*1.0/1.0*1.0+5.0+0.0/4.0+5.0
+76.0 76.0
+expr (3.0+2.0)-9.0+2.0-2.0/9.0-6.0+3.0+0.0*0.0/4.0+5.0-1.0+4.0*9.0+7.0+7.0
+48.77777777777778 48.77777777777778
+expr (1.0/9.0*5.0)-9.0/5.0/6.0-4.0-6.0/(8.0*0.0-0.0)
+-Inf -Inf
+expr -((4.0)*7.0)/3.0/(2.0*5.0/0.0)/(9.0)+2.0+4.0
+6.0 6.0
+expr -(8.0)-2.0-(6.0-0.0*5.0)-8.0+3.0+2.0+9.0*5.0+1.0*-((6.0))
+20.0 20.0
+expr -9.0+1.0/1.0-4.0+(9.0)*-5.0+0.0-2.0/1.0*1.0
+-59.0 -59.0
+expr (5.0*5.0*4.0)+7.0*(5.0)-6.0*7.0/6.0-((-4.0+3.0))-9.0+(0.0)/1.0
+120.0 120.0
+expr -7.0/2.0/(8.0)-8.0-7.0-3.0/8.0*1.0+4.0
+-11.8125 -11.8125
+expr -0.0+1.0/4.0/5.0-0.0+8.0-3.0-2.0/-4.0*8.0*7.0*(-6.0*7.0*7.0)*3.0+9.0
+-24681.95 -24681.95
+expr ((-2.0)*8.0)+5.0/7.0/5.0-9.0-5.0/6.0/2.0+9.0*6.0/3.0*7.0
+100.72619047619048 100.72619047619048
+expr 7.0+5.0/2.0-8.0/5.0/0.0/5.0/1.0/2.0/1.0/(2.0+9.0*4.0)/6.0/5.0*((6.0)+3.0+2.0)
+-Inf -Inf
+expr (9.0)-1.0+7.0/-(0.0)*1.0/9.0
+-Inf -Inf
+expr -9.0+2.0/2.0/9.0
+-8.88888888888889 -8.88888888888889
+expr -(2.0)+9.0/4.0-7.0
+-6.75 -6.75
+expr (7.0)-1.0*(-7.0*8.0/8.0-8.0)+2.0*4.0+5.0-3.0*0.0-9.0-0.0+7.0-5.0/9.0
+32.44444444444444 32.44444444444444
+expr (3.0+0.0+6.0-1.0+8.0)/9.0*4.0-1.0-4.0-1.0
+1.1111111111111107 1.1111111111111107
+expr 5.0+3.0-6.0+7.0+4.0
+13.0 13.0
 calc ok
+one level
+  1:ab         00 Trace->Dot
+  2:b          00 Trace<-{'a'}
+multiple
+  2:b          00 Trace->Depth
+  2:b          01  Depth->Dot
+  3:           01  Depth<-{'b'}
+  3:           01  Depth->Dot
+   :           01  Depth<-!!!
+  3:           00 Trace<-{'b'}
+  2:b          00 Trace->Depth
+  2:b          01  Depth->Dot
+   :           01  Depth<-!!!
+  2:b          00 Trace<-{}
+debug ok
+abcdefghijklmnopqrstuvwxyz
+0123456789
+{"abcdefghijklm"}
+{"abcdefghijklmnopqrstuvwxyz\n012345"}
+try ok
 INFO: ParserCombinator tests passed
 INFO: No packages to install, update or remove
 
