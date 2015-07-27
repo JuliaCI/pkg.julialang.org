@@ -1,372 +1,470 @@
 >>> 'Pkg.add("ParserCombinator")' log
 INFO: Cloning cache of AutoHashEquals from git://github.com/andrewcooke/AutoHashEquals.jl.git
 INFO: Cloning cache of ParserCombinator from git://github.com/andrewcooke/ParserCombinator.jl.git
-INFO: Installing AutoHashEquals v0.0.4
-INFO: Installing ParserCombinator v1.3.0
+INFO: Installing AutoHashEquals v0.0.5
+INFO: Installing ParserCombinator v1.5.2
 INFO: Package database updated
 
 >>> 'Pkg.test("ParserCombinator")' log
-Julia Version 0.4.0-dev+5846
-Commit 0503f2a (2015-07-08 02:04 UTC)
+Julia Version 0.4.0-dev+6253
+Commit a97b24b (2015-07-26 15:40 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
-  CPU: Intel(R) Xeon(R) CPU E5-2650 0 @ 2.00GHz
+  CPU: Intel(R) Core(TM) i7-4960HQ CPU @ 2.60GHz
   WORD_SIZE: 64
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas
   LIBM: libopenlibm
   LLVM: libLLVM-3.3
 INFO: Testing ParserCombinator
- 1  = 1
- - 1  = -1
- 1 + 1  = 2
- 1 - 1  = 0
- - 1 - 1  = -2
-fix ok
-Seq
-Transform
-+-Alt
-| +-[1]:Seq
-| | +-[1]:Equal
-| | | `-"a"
-| | `-[2]:Drop
-| |   `-Equal
-| |     `-"b"
-| `-[2]:Pattern
-|   `-r"c"
-`-f
-print ok
-names ok
-0 2  r"a{0,2}"
-1 1 aaa r"a{1,1}?"
-0 2  r"a{0,2}"
-2 3 aaa r"a{2,3}?"
-2 3 aaa r"a{2,3}"
-2 3 a r"a{2,3}?"
-1 2 aa r"a{1,2}"
-0 2 aaa r"a{0,2}?"
-3 5 aaa r"a{3,5}"
-1 1 a r"a{1,1}?"
-1 3  r"a{1,3}"
-0 0 aaaa r"a{0,0}?"
-0 1 aaa r"a{0,1}"
-3 3 aaaa r"a{3,3}?"
-1 1  r"a{1,1}"
-1 1 aaa r"a{1,1}?"
-3 5 aaa r"a{3,5}"
-2 2 aaa r"a{2,2}?"
-0 2  r"a{0,2}"
-0 2  r"a{0,2}?"
-tests ok
-greedy true
-ParserCombinator.NoCache
-  70.100 milliseconds (47287 allocations: 2131 KB)
-  13.887 milliseconds (11952 allocations: 623 KB)
-n results: 35
-max depth: 5
-max iter: 4
-n calls: 323
-ParserCombinator.Cache
- 259.207 milliseconds (92444 allocations: 4295 KB)
-  21.694 milliseconds (12612 allocations: 643 KB)
-n results: 35
-max depth: 5
-max iter: 4
-n calls: 231
-slow ok
-  1:foo        00 Trace->Case
-  1:foo        01  Case->Pattern
-  4:           01  Case<-["foo"]
-  4:           00 Trace<-["Foo"]
-case ok
-all
-+-[1]:sum
-| `-Transform
-|   +-Seq
-|   | +-[1]:prd
-|   | | +-Seq
-|   | | | +-[1]:neg
-|   | | | | `-Alt
-|   | | | |   +-[1]:Seq
-|   | | | |   | +-[1]:Drop
-|   | | | |   | | `-Equal
-|   | | | |   | |   `-"("
-|   | | | |   | +-[2]:sum...
-|   | | | |   | `-[3]:Drop
-|   | | | |   |   `-Equal
-|   | | | |   |     `-")"
-|   | | | |   +-[2]:Transform
-|   | | | |   | +-Pattern
-|   | | | |   | | `-r"-?(\d*\.?\d+|\d+\.\d*)([eE]\d+)?"
-|   | | | |   | `-f
-|   | | | |   `-[3]:Transform
-|   | | | |     +-Seq
-|   | | | |     | +-[1]:Drop
-|   | | | |     | | `-Equal
-|   | | | |     | |   `-"-"
-|   | | | |     | `-[2]:neg...
-|   | | | |     `-f
-|   | | | `-[2]:Depth
-|   | | |   +-Alt
-|   | | |   | +-[1]:mul
-|   | | |   | | +-[1]:Drop
-|   | | |   | | | `-Equal
-|   | | |   | | |   `-"*"
-|   | | |   | | `-[2]:neg...
-|   | | |   | `-[2]:div
-|   | | |   |   +-Seq
-|   | | |   |   | +-[1]:Drop
-|   | | |   |   | | `-Equal
-|   | | |   |   | |   `-"/"
-|   | | |   |   | `-[2]:neg...
-|   | | |   |   `-f
-|   | | |   +-lo=0
-|   | | |   +-hi=9223372036854775807
-|   | | |   `-flatten=true
-|   | | `-f
-|   | `-[2]:Depth
-|   |   +-Alt
-|   |   | +-[1]:add
-|   |   | | +-[1]:Drop
-|   |   | | | `-Equal
-|   |   | | |   `-"+"
-|   |   | | `-[2]:prd...
-|   |   | `-[2]:sub
-|   |   |   +-Seq
-|   |   |   | +-[1]:Drop
-|   |   |   | | `-Equal
-|   |   |   | |   `-"-"
-|   |   |   | `-[2]:prd...
-|   |   |   `-f
-|   |   +-lo=0
-|   |   +-hi=9223372036854775807
-|   |   `-flatten=true
-|   `-f
-`-[2]:Eos
-  1:1+2*3/4    00 Trace->all
-  1:1+2*3/4    01  all->sum
-  1:1+2*3/4    02   Transform->Seq
-  1:1+2*3/4    03    Seq->prd
-  1:1+2*3/4    04     prd->Seq
-  1:1+2*3/4    05      Seq->neg
-  1:1+2*3/4    06       Alt->Seq
-  1:1+2*3/4    07        Seq->Drop
-  1:1+2*3/4    08         Drop->Equal
-   :           08         Drop<-!!!
-   :           07        Seq<-!!!
-   :           06       Alt<-!!!
-  1:1+2*3/4    06       Alt->Transform
-  1:1+2*3/4    07        Transform->Pattern
-  2:+2*3/4     07        Transform<-["1"]
-  2:+2*3/4     06       Alt<-[1.0]
-  2:+2*3/4     05      Seq<-[1.0]
-  2:+2*3/4     05      Seq->Depth
-  2:+2*3/4     06       Depth->Alt
-  2:+2*3/4     07        Alt->mul
-  2:+2*3/4     08         mul->Drop
-  2:+2*3/4     09          Drop->Equal
-   :           09          Drop<-!!!
-   :           08         mul<-!!!
-   :           07        Alt<-!!!
-  2:+2*3/4     07        Alt->div
-  2:+2*3/4     08         div->Seq
-  2:+2*3/4     09          Seq->Drop
-  2:+2*3/4     10 Drop->Equal
-   :           10 Drop<-!!!
-   :           09          Seq<-!!!
-   :           08         div<-!!!
-   :           07        Alt<-!!!
-   :           06       Depth<-!!!
-  2:+2*3/4     05      Seq<-[]
-  2:+2*3/4     04     prd<-[1.0]
-  2:+2*3/4     03    Seq<-[Prd(Any[1.0])]
-  2:+2*3/4     03    Seq->Depth
-  2:+2*3/4     04     Depth->Alt
-  2:+2*3/4     05      Alt->add
-  2:+2*3/4     06       add->Drop
-  2:+2*3/4     07        Drop->Equal
-  3:2*3/4      07        Drop<-["+"]
-  3:2*3/4      06       add<-[]
-  3:2*3/4      06       add->prd
-  3:2*3/4      07        prd->Seq
-  3:2*3/4      08         Seq->neg
-  3:2*3/4      09          Alt->Seq
-  3:2*3/4      10 Seq->Drop
-  3:2*3/4      11  Drop->Equal
-   :           11  Drop<-!!!
-   :           10 Seq<-!!!
-   :           09          Alt<-!!!
-  3:2*3/4      09          Alt->Transform
-  3:2*3/4      10 Transform->Pattern
-  4:*3/4       10 Transform<-["2"]
-  4:*3/4       09          Alt<-[2.0]
-  4:*3/4       08         Seq<-[2.0]
-  4:*3/4       08         Seq->Depth
-  4:*3/4       09          Depth->Alt
-  4:*3/4       10 Alt->mul
-  4:*3/4       11  mul->Drop
-  4:*3/4       12   Drop->Equal
-  5:3/4        12   Drop<-["*"]
-  5:3/4        11  mul<-[]
-  5:3/4        11  mul->neg
-  5:3/4        12   Alt->Seq
-  5:3/4        13    Seq->Drop
-  5:3/4        14     Drop->Equal
-   :           14     Drop<-!!!
-   :           13    Seq<-!!!
-   :           12   Alt<-!!!
-  5:3/4        12   Alt->Transform
-  5:3/4        13    Transform->Pattern
-  6:/4         13    Transform<-["3"]
-  6:/4         12   Alt<-[3.0]
-  6:/4         11  mul<-[3.0]
-  6:/4         10 Alt<-[3.0]
-  6:/4         09          Depth<-[3.0]
-  6:/4         09          Depth->Alt
-  6:/4         10 Alt->mul
-  6:/4         11  mul->Drop
-  6:/4         12   Drop->Equal
-   :           12   Drop<-!!!
-   :           11  mul<-!!!
-   :           10 Alt<-!!!
-  6:/4         10 Alt->div
-  6:/4         11  div->Seq
-  6:/4         12   Seq->Drop
-  6:/4         13    Drop->Equal
-  7:4          13    Drop<-["/"]
-  7:4          12   Seq<-[]
-  7:4          12   Seq->neg
-  7:4          13    Alt->Seq
-  7:4          14     Seq->Drop
-  7:4          15      Drop->Equal
-   :           15      Drop<-!!!
-   :           14     Seq<-!!!
-   :           13    Alt<-!!!
-  7:4          13    Alt->Transform
-  7:4          14     Transform->Pattern
-  8:           14     Transform<-["4"]
-  8:           13    Alt<-[4.0]
-  8:           12   Seq<-[4.0]
-  8:           11  div<-[4.0]
-  8:           10 Alt<-[Inv(4.0)]
-  8:           09          Depth<-[Inv(4.0)]
-  8:           09          Depth->Alt
-  8:           10 Alt->mul
-  8:           11  mul->Drop
-  8:           12   Drop->Equal
-   :           12   Drop<-!!!
-   :           11  mul<-!!!
-   :           10 Alt<-!!!
-  8:           10 Alt->div
-  8:           11  div->Seq
-  8:           12   Seq->Drop
-  8:           13    Drop->Equal
-   :           13    Drop<-!!!
-   :           12   Seq<-!!!
-   :           11  div<-!!!
-   :           10 Alt<-!!!
-   :           09          Depth<-!!!
-  8:           08         Seq<-[3.0,Inv(4.0)]
-  8:           07        prd<-[2.0,3.0,Inv(4.0)]
-  8:           06       add<-[Prd(Any[2.0,3.0,Inv(4.0)])]
-  8:           05      Alt<-[Prd(Any[2.0,3.0,Inv(4.0)])]
-  8:           04     Depth<-[Prd(Any[2.0,3.0,Inv(4.0)])]
-  8:           04     Depth->Alt
-  8:           05      Alt->add
-  8:           06       add->Drop
-  8:           07        Drop->Equal
-   :           07        Drop<-!!!
-   :           06       add<-!!!
-   :           05      Alt<-!!!
-  8:           05      Alt->sub
-  8:           06       sub->Seq
-  8:           07        Seq->Drop
-  8:           08         Drop->Equal
-   :           08         Drop<-!!!
-   :           07        Seq<-!!!
-   :           06       sub<-!!!
-   :           05      Alt<-!!!
-   :           04     Depth<-!!!
-  8:           03    Seq<-[Prd(Any[2.0,3.0,Inv(4.0)])]
-  8:           02   Transform<-[Prd(Any[1.0]),Prd(Any[2.0,3.0,Inv(4.0)])]
-  8:           01  all<-[Sum(Any[Prd(Any[1.0]),Prd(Any[....0,Inv(4.0)])])]
-  8:           01  all->Eos
-  8:           01  all<-[]
-  8:           00 Trace<-[Sum(Any[Prd(Any[1.0]),Prd(Any[....0,Inv(4.0)])])]
-1 = 1
--1 = -1
-1+1 = 2
-1-1 = 0
--1-1 = -2
-1.0 = 1.0
--1.0 = -1.0
---1.0 = 1.0
-1+2 = 3.0
-1+2*3/4 = 2.5
-Neg(Prd(Any[7.0,Inv(0.0),Inv(2.0),Inv(Neg(0.0))])) Inf Inf
-Inv(Neg(0.0)) -Inf
-Inv(Prd(Any[Neg(Sum(Any[Prd(Any[0.0])]))])) -Inf
-Inv(Sum(Any[Prd(Any[Neg(Sum(Any[Prd(Any[0.0])]))])])) -Inf
-Neg(Prd(Any[7.0,Inv(0.0),Inv(2.0),Inv(Sum(Any[Prd(Any[Neg(Sum(Any[Prd(Any[0.0])]))])])),3.0])) Inf Inf
-Inf Sum(Any[Prd(Any[-9.0]),Neg(Prd(Any[7.0,Inv(0.0),Inv(2.0),Inv(Sum(Any[Prd(Any[Neg(Sum(Any[Prd(Any[0.0])]))])])),3.0])),Neg(Prd(Any[7.0,Inv(Neg(Sum(Any[Prd(Any[9.0]),Prd(Any[5.0])])))])),Prd(Any[5.0]),Neg(Prd(Any[7.0]))]) Inf
-expr (7.0)
-7.0 7.0
-expr 1.0*1.0*7.0-6.0
-1.0 1.0
-expr (9.0/4.0/0.0+9.0)/7.0*(9.0)-((7.0)+9.0)
-Inf Inf
-expr 3.0*4.0/3.0/3.0-1.0+6.0-3.0/(3.0)/8.0*5.0/-3.0*8.0+6.0
-14.0 14.0
-expr (0.0/7.0)+7.0-6.0*0.0+1.0/8.0-(-3.0+4.0)/2.0+2.0+-(5.0/7.0-5.0-7.0)/-7.0
-7.012755102040817 7.012755102040817
-expr -6.0+2.0-6.0-(8.0/7.0)+7.0-1.0-7.0-5.0
--17.142857142857142 -17.142857142857142
-expr 5.0+7.0*-6.0*8.0*8.0+7.0-(3.0/6.0-8.0)-(1.0)+7.0/8.0-((-7.0))
--2661.625 -2661.625
-expr 6.0+6.0-7.0*1.0/6.0
-10.833333333333334 10.833333333333334
-expr ((3.0))*6.0
-18.0 18.0
-expr 4.0/6.0
-0.6666666666666666 0.6666666666666666
-expr -6.0*1.0
--6.0 -6.0
-expr 8.0*8.0*5.0*2.0/4.0/-6.0/9.0*1.0+(2.0)+6.0
-5.037037037037036 5.037037037037038
-expr 8.0*8.0*(6.0*7.0-5.0)/-8.0+9.0-4.0*6.0*-2.0*1.0/8.0+9.0-6.0
--278.0 -278.0
-expr -6.0/3.0-0.0*8.0-5.0*0.0-6.0+8.0-((-2.0))+3.0
-5.0 5.0
-expr 0.0-6.0*3.0/(4.0)+(1.0+7.0*4.0)-4.0-9.0+8.0+4.0*6.0
-43.5 43.5
-expr 7.0-1.0-5.0*-1.0/8.0+6.0-2.0/((2.0/4.0))-7.0/(9.0-0.0+9.0)-4.0
-4.236111111111111 4.236111111111111
-expr -3.0+5.0/5.0/1.0/6.0*7.0/6.0
--2.8055555555555554 -2.8055555555555554
-expr 2.0*4.0-7.0/8.0*6.0
-2.75 2.75
-expr ((4.0)*6.0+0.0)+-1.0-1.0*9.0+5.0/-0.0*3.0*-(5.0)
-Inf Inf
-expr (5.0-7.0*0.0-3.0)+8.0
-10.0 10.0
-calc ok
-one level
-  1:ab         00 Trace->Dot
-  2:b          00 Trace<-['a']
-multiple
-  2:b          00 Trace->Depth
-  2:b          01  Depth->Dot
-  3:           01  Depth<-['b']
-  3:           01  Depth->Dot
-   :           01  Depth<-!!!
-  3:           00 Trace<-['b']
-  2:b          00 Trace->Depth
-  2:b          01  Depth->Dot
-   :           01  Depth<-!!!
-  2:b          00 Trace<-[]
-debug ok
 abcdefghijklmnopqrstuvwxyz
 0123456789
+Any["abcdefghijklm"]
+Any["abcdefghijklmnopqrstuvwxyz\n012345"]
+Any["abcdefghijklm"]
+Any["abcdefghijklmnopqrstuvwxyz\n012345"]
+  1,1  :abcde...\n 00 Trace->Transform
+  1,1  :abcde...\n 01  Transform->Seq
+  1,1  :abcde...\n 02   Seq->Depth
+  1,1  :abcde...\n 03    Depth->Pattern
+  1,2  :bcdef...\n 03    Depth<-["a"]
+  1,2  :bcdef...\n 03    Depth->Pattern
+  1,3  :cdefg...\n 03    Depth<-["b"]
+  1,3  :cdefg...\n 03    Depth->Pattern
+  1,4  :defgh...\n 03    Depth<-["c"]
+  1,4  :defgh...\n 03    Depth->Pattern
+  1,5  :efghi...\n 03    Depth<-["d"]
+  1,5  :efghi...\n 03    Depth->Pattern
+  1,6  :fghij...\n 03    Depth<-["e"]
+  1,6  :fghij...\n 03    Depth->Pattern
+  1,7  :ghijk...\n 03    Depth<-["f"]
+  1,7  :ghijk...\n 03    Depth->Pattern
+  1,8  :hijkl...\n 03    Depth<-["g"]
+  1,8  :hijkl...\n 03    Depth->Pattern
+  1,9  :ijklm...\n 03    Depth<-["h"]
+  1,9  :ijklm...\n 03    Depth->Pattern
+  1,10 :jklmn...\n 03    Depth<-["i"]
+  1,10 :jklmn...\n 03    Depth->Pattern
+  1,11 :klmno...\n 03    Depth<-["j"]
+  1,11 :klmno...\n 03    Depth->Pattern
+  1,12 :lmnop...\n 03    Depth<-["k"]
+  1,12 :lmnop...\n 03    Depth->Pattern
+  1,13 :mnopq...\n 03    Depth<-["l"]
+  1,13 :mnopq...\n 03    Depth->Pattern
+  1,14 :nopqr...\n 03    Depth<-["m"]
+  1,14 :nopqr...\n 03    Depth->Pattern
+  1,15 :opqrs...\n 03    Depth<-["n"]
+  1,15 :opqrs...\n 03    Depth->Pattern
+  1,16 :pqrst...\n 03    Depth<-["o"]
+  1,16 :pqrst...\n 03    Depth->Pattern
+  1,17 :qrstu...\n 03    Depth<-["p"]
+  1,17 :qrstu...\n 03    Depth->Pattern
+  1,18 :rstuv...\n 03    Depth<-["q"]
+  1,18 :rstuv...\n 03    Depth->Pattern
+  1,19 :stuvwxyz\n 03    Depth<-["r"]
+  1,19 :stuvwxyz\n 03    Depth->Pattern
+  1,20 :tuvwxyz\n  03    Depth<-["s"]
+  1,20 :tuvwxyz\n  03    Depth->Pattern
+  1,21 :uvwxyz\n   03    Depth<-["t"]
+  1,21 :uvwxyz\n   03    Depth->Pattern
+  1,22 :vwxyz\n    03    Depth<-["u"]
+  1,22 :vwxyz\n    03    Depth->Pattern
+  1,23 :wxyz\n     03    Depth<-["v"]
+  1,23 :wxyz\n     03    Depth->Pattern
+  1,24 :xyz\n      03    Depth<-["w"]
+  1,24 :xyz\n      03    Depth->Pattern
+  1,25 :yz\n       03    Depth<-["x"]
+  1,25 :yz\n       03    Depth->Pattern
+  1,26 :z\n        03    Depth<-["y"]
+  1,26 :z\n        03    Depth->Pattern
+  1,27 :\n         03    Depth<-["z"]
+  1,27 :\n         03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,27 :\n         02   Seq<-["a","b","c","d","e","f","g","h..."w","x","y","z"]
+  1,27 :\n         02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,26 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,26 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."v","w","x","y"]
+  1,26 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,25 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,25 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."u","v","w","x"]
+  1,25 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,24 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,24 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."t","u","v","w"]
+  1,24 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,23 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,23 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."s","t","u","v"]
+  1,23 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,22 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,22 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."r","s","t","u"]
+  1,22 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,21 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,21 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."q","r","s","t"]
+  1,21 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,20 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,20 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."p","q","r","s"]
+  1,20 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,19 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,19 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."o","p","q","r"]
+  1,19 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,18 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,18 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."n","o","p","q"]
+  1,18 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,17 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,17 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."m","n","o","p"]
+  1,17 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,16 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,16 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."l","m","n","o"]
+  1,16 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,15 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,15 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."k","l","m","n"]
+  1,15 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,14 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,14 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."j","k","l","m"]
+  1,14 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,13 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,13 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h","i","j","k","l"]
+  1,13 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,12 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,12 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h","i","j","k"]
+  1,12 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,11 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,11 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h","i","j"]
+  1,11 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,10 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,10 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h","i"]
+  1,10 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,9  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,9  :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h"]
+  1,9  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,8  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,8  :[unav...e] 02   Seq<-["a","b","c","d","e","f","g"]
+  1,8  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,7  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,7  :[unav...e] 02   Seq<-["a","b","c","d","e","f"]
+  1,7  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,6  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,6  :[unav...e] 02   Seq<-["a","b","c","d","e"]
+  1,6  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,5  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,5  :[unav...e] 02   Seq<-["a","b","c","d"]
+  1,5  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,4  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,4  :[unav...e] 02   Seq<-["a","b","c"]
+  1,4  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,3  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,3  :[unav...e] 02   Seq<-["a","b"]
+  1,3  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,2  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,2  :[unav...e] 02   Seq<-["a"]
+  1,2  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,1  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,1  :[unav...e] 02   Seq<-[]
+  1,1  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+       :           02   Seq<-!!!
+       :           01  Transform<-!!!
+       :           00 Trace<-!!!
+Any["abcdefghijklm"]
+Any["abcdefghijklmnopqrstuvwxyz\n012345"]
+  1,1  :abcde...\n 00 Trace->Transform
+  1,1  :abcde...\n 01  Transform->Seq
+  1,1  :abcde...\n 02   Seq->Depth
+  1,1  :abcde...\n 03    Depth->Pattern
+  1,2  :bcdef...\n 03    Depth<-["a"]
+  1,2  :bcdef...\n 03    Depth->Pattern
+  1,3  :cdefg...\n 03    Depth<-["b"]
+  1,3  :cdefg...\n 03    Depth->Pattern
+  1,4  :defgh...\n 03    Depth<-["c"]
+  1,4  :defgh...\n 03    Depth->Pattern
+  1,5  :efghi...\n 03    Depth<-["d"]
+  1,5  :efghi...\n 03    Depth->Pattern
+  1,6  :fghij...\n 03    Depth<-["e"]
+  1,6  :fghij...\n 03    Depth->Pattern
+  1,7  :ghijk...\n 03    Depth<-["f"]
+  1,7  :ghijk...\n 03    Depth->Pattern
+  1,8  :hijkl...\n 03    Depth<-["g"]
+  1,8  :hijkl...\n 03    Depth->Pattern
+  1,9  :ijklm...\n 03    Depth<-["h"]
+  1,9  :ijklm...\n 03    Depth->Pattern
+  1,10 :jklmn...\n 03    Depth<-["i"]
+  1,10 :jklmn...\n 03    Depth->Pattern
+  1,11 :klmno...\n 03    Depth<-["j"]
+  1,11 :klmno...\n 03    Depth->Pattern
+  1,12 :lmnop...\n 03    Depth<-["k"]
+  1,12 :lmnop...\n 03    Depth->Pattern
+  1,13 :mnopq...\n 03    Depth<-["l"]
+  1,13 :mnopq...\n 03    Depth->Pattern
+  1,14 :nopqr...\n 03    Depth<-["m"]
+  1,14 :nopqr...\n 03    Depth->Pattern
+  1,15 :opqrs...\n 03    Depth<-["n"]
+  1,15 :opqrs...\n 03    Depth->Pattern
+  1,16 :pqrst...\n 03    Depth<-["o"]
+  1,16 :pqrst...\n 03    Depth->Pattern
+  1,17 :qrstu...\n 03    Depth<-["p"]
+  1,17 :qrstu...\n 03    Depth->Pattern
+  1,18 :rstuv...\n 03    Depth<-["q"]
+  1,18 :rstuv...\n 03    Depth->Pattern
+  1,19 :stuvwxyz\n 03    Depth<-["r"]
+  1,19 :stuvwxyz\n 03    Depth->Pattern
+  1,20 :tuvwxyz\n  03    Depth<-["s"]
+  1,20 :tuvwxyz\n  03    Depth->Pattern
+  1,21 :uvwxyz\n   03    Depth<-["t"]
+  1,21 :uvwxyz\n   03    Depth->Pattern
+  1,22 :vwxyz\n    03    Depth<-["u"]
+  1,22 :vwxyz\n    03    Depth->Pattern
+  1,23 :wxyz\n     03    Depth<-["v"]
+  1,23 :wxyz\n     03    Depth->Pattern
+  1,24 :xyz\n      03    Depth<-["w"]
+  1,24 :xyz\n      03    Depth->Pattern
+  1,25 :yz\n       03    Depth<-["x"]
+  1,25 :yz\n       03    Depth->Pattern
+  1,26 :z\n        03    Depth<-["y"]
+  1,26 :z\n        03    Depth->Pattern
+  1,27 :\n         03    Depth<-["z"]
+  1,27 :\n         03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,27 :\n         02   Seq<-["a","b","c","d","e","f","g","h..."w","x","y","z"]
+  1,27 :\n         02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,26 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,26 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."v","w","x","y"]
+  1,26 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,25 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,25 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."u","v","w","x"]
+  1,25 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,24 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,24 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."t","u","v","w"]
+  1,24 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,23 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,23 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."s","t","u","v"]
+  1,23 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,22 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,22 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."r","s","t","u"]
+  1,22 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,21 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,21 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."q","r","s","t"]
+  1,21 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,20 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,20 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."p","q","r","s"]
+  1,20 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,19 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,19 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."o","p","q","r"]
+  1,19 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,18 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,18 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."n","o","p","q"]
+  1,18 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,17 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,17 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."m","n","o","p"]
+  1,17 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,16 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,16 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."l","m","n","o"]
+  1,16 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,15 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,15 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."k","l","m","n"]
+  1,15 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,14 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,14 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h..."j","k","l","m"]
+  1,14 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,13 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,13 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h","i","j","k","l"]
+  1,13 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,12 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,12 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h","i","j","k"]
+  1,12 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,11 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,11 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h","i","j"]
+  1,11 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,10 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,10 :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h","i"]
+  1,10 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,9  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,9  :[unav...e] 02   Seq<-["a","b","c","d","e","f","g","h"]
+  1,9  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,8  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,8  :[unav...e] 02   Seq<-["a","b","c","d","e","f","g"]
+  1,8  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,7  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,7  :[unav...e] 02   Seq<-["a","b","c","d","e","f"]
+  1,7  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,6  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,6  :[unav...e] 02   Seq<-["a","b","c","d","e"]
+  1,6  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,5  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,5  :[unav...e] 02   Seq<-["a","b","c","d"]
+  1,5  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,4  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,4  :[unav...e] 02   Seq<-["a","b","c"]
+  1,4  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,3  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,3  :[unav...e] 02   Seq<-["a","b"]
+  1,3  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,2  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,2  :[unav...e] 02   Seq<-["a"]
+  1,2  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,1  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,1  :[unav...e] 02   Seq<-[]
+  1,1  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+       :           02   Seq<-!!!
+       :           01  Transform<-!!!
+       :           00 Trace<-!!!
 Any["abcdefghijklm"]
 Any["abcdefghijklmnopqrstuvwxyz\n012345"]
 try ok
