@@ -2,12 +2,12 @@
 INFO: Cloning cache of AutoHashEquals from git://github.com/andrewcooke/AutoHashEquals.jl.git
 INFO: Cloning cache of ParserCombinator from git://github.com/andrewcooke/ParserCombinator.jl.git
 INFO: Installing AutoHashEquals v0.0.5
-INFO: Installing ParserCombinator v1.5.2
+INFO: Installing ParserCombinator v1.6.2
 INFO: Package database updated
 
 >>> 'Pkg.test("ParserCombinator")' log
-Julia Version 0.4.0-dev+6253
-Commit a97b24b (2015-07-26 15:40 UTC)
+Julia Version 0.4.0-dev+6477
+Commit dce9d18* (2015-08-02 23:54 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Core(TM) i7-4960HQ CPU @ 2.60GHz
@@ -16,7 +16,374 @@ Platform Info:
   LAPACK: libopenblas
   LIBM: libopenlibm
   LLVM: libLLVM-3.3
+INFO: Computing test dependencies for ParserCombinator...
+INFO: Installing ZipFile v0.2.4
+INFO: Installing Zlib v0.1.8
 INFO: Testing ParserCombinator
+WARNING: module ParserCombinator should explicitly import == from Base
+WARNING: module ParserCombinator should explicitly import ~ from Base
+WARNING: module ParserCombinator should explicitly import + from Base
+WARNING: module ParserCombinator should explicitly import & from Base
+WARNING: module ParserCombinator should explicitly import | from Base
+WARNING: module ParserCombinator should explicitly import >= from Base
+WARNING: module ParserCombinator should explicitly import > from Base
+WARNING: module ParserCombinator should explicitly import |> from Base
+sources ok
+WARNING: module Main should explicitly import == from Base
+ 1  = 1
+ - 1  = -1
+ 1 + 1  = 2
+ 1 - 1  = 0
+ - 1 - 1  = -2
+fix ok
+Seq
+Transform
++-Alt
+| +-[1]:Seq
+| | +-[1]:Equal
+| | | `-"a"
+| | `-[2]:Drop
+| |   `-Equal
+| |     `-"b"
+| `-[2]:Pattern
+|   +-text="c"
+|   +-regex=r"^c(.??)"
+|   `-groups
+`-f
+print ok
+names ok
+2 3 aa r"a{2,3}"
+0 0 aa r"a{0,0}?"
+3 4  r"a{3,4}"
+3 4 aa r"a{3,4}?"
+0 1 aa r"a{0,1}"
+2 3 aaa r"a{2,3}?"
+3 3 aa r"a{3,3}"
+2 2 aaa r"a{2,2}?"
+3 5 aaa r"a{3,5}"
+1 1 aa r"a{1,1}?"
+1 3 a r"a{1,3}"
+3 4 a r"a{3,4}?"
+3 4 aaa r"a{3,4}"
+0 0 aa r"a{0,0}?"
+2 2  r"a{2,2}"
+2 3 a r"a{2,3}?"
+1 1 aa r"a{1,1}"
+0 2 aaaa r"a{0,2}?"
+1 3  r"a{1,3}"
+2 2 a r"a{2,2}?"
+tests ok
+greedy true
+ParserCombinator.NoCache{S,I}
+  0.030893 seconds (30.61 k allocations: 1.499 MB)
+  0.003836 seconds (11.67 k allocations: 613.125 KB)
+n results: 35
+max depth: 5
+max iter: 4
+n calls: 323
+ParserCombinator.Cache{S,I}
+  0.086428 seconds (41.59 k allocations: 2.058 MB, 6.43% gc time)
+  0.027913 seconds (20.41 k allocations: 1.030 MB)
+n results: 35
+max depth: 5
+max iter: 4
+n calls: 232
+slow ok
+WARNING: module Main should explicitly import == from Base
+  1:foo        00 Trace->Case
+  1:foo        01  Case->Pattern
+  4:           01  Case<-["foo"]
+  4:           00 Trace<-["Foo"]
+case ok
+WARNING: module Main should explicitly import == from Base
+all
++-[1]:sum
+| `-Transform
+|   +-Seq
+|   | +-[1]:prd
+|   | | +-Seq
+|   | | | +-[1]:neg
+|   | | | | `-Alt
+|   | | | |   +-[1]:Seq
+|   | | | |   | +-[1]:Drop
+|   | | | |   | | `-Equal
+|   | | | |   | |   `-"("
+|   | | | |   | +-[2]:sum...
+|   | | | |   | `-[3]:Drop
+|   | | | |   |   `-Equal
+|   | | | |   |     `-")"
+|   | | | |   +-[2]:Transform
+|   | | | |   | +-Pattern
+|   | | | |   | | +-text="-?(\d*\.?\d+|\d+\.\d*)([eE]\d+)?"
+|   | | | |   | | +-regex=r"^-?(\d*\.?\d+|\d+\.\d*)([eE]\d+)?(.??)"
+|   | | | |   | | `-groups
+|   | | | |   | `-f
+|   | | | |   `-[3]:Transform
+|   | | | |     +-Seq
+|   | | | |     | +-[1]:Drop
+|   | | | |     | | `-Equal
+|   | | | |     | |   `-"-"
+|   | | | |     | `-[2]:neg...
+|   | | | |     `-f
+|   | | | `-[2]:Depth
+|   | | |   +-Alt
+|   | | |   | +-[1]:mul
+|   | | |   | | +-[1]:Drop
+|   | | |   | | | `-Equal
+|   | | |   | | |   `-"*"
+|   | | |   | | `-[2]:neg...
+|   | | |   | `-[2]:div
+|   | | |   |   +-Seq
+|   | | |   |   | +-[1]:Drop
+|   | | |   |   | | `-Equal
+|   | | |   |   | |   `-"/"
+|   | | |   |   | `-[2]:neg...
+|   | | |   |   `-f
+|   | | |   +-lo=0
+|   | | |   +-hi=9223372036854775807
+|   | | |   `-flatten=true
+|   | | `-f
+|   | `-[2]:Depth
+|   |   +-Alt
+|   |   | +-[1]:add
+|   |   | | +-[1]:Drop
+|   |   | | | `-Equal
+|   |   | | |   `-"+"
+|   |   | | `-[2]:prd...
+|   |   | `-[2]:sub
+|   |   |   +-Seq
+|   |   |   | +-[1]:Drop
+|   |   |   | | `-Equal
+|   |   |   | |   `-"-"
+|   |   |   | `-[2]:prd...
+|   |   |   `-f
+|   |   +-lo=0
+|   |   +-hi=9223372036854775807
+|   |   `-flatten=true
+|   `-f
+`-[2]:Eos
+  1:1+2*3/4    00 Trace->all
+  1:1+2*3/4    01  all->sum
+  1:1+2*3/4    02   Transform->Seq
+  1:1+2*3/4    03    Seq->prd
+  1:1+2*3/4    04     prd->Seq
+  1:1+2*3/4    05      Seq->neg
+  1:1+2*3/4    06       Alt->Seq
+  1:1+2*3/4    07        Seq->Drop
+  1:1+2*3/4    08         Drop->Equal
+   :           08         Drop<-!!!
+   :           07        Seq<-!!!
+   :           06       Alt<-!!!
+  1:1+2*3/4    06       Alt->Transform
+  1:1+2*3/4    07        Transform->Pattern
+  2:+2*3/4     07        Transform<-["1"]
+  2:+2*3/4     06       Alt<-[1.0]
+  2:+2*3/4     05      Seq<-[1.0]
+  2:+2*3/4     05      Seq->Depth
+  2:+2*3/4     06       Depth->Alt
+  2:+2*3/4     07        Alt->mul
+  2:+2*3/4     08         mul->Drop
+  2:+2*3/4     09          Drop->Equal
+   :           09          Drop<-!!!
+   :           08         mul<-!!!
+   :           07        Alt<-!!!
+  2:+2*3/4     07        Alt->div
+  2:+2*3/4     08         div->Seq
+  2:+2*3/4     09          Seq->Drop
+  2:+2*3/4     10 Drop->Equal
+   :           10 Drop<-!!!
+   :           09          Seq<-!!!
+   :           08         div<-!!!
+   :           07        Alt<-!!!
+   :           06       Depth<-!!!
+  2:+2*3/4     05      Seq<-[]
+  2:+2*3/4     04     prd<-[1.0]
+  2:+2*3/4     03    Seq<-[Prd(Any[1.0])]
+  2:+2*3/4     03    Seq->Depth
+  2:+2*3/4     04     Depth->Alt
+  2:+2*3/4     05      Alt->add
+  2:+2*3/4     06       add->Drop
+  2:+2*3/4     07        Drop->Equal
+  3:2*3/4      07        Drop<-["+"]
+  3:2*3/4      06       add<-[]
+  3:2*3/4      06       add->prd
+  3:2*3/4      07        prd->Seq
+  3:2*3/4      08         Seq->neg
+  3:2*3/4      09          Alt->Seq
+  3:2*3/4      10 Seq->Drop
+  3:2*3/4      11  Drop->Equal
+   :           11  Drop<-!!!
+   :           10 Seq<-!!!
+   :           09          Alt<-!!!
+  3:2*3/4      09          Alt->Transform
+  3:2*3/4      10 Transform->Pattern
+  4:*3/4       10 Transform<-["2"]
+  4:*3/4       09          Alt<-[2.0]
+  4:*3/4       08         Seq<-[2.0]
+  4:*3/4       08         Seq->Depth
+  4:*3/4       09          Depth->Alt
+  4:*3/4       10 Alt->mul
+  4:*3/4       11  mul->Drop
+  4:*3/4       12   Drop->Equal
+  5:3/4        12   Drop<-["*"]
+  5:3/4        11  mul<-[]
+  5:3/4        11  mul->neg
+  5:3/4        12   Alt->Seq
+  5:3/4        13    Seq->Drop
+  5:3/4        14     Drop->Equal
+   :           14     Drop<-!!!
+   :           13    Seq<-!!!
+   :           12   Alt<-!!!
+  5:3/4        12   Alt->Transform
+  5:3/4        13    Transform->Pattern
+  6:/4         13    Transform<-["3"]
+  6:/4         12   Alt<-[3.0]
+  6:/4         11  mul<-[3.0]
+  6:/4         10 Alt<-[3.0]
+  6:/4         09          Depth<-[3.0]
+  6:/4         09          Depth->Alt
+  6:/4         10 Alt->mul
+  6:/4         11  mul->Drop
+  6:/4         12   Drop->Equal
+   :           12   Drop<-!!!
+   :           11  mul<-!!!
+   :           10 Alt<-!!!
+  6:/4         10 Alt->div
+  6:/4         11  div->Seq
+  6:/4         12   Seq->Drop
+  6:/4         13    Drop->Equal
+  7:4          13    Drop<-["/"]
+  7:4          12   Seq<-[]
+  7:4          12   Seq->neg
+  7:4          13    Alt->Seq
+  7:4          14     Seq->Drop
+  7:4          15      Drop->Equal
+   :           15      Drop<-!!!
+   :           14     Seq<-!!!
+   :           13    Alt<-!!!
+  7:4          13    Alt->Transform
+  7:4          14     Transform->Pattern
+  8:           14     Transform<-["4"]
+  8:           13    Alt<-[4.0]
+  8:           12   Seq<-[4.0]
+  8:           11  div<-[4.0]
+  8:           10 Alt<-[Inv(4.0)]
+  8:           09          Depth<-[Inv(4.0)]
+  8:           09          Depth->Alt
+  8:           10 Alt->mul
+  8:           11  mul->Drop
+  8:           12   Drop->Equal
+   :           12   Drop<-!!!
+   :           11  mul<-!!!
+   :           10 Alt<-!!!
+  8:           10 Alt->div
+  8:           11  div->Seq
+  8:           12   Seq->Drop
+  8:           13    Drop->Equal
+   :           13    Drop<-!!!
+   :           12   Seq<-!!!
+   :           11  div<-!!!
+   :           10 Alt<-!!!
+   :           09          Depth<-!!!
+  8:           08         Seq<-[3.0,Inv(4.0)]
+  8:           07        prd<-[2.0,3.0,Inv(4.0)]
+  8:           06       add<-[Prd(Any[2.0,3.0,Inv(4.0)])]
+  8:           05      Alt<-[Prd(Any[2.0,3.0,Inv(4.0)])]
+  8:           04     Depth<-[Prd(Any[2.0,3.0,Inv(4.0)])]
+  8:           04     Depth->Alt
+  8:           05      Alt->add
+  8:           06       add->Drop
+  8:           07        Drop->Equal
+   :           07        Drop<-!!!
+   :           06       add<-!!!
+   :           05      Alt<-!!!
+  8:           05      Alt->sub
+  8:           06       sub->Seq
+  8:           07        Seq->Drop
+  8:           08         Drop->Equal
+   :           08         Drop<-!!!
+   :           07        Seq<-!!!
+   :           06       sub<-!!!
+   :           05      Alt<-!!!
+   :           04     Depth<-!!!
+  8:           03    Seq<-[Prd(Any[2.0,3.0,Inv(4.0)])]
+  8:           02   Transform<-[Prd(Any[1.0]),Prd(Any[2.0,3.0,Inv(4.0)])]
+  8:           01  all<-[Sum(Any[Prd(Any[1.0]),Prd(Any[....0,Inv(4.0)])])]
+  8:           01  all->Eos
+  8:           01  all<-[]
+  8:           00 Trace<-[Sum(Any[Prd(Any[1.0]),Prd(Any[....0,Inv(4.0)])])]
+1 = 1
+-1 = -1
+1+1 = 2
+1-1 = 0
+-1-1 = -2
+1.0 = 1.0
+-1.0 = -1.0
+--1.0 = 1.0
+1+2 = 3.0
+1+2*3/4 = 2.5
+Neg(Prd(Any[7.0,Inv(0.0),Inv(2.0),Inv(Neg(0.0))])) Inf Inf
+Inv(Neg(0.0)) -Inf
+Inv(Prd(Any[Neg(Sum(Any[Prd(Any[0.0])]))])) -Inf
+Inv(Sum(Any[Prd(Any[Neg(Sum(Any[Prd(Any[0.0])]))])])) -Inf
+Neg(Prd(Any[7.0,Inv(0.0),Inv(2.0),Inv(Sum(Any[Prd(Any[Neg(Sum(Any[Prd(Any[0.0])]))])])),3.0])) Inf Inf
+Inf Sum(Any[Prd(Any[-9.0]),Neg(Prd(Any[7.0,Inv(0.0),Inv(2.0),Inv(Sum(Any[Prd(Any[Neg(Sum(Any[Prd(Any[0.0])]))])])),3.0])),Neg(Prd(Any[7.0,Inv(Neg(Sum(Any[Prd(Any[9.0]),Prd(Any[5.0])])))])),Prd(Any[5.0]),Neg(Prd(Any[7.0]))]) Inf
+expr 9.0*5.0-6.0-7.0/9.0+9.0-2.0*-0.0*6.0*8.0+8.0*3.0/5.0+6.0+(6.0)
+64.02222222222221 64.02222222222223
+expr ((6.0))-3.0-((9.0))-6.0-2.0-2.0-7.0+((2.0))*5.0/8.0
+-21.75 -21.75
+expr 4.0*5.0+7.0
+27.0 27.0
+expr -3.0-8.0-1.0+1.0-3.0*9.0*5.0-2.0/2.0*7.0*(9.0)
+-209.0 -209.0
+expr -2.0*9.0-8.0+9.0+3.0*5.0*4.0+3.0/(-6.0*3.0+2.0)+(3.0/8.0+4.0-0.0+1.0)*9.0*2.0-0.0/8.0
+139.5625 139.5625
+expr -4.0-7.0/6.0+(4.0)-4.0/-0.0/3.0/6.0+5.0*-9.0
+Inf Inf
+expr (4.0-3.0+7.0/1.0)/3.0+4.0-3.0/5.0*-(6.0)/5.0+9.0
+16.386666666666667 16.386666666666667
+expr -3.0/9.0*2.0*5.0-9.0
+-12.333333333333332 -12.333333333333332
+expr -(7.0-8.0)+5.0*4.0-2.0-9.0/3.0
+16.0 16.0
+expr -(1.0)-2.0+4.0*(4.0)*0.0/7.0*2.0/9.0/8.0/1.0
+-3.0 -3.0
+expr -5.0-5.0+6.0*0.0
+-10.0 -10.0
+expr -2.0+1.0-5.0+1.0/5.0*4.0
+-5.2 -5.2
+expr ((1.0))*6.0+0.0+6.0-0.0*3.0/-0.0/5.0/4.0/1.0-(3.0)/2.0*-6.0-4.0+6.0
+NaN NaN
+expr (2.0)-7.0+1.0/2.0*9.0/3.0
+-3.5 -3.5
+expr (-8.0*5.0)
+-40.0 -40.0
+expr (2.0)+-(6.0-8.0)/((9.0))-6.0*9.0-1.0+3.0/4.0-7.0*-6.0*3.0/6.0
+-31.02777777777778 -31.02777777777778
+expr (0.0+7.0)*-8.0-5.0/3.0*4.0+0.0+5.0/8.0
+-62.041666666666664 -62.041666666666664
+expr 8.0/4.0/7.0*9.0*9.0-4.0/1.0-5.0/0.0-((-4.0))/2.0/(((6.0-7.0*3.0)))
+-Inf -Inf
+expr (8.0)+6.0-6.0*9.0/-1.0*3.0-8.0+3.0+7.0
+178.0 178.0
+expr 4.0-7.0*4.0*7.0*(0.0)+5.0*1.0-2.0*(4.0-8.0)+(3.0-6.0+7.0)
+21.0 21.0
+calc ok
+one level
+  1:ab         00 Trace->Dot
+  2:b          00 Trace<-['a']
+multiple
+  2:b          00 Trace->Depth
+  2:b          01  Depth->Dot
+  3:           01  Depth<-['b']
+  3:           01  Depth->Dot
+   :           01  Depth<-!!!
+  3:           00 Trace<-['b']
+  2:b          00 Trace->Depth
+  2:b          01  Depth->Dot
+   :           01  Depth<-!!!
+  2:b          00 Trace<-[]
+debug ok
 abcdefghijklmnopqrstuvwxyz
 0123456789
 Any["abcdefghijklm"]
@@ -468,7 +835,774 @@ Any["abcdefghijklmnopqrstuvwxyz\n012345"]
 Any["abcdefghijklm"]
 Any["abcdefghijklmnopqrstuvwxyz\n012345"]
 try ok
+ParserCombinator.Parsers.GML.GMLError("a is a list")
+  1:\ngra...\n 00 Trace->Seq!
+  1:\ngra...\n 01  Seq!->comment
+  1:\ngra...\n 02   comment->Pattern
+  1:\ngra...\n 02   comment<-[""]
+  1:\ngra...\n 01  Seq!<-[]
+  1:\ngra...\n 01  Seq!->spc
+  1:\ngra...\n 02   spc->Pattern
+  2:graph...\n 02   spc<-["\n"]
+  2:graph...\n 01  Seq!<-[]
+  2:graph...\n 01  Seq!->list
+  2:graph...\n 02   Transform->Depth!
+  2:graph...\n 03    Depth!->element
+  2:graph...\n 04     element->Seq!
+  2:graph...\n 05      Seq!->key
+  2:graph...\n 06       key->Pattern
+  8:[\n  ...\n 06       key<-["graph"]
+  8:[\n  ...\n 05      Seq!<-[:graph]
+  8:[\n  ...\n 05      Seq!->value
+  8:[\n  ...\n 06       value->real
+  8:[\n  ...\n 07        real->Pattern
+   :           07        real<-!!!
+   :           06       value<-!!!
+  8:[\n  ...\n 06       value->int
+  8:[\n  ...\n 07        int->Pattern
+   :           07        int<-!!!
+   :           06       value<-!!!
+  8:[\n  ...\n 06       value->str
+   :           06       value<-!!!
+  8:[\n  ...\n 06       value->sublist
+  8:[\n  ...\n 07        sublist->open
+  8:[\n  ...\n 08         open->Pattern
+ 12:comme...\n 08         open<-["[\n  "]
+ 12:comme...\n 07        sublist<-[]
+ 12:comme...\n 07        sublist->list
+ 12:comme...\n 08         Transform->Depth!
+ 12:comme...\n 09          Depth!->element
+ 12:comme...\n 10 element->Seq!
+ 12:comme...\n 11  Seq!->key
+ 12:comme...\n 12   key->Pattern
+ 20:\"Thi...\n 12   key<-["comment"]
+ 20:\"Thi...\n 11  Seq!<-[:comment]
+ 20:\"Thi...\n 11  Seq!->value
+ 20:\"Thi...\n 12   value->real
+ 20:\"Thi...\n 13    real->Pattern
+   :           13    real<-!!!
+   :           12   value<-!!!
+ 20:\"Thi...\n 12   value->int
+ 20:\"Thi...\n 13    int->Pattern
+   :           13    int<-!!!
+   :           12   value<-!!!
+ 20:\"Thi...\n 12   value->str
+ 47:direc...\n 12   value<-["This is a sample graph"]
+ 47:direc...\n 11  Seq!<-["This is a sample graph"]
+ 47:direc...\n 10 element<-[:comment,"This is a sample graph"]
+ 47:direc...\n 09          Depth!<-[(:comment,"This is a sample graph")]
+ 47:direc...\n 09          Depth!->element
+ 47:direc...\n 10 element->Seq!
+ 47:direc...\n 11  Seq!->key
+ 47:direc...\n 12   key->Pattern
+ 56:1\n  ...\n 12   key<-["directed"]
+ 56:1\n  ...\n 11  Seq!<-[:directed]
+ 56:1\n  ...\n 11  Seq!->value
+ 56:1\n  ...\n 12   value->real
+ 56:1\n  ...\n 13    real->Pattern
+   :           13    real<-!!!
+   :           12   value<-!!!
+ 56:1\n  ...\n 12   value->int
+ 56:1\n  ...\n 13    int->Pattern
+ 60:id 42...\n 13    int<-["1"]
+ 60:id 42...\n 12   value<-[1]
+ 60:id 42...\n 11  Seq!<-[1]
+ 60:id 42...\n 10 element<-[:directed,1]
+ 60:id 42...\n 09          Depth!<-[(:directed,1)]
+ 60:id 42...\n 09          Depth!->element
+ 60:id 42...\n 10 element->Seq!
+ 60:id 42...\n 11  Seq!->key
+ 60:id 42...\n 12   key->Pattern
+ 63:42\n ...\n 12   key<-["id"]
+ 63:42\n ...\n 11  Seq!<-[:id]
+ 63:42\n ...\n 11  Seq!->value
+ 63:42\n ...\n 12   value->real
+ 63:42\n ...\n 13    real->Pattern
+   :           13    real<-!!!
+   :           12   value<-!!!
+ 63:42\n ...\n 12   value->int
+ 63:42\n ...\n 13    int->Pattern
+ 68:label...\n 13    int<-["42"]
+ 68:label...\n 12   value<-[42]
+ 68:label...\n 11  Seq!<-[42]
+ 68:label...\n 10 element<-[:id,42]
+ 68:label...\n 09          Depth!<-[(:id,42)]
+ 68:label...\n 09          Depth!->element
+ 68:label...\n 10 element->Seq!
+ 68:label...\n 11  Seq!->key
+ 68:label...\n 12   key->Pattern
+ 74:\"Hel...\n 12   key<-["label"]
+ 74:\"Hel...\n 11  Seq!<-[:label]
+ 74:\"Hel...\n 11  Seq!->value
+ 74:\"Hel...\n 12   value->real
+ 74:\"Hel...\n 13    real->Pattern
+   :           13    real<-!!!
+   :           12   value<-!!!
+ 74:\"Hel...\n 12   value->int
+ 74:\"Hel...\n 13    int->Pattern
+   :           13    int<-!!!
+   :           12   value<-!!!
+ 74:\"Hel...\n 12   value->str
+ 98:node ...\n 12   value<-["Hello, I am a graph"]
+ 98:node ...\n 11  Seq!<-["Hello, I am a graph"]
+ 98:node ...\n 10 element<-[:label,"Hello, I am a graph"]
+ 98:node ...\n 09          Depth!<-[(:label,"Hello, I am a graph")]
+ 98:node ...\n 09          Depth!->element
+ 98:node ...\n 10 element->Seq!
+ 98:node ...\n 11  Seq!->key
+ 98:node ...\n 12   key->Pattern
+103:[\n  ...\n 12   key<-["node"]
+103:[\n  ...\n 11  Seq!<-[:node]
+103:[\n  ...\n 11  Seq!->value
+103:[\n  ...\n 12   value->real
+103:[\n  ...\n 13    real->Pattern
+   :           13    real<-!!!
+   :           12   value<-!!!
+103:[\n  ...\n 12   value->int
+103:[\n  ...\n 13    int->Pattern
+   :           13    int<-!!!
+   :           12   value<-!!!
+103:[\n  ...\n 12   value->str
+   :           12   value<-!!!
+103:[\n  ...\n 12   value->sublist
+103:[\n  ...\n 13    sublist->open
+103:[\n  ...\n 14     open->Pattern
+109:id 1\...\n 14     open<-["[\n    "]
+109:id 1\...\n 13    sublist<-[]
+109:id 1\...\n 13    sublist->list
+109:id 1\...\n 14     Transform->Depth!
+109:id 1\...\n 15      Depth!->element
+109:id 1\...\n 16       element->Seq!
+109:id 1\...\n 17        Seq!->key
+109:id 1\...\n 18         key->Pattern
+112:1\n  ...\n 18         key<-["id"]
+112:1\n  ...\n 17        Seq!<-[:id]
+112:1\n  ...\n 17        Seq!->value
+112:1\n  ...\n 18         value->real
+112:1\n  ...\n 19          real->Pattern
+   :           19          real<-!!!
+   :           18         value<-!!!
+112:1\n  ...\n 18         value->int
+112:1\n  ...\n 19          int->Pattern
+118:label...\n 19          int<-["1"]
+118:label...\n 18         value<-[1]
+118:label...\n 17        Seq!<-[1]
+118:label...\n 16       element<-[:id,1]
+118:label...\n 15      Depth!<-[(:id,1)]
+118:label...\n 15      Depth!->element
+118:label...\n 16       element->Seq!
+118:label...\n 17        Seq!->key
+118:label...\n 18         key->Pattern
+124:\"nod...\n 18         key<-["label"]
+124:\"nod...\n 17        Seq!<-[:label]
+124:\"nod...\n 17        Seq!->value
+124:\"nod...\n 18         value->real
+124:\"nod...\n 19          real->Pattern
+   :           19          real<-!!!
+   :           18         value<-!!!
+124:\"nod...\n 18         value->int
+124:\"nod...\n 19          int->Pattern
+   :           19          int<-!!!
+   :           18         value<-!!!
+124:\"nod...\n 18         value->str
+137:thisI...\n 18         value<-["node 1"]
+137:thisI...\n 17        Seq!<-["node 1"]
+137:thisI...\n 16       element<-[:label,"node 1"]
+137:thisI...\n 15      Depth!<-[(:label,"node 1")]
+137:thisI...\n 15      Depth!->element
+137:thisI...\n 16       element->Seq!
+137:thisI...\n 17        Seq!->key
+137:thisI...\n 18         key->Pattern
+160:42\n ...\n 18         key<-["thisIsASampleAttribute"]
+160:42\n ...\n 17        Seq!<-[:thisIsASampleAttribute]
+160:42\n ...\n 17        Seq!->value
+160:42\n ...\n 18         value->real
+160:42\n ...\n 19          real->Pattern
+   :           19          real<-!!!
+   :           18         value<-!!!
+160:42\n ...\n 18         value->int
+160:42\n ...\n 19          int->Pattern
+165:]\n  ...\n 19          int<-["42"]
+165:]\n  ...\n 18         value<-[42]
+165:]\n  ...\n 17        Seq!<-[42]
+165:]\n  ...\n 16       element<-[:thisIsASampleAttribute,42]
+165:]\n  ...\n 15      Depth!<-[(:thisIsASampleAttribute,42)]
+165:]\n  ...\n 15      Depth!->element
+165:]\n  ...\n 16       element->Seq!
+165:]\n  ...\n 17        Seq!->key
+165:]\n  ...\n 18         key->Pattern
+   :           18         key<-!!!
+   :           17        Seq!<-!!!
+   :           16       element<-!!!
+   :           15      Depth!<-!!!
+165:]\n  ...\n 14     Transform<-[(:id,1),(:label,"node 1"),(:th...leAttribute,42)]
+165:]\n  ...\n 13    sublist<-[Any[(:id,1),(:label,"node 1"),...eAttribute,42)]]
+165:]\n  ...\n 13    sublist->Alt!
+165:]\n  ...\n 14     Alt!->close
+165:]\n  ...\n 15      close->Pattern
+169:node ...\n 15      close<-["]\n  "]
+169:node ...\n 14     Alt!<-[]
+169:node ...\n 13    sublist<-[]
+169:node ...\n 12   value<-[Any[(:id,1),(:label,"node 1"),...eAttribute,42)]]
+169:node ...\n 11  Seq!<-[Any[(:id,1),(:label,"node 1"),...eAttribute,42)]]
+169:node ...\n 10 element<-[:node,Any[(:id,1),(:label,"nod...eAttribute,42)]]
+169:node ...\n 09          Depth!<-[(:node,Any[(:id,1),(:label,"no...Attribute,42)])]
+169:node ...\n 09          Depth!->element
+169:node ...\n 10 element->Seq!
+169:node ...\n 11  Seq!->key
+169:node ...\n 12   key->Pattern
+174:[\n  ...\n 12   key<-["node"]
+174:[\n  ...\n 11  Seq!<-[:node]
+174:[\n  ...\n 11  Seq!->value
+174:[\n  ...\n 12   value->real
+174:[\n  ...\n 13    real->Pattern
+   :           13    real<-!!!
+   :           12   value<-!!!
+174:[\n  ...\n 12   value->int
+174:[\n  ...\n 13    int->Pattern
+   :           13    int<-!!!
+   :           12   value<-!!!
+174:[\n  ...\n 12   value->str
+   :           12   value<-!!!
+174:[\n  ...\n 12   value->sublist
+174:[\n  ...\n 13    sublist->open
+174:[\n  ...\n 14     open->Pattern
+180:id 2\...\n 14     open<-["[\n    "]
+180:id 2\...\n 13    sublist<-[]
+180:id 2\...\n 13    sublist->list
+180:id 2\...\n 14     Transform->Depth!
+180:id 2\...\n 15      Depth!->element
+180:id 2\...\n 16       element->Seq!
+180:id 2\...\n 17        Seq!->key
+180:id 2\...\n 18         key->Pattern
+183:2\n  ...\n 18         key<-["id"]
+183:2\n  ...\n 17        Seq!<-[:id]
+183:2\n  ...\n 17        Seq!->value
+183:2\n  ...\n 18         value->real
+183:2\n  ...\n 19          real->Pattern
+   :           19          real<-!!!
+   :           18         value<-!!!
+183:2\n  ...\n 18         value->int
+183:2\n  ...\n 19          int->Pattern
+189:label...\n 19          int<-["2"]
+189:label...\n 18         value<-[2]
+189:label...\n 17        Seq!<-[2]
+189:label...\n 16       element<-[:id,2]
+189:label...\n 15      Depth!<-[(:id,2)]
+189:label...\n 15      Depth!->element
+189:label...\n 16       element->Seq!
+189:label...\n 17        Seq!->key
+189:label...\n 18         key->Pattern
+195:\"nod...\n 18         key<-["label"]
+195:\"nod...\n 17        Seq!<-[:label]
+195:\"nod...\n 17        Seq!->value
+195:\"nod...\n 18         value->real
+195:\"nod...\n 19          real->Pattern
+   :           19          real<-!!!
+   :           18         value<-!!!
+195:\"nod...\n 18         value->int
+195:\"nod...\n 19          int->Pattern
+   :           19          int<-!!!
+   :           18         value<-!!!
+195:\"nod...\n 18         value->str
+208:thisI...\n 18         value<-["node 2"]
+208:thisI...\n 17        Seq!<-["node 2"]
+208:thisI...\n 16       element<-[:label,"node 2"]
+208:thisI...\n 15      Depth!<-[(:label,"node 2")]
+208:thisI...\n 15      Depth!->element
+208:thisI...\n 16       element->Seq!
+208:thisI...\n 17        Seq!->key
+208:thisI...\n 18         key->Pattern
+231:43\n ...\n 18         key<-["thisIsASampleAttribute"]
+231:43\n ...\n 17        Seq!<-[:thisIsASampleAttribute]
+231:43\n ...\n 17        Seq!->value
+231:43\n ...\n 18         value->real
+231:43\n ...\n 19          real->Pattern
+   :           19          real<-!!!
+   :           18         value<-!!!
+231:43\n ...\n 18         value->int
+231:43\n ...\n 19          int->Pattern
+236:]\n  ...\n 19          int<-["43"]
+236:]\n  ...\n 18         value<-[43]
+236:]\n  ...\n 17        Seq!<-[43]
+236:]\n  ...\n 16       element<-[:thisIsASampleAttribute,43]
+236:]\n  ...\n 15      Depth!<-[(:thisIsASampleAttribute,43)]
+236:]\n  ...\n 15      Depth!->element
+236:]\n  ...\n 16       element->Seq!
+236:]\n  ...\n 17        Seq!->key
+236:]\n  ...\n 18         key->Pattern
+   :           18         key<-!!!
+   :           17        Seq!<-!!!
+   :           16       element<-!!!
+   :           15      Depth!<-!!!
+236:]\n  ...\n 14     Transform<-[(:id,2),(:label,"node 2"),(:th...leAttribute,43)]
+236:]\n  ...\n 13    sublist<-[Any[(:id,2),(:label,"node 2"),...eAttribute,43)]]
+236:]\n  ...\n 13    sublist->Alt!
+236:]\n  ...\n 14     Alt!->close
+236:]\n  ...\n 15      close->Pattern
+240:node ...\n 15      close<-["]\n  "]
+240:node ...\n 14     Alt!<-[]
+240:node ...\n 13    sublist<-[]
+240:node ...\n 12   value<-[Any[(:id,2),(:label,"node 2"),...eAttribute,43)]]
+240:node ...\n 11  Seq!<-[Any[(:id,2),(:label,"node 2"),...eAttribute,43)]]
+240:node ...\n 10 element<-[:node,Any[(:id,2),(:label,"nod...eAttribute,43)]]
+240:node ...\n 09          Depth!<-[(:node,Any[(:id,2),(:label,"no...Attribute,43)])]
+240:node ...\n 09          Depth!->element
+240:node ...\n 10 element->Seq!
+240:node ...\n 11  Seq!->key
+240:node ...\n 12   key->Pattern
+245:[\n  ...\n 12   key<-["node"]
+245:[\n  ...\n 11  Seq!<-[:node]
+245:[\n  ...\n 11  Seq!->value
+245:[\n  ...\n 12   value->real
+245:[\n  ...\n 13    real->Pattern
+   :           13    real<-!!!
+   :           12   value<-!!!
+245:[\n  ...\n 12   value->int
+245:[\n  ...\n 13    int->Pattern
+   :           13    int<-!!!
+   :           12   value<-!!!
+245:[\n  ...\n 12   value->str
+   :           12   value<-!!!
+245:[\n  ...\n 12   value->sublist
+245:[\n  ...\n 13    sublist->open
+245:[\n  ...\n 14     open->Pattern
+251:id 3\...\n 14     open<-["[\n    "]
+251:id 3\...\n 13    sublist<-[]
+251:id 3\...\n 13    sublist->list
+251:id 3\...\n 14     Transform->Depth!
+251:id 3\...\n 15      Depth!->element
+251:id 3\...\n 16       element->Seq!
+251:id 3\...\n 17        Seq!->key
+251:id 3\...\n 18         key->Pattern
+254:3\n  ...\n 18         key<-["id"]
+254:3\n  ...\n 17        Seq!<-[:id]
+254:3\n  ...\n 17        Seq!->value
+254:3\n  ...\n 18         value->real
+254:3\n  ...\n 19          real->Pattern
+   :           19          real<-!!!
+   :           18         value<-!!!
+254:3\n  ...\n 18         value->int
+254:3\n  ...\n 19          int->Pattern
+260:label...\n 19          int<-["3"]
+260:label...\n 18         value<-[3]
+260:label...\n 17        Seq!<-[3]
+260:label...\n 16       element<-[:id,3]
+260:label...\n 15      Depth!<-[(:id,3)]
+260:label...\n 15      Depth!->element
+260:label...\n 16       element->Seq!
+260:label...\n 17        Seq!->key
+260:label...\n 18         key->Pattern
+266:\"nod...\n 18         key<-["label"]
+266:\"nod...\n 17        Seq!<-[:label]
+266:\"nod...\n 17        Seq!->value
+266:\"nod...\n 18         value->real
+266:\"nod...\n 19          real->Pattern
+   :           19          real<-!!!
+   :           18         value<-!!!
+266:\"nod...\n 18         value->int
+266:\"nod...\n 19          int->Pattern
+   :           19          int<-!!!
+   :           18         value<-!!!
+266:\"nod...\n 18         value->str
+279:thisI...\n 18         value<-["node 3"]
+279:thisI...\n 17        Seq!<-["node 3"]
+279:thisI...\n 16       element<-[:label,"node 3"]
+279:thisI...\n 15      Depth!<-[(:label,"node 3")]
+279:thisI...\n 15      Depth!->element
+279:thisI...\n 16       element->Seq!
+279:thisI...\n 17        Seq!->key
+279:thisI...\n 18         key->Pattern
+302:44\n ...\n 18         key<-["thisIsASampleAttribute"]
+302:44\n ...\n 17        Seq!<-[:thisIsASampleAttribute]
+302:44\n ...\n 17        Seq!->value
+302:44\n ...\n 18         value->real
+302:44\n ...\n 19          real->Pattern
+   :           19          real<-!!!
+   :           18         value<-!!!
+302:44\n ...\n 18         value->int
+302:44\n ...\n 19          int->Pattern
+307:]\n  ...\n 19          int<-["44"]
+307:]\n  ...\n 18         value<-[44]
+307:]\n  ...\n 17        Seq!<-[44]
+307:]\n  ...\n 16       element<-[:thisIsASampleAttribute,44]
+307:]\n  ...\n 15      Depth!<-[(:thisIsASampleAttribute,44)]
+307:]\n  ...\n 15      Depth!->element
+307:]\n  ...\n 16       element->Seq!
+307:]\n  ...\n 17        Seq!->key
+307:]\n  ...\n 18         key->Pattern
+   :           18         key<-!!!
+   :           17        Seq!<-!!!
+   :           16       element<-!!!
+   :           15      Depth!<-!!!
+307:]\n  ...\n 14     Transform<-[(:id,3),(:label,"node 3"),(:th...leAttribute,44)]
+307:]\n  ...\n 13    sublist<-[Any[(:id,3),(:label,"node 3"),...eAttribute,44)]]
+307:]\n  ...\n 13    sublist->Alt!
+307:]\n  ...\n 14     Alt!->close
+307:]\n  ...\n 15      close->Pattern
+311:edge ...\n 15      close<-["]\n  "]
+311:edge ...\n 14     Alt!<-[]
+311:edge ...\n 13    sublist<-[]
+311:edge ...\n 12   value<-[Any[(:id,3),(:label,"node 3"),...eAttribute,44)]]
+311:edge ...\n 11  Seq!<-[Any[(:id,3),(:label,"node 3"),...eAttribute,44)]]
+311:edge ...\n 10 element<-[:node,Any[(:id,3),(:label,"nod...eAttribute,44)]]
+311:edge ...\n 09          Depth!<-[(:node,Any[(:id,3),(:label,"no...Attribute,44)])]
+311:edge ...\n 09          Depth!->element
+311:edge ...\n 10 element->Seq!
+311:edge ...\n 11  Seq!->key
+311:edge ...\n 12   key->Pattern
+316:[\n  ...\n 12   key<-["edge"]
+316:[\n  ...\n 11  Seq!<-[:edge]
+316:[\n  ...\n 11  Seq!->value
+316:[\n  ...\n 12   value->real
+316:[\n  ...\n 13    real->Pattern
+   :           13    real<-!!!
+   :           12   value<-!!!
+316:[\n  ...\n 12   value->int
+316:[\n  ...\n 13    int->Pattern
+   :           13    int<-!!!
+   :           12   value<-!!!
+316:[\n  ...\n 12   value->str
+   :           12   value<-!!!
+316:[\n  ...\n 12   value->sublist
+316:[\n  ...\n 13    sublist->open
+316:[\n  ...\n 14     open->Pattern
+322:sourc...\n 14     open<-["[\n    "]
+322:sourc...\n 13    sublist<-[]
+322:sourc...\n 13    sublist->list
+322:sourc...\n 14     Transform->Depth!
+322:sourc...\n 15      Depth!->element
+322:sourc...\n 16       element->Seq!
+322:sourc...\n 17        Seq!->key
+322:sourc...\n 18         key->Pattern
+329:1\n  ...\n 18         key<-["source"]
+329:1\n  ...\n 17        Seq!<-[:source]
+329:1\n  ...\n 17        Seq!->value
+329:1\n  ...\n 18         value->real
+329:1\n  ...\n 19          real->Pattern
+   :           19          real<-!!!
+   :           18         value<-!!!
+329:1\n  ...\n 18         value->int
+329:1\n  ...\n 19          int->Pattern
+335:targe...\n 19          int<-["1"]
+335:targe...\n 18         value<-[1]
+335:targe...\n 17        Seq!<-[1]
+335:targe...\n 16       element<-[:source,1]
+335:targe...\n 15      Depth!<-[(:source,1)]
+335:targe...\n 15      Depth!->element
+335:targe...\n 16       element->Seq!
+335:targe...\n 17        Seq!->key
+335:targe...\n 18         key->Pattern
+342:2\n  ...\n 18         key<-["target"]
+342:2\n  ...\n 17        Seq!<-[:target]
+342:2\n  ...\n 17        Seq!->value
+342:2\n  ...\n 18         value->real
+342:2\n  ...\n 19          real->Pattern
+   :           19          real<-!!!
+   :           18         value<-!!!
+342:2\n  ...\n 18         value->int
+342:2\n  ...\n 19          int->Pattern
+348:label...\n 19          int<-["2"]
+348:label...\n 18         value<-[2]
+348:label...\n 17        Seq!<-[2]
+348:label...\n 16       element<-[:target,2]
+348:label...\n 15      Depth!<-[(:target,2)]
+348:label...\n 15      Depth!->element
+348:label...\n 16       element->Seq!
+348:label...\n 17        Seq!->key
+348:label...\n 18         key->Pattern
+354:\"Edg...\n 18         key<-["label"]
+354:\"Edg...\n 17        Seq!<-[:label]
+354:\"Edg...\n 17        Seq!->value
+354:\"Edg...\n 18         value->real
+354:\"Edg...\n 19          real->Pattern
+   :           19          real<-!!!
+   :           18         value<-!!!
+354:\"Edg...\n 18         value->int
+354:\"Edg...\n 19          int->Pattern
+   :           19          int<-!!!
+   :           18         value<-!!!
+354:\"Edg...\n 18         value->str
+385:]\n  ...\n 18         value<-["Edge from node 1 to node 2"]
+385:]\n  ...\n 17        Seq!<-["Edge from node 1 to node 2"]
+385:]\n  ...\n 16       element<-[:label,"Edge from node 1 to node 2"]
+385:]\n  ...\n 15      Depth!<-[(:label,"Edge from node 1 to node 2")]
+385:]\n  ...\n 15      Depth!->element
+385:]\n  ...\n 16       element->Seq!
+385:]\n  ...\n 17        Seq!->key
+385:]\n  ...\n 18         key->Pattern
+   :           18         key<-!!!
+   :           17        Seq!<-!!!
+   :           16       element<-!!!
+   :           15      Depth!<-!!!
+385:]\n  ...\n 14     Transform<-[(:source,1),(:target,2),(:labe...e 1 to node 2")]
+385:]\n  ...\n 13    sublist<-[Any[(:source,1),(:target,2),(:... 1 to node 2")]]
+385:]\n  ...\n 13    sublist->Alt!
+385:]\n  ...\n 14     Alt!->close
+385:]\n  ...\n 15      close->Pattern
+389:edge ...\n 15      close<-["]\n  "]
+389:edge ...\n 14     Alt!<-[]
+389:edge ...\n 13    sublist<-[]
+389:edge ...\n 12   value<-[Any[(:source,1),(:target,2),(:... 1 to node 2")]]
+389:edge ...\n 11  Seq!<-[Any[(:source,1),(:target,2),(:... 1 to node 2")]]
+389:edge ...\n 10 element<-[:edge,Any[(:source,1),(:target... 1 to node 2")]]
+389:edge ...\n 09          Depth!<-[(:edge,Any[(:source,1),(:targe...1 to node 2")])]
+389:edge ...\n 09          Depth!->element
+389:edge ...\n 10 element->Seq!
+389:edge ...\n 11  Seq!->key
+389:edge ...\n 12   key->Pattern
+394:[\n  ...\n 12   key<-["edge"]
+394:[\n  ...\n 11  Seq!<-[:edge]
+394:[\n  ...\n 11  Seq!->value
+394:[\n  ...\n 12   value->real
+394:[\n  ...\n 13    real->Pattern
+   :           13    real<-!!!
+   :           12   value<-!!!
+394:[\n  ...\n 12   value->int
+394:[\n  ...\n 13    int->Pattern
+   :           13    int<-!!!
+   :           12   value<-!!!
+394:[\n  ...\n 12   value->str
+   :           12   value<-!!!
+394:[\n  ...\n 12   value->sublist
+394:[\n  ...\n 13    sublist->open
+394:[\n  ...\n 14     open->Pattern
+400:sourc...\n 14     open<-["[\n    "]
+400:sourc...\n 13    sublist<-[]
+400:sourc...\n 13    sublist->list
+400:sourc...\n 14     Transform->Depth!
+400:sourc...\n 15      Depth!->element
+400:sourc...\n 16       element->Seq!
+400:sourc...\n 17        Seq!->key
+400:sourc...\n 18         key->Pattern
+407:2\n  ...\n 18         key<-["source"]
+407:2\n  ...\n 17        Seq!<-[:source]
+407:2\n  ...\n 17        Seq!->value
+407:2\n  ...\n 18         value->real
+407:2\n  ...\n 19          real->Pattern
+   :           19          real<-!!!
+   :           18         value<-!!!
+407:2\n  ...\n 18         value->int
+407:2\n  ...\n 19          int->Pattern
+413:targe...\n 19          int<-["2"]
+413:targe...\n 18         value<-[2]
+413:targe...\n 17        Seq!<-[2]
+413:targe...\n 16       element<-[:source,2]
+413:targe...\n 15      Depth!<-[(:source,2)]
+413:targe...\n 15      Depth!->element
+413:targe...\n 16       element->Seq!
+413:targe...\n 17        Seq!->key
+413:targe...\n 18         key->Pattern
+420:3\n  ...\n 18         key<-["target"]
+420:3\n  ...\n 17        Seq!<-[:target]
+420:3\n  ...\n 17        Seq!->value
+420:3\n  ...\n 18         value->real
+420:3\n  ...\n 19          real->Pattern
+   :           19          real<-!!!
+   :           18         value<-!!!
+420:3\n  ...\n 18         value->int
+420:3\n  ...\n 19          int->Pattern
+426:label...\n 19          int<-["3"]
+426:label...\n 18         value<-[3]
+426:label...\n 17        Seq!<-[3]
+426:label...\n 16       element<-[:target,3]
+426:label...\n 15      Depth!<-[(:target,3)]
+426:label...\n 15      Depth!->element
+426:label...\n 16       element->Seq!
+426:label...\n 17        Seq!->key
+426:label...\n 18         key->Pattern
+432:\"Edg...\n 18         key<-["label"]
+432:\"Edg...\n 17        Seq!<-[:label]
+432:\"Edg...\n 17        Seq!->value
+432:\"Edg...\n 18         value->real
+432:\"Edg...\n 19          real->Pattern
+   :           19          real<-!!!
+   :           18         value<-!!!
+432:\"Edg...\n 18         value->int
+432:\"Edg...\n 19          int->Pattern
+   :           19          int<-!!!
+   :           18         value<-!!!
+432:\"Edg...\n 18         value->str
+463:]\n  ...\n 18         value<-["Edge from node 2 to node 3"]
+463:]\n  ...\n 17        Seq!<-["Edge from node 2 to node 3"]
+463:]\n  ...\n 16       element<-[:label,"Edge from node 2 to node 3"]
+463:]\n  ...\n 15      Depth!<-[(:label,"Edge from node 2 to node 3")]
+463:]\n  ...\n 15      Depth!->element
+463:]\n  ...\n 16       element->Seq!
+463:]\n  ...\n 17        Seq!->key
+463:]\n  ...\n 18         key->Pattern
+   :           18         key<-!!!
+   :           17        Seq!<-!!!
+   :           16       element<-!!!
+   :           15      Depth!<-!!!
+463:]\n  ...\n 14     Transform<-[(:source,2),(:target,3),(:labe...e 2 to node 3")]
+463:]\n  ...\n 13    sublist<-[Any[(:source,2),(:target,3),(:... 2 to node 3")]]
+463:]\n  ...\n 13    sublist->Alt!
+463:]\n  ...\n 14     Alt!->close
+463:]\n  ...\n 15      close->Pattern
+467:edge ...\n 15      close<-["]\n  "]
+467:edge ...\n 14     Alt!<-[]
+467:edge ...\n 13    sublist<-[]
+467:edge ...\n 12   value<-[Any[(:source,2),(:target,3),(:... 2 to node 3")]]
+467:edge ...\n 11  Seq!<-[Any[(:source,2),(:target,3),(:... 2 to node 3")]]
+467:edge ...\n 10 element<-[:edge,Any[(:source,2),(:target... 2 to node 3")]]
+467:edge ...\n 09          Depth!<-[(:edge,Any[(:source,2),(:targe...2 to node 3")])]
+467:edge ...\n 09          Depth!->element
+467:edge ...\n 10 element->Seq!
+467:edge ...\n 11  Seq!->key
+467:edge ...\n 12   key->Pattern
+472:[\n  ...\n 12   key<-["edge"]
+472:[\n  ...\n 11  Seq!<-[:edge]
+472:[\n  ...\n 11  Seq!->value
+472:[\n  ...\n 12   value->real
+472:[\n  ...\n 13    real->Pattern
+   :           13    real<-!!!
+   :           12   value<-!!!
+472:[\n  ...\n 12   value->int
+472:[\n  ...\n 13    int->Pattern
+   :           13    int<-!!!
+   :           12   value<-!!!
+472:[\n  ...\n 12   value->str
+   :           12   value<-!!!
+472:[\n  ...\n 12   value->sublist
+472:[\n  ...\n 13    sublist->open
+472:[\n  ...\n 14     open->Pattern
+478:sourc...\n 14     open<-["[\n    "]
+478:sourc...\n 13    sublist<-[]
+478:sourc...\n 13    sublist->list
+478:sourc...\n 14     Transform->Depth!
+478:sourc...\n 15      Depth!->element
+478:sourc...\n 16       element->Seq!
+478:sourc...\n 17        Seq!->key
+478:sourc...\n 18         key->Pattern
+485:3\n  ...\n 18         key<-["source"]
+485:3\n  ...\n 17        Seq!<-[:source]
+485:3\n  ...\n 17        Seq!->value
+485:3\n  ...\n 18         value->real
+485:3\n  ...\n 19          real->Pattern
+   :           19          real<-!!!
+   :           18         value<-!!!
+485:3\n  ...\n 18         value->int
+485:3\n  ...\n 19          int->Pattern
+491:targe...\n 19          int<-["3"]
+491:targe...\n 18         value<-[3]
+491:targe...\n 17        Seq!<-[3]
+491:targe...\n 16       element<-[:source,3]
+491:targe...\n 15      Depth!<-[(:source,3)]
+491:targe...\n 15      Depth!->element
+491:targe...\n 16       element->Seq!
+491:targe...\n 17        Seq!->key
+491:targe...\n 18         key->Pattern
+498:1\n  ...\n 18         key<-["target"]
+498:1\n  ...\n 17        Seq!<-[:target]
+498:1\n  ...\n 17        Seq!->value
+498:1\n  ...\n 18         value->real
+498:1\n  ...\n 19          real->Pattern
+   :           19          real<-!!!
+   :           18         value<-!!!
+498:1\n  ...\n 18         value->int
+498:1\n  ...\n 19          int->Pattern
+504:label...\n 19          int<-["1"]
+504:label...\n 18         value<-[1]
+504:label...\n 17        Seq!<-[1]
+504:label...\n 16       element<-[:target,1]
+504:label...\n 15      Depth!<-[(:target,1)]
+504:label...\n 15      Depth!->element
+504:label...\n 16       element->Seq!
+504:label...\n 17        Seq!->key
+504:label...\n 18         key->Pattern
+510:\"Edg...\n 18         key<-["label"]
+510:\"Edg...\n 17        Seq!<-[:label]
+510:\"Edg...\n 17        Seq!->value
+510:\"Edg...\n 18         value->real
+510:\"Edg...\n 19          real->Pattern
+   :           19          real<-!!!
+   :           18         value<-!!!
+510:\"Edg...\n 18         value->int
+510:\"Edg...\n 19          int->Pattern
+   :           19          int<-!!!
+   :           18         value<-!!!
+510:\"Edg...\n 18         value->str
+541:]\n]\n     18         value<-["Edge from node 3 to node 1"]
+541:]\n]\n     17        Seq!<-["Edge from node 3 to node 1"]
+541:]\n]\n     16       element<-[:label,"Edge from node 3 to node 1"]
+541:]\n]\n     15      Depth!<-[(:label,"Edge from node 3 to node 1")]
+541:]\n]\n     15      Depth!->element
+541:]\n]\n     16       element->Seq!
+541:]\n]\n     17        Seq!->key
+541:]\n]\n     18         key->Pattern
+   :           18         key<-!!!
+   :           17        Seq!<-!!!
+   :           16       element<-!!!
+   :           15      Depth!<-!!!
+541:]\n]\n     14     Transform<-[(:source,3),(:target,1),(:labe...e 3 to node 1")]
+541:]\n]\n     13    sublist<-[Any[(:source,3),(:target,1),(:... 3 to node 1")]]
+541:]\n]\n     13    sublist->Alt!
+541:]\n]\n     14     Alt!->close
+541:]\n]\n     15      close->Pattern
+543:]\n        15      close<-["]\n"]
+543:]\n        14     Alt!<-[]
+543:]\n        13    sublist<-[]
+543:]\n        12   value<-[Any[(:source,3),(:target,1),(:... 3 to node 1")]]
+543:]\n        11  Seq!<-[Any[(:source,3),(:target,1),(:... 3 to node 1")]]
+543:]\n        10 element<-[:edge,Any[(:source,3),(:target... 3 to node 1")]]
+543:]\n        09          Depth!<-[(:edge,Any[(:source,3),(:targe...3 to node 1")])]
+543:]\n        09          Depth!->element
+543:]\n        10 element->Seq!
+543:]\n        11  Seq!->key
+543:]\n        12   key->Pattern
+   :           12   key<-!!!
+   :           11  Seq!<-!!!
+   :           10 element<-!!!
+   :           09          Depth!<-!!!
+543:]\n        08         Transform<-[(:comment,"This is a sample gr...3 to node 1")])]
+543:]\n        07        sublist<-[Any[(:comment,"This is a sampl... to node 1")])]]
+543:]\n        07        sublist->Alt!
+543:]\n        08         Alt!->close
+543:]\n        09          close->Pattern
+545:           09          close<-["]\n"]
+545:           08         Alt!<-[]
+545:           07        sublist<-[]
+545:           06       value<-[Any[(:comment,"This is a sampl... to node 1")])]]
+545:           05      Seq!<-[Any[(:comment,"This is a sampl... to node 1")])]]
+545:           04     element<-[:graph,Any[(:comment,"This is ... to node 1")])]]
+545:           03    Depth!<-[(:graph,Any[(:comment,"This is...to node 1")])])]
+545:           03    Depth!->element
+545:           04     element->Seq!
+545:           05      Seq!->key
+545:           06       key->Pattern
+   :           06       key<-!!!
+   :           05      Seq!<-!!!
+   :           04     element<-!!!
+   :           03    Depth!<-!!!
+545:           02   Transform<-[(:graph,Any[(:comment,"This is...to node 1")])])]
+545:           01  Seq!<-[Any[(:graph,Any[(:comment,"Thi...o node 1")])])]]
+545:           01  Seq!->Alt!
+545:           02   Alt!->Seq!
+545:           03    Seq!->spc
+545:           04     spc->Pattern
+545:           04     spc<-[""]
+545:           03    Seq!<-[]
+545:           03    Seq!->Eos
+545:           03    Seq!<-[]
+545:           02   Alt!<-[]
+545:           01  Seq!<-[]
+545:           00 Trace<-[Any[(:graph,Any[(:comment,"Thi...o node 1")])])]]
+graph Hello, I am a graph
+ node 1
+ node 2
+ node 3
+ edge Edge from node 1 to node 2: 1 - 2
+ edge Edge from node 2 to node 3: 2 - 3
+ edge Edge from node 3 to node 1: 3 - 1
+node 1
+node 2
+node 3
+edge 1 - 2
+edge 2 - 3
+edge 3 - 1
 INFO: ParserCombinator tests passed
-INFO: No packages to install, update or remove
+INFO: Removing ZipFile v0.2.4
+INFO: Removing Zlib v0.1.8
 
 >>> End of log

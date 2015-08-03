@@ -1,12 +1,10 @@
 >>> 'Pkg.add("FactCheck")' log
-INFO: Installing FactCheck v0.2.8
+INFO: Installing FactCheck v0.3.1
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of FactCheck
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("FactCheck")' log
-Julia Version 0.4.0-dev+6253
-Commit a97b24b (2015-07-26 15:40 UTC)
+Julia Version 0.4.0-dev+6477
+Commit dce9d18* (2015-08-02 23:54 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Core(TM) i7-4960HQ CPU @ 2.60GHz
@@ -18,22 +16,22 @@ Platform Info:
 INFO: Testing FactCheck
 Testing Result counting and printing, not actual errors!
 Test error pathways
-  Success :: 1 => 1
-  Failure   :: (line:-1) :: one doesn't equal two! :: got 1
-    1 => 2
+  Success :: 1 --> 1
+  Failure   :: (line:-1) :: one doesn't equal two! :: Expected: 1 => 2
+    1 --> 2
   Error   :: (line:-1) :: domains are tricky
-    2 ^ -1 => 0.5
+    2 ^ -1 --> 0.5
 DomainError:
 Cannot raise an integer x to a negative power -n. Make x a float by adding
 a zero decimal (e.g. 2.0^-n instead of 2^-n), or write 1/x^n, float(x)^-n, or (x//1)^-n
  in power_by_squaring at ./intfuncs.jl:82
  in ^ at ./intfuncs.jl:106
- in anonymous at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:142
- in do_fact at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:201
- in anonymous at /home/vagrant/.julia/v0.4/FactCheck/test/runtests.jl:142
- in facts at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:315
+ in anonymous at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:218
+ in do_fact at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:277
+ in anonymous at /home/vagrant/.julia/v0.4/FactCheck/test/runtests.jl:218
+ in facts at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:391
  in include at ./boot.jl:254
- in include_from_node1 at ./loading.jl:197
+ in include_from_node1 at ./loading.jl:196
  in process_options at ./client.jl:308
  in _start at ./client.jl:411
   Pending
@@ -43,6 +41,8 @@ Out of 4 total facts:
   Errored:  1
   Pending:  1
 Done, begin actual FactCheck tests
+WARNING: module TestFactCheck should explicitly import == from Base
+WARNING: the `=>` syntax is deprecated, use `-->` instead
 Testing core functionality
 11 facts verified.
 Testing invalid @fact_throws macro
@@ -63,13 +63,39 @@ FactCheck assertion helper functions
      - `exactly` can be used to check object equality
      - `roughly` compares numbers... roughly
      - `roughly` compares matrixes... roughly
+  Failure   :: (line:-1) :: `roughly` compares matrixes... roughly :: Expected: [1.1 1.2
+ 2.1 2.2] ≅ [1.1 1.2000009999999999
+ 2.09999651 2.2000100000000002]
+    X --> roughly(Y)
      - `anyof` compares with all arguments
      - less_than
      - less_than_or_equal
      - greater_than
      - greater_than_or_equal
-34 facts verified.
-INFO: FactCheck tests passed
-INFO: No packages to install, update or remove
+Out of 34 total facts:
+  Verified: 33
+  Failed:   1
+ERROR: LoadError: FactCheck finished with 1 non-successful tests.
+ in error at ./error.jl:21
+ in exitstatus at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:500
+ in include at ./boot.jl:254
+ in include_from_node1 at ./loading.jl:196
+ in process_options at ./client.jl:308
+ in _start at ./client.jl:411
+while loading /home/vagrant/.julia/v0.4/FactCheck/test/runtests.jl, in expression starting on line 207
+==============================[ ERROR: FactCheck ]==============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.4/FactCheck/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: FactCheck had test errors
+ in error at ./error.jl:21
+ in test at pkg/entry.jl:746
+ in anonymous at pkg/dir.jl:31
+ in cd at file.jl:22
+ in cd at pkg/dir.jl:31
+ in test at pkg.jl:71
+ in process_options at ./client.jl:284
+ in _start at ./client.jl:411
 
 >>> End of log
