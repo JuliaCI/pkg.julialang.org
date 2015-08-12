@@ -4,8 +4,8 @@ INFO: Cloning cache of HDF5 from git://github.com/timholy/HDF5.jl.git
 INFO: Cloning cache of MAT from git://github.com/simonster/MAT.jl.git
 INFO: Cloning cache of Zlib from git://github.com/dcjones/Zlib.jl.git
 INFO: Installing BinDeps v0.3.14
-INFO: Installing Blosc v0.1.2
-INFO: Installing HDF5 v0.5.1
+INFO: Installing Blosc v0.1.4
+INFO: Installing HDF5 v0.5.4
 INFO: Installing MAT v0.2.12
 INFO: Installing SHA v0.0.4
 INFO: Installing URIParser v0.0.5
@@ -13,13 +13,17 @@ INFO: Installing Zlib v0.1.8
 INFO: Building Blosc
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0100   121    0   121    0     0     21      0 --:--:--  0:00:05 --:--:--    29
-  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:11 --:--:--     0 55  233k   55  130k    0     0  10725      0  0:00:22  0:00:12  0:00:10 25473 56  233k   56  131k    0     0  10318      0  0:00:23  0:00:13  0:00:10 27738 76  233k   76  179k    0     0  13053      0  0:00:18  0:00:14  0:00:04 37564100  233k  100  233k    0     0  16970      0  0:00:14  0:00:14 --:--:-- 61374
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   121    0   121    0     0    454      0 --:--:-- --:--:-- --:--:--   454
+100  258k  100  258k    0     0   291k      0 --:--:-- --:--:-- --:--:--  291k
 Compiling libblosc...
-   CC blosc.c
-   CC blosclz.c
-   CC shuffle.c
-   LINK libblosc
+gcc -I. -DSHUFFLE_SSE2_ENABLED -DBLOSC_SHARED_LIBRARY -fPIC -O3 -pthread -msse2 -c -o bitshuffle-sse2.o bitshuffle-sse2.c
+gcc -I. -DSHUFFLE_SSE2_ENABLED -DBLOSC_SHARED_LIBRARY -fPIC -O3 -pthread -msse2 -c -o shuffle-sse2.o shuffle-sse2.c
+gcc -I. -DSHUFFLE_SSE2_ENABLED -DBLOSC_SHARED_LIBRARY -fPIC -O3 -pthread -c -o bitshuffle-generic.o bitshuffle-generic.c
+gcc -I. -DSHUFFLE_SSE2_ENABLED -DBLOSC_SHARED_LIBRARY -fPIC -O3 -pthread -c -o shuffle-generic.o shuffle-generic.c
+gcc -I. -DSHUFFLE_SSE2_ENABLED -DBLOSC_SHARED_LIBRARY -fPIC -O3 -pthread -c -o shuffle.o shuffle.c
+gcc -I. -DSHUFFLE_SSE2_ENABLED -DBLOSC_SHARED_LIBRARY -fPIC -O3 -pthread -c -o blosclz.o blosclz.c
+gcc -I. -DSHUFFLE_SSE2_ENABLED -DBLOSC_SHARED_LIBRARY -fPIC -O3 -pthread -c -o blosc.o blosc.c
+gcc -fPIC -O3 -pthread -shared bitshuffle-sse2.o shuffle-sse2.o bitshuffle-generic.o shuffle-generic.o shuffle.o blosclz.o blosc.o -o ../../libblosc.so
 INFO: Building HDF5
 Installing dependency hdf5-tools via `sudo apt-get install hdf5-tools`:
 Reading package lists...
@@ -35,7 +39,7 @@ After this operation, 5,841 kB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu/ trusty/universe libhdf5-7 amd64 1.8.11-5ubuntu7 [1,205 kB]
 Get:2 http://archive.ubuntu.com/ubuntu/ trusty/universe hdf5-tools amd64 1.8.11-5ubuntu7 [342 kB]
 dpkg-preconfigure: unable to re-open stdin: No such file or directory
-Fetched 1,547 kB in 6s (251 kB/s)
+Fetched 1,547 kB in 3s (470 kB/s)
 Selecting previously unselected package libhdf5-7:amd64.
 (Reading database ... 97024 files and directories currently installed.)
 Preparing to unpack .../libhdf5-7_1.8.11-5ubuntu7_amd64.deb ...
@@ -56,7 +60,7 @@ Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Core(TM) i7-4960HQ CPU @ 2.60GHz
   WORD_SIZE: 64
-  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
+  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell)
   LAPACK: libopenblas
   LIBM: libopenlibm
   LLVM: libLLVM-3.3
