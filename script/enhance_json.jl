@@ -16,6 +16,7 @@
 import Requests
 import JSON
 import MetadataTools
+include("PackageFuncs.jl")
 using PackageFuncs
 
 if length(ARGS) != 1
@@ -24,6 +25,7 @@ end
 datestr = ARGS[1]
 
 # Load all the results
+#=
 println("Parsing RAL")
 RAL = JSON.parsefile("releaseAL.json")
 println("Parsing RMZ")
@@ -33,9 +35,10 @@ NAL = JSON.parsefile("nightlyAL.json")
 println("Parsing NMZ")
 NMZ = JSON.parsefile("nightlyMZ.json")
 all_pkgs = vcat(RAL,RMZ,NAL,NMZ)
-#R = JSON.parsefile("release.json")
-#N = JSON.parsefile("nightly.json")
-#all_pkgs = vcat(R,N)
+=#
+R = JSON.parsefile("release.json")
+N = JSON.parsefile("nightly.json")
+all_pkgs = vcat(R,N)
 println("Done parsing")
 
 # Load GitHub auth token (NOT CHECKED IN!!)

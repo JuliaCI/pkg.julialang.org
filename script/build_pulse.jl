@@ -100,29 +100,29 @@ disp_changes = Any[]
 new_count = 0
 up_count = 0
 for c in changes
+    @show c
+    @show c[2] in keys(pkgdict[NIGHTLY])
+    @show c[2] in keys(pkgdict[RELEASE])
+    if c[2] in keys(pkgdict[NIGHTLY])
+        pd = pkgdict[NIGHTLY][c[2]]
+    else
+        pd = pkgdict[RELEASE][c[2]]
+    end
     if c[1] == :new
-        push!(disp_changes, [   "i"     =>  "star",
+        push!(disp_changes,Dict("i"     =>  "star",
                                 "nname" =>  "$(c[2])",
                                 "npost" =>  "$(c[3])",
-                                "url"   =>  c[2] in keys(pkgdict[NIGHTLY]) ?
-                                                pkgdict[NIGHTLY][c[2]]["url"] :
-                                                pkgdict[RELEASE][c[2]]["url"],
-                                "sha"   =>  c[2] in keys(pkgdict[NIGHTLY]) ?
-                                                pkgdict[NIGHTLY][c[2]]["gitsha"] :
-                                                pkgdict[RELEASE][c[2]]["gitsha"] ])
+                                "url"   =>  pd["url"],
+                                "sha"   =>  pd["gitsha"]))
         new_count += 1
     elseif c[1] == :week
         c[3] == c[4] && continue
-        push!(disp_changes, [   "i"     =>  "arrow-up",
+        push!(disp_changes,Dict("i"     =>  "arrow-up",
                                 "cname" =>  "$(c[2])",
                                 "cpre"  =>  "$(c[3])",
                                 "cpost" =>  "$(c[4])",
-                                "url"   =>  c[2] in keys(pkgdict[NIGHTLY]) ?
-                                                pkgdict[NIGHTLY][c[2]]["url"] :
-                                                pkgdict[RELEASE][c[2]]["url"],
-                                "sha"   =>  c[2] in keys(pkgdict[NIGHTLY]) ?
-                                                pkgdict[NIGHTLY][c[2]]["gitsha"] :
-                                                pkgdict[RELEASE][c[2]]["gitsha"] ])
+                                "url"   =>  pd["url"],
+                                "sha"   =>  pd["gitsha"]))
         up_count += 1
     end
 end
@@ -135,11 +135,10 @@ star_top_alltime = sort(star_changes,by=f->f[2],rev=true)
 top_star_data = Any[]
 for i = 1:10
     name, cur, prev = star_top_alltime[i]
-    push!(top_star_data, [  "url" => pkgdict[NIGHTLY][name]["url"],
-                            "name" => name,
-                            "count" => cur,
-                            "change" => cur-prev
-                          ])
+    push!(top_star_data, Dict(  "url" => pkgdict[NIGHTLY][name]["url"],
+                                "name" => name,
+                                "count" => cur,
+                                "change" => cur-prev ))
 end
 # Get top ten by change
 star_top_change = sort(star_changes,by=f->(f[2]-f[3]),rev=true)
@@ -150,12 +149,11 @@ i = 1
 while done < 10
     name, cur, prev = star_top_change[i]
     try  # Caused by untagged package
-        push!(top_star_change_data, 
-                            [   "url" => pkgdict[NIGHTLY][name]["url"],
+        push!(top_star_change_data, Dict(
+                                "url" => pkgdict[NIGHTLY][name]["url"],
                                 "name" => name,
                                 "count" => cur,
-                                "change" => cur-prev
-                              ])
+                                "change" => cur-prev ))
         done += 1
     catch
         @show name * " had a problem"
@@ -173,13 +171,15 @@ rel_test_changes = Any[]
 for i in 1:5
     push!(rel_test_changes, Any[])
     for change in changes[dates[i]]
-        push!(rel_test_changes[i], ["name"  =>  change[1],
+        push!(rel_test_changes[i], Dict(
+                                    "name"  =>  change[1],
                                     "prev"  =>  change[2],
                                     "cur"   =>  change[3],
-                                    "url"   =>  (change[1] in keys(pkgdict[RELEASE])) ? pkgdict[RELEASE][change[1]]["url"] :
-                                                                                        pkgdict[NIGHTLY][change[1]]["url"],
+                                    "url"   =>  ((change[1] in keys(pkgdict[RELEASE])) ?
+                                                    pkgdict[RELEASE][change[1]]["url"] :
+                                                    pkgdict[NIGHTLY][change[1]]["url"]),
                                     "purl"  =>  "http://pkg.julialang.org/?pkg=$(change[1])&ver=release"
-                                    ])
+                                    ))
     end
     sort!(rel_test_changes[i],by=f->f["name"])
 end
@@ -188,12 +188,13 @@ nig_test_changes = Any[]
 for i in 1:5
     push!(nig_test_changes, Any[])
     for change in changes[dates[i]]
-        push!(nig_test_changes[i], ["name"  =>  change[1],
+        push!(nig_test_changes[i], Dict(
+                                    "name"  =>  change[1],
                                     "prev"  =>  change[2],
                                     "cur"   =>  change[3],
                                     "url"   =>  pkgdict[NIGHTLY][change[1]]["url"],
                                     "purl"  =>  "http://pkg.julialang.org/?pkg=$(change[1])&ver=nightly"
-                                    ])
+                                    ))
     end
     sort!(nig_test_changes[i],by=f->f["name"])
 end
@@ -207,7 +208,7 @@ rel_num_per(s) = @sprintf("%d (%.0f%%)", totals[RELEASE][today][s],
 nig_num_per(s) = @sprintf("%d (%.0f%%)", totals[NIGHTLY][today][s],
                     totals[NIGHTLY][today][s]/totals[NIGHTLY][today]["total"]*100)
 rendered = Mustache.render(template, 
-    [
+    Dict(
     "updatedate"    => dbdate_to_date(today),
 
     "num-new-pkg"   => new_count,
@@ -253,7 +254,7 @@ rendered = Mustache.render(template,
     "nigtest3"      => nig_test_changes[3],
     "nigtest4"      => nig_test_changes[4],
     "nigtest5"      => nig_test_changes[5]
-    ])
+    ))
 fp = open("../pulse.html","w")
 print(fp, rendered)
 close(fp)

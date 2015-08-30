@@ -5,9 +5,9 @@
 #######################################################################
 
 using JSON
-using PackageFuncs
+include("PackageFuncs.jl"); using PackageFuncs
 using Humanize
-using Dates
+#using Dates
 
 # hist_to_html
 # Take a matrix [dates pkgver status] and turns it into a simple
@@ -53,6 +53,7 @@ end
 
 # First get head and tail
 index_head = readall("index.html.head")
+index_head = replace(index_head, "!!LASTUPDATED!!", string(Dates.today()))
 index_tail = readall("index.html.tail")
 listing = String[]
 
@@ -73,12 +74,12 @@ for pkg in pkgs
     P_VER   = pkg["version"]
     P_DATE  = pkg["gitdate"]
     P_DTSTR = "unknown"
-    try
-        P_DT    = Dates.now() - DateTime(P_DATE,"y-m-d H:M:S +")
+    #try
+        P_DT    = Dates.now() - DateTime(P_DATE,"y-m-d H:M:S")
         P_DTSTR = timedelta(P_DT)
-    catch
-        Base.warn("$(P_NAME) had an issue with its date string")
-    end
+    #catch
+    #    Base.warn("$(P_NAME) had an issue with its date string")
+    #end
     P_LURL  = pkg["licfile"] != "" ? "$P_URL/blob/$P_SHA/$(pkg["licfile"])" : "$P_URL/tree/$P_SHA"
     P_LIC   = pkg["license"]
     P_STAT  = pkg["status"]

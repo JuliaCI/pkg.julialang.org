@@ -1,5 +1,4 @@
 using Gadfly
-using Dates
 
 include("shared.jl")
 
