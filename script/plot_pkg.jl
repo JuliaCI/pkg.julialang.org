@@ -28,7 +28,10 @@ function plot_total_allvers(totals, dates, outfile="")
                     Date(2015,02,17)  "v0.3.6"  250;
                     Date(2015,03,23)  "v0.3.7"  250;
                     Date(2015,04,30)  "v0.3.8"  250;
-                    Date(2015,05,30)  "v0.3.9"  250;]
+                    Date(2015,05,30)  "v0.3.9"  250;
+                    Date(2015,05,30)  "v0.3.9"  250;
+                    Date(2015,06,24)  "v0.3.10" 250;
+                    Date(2015,07,27)  "v0.3.11" 250]
     p = plot(
         layer(x=x_dates["0.2"],y=y_totals["0.2"],color=fill("0.2",length(x_dates["0.2"])),Geom.line),
         layer(x=x_dates["0.3"],y=y_totals["0.3"],color=fill("0.3",length(x_dates["0.3"])),Geom.line),
