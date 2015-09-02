@@ -1,0 +1,55 @@
+>>> 'Pkg.add("KernSmooth")' log
+INFO: Cloning cache of KernSmooth from git://github.com/lendle/KernSmooth.jl.git
+INFO: Installing ArrayViews v0.6.3
+INFO: Installing DataArrays v0.2.18
+INFO: Installing DataFrames v0.6.9
+INFO: Installing Docile v0.5.16
+INFO: Installing GZip v0.2.17
+INFO: Installing KernSmooth v0.0.3
+INFO: Installing RDatasets v0.1.2
+INFO: Installing Reexport v0.0.2
+INFO: Installing SortingAlgorithms v0.0.5
+INFO: Installing StatsBase v0.7.1
+INFO: Installing StatsFuns v0.1.3
+INFO: Building KernSmooth
+gfortran -m64 -fdefault-integer-8 -fpic -O3 -pipe -g -c locpoly.f -o locpoly.o
+gfortran -m64 -fdefault-integer-8 -fpic -O3 -pipe -g -c dqrsl.f -o dqrsl.o
+gfortran -m64 -fdefault-integer-8 -fpic -O3 -pipe -g -c dqrdc.f -o dqrdc.o
+gfortran -m64 -fdefault-integer-8 -fpic -O3 -pipe -g -c dgefa.f -o dgefa.o
+gfortran -m64 -fdefault-integer-8 -fpic -O3 -pipe -g -c dgesl.f -o dgesl.o
+gfortran -m64 -fdefault-integer-8 -fpic -O3 -pipe -g -c sdiag.f -o sdiag.o
+gfortran -m64 -fdefault-integer-8 -fpic -O3 -pipe -g -c sstdiag.f -o sstdiag.o
+gfortran -m64 -fdefault-integer-8 -fpic -O3 -pipe -g -c blkest.f -o blkest.o
+gfortran -m64 -fdefault-integer-8 -fpic -O3 -pipe -g -c cp.f -o cp.o
+gfortran -m64 -fdefault-integer-8 -fpic -O3 -pipe -g -c linbin.f -o linbin.o
+gfortran -m64 -fdefault-integer-8 -fpic -O3 -pipe -g -c rlbin.f -o rlbin.o
+gfortran -m64 -fdefault-integer-8 -fpic -O3 -pipe -g -c dgedi.f -o dgedi.o
+gcc -std=gnu99 -shared -o libkernsmooth.so dqrsl.o dqrdc.o dgefa.o dgesl.o sdiag.o sstdiag.o blkest.o cp.o linbin.o locpoly.o rlbin.o dgedi.o -lblas -lgfortran
+INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of KernSmooth
+INFO: Use `Pkg.update()` to get the latest versions of your packages
+
+>>> 'Pkg.test("KernSmooth")' log
+Julia Version 0.3.11
+Commit 483dbf5* (2015-07-27 06:18 UTC)
+Platform Info:
+  System: Linux (x86_64-unknown-linux-gnu)
+  CPU: Intel(R) Core(TM) i5-2500K CPU @ 3.30GHz
+  WORD_SIZE: 64
+  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Sandybridge)
+  LAPACK: libopenblas
+  LIBM: libopenlibm
+  LLVM: libLLVM-3.3
+INFO: Testing KernSmooth
+WARNING: has_header is deprecated, use header instead
+WARNING: array(da::DataArray{T}) is deprecated.
+Use convert(Array, da).
+ in array at /home/vagrant/.julia/v0.3/DataArrays/src/deprecated.jl:23
+ in include at ./boot.jl:245
+ in include_from_node1 at loading.jl:128
+ in process_options at ./client.jl:285
+ in _start at ./client.jl:354
+INFO: KernSmooth tests passed
+INFO: No packages to install, update or remove
+
+>>> End of log

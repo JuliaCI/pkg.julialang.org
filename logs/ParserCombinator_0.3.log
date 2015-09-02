@@ -1,0 +1,3745 @@
+>>> 'Pkg.add("ParserCombinator")' log
+INFO: Installing AutoHashEquals v0.0.5
+INFO: Installing ParserCombinator v1.6.3
+INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of ParserCombinator
+INFO: Use `Pkg.update()` to get the latest versions of your packages
+
+>>> 'Pkg.test("ParserCombinator")' log
+Julia Version 0.3.11
+Commit 483dbf5* (2015-07-27 06:18 UTC)
+Platform Info:
+  System: Linux (x86_64-unknown-linux-gnu)
+  CPU: Intel(R) Core(TM) i5-2500K CPU @ 3.30GHz
+  WORD_SIZE: 64
+  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Sandybridge)
+  LAPACK: libopenblas
+  LIBM: libopenlibm
+  LLVM: libLLVM-3.3
+INFO: Computing test dependencies for ParserCombinator...
+INFO: Installing ZipFile v0.2.4
+INFO: Installing Zlib v0.1.9
+INFO: Testing ParserCombinator
+sources ok
+ 1  = 1
+ - 1  = -1
+ 1 + 1  = 2
+ 1 - 1  = 0
+ - 1 - 1  = -2
+fix ok
+Seq
+Transform
++-Alt
+| +-[1]:Seq
+| | +-[1]:Equal
+| | | `-"a"
+| | `-[2]:Drop
+| |   `-Equal
+| |     `-"b"
+| `-[2]:Pattern
+|   +-text="c"
+|   +-regex=r"^c(.??)"
+|   `-groups
+`-f
+print ok
+names ok
+2 4  r"a{2,4}"
+1 3 a r"a{1,3}?"
+1 1 aa r"a{1,1}"
+0 2 aaaa r"a{0,2}?"
+0 2 aa r"a{0,2}"
+0 2  r"a{0,2}?"
+1 2 a r"a{1,2}"
+2 2 a r"a{2,2}?"
+0 0 aa r"a{0,0}"
+3 5 a r"a{3,5}?"
+0 1 aaaa r"a{0,1}"
+3 5 a r"a{3,5}?"
+3 3  r"a{3,3}"
+0 0 aaaa r"a{0,0}?"
+2 3  r"a{2,3}"
+1 2 a r"a{1,2}?"
+0 1 a r"a{0,1}"
+3 4 aaa r"a{3,4}?"
+2 3 aa r"a{2,3}"
+3 4 aa r"a{3,4}?"
+tests ok
+greedy true
+NoCache{S,I}
+elapsed time: 0.017782545 seconds (965184 bytes allocated)
+elapsed time: 0.005723222 seconds (766880 bytes allocated)
+n results: 35
+max depth: 5
+max iter: 4
+n calls: 323
+Cache{S,I}
+elapsed time: 0.130215354 seconds (2258512 bytes allocated)
+elapsed time: 0.013888363 seconds (794216 bytes allocated)
+n results: 35
+max depth: 5
+max iter: 4
+n calls: 233
+slow ok
+  1:foo        00 Trace->Case
+  1:foo        01  Case->Pattern
+  4:           01  Case<-{"foo"}
+  4:           00 Trace<-{"Foo"}
+case ok
+all
++-[1]:sum
+| `-Transform
+|   +-Seq
+|   | +-[1]:prd
+|   | | +-Seq
+|   | | | +-[1]:neg
+|   | | | | `-Alt
+|   | | | |   +-[1]:Seq
+|   | | | |   | +-[1]:Drop
+|   | | | |   | | `-Equal
+|   | | | |   | |   `-"("
+|   | | | |   | +-[2]:sum...
+|   | | | |   | `-[3]:Drop
+|   | | | |   |   `-Equal
+|   | | | |   |     `-")"
+|   | | | |   +-[2]:Transform
+|   | | | |   | +-Pattern
+|   | | | |   | | +-text="-?(\d*\.?\d+|\d+\.\d*)([eE]\d+)?"
+|   | | | |   | | +-regex=r"^-?(\d*\.?\d+|\d+\.\d*)([eE]\d+)?(.??)"
+|   | | | |   | | `-groups
+|   | | | |   | `-f
+|   | | | |   `-[3]:Transform
+|   | | | |     +-Seq
+|   | | | |     | +-[1]:Drop
+|   | | | |     | | `-Equal
+|   | | | |     | |   `-"-"
+|   | | | |     | `-[2]:neg...
+|   | | | |     `-f
+|   | | | `-[2]:Depth
+|   | | |   +-Alt
+|   | | |   | +-[1]:mul
+|   | | |   | | +-[1]:Drop
+|   | | |   | | | `-Equal
+|   | | |   | | |   `-"*"
+|   | | |   | | `-[2]:neg...
+|   | | |   | `-[2]:div
+|   | | |   |   +-Seq
+|   | | |   |   | +-[1]:Drop
+|   | | |   |   | | `-Equal
+|   | | |   |   | |   `-"/"
+|   | | |   |   | `-[2]:neg...
+|   | | |   |   `-f
+|   | | |   +-lo=0
+|   | | |   +-hi=9223372036854775807
+|   | | |   `-flatten=true
+|   | | `-f
+|   | `-[2]:Depth
+|   |   +-Alt
+|   |   | +-[1]:add
+|   |   | | +-[1]:Drop
+|   |   | | | `-Equal
+|   |   | | |   `-"+"
+|   |   | | `-[2]:prd...
+|   |   | `-[2]:sub
+|   |   |   +-Seq
+|   |   |   | +-[1]:Drop
+|   |   |   | | `-Equal
+|   |   |   | |   `-"-"
+|   |   |   | `-[2]:prd...
+|   |   |   `-f
+|   |   +-lo=0
+|   |   +-hi=9223372036854775807
+|   |   `-flatten=true
+|   `-f
+`-[2]:Eos
+  1:1+2*3/4    00 Trace->all
+  1:1+2*3/4    01  all->sum
+  1:1+2*3/4    02   Transform->Seq
+  1:1+2*3/4    03    Seq->prd
+  1:1+2*3/4    04     prd->Seq
+  1:1+2*3/4    05      Seq->neg
+  1:1+2*3/4    06       Alt->Seq
+  1:1+2*3/4    07        Seq->Drop
+  1:1+2*3/4    08         Drop->Equal
+   :           08         Drop<-!!!
+   :           07        Seq<-!!!
+   :           06       Alt<-!!!
+  1:1+2*3/4    06       Alt->Transform
+  1:1+2*3/4    07        Transform->Pattern
+  2:+2*3/4     07        Transform<-{"1"}
+  2:+2*3/4     06       Alt<-{1.0}
+  2:+2*3/4     05      Seq<-{1.0}
+  2:+2*3/4     05      Seq->Depth
+  2:+2*3/4     06       Depth->Alt
+  2:+2*3/4     07        Alt->mul
+  2:+2*3/4     08         mul->Drop
+  2:+2*3/4     09          Drop->Equal
+   :           09          Drop<-!!!
+   :           08         mul<-!!!
+   :           07        Alt<-!!!
+  2:+2*3/4     07        Alt->div
+  2:+2*3/4     08         div->Seq
+  2:+2*3/4     09          Seq->Drop
+  2:+2*3/4     10 Drop->Equal
+   :           10 Drop<-!!!
+   :           09          Seq<-!!!
+   :           08         div<-!!!
+   :           07        Alt<-!!!
+   :           06       Depth<-!!!
+  2:+2*3/4     05      Seq<-{}
+  2:+2*3/4     04     prd<-{1.0}
+  2:+2*3/4     03    Seq<-{Prd({1.0})}
+  2:+2*3/4     03    Seq->Depth
+  2:+2*3/4     04     Depth->Alt
+  2:+2*3/4     05      Alt->add
+  2:+2*3/4     06       add->Drop
+  2:+2*3/4     07        Drop->Equal
+  3:2*3/4      07        Drop<-{"+"}
+  3:2*3/4      06       add<-{}
+  3:2*3/4      06       add->prd
+  3:2*3/4      07        prd->Seq
+  3:2*3/4      08         Seq->neg
+  3:2*3/4      09          Alt->Seq
+  3:2*3/4      10 Seq->Drop
+  3:2*3/4      11  Drop->Equal
+   :           11  Drop<-!!!
+   :           10 Seq<-!!!
+   :           09          Alt<-!!!
+  3:2*3/4      09          Alt->Transform
+  3:2*3/4      10 Transform->Pattern
+  4:*3/4       10 Transform<-{"2"}
+  4:*3/4       09          Alt<-{2.0}
+  4:*3/4       08         Seq<-{2.0}
+  4:*3/4       08         Seq->Depth
+  4:*3/4       09          Depth->Alt
+  4:*3/4       10 Alt->mul
+  4:*3/4       11  mul->Drop
+  4:*3/4       12   Drop->Equal
+  5:3/4        12   Drop<-{"*"}
+  5:3/4        11  mul<-{}
+  5:3/4        11  mul->neg
+  5:3/4        12   Alt->Seq
+  5:3/4        13    Seq->Drop
+  5:3/4        14     Drop->Equal
+   :           14     Drop<-!!!
+   :           13    Seq<-!!!
+   :           12   Alt<-!!!
+  5:3/4        12   Alt->Transform
+  5:3/4        13    Transform->Pattern
+  6:/4         13    Transform<-{"3"}
+  6:/4         12   Alt<-{3.0}
+  6:/4         11  mul<-{3.0}
+  6:/4         10 Alt<-{3.0}
+  6:/4         09          Depth<-{3.0}
+  6:/4         09          Depth->Alt
+  6:/4         10 Alt->mul
+  6:/4         11  mul->Drop
+  6:/4         12   Drop->Equal
+   :           12   Drop<-!!!
+   :           11  mul<-!!!
+   :           10 Alt<-!!!
+  6:/4         10 Alt->div
+  6:/4         11  div->Seq
+  6:/4         12   Seq->Drop
+  6:/4         13    Drop->Equal
+  7:4          13    Drop<-{"/"}
+  7:4          12   Seq<-{}
+  7:4          12   Seq->neg
+  7:4          13    Alt->Seq
+  7:4          14     Seq->Drop
+  7:4          15      Drop->Equal
+   :           15      Drop<-!!!
+   :           14     Seq<-!!!
+   :           13    Alt<-!!!
+  7:4          13    Alt->Transform
+  7:4          14     Transform->Pattern
+  8:           14     Transform<-{"4"}
+  8:           13    Alt<-{4.0}
+  8:           12   Seq<-{4.0}
+  8:           11  div<-{4.0}
+  8:           10 Alt<-{Inv(4.0)}
+  8:           09          Depth<-{Inv(4.0)}
+  8:           09          Depth->Alt
+  8:           10 Alt->mul
+  8:           11  mul->Drop
+  8:           12   Drop->Equal
+   :           12   Drop<-!!!
+   :           11  mul<-!!!
+   :           10 Alt<-!!!
+  8:           10 Alt->div
+  8:           11  div->Seq
+  8:           12   Seq->Drop
+  8:           13    Drop->Equal
+   :           13    Drop<-!!!
+   :           12   Seq<-!!!
+   :           11  div<-!!!
+   :           10 Alt<-!!!
+   :           09          Depth<-!!!
+  8:           08         Seq<-{3.0,Inv(4.0)}
+  8:           07        prd<-{2.0,3.0,Inv(4.0)}
+  8:           06       add<-{Prd({2.0,3.0,Inv(4.0)})}
+  8:           05      Alt<-{Prd({2.0,3.0,Inv(4.0)})}
+  8:           04     Depth<-{Prd({2.0,3.0,Inv(4.0)})}
+  8:           04     Depth->Alt
+  8:           05      Alt->add
+  8:           06       add->Drop
+  8:           07        Drop->Equal
+   :           07        Drop<-!!!
+   :           06       add<-!!!
+   :           05      Alt<-!!!
+  8:           05      Alt->sub
+  8:           06       sub->Seq
+  8:           07        Seq->Drop
+  8:           08         Drop->Equal
+   :           08         Drop<-!!!
+   :           07        Seq<-!!!
+   :           06       sub<-!!!
+   :           05      Alt<-!!!
+   :           04     Depth<-!!!
+  8:           03    Seq<-{Prd({2.0,3.0,Inv(4.0)})}
+  8:           02   Transform<-{Prd({1.0}),Prd({2.0,3.0,Inv(4.0)})}
+  8:           01  all<-{Sum({Prd({1.0}),Prd({2.0,3.0,Inv(4.0)})})}
+  8:           01  all->Eos
+  8:           01  all<-{}
+  8:           00 Trace<-{Sum({Prd({1.0}),Prd({2.0,3.0,Inv(4.0)})})}
+1 = 1
+-1 = -1
+1+1 = 2
+1-1 = 0
+-1-1 = -2
+1.0 = 1.0
+-1.0 = -1.0
+--1.0 = 1.0
+1+2 = 3.0
+1+2*3/4 = 2.5
+Neg(Prd({7.0,Inv(0.0),Inv(2.0),Inv(Neg(0.0))})) Inf Inf
+Inv(Neg(0.0)) -Inf
+Inv(Prd({Neg(Sum({Prd({0.0})}))})) -Inf
+Inv(Sum({Prd({Neg(Sum({Prd({0.0})}))})})) -Inf
+Neg(Prd({7.0,Inv(0.0),Inv(2.0),Inv(Sum({Prd({Neg(Sum({Prd({0.0})}))})})),3.0})) Inf Inf
+Inf Sum({Prd({-9.0}),Neg(Prd({7.0,Inv(0.0),Inv(2.0),Inv(Sum({Prd({Neg(Sum({Prd({0.0})}))})})),3.0})),Neg(Prd({7.0,Inv(Neg(Sum({Prd({9.0}),Prd({5.0})})))})),Prd({5.0}),Neg(Prd({7.0}))}) Inf
+expr 0.0+7.0*6.0+4.0
+46.0 46.0
+expr ((5.0/3.0-9.0)+9.0)-(-2.0-5.0)-8.0*0.0*8.0*5.0-2.0-0.0*2.0/8.0
+6.666666666666668 6.666666666666666
+expr ((-7.0))
+-7.0 -7.0
+expr 1.0+6.0*2.0/6.0*5.0+3.0-4.0*3.0-5.0-7.0+0.0/((6.0-5.0+4.0-1.0))-2.0
+-12.0 -12.0
+expr 7.0+7.0-6.0*((((1.0))))*8.0+-1.0*9.0*6.0+7.0
+-81.0 -81.0
+expr (9.0*8.0)+1.0+1.0+0.0/1.0*-6.0/5.0+4.0-(9.0)
+69.0 69.0
+expr -0.0-8.0*9.0/-4.0+2.0*4.0/(1.0+3.0)+4.0-4.0
+20.0 20.0
+expr 4.0/3.0*1.0*-9.0/6.0-3.0-6.0-5.0/4.0-3.0/9.0/7.0+1.0*3.0/3.0-6.0
+-17.297619047619047 -17.297619047619047
+expr ((1.0)/2.0-4.0)+-1.0-8.0+-0.0*2.0
+-12.5 -12.5
+expr -2.0*4.0-3.0+3.0-6.0*7.0/5.0/-(6.0)/1.0-(8.0/4.0/0.0*3.0-3.0)-(8.0)
+-Inf -Inf
+expr -9.0
+-9.0 -9.0
+expr 0.0+3.0*7.0*0.0/4.0+8.0*(2.0-5.0/8.0-9.0)*(3.0)+4.0-4.0*8.0
+-211.0 -211.0
+expr (0.0-0.0)+5.0-6.0/3.0-0.0+4.0+6.0*4.0
+31.0 31.0
+expr -0.0-6.0*6.0/7.0/0.0+1.0*5.0*2.0+5.0+2.0+((-2.0-9.0))-(2.0)+4.0/2.0
+-Inf -Inf
+expr 2.0+5.0-6.0/5.0*6.0*9.0-(2.0+2.0/4.0)+6.0+5.0+-2.0-3.0+2.0*4.0/3.0-4.0*7.0
+-79.63333333333333 -79.63333333333335
+expr (-3.0)
+-3.0 -3.0
+expr 7.0+2.0/5.0-3.0+0.0*6.0
+4.4 4.4
+expr 3.0+8.0/9.0+8.0*2.0*9.0/-7.0*7.0+((-5.0*2.0))/((7.0))
+-141.53968253968253 -141.53968253968253
+expr 3.0-6.0/9.0/9.0*9.0*5.0/6.0*4.0
+0.7777777777777781 0.7777777777777781
+expr (4.0/5.0)+3.0+8.0-5.0+5.0-3.0*5.0+4.0/7.0-2.0
+-4.628571428571428 -4.628571428571428
+calc ok
+one level
+  1:ab         00 Trace->Dot
+  2:b          00 Trace<-{'a'}
+multiple
+  2:b          00 Trace->Depth
+  2:b          01  Depth->Dot
+  3:           01  Depth<-{'b'}
+  3:           01  Depth->Dot
+   :           01  Depth<-!!!
+  3:           00 Trace<-{'b'}
+  2:b          00 Trace->Depth
+  2:b          01  Depth->Dot
+   :           01  Depth<-!!!
+  2:b          00 Trace<-{}
+debug ok
+abcdefghijklmnopqrstuvwxyz
+0123456789
+{"abcdefghijklm"}
+{"abcdefghijklmnopqrstuvwxyz\n012345"}
+{"abcdefghijklm"}
+{"abcdefghijklmnopqrstuvwxyz\n012345"}
+  1,1  :abcde...\n 00 Trace->Transform
+  1,1  :abcde...\n 01  Transform->Seq
+  1,1  :abcde...\n 02   Seq->Depth
+  1,1  :abcde...\n 03    Depth->Pattern
+  1,2  :bcdef...\n 03    Depth<-{"a"}
+  1,2  :bcdef...\n 03    Depth->Pattern
+  1,3  :cdefg...\n 03    Depth<-{"b"}
+  1,3  :cdefg...\n 03    Depth->Pattern
+  1,4  :defgh...\n 03    Depth<-{"c"}
+  1,4  :defgh...\n 03    Depth->Pattern
+  1,5  :efghi...\n 03    Depth<-{"d"}
+  1,5  :efghi...\n 03    Depth->Pattern
+  1,6  :fghij...\n 03    Depth<-{"e"}
+  1,6  :fghij...\n 03    Depth->Pattern
+  1,7  :ghijk...\n 03    Depth<-{"f"}
+  1,7  :ghijk...\n 03    Depth->Pattern
+  1,8  :hijkl...\n 03    Depth<-{"g"}
+  1,8  :hijkl...\n 03    Depth->Pattern
+  1,9  :ijklm...\n 03    Depth<-{"h"}
+  1,9  :ijklm...\n 03    Depth->Pattern
+  1,10 :jklmn...\n 03    Depth<-{"i"}
+  1,10 :jklmn...\n 03    Depth->Pattern
+  1,11 :klmno...\n 03    Depth<-{"j"}
+  1,11 :klmno...\n 03    Depth->Pattern
+  1,12 :lmnop...\n 03    Depth<-{"k"}
+  1,12 :lmnop...\n 03    Depth->Pattern
+  1,13 :mnopq...\n 03    Depth<-{"l"}
+  1,13 :mnopq...\n 03    Depth->Pattern
+  1,14 :nopqr...\n 03    Depth<-{"m"}
+  1,14 :nopqr...\n 03    Depth->Pattern
+  1,15 :opqrs...\n 03    Depth<-{"n"}
+  1,15 :opqrs...\n 03    Depth->Pattern
+  1,16 :pqrst...\n 03    Depth<-{"o"}
+  1,16 :pqrst...\n 03    Depth->Pattern
+  1,17 :qrstu...\n 03    Depth<-{"p"}
+  1,17 :qrstu...\n 03    Depth->Pattern
+  1,18 :rstuv...\n 03    Depth<-{"q"}
+  1,18 :rstuv...\n 03    Depth->Pattern
+  1,19 :stuvwxyz\n 03    Depth<-{"r"}
+  1,19 :stuvwxyz\n 03    Depth->Pattern
+  1,20 :tuvwxyz\n  03    Depth<-{"s"}
+  1,20 :tuvwxyz\n  03    Depth->Pattern
+  1,21 :uvwxyz\n   03    Depth<-{"t"}
+  1,21 :uvwxyz\n   03    Depth->Pattern
+  1,22 :vwxyz\n    03    Depth<-{"u"}
+  1,22 :vwxyz\n    03    Depth->Pattern
+  1,23 :wxyz\n     03    Depth<-{"v"}
+  1,23 :wxyz\n     03    Depth->Pattern
+  1,24 :xyz\n      03    Depth<-{"w"}
+  1,24 :xyz\n      03    Depth->Pattern
+  1,25 :yz\n       03    Depth<-{"x"}
+  1,25 :yz\n       03    Depth->Pattern
+  1,26 :z\n        03    Depth<-{"y"}
+  1,26 :z\n        03    Depth->Pattern
+  1,27 :\n         03    Depth<-{"z"}
+  1,27 :\n         03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,27 :\n         02   Seq<-{"a","b","c","d","e","f","g","h..."w","x","y","z"}
+  1,27 :\n         02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,26 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,26 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."v","w","x","y"}
+  1,26 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,25 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,25 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."u","v","w","x"}
+  1,25 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,24 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,24 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."t","u","v","w"}
+  1,24 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,23 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,23 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."s","t","u","v"}
+  1,23 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,22 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,22 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."r","s","t","u"}
+  1,22 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,21 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,21 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."q","r","s","t"}
+  1,21 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,20 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,20 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."p","q","r","s"}
+  1,20 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,19 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,19 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."o","p","q","r"}
+  1,19 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,18 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,18 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."n","o","p","q"}
+  1,18 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,17 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,17 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."m","n","o","p"}
+  1,17 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,16 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,16 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."l","m","n","o"}
+  1,16 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,15 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,15 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."k","l","m","n"}
+  1,15 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,14 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,14 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."j","k","l","m"}
+  1,14 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,13 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,13 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h","i","j","k","l"}
+  1,13 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,12 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,12 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h","i","j","k"}
+  1,12 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,11 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,11 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h","i","j"}
+  1,11 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,10 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,10 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h","i"}
+  1,10 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,9  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,9  :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h"}
+  1,9  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,8  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,8  :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g"}
+  1,8  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,7  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,7  :[unav...e] 02   Seq<-{"a","b","c","d","e","f"}
+  1,7  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,6  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,6  :[unav...e] 02   Seq<-{"a","b","c","d","e"}
+  1,6  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,5  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,5  :[unav...e] 02   Seq<-{"a","b","c","d"}
+  1,5  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,4  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,4  :[unav...e] 02   Seq<-{"a","b","c"}
+  1,4  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,3  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,3  :[unav...e] 02   Seq<-{"a","b"}
+  1,3  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,2  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,2  :[unav...e] 02   Seq<-{"a"}
+  1,2  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,1  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,1  :[unav...e] 02   Seq<-{}
+  1,1  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+       :           02   Seq<-!!!
+       :           01  Transform<-!!!
+       :           00 Trace<-!!!
+{"abcdefghijklm"}
+{"abcdefghijklmnopqrstuvwxyz\n012345"}
+  1,1  :abcde...\n 00 Trace->Transform
+  1,1  :abcde...\n 01  Transform->Seq
+  1,1  :abcde...\n 02   Seq->Depth
+  1,1  :abcde...\n 03    Depth->Pattern
+  1,2  :bcdef...\n 03    Depth<-{"a"}
+  1,2  :bcdef...\n 03    Depth->Pattern
+  1,3  :cdefg...\n 03    Depth<-{"b"}
+  1,3  :cdefg...\n 03    Depth->Pattern
+  1,4  :defgh...\n 03    Depth<-{"c"}
+  1,4  :defgh...\n 03    Depth->Pattern
+  1,5  :efghi...\n 03    Depth<-{"d"}
+  1,5  :efghi...\n 03    Depth->Pattern
+  1,6  :fghij...\n 03    Depth<-{"e"}
+  1,6  :fghij...\n 03    Depth->Pattern
+  1,7  :ghijk...\n 03    Depth<-{"f"}
+  1,7  :ghijk...\n 03    Depth->Pattern
+  1,8  :hijkl...\n 03    Depth<-{"g"}
+  1,8  :hijkl...\n 03    Depth->Pattern
+  1,9  :ijklm...\n 03    Depth<-{"h"}
+  1,9  :ijklm...\n 03    Depth->Pattern
+  1,10 :jklmn...\n 03    Depth<-{"i"}
+  1,10 :jklmn...\n 03    Depth->Pattern
+  1,11 :klmno...\n 03    Depth<-{"j"}
+  1,11 :klmno...\n 03    Depth->Pattern
+  1,12 :lmnop...\n 03    Depth<-{"k"}
+  1,12 :lmnop...\n 03    Depth->Pattern
+  1,13 :mnopq...\n 03    Depth<-{"l"}
+  1,13 :mnopq...\n 03    Depth->Pattern
+  1,14 :nopqr...\n 03    Depth<-{"m"}
+  1,14 :nopqr...\n 03    Depth->Pattern
+  1,15 :opqrs...\n 03    Depth<-{"n"}
+  1,15 :opqrs...\n 03    Depth->Pattern
+  1,16 :pqrst...\n 03    Depth<-{"o"}
+  1,16 :pqrst...\n 03    Depth->Pattern
+  1,17 :qrstu...\n 03    Depth<-{"p"}
+  1,17 :qrstu...\n 03    Depth->Pattern
+  1,18 :rstuv...\n 03    Depth<-{"q"}
+  1,18 :rstuv...\n 03    Depth->Pattern
+  1,19 :stuvwxyz\n 03    Depth<-{"r"}
+  1,19 :stuvwxyz\n 03    Depth->Pattern
+  1,20 :tuvwxyz\n  03    Depth<-{"s"}
+  1,20 :tuvwxyz\n  03    Depth->Pattern
+  1,21 :uvwxyz\n   03    Depth<-{"t"}
+  1,21 :uvwxyz\n   03    Depth->Pattern
+  1,22 :vwxyz\n    03    Depth<-{"u"}
+  1,22 :vwxyz\n    03    Depth->Pattern
+  1,23 :wxyz\n     03    Depth<-{"v"}
+  1,23 :wxyz\n     03    Depth->Pattern
+  1,24 :xyz\n      03    Depth<-{"w"}
+  1,24 :xyz\n      03    Depth->Pattern
+  1,25 :yz\n       03    Depth<-{"x"}
+  1,25 :yz\n       03    Depth->Pattern
+  1,26 :z\n        03    Depth<-{"y"}
+  1,26 :z\n        03    Depth->Pattern
+  1,27 :\n         03    Depth<-{"z"}
+  1,27 :\n         03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,27 :\n         02   Seq<-{"a","b","c","d","e","f","g","h..."w","x","y","z"}
+  1,27 :\n         02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,26 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,26 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."v","w","x","y"}
+  1,26 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,25 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,25 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."u","v","w","x"}
+  1,25 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,24 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,24 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."t","u","v","w"}
+  1,24 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,23 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,23 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."s","t","u","v"}
+  1,23 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,22 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,22 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."r","s","t","u"}
+  1,22 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,21 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,21 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."q","r","s","t"}
+  1,21 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,20 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,20 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."p","q","r","s"}
+  1,20 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,19 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,19 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."o","p","q","r"}
+  1,19 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,18 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,18 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."n","o","p","q"}
+  1,18 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,17 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,17 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."m","n","o","p"}
+  1,17 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,16 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,16 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."l","m","n","o"}
+  1,16 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,15 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,15 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."k","l","m","n"}
+  1,15 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,14 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,14 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h..."j","k","l","m"}
+  1,14 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,13 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,13 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h","i","j","k","l"}
+  1,13 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,12 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,12 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h","i","j","k"}
+  1,12 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,11 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,11 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h","i","j"}
+  1,11 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,10 :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,10 :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h","i"}
+  1,10 :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,9  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,9  :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g","h"}
+  1,9  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,8  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,8  :[unav...e] 02   Seq<-{"a","b","c","d","e","f","g"}
+  1,8  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,7  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,7  :[unav...e] 02   Seq<-{"a","b","c","d","e","f"}
+  1,7  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,6  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,6  :[unav...e] 02   Seq<-{"a","b","c","d","e"}
+  1,6  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,5  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,5  :[unav...e] 02   Seq<-{"a","b","c","d"}
+  1,5  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,4  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,4  :[unav...e] 02   Seq<-{"a","b","c"}
+  1,4  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,3  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,3  :[unav...e] 02   Seq<-{"a","b"}
+  1,3  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,2  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,2  :[unav...e] 02   Seq<-{"a"}
+  1,2  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+  1,1  :[unav...e] 03    Depth->Pattern
+       :           03    Depth<-!!!
+  1,1  :[unav...e] 02   Seq<-{}
+  1,1  :[unav...e] 02   Seq->Equal
+       :           02   Seq<-!!!
+  1,1  :[unav...e] 02   Seq->Depth
+       :           02   Seq<-!!!
+       :           01  Transform<-!!!
+       :           00 Trace<-!!!
+{"abcdefghijklm"}
+{"abcdefghijklmnopqrstuvwxyz\n012345"}
+try ok
+GMLError("a is a list")
+  1,1  :\n         00 Trace->Seq!
+  1,1  :\n         01  Seq!->comment
+  1,1  :\n         02   comment->Pattern
+  1,1  :\n         02   comment<-{""}
+  1,1  :\n         01  Seq!<-{}
+  1,1  :\n         01  Seq!->spc
+  1,1  :\n         02   spc->wspace
+  1,1  :\n         03    wspace->Drop
+  1,1  :\n         04     Drop->Pattern
+       :           04     Drop<-!!!
+       :           03    wspace<-!!!
+  1,1  :\n         03    wspace->Seq!
+  1,1  :\n         04     Seq!->Drop
+  1,1  :\n         05      Drop->Pattern
+  2,1  :graph [\n  05      Drop<-{"\n"}
+  2,1  :graph [\n  04     Seq!<-{}
+  2,1  :graph [\n  04     Seq!->comment
+  2,1  :graph [\n  05      comment->Pattern
+  2,1  :graph [\n  05      comment<-{""}
+  2,1  :graph [\n  04     Seq!<-{}
+  2,1  :graph [\n  03    wspace<-{}
+  2,1  :graph [\n  02   spc<-{}
+  2,1  :graph [\n  02   spc->wspace
+  2,1  :graph [\n  03    wspace->Drop
+  2,1  :graph [\n  04     Drop->Pattern
+       :           04     Drop<-!!!
+       :           03    wspace<-!!!
+  2,1  :graph [\n  03    wspace->Seq!
+  2,1  :graph [\n  04     Seq!->Drop
+  2,1  :graph [\n  05      Drop->Pattern
+       :           05      Drop<-!!!
+       :           04     Seq!<-!!!
+       :           03    wspace<-!!!
+       :           02   spc<-!!!
+  2,1  :graph [\n  01  Seq!<-{}
+  2,1  :graph [\n  01  Seq!->list
+  2,1  :graph [\n  02   Transform->Depth!
+  2,1  :graph [\n  03    Depth!->element
+  2,1  :graph [\n  04     element->Seq!
+  2,1  :graph [\n  05      Seq!->key
+  2,1  :graph [\n  06       key->Seq!
+  2,1  :graph [\n  07        Seq!->Pattern
+  2,6  : [\n       07        Seq!<-{"graph"}
+  2,6  : [\n       07        Seq!->space
+  2,6  : [\n       08         space->wspace
+  2,6  : [\n       09          wspace->Drop
+  2,6  : [\n       10 Drop->Pattern
+  2,7  :[\n        10 Drop<-{" "}
+  2,7  :[\n        09          wspace<-{}
+  2,7  :[\n        08         space<-{}
+  2,7  :[\n        08         space->wspace
+  2,7  :[\n        09          wspace->Drop
+  2,7  :[\n        10 Drop->Pattern
+       :           10 Drop<-!!!
+       :           09          wspace<-!!!
+  2,7  :[\n        09          wspace->Seq!
+  2,7  :[\n        10 Seq!->Drop
+  2,7  :[\n        11  Drop->Pattern
+       :           11  Drop<-!!!
+       :           10 Seq!<-!!!
+       :           09          wspace<-!!!
+       :           08         space<-!!!
+  2,7  :[\n        07        Seq!<-{}
+  2,7  :[\n        06       key<-{"graph"}
+  2,7  :[\n        05      Seq!<-{:graph}
+  2,7  :[\n        05      Seq!->value
+  2,7  :[\n        06       value->real
+  2,7  :[\n        07        real->Seq!
+  2,7  :[\n        08         Seq!->Pattern
+       :           08         Seq!<-!!!
+       :           07        real<-!!!
+       :           06       value<-!!!
+  2,7  :[\n        06       value->int
+  2,7  :[\n        07        int->Seq!
+  2,7  :[\n        08         Seq!->Pattern
+       :           08         Seq!<-!!!
+       :           07        int<-!!!
+       :           06       value<-!!!
+  2,7  :[\n        06       value->str
+  2,7  :[\n        07        str->Pattern
+       :           07        str<-!!!
+       :           06       value<-!!!
+  2,7  :[\n        06       value->sublist
+  2,7  :[\n        07        sublist->open
+  2,7  :[\n        08         open->Drop
+  2,7  :[\n        09          Drop->Equal
+  2,8  :\n         09          Drop<-{"["}
+  2,8  :\n         08         open<-{}
+  2,8  :\n         08         open->spc
+  2,8  :\n         09          spc->wspace
+  2,8  :\n         10 wspace->Drop
+  2,8  :\n         11  Drop->Pattern
+       :           11  Drop<-!!!
+       :           10 wspace<-!!!
+  2,8  :\n         10 wspace->Seq!
+  2,8  :\n         11  Seq!->Drop
+  2,8  :\n         12   Drop->Pattern
+  3,1  :  com...\n 12   Drop<-{"\n"}
+  3,1  :  com...\n 11  Seq!<-{}
+  3,1  :  com...\n 11  Seq!->comment
+  3,1  :  com...\n 12   comment->Pattern
+  3,1  :  com...\n 12   comment<-{""}
+  3,1  :  com...\n 11  Seq!<-{}
+  3,1  :  com...\n 10 wspace<-{}
+  3,1  :  com...\n 09          spc<-{}
+  3,1  :  com...\n 09          spc->wspace
+  3,1  :  com...\n 10 wspace->Drop
+  3,1  :  com...\n 11  Drop->Pattern
+  3,3  :comme...\n 11  Drop<-{"  "}
+  3,3  :comme...\n 10 wspace<-{}
+  3,3  :comme...\n 09          spc<-{}
+  3,3  :comme...\n 09          spc->wspace
+  3,3  :comme...\n 10 wspace->Drop
+  3,3  :comme...\n 11  Drop->Pattern
+       :           11  Drop<-!!!
+       :           10 wspace<-!!!
+  3,3  :comme...\n 10 wspace->Seq!
+  3,3  :comme...\n 11  Seq!->Drop
+  3,3  :comme...\n 12   Drop->Pattern
+       :           12   Drop<-!!!
+       :           11  Seq!<-!!!
+       :           10 wspace<-!!!
+       :           09          spc<-!!!
+  3,3  :comme...\n 08         open<-{}
+  3,3  :comme...\n 07        sublist<-{}
+  3,3  :comme...\n 07        sublist->list
+  3,3  :comme...\n 08         Transform->Depth!
+  3,3  :comme...\n 09          Depth!->element
+  3,3  :comme...\n 10 element->Seq!
+  3,3  :comme...\n 11  Seq!->key
+  3,3  :comme...\n 12   key->Seq!
+  3,3  :comme...\n 13    Seq!->Pattern
+  3,10 : \"Th...\n 13    Seq!<-{"comment"}
+  3,10 : \"Th...\n 13    Seq!->space
+  3,10 : \"Th...\n 14     space->wspace
+  3,10 : \"Th...\n 15      wspace->Drop
+  3,10 : \"Th...\n 16       Drop->Pattern
+  3,11 :\"Thi...\n 16       Drop<-{" "}
+  3,11 :\"Thi...\n 15      wspace<-{}
+  3,11 :\"Thi...\n 14     space<-{}
+  3,11 :\"Thi...\n 14     space->wspace
+  3,11 :\"Thi...\n 15      wspace->Drop
+  3,11 :\"Thi...\n 16       Drop->Pattern
+       :           16       Drop<-!!!
+       :           15      wspace<-!!!
+  3,11 :\"Thi...\n 15      wspace->Seq!
+  3,11 :\"Thi...\n 16       Seq!->Drop
+  3,11 :\"Thi...\n 17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       Seq!<-!!!
+       :           15      wspace<-!!!
+       :           14     space<-!!!
+  3,11 :\"Thi...\n 13    Seq!<-{}
+  3,11 :\"Thi...\n 12   key<-{"comment"}
+  3,11 :\"Thi...\n 11  Seq!<-{:comment}
+  3,11 :\"Thi...\n 11  Seq!->value
+  3,11 :\"Thi...\n 12   value->real
+  3,11 :\"Thi...\n 13    real->Seq!
+  3,11 :\"Thi...\n 14     Seq!->Pattern
+       :           14     Seq!<-!!!
+       :           13    real<-!!!
+       :           12   value<-!!!
+  3,11 :\"Thi...\n 12   value->int
+  3,11 :\"Thi...\n 13    int->Seq!
+  3,11 :\"Thi...\n 14     Seq!->Pattern
+       :           14     Seq!<-!!!
+       :           13    int<-!!!
+       :           12   value<-!!!
+  3,11 :\"Thi...\n 12   value->str
+  3,11 :\"Thi...\n 13    str->Pattern
+  3,35 :\n         13    str<-{"This is a sample graph"}
+  3,35 :\n         13    str->spc
+  3,35 :\n         14     spc->wspace
+  3,35 :\n         15      wspace->Drop
+  3,35 :\n         16       Drop->Pattern
+       :           16       Drop<-!!!
+       :           15      wspace<-!!!
+  3,35 :\n         15      wspace->Seq!
+  3,35 :\n         16       Seq!->Drop
+  3,35 :\n         17        Drop->Pattern
+  4,1  :  dir...\n 17        Drop<-{"\n"}
+  4,1  :  dir...\n 16       Seq!<-{}
+  4,1  :  dir...\n 16       Seq!->comment
+  4,1  :  dir...\n 17        comment->Pattern
+  4,1  :  dir...\n 17        comment<-{""}
+  4,1  :  dir...\n 16       Seq!<-{}
+  4,1  :  dir...\n 15      wspace<-{}
+  4,1  :  dir...\n 14     spc<-{}
+  4,1  :  dir...\n 14     spc->wspace
+  4,1  :  dir...\n 15      wspace->Drop
+  4,1  :  dir...\n 16       Drop->Pattern
+  4,3  :direc...\n 16       Drop<-{"  "}
+  4,3  :direc...\n 15      wspace<-{}
+  4,3  :direc...\n 14     spc<-{}
+  4,3  :direc...\n 14     spc->wspace
+  4,3  :direc...\n 15      wspace->Drop
+  4,3  :direc...\n 16       Drop->Pattern
+       :           16       Drop<-!!!
+       :           15      wspace<-!!!
+  4,3  :direc...\n 15      wspace->Seq!
+  4,3  :direc...\n 16       Seq!->Drop
+  4,3  :direc...\n 17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       Seq!<-!!!
+       :           15      wspace<-!!!
+       :           14     spc<-!!!
+  4,3  :direc...\n 13    str<-{}
+  4,3  :direc...\n 12   value<-{"This is a sample graph"}
+  4,3  :direc...\n 11  Seq!<-{"This is a sample graph"}
+  4,3  :direc...\n 10 element<-{:comment,"This is a sample graph"}
+  4,3  :direc...\n 09          Depth!<-{(:comment,"This is a sample graph")}
+  4,3  :direc...\n 09          Depth!->element
+  4,3  :direc...\n 10 element->Seq!
+  4,3  :direc...\n 11  Seq!->key
+  4,3  :direc...\n 12   key->Seq!
+  4,3  :direc...\n 13    Seq!->Pattern
+  4,11 : 1\n       13    Seq!<-{"directed"}
+  4,11 : 1\n       13    Seq!->space
+  4,11 : 1\n       14     space->wspace
+  4,11 : 1\n       15      wspace->Drop
+  4,11 : 1\n       16       Drop->Pattern
+  4,12 :1\n        16       Drop<-{" "}
+  4,12 :1\n        15      wspace<-{}
+  4,12 :1\n        14     space<-{}
+  4,12 :1\n        14     space->wspace
+  4,12 :1\n        15      wspace->Drop
+  4,12 :1\n        16       Drop->Pattern
+       :           16       Drop<-!!!
+       :           15      wspace<-!!!
+  4,12 :1\n        15      wspace->Seq!
+  4,12 :1\n        16       Seq!->Drop
+  4,12 :1\n        17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       Seq!<-!!!
+       :           15      wspace<-!!!
+       :           14     space<-!!!
+  4,12 :1\n        13    Seq!<-{}
+  4,12 :1\n        12   key<-{"directed"}
+  4,12 :1\n        11  Seq!<-{:directed}
+  4,12 :1\n        11  Seq!->value
+  4,12 :1\n        12   value->real
+  4,12 :1\n        13    real->Seq!
+  4,12 :1\n        14     Seq!->Pattern
+       :           14     Seq!<-!!!
+       :           13    real<-!!!
+       :           12   value<-!!!
+  4,12 :1\n        12   value->int
+  4,12 :1\n        13    int->Seq!
+  4,12 :1\n        14     Seq!->Pattern
+  4,13 :\n         14     Seq!<-{"1"}
+  4,13 :\n         14     Seq!->spc
+  4,13 :\n         15      spc->wspace
+  4,13 :\n         16       wspace->Drop
+  4,13 :\n         17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       wspace<-!!!
+  4,13 :\n         16       wspace->Seq!
+  4,13 :\n         17        Seq!->Drop
+  4,13 :\n         18         Drop->Pattern
+  5,1  :  id 42\n  18         Drop<-{"\n"}
+  5,1  :  id 42\n  17        Seq!<-{}
+  5,1  :  id 42\n  17        Seq!->comment
+  5,1  :  id 42\n  18         comment->Pattern
+  5,1  :  id 42\n  18         comment<-{""}
+  5,1  :  id 42\n  17        Seq!<-{}
+  5,1  :  id 42\n  16       wspace<-{}
+  5,1  :  id 42\n  15      spc<-{}
+  5,1  :  id 42\n  15      spc->wspace
+  5,1  :  id 42\n  16       wspace->Drop
+  5,1  :  id 42\n  17        Drop->Pattern
+  5,3  :id 42\n    17        Drop<-{"  "}
+  5,3  :id 42\n    16       wspace<-{}
+  5,3  :id 42\n    15      spc<-{}
+  5,3  :id 42\n    15      spc->wspace
+  5,3  :id 42\n    16       wspace->Drop
+  5,3  :id 42\n    17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       wspace<-!!!
+  5,3  :id 42\n    16       wspace->Seq!
+  5,3  :id 42\n    17        Seq!->Drop
+  5,3  :id 42\n    18         Drop->Pattern
+       :           18         Drop<-!!!
+       :           17        Seq!<-!!!
+       :           16       wspace<-!!!
+       :           15      spc<-!!!
+  5,3  :id 42\n    14     Seq!<-{}
+  5,3  :id 42\n    13    int<-{"1"}
+  5,3  :id 42\n    12   value<-{1}
+  5,3  :id 42\n    11  Seq!<-{1}
+  5,3  :id 42\n    10 element<-{:directed,1}
+  5,3  :id 42\n    09          Depth!<-{(:directed,1)}
+  5,3  :id 42\n    09          Depth!->element
+  5,3  :id 42\n    10 element->Seq!
+  5,3  :id 42\n    11  Seq!->key
+  5,3  :id 42\n    12   key->Seq!
+  5,3  :id 42\n    13    Seq!->Pattern
+  5,5  : 42\n      13    Seq!<-{"id"}
+  5,5  : 42\n      13    Seq!->space
+  5,5  : 42\n      14     space->wspace
+  5,5  : 42\n      15      wspace->Drop
+  5,5  : 42\n      16       Drop->Pattern
+  5,6  :42\n       16       Drop<-{" "}
+  5,6  :42\n       15      wspace<-{}
+  5,6  :42\n       14     space<-{}
+  5,6  :42\n       14     space->wspace
+  5,6  :42\n       15      wspace->Drop
+  5,6  :42\n       16       Drop->Pattern
+       :           16       Drop<-!!!
+       :           15      wspace<-!!!
+  5,6  :42\n       15      wspace->Seq!
+  5,6  :42\n       16       Seq!->Drop
+  5,6  :42\n       17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       Seq!<-!!!
+       :           15      wspace<-!!!
+       :           14     space<-!!!
+  5,6  :42\n       13    Seq!<-{}
+  5,6  :42\n       12   key<-{"id"}
+  5,6  :42\n       11  Seq!<-{:id}
+  5,6  :42\n       11  Seq!->value
+  5,6  :42\n       12   value->real
+  5,6  :42\n       13    real->Seq!
+  5,6  :42\n       14     Seq!->Pattern
+       :           14     Seq!<-!!!
+       :           13    real<-!!!
+       :           12   value<-!!!
+  5,6  :42\n       12   value->int
+  5,6  :42\n       13    int->Seq!
+  5,6  :42\n       14     Seq!->Pattern
+  5,8  :\n         14     Seq!<-{"42"}
+  5,8  :\n         14     Seq!->spc
+  5,8  :\n         15      spc->wspace
+  5,8  :\n         16       wspace->Drop
+  5,8  :\n         17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       wspace<-!!!
+  5,8  :\n         16       wspace->Seq!
+  5,8  :\n         17        Seq!->Drop
+  5,8  :\n         18         Drop->Pattern
+  6,1  :  lab...\n 18         Drop<-{"\n"}
+  6,1  :  lab...\n 17        Seq!<-{}
+  6,1  :  lab...\n 17        Seq!->comment
+  6,1  :  lab...\n 18         comment->Pattern
+  6,1  :  lab...\n 18         comment<-{""}
+  6,1  :  lab...\n 17        Seq!<-{}
+  6,1  :  lab...\n 16       wspace<-{}
+  6,1  :  lab...\n 15      spc<-{}
+  6,1  :  lab...\n 15      spc->wspace
+  6,1  :  lab...\n 16       wspace->Drop
+  6,1  :  lab...\n 17        Drop->Pattern
+  6,3  :label...\n 17        Drop<-{"  "}
+  6,3  :label...\n 16       wspace<-{}
+  6,3  :label...\n 15      spc<-{}
+  6,3  :label...\n 15      spc->wspace
+  6,3  :label...\n 16       wspace->Drop
+  6,3  :label...\n 17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       wspace<-!!!
+  6,3  :label...\n 16       wspace->Seq!
+  6,3  :label...\n 17        Seq!->Drop
+  6,3  :label...\n 18         Drop->Pattern
+       :           18         Drop<-!!!
+       :           17        Seq!<-!!!
+       :           16       wspace<-!!!
+       :           15      spc<-!!!
+  6,3  :label...\n 14     Seq!<-{}
+  6,3  :label...\n 13    int<-{"42"}
+  6,3  :label...\n 12   value<-{42}
+  6,3  :label...\n 11  Seq!<-{42}
+  6,3  :label...\n 10 element<-{:id,42}
+  6,3  :label...\n 09          Depth!<-{(:id,42)}
+  6,3  :label...\n 09          Depth!->element
+  6,3  :label...\n 10 element->Seq!
+  6,3  :label...\n 11  Seq!->key
+  6,3  :label...\n 12   key->Seq!
+  6,3  :label...\n 13    Seq!->Pattern
+  6,8  : \"He...\n 13    Seq!<-{"label"}
+  6,8  : \"He...\n 13    Seq!->space
+  6,8  : \"He...\n 14     space->wspace
+  6,8  : \"He...\n 15      wspace->Drop
+  6,8  : \"He...\n 16       Drop->Pattern
+  6,9  :\"Hel...\n 16       Drop<-{" "}
+  6,9  :\"Hel...\n 15      wspace<-{}
+  6,9  :\"Hel...\n 14     space<-{}
+  6,9  :\"Hel...\n 14     space->wspace
+  6,9  :\"Hel...\n 15      wspace->Drop
+  6,9  :\"Hel...\n 16       Drop->Pattern
+       :           16       Drop<-!!!
+       :           15      wspace<-!!!
+  6,9  :\"Hel...\n 15      wspace->Seq!
+  6,9  :\"Hel...\n 16       Seq!->Drop
+  6,9  :\"Hel...\n 17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       Seq!<-!!!
+       :           15      wspace<-!!!
+       :           14     space<-!!!
+  6,9  :\"Hel...\n 13    Seq!<-{}
+  6,9  :\"Hel...\n 12   key<-{"label"}
+  6,9  :\"Hel...\n 11  Seq!<-{:label}
+  6,9  :\"Hel...\n 11  Seq!->value
+  6,9  :\"Hel...\n 12   value->real
+  6,9  :\"Hel...\n 13    real->Seq!
+  6,9  :\"Hel...\n 14     Seq!->Pattern
+       :           14     Seq!<-!!!
+       :           13    real<-!!!
+       :           12   value<-!!!
+  6,9  :\"Hel...\n 12   value->int
+  6,9  :\"Hel...\n 13    int->Seq!
+  6,9  :\"Hel...\n 14     Seq!->Pattern
+       :           14     Seq!<-!!!
+       :           13    int<-!!!
+       :           12   value<-!!!
+  6,9  :\"Hel...\n 12   value->str
+  6,9  :\"Hel...\n 13    str->Pattern
+  6,30 :\n         13    str<-{"Hello, I am a graph"}
+  6,30 :\n         13    str->spc
+  6,30 :\n         14     spc->wspace
+  6,30 :\n         15      wspace->Drop
+  6,30 :\n         16       Drop->Pattern
+       :           16       Drop<-!!!
+       :           15      wspace<-!!!
+  6,30 :\n         15      wspace->Seq!
+  6,30 :\n         16       Seq!->Drop
+  6,30 :\n         17        Drop->Pattern
+  7,1  :  node [\n 17        Drop<-{"\n"}
+  7,1  :  node [\n 16       Seq!<-{}
+  7,1  :  node [\n 16       Seq!->comment
+  7,1  :  node [\n 17        comment->Pattern
+  7,1  :  node [\n 17        comment<-{""}
+  7,1  :  node [\n 16       Seq!<-{}
+  7,1  :  node [\n 15      wspace<-{}
+  7,1  :  node [\n 14     spc<-{}
+  7,1  :  node [\n 14     spc->wspace
+  7,1  :  node [\n 15      wspace->Drop
+  7,1  :  node [\n 16       Drop->Pattern
+  7,3  :node [\n   16       Drop<-{"  "}
+  7,3  :node [\n   15      wspace<-{}
+  7,3  :node [\n   14     spc<-{}
+  7,3  :node [\n   14     spc->wspace
+  7,3  :node [\n   15      wspace->Drop
+  7,3  :node [\n   16       Drop->Pattern
+       :           16       Drop<-!!!
+       :           15      wspace<-!!!
+  7,3  :node [\n   15      wspace->Seq!
+  7,3  :node [\n   16       Seq!->Drop
+  7,3  :node [\n   17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       Seq!<-!!!
+       :           15      wspace<-!!!
+       :           14     spc<-!!!
+  7,3  :node [\n   13    str<-{}
+  7,3  :node [\n   12   value<-{"Hello, I am a graph"}
+  7,3  :node [\n   11  Seq!<-{"Hello, I am a graph"}
+  7,3  :node [\n   10 element<-{:label,"Hello, I am a graph"}
+  7,3  :node [\n   09          Depth!<-{(:label,"Hello, I am a graph")}
+  7,3  :node [\n   09          Depth!->element
+  7,3  :node [\n   10 element->Seq!
+  7,3  :node [\n   11  Seq!->key
+  7,3  :node [\n   12   key->Seq!
+  7,3  :node [\n   13    Seq!->Pattern
+  7,7  : [\n       13    Seq!<-{"node"}
+  7,7  : [\n       13    Seq!->space
+  7,7  : [\n       14     space->wspace
+  7,7  : [\n       15      wspace->Drop
+  7,7  : [\n       16       Drop->Pattern
+  7,8  :[\n        16       Drop<-{" "}
+  7,8  :[\n        15      wspace<-{}
+  7,8  :[\n        14     space<-{}
+  7,8  :[\n        14     space->wspace
+  7,8  :[\n        15      wspace->Drop
+  7,8  :[\n        16       Drop->Pattern
+       :           16       Drop<-!!!
+       :           15      wspace<-!!!
+  7,8  :[\n        15      wspace->Seq!
+  7,8  :[\n        16       Seq!->Drop
+  7,8  :[\n        17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       Seq!<-!!!
+       :           15      wspace<-!!!
+       :           14     space<-!!!
+  7,8  :[\n        13    Seq!<-{}
+  7,8  :[\n        12   key<-{"node"}
+  7,8  :[\n        11  Seq!<-{:node}
+  7,8  :[\n        11  Seq!->value
+  7,8  :[\n        12   value->real
+  7,8  :[\n        13    real->Seq!
+  7,8  :[\n        14     Seq!->Pattern
+       :           14     Seq!<-!!!
+       :           13    real<-!!!
+       :           12   value<-!!!
+  7,8  :[\n        12   value->int
+  7,8  :[\n        13    int->Seq!
+  7,8  :[\n        14     Seq!->Pattern
+       :           14     Seq!<-!!!
+       :           13    int<-!!!
+       :           12   value<-!!!
+  7,8  :[\n        12   value->str
+  7,8  :[\n        13    str->Pattern
+       :           13    str<-!!!
+       :           12   value<-!!!
+  7,8  :[\n        12   value->sublist
+  7,8  :[\n        13    sublist->open
+  7,8  :[\n        14     open->Drop
+  7,8  :[\n        15      Drop->Equal
+  7,9  :\n         15      Drop<-{"["}
+  7,9  :\n         14     open<-{}
+  7,9  :\n         14     open->spc
+  7,9  :\n         15      spc->wspace
+  7,9  :\n         16       wspace->Drop
+  7,9  :\n         17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       wspace<-!!!
+  7,9  :\n         16       wspace->Seq!
+  7,9  :\n         17        Seq!->Drop
+  7,9  :\n         18         Drop->Pattern
+  8,1  :    id 1\n 18         Drop<-{"\n"}
+  8,1  :    id 1\n 17        Seq!<-{}
+  8,1  :    id 1\n 17        Seq!->comment
+  8,1  :    id 1\n 18         comment->Pattern
+  8,1  :    id 1\n 18         comment<-{""}
+  8,1  :    id 1\n 17        Seq!<-{}
+  8,1  :    id 1\n 16       wspace<-{}
+  8,1  :    id 1\n 15      spc<-{}
+  8,1  :    id 1\n 15      spc->wspace
+  8,1  :    id 1\n 16       wspace->Drop
+  8,1  :    id 1\n 17        Drop->Pattern
+  8,5  :id 1\n     17        Drop<-{"    "}
+  8,5  :id 1\n     16       wspace<-{}
+  8,5  :id 1\n     15      spc<-{}
+  8,5  :id 1\n     15      spc->wspace
+  8,5  :id 1\n     16       wspace->Drop
+  8,5  :id 1\n     17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       wspace<-!!!
+  8,5  :id 1\n     16       wspace->Seq!
+  8,5  :id 1\n     17        Seq!->Drop
+  8,5  :id 1\n     18         Drop->Pattern
+       :           18         Drop<-!!!
+       :           17        Seq!<-!!!
+       :           16       wspace<-!!!
+       :           15      spc<-!!!
+  8,5  :id 1\n     14     open<-{}
+  8,5  :id 1\n     13    sublist<-{}
+  8,5  :id 1\n     13    sublist->list
+  8,5  :id 1\n     14     Transform->Depth!
+  8,5  :id 1\n     15      Depth!->element
+  8,5  :id 1\n     16       element->Seq!
+  8,5  :id 1\n     17        Seq!->key
+  8,5  :id 1\n     18         key->Seq!
+  8,5  :id 1\n     19          Seq!->Pattern
+  8,7  : 1\n       19          Seq!<-{"id"}
+  8,7  : 1\n       19          Seq!->space
+  8,7  : 1\n       20 space->wspace
+  8,7  : 1\n       21  wspace->Drop
+  8,7  : 1\n       22   Drop->Pattern
+  8,8  :1\n        22   Drop<-{" "}
+  8,8  :1\n        21  wspace<-{}
+  8,8  :1\n        20 space<-{}
+  8,8  :1\n        20 space->wspace
+  8,8  :1\n        21  wspace->Drop
+  8,8  :1\n        22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+  8,8  :1\n        21  wspace->Seq!
+  8,8  :1\n        22   Seq!->Drop
+  8,8  :1\n        23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 space<-!!!
+  8,8  :1\n        19          Seq!<-{}
+  8,8  :1\n        18         key<-{"id"}
+  8,8  :1\n        17        Seq!<-{:id}
+  8,8  :1\n        17        Seq!->value
+  8,8  :1\n        18         value->real
+  8,8  :1\n        19          real->Seq!
+  8,8  :1\n        20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          real<-!!!
+       :           18         value<-!!!
+  8,8  :1\n        18         value->int
+  8,8  :1\n        19          int->Seq!
+  8,8  :1\n        20 Seq!->Pattern
+  8,9  :\n         20 Seq!<-{"1"}
+  8,9  :\n         20 Seq!->spc
+  8,9  :\n         21  spc->wspace
+  8,9  :\n         22   wspace->Drop
+  8,9  :\n         23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+  8,9  :\n         22   wspace->Seq!
+  8,9  :\n         23    Seq!->Drop
+  8,9  :\n         24     Drop->Pattern
+  9,1  :    l...\n 24     Drop<-{"\n"}
+  9,1  :    l...\n 23    Seq!<-{}
+  9,1  :    l...\n 23    Seq!->comment
+  9,1  :    l...\n 24     comment->Pattern
+  9,1  :    l...\n 24     comment<-{""}
+  9,1  :    l...\n 23    Seq!<-{}
+  9,1  :    l...\n 22   wspace<-{}
+  9,1  :    l...\n 21  spc<-{}
+  9,1  :    l...\n 21  spc->wspace
+  9,1  :    l...\n 22   wspace->Drop
+  9,1  :    l...\n 23    Drop->Pattern
+  9,5  :label...\n 23    Drop<-{"    "}
+  9,5  :label...\n 22   wspace<-{}
+  9,5  :label...\n 21  spc<-{}
+  9,5  :label...\n 21  spc->wspace
+  9,5  :label...\n 22   wspace->Drop
+  9,5  :label...\n 23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+  9,5  :label...\n 22   wspace->Seq!
+  9,5  :label...\n 23    Seq!->Drop
+  9,5  :label...\n 24     Drop->Pattern
+       :           24     Drop<-!!!
+       :           23    Seq!<-!!!
+       :           22   wspace<-!!!
+       :           21  spc<-!!!
+  9,5  :label...\n 20 Seq!<-{}
+  9,5  :label...\n 19          int<-{"1"}
+  9,5  :label...\n 18         value<-{1}
+  9,5  :label...\n 17        Seq!<-{1}
+  9,5  :label...\n 16       element<-{:id,1}
+  9,5  :label...\n 15      Depth!<-{(:id,1)}
+  9,5  :label...\n 15      Depth!->element
+  9,5  :label...\n 16       element->Seq!
+  9,5  :label...\n 17        Seq!->key
+  9,5  :label...\n 18         key->Seq!
+  9,5  :label...\n 19          Seq!->Pattern
+  9,10 : \"no...\n 19          Seq!<-{"label"}
+  9,10 : \"no...\n 19          Seq!->space
+  9,10 : \"no...\n 20 space->wspace
+  9,10 : \"no...\n 21  wspace->Drop
+  9,10 : \"no...\n 22   Drop->Pattern
+  9,11 :\"nod...\n 22   Drop<-{" "}
+  9,11 :\"nod...\n 21  wspace<-{}
+  9,11 :\"nod...\n 20 space<-{}
+  9,11 :\"nod...\n 20 space->wspace
+  9,11 :\"nod...\n 21  wspace->Drop
+  9,11 :\"nod...\n 22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+  9,11 :\"nod...\n 21  wspace->Seq!
+  9,11 :\"nod...\n 22   Seq!->Drop
+  9,11 :\"nod...\n 23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 space<-!!!
+  9,11 :\"nod...\n 19          Seq!<-{}
+  9,11 :\"nod...\n 18         key<-{"label"}
+  9,11 :\"nod...\n 17        Seq!<-{:label}
+  9,11 :\"nod...\n 17        Seq!->value
+  9,11 :\"nod...\n 18         value->real
+  9,11 :\"nod...\n 19          real->Seq!
+  9,11 :\"nod...\n 20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          real<-!!!
+       :           18         value<-!!!
+  9,11 :\"nod...\n 18         value->int
+  9,11 :\"nod...\n 19          int->Seq!
+  9,11 :\"nod...\n 20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          int<-!!!
+       :           18         value<-!!!
+  9,11 :\"nod...\n 18         value->str
+  9,11 :\"nod...\n 19          str->Pattern
+  9,19 :\n         19          str<-{"node 1"}
+  9,19 :\n         19          str->spc
+  9,19 :\n         20 spc->wspace
+  9,19 :\n         21  wspace->Drop
+  9,19 :\n         22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+  9,19 :\n         21  wspace->Seq!
+  9,19 :\n         22   Seq!->Drop
+  9,19 :\n         23    Drop->Pattern
+ 10,1  :    t...\n 23    Drop<-{"\n"}
+ 10,1  :    t...\n 22   Seq!<-{}
+ 10,1  :    t...\n 22   Seq!->comment
+ 10,1  :    t...\n 23    comment->Pattern
+ 10,1  :    t...\n 23    comment<-{""}
+ 10,1  :    t...\n 22   Seq!<-{}
+ 10,1  :    t...\n 21  wspace<-{}
+ 10,1  :    t...\n 20 spc<-{}
+ 10,1  :    t...\n 20 spc->wspace
+ 10,1  :    t...\n 21  wspace->Drop
+ 10,1  :    t...\n 22   Drop->Pattern
+ 10,5  :thisI...\n 22   Drop<-{"    "}
+ 10,5  :thisI...\n 21  wspace<-{}
+ 10,5  :thisI...\n 20 spc<-{}
+ 10,5  :thisI...\n 20 spc->wspace
+ 10,5  :thisI...\n 21  wspace->Drop
+ 10,5  :thisI...\n 22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 10,5  :thisI...\n 21  wspace->Seq!
+ 10,5  :thisI...\n 22   Seq!->Drop
+ 10,5  :thisI...\n 23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 spc<-!!!
+ 10,5  :thisI...\n 19          str<-{}
+ 10,5  :thisI...\n 18         value<-{"node 1"}
+ 10,5  :thisI...\n 17        Seq!<-{"node 1"}
+ 10,5  :thisI...\n 16       element<-{:label,"node 1"}
+ 10,5  :thisI...\n 15      Depth!<-{(:label,"node 1")}
+ 10,5  :thisI...\n 15      Depth!->element
+ 10,5  :thisI...\n 16       element->Seq!
+ 10,5  :thisI...\n 17        Seq!->key
+ 10,5  :thisI...\n 18         key->Seq!
+ 10,5  :thisI...\n 19          Seq!->Pattern
+ 10,27 : 42\n      19          Seq!<-{"thisIsASampleAttribute"}
+ 10,27 : 42\n      19          Seq!->space
+ 10,27 : 42\n      20 space->wspace
+ 10,27 : 42\n      21  wspace->Drop
+ 10,27 : 42\n      22   Drop->Pattern
+ 10,28 :42\n       22   Drop<-{" "}
+ 10,28 :42\n       21  wspace<-{}
+ 10,28 :42\n       20 space<-{}
+ 10,28 :42\n       20 space->wspace
+ 10,28 :42\n       21  wspace->Drop
+ 10,28 :42\n       22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 10,28 :42\n       21  wspace->Seq!
+ 10,28 :42\n       22   Seq!->Drop
+ 10,28 :42\n       23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 space<-!!!
+ 10,28 :42\n       19          Seq!<-{}
+ 10,28 :42\n       18         key<-{"thisIsASampleAttribute"}
+ 10,28 :42\n       17        Seq!<-{:thisIsASampleAttribute}
+ 10,28 :42\n       17        Seq!->value
+ 10,28 :42\n       18         value->real
+ 10,28 :42\n       19          real->Seq!
+ 10,28 :42\n       20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          real<-!!!
+       :           18         value<-!!!
+ 10,28 :42\n       18         value->int
+ 10,28 :42\n       19          int->Seq!
+ 10,28 :42\n       20 Seq!->Pattern
+ 10,30 :\n         20 Seq!<-{"42"}
+ 10,30 :\n         20 Seq!->spc
+ 10,30 :\n         21  spc->wspace
+ 10,30 :\n         22   wspace->Drop
+ 10,30 :\n         23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 10,30 :\n         22   wspace->Seq!
+ 10,30 :\n         23    Seq!->Drop
+ 10,30 :\n         24     Drop->Pattern
+ 11,1  :  ]\n      24     Drop<-{"\n"}
+ 11,1  :  ]\n      23    Seq!<-{}
+ 11,1  :  ]\n      23    Seq!->comment
+ 11,1  :  ]\n      24     comment->Pattern
+ 11,1  :  ]\n      24     comment<-{""}
+ 11,1  :  ]\n      23    Seq!<-{}
+ 11,1  :  ]\n      22   wspace<-{}
+ 11,1  :  ]\n      21  spc<-{}
+ 11,1  :  ]\n      21  spc->wspace
+ 11,1  :  ]\n      22   wspace->Drop
+ 11,1  :  ]\n      23    Drop->Pattern
+ 11,3  :]\n        23    Drop<-{"  "}
+ 11,3  :]\n        22   wspace<-{}
+ 11,3  :]\n        21  spc<-{}
+ 11,3  :]\n        21  spc->wspace
+ 11,3  :]\n        22   wspace->Drop
+ 11,3  :]\n        23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 11,3  :]\n        22   wspace->Seq!
+ 11,3  :]\n        23    Seq!->Drop
+ 11,3  :]\n        24     Drop->Pattern
+       :           24     Drop<-!!!
+       :           23    Seq!<-!!!
+       :           22   wspace<-!!!
+       :           21  spc<-!!!
+ 11,3  :]\n        20 Seq!<-{}
+ 11,3  :]\n        19          int<-{"42"}
+ 11,3  :]\n        18         value<-{42}
+ 11,3  :]\n        17        Seq!<-{42}
+ 11,3  :]\n        16       element<-{:thisIsASampleAttribute,42}
+ 11,3  :]\n        15      Depth!<-{(:thisIsASampleAttribute,42)}
+ 11,3  :]\n        15      Depth!->element
+ 11,3  :]\n        16       element->Seq!
+ 11,3  :]\n        17        Seq!->key
+ 11,3  :]\n        18         key->Seq!
+ 11,3  :]\n        19          Seq!->Pattern
+       :           19          Seq!<-!!!
+       :           18         key<-!!!
+       :           17        Seq!<-!!!
+       :           16       element<-!!!
+       :           15      Depth!<-!!!
+ 11,3  :]\n        14     Transform<-{(:id,1),(:label,"node 1"),(:th...leAttribute,42)}
+ 11,3  :]\n        13    sublist<-{{(:id,1),(:label,"node 1"),(:t...eAttribute,42)}}
+ 11,3  :]\n        13    sublist->Alt!
+ 11,3  :]\n        14     Alt!->close
+ 11,3  :]\n        15      close->Drop
+ 11,3  :]\n        16       Drop->Equal
+ 11,4  :\n         16       Drop<-{"]"}
+ 11,4  :\n         15      close<-{}
+ 11,4  :\n         15      close->spc
+ 11,4  :\n         16       spc->wspace
+ 11,4  :\n         17        wspace->Drop
+ 11,4  :\n         18         Drop->Pattern
+       :           18         Drop<-!!!
+       :           17        wspace<-!!!
+ 11,4  :\n         17        wspace->Seq!
+ 11,4  :\n         18         Seq!->Drop
+ 11,4  :\n         19          Drop->Pattern
+ 12,1  :  node [\n 19          Drop<-{"\n"}
+ 12,1  :  node [\n 18         Seq!<-{}
+ 12,1  :  node [\n 18         Seq!->comment
+ 12,1  :  node [\n 19          comment->Pattern
+ 12,1  :  node [\n 19          comment<-{""}
+ 12,1  :  node [\n 18         Seq!<-{}
+ 12,1  :  node [\n 17        wspace<-{}
+ 12,1  :  node [\n 16       spc<-{}
+ 12,1  :  node [\n 16       spc->wspace
+ 12,1  :  node [\n 17        wspace->Drop
+ 12,1  :  node [\n 18         Drop->Pattern
+ 12,3  :node [\n   18         Drop<-{"  "}
+ 12,3  :node [\n   17        wspace<-{}
+ 12,3  :node [\n   16       spc<-{}
+ 12,3  :node [\n   16       spc->wspace
+ 12,3  :node [\n   17        wspace->Drop
+ 12,3  :node [\n   18         Drop->Pattern
+       :           18         Drop<-!!!
+       :           17        wspace<-!!!
+ 12,3  :node [\n   17        wspace->Seq!
+ 12,3  :node [\n   18         Seq!->Drop
+ 12,3  :node [\n   19          Drop->Pattern
+       :           19          Drop<-!!!
+       :           18         Seq!<-!!!
+       :           17        wspace<-!!!
+       :           16       spc<-!!!
+ 12,3  :node [\n   15      close<-{}
+ 12,3  :node [\n   14     Alt!<-{}
+ 12,3  :node [\n   13    sublist<-{}
+ 12,3  :node [\n   12   value<-{{(:id,1),(:label,"node 1"),(:t...eAttribute,42)}}
+ 12,3  :node [\n   11  Seq!<-{{(:id,1),(:label,"node 1"),(:t...eAttribute,42)}}
+ 12,3  :node [\n   10 element<-{:node,{(:id,1),(:label,"node 1...eAttribute,42)}}
+ 12,3  :node [\n   09          Depth!<-{(:node,{(:id,1),(:label,"node ...Attribute,42)})}
+ 12,3  :node [\n   09          Depth!->element
+ 12,3  :node [\n   10 element->Seq!
+ 12,3  :node [\n   11  Seq!->key
+ 12,3  :node [\n   12   key->Seq!
+ 12,3  :node [\n   13    Seq!->Pattern
+ 12,7  : [\n       13    Seq!<-{"node"}
+ 12,7  : [\n       13    Seq!->space
+ 12,7  : [\n       14     space->wspace
+ 12,7  : [\n       15      wspace->Drop
+ 12,7  : [\n       16       Drop->Pattern
+ 12,8  :[\n        16       Drop<-{" "}
+ 12,8  :[\n        15      wspace<-{}
+ 12,8  :[\n        14     space<-{}
+ 12,8  :[\n        14     space->wspace
+ 12,8  :[\n        15      wspace->Drop
+ 12,8  :[\n        16       Drop->Pattern
+       :           16       Drop<-!!!
+       :           15      wspace<-!!!
+ 12,8  :[\n        15      wspace->Seq!
+ 12,8  :[\n        16       Seq!->Drop
+ 12,8  :[\n        17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       Seq!<-!!!
+       :           15      wspace<-!!!
+       :           14     space<-!!!
+ 12,8  :[\n        13    Seq!<-{}
+ 12,8  :[\n        12   key<-{"node"}
+ 12,8  :[\n        11  Seq!<-{:node}
+ 12,8  :[\n        11  Seq!->value
+ 12,8  :[\n        12   value->real
+ 12,8  :[\n        13    real->Seq!
+ 12,8  :[\n        14     Seq!->Pattern
+       :           14     Seq!<-!!!
+       :           13    real<-!!!
+       :           12   value<-!!!
+ 12,8  :[\n        12   value->int
+ 12,8  :[\n        13    int->Seq!
+ 12,8  :[\n        14     Seq!->Pattern
+       :           14     Seq!<-!!!
+       :           13    int<-!!!
+       :           12   value<-!!!
+ 12,8  :[\n        12   value->str
+ 12,8  :[\n        13    str->Pattern
+       :           13    str<-!!!
+       :           12   value<-!!!
+ 12,8  :[\n        12   value->sublist
+ 12,8  :[\n        13    sublist->open
+ 12,8  :[\n        14     open->Drop
+ 12,8  :[\n        15      Drop->Equal
+ 12,9  :\n         15      Drop<-{"["}
+ 12,9  :\n         14     open<-{}
+ 12,9  :\n         14     open->spc
+ 12,9  :\n         15      spc->wspace
+ 12,9  :\n         16       wspace->Drop
+ 12,9  :\n         17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       wspace<-!!!
+ 12,9  :\n         16       wspace->Seq!
+ 12,9  :\n         17        Seq!->Drop
+ 12,9  :\n         18         Drop->Pattern
+ 13,1  :    id 2\n 18         Drop<-{"\n"}
+ 13,1  :    id 2\n 17        Seq!<-{}
+ 13,1  :    id 2\n 17        Seq!->comment
+ 13,1  :    id 2\n 18         comment->Pattern
+ 13,1  :    id 2\n 18         comment<-{""}
+ 13,1  :    id 2\n 17        Seq!<-{}
+ 13,1  :    id 2\n 16       wspace<-{}
+ 13,1  :    id 2\n 15      spc<-{}
+ 13,1  :    id 2\n 15      spc->wspace
+ 13,1  :    id 2\n 16       wspace->Drop
+ 13,1  :    id 2\n 17        Drop->Pattern
+ 13,5  :id 2\n     17        Drop<-{"    "}
+ 13,5  :id 2\n     16       wspace<-{}
+ 13,5  :id 2\n     15      spc<-{}
+ 13,5  :id 2\n     15      spc->wspace
+ 13,5  :id 2\n     16       wspace->Drop
+ 13,5  :id 2\n     17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       wspace<-!!!
+ 13,5  :id 2\n     16       wspace->Seq!
+ 13,5  :id 2\n     17        Seq!->Drop
+ 13,5  :id 2\n     18         Drop->Pattern
+       :           18         Drop<-!!!
+       :           17        Seq!<-!!!
+       :           16       wspace<-!!!
+       :           15      spc<-!!!
+ 13,5  :id 2\n     14     open<-{}
+ 13,5  :id 2\n     13    sublist<-{}
+ 13,5  :id 2\n     13    sublist->list
+ 13,5  :id 2\n     14     Transform->Depth!
+ 13,5  :id 2\n     15      Depth!->element
+ 13,5  :id 2\n     16       element->Seq!
+ 13,5  :id 2\n     17        Seq!->key
+ 13,5  :id 2\n     18         key->Seq!
+ 13,5  :id 2\n     19          Seq!->Pattern
+ 13,7  : 2\n       19          Seq!<-{"id"}
+ 13,7  : 2\n       19          Seq!->space
+ 13,7  : 2\n       20 space->wspace
+ 13,7  : 2\n       21  wspace->Drop
+ 13,7  : 2\n       22   Drop->Pattern
+ 13,8  :2\n        22   Drop<-{" "}
+ 13,8  :2\n        21  wspace<-{}
+ 13,8  :2\n        20 space<-{}
+ 13,8  :2\n        20 space->wspace
+ 13,8  :2\n        21  wspace->Drop
+ 13,8  :2\n        22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 13,8  :2\n        21  wspace->Seq!
+ 13,8  :2\n        22   Seq!->Drop
+ 13,8  :2\n        23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 space<-!!!
+ 13,8  :2\n        19          Seq!<-{}
+ 13,8  :2\n        18         key<-{"id"}
+ 13,8  :2\n        17        Seq!<-{:id}
+ 13,8  :2\n        17        Seq!->value
+ 13,8  :2\n        18         value->real
+ 13,8  :2\n        19          real->Seq!
+ 13,8  :2\n        20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          real<-!!!
+       :           18         value<-!!!
+ 13,8  :2\n        18         value->int
+ 13,8  :2\n        19          int->Seq!
+ 13,8  :2\n        20 Seq!->Pattern
+ 13,9  :\n         20 Seq!<-{"2"}
+ 13,9  :\n         20 Seq!->spc
+ 13,9  :\n         21  spc->wspace
+ 13,9  :\n         22   wspace->Drop
+ 13,9  :\n         23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 13,9  :\n         22   wspace->Seq!
+ 13,9  :\n         23    Seq!->Drop
+ 13,9  :\n         24     Drop->Pattern
+ 14,1  :    l...\n 24     Drop<-{"\n"}
+ 14,1  :    l...\n 23    Seq!<-{}
+ 14,1  :    l...\n 23    Seq!->comment
+ 14,1  :    l...\n 24     comment->Pattern
+ 14,1  :    l...\n 24     comment<-{""}
+ 14,1  :    l...\n 23    Seq!<-{}
+ 14,1  :    l...\n 22   wspace<-{}
+ 14,1  :    l...\n 21  spc<-{}
+ 14,1  :    l...\n 21  spc->wspace
+ 14,1  :    l...\n 22   wspace->Drop
+ 14,1  :    l...\n 23    Drop->Pattern
+ 14,5  :label...\n 23    Drop<-{"    "}
+ 14,5  :label...\n 22   wspace<-{}
+ 14,5  :label...\n 21  spc<-{}
+ 14,5  :label...\n 21  spc->wspace
+ 14,5  :label...\n 22   wspace->Drop
+ 14,5  :label...\n 23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 14,5  :label...\n 22   wspace->Seq!
+ 14,5  :label...\n 23    Seq!->Drop
+ 14,5  :label...\n 24     Drop->Pattern
+       :           24     Drop<-!!!
+       :           23    Seq!<-!!!
+       :           22   wspace<-!!!
+       :           21  spc<-!!!
+ 14,5  :label...\n 20 Seq!<-{}
+ 14,5  :label...\n 19          int<-{"2"}
+ 14,5  :label...\n 18         value<-{2}
+ 14,5  :label...\n 17        Seq!<-{2}
+ 14,5  :label...\n 16       element<-{:id,2}
+ 14,5  :label...\n 15      Depth!<-{(:id,2)}
+ 14,5  :label...\n 15      Depth!->element
+ 14,5  :label...\n 16       element->Seq!
+ 14,5  :label...\n 17        Seq!->key
+ 14,5  :label...\n 18         key->Seq!
+ 14,5  :label...\n 19          Seq!->Pattern
+ 14,10 : \"no...\n 19          Seq!<-{"label"}
+ 14,10 : \"no...\n 19          Seq!->space
+ 14,10 : \"no...\n 20 space->wspace
+ 14,10 : \"no...\n 21  wspace->Drop
+ 14,10 : \"no...\n 22   Drop->Pattern
+ 14,11 :\"nod...\n 22   Drop<-{" "}
+ 14,11 :\"nod...\n 21  wspace<-{}
+ 14,11 :\"nod...\n 20 space<-{}
+ 14,11 :\"nod...\n 20 space->wspace
+ 14,11 :\"nod...\n 21  wspace->Drop
+ 14,11 :\"nod...\n 22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 14,11 :\"nod...\n 21  wspace->Seq!
+ 14,11 :\"nod...\n 22   Seq!->Drop
+ 14,11 :\"nod...\n 23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 space<-!!!
+ 14,11 :\"nod...\n 19          Seq!<-{}
+ 14,11 :\"nod...\n 18         key<-{"label"}
+ 14,11 :\"nod...\n 17        Seq!<-{:label}
+ 14,11 :\"nod...\n 17        Seq!->value
+ 14,11 :\"nod...\n 18         value->real
+ 14,11 :\"nod...\n 19          real->Seq!
+ 14,11 :\"nod...\n 20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          real<-!!!
+       :           18         value<-!!!
+ 14,11 :\"nod...\n 18         value->int
+ 14,11 :\"nod...\n 19          int->Seq!
+ 14,11 :\"nod...\n 20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          int<-!!!
+       :           18         value<-!!!
+ 14,11 :\"nod...\n 18         value->str
+ 14,11 :\"nod...\n 19          str->Pattern
+ 14,19 :\n         19          str<-{"node 2"}
+ 14,19 :\n         19          str->spc
+ 14,19 :\n         20 spc->wspace
+ 14,19 :\n         21  wspace->Drop
+ 14,19 :\n         22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 14,19 :\n         21  wspace->Seq!
+ 14,19 :\n         22   Seq!->Drop
+ 14,19 :\n         23    Drop->Pattern
+ 15,1  :    t...\n 23    Drop<-{"\n"}
+ 15,1  :    t...\n 22   Seq!<-{}
+ 15,1  :    t...\n 22   Seq!->comment
+ 15,1  :    t...\n 23    comment->Pattern
+ 15,1  :    t...\n 23    comment<-{""}
+ 15,1  :    t...\n 22   Seq!<-{}
+ 15,1  :    t...\n 21  wspace<-{}
+ 15,1  :    t...\n 20 spc<-{}
+ 15,1  :    t...\n 20 spc->wspace
+ 15,1  :    t...\n 21  wspace->Drop
+ 15,1  :    t...\n 22   Drop->Pattern
+ 15,5  :thisI...\n 22   Drop<-{"    "}
+ 15,5  :thisI...\n 21  wspace<-{}
+ 15,5  :thisI...\n 20 spc<-{}
+ 15,5  :thisI...\n 20 spc->wspace
+ 15,5  :thisI...\n 21  wspace->Drop
+ 15,5  :thisI...\n 22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 15,5  :thisI...\n 21  wspace->Seq!
+ 15,5  :thisI...\n 22   Seq!->Drop
+ 15,5  :thisI...\n 23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 spc<-!!!
+ 15,5  :thisI...\n 19          str<-{}
+ 15,5  :thisI...\n 18         value<-{"node 2"}
+ 15,5  :thisI...\n 17        Seq!<-{"node 2"}
+ 15,5  :thisI...\n 16       element<-{:label,"node 2"}
+ 15,5  :thisI...\n 15      Depth!<-{(:label,"node 2")}
+ 15,5  :thisI...\n 15      Depth!->element
+ 15,5  :thisI...\n 16       element->Seq!
+ 15,5  :thisI...\n 17        Seq!->key
+ 15,5  :thisI...\n 18         key->Seq!
+ 15,5  :thisI...\n 19          Seq!->Pattern
+ 15,27 : 43\n      19          Seq!<-{"thisIsASampleAttribute"}
+ 15,27 : 43\n      19          Seq!->space
+ 15,27 : 43\n      20 space->wspace
+ 15,27 : 43\n      21  wspace->Drop
+ 15,27 : 43\n      22   Drop->Pattern
+ 15,28 :43\n       22   Drop<-{" "}
+ 15,28 :43\n       21  wspace<-{}
+ 15,28 :43\n       20 space<-{}
+ 15,28 :43\n       20 space->wspace
+ 15,28 :43\n       21  wspace->Drop
+ 15,28 :43\n       22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 15,28 :43\n       21  wspace->Seq!
+ 15,28 :43\n       22   Seq!->Drop
+ 15,28 :43\n       23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 space<-!!!
+ 15,28 :43\n       19          Seq!<-{}
+ 15,28 :43\n       18         key<-{"thisIsASampleAttribute"}
+ 15,28 :43\n       17        Seq!<-{:thisIsASampleAttribute}
+ 15,28 :43\n       17        Seq!->value
+ 15,28 :43\n       18         value->real
+ 15,28 :43\n       19          real->Seq!
+ 15,28 :43\n       20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          real<-!!!
+       :           18         value<-!!!
+ 15,28 :43\n       18         value->int
+ 15,28 :43\n       19          int->Seq!
+ 15,28 :43\n       20 Seq!->Pattern
+ 15,30 :\n         20 Seq!<-{"43"}
+ 15,30 :\n         20 Seq!->spc
+ 15,30 :\n         21  spc->wspace
+ 15,30 :\n         22   wspace->Drop
+ 15,30 :\n         23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 15,30 :\n         22   wspace->Seq!
+ 15,30 :\n         23    Seq!->Drop
+ 15,30 :\n         24     Drop->Pattern
+ 16,1  :  ]\n      24     Drop<-{"\n"}
+ 16,1  :  ]\n      23    Seq!<-{}
+ 16,1  :  ]\n      23    Seq!->comment
+ 16,1  :  ]\n      24     comment->Pattern
+ 16,1  :  ]\n      24     comment<-{""}
+ 16,1  :  ]\n      23    Seq!<-{}
+ 16,1  :  ]\n      22   wspace<-{}
+ 16,1  :  ]\n      21  spc<-{}
+ 16,1  :  ]\n      21  spc->wspace
+ 16,1  :  ]\n      22   wspace->Drop
+ 16,1  :  ]\n      23    Drop->Pattern
+ 16,3  :]\n        23    Drop<-{"  "}
+ 16,3  :]\n        22   wspace<-{}
+ 16,3  :]\n        21  spc<-{}
+ 16,3  :]\n        21  spc->wspace
+ 16,3  :]\n        22   wspace->Drop
+ 16,3  :]\n        23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 16,3  :]\n        22   wspace->Seq!
+ 16,3  :]\n        23    Seq!->Drop
+ 16,3  :]\n        24     Drop->Pattern
+       :           24     Drop<-!!!
+       :           23    Seq!<-!!!
+       :           22   wspace<-!!!
+       :           21  spc<-!!!
+ 16,3  :]\n        20 Seq!<-{}
+ 16,3  :]\n        19          int<-{"43"}
+ 16,3  :]\n        18         value<-{43}
+ 16,3  :]\n        17        Seq!<-{43}
+ 16,3  :]\n        16       element<-{:thisIsASampleAttribute,43}
+ 16,3  :]\n        15      Depth!<-{(:thisIsASampleAttribute,43)}
+ 16,3  :]\n        15      Depth!->element
+ 16,3  :]\n        16       element->Seq!
+ 16,3  :]\n        17        Seq!->key
+ 16,3  :]\n        18         key->Seq!
+ 16,3  :]\n        19          Seq!->Pattern
+       :           19          Seq!<-!!!
+       :           18         key<-!!!
+       :           17        Seq!<-!!!
+       :           16       element<-!!!
+       :           15      Depth!<-!!!
+ 16,3  :]\n        14     Transform<-{(:id,2),(:label,"node 2"),(:th...leAttribute,43)}
+ 16,3  :]\n        13    sublist<-{{(:id,2),(:label,"node 2"),(:t...eAttribute,43)}}
+ 16,3  :]\n        13    sublist->Alt!
+ 16,3  :]\n        14     Alt!->close
+ 16,3  :]\n        15      close->Drop
+ 16,3  :]\n        16       Drop->Equal
+ 16,4  :\n         16       Drop<-{"]"}
+ 16,4  :\n         15      close<-{}
+ 16,4  :\n         15      close->spc
+ 16,4  :\n         16       spc->wspace
+ 16,4  :\n         17        wspace->Drop
+ 16,4  :\n         18         Drop->Pattern
+       :           18         Drop<-!!!
+       :           17        wspace<-!!!
+ 16,4  :\n         17        wspace->Seq!
+ 16,4  :\n         18         Seq!->Drop
+ 16,4  :\n         19          Drop->Pattern
+ 17,1  :  node [\n 19          Drop<-{"\n"}
+ 17,1  :  node [\n 18         Seq!<-{}
+ 17,1  :  node [\n 18         Seq!->comment
+ 17,1  :  node [\n 19          comment->Pattern
+ 17,1  :  node [\n 19          comment<-{""}
+ 17,1  :  node [\n 18         Seq!<-{}
+ 17,1  :  node [\n 17        wspace<-{}
+ 17,1  :  node [\n 16       spc<-{}
+ 17,1  :  node [\n 16       spc->wspace
+ 17,1  :  node [\n 17        wspace->Drop
+ 17,1  :  node [\n 18         Drop->Pattern
+ 17,3  :node [\n   18         Drop<-{"  "}
+ 17,3  :node [\n   17        wspace<-{}
+ 17,3  :node [\n   16       spc<-{}
+ 17,3  :node [\n   16       spc->wspace
+ 17,3  :node [\n   17        wspace->Drop
+ 17,3  :node [\n   18         Drop->Pattern
+       :           18         Drop<-!!!
+       :           17        wspace<-!!!
+ 17,3  :node [\n   17        wspace->Seq!
+ 17,3  :node [\n   18         Seq!->Drop
+ 17,3  :node [\n   19          Drop->Pattern
+       :           19          Drop<-!!!
+       :           18         Seq!<-!!!
+       :           17        wspace<-!!!
+       :           16       spc<-!!!
+ 17,3  :node [\n   15      close<-{}
+ 17,3  :node [\n   14     Alt!<-{}
+ 17,3  :node [\n   13    sublist<-{}
+ 17,3  :node [\n   12   value<-{{(:id,2),(:label,"node 2"),(:t...eAttribute,43)}}
+ 17,3  :node [\n   11  Seq!<-{{(:id,2),(:label,"node 2"),(:t...eAttribute,43)}}
+ 17,3  :node [\n   10 element<-{:node,{(:id,2),(:label,"node 2...eAttribute,43)}}
+ 17,3  :node [\n   09          Depth!<-{(:node,{(:id,2),(:label,"node ...Attribute,43)})}
+ 17,3  :node [\n   09          Depth!->element
+ 17,3  :node [\n   10 element->Seq!
+ 17,3  :node [\n   11  Seq!->key
+ 17,3  :node [\n   12   key->Seq!
+ 17,3  :node [\n   13    Seq!->Pattern
+ 17,7  : [\n       13    Seq!<-{"node"}
+ 17,7  : [\n       13    Seq!->space
+ 17,7  : [\n       14     space->wspace
+ 17,7  : [\n       15      wspace->Drop
+ 17,7  : [\n       16       Drop->Pattern
+ 17,8  :[\n        16       Drop<-{" "}
+ 17,8  :[\n        15      wspace<-{}
+ 17,8  :[\n        14     space<-{}
+ 17,8  :[\n        14     space->wspace
+ 17,8  :[\n        15      wspace->Drop
+ 17,8  :[\n        16       Drop->Pattern
+       :           16       Drop<-!!!
+       :           15      wspace<-!!!
+ 17,8  :[\n        15      wspace->Seq!
+ 17,8  :[\n        16       Seq!->Drop
+ 17,8  :[\n        17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       Seq!<-!!!
+       :           15      wspace<-!!!
+       :           14     space<-!!!
+ 17,8  :[\n        13    Seq!<-{}
+ 17,8  :[\n        12   key<-{"node"}
+ 17,8  :[\n        11  Seq!<-{:node}
+ 17,8  :[\n        11  Seq!->value
+ 17,8  :[\n        12   value->real
+ 17,8  :[\n        13    real->Seq!
+ 17,8  :[\n        14     Seq!->Pattern
+       :           14     Seq!<-!!!
+       :           13    real<-!!!
+       :           12   value<-!!!
+ 17,8  :[\n        12   value->int
+ 17,8  :[\n        13    int->Seq!
+ 17,8  :[\n        14     Seq!->Pattern
+       :           14     Seq!<-!!!
+       :           13    int<-!!!
+       :           12   value<-!!!
+ 17,8  :[\n        12   value->str
+ 17,8  :[\n        13    str->Pattern
+       :           13    str<-!!!
+       :           12   value<-!!!
+ 17,8  :[\n        12   value->sublist
+ 17,8  :[\n        13    sublist->open
+ 17,8  :[\n        14     open->Drop
+ 17,8  :[\n        15      Drop->Equal
+ 17,9  :\n         15      Drop<-{"["}
+ 17,9  :\n         14     open<-{}
+ 17,9  :\n         14     open->spc
+ 17,9  :\n         15      spc->wspace
+ 17,9  :\n         16       wspace->Drop
+ 17,9  :\n         17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       wspace<-!!!
+ 17,9  :\n         16       wspace->Seq!
+ 17,9  :\n         17        Seq!->Drop
+ 17,9  :\n         18         Drop->Pattern
+ 18,1  :    id 3\n 18         Drop<-{"\n"}
+ 18,1  :    id 3\n 17        Seq!<-{}
+ 18,1  :    id 3\n 17        Seq!->comment
+ 18,1  :    id 3\n 18         comment->Pattern
+ 18,1  :    id 3\n 18         comment<-{""}
+ 18,1  :    id 3\n 17        Seq!<-{}
+ 18,1  :    id 3\n 16       wspace<-{}
+ 18,1  :    id 3\n 15      spc<-{}
+ 18,1  :    id 3\n 15      spc->wspace
+ 18,1  :    id 3\n 16       wspace->Drop
+ 18,1  :    id 3\n 17        Drop->Pattern
+ 18,5  :id 3\n     17        Drop<-{"    "}
+ 18,5  :id 3\n     16       wspace<-{}
+ 18,5  :id 3\n     15      spc<-{}
+ 18,5  :id 3\n     15      spc->wspace
+ 18,5  :id 3\n     16       wspace->Drop
+ 18,5  :id 3\n     17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       wspace<-!!!
+ 18,5  :id 3\n     16       wspace->Seq!
+ 18,5  :id 3\n     17        Seq!->Drop
+ 18,5  :id 3\n     18         Drop->Pattern
+       :           18         Drop<-!!!
+       :           17        Seq!<-!!!
+       :           16       wspace<-!!!
+       :           15      spc<-!!!
+ 18,5  :id 3\n     14     open<-{}
+ 18,5  :id 3\n     13    sublist<-{}
+ 18,5  :id 3\n     13    sublist->list
+ 18,5  :id 3\n     14     Transform->Depth!
+ 18,5  :id 3\n     15      Depth!->element
+ 18,5  :id 3\n     16       element->Seq!
+ 18,5  :id 3\n     17        Seq!->key
+ 18,5  :id 3\n     18         key->Seq!
+ 18,5  :id 3\n     19          Seq!->Pattern
+ 18,7  : 3\n       19          Seq!<-{"id"}
+ 18,7  : 3\n       19          Seq!->space
+ 18,7  : 3\n       20 space->wspace
+ 18,7  : 3\n       21  wspace->Drop
+ 18,7  : 3\n       22   Drop->Pattern
+ 18,8  :3\n        22   Drop<-{" "}
+ 18,8  :3\n        21  wspace<-{}
+ 18,8  :3\n        20 space<-{}
+ 18,8  :3\n        20 space->wspace
+ 18,8  :3\n        21  wspace->Drop
+ 18,8  :3\n        22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 18,8  :3\n        21  wspace->Seq!
+ 18,8  :3\n        22   Seq!->Drop
+ 18,8  :3\n        23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 space<-!!!
+ 18,8  :3\n        19          Seq!<-{}
+ 18,8  :3\n        18         key<-{"id"}
+ 18,8  :3\n        17        Seq!<-{:id}
+ 18,8  :3\n        17        Seq!->value
+ 18,8  :3\n        18         value->real
+ 18,8  :3\n        19          real->Seq!
+ 18,8  :3\n        20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          real<-!!!
+       :           18         value<-!!!
+ 18,8  :3\n        18         value->int
+ 18,8  :3\n        19          int->Seq!
+ 18,8  :3\n        20 Seq!->Pattern
+ 18,9  :\n         20 Seq!<-{"3"}
+ 18,9  :\n         20 Seq!->spc
+ 18,9  :\n         21  spc->wspace
+ 18,9  :\n         22   wspace->Drop
+ 18,9  :\n         23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 18,9  :\n         22   wspace->Seq!
+ 18,9  :\n         23    Seq!->Drop
+ 18,9  :\n         24     Drop->Pattern
+ 19,1  :    l...\n 24     Drop<-{"\n"}
+ 19,1  :    l...\n 23    Seq!<-{}
+ 19,1  :    l...\n 23    Seq!->comment
+ 19,1  :    l...\n 24     comment->Pattern
+ 19,1  :    l...\n 24     comment<-{""}
+ 19,1  :    l...\n 23    Seq!<-{}
+ 19,1  :    l...\n 22   wspace<-{}
+ 19,1  :    l...\n 21  spc<-{}
+ 19,1  :    l...\n 21  spc->wspace
+ 19,1  :    l...\n 22   wspace->Drop
+ 19,1  :    l...\n 23    Drop->Pattern
+ 19,5  :label...\n 23    Drop<-{"    "}
+ 19,5  :label...\n 22   wspace<-{}
+ 19,5  :label...\n 21  spc<-{}
+ 19,5  :label...\n 21  spc->wspace
+ 19,5  :label...\n 22   wspace->Drop
+ 19,5  :label...\n 23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 19,5  :label...\n 22   wspace->Seq!
+ 19,5  :label...\n 23    Seq!->Drop
+ 19,5  :label...\n 24     Drop->Pattern
+       :           24     Drop<-!!!
+       :           23    Seq!<-!!!
+       :           22   wspace<-!!!
+       :           21  spc<-!!!
+ 19,5  :label...\n 20 Seq!<-{}
+ 19,5  :label...\n 19          int<-{"3"}
+ 19,5  :label...\n 18         value<-{3}
+ 19,5  :label...\n 17        Seq!<-{3}
+ 19,5  :label...\n 16       element<-{:id,3}
+ 19,5  :label...\n 15      Depth!<-{(:id,3)}
+ 19,5  :label...\n 15      Depth!->element
+ 19,5  :label...\n 16       element->Seq!
+ 19,5  :label...\n 17        Seq!->key
+ 19,5  :label...\n 18         key->Seq!
+ 19,5  :label...\n 19          Seq!->Pattern
+ 19,10 : \"no...\n 19          Seq!<-{"label"}
+ 19,10 : \"no...\n 19          Seq!->space
+ 19,10 : \"no...\n 20 space->wspace
+ 19,10 : \"no...\n 21  wspace->Drop
+ 19,10 : \"no...\n 22   Drop->Pattern
+ 19,11 :\"nod...\n 22   Drop<-{" "}
+ 19,11 :\"nod...\n 21  wspace<-{}
+ 19,11 :\"nod...\n 20 space<-{}
+ 19,11 :\"nod...\n 20 space->wspace
+ 19,11 :\"nod...\n 21  wspace->Drop
+ 19,11 :\"nod...\n 22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 19,11 :\"nod...\n 21  wspace->Seq!
+ 19,11 :\"nod...\n 22   Seq!->Drop
+ 19,11 :\"nod...\n 23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 space<-!!!
+ 19,11 :\"nod...\n 19          Seq!<-{}
+ 19,11 :\"nod...\n 18         key<-{"label"}
+ 19,11 :\"nod...\n 17        Seq!<-{:label}
+ 19,11 :\"nod...\n 17        Seq!->value
+ 19,11 :\"nod...\n 18         value->real
+ 19,11 :\"nod...\n 19          real->Seq!
+ 19,11 :\"nod...\n 20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          real<-!!!
+       :           18         value<-!!!
+ 19,11 :\"nod...\n 18         value->int
+ 19,11 :\"nod...\n 19          int->Seq!
+ 19,11 :\"nod...\n 20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          int<-!!!
+       :           18         value<-!!!
+ 19,11 :\"nod...\n 18         value->str
+ 19,11 :\"nod...\n 19          str->Pattern
+ 19,19 :\n         19          str<-{"node 3"}
+ 19,19 :\n         19          str->spc
+ 19,19 :\n         20 spc->wspace
+ 19,19 :\n         21  wspace->Drop
+ 19,19 :\n         22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 19,19 :\n         21  wspace->Seq!
+ 19,19 :\n         22   Seq!->Drop
+ 19,19 :\n         23    Drop->Pattern
+ 20,1  :    t...\n 23    Drop<-{"\n"}
+ 20,1  :    t...\n 22   Seq!<-{}
+ 20,1  :    t...\n 22   Seq!->comment
+ 20,1  :    t...\n 23    comment->Pattern
+ 20,1  :    t...\n 23    comment<-{""}
+ 20,1  :    t...\n 22   Seq!<-{}
+ 20,1  :    t...\n 21  wspace<-{}
+ 20,1  :    t...\n 20 spc<-{}
+ 20,1  :    t...\n 20 spc->wspace
+ 20,1  :    t...\n 21  wspace->Drop
+ 20,1  :    t...\n 22   Drop->Pattern
+ 20,5  :thisI...\n 22   Drop<-{"    "}
+ 20,5  :thisI...\n 21  wspace<-{}
+ 20,5  :thisI...\n 20 spc<-{}
+ 20,5  :thisI...\n 20 spc->wspace
+ 20,5  :thisI...\n 21  wspace->Drop
+ 20,5  :thisI...\n 22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 20,5  :thisI...\n 21  wspace->Seq!
+ 20,5  :thisI...\n 22   Seq!->Drop
+ 20,5  :thisI...\n 23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 spc<-!!!
+ 20,5  :thisI...\n 19          str<-{}
+ 20,5  :thisI...\n 18         value<-{"node 3"}
+ 20,5  :thisI...\n 17        Seq!<-{"node 3"}
+ 20,5  :thisI...\n 16       element<-{:label,"node 3"}
+ 20,5  :thisI...\n 15      Depth!<-{(:label,"node 3")}
+ 20,5  :thisI...\n 15      Depth!->element
+ 20,5  :thisI...\n 16       element->Seq!
+ 20,5  :thisI...\n 17        Seq!->key
+ 20,5  :thisI...\n 18         key->Seq!
+ 20,5  :thisI...\n 19          Seq!->Pattern
+ 20,27 : 44\n      19          Seq!<-{"thisIsASampleAttribute"}
+ 20,27 : 44\n      19          Seq!->space
+ 20,27 : 44\n      20 space->wspace
+ 20,27 : 44\n      21  wspace->Drop
+ 20,27 : 44\n      22   Drop->Pattern
+ 20,28 :44\n       22   Drop<-{" "}
+ 20,28 :44\n       21  wspace<-{}
+ 20,28 :44\n       20 space<-{}
+ 20,28 :44\n       20 space->wspace
+ 20,28 :44\n       21  wspace->Drop
+ 20,28 :44\n       22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 20,28 :44\n       21  wspace->Seq!
+ 20,28 :44\n       22   Seq!->Drop
+ 20,28 :44\n       23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 space<-!!!
+ 20,28 :44\n       19          Seq!<-{}
+ 20,28 :44\n       18         key<-{"thisIsASampleAttribute"}
+ 20,28 :44\n       17        Seq!<-{:thisIsASampleAttribute}
+ 20,28 :44\n       17        Seq!->value
+ 20,28 :44\n       18         value->real
+ 20,28 :44\n       19          real->Seq!
+ 20,28 :44\n       20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          real<-!!!
+       :           18         value<-!!!
+ 20,28 :44\n       18         value->int
+ 20,28 :44\n       19          int->Seq!
+ 20,28 :44\n       20 Seq!->Pattern
+ 20,30 :\n         20 Seq!<-{"44"}
+ 20,30 :\n         20 Seq!->spc
+ 20,30 :\n         21  spc->wspace
+ 20,30 :\n         22   wspace->Drop
+ 20,30 :\n         23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 20,30 :\n         22   wspace->Seq!
+ 20,30 :\n         23    Seq!->Drop
+ 20,30 :\n         24     Drop->Pattern
+ 21,1  :  ]\n      24     Drop<-{"\n"}
+ 21,1  :  ]\n      23    Seq!<-{}
+ 21,1  :  ]\n      23    Seq!->comment
+ 21,1  :  ]\n      24     comment->Pattern
+ 21,1  :  ]\n      24     comment<-{""}
+ 21,1  :  ]\n      23    Seq!<-{}
+ 21,1  :  ]\n      22   wspace<-{}
+ 21,1  :  ]\n      21  spc<-{}
+ 21,1  :  ]\n      21  spc->wspace
+ 21,1  :  ]\n      22   wspace->Drop
+ 21,1  :  ]\n      23    Drop->Pattern
+ 21,3  :]\n        23    Drop<-{"  "}
+ 21,3  :]\n        22   wspace<-{}
+ 21,3  :]\n        21  spc<-{}
+ 21,3  :]\n        21  spc->wspace
+ 21,3  :]\n        22   wspace->Drop
+ 21,3  :]\n        23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 21,3  :]\n        22   wspace->Seq!
+ 21,3  :]\n        23    Seq!->Drop
+ 21,3  :]\n        24     Drop->Pattern
+       :           24     Drop<-!!!
+       :           23    Seq!<-!!!
+       :           22   wspace<-!!!
+       :           21  spc<-!!!
+ 21,3  :]\n        20 Seq!<-{}
+ 21,3  :]\n        19          int<-{"44"}
+ 21,3  :]\n        18         value<-{44}
+ 21,3  :]\n        17        Seq!<-{44}
+ 21,3  :]\n        16       element<-{:thisIsASampleAttribute,44}
+ 21,3  :]\n        15      Depth!<-{(:thisIsASampleAttribute,44)}
+ 21,3  :]\n        15      Depth!->element
+ 21,3  :]\n        16       element->Seq!
+ 21,3  :]\n        17        Seq!->key
+ 21,3  :]\n        18         key->Seq!
+ 21,3  :]\n        19          Seq!->Pattern
+       :           19          Seq!<-!!!
+       :           18         key<-!!!
+       :           17        Seq!<-!!!
+       :           16       element<-!!!
+       :           15      Depth!<-!!!
+ 21,3  :]\n        14     Transform<-{(:id,3),(:label,"node 3"),(:th...leAttribute,44)}
+ 21,3  :]\n        13    sublist<-{{(:id,3),(:label,"node 3"),(:t...eAttribute,44)}}
+ 21,3  :]\n        13    sublist->Alt!
+ 21,3  :]\n        14     Alt!->close
+ 21,3  :]\n        15      close->Drop
+ 21,3  :]\n        16       Drop->Equal
+ 21,4  :\n         16       Drop<-{"]"}
+ 21,4  :\n         15      close<-{}
+ 21,4  :\n         15      close->spc
+ 21,4  :\n         16       spc->wspace
+ 21,4  :\n         17        wspace->Drop
+ 21,4  :\n         18         Drop->Pattern
+       :           18         Drop<-!!!
+       :           17        wspace<-!!!
+ 21,4  :\n         17        wspace->Seq!
+ 21,4  :\n         18         Seq!->Drop
+ 21,4  :\n         19          Drop->Pattern
+ 22,1  :  edge [\n 19          Drop<-{"\n"}
+ 22,1  :  edge [\n 18         Seq!<-{}
+ 22,1  :  edge [\n 18         Seq!->comment
+ 22,1  :  edge [\n 19          comment->Pattern
+ 22,1  :  edge [\n 19          comment<-{""}
+ 22,1  :  edge [\n 18         Seq!<-{}
+ 22,1  :  edge [\n 17        wspace<-{}
+ 22,1  :  edge [\n 16       spc<-{}
+ 22,1  :  edge [\n 16       spc->wspace
+ 22,1  :  edge [\n 17        wspace->Drop
+ 22,1  :  edge [\n 18         Drop->Pattern
+ 22,3  :edge [\n   18         Drop<-{"  "}
+ 22,3  :edge [\n   17        wspace<-{}
+ 22,3  :edge [\n   16       spc<-{}
+ 22,3  :edge [\n   16       spc->wspace
+ 22,3  :edge [\n   17        wspace->Drop
+ 22,3  :edge [\n   18         Drop->Pattern
+       :           18         Drop<-!!!
+       :           17        wspace<-!!!
+ 22,3  :edge [\n   17        wspace->Seq!
+ 22,3  :edge [\n   18         Seq!->Drop
+ 22,3  :edge [\n   19          Drop->Pattern
+       :           19          Drop<-!!!
+       :           18         Seq!<-!!!
+       :           17        wspace<-!!!
+       :           16       spc<-!!!
+ 22,3  :edge [\n   15      close<-{}
+ 22,3  :edge [\n   14     Alt!<-{}
+ 22,3  :edge [\n   13    sublist<-{}
+ 22,3  :edge [\n   12   value<-{{(:id,3),(:label,"node 3"),(:t...eAttribute,44)}}
+ 22,3  :edge [\n   11  Seq!<-{{(:id,3),(:label,"node 3"),(:t...eAttribute,44)}}
+ 22,3  :edge [\n   10 element<-{:node,{(:id,3),(:label,"node 3...eAttribute,44)}}
+ 22,3  :edge [\n   09          Depth!<-{(:node,{(:id,3),(:label,"node ...Attribute,44)})}
+ 22,3  :edge [\n   09          Depth!->element
+ 22,3  :edge [\n   10 element->Seq!
+ 22,3  :edge [\n   11  Seq!->key
+ 22,3  :edge [\n   12   key->Seq!
+ 22,3  :edge [\n   13    Seq!->Pattern
+ 22,7  : [\n       13    Seq!<-{"edge"}
+ 22,7  : [\n       13    Seq!->space
+ 22,7  : [\n       14     space->wspace
+ 22,7  : [\n       15      wspace->Drop
+ 22,7  : [\n       16       Drop->Pattern
+ 22,8  :[\n        16       Drop<-{" "}
+ 22,8  :[\n        15      wspace<-{}
+ 22,8  :[\n        14     space<-{}
+ 22,8  :[\n        14     space->wspace
+ 22,8  :[\n        15      wspace->Drop
+ 22,8  :[\n        16       Drop->Pattern
+       :           16       Drop<-!!!
+       :           15      wspace<-!!!
+ 22,8  :[\n        15      wspace->Seq!
+ 22,8  :[\n        16       Seq!->Drop
+ 22,8  :[\n        17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       Seq!<-!!!
+       :           15      wspace<-!!!
+       :           14     space<-!!!
+ 22,8  :[\n        13    Seq!<-{}
+ 22,8  :[\n        12   key<-{"edge"}
+ 22,8  :[\n        11  Seq!<-{:edge}
+ 22,8  :[\n        11  Seq!->value
+ 22,8  :[\n        12   value->real
+ 22,8  :[\n        13    real->Seq!
+ 22,8  :[\n        14     Seq!->Pattern
+       :           14     Seq!<-!!!
+       :           13    real<-!!!
+       :           12   value<-!!!
+ 22,8  :[\n        12   value->int
+ 22,8  :[\n        13    int->Seq!
+ 22,8  :[\n        14     Seq!->Pattern
+       :           14     Seq!<-!!!
+       :           13    int<-!!!
+       :           12   value<-!!!
+ 22,8  :[\n        12   value->str
+ 22,8  :[\n        13    str->Pattern
+       :           13    str<-!!!
+       :           12   value<-!!!
+ 22,8  :[\n        12   value->sublist
+ 22,8  :[\n        13    sublist->open
+ 22,8  :[\n        14     open->Drop
+ 22,8  :[\n        15      Drop->Equal
+ 22,9  :\n         15      Drop<-{"["}
+ 22,9  :\n         14     open<-{}
+ 22,9  :\n         14     open->spc
+ 22,9  :\n         15      spc->wspace
+ 22,9  :\n         16       wspace->Drop
+ 22,9  :\n         17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       wspace<-!!!
+ 22,9  :\n         16       wspace->Seq!
+ 22,9  :\n         17        Seq!->Drop
+ 22,9  :\n         18         Drop->Pattern
+ 23,1  :    s...\n 18         Drop<-{"\n"}
+ 23,1  :    s...\n 17        Seq!<-{}
+ 23,1  :    s...\n 17        Seq!->comment
+ 23,1  :    s...\n 18         comment->Pattern
+ 23,1  :    s...\n 18         comment<-{""}
+ 23,1  :    s...\n 17        Seq!<-{}
+ 23,1  :    s...\n 16       wspace<-{}
+ 23,1  :    s...\n 15      spc<-{}
+ 23,1  :    s...\n 15      spc->wspace
+ 23,1  :    s...\n 16       wspace->Drop
+ 23,1  :    s...\n 17        Drop->Pattern
+ 23,5  :source 1\n 17        Drop<-{"    "}
+ 23,5  :source 1\n 16       wspace<-{}
+ 23,5  :source 1\n 15      spc<-{}
+ 23,5  :source 1\n 15      spc->wspace
+ 23,5  :source 1\n 16       wspace->Drop
+ 23,5  :source 1\n 17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       wspace<-!!!
+ 23,5  :source 1\n 16       wspace->Seq!
+ 23,5  :source 1\n 17        Seq!->Drop
+ 23,5  :source 1\n 18         Drop->Pattern
+       :           18         Drop<-!!!
+       :           17        Seq!<-!!!
+       :           16       wspace<-!!!
+       :           15      spc<-!!!
+ 23,5  :source 1\n 14     open<-{}
+ 23,5  :source 1\n 13    sublist<-{}
+ 23,5  :source 1\n 13    sublist->list
+ 23,5  :source 1\n 14     Transform->Depth!
+ 23,5  :source 1\n 15      Depth!->element
+ 23,5  :source 1\n 16       element->Seq!
+ 23,5  :source 1\n 17        Seq!->key
+ 23,5  :source 1\n 18         key->Seq!
+ 23,5  :source 1\n 19          Seq!->Pattern
+ 23,11 : 1\n       19          Seq!<-{"source"}
+ 23,11 : 1\n       19          Seq!->space
+ 23,11 : 1\n       20 space->wspace
+ 23,11 : 1\n       21  wspace->Drop
+ 23,11 : 1\n       22   Drop->Pattern
+ 23,12 :1\n        22   Drop<-{" "}
+ 23,12 :1\n        21  wspace<-{}
+ 23,12 :1\n        20 space<-{}
+ 23,12 :1\n        20 space->wspace
+ 23,12 :1\n        21  wspace->Drop
+ 23,12 :1\n        22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 23,12 :1\n        21  wspace->Seq!
+ 23,12 :1\n        22   Seq!->Drop
+ 23,12 :1\n        23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 space<-!!!
+ 23,12 :1\n        19          Seq!<-{}
+ 23,12 :1\n        18         key<-{"source"}
+ 23,12 :1\n        17        Seq!<-{:source}
+ 23,12 :1\n        17        Seq!->value
+ 23,12 :1\n        18         value->real
+ 23,12 :1\n        19          real->Seq!
+ 23,12 :1\n        20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          real<-!!!
+       :           18         value<-!!!
+ 23,12 :1\n        18         value->int
+ 23,12 :1\n        19          int->Seq!
+ 23,12 :1\n        20 Seq!->Pattern
+ 23,13 :\n         20 Seq!<-{"1"}
+ 23,13 :\n         20 Seq!->spc
+ 23,13 :\n         21  spc->wspace
+ 23,13 :\n         22   wspace->Drop
+ 23,13 :\n         23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 23,13 :\n         22   wspace->Seq!
+ 23,13 :\n         23    Seq!->Drop
+ 23,13 :\n         24     Drop->Pattern
+ 24,1  :    t...\n 24     Drop<-{"\n"}
+ 24,1  :    t...\n 23    Seq!<-{}
+ 24,1  :    t...\n 23    Seq!->comment
+ 24,1  :    t...\n 24     comment->Pattern
+ 24,1  :    t...\n 24     comment<-{""}
+ 24,1  :    t...\n 23    Seq!<-{}
+ 24,1  :    t...\n 22   wspace<-{}
+ 24,1  :    t...\n 21  spc<-{}
+ 24,1  :    t...\n 21  spc->wspace
+ 24,1  :    t...\n 22   wspace->Drop
+ 24,1  :    t...\n 23    Drop->Pattern
+ 24,5  :target 2\n 23    Drop<-{"    "}
+ 24,5  :target 2\n 22   wspace<-{}
+ 24,5  :target 2\n 21  spc<-{}
+ 24,5  :target 2\n 21  spc->wspace
+ 24,5  :target 2\n 22   wspace->Drop
+ 24,5  :target 2\n 23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 24,5  :target 2\n 22   wspace->Seq!
+ 24,5  :target 2\n 23    Seq!->Drop
+ 24,5  :target 2\n 24     Drop->Pattern
+       :           24     Drop<-!!!
+       :           23    Seq!<-!!!
+       :           22   wspace<-!!!
+       :           21  spc<-!!!
+ 24,5  :target 2\n 20 Seq!<-{}
+ 24,5  :target 2\n 19          int<-{"1"}
+ 24,5  :target 2\n 18         value<-{1}
+ 24,5  :target 2\n 17        Seq!<-{1}
+ 24,5  :target 2\n 16       element<-{:source,1}
+ 24,5  :target 2\n 15      Depth!<-{(:source,1)}
+ 24,5  :target 2\n 15      Depth!->element
+ 24,5  :target 2\n 16       element->Seq!
+ 24,5  :target 2\n 17        Seq!->key
+ 24,5  :target 2\n 18         key->Seq!
+ 24,5  :target 2\n 19          Seq!->Pattern
+ 24,11 : 2\n       19          Seq!<-{"target"}
+ 24,11 : 2\n       19          Seq!->space
+ 24,11 : 2\n       20 space->wspace
+ 24,11 : 2\n       21  wspace->Drop
+ 24,11 : 2\n       22   Drop->Pattern
+ 24,12 :2\n        22   Drop<-{" "}
+ 24,12 :2\n        21  wspace<-{}
+ 24,12 :2\n        20 space<-{}
+ 24,12 :2\n        20 space->wspace
+ 24,12 :2\n        21  wspace->Drop
+ 24,12 :2\n        22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 24,12 :2\n        21  wspace->Seq!
+ 24,12 :2\n        22   Seq!->Drop
+ 24,12 :2\n        23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 space<-!!!
+ 24,12 :2\n        19          Seq!<-{}
+ 24,12 :2\n        18         key<-{"target"}
+ 24,12 :2\n        17        Seq!<-{:target}
+ 24,12 :2\n        17        Seq!->value
+ 24,12 :2\n        18         value->real
+ 24,12 :2\n        19          real->Seq!
+ 24,12 :2\n        20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          real<-!!!
+       :           18         value<-!!!
+ 24,12 :2\n        18         value->int
+ 24,12 :2\n        19          int->Seq!
+ 24,12 :2\n        20 Seq!->Pattern
+ 24,13 :\n         20 Seq!<-{"2"}
+ 24,13 :\n         20 Seq!->spc
+ 24,13 :\n         21  spc->wspace
+ 24,13 :\n         22   wspace->Drop
+ 24,13 :\n         23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 24,13 :\n         22   wspace->Seq!
+ 24,13 :\n         23    Seq!->Drop
+ 24,13 :\n         24     Drop->Pattern
+ 25,1  :    l...\n 24     Drop<-{"\n"}
+ 25,1  :    l...\n 23    Seq!<-{}
+ 25,1  :    l...\n 23    Seq!->comment
+ 25,1  :    l...\n 24     comment->Pattern
+ 25,1  :    l...\n 24     comment<-{""}
+ 25,1  :    l...\n 23    Seq!<-{}
+ 25,1  :    l...\n 22   wspace<-{}
+ 25,1  :    l...\n 21  spc<-{}
+ 25,1  :    l...\n 21  spc->wspace
+ 25,1  :    l...\n 22   wspace->Drop
+ 25,1  :    l...\n 23    Drop->Pattern
+ 25,5  :label...\n 23    Drop<-{"    "}
+ 25,5  :label...\n 22   wspace<-{}
+ 25,5  :label...\n 21  spc<-{}
+ 25,5  :label...\n 21  spc->wspace
+ 25,5  :label...\n 22   wspace->Drop
+ 25,5  :label...\n 23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 25,5  :label...\n 22   wspace->Seq!
+ 25,5  :label...\n 23    Seq!->Drop
+ 25,5  :label...\n 24     Drop->Pattern
+       :           24     Drop<-!!!
+       :           23    Seq!<-!!!
+       :           22   wspace<-!!!
+       :           21  spc<-!!!
+ 25,5  :label...\n 20 Seq!<-{}
+ 25,5  :label...\n 19          int<-{"2"}
+ 25,5  :label...\n 18         value<-{2}
+ 25,5  :label...\n 17        Seq!<-{2}
+ 25,5  :label...\n 16       element<-{:target,2}
+ 25,5  :label...\n 15      Depth!<-{(:target,2)}
+ 25,5  :label...\n 15      Depth!->element
+ 25,5  :label...\n 16       element->Seq!
+ 25,5  :label...\n 17        Seq!->key
+ 25,5  :label...\n 18         key->Seq!
+ 25,5  :label...\n 19          Seq!->Pattern
+ 25,10 : \"Ed...\n 19          Seq!<-{"label"}
+ 25,10 : \"Ed...\n 19          Seq!->space
+ 25,10 : \"Ed...\n 20 space->wspace
+ 25,10 : \"Ed...\n 21  wspace->Drop
+ 25,10 : \"Ed...\n 22   Drop->Pattern
+ 25,11 :\"Edg...\n 22   Drop<-{" "}
+ 25,11 :\"Edg...\n 21  wspace<-{}
+ 25,11 :\"Edg...\n 20 space<-{}
+ 25,11 :\"Edg...\n 20 space->wspace
+ 25,11 :\"Edg...\n 21  wspace->Drop
+ 25,11 :\"Edg...\n 22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 25,11 :\"Edg...\n 21  wspace->Seq!
+ 25,11 :\"Edg...\n 22   Seq!->Drop
+ 25,11 :\"Edg...\n 23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 space<-!!!
+ 25,11 :\"Edg...\n 19          Seq!<-{}
+ 25,11 :\"Edg...\n 18         key<-{"label"}
+ 25,11 :\"Edg...\n 17        Seq!<-{:label}
+ 25,11 :\"Edg...\n 17        Seq!->value
+ 25,11 :\"Edg...\n 18         value->real
+ 25,11 :\"Edg...\n 19          real->Seq!
+ 25,11 :\"Edg...\n 20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          real<-!!!
+       :           18         value<-!!!
+ 25,11 :\"Edg...\n 18         value->int
+ 25,11 :\"Edg...\n 19          int->Seq!
+ 25,11 :\"Edg...\n 20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          int<-!!!
+       :           18         value<-!!!
+ 25,11 :\"Edg...\n 18         value->str
+ 25,11 :\"Edg...\n 19          str->Pattern
+ 25,39 :\n         19          str<-{"Edge from node 1 to node 2"}
+ 25,39 :\n         19          str->spc
+ 25,39 :\n         20 spc->wspace
+ 25,39 :\n         21  wspace->Drop
+ 25,39 :\n         22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 25,39 :\n         21  wspace->Seq!
+ 25,39 :\n         22   Seq!->Drop
+ 25,39 :\n         23    Drop->Pattern
+ 26,1  :  ]\n      23    Drop<-{"\n"}
+ 26,1  :  ]\n      22   Seq!<-{}
+ 26,1  :  ]\n      22   Seq!->comment
+ 26,1  :  ]\n      23    comment->Pattern
+ 26,1  :  ]\n      23    comment<-{""}
+ 26,1  :  ]\n      22   Seq!<-{}
+ 26,1  :  ]\n      21  wspace<-{}
+ 26,1  :  ]\n      20 spc<-{}
+ 26,1  :  ]\n      20 spc->wspace
+ 26,1  :  ]\n      21  wspace->Drop
+ 26,1  :  ]\n      22   Drop->Pattern
+ 26,3  :]\n        22   Drop<-{"  "}
+ 26,3  :]\n        21  wspace<-{}
+ 26,3  :]\n        20 spc<-{}
+ 26,3  :]\n        20 spc->wspace
+ 26,3  :]\n        21  wspace->Drop
+ 26,3  :]\n        22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 26,3  :]\n        21  wspace->Seq!
+ 26,3  :]\n        22   Seq!->Drop
+ 26,3  :]\n        23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 spc<-!!!
+ 26,3  :]\n        19          str<-{}
+ 26,3  :]\n        18         value<-{"Edge from node 1 to node 2"}
+ 26,3  :]\n        17        Seq!<-{"Edge from node 1 to node 2"}
+ 26,3  :]\n        16       element<-{:label,"Edge from node 1 to node 2"}
+ 26,3  :]\n        15      Depth!<-{(:label,"Edge from node 1 to node 2")}
+ 26,3  :]\n        15      Depth!->element
+ 26,3  :]\n        16       element->Seq!
+ 26,3  :]\n        17        Seq!->key
+ 26,3  :]\n        18         key->Seq!
+ 26,3  :]\n        19          Seq!->Pattern
+       :           19          Seq!<-!!!
+       :           18         key<-!!!
+       :           17        Seq!<-!!!
+       :           16       element<-!!!
+       :           15      Depth!<-!!!
+ 26,3  :]\n        14     Transform<-{(:source,1),(:target,2),(:labe...e 1 to node 2")}
+ 26,3  :]\n        13    sublist<-{{(:source,1),(:target,2),(:lab... 1 to node 2")}}
+ 26,3  :]\n        13    sublist->Alt!
+ 26,3  :]\n        14     Alt!->close
+ 26,3  :]\n        15      close->Drop
+ 26,3  :]\n        16       Drop->Equal
+ 26,4  :\n         16       Drop<-{"]"}
+ 26,4  :\n         15      close<-{}
+ 26,4  :\n         15      close->spc
+ 26,4  :\n         16       spc->wspace
+ 26,4  :\n         17        wspace->Drop
+ 26,4  :\n         18         Drop->Pattern
+       :           18         Drop<-!!!
+       :           17        wspace<-!!!
+ 26,4  :\n         17        wspace->Seq!
+ 26,4  :\n         18         Seq!->Drop
+ 26,4  :\n         19          Drop->Pattern
+ 27,1  :  edge [\n 19          Drop<-{"\n"}
+ 27,1  :  edge [\n 18         Seq!<-{}
+ 27,1  :  edge [\n 18         Seq!->comment
+ 27,1  :  edge [\n 19          comment->Pattern
+ 27,1  :  edge [\n 19          comment<-{""}
+ 27,1  :  edge [\n 18         Seq!<-{}
+ 27,1  :  edge [\n 17        wspace<-{}
+ 27,1  :  edge [\n 16       spc<-{}
+ 27,1  :  edge [\n 16       spc->wspace
+ 27,1  :  edge [\n 17        wspace->Drop
+ 27,1  :  edge [\n 18         Drop->Pattern
+ 27,3  :edge [\n   18         Drop<-{"  "}
+ 27,3  :edge [\n   17        wspace<-{}
+ 27,3  :edge [\n   16       spc<-{}
+ 27,3  :edge [\n   16       spc->wspace
+ 27,3  :edge [\n   17        wspace->Drop
+ 27,3  :edge [\n   18         Drop->Pattern
+       :           18         Drop<-!!!
+       :           17        wspace<-!!!
+ 27,3  :edge [\n   17        wspace->Seq!
+ 27,3  :edge [\n   18         Seq!->Drop
+ 27,3  :edge [\n   19          Drop->Pattern
+       :           19          Drop<-!!!
+       :           18         Seq!<-!!!
+       :           17        wspace<-!!!
+       :           16       spc<-!!!
+ 27,3  :edge [\n   15      close<-{}
+ 27,3  :edge [\n   14     Alt!<-{}
+ 27,3  :edge [\n   13    sublist<-{}
+ 27,3  :edge [\n   12   value<-{{(:source,1),(:target,2),(:lab... 1 to node 2")}}
+ 27,3  :edge [\n   11  Seq!<-{{(:source,1),(:target,2),(:lab... 1 to node 2")}}
+ 27,3  :edge [\n   10 element<-{:edge,{(:source,1),(:target,2)... 1 to node 2")}}
+ 27,3  :edge [\n   09          Depth!<-{(:edge,{(:source,1),(:target,2...1 to node 2")})}
+ 27,3  :edge [\n   09          Depth!->element
+ 27,3  :edge [\n   10 element->Seq!
+ 27,3  :edge [\n   11  Seq!->key
+ 27,3  :edge [\n   12   key->Seq!
+ 27,3  :edge [\n   13    Seq!->Pattern
+ 27,7  : [\n       13    Seq!<-{"edge"}
+ 27,7  : [\n       13    Seq!->space
+ 27,7  : [\n       14     space->wspace
+ 27,7  : [\n       15      wspace->Drop
+ 27,7  : [\n       16       Drop->Pattern
+ 27,8  :[\n        16       Drop<-{" "}
+ 27,8  :[\n        15      wspace<-{}
+ 27,8  :[\n        14     space<-{}
+ 27,8  :[\n        14     space->wspace
+ 27,8  :[\n        15      wspace->Drop
+ 27,8  :[\n        16       Drop->Pattern
+       :           16       Drop<-!!!
+       :           15      wspace<-!!!
+ 27,8  :[\n        15      wspace->Seq!
+ 27,8  :[\n        16       Seq!->Drop
+ 27,8  :[\n        17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       Seq!<-!!!
+       :           15      wspace<-!!!
+       :           14     space<-!!!
+ 27,8  :[\n        13    Seq!<-{}
+ 27,8  :[\n        12   key<-{"edge"}
+ 27,8  :[\n        11  Seq!<-{:edge}
+ 27,8  :[\n        11  Seq!->value
+ 27,8  :[\n        12   value->real
+ 27,8  :[\n        13    real->Seq!
+ 27,8  :[\n        14     Seq!->Pattern
+       :           14     Seq!<-!!!
+       :           13    real<-!!!
+       :           12   value<-!!!
+ 27,8  :[\n        12   value->int
+ 27,8  :[\n        13    int->Seq!
+ 27,8  :[\n        14     Seq!->Pattern
+       :           14     Seq!<-!!!
+       :           13    int<-!!!
+       :           12   value<-!!!
+ 27,8  :[\n        12   value->str
+ 27,8  :[\n        13    str->Pattern
+       :           13    str<-!!!
+       :           12   value<-!!!
+ 27,8  :[\n        12   value->sublist
+ 27,8  :[\n        13    sublist->open
+ 27,8  :[\n        14     open->Drop
+ 27,8  :[\n        15      Drop->Equal
+ 27,9  :\n         15      Drop<-{"["}
+ 27,9  :\n         14     open<-{}
+ 27,9  :\n         14     open->spc
+ 27,9  :\n         15      spc->wspace
+ 27,9  :\n         16       wspace->Drop
+ 27,9  :\n         17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       wspace<-!!!
+ 27,9  :\n         16       wspace->Seq!
+ 27,9  :\n         17        Seq!->Drop
+ 27,9  :\n         18         Drop->Pattern
+ 28,1  :    s...\n 18         Drop<-{"\n"}
+ 28,1  :    s...\n 17        Seq!<-{}
+ 28,1  :    s...\n 17        Seq!->comment
+ 28,1  :    s...\n 18         comment->Pattern
+ 28,1  :    s...\n 18         comment<-{""}
+ 28,1  :    s...\n 17        Seq!<-{}
+ 28,1  :    s...\n 16       wspace<-{}
+ 28,1  :    s...\n 15      spc<-{}
+ 28,1  :    s...\n 15      spc->wspace
+ 28,1  :    s...\n 16       wspace->Drop
+ 28,1  :    s...\n 17        Drop->Pattern
+ 28,5  :source 2\n 17        Drop<-{"    "}
+ 28,5  :source 2\n 16       wspace<-{}
+ 28,5  :source 2\n 15      spc<-{}
+ 28,5  :source 2\n 15      spc->wspace
+ 28,5  :source 2\n 16       wspace->Drop
+ 28,5  :source 2\n 17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       wspace<-!!!
+ 28,5  :source 2\n 16       wspace->Seq!
+ 28,5  :source 2\n 17        Seq!->Drop
+ 28,5  :source 2\n 18         Drop->Pattern
+       :           18         Drop<-!!!
+       :           17        Seq!<-!!!
+       :           16       wspace<-!!!
+       :           15      spc<-!!!
+ 28,5  :source 2\n 14     open<-{}
+ 28,5  :source 2\n 13    sublist<-{}
+ 28,5  :source 2\n 13    sublist->list
+ 28,5  :source 2\n 14     Transform->Depth!
+ 28,5  :source 2\n 15      Depth!->element
+ 28,5  :source 2\n 16       element->Seq!
+ 28,5  :source 2\n 17        Seq!->key
+ 28,5  :source 2\n 18         key->Seq!
+ 28,5  :source 2\n 19          Seq!->Pattern
+ 28,11 : 2\n       19          Seq!<-{"source"}
+ 28,11 : 2\n       19          Seq!->space
+ 28,11 : 2\n       20 space->wspace
+ 28,11 : 2\n       21  wspace->Drop
+ 28,11 : 2\n       22   Drop->Pattern
+ 28,12 :2\n        22   Drop<-{" "}
+ 28,12 :2\n        21  wspace<-{}
+ 28,12 :2\n        20 space<-{}
+ 28,12 :2\n        20 space->wspace
+ 28,12 :2\n        21  wspace->Drop
+ 28,12 :2\n        22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 28,12 :2\n        21  wspace->Seq!
+ 28,12 :2\n        22   Seq!->Drop
+ 28,12 :2\n        23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 space<-!!!
+ 28,12 :2\n        19          Seq!<-{}
+ 28,12 :2\n        18         key<-{"source"}
+ 28,12 :2\n        17        Seq!<-{:source}
+ 28,12 :2\n        17        Seq!->value
+ 28,12 :2\n        18         value->real
+ 28,12 :2\n        19          real->Seq!
+ 28,12 :2\n        20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          real<-!!!
+       :           18         value<-!!!
+ 28,12 :2\n        18         value->int
+ 28,12 :2\n        19          int->Seq!
+ 28,12 :2\n        20 Seq!->Pattern
+ 28,13 :\n         20 Seq!<-{"2"}
+ 28,13 :\n         20 Seq!->spc
+ 28,13 :\n         21  spc->wspace
+ 28,13 :\n         22   wspace->Drop
+ 28,13 :\n         23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 28,13 :\n         22   wspace->Seq!
+ 28,13 :\n         23    Seq!->Drop
+ 28,13 :\n         24     Drop->Pattern
+ 29,1  :    t...\n 24     Drop<-{"\n"}
+ 29,1  :    t...\n 23    Seq!<-{}
+ 29,1  :    t...\n 23    Seq!->comment
+ 29,1  :    t...\n 24     comment->Pattern
+ 29,1  :    t...\n 24     comment<-{""}
+ 29,1  :    t...\n 23    Seq!<-{}
+ 29,1  :    t...\n 22   wspace<-{}
+ 29,1  :    t...\n 21  spc<-{}
+ 29,1  :    t...\n 21  spc->wspace
+ 29,1  :    t...\n 22   wspace->Drop
+ 29,1  :    t...\n 23    Drop->Pattern
+ 29,5  :target 3\n 23    Drop<-{"    "}
+ 29,5  :target 3\n 22   wspace<-{}
+ 29,5  :target 3\n 21  spc<-{}
+ 29,5  :target 3\n 21  spc->wspace
+ 29,5  :target 3\n 22   wspace->Drop
+ 29,5  :target 3\n 23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 29,5  :target 3\n 22   wspace->Seq!
+ 29,5  :target 3\n 23    Seq!->Drop
+ 29,5  :target 3\n 24     Drop->Pattern
+       :           24     Drop<-!!!
+       :           23    Seq!<-!!!
+       :           22   wspace<-!!!
+       :           21  spc<-!!!
+ 29,5  :target 3\n 20 Seq!<-{}
+ 29,5  :target 3\n 19          int<-{"2"}
+ 29,5  :target 3\n 18         value<-{2}
+ 29,5  :target 3\n 17        Seq!<-{2}
+ 29,5  :target 3\n 16       element<-{:source,2}
+ 29,5  :target 3\n 15      Depth!<-{(:source,2)}
+ 29,5  :target 3\n 15      Depth!->element
+ 29,5  :target 3\n 16       element->Seq!
+ 29,5  :target 3\n 17        Seq!->key
+ 29,5  :target 3\n 18         key->Seq!
+ 29,5  :target 3\n 19          Seq!->Pattern
+ 29,11 : 3\n       19          Seq!<-{"target"}
+ 29,11 : 3\n       19          Seq!->space
+ 29,11 : 3\n       20 space->wspace
+ 29,11 : 3\n       21  wspace->Drop
+ 29,11 : 3\n       22   Drop->Pattern
+ 29,12 :3\n        22   Drop<-{" "}
+ 29,12 :3\n        21  wspace<-{}
+ 29,12 :3\n        20 space<-{}
+ 29,12 :3\n        20 space->wspace
+ 29,12 :3\n        21  wspace->Drop
+ 29,12 :3\n        22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 29,12 :3\n        21  wspace->Seq!
+ 29,12 :3\n        22   Seq!->Drop
+ 29,12 :3\n        23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 space<-!!!
+ 29,12 :3\n        19          Seq!<-{}
+ 29,12 :3\n        18         key<-{"target"}
+ 29,12 :3\n        17        Seq!<-{:target}
+ 29,12 :3\n        17        Seq!->value
+ 29,12 :3\n        18         value->real
+ 29,12 :3\n        19          real->Seq!
+ 29,12 :3\n        20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          real<-!!!
+       :           18         value<-!!!
+ 29,12 :3\n        18         value->int
+ 29,12 :3\n        19          int->Seq!
+ 29,12 :3\n        20 Seq!->Pattern
+ 29,13 :\n         20 Seq!<-{"3"}
+ 29,13 :\n         20 Seq!->spc
+ 29,13 :\n         21  spc->wspace
+ 29,13 :\n         22   wspace->Drop
+ 29,13 :\n         23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 29,13 :\n         22   wspace->Seq!
+ 29,13 :\n         23    Seq!->Drop
+ 29,13 :\n         24     Drop->Pattern
+ 30,1  :    l...\n 24     Drop<-{"\n"}
+ 30,1  :    l...\n 23    Seq!<-{}
+ 30,1  :    l...\n 23    Seq!->comment
+ 30,1  :    l...\n 24     comment->Pattern
+ 30,1  :    l...\n 24     comment<-{""}
+ 30,1  :    l...\n 23    Seq!<-{}
+ 30,1  :    l...\n 22   wspace<-{}
+ 30,1  :    l...\n 21  spc<-{}
+ 30,1  :    l...\n 21  spc->wspace
+ 30,1  :    l...\n 22   wspace->Drop
+ 30,1  :    l...\n 23    Drop->Pattern
+ 30,5  :label...\n 23    Drop<-{"    "}
+ 30,5  :label...\n 22   wspace<-{}
+ 30,5  :label...\n 21  spc<-{}
+ 30,5  :label...\n 21  spc->wspace
+ 30,5  :label...\n 22   wspace->Drop
+ 30,5  :label...\n 23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 30,5  :label...\n 22   wspace->Seq!
+ 30,5  :label...\n 23    Seq!->Drop
+ 30,5  :label...\n 24     Drop->Pattern
+       :           24     Drop<-!!!
+       :           23    Seq!<-!!!
+       :           22   wspace<-!!!
+       :           21  spc<-!!!
+ 30,5  :label...\n 20 Seq!<-{}
+ 30,5  :label...\n 19          int<-{"3"}
+ 30,5  :label...\n 18         value<-{3}
+ 30,5  :label...\n 17        Seq!<-{3}
+ 30,5  :label...\n 16       element<-{:target,3}
+ 30,5  :label...\n 15      Depth!<-{(:target,3)}
+ 30,5  :label...\n 15      Depth!->element
+ 30,5  :label...\n 16       element->Seq!
+ 30,5  :label...\n 17        Seq!->key
+ 30,5  :label...\n 18         key->Seq!
+ 30,5  :label...\n 19          Seq!->Pattern
+ 30,10 : \"Ed...\n 19          Seq!<-{"label"}
+ 30,10 : \"Ed...\n 19          Seq!->space
+ 30,10 : \"Ed...\n 20 space->wspace
+ 30,10 : \"Ed...\n 21  wspace->Drop
+ 30,10 : \"Ed...\n 22   Drop->Pattern
+ 30,11 :\"Edg...\n 22   Drop<-{" "}
+ 30,11 :\"Edg...\n 21  wspace<-{}
+ 30,11 :\"Edg...\n 20 space<-{}
+ 30,11 :\"Edg...\n 20 space->wspace
+ 30,11 :\"Edg...\n 21  wspace->Drop
+ 30,11 :\"Edg...\n 22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 30,11 :\"Edg...\n 21  wspace->Seq!
+ 30,11 :\"Edg...\n 22   Seq!->Drop
+ 30,11 :\"Edg...\n 23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 space<-!!!
+ 30,11 :\"Edg...\n 19          Seq!<-{}
+ 30,11 :\"Edg...\n 18         key<-{"label"}
+ 30,11 :\"Edg...\n 17        Seq!<-{:label}
+ 30,11 :\"Edg...\n 17        Seq!->value
+ 30,11 :\"Edg...\n 18         value->real
+ 30,11 :\"Edg...\n 19          real->Seq!
+ 30,11 :\"Edg...\n 20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          real<-!!!
+       :           18         value<-!!!
+ 30,11 :\"Edg...\n 18         value->int
+ 30,11 :\"Edg...\n 19          int->Seq!
+ 30,11 :\"Edg...\n 20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          int<-!!!
+       :           18         value<-!!!
+ 30,11 :\"Edg...\n 18         value->str
+ 30,11 :\"Edg...\n 19          str->Pattern
+ 30,39 :\n         19          str<-{"Edge from node 2 to node 3"}
+ 30,39 :\n         19          str->spc
+ 30,39 :\n         20 spc->wspace
+ 30,39 :\n         21  wspace->Drop
+ 30,39 :\n         22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 30,39 :\n         21  wspace->Seq!
+ 30,39 :\n         22   Seq!->Drop
+ 30,39 :\n         23    Drop->Pattern
+ 31,1  :  ]\n      23    Drop<-{"\n"}
+ 31,1  :  ]\n      22   Seq!<-{}
+ 31,1  :  ]\n      22   Seq!->comment
+ 31,1  :  ]\n      23    comment->Pattern
+ 31,1  :  ]\n      23    comment<-{""}
+ 31,1  :  ]\n      22   Seq!<-{}
+ 31,1  :  ]\n      21  wspace<-{}
+ 31,1  :  ]\n      20 spc<-{}
+ 31,1  :  ]\n      20 spc->wspace
+ 31,1  :  ]\n      21  wspace->Drop
+ 31,1  :  ]\n      22   Drop->Pattern
+ 31,3  :]\n        22   Drop<-{"  "}
+ 31,3  :]\n        21  wspace<-{}
+ 31,3  :]\n        20 spc<-{}
+ 31,3  :]\n        20 spc->wspace
+ 31,3  :]\n        21  wspace->Drop
+ 31,3  :]\n        22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 31,3  :]\n        21  wspace->Seq!
+ 31,3  :]\n        22   Seq!->Drop
+ 31,3  :]\n        23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 spc<-!!!
+ 31,3  :]\n        19          str<-{}
+ 31,3  :]\n        18         value<-{"Edge from node 2 to node 3"}
+ 31,3  :]\n        17        Seq!<-{"Edge from node 2 to node 3"}
+ 31,3  :]\n        16       element<-{:label,"Edge from node 2 to node 3"}
+ 31,3  :]\n        15      Depth!<-{(:label,"Edge from node 2 to node 3")}
+ 31,3  :]\n        15      Depth!->element
+ 31,3  :]\n        16       element->Seq!
+ 31,3  :]\n        17        Seq!->key
+ 31,3  :]\n        18         key->Seq!
+ 31,3  :]\n        19          Seq!->Pattern
+       :           19          Seq!<-!!!
+       :           18         key<-!!!
+       :           17        Seq!<-!!!
+       :           16       element<-!!!
+       :           15      Depth!<-!!!
+ 31,3  :]\n        14     Transform<-{(:source,2),(:target,3),(:labe...e 2 to node 3")}
+ 31,3  :]\n        13    sublist<-{{(:source,2),(:target,3),(:lab... 2 to node 3")}}
+ 31,3  :]\n        13    sublist->Alt!
+ 31,3  :]\n        14     Alt!->close
+ 31,3  :]\n        15      close->Drop
+ 31,3  :]\n        16       Drop->Equal
+ 31,4  :\n         16       Drop<-{"]"}
+ 31,4  :\n         15      close<-{}
+ 31,4  :\n         15      close->spc
+ 31,4  :\n         16       spc->wspace
+ 31,4  :\n         17        wspace->Drop
+ 31,4  :\n         18         Drop->Pattern
+       :           18         Drop<-!!!
+       :           17        wspace<-!!!
+ 31,4  :\n         17        wspace->Seq!
+ 31,4  :\n         18         Seq!->Drop
+ 31,4  :\n         19          Drop->Pattern
+ 32,1  :  edge [\n 19          Drop<-{"\n"}
+ 32,1  :  edge [\n 18         Seq!<-{}
+ 32,1  :  edge [\n 18         Seq!->comment
+ 32,1  :  edge [\n 19          comment->Pattern
+ 32,1  :  edge [\n 19          comment<-{""}
+ 32,1  :  edge [\n 18         Seq!<-{}
+ 32,1  :  edge [\n 17        wspace<-{}
+ 32,1  :  edge [\n 16       spc<-{}
+ 32,1  :  edge [\n 16       spc->wspace
+ 32,1  :  edge [\n 17        wspace->Drop
+ 32,1  :  edge [\n 18         Drop->Pattern
+ 32,3  :edge [\n   18         Drop<-{"  "}
+ 32,3  :edge [\n   17        wspace<-{}
+ 32,3  :edge [\n   16       spc<-{}
+ 32,3  :edge [\n   16       spc->wspace
+ 32,3  :edge [\n   17        wspace->Drop
+ 32,3  :edge [\n   18         Drop->Pattern
+       :           18         Drop<-!!!
+       :           17        wspace<-!!!
+ 32,3  :edge [\n   17        wspace->Seq!
+ 32,3  :edge [\n   18         Seq!->Drop
+ 32,3  :edge [\n   19          Drop->Pattern
+       :           19          Drop<-!!!
+       :           18         Seq!<-!!!
+       :           17        wspace<-!!!
+       :           16       spc<-!!!
+ 32,3  :edge [\n   15      close<-{}
+ 32,3  :edge [\n   14     Alt!<-{}
+ 32,3  :edge [\n   13    sublist<-{}
+ 32,3  :edge [\n   12   value<-{{(:source,2),(:target,3),(:lab... 2 to node 3")}}
+ 32,3  :edge [\n   11  Seq!<-{{(:source,2),(:target,3),(:lab... 2 to node 3")}}
+ 32,3  :edge [\n   10 element<-{:edge,{(:source,2),(:target,3)... 2 to node 3")}}
+ 32,3  :edge [\n   09          Depth!<-{(:edge,{(:source,2),(:target,3...2 to node 3")})}
+ 32,3  :edge [\n   09          Depth!->element
+ 32,3  :edge [\n   10 element->Seq!
+ 32,3  :edge [\n   11  Seq!->key
+ 32,3  :edge [\n   12   key->Seq!
+ 32,3  :edge [\n   13    Seq!->Pattern
+ 32,7  : [\n       13    Seq!<-{"edge"}
+ 32,7  : [\n       13    Seq!->space
+ 32,7  : [\n       14     space->wspace
+ 32,7  : [\n       15      wspace->Drop
+ 32,7  : [\n       16       Drop->Pattern
+ 32,8  :[\n        16       Drop<-{" "}
+ 32,8  :[\n        15      wspace<-{}
+ 32,8  :[\n        14     space<-{}
+ 32,8  :[\n        14     space->wspace
+ 32,8  :[\n        15      wspace->Drop
+ 32,8  :[\n        16       Drop->Pattern
+       :           16       Drop<-!!!
+       :           15      wspace<-!!!
+ 32,8  :[\n        15      wspace->Seq!
+ 32,8  :[\n        16       Seq!->Drop
+ 32,8  :[\n        17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       Seq!<-!!!
+       :           15      wspace<-!!!
+       :           14     space<-!!!
+ 32,8  :[\n        13    Seq!<-{}
+ 32,8  :[\n        12   key<-{"edge"}
+ 32,8  :[\n        11  Seq!<-{:edge}
+ 32,8  :[\n        11  Seq!->value
+ 32,8  :[\n        12   value->real
+ 32,8  :[\n        13    real->Seq!
+ 32,8  :[\n        14     Seq!->Pattern
+       :           14     Seq!<-!!!
+       :           13    real<-!!!
+       :           12   value<-!!!
+ 32,8  :[\n        12   value->int
+ 32,8  :[\n        13    int->Seq!
+ 32,8  :[\n        14     Seq!->Pattern
+       :           14     Seq!<-!!!
+       :           13    int<-!!!
+       :           12   value<-!!!
+ 32,8  :[\n        12   value->str
+ 32,8  :[\n        13    str->Pattern
+       :           13    str<-!!!
+       :           12   value<-!!!
+ 32,8  :[\n        12   value->sublist
+ 32,8  :[\n        13    sublist->open
+ 32,8  :[\n        14     open->Drop
+ 32,8  :[\n        15      Drop->Equal
+ 32,9  :\n         15      Drop<-{"["}
+ 32,9  :\n         14     open<-{}
+ 32,9  :\n         14     open->spc
+ 32,9  :\n         15      spc->wspace
+ 32,9  :\n         16       wspace->Drop
+ 32,9  :\n         17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       wspace<-!!!
+ 32,9  :\n         16       wspace->Seq!
+ 32,9  :\n         17        Seq!->Drop
+ 32,9  :\n         18         Drop->Pattern
+ 33,1  :    s...\n 18         Drop<-{"\n"}
+ 33,1  :    s...\n 17        Seq!<-{}
+ 33,1  :    s...\n 17        Seq!->comment
+ 33,1  :    s...\n 18         comment->Pattern
+ 33,1  :    s...\n 18         comment<-{""}
+ 33,1  :    s...\n 17        Seq!<-{}
+ 33,1  :    s...\n 16       wspace<-{}
+ 33,1  :    s...\n 15      spc<-{}
+ 33,1  :    s...\n 15      spc->wspace
+ 33,1  :    s...\n 16       wspace->Drop
+ 33,1  :    s...\n 17        Drop->Pattern
+ 33,5  :source 3\n 17        Drop<-{"    "}
+ 33,5  :source 3\n 16       wspace<-{}
+ 33,5  :source 3\n 15      spc<-{}
+ 33,5  :source 3\n 15      spc->wspace
+ 33,5  :source 3\n 16       wspace->Drop
+ 33,5  :source 3\n 17        Drop->Pattern
+       :           17        Drop<-!!!
+       :           16       wspace<-!!!
+ 33,5  :source 3\n 16       wspace->Seq!
+ 33,5  :source 3\n 17        Seq!->Drop
+ 33,5  :source 3\n 18         Drop->Pattern
+       :           18         Drop<-!!!
+       :           17        Seq!<-!!!
+       :           16       wspace<-!!!
+       :           15      spc<-!!!
+ 33,5  :source 3\n 14     open<-{}
+ 33,5  :source 3\n 13    sublist<-{}
+ 33,5  :source 3\n 13    sublist->list
+ 33,5  :source 3\n 14     Transform->Depth!
+ 33,5  :source 3\n 15      Depth!->element
+ 33,5  :source 3\n 16       element->Seq!
+ 33,5  :source 3\n 17        Seq!->key
+ 33,5  :source 3\n 18         key->Seq!
+ 33,5  :source 3\n 19          Seq!->Pattern
+ 33,11 : 3\n       19          Seq!<-{"source"}
+ 33,11 : 3\n       19          Seq!->space
+ 33,11 : 3\n       20 space->wspace
+ 33,11 : 3\n       21  wspace->Drop
+ 33,11 : 3\n       22   Drop->Pattern
+ 33,12 :3\n        22   Drop<-{" "}
+ 33,12 :3\n        21  wspace<-{}
+ 33,12 :3\n        20 space<-{}
+ 33,12 :3\n        20 space->wspace
+ 33,12 :3\n        21  wspace->Drop
+ 33,12 :3\n        22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 33,12 :3\n        21  wspace->Seq!
+ 33,12 :3\n        22   Seq!->Drop
+ 33,12 :3\n        23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 space<-!!!
+ 33,12 :3\n        19          Seq!<-{}
+ 33,12 :3\n        18         key<-{"source"}
+ 33,12 :3\n        17        Seq!<-{:source}
+ 33,12 :3\n        17        Seq!->value
+ 33,12 :3\n        18         value->real
+ 33,12 :3\n        19          real->Seq!
+ 33,12 :3\n        20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          real<-!!!
+       :           18         value<-!!!
+ 33,12 :3\n        18         value->int
+ 33,12 :3\n        19          int->Seq!
+ 33,12 :3\n        20 Seq!->Pattern
+ 33,13 :\n         20 Seq!<-{"3"}
+ 33,13 :\n         20 Seq!->spc
+ 33,13 :\n         21  spc->wspace
+ 33,13 :\n         22   wspace->Drop
+ 33,13 :\n         23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 33,13 :\n         22   wspace->Seq!
+ 33,13 :\n         23    Seq!->Drop
+ 33,13 :\n         24     Drop->Pattern
+ 34,1  :    t...\n 24     Drop<-{"\n"}
+ 34,1  :    t...\n 23    Seq!<-{}
+ 34,1  :    t...\n 23    Seq!->comment
+ 34,1  :    t...\n 24     comment->Pattern
+ 34,1  :    t...\n 24     comment<-{""}
+ 34,1  :    t...\n 23    Seq!<-{}
+ 34,1  :    t...\n 22   wspace<-{}
+ 34,1  :    t...\n 21  spc<-{}
+ 34,1  :    t...\n 21  spc->wspace
+ 34,1  :    t...\n 22   wspace->Drop
+ 34,1  :    t...\n 23    Drop->Pattern
+ 34,5  :target 1\n 23    Drop<-{"    "}
+ 34,5  :target 1\n 22   wspace<-{}
+ 34,5  :target 1\n 21  spc<-{}
+ 34,5  :target 1\n 21  spc->wspace
+ 34,5  :target 1\n 22   wspace->Drop
+ 34,5  :target 1\n 23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 34,5  :target 1\n 22   wspace->Seq!
+ 34,5  :target 1\n 23    Seq!->Drop
+ 34,5  :target 1\n 24     Drop->Pattern
+       :           24     Drop<-!!!
+       :           23    Seq!<-!!!
+       :           22   wspace<-!!!
+       :           21  spc<-!!!
+ 34,5  :target 1\n 20 Seq!<-{}
+ 34,5  :target 1\n 19          int<-{"3"}
+ 34,5  :target 1\n 18         value<-{3}
+ 34,5  :target 1\n 17        Seq!<-{3}
+ 34,5  :target 1\n 16       element<-{:source,3}
+ 34,5  :target 1\n 15      Depth!<-{(:source,3)}
+ 34,5  :target 1\n 15      Depth!->element
+ 34,5  :target 1\n 16       element->Seq!
+ 34,5  :target 1\n 17        Seq!->key
+ 34,5  :target 1\n 18         key->Seq!
+ 34,5  :target 1\n 19          Seq!->Pattern
+ 34,11 : 1\n       19          Seq!<-{"target"}
+ 34,11 : 1\n       19          Seq!->space
+ 34,11 : 1\n       20 space->wspace
+ 34,11 : 1\n       21  wspace->Drop
+ 34,11 : 1\n       22   Drop->Pattern
+ 34,12 :1\n        22   Drop<-{" "}
+ 34,12 :1\n        21  wspace<-{}
+ 34,12 :1\n        20 space<-{}
+ 34,12 :1\n        20 space->wspace
+ 34,12 :1\n        21  wspace->Drop
+ 34,12 :1\n        22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 34,12 :1\n        21  wspace->Seq!
+ 34,12 :1\n        22   Seq!->Drop
+ 34,12 :1\n        23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 space<-!!!
+ 34,12 :1\n        19          Seq!<-{}
+ 34,12 :1\n        18         key<-{"target"}
+ 34,12 :1\n        17        Seq!<-{:target}
+ 34,12 :1\n        17        Seq!->value
+ 34,12 :1\n        18         value->real
+ 34,12 :1\n        19          real->Seq!
+ 34,12 :1\n        20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          real<-!!!
+       :           18         value<-!!!
+ 34,12 :1\n        18         value->int
+ 34,12 :1\n        19          int->Seq!
+ 34,12 :1\n        20 Seq!->Pattern
+ 34,13 :\n         20 Seq!<-{"1"}
+ 34,13 :\n         20 Seq!->spc
+ 34,13 :\n         21  spc->wspace
+ 34,13 :\n         22   wspace->Drop
+ 34,13 :\n         23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 34,13 :\n         22   wspace->Seq!
+ 34,13 :\n         23    Seq!->Drop
+ 34,13 :\n         24     Drop->Pattern
+ 35,1  :    l...\n 24     Drop<-{"\n"}
+ 35,1  :    l...\n 23    Seq!<-{}
+ 35,1  :    l...\n 23    Seq!->comment
+ 35,1  :    l...\n 24     comment->Pattern
+ 35,1  :    l...\n 24     comment<-{""}
+ 35,1  :    l...\n 23    Seq!<-{}
+ 35,1  :    l...\n 22   wspace<-{}
+ 35,1  :    l...\n 21  spc<-{}
+ 35,1  :    l...\n 21  spc->wspace
+ 35,1  :    l...\n 22   wspace->Drop
+ 35,1  :    l...\n 23    Drop->Pattern
+ 35,5  :label...\n 23    Drop<-{"    "}
+ 35,5  :label...\n 22   wspace<-{}
+ 35,5  :label...\n 21  spc<-{}
+ 35,5  :label...\n 21  spc->wspace
+ 35,5  :label...\n 22   wspace->Drop
+ 35,5  :label...\n 23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   wspace<-!!!
+ 35,5  :label...\n 22   wspace->Seq!
+ 35,5  :label...\n 23    Seq!->Drop
+ 35,5  :label...\n 24     Drop->Pattern
+       :           24     Drop<-!!!
+       :           23    Seq!<-!!!
+       :           22   wspace<-!!!
+       :           21  spc<-!!!
+ 35,5  :label...\n 20 Seq!<-{}
+ 35,5  :label...\n 19          int<-{"1"}
+ 35,5  :label...\n 18         value<-{1}
+ 35,5  :label...\n 17        Seq!<-{1}
+ 35,5  :label...\n 16       element<-{:target,1}
+ 35,5  :label...\n 15      Depth!<-{(:target,1)}
+ 35,5  :label...\n 15      Depth!->element
+ 35,5  :label...\n 16       element->Seq!
+ 35,5  :label...\n 17        Seq!->key
+ 35,5  :label...\n 18         key->Seq!
+ 35,5  :label...\n 19          Seq!->Pattern
+ 35,10 : \"Ed...\n 19          Seq!<-{"label"}
+ 35,10 : \"Ed...\n 19          Seq!->space
+ 35,10 : \"Ed...\n 20 space->wspace
+ 35,10 : \"Ed...\n 21  wspace->Drop
+ 35,10 : \"Ed...\n 22   Drop->Pattern
+ 35,11 :\"Edg...\n 22   Drop<-{" "}
+ 35,11 :\"Edg...\n 21  wspace<-{}
+ 35,11 :\"Edg...\n 20 space<-{}
+ 35,11 :\"Edg...\n 20 space->wspace
+ 35,11 :\"Edg...\n 21  wspace->Drop
+ 35,11 :\"Edg...\n 22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 35,11 :\"Edg...\n 21  wspace->Seq!
+ 35,11 :\"Edg...\n 22   Seq!->Drop
+ 35,11 :\"Edg...\n 23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 space<-!!!
+ 35,11 :\"Edg...\n 19          Seq!<-{}
+ 35,11 :\"Edg...\n 18         key<-{"label"}
+ 35,11 :\"Edg...\n 17        Seq!<-{:label}
+ 35,11 :\"Edg...\n 17        Seq!->value
+ 35,11 :\"Edg...\n 18         value->real
+ 35,11 :\"Edg...\n 19          real->Seq!
+ 35,11 :\"Edg...\n 20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          real<-!!!
+       :           18         value<-!!!
+ 35,11 :\"Edg...\n 18         value->int
+ 35,11 :\"Edg...\n 19          int->Seq!
+ 35,11 :\"Edg...\n 20 Seq!->Pattern
+       :           20 Seq!<-!!!
+       :           19          int<-!!!
+       :           18         value<-!!!
+ 35,11 :\"Edg...\n 18         value->str
+ 35,11 :\"Edg...\n 19          str->Pattern
+ 35,39 :\n         19          str<-{"Edge from node 3 to node 1"}
+ 35,39 :\n         19          str->spc
+ 35,39 :\n         20 spc->wspace
+ 35,39 :\n         21  wspace->Drop
+ 35,39 :\n         22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 35,39 :\n         21  wspace->Seq!
+ 35,39 :\n         22   Seq!->Drop
+ 35,39 :\n         23    Drop->Pattern
+ 36,1  :  ]\n      23    Drop<-{"\n"}
+ 36,1  :  ]\n      22   Seq!<-{}
+ 36,1  :  ]\n      22   Seq!->comment
+ 36,1  :  ]\n      23    comment->Pattern
+ 36,1  :  ]\n      23    comment<-{""}
+ 36,1  :  ]\n      22   Seq!<-{}
+ 36,1  :  ]\n      21  wspace<-{}
+ 36,1  :  ]\n      20 spc<-{}
+ 36,1  :  ]\n      20 spc->wspace
+ 36,1  :  ]\n      21  wspace->Drop
+ 36,1  :  ]\n      22   Drop->Pattern
+ 36,3  :]\n        22   Drop<-{"  "}
+ 36,3  :]\n        21  wspace<-{}
+ 36,3  :]\n        20 spc<-{}
+ 36,3  :]\n        20 spc->wspace
+ 36,3  :]\n        21  wspace->Drop
+ 36,3  :]\n        22   Drop->Pattern
+       :           22   Drop<-!!!
+       :           21  wspace<-!!!
+ 36,3  :]\n        21  wspace->Seq!
+ 36,3  :]\n        22   Seq!->Drop
+ 36,3  :]\n        23    Drop->Pattern
+       :           23    Drop<-!!!
+       :           22   Seq!<-!!!
+       :           21  wspace<-!!!
+       :           20 spc<-!!!
+ 36,3  :]\n        19          str<-{}
+ 36,3  :]\n        18         value<-{"Edge from node 3 to node 1"}
+ 36,3  :]\n        17        Seq!<-{"Edge from node 3 to node 1"}
+ 36,3  :]\n        16       element<-{:label,"Edge from node 3 to node 1"}
+ 36,3  :]\n        15      Depth!<-{(:label,"Edge from node 3 to node 1")}
+ 36,3  :]\n        15      Depth!->element
+ 36,3  :]\n        16       element->Seq!
+ 36,3  :]\n        17        Seq!->key
+ 36,3  :]\n        18         key->Seq!
+ 36,3  :]\n        19          Seq!->Pattern
+       :           19          Seq!<-!!!
+       :           18         key<-!!!
+       :           17        Seq!<-!!!
+       :           16       element<-!!!
+       :           15      Depth!<-!!!
+ 36,3  :]\n        14     Transform<-{(:source,3),(:target,1),(:labe...e 3 to node 1")}
+ 36,3  :]\n        13    sublist<-{{(:source,3),(:target,1),(:lab... 3 to node 1")}}
+ 36,3  :]\n        13    sublist->Alt!
+ 36,3  :]\n        14     Alt!->close
+ 36,3  :]\n        15      close->Drop
+ 36,3  :]\n        16       Drop->Equal
+ 36,4  :\n         16       Drop<-{"]"}
+ 36,4  :\n         15      close<-{}
+ 36,4  :\n         15      close->spc
+ 36,4  :\n         16       spc->wspace
+ 36,4  :\n         17        wspace->Drop
+ 36,4  :\n         18         Drop->Pattern
+       :           18         Drop<-!!!
+       :           17        wspace<-!!!
+ 36,4  :\n         17        wspace->Seq!
+ 36,4  :\n         18         Seq!->Drop
+ 36,4  :\n         19          Drop->Pattern
+ 37,1  :]\n        19          Drop<-{"\n"}
+ 37,1  :]\n        18         Seq!<-{}
+ 37,1  :]\n        18         Seq!->comment
+ 37,1  :]\n        19          comment->Pattern
+ 37,1  :]\n        19          comment<-{""}
+ 37,1  :]\n        18         Seq!<-{}
+ 37,1  :]\n        17        wspace<-{}
+ 37,1  :]\n        16       spc<-{}
+ 37,1  :]\n        16       spc->wspace
+ 37,1  :]\n        17        wspace->Drop
+ 37,1  :]\n        18         Drop->Pattern
+       :           18         Drop<-!!!
+       :           17        wspace<-!!!
+ 37,1  :]\n        17        wspace->Seq!
+ 37,1  :]\n        18         Seq!->Drop
+ 37,1  :]\n        19          Drop->Pattern
+       :           19          Drop<-!!!
+       :           18         Seq!<-!!!
+       :           17        wspace<-!!!
+       :           16       spc<-!!!
+ 37,1  :]\n        15      close<-{}
+ 37,1  :]\n        14     Alt!<-{}
+ 37,1  :]\n        13    sublist<-{}
+ 37,1  :]\n        12   value<-{{(:source,3),(:target,1),(:lab... 3 to node 1")}}
+ 37,1  :]\n        11  Seq!<-{{(:source,3),(:target,1),(:lab... 3 to node 1")}}
+ 37,1  :]\n        10 element<-{:edge,{(:source,3),(:target,1)... 3 to node 1")}}
+ 37,1  :]\n        09          Depth!<-{(:edge,{(:source,3),(:target,1...3 to node 1")})}
+ 37,1  :]\n        09          Depth!->element
+ 37,1  :]\n        10 element->Seq!
+ 37,1  :]\n        11  Seq!->key
+ 37,1  :]\n        12   key->Seq!
+ 37,1  :]\n        13    Seq!->Pattern
+       :           13    Seq!<-!!!
+       :           12   key<-!!!
+       :           11  Seq!<-!!!
+       :           10 element<-!!!
+       :           09          Depth!<-!!!
+ 37,1  :]\n        08         Transform<-{(:comment,"This is a sample gr...3 to node 1")})}
+ 37,1  :]\n        07        sublist<-{{(:comment,"This is a sample g... to node 1")})}}
+ 37,1  :]\n        07        sublist->Alt!
+ 37,1  :]\n        08         Alt!->close
+ 37,1  :]\n        09          close->Drop
+ 37,1  :]\n        10 Drop->Equal
+ 37,2  :\n         10 Drop<-{"]"}
+ 37,2  :\n         09          close<-{}
+ 37,2  :\n         09          close->spc
+ 37,2  :\n         10 spc->wspace
+ 37,2  :\n         11  wspace->Drop
+ 37,2  :\n         12   Drop->Pattern
+       :           12   Drop<-!!!
+       :           11  wspace<-!!!
+ 37,2  :\n         11  wspace->Seq!
+ 37,2  :\n         12   Seq!->Drop
+ 37,2  :\n         13    Drop->Pattern
+ 38,1  :           13    Drop<-{"\n"}
+ 38,1  :           12   Seq!<-{}
+ 38,1  :           12   Seq!->comment
+ 38,1  :           13    comment->Pattern
+ 38,1  :           13    comment<-{""}
+ 38,1  :           12   Seq!<-{}
+ 38,1  :           11  wspace<-{}
+ 38,1  :           10 spc<-{}
+ 38,1  :           10 spc->wspace
+ 38,1  :           11  wspace->Drop
+ 38,1  :           12   Drop->Pattern
+       :           12   Drop<-!!!
+       :           11  wspace<-!!!
+ 38,1  :           11  wspace->Seq!
+ 38,1  :           12   Seq!->Drop
+ 38,1  :           13    Drop->Pattern
+       :           13    Drop<-!!!
+       :           12   Seq!<-!!!
+       :           11  wspace<-!!!
+       :           10 spc<-!!!
+ 38,1  :           09          close<-{}
+ 38,1  :           08         Alt!<-{}
+ 38,1  :           07        sublist<-{}
+ 38,1  :           06       value<-{{(:comment,"This is a sample g... to node 1")})}}
+ 38,1  :           05      Seq!<-{{(:comment,"This is a sample g... to node 1")})}}
+ 38,1  :           04     element<-{:graph,{(:comment,"This is a s... to node 1")})}}
+ 38,1  :           03    Depth!<-{(:graph,{(:comment,"This is a ...to node 1")})})}
+ 38,1  :           03    Depth!->element
+ 38,1  :           04     element->Seq!
+ 38,1  :           05      Seq!->key
+ 38,1  :           06       key->Seq!
+ 38,1  :           07        Seq!->Pattern
+       :           07        Seq!<-!!!
+       :           06       key<-!!!
+       :           05      Seq!<-!!!
+       :           04     element<-!!!
+       :           03    Depth!<-!!!
+ 38,1  :           02   Transform<-{(:graph,{(:comment,"This is a ...to node 1")})})}
+ 38,1  :           01  Seq!<-{{(:graph,{(:comment,"This is a...o node 1")})})}}
+ 38,1  :           01  Seq!->Alt!
+ 38,1  :           02   Alt!->Seq!
+ 38,1  :           03    Seq!->spc
+ 38,1  :           04     spc->wspace
+ 38,1  :           05      wspace->Drop
+ 38,1  :           06       Drop->Pattern
+       :           06       Drop<-!!!
+       :           05      wspace<-!!!
+ 38,1  :           05      wspace->Seq!
+ 38,1  :           06       Seq!->Drop
+ 38,1  :           07        Drop->Pattern
+       :           07        Drop<-!!!
+       :           06       Seq!<-!!!
+       :           05      wspace<-!!!
+       :           04     spc<-!!!
+ 38,1  :           03    Seq!<-{}
+ 38,1  :           03    Seq!->Eos
+ 38,1  :           03    Seq!<-{}
+ 38,1  :           02   Alt!<-{}
+ 38,1  :           01  Seq!<-{}
+ 38,1  :           00 Trace<-{{(:graph,{(:comment,"This is a...o node 1")})})}}
+graph Hello, I am a graph
+ node 1
+ node 2
+ node 3
+ edge Edge from node 1 to node 2: 1 - 2
+ edge Edge from node 2 to node 3: 2 - 3
+ edge Edge from node 3 to node 1: 3 - 1
+node 1
+node 2
+node 3
+edge 1 - 2
+edge 2 - 3
+edge 3 - 1
+INFO: ParserCombinator tests passed
+INFO: Removing ZipFile v0.2.4
+INFO: Removing Zlib v0.1.9
+
+>>> End of log

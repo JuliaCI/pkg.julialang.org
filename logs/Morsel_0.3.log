@@ -1,0 +1,130 @@
+>>> 'Pkg.add("Morsel")' log
+INFO: Cloning cache of Morsel from git://github.com/JuliaWeb/Morsel.jl.git
+INFO: Installing BinDeps v0.3.15
+INFO: Installing Dates v0.3.2
+INFO: Installing Docile v0.5.16
+INFO: Installing GnuTLS v0.0.5
+INFO: Installing HttpCommon v0.1.2
+INFO: Installing HttpParser v0.0.13
+INFO: Installing HttpServer v0.0.14
+INFO: Installing Meddle v0.0.6
+INFO: Installing Morsel v0.0.6
+INFO: Installing Nettle v0.1.10
+INFO: Installing SHA v0.1.1
+INFO: Installing URIParser v0.0.7
+INFO: Building Nettle
+INFO: Building GnuTLS
+INFO: Building HttpParser
+INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of Morsel
+INFO: Use `Pkg.update()` to get the latest versions of your packages
+
+>>> 'Pkg.test("Morsel")' log
+Julia Version 0.3.11
+Commit 483dbf5* (2015-07-27 06:18 UTC)
+Platform Info:
+  System: Linux (x86_64-unknown-linux-gnu)
+  CPU: Intel(R) Core(TM) i5-2500K CPU @ 3.30GHz
+  WORD_SIZE: 64
+  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Sandybridge)
+  LAPACK: libopenblas
+  LIBM: libopenlibm
+  LLVM: libLLVM-3.3
+INFO: Computing test dependencies for Morsel...
+INFO: Installing Codecs v0.1.4
+INFO: Installing FactCheck v0.4.0
+INFO: Installing Requests v0.2.3
+INFO: Installing Zlib v0.1.9
+INFO: Building HttpParser
+INFO: Building Nettle
+INFO: Building GnuTLS
+INFO: Testing Morsel
+Morsel is listening on 0.0.0.0:8000...
+WARNING: The `=>` syntax is deprecated, use `-->` instead
+route
+get, post, post, put, delete, request
+  > get
+    Failure :: (line:-1) :: get :: fact was false
+      Expression: response.data --> "root_get"
+        Expected: "root_get"
+        Occurred: Uint8[114,111,111,116,95,103,101,116]
+  > post, put, delete
+    Failure :: (line:-1) :: post, put, delete :: fact was false
+      Expression: req.post("http://localhost:8000/").data --> "root"
+        Expected: "root"
+        Occurred: Uint8[114,111,111,116]
+    Failure :: (line:-1) :: post, put, delete :: fact was false
+      Expression: req.put("http://localhost:8000/").data --> "root"
+        Expected: "root"
+        Occurred: Uint8[114,111,111,116]
+    Failure :: (line:-1) :: post, put, delete :: fact was false
+      Expression: req.delete("http://localhost:8000/").data --> "root"
+        Expected: "root"
+        Occurred: Uint8[114,111,111,116]
+Out of 5 total facts:
+  Verified: 1
+  Failed:   4
+Add route when the app is running
+1 fact verified.
+dynamic route
+  > the request will succeed if the type is right
+  > can get the value by req.params[:id]
+    Failure :: (line:-1) :: can get the value by req.params[:id] :: fact was false
+      Expression: req.get("http://localhost:8000/users/10").data --> "User id is:10"
+        Expected: "User id is:10"
+        Occurred: Uint8[85,115,101,114,32,105,100,32,105,115,58,49,48]
+  > regex route
+    Failure :: (line:-1) :: regex route :: fact was false
+      Expression: req.get("http://localhost:8000/name/abc33").data --> "abc33"
+        Expected: "abc33"
+        Occurred: Uint8[97,98,99,51,51]
+Out of 5 total facts:
+  Verified: 3
+  Failed:   2
+namespace
+  Failure :: (line:-1) :: fact was false
+    Expression: req.get("http://localhost:8000/namespace/hello").data --> "hello namespace"
+      Expected: "hello namespace"
+      Occurred: Uint8[104,101,108,108,111,32,110,97,109,101,115,112,97,99,101]
+Out of 1 total fact:
+  Failed:   1
+0 facts verified.
+redirect
+ERROR: connect: connection refused (ECONNREFUSED)
+ in wait at ./task.jl:284
+ in wait at ./task.jl:194
+ in stream_wait at stream.jl:263
+ in wait_connected at stream.jl:301
+ in connect at socket.jl:603
+ in open_stream at /home/vagrant/.julia/v0.3/Requests/src/Requests.jl:313
+ in do_request at /home/vagrant/.julia/v0.3/Requests/src/Requests.jl:708
+ in do_request at /home/vagrant/.julia/v0.3/Requests/src/Requests.jl:716
+ in get at /home/vagrant/.julia/v0.3/Requests/src/Requests.jl:735
+ in get at /home/vagrant/.julia/v0.3/Requests/src/Requests.jl:734
+ in anonymous at /home/vagrant/.julia/v0.3/Morsel/test/runtests.jl:86
+ in facts at /home/vagrant/.julia/v0.3/FactCheck/src/FactCheck.jl:448
+ in include at ./boot.jl:245
+ in include_from_node1 at loading.jl:128
+ in process_options at ./client.jl:285
+ in _start at ./client.jl:354
+while loading /home/vagrant/.julia/v0.3/Morsel/test/runtests.jl, in expression starting on line 80
+===============================[ ERROR: Morsel ]================================
+
+failed process: Process(`/home/vagrant/julia/bin/julia /home/vagrant/.julia/v0.3/Morsel/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+INFO: Removing Codecs v0.1.4
+INFO: Removing FactCheck v0.4.0
+INFO: Removing Requests v0.2.3
+INFO: Removing Zlib v0.1.9
+ERROR: Morsel had test errors
+ in error at error.jl:21
+ in test at pkg/entry.jl:718
+ in anonymous at pkg/dir.jl:28
+ in cd at ./file.jl:20
+ in cd at pkg/dir.jl:28
+ in test at pkg.jl:67
+ in process_options at ./client.jl:213
+ in _start at ./client.jl:354
+
+>>> End of log
