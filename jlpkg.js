@@ -1,9 +1,7 @@
 // Initialize globals
-window.RELEASEVER = '0.3';
-window.NIGHTLYVER = '0.4';
 window.searchName = '';
 window.searchAuthor = '';
-window.juliaVersion = window.RELEASEVER;
+window.juliaVersion = '0.3';
 window.testStatus = {"tests_pass"   :true, "tests_fail" :true,
                      "no_tests"     :true, "not_possible":true};
 window.license = {"MIT"  :true, "BSD"  :true,
@@ -91,7 +89,7 @@ $('#juliaVersion .btn').click( function() {
   window.juliaVersion = $(this).data('jlver');
   $('#juliaVersion .btn').removeClass('active');
   $('#juliaVersion i').removeClass('glyphicon-ok glyphicon-remove');
-  if (window.juliaVersion == window.RELEASEVER) {
+  if (window.juliaVersion == '0.3') {
     $('#releaseButton').addClass('active');
     $('#releaseButton i').addClass('glyphicon-ok');
     $('#nightlyButton i').addClass('glyphicon-remove');
@@ -211,14 +209,10 @@ for (var i = 0; i < spl.length; i++) {
     $('#searchName').val(rhs);
   }
   if (lhs == 'ver') {
-    if (rhs == 'release') {
-      window.juliaVersion = window.RELEASEVER;
-    } else {
-      window.juliaVersion = window.NIGHTLYVER;
-    }
+    window.juliaVersion = rhs;
     $('#juliaVersion .btn').removeClass('active');
     $('#juliaVersion i').removeClass('glyphicon-ok glyphicon-remove');
-    if (window.juliaVersion == window.RELEASEVER) {
+    if (window.juliaVersion == '0.3') {
       $('#releaseButton').addClass('active');
       $('#releaseButton i').addClass('glyphicon-ok');
       $('#nightlyButton i').addClass('glyphicon-remove');
