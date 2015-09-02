@@ -117,6 +117,7 @@ function plot_total_stars(totals, outfile="")
     y_totals = Int[]
     for (date,total) in totals
         date == "20140925" && continue  # First entry, not accurate
+        date == "20150620" && continue  # Weird spike, double counting?
         push!(x_dates, dbdate_to_date(date))
         push!(y_totals, total)
     end
@@ -150,4 +151,4 @@ plot_status_ver(totals, dates, "0.4", "../test04per.svg",aspercent=true)
 
 star_hist, star_dates = load_star_db(STAR_FILE)
 star_totals = total_stars_by_date(star_hist, star_dates)
-#plot_total_stars(star_totals, "../stars.svg")
+plot_total_stars(star_totals, "../stars.svg")
