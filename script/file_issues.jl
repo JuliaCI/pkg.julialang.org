@@ -1,4 +1,5 @@
 using Requests
+include("PackageFuncs.jl")
 using PackageFuncs
 using JSON
 
