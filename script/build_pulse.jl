@@ -178,7 +178,7 @@ for i in 1:5
                                     "url"   =>  ((change[1] in keys(pkgdict[RELEASE])) ?
                                                     pkgdict[RELEASE][change[1]]["url"] :
                                                     pkgdict[NIGHTLY][change[1]]["url"]),
-                                    "purl"  =>  "http://pkg.julialang.org/?pkg=$(change[1])&ver=release"
+                                    "purl"  =>  "http://pkg.julialang.org/?pkg=$(change[1])&ver=$RELEASE"
                                     ))
     end
     sort!(rel_test_changes[i],by=f->f["name"])
@@ -193,7 +193,7 @@ for i in 1:5
                                     "prev"  =>  change[2],
                                     "cur"   =>  change[3],
                                     "url"   =>  pkgdict[NIGHTLY][change[1]]["url"],
-                                    "purl"  =>  "http://pkg.julialang.org/?pkg=$(change[1])&ver=nightly"
+                                    "purl"  =>  "http://pkg.julialang.org/?pkg=$(change[1])&ver=$NIGHTLY"
                                     ))
     end
     sort!(nig_test_changes[i],by=f->f["name"])
