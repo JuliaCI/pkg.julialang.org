@@ -1,29 +1,20 @@
 >>> 'Pkg.add("Orchestra")' log
 INFO: Cloning cache of Orchestra from git://github.com/svs14/Orchestra.jl.git
-INFO: Installing ArrayViews v0.6.3
-INFO: Installing DataArrays v0.2.18
-INFO: Installing DataFrames v0.6.9
 INFO: Installing Dates v0.4.4
 INFO: Installing DecisionTree v0.3.9
 INFO: Installing DimensionalityReduction v0.1.1
-INFO: Installing Docile v0.5.17
 INFO: Installing FactCheck v0.4.0
-INFO: Installing GZip v0.2.17
 INFO: Installing Iterators v0.1.8
 INFO: Installing MLBase v0.5.2
 INFO: Installing Orchestra v0.0.5
 INFO: Installing PyCall v0.8.2
-INFO: Installing Reexport v0.0.3
-INFO: Installing SortingAlgorithms v0.0.5
-INFO: Installing StatsBase v0.7.2
-INFO: Installing StatsFuns v0.1.3
 INFO: Package database updated
 INFO: METADATA is out-of-date — you may not have the latest version of Orchestra
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Orchestra")' log
-Julia Version 0.4.0-pre+7304
-Commit b3a1be5 (2015-09-05 13:59 UTC)
+Julia Version 0.4.0-rc1
+Commit e5c6964 (2015-09-09 16:07 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Core(TM) i5-2500K CPU @ 3.30GHz
@@ -185,7 +176,16 @@ WARNING: nan(x::AbstractFloat) is deprecated, use oftype(x,NaN) instead.
  in _start at ./client.jl:411
 while loading /home/vagrant/.julia/v0.4/Orchestra/test/fixture_learners.jl, in expression starting on line 21
 WARNING: The `=>` syntax is deprecated, use `-->` instead
-ERROR: LoadError: LoadError: Incorrect usage of @fact: length(partition) >= 6 => true
+Orchestra util functions
+  > holdout returns proportional partitions
+WARNING: int(x::AbstractFloat) is deprecated, use round(Int,x) instead.
+ in depwarn at ./deprecated.jl:73
+ in int at deprecated.jl:50
+ in holdout at /home/vagrant/.julia/v0.4/Orchestra/src/util.jl:24
+ in anonymous at /home/vagrant/.julia/v0.4/Orchestra/test/test_util.jl:16
+ in context at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:474
+ in anonymous at /home/vagrant/.julia/v0.4/Orchestra/test/test_util.jl:13
+ in facts at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:448
  in include at ./boot.jl:260
  in include_from_node1 at ./loading.jl:271
  in include at ./boot.jl:260
@@ -193,25 +193,289 @@ ERROR: LoadError: LoadError: Incorrect usage of @fact: length(partition) >= 6 =>
  in process_options at ./client.jl:308
  in _start at ./client.jl:411
 while loading /home/vagrant/.julia/v0.4/Orchestra/test/test_util.jl, in expression starting on line 12
-while loading /home/vagrant/.julia/v0.4/Orchestra/test/runtests.jl, in expression starting on line 6
-==============================[ ERROR: Orchestra ]==============================
+  > kfold returns k partitions
+  > score calculates accuracy
+  > score throws exception on unknown metric
+  > infer_eltype returns inferred elements type
+  > nested_dict_to_tuples produces list of tuples
+  > nested_dict_set! assigns values
+  > nested_dict_merge merges two nested dictionaries
+  > create_transformer produces new transformer
+17 facts verified.
 
-failed process: Process(`/home/vagrant/julia/bin/julia --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.4/Orchestra/test/runtests.jl`, ProcessExited(1)) [1]
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/test_transformers.jl:38.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
 
-================================================================================
-ERROR: Orchestra had test errors
- in error at ./error.jl:21
- [inlined code] from pkg/entry.jl:753
- in __test#412__ at no file:0
- in test at no file
- in anonymous at pkg/dir.jl:31
- in cd at file.jl:22
- [inlined code] from pkg/dir.jl:31
- in __cd#396__ at no file:0
- in cd at no file
- in __test#420__ at no file
- in test at no file
- in process_options at ./client.jl:284
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/test_transformers.jl:42.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/test_transformers.jl:90.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/../fixture_learners.jl:101.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/../fixture_learners.jl:121.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/../fixture_learners.jl:143.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/../fixture_learners.jl:152.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/../fixture_learners.jl:156.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+Orchestra transformers
+  > OneHotEncoder transforms nominal features
+  > OneHotEncoder transforms with options
+  > OneHotEncoder handles no nominal features
+  > Imputer replaces NA
+  > Pipeline chains transformers
+WARNING: Unseen value found in OneHotEncoder,
+                for entry (5, 5) = d. 
+                Patching value to c.
+WARNING: Unseen value found in OneHotEncoder,
+                for entry (6, 5) = e. 
+                Patching value to c.
+WARNING: Unseen value found in OneHotEncoder,
+                for entry (7, 5) = d. 
+                Patching value to c.
+WARNING: Unseen value found in OneHotEncoder,
+                for entry (8, 5) = e. 
+                Patching value to c.
+  > Wrapper delegates to transformer
+WARNING: Unseen value found in OneHotEncoder,
+                for entry (5, 5) = d. 
+                Patching value to c.
+WARNING: Unseen value found in OneHotEncoder,
+                for entry (6, 5) = e. 
+                Patching value to c.
+WARNING: Unseen value found in OneHotEncoder,
+                for entry (7, 5) = d. 
+                Patching value to c.
+WARNING: Unseen value found in OneHotEncoder,
+                for entry (8, 5) = e. 
+                Patching value to c.
+7 facts verified.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/julia/test_decisiontree.jl:71.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/julia/test_decisiontree.jl:71.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/julia/../fixture_learners.jl:101.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/julia/../fixture_learners.jl:121.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/julia/../fixture_learners.jl:143.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/julia/../fixture_learners.jl:152.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/julia/../fixture_learners.jl:156.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+DecisionTree learners
+  > PrunedTree gives same results as its backend
+  > RandomForest gives same results as its backend
+  > DecisionStumpAdaboost gives same results as its backend
+  > RandomForest handles training-dependent options
+4 facts verified.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/julia/../fixture_learners.jl:101.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/julia/../fixture_learners.jl:121.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/julia/../fixture_learners.jl:143.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/julia/../fixture_learners.jl:152.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/julia/../fixture_learners.jl:156.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+MLBase transformers
+  > StandardScaler transforms features
+WARNING: Standardize is deprecated. Please use mean_and_std and zscore in StatsBase instead.
+ in depwarn at ./deprecated.jl:73
+ in call at /home/vagrant/.julia/v0.4/MLBase/src/deprecated/datapre.jl:16
+ in estimate at /home/vagrant/.julia/v0.4/MLBase/src/deprecated/datapre.jl:152
+ in fit! at /home/vagrant/.julia/v0.4/Orchestra/src/julia/mlbase.jl:29
+ in anonymous at /home/vagrant/.julia/v0.4/Orchestra/test/julia/test_mlbase.jl:30
+ in context at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:474
+ in anonymous at /home/vagrant/.julia/v0.4/Orchestra/test/julia/test_mlbase.jl:13
+ in facts at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:448
+ in include at ./boot.jl:260
+ in include_from_node1 at ./loading.jl:271
+ in include at ./boot.jl:260
+ in include_from_node1 at ./loading.jl:271
+ in process_options at ./client.jl:308
  in _start at ./client.jl:411
+while loading /home/vagrant/.julia/v0.4/Orchestra/test/julia/test_mlbase.jl, in expression starting on line 12
+1 fact verified.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/julia/test_dimensionalityreduction.jl:20.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/julia/../fixture_learners.jl:101.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/julia/../fixture_learners.jl:121.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/julia/../fixture_learners.jl:143.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/julia/../fixture_learners.jl:152.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/julia/../fixture_learners.jl:156.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+DimensionalityReduction transformers
+  > PCA transforms features
+1 fact verified.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/test_ensemble.jl:18.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/test_ensemble.jl:19.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/test_ensemble.jl:26.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/test_ensemble.jl:38.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/test_ensemble.jl:46.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/test_ensemble.jl:55.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/test_ensemble.jl:56.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/test_ensemble.jl:63.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/test_ensemble.jl:76.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/test_ensemble.jl:77.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/test_ensemble.jl:83.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/test_ensemble.jl:84.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/test_ensemble.jl:86.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/../fixture_learners.jl:101.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/../fixture_learners.jl:121.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/../fixture_learners.jl:143.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/../fixture_learners.jl:152.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/../fixture_learners.jl:156.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+Ensemble learners
+  > VoteEnsemble predicts according to majority
+  > StackEnsemble predicts with combined learners
+WARNING: int(x::AbstractFloat) is deprecated, use round(Int,x) instead.
+ in depwarn at ./deprecated.jl:73
+ in int at deprecated.jl:50
+ in fit! at /home/vagrant/.julia/v0.4/Orchestra/src/orchestra/ensemble.jl:89
+ in anonymous at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/test_ensemble.jl:47
+ in context at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:474
+ in anonymous at /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/test_ensemble.jl:34
+ in facts at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:448
+ in include at ./boot.jl:260
+ in include_from_node1 at ./loading.jl:271
+ in include at ./boot.jl:260
+ in include_from_node1 at ./loading.jl:271
+ in process_options at ./client.jl:308
+ in _start at ./client.jl:411
+while loading /home/vagrant/.julia/v0.4/Orchestra/test/orchestra/test_ensemble.jl, in expression starting on line 16
+  > BestLearner picks the best learner
+  > BestLearner conducts grid search
+4 facts verified.
+INFO: Skipping scikit-learn tests.
+INFO: Skipping CARET tests.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/test_system.jl:75.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/test_system.jl:88.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/fixture_learners.jl:101.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/fixture_learners.jl:121.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/fixture_learners.jl:143.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/fixture_learners.jl:152.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+
+WARNING: deprecated syntax "{a=>b, ...}" at /home/vagrant/.julia/v0.4/Orchestra/test/fixture_learners.jl:156.
+Use "Dict{Any,Any}(a=>b, ...)" instead.
+WARNING: both StatsBase and Base export "histrange"; uses of it in module MLBase must be qualified
+WARNING: both StatsBase and Base export "midpoints"; uses of it in module MLBase must be qualified
+Orchestra system
+  > All learners train and predict on fixture data.
+  > All learners train and predict on iris dataset.
+  > Ensemble with learners from different libraries work.
+  > Pipeline works with fixture data.
+WARNING: Standardize is deprecated. Please use mean_and_std and zscore in StatsBase instead.
+ in depwarn at ./deprecated.jl:73
+ in call at /home/vagrant/.julia/v0.4/MLBase/src/deprecated/datapre.jl:16
+ in estimate at /home/vagrant/.julia/v0.4/MLBase/src/deprecated/datapre.jl:152
+ in fit! at /home/vagrant/.julia/v0.4/Orchestra/src/julia/mlbase.jl:29
+ in fit! at /home/vagrant/.julia/v0.4/Orchestra/src/orchestra/transformers.jl:175
+ in fit_and_transform! at /home/vagrant/.julia/v0.4/Orchestra/test/fixture_learners.jl:88
+ in anonymous at /home/vagrant/.julia/v0.4/Orchestra/test/test_system.jl:89
+ in context at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:474
+ in anonymous at /home/vagrant/.julia/v0.4/Orchestra/test/test_system.jl:81
+ in facts at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:448
+ in include at ./boot.jl:260
+ in include_from_node1 at ./loading.jl:271
+ in include at ./boot.jl:260
+ in include_from_node1 at ./loading.jl:271
+ in process_options at ./client.jl:308
+ in _start at ./client.jl:411
+while loading /home/vagrant/.julia/v0.4/Orchestra/test/test_system.jl, in expression starting on line 34
+WARNING: Unseen value found in OneHotEncoder,
+                for entry (5, 5) = d. 
+                Patching value to c.
+WARNING: Unseen value found in OneHotEncoder,
+                for entry (6, 5) = e. 
+                Patching value to c.
+WARNING: Unseen value found in OneHotEncoder,
+                for entry (7, 5) = d. 
+                Patching value to c.
+WARNING: Unseen value found in OneHotEncoder,
+                for entry (8, 5) = e. 
+                Patching value to c.
+4 facts verified.
+INFO: Orchestra tests passed
 
 >>> End of log

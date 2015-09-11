@@ -1,6 +1,7 @@
 using Requests
-include("PackageFuncs.jl")
-using PackageFuncs
+#include("PackageFuncs.jl")
+#using PackageFuncs
+include("shared.jl")
 using JSON
 
 const auth_token = readall("token")
@@ -11,7 +12,7 @@ const auth_token = readall("token")
 function change_file(hist_db, pkg_set, date_set)
     # Walk through every package and day
     pkg_set = sort(collect(pkg_set))
-    for JLVER = [STABLEVER, NIGHTLYVER]
+    for JLVER = ["0.3", "0.4"]
     for pkg in pkg_set
         key = JLVER*pkg
         !(key in keys(hist_db)) && continue  # Guess it doesn't exist
@@ -80,9 +81,9 @@ pkgs = JSON.parse(readall("all.json"))
 for pkg_dict in pkgs
     owner = split(pkg_dict["url"],"/")[end-1]
     pkg_owners[pkg_dict["name"]] = owner
-    if pkg_dict["jlver"] == STABLEVER 
+    if pkg_dict["jlver"] == "0.3" 
         pkg_log_stable[pkg_dict["name"]] = pkg_dict["log"]
-    elseif pkg_dict["jlver"] == NIGHTLYVER 
+    elseif pkg_dict["jlver"] == "0.4" 
         pkg_log_nightly[pkg_dict["name"]] = pkg_dict["log"]
     else
         error("Unrecognized jlver $(pkg_dict["jlver"])")
@@ -90,7 +91,8 @@ for pkg_dict in pkgs
 end
 
 # Load history
-hist_db, pkg_set, date_set = PackageFuncs.create_hist_db()
+hist_db, pkg_set, date_set = load_hist_db(HIST_FILE)
+#PackageFuncs.create_hist_db()
 
 # Use with extreme care :D
 change_file(hist_db, pkg_set, date_set)
