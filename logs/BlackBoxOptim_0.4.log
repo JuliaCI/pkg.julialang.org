@@ -1,5 +1,4 @@
 >>> 'Pkg.add("BlackBoxOptim")' log
-INFO: Cloning cache of BlackBoxOptim from git://github.com/robertfeldt/BlackBoxOptim.jl.git
 INFO: Installing ArrayViews v0.6.4
 INFO: Installing BlackBoxOptim v0.0.1
 INFO: Installing Distributions v0.8.7
@@ -8,32 +7,21 @@ INFO: Installing PDMats v0.3.6
 INFO: Installing StatsBase v0.7.3
 INFO: Installing StatsFuns v0.1.4
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of BlackBoxOptim
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("BlackBoxOptim")' log
-Julia Version 0.4.0-rc2
-Commit fa52609* (2015-09-18 17:51 UTC)
+Julia Version 0.4.0-rc3
+Commit 483d548* (2015-09-27 20:34 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
-  CPU: Intel(R) Xeon(R) CPU E5-2650 0 @ 2.00GHz
+  CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
-  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Sandybridge)
+  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas
   LIBM: libopenlibm
   LLVM: libLLVM-3.3
 INFO: Testing BlackBoxOptim
-WARNING: Union(args...) is deprecated, use Union{args...} instead.
- in depwarn at deprecated.jl:73
- in call at deprecated.jl:50
- in include at ./boot.jl:261
- in include_from_node1 at ./loading.jl:304
- in include at ./boot.jl:261
- in include_from_node1 at ./loading.jl:304
- [inlined code] from none:2
- in anonymous at no file:0
- in process_options at ./client.jl:284
- in _start at ./client.jl:411
-while loading /home/vagrant/.julia/v0.4/BlackBoxOptim/src/optimization_methods.jl, in expression starting on line 2
-WARNING: Base.String is deprecated, use AbstractString instead.
 WARNING: Base.String is deprecated, use AbstractString instead.
 Latin hypercube sampling
 15 facts verified.
@@ -100,7 +88,7 @@ Search space
   > rand_individuals_lhs samples in LHS intervals
   > feasible finds feasible points in the search space
   > diameters
-10446 facts verified.
+8531 facts verified.
 Mutation operators
   > SimpleGibbsMutation
   > MutationClock
@@ -110,7 +98,7 @@ Mutation operators
 Frequency Adaptation
   > returns all indices once in the first block
   > increases the frequency of a method that has higher progress values
-1120 facts verified.
+1038 facts verified.
 TopListArchive
   > ArchivedIndividual
   > Constructing a small archive and adding to it
@@ -135,7 +123,7 @@ Differential evolution optimizer
     > unlikely to copy everything if vectors are large
     > correctly modifies the parameters vector
   > ask()/tell!()
-2025 facts verified.
+2026 facts verified.
 Adaptive differential evolution optimizer
   > parameters adjust!()
   > ask()
@@ -150,10 +138,15 @@ Top-level interface
     > using bboptimize() with mostly defaults
     > using bbsetup()/bboptimize() with mostly defaults
     > using non-population optimizer
+      Failure :: (line:-1) :: using non-population optimizer :: fact was false
+        Expression: best_fitness(res) --> less_than(1.0)
+          Expected: 2.8399713257460206 < 1.0
     > using population optimizer
   > continue running an optimization after it finished
   > continue running an optimization after serializing to disc
-46 facts verified.
+Out of 46 total facts:
+  Verified: 45
+  Failed:   1
 bboptimize smoketest
   > testing resampling_memetic_search method to ensure it works
   > testing de_rand_2_bin_radiuslimited method to ensure it works
@@ -181,11 +174,32 @@ Single objective functions
 Generating set search
 2 facts verified.
 Random sampling on unit, n-dimensional sphere
-826 facts verified.
+783 facts verified.
 Random direction generator
 2 facts verified.
 Mirrored random direction generator
 10 facts verified.
-INFO: BlackBoxOptim tests passed
+ERROR: LoadError: FactCheck finished with 1 non-successful tests.
+ in error at ./error.jl:21
+ in exitstatus at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:563
+ in include at ./boot.jl:261
+ in include_from_node1 at ./loading.jl:304
+ in process_options at ./client.jl:308
+ in _start at ./client.jl:411
+while loading /home/vagrant/.julia/v0.4/BlackBoxOptim/test/runtests.jl, in expression starting on line 35
+============================[ ERROR: BlackBoxOptim ]============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.4/BlackBoxOptim/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: BlackBoxOptim had test errors
+ in error at ./error.jl:21
+ in test at pkg/entry.jl:753
+ in anonymous at pkg/dir.jl:31
+ in cd at file.jl:22
+ in cd at pkg/dir.jl:31
+ in test at pkg.jl:71
+ in process_options at ./client.jl:284
+ in _start at ./client.jl:411
 
 >>> End of log

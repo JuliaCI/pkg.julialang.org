@@ -1,30 +1,32 @@
 >>> 'Pkg.add("JuMPeR")' log
 INFO: Cloning cache of JuMPeR from git://github.com/IainNZ/JuMPeR.jl.git
 INFO: Installing ArrayViews v0.6.4
-INFO: Installing Calculus v0.1.12
-INFO: Installing DualNumbers v0.1.4
-INFO: Installing JuMP v0.10.1
-INFO: Installing JuMPeR v0.2.0
+INFO: Installing Calculus v0.1.13
+INFO: Installing DualNumbers v0.1.5
+INFO: Installing JuMP v0.10.2
+INFO: Installing JuMPeR v0.2.1
 INFO: Installing MathProgBase v0.3.17
 INFO: Installing NaNMath v0.1.1
-INFO: Installing ReverseDiffSparse v0.2.10
+INFO: Installing ReverseDiffSparse v0.2.11
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of JuMPeR
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("JuMPeR")' log
 Julia Version 0.3.11
 Commit 483dbf5* (2015-07-27 06:18 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
-  CPU: Intel(R) Xeon(R) CPU E5-2650 0 @ 2.00GHz
+  CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
-  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Sandybridge)
+  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas
   LIBM: libopenlibm
   LLVM: libLLVM-3.3
 INFO: Computing test dependencies for JuMPeR...
-INFO: Installing BinDeps v0.3.17
+INFO: Installing BinDeps v0.3.18
 INFO: Installing Dates v0.3.2
-INFO: Installing ECOS v0.5.1
+INFO: Installing ECOS v0.5.2
 INFO: Installing FactCheck v0.4.0
 INFO: Installing GLPK v0.2.17
 INFO: Installing GLPKMathProgInterface v0.1.15
@@ -42,8 +44,8 @@ Running tests...
   > Variable--... tests
   > AffExpr--... tests
   > Uncertain--... tests
-  > UAffExpr--... tests
-  > FullAffExpr--... tests
+  > UncExpr--... tests
+  > UncAffExpr--... tests
 131 facts verified.
 [operators] Higher level operations
   > sum()
@@ -74,24 +76,24 @@ Uncertain cons.             1
   Reformulated              0
 Cutting rounds              2
 Total cuts:                 1
-Overall time:         0.71095
-  Master init         0.19228 ( 27.04%)
-  Oracle setup        0.27400 ( 38.54%)
-  Reformulation       0.01054 (  1.48%)
-  Master solve        0.07283 ( 10.24%)
-  Cut solve&add       0.15858 ( 22.31%)
+Overall time:         0.52215
+  Master init         0.12208 ( 23.38%)
+  Oracle setup        0.22465 ( 43.02%)
+  Reformulation       0.00224 (  0.43%)
+  Master solve        0.05305 ( 10.16%)
+  Cut solve&add       0.11827 ( 22.65%)
   > GLPKSolverLP, cuts=false
 Solution report
 Uncertain cons.             1
   Reformulated              1
 Cutting rounds              1
 Total cuts:                 0
-Overall time:         0.19028
-  Master init         0.00005 (  0.03%)
-  Oracle setup        0.03792 ( 19.93%)
-  Reformulation       0.14880 ( 78.20%)
-  Master solve        0.00049 (  0.26%)
-  Cut solve&add       0.00008 (  0.04%)
+Overall time:         0.14049
+  Master init         0.00005 (  0.04%)
+  Oracle setup        0.03127 ( 22.26%)
+  Reformulation       0.10894 ( 77.55%)
+  Master solve        0.00019 (  0.14%)
+  Cut solve&add       0.00001 (  0.01%)
   > ECOSSolver, cuts=true
 WARNING: Solver does not appear to support adding constraints to an existing model. Hot-start is disabled.
 Solution report
@@ -99,24 +101,24 @@ Uncertain cons.             1
   Reformulated              0
 Cutting rounds              2
 Total cuts:                 1
-Overall time:         1.81220
-  Master init         0.00012 (  0.01%)
-  Oracle setup        0.00008 (  0.00%)
-  Reformulation       0.00001 (  0.00%)
-  Master solve        1.75053 ( 96.60%)
-  Cut solve&add       0.06140 (  3.39%)
+Overall time:         1.28758
+  Master init         0.00005 (  0.00%)
+  Oracle setup        0.00003 (  0.00%)
+  Reformulation       0.00000 (  0.00%)
+  Master solve        1.22022 ( 94.77%)
+  Cut solve&add       0.06724 (  5.22%)
   > ECOSSolver, cuts=false
 Solution report
 Uncertain cons.             1
   Reformulated              1
 Cutting rounds              1
 Total cuts:                 0
-Overall time:         0.00036
-  Master init         0.00004 ( 10.89%)
-  Oracle setup        0.00004 ( 12.36%)
-  Reformulation       0.00005 ( 12.89%)
-  Master solve        0.00020 ( 57.37%)
-  Cut solve&add       0.00002 (  4.54%)
+Overall time:         0.00043
+  Master init         0.00006 ( 12.87%)
+  Oracle setup        0.00004 ( 10.31%)
+  Reformulation       0.00005 ( 11.48%)
+  Master solve        0.00026 ( 60.95%)
+  Cut solve&add       0.00000 (  0.98%)
 12 facts verified.
 [oracle_gen_poly] Test 2
   > GLPKSolverLP, cuts=true
@@ -196,7 +198,9 @@ Overall time:         0.00036
 [oracle_gen_poly] Test 9 (infeasible LP)
   > GLPKSolverLP, cuts=true
   > GLPKSolverLP, cuts=false
-2 facts verified.
+  > ECOSSolver, cuts=true
+  > ECOSSolver, cuts=false
+4 facts verified.
 [oracle_gen_poly] Test 10 (infeasible MILP)
   > GLPKSolverMIP, cuts=true
   > GLPKSolverMIP, cuts=false
@@ -268,6 +272,19 @@ glp_intopt: optimal basis to initial LP relaxation not provided
   > ECOSSolver, cuts=true
   > ECOSSolver, cuts=false
 60 facts verified.
+[oracle_gen] show_cuts
+Cutting round 1
+Oracle: GeneralOracle
+Constraint:
+  u x ≤ 7
+Generated cut:
+  7 x ≤ 7
+Cutting round 2
+Oracle: GeneralOracle
+Constraint:
+  u x ≤ 7
+No generated cuts
+1 fact verified.
 [oracle_gen_L1] Test 1
   > GLPKSolverLP, cuts=true, flip=true
   > GLPKSolverLP, cuts=true, flip=false
@@ -465,9 +482,9 @@ glp_intopt: optimal basis to initial LP relaxation not provided
   > ECOSSolver
 12 facts verified.
 INFO: JuMPeR tests passed
-INFO: Removing BinDeps v0.3.17
+INFO: Removing BinDeps v0.3.18
 INFO: Removing Dates v0.3.2
-INFO: Removing ECOS v0.5.1
+INFO: Removing ECOS v0.5.2
 INFO: Removing FactCheck v0.4.0
 INFO: Removing GLPK v0.2.17
 INFO: Removing GLPKMathProgInterface v0.1.15
