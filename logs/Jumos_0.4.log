@@ -1,8 +1,10 @@
 >>> 'Pkg.add("Jumos")' log
 INFO: Cloning cache of Jumos from git://github.com/Luthaf/Jumos.jl.git
+INFO: Installing ArrayViews v0.6.4
 INFO: Installing Calculus v0.1.13
 INFO: Installing Distances v0.2.0
 INFO: Installing Jumos v0.2.0
+INFO: Installing Reexport v0.0.3
 INFO: Installing SIUnits v0.0.5
 INFO: Installing TexExtensions v0.0.2
 INFO: Package database updated
@@ -10,14 +12,14 @@ INFO: METADATA is out-of-date — you may not have the latest version of Jumos
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Jumos")' log
-Julia Version 0.4.0-rc3
-Commit 483d548* (2015-09-27 20:34 UTC)
+Julia Version 0.4.0-rc4
+Commit e9c9c92* (2015-10-04 03:14 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
-  LAPACK: libopenblas
+  LAPACK: libopenblas64_
   LIBM: libopenlibm
   LLVM: libLLVM-3.3
 INFO: Computing test dependencies for Jumos...
@@ -134,16 +136,24 @@ WARNING: Base.String is deprecated, use AbstractString instead.
 WARNING: Base.String is deprecated, use AbstractString instead.
 WARNING: Base.String is deprecated, use AbstractString instead.
 WARNING: Base.String is deprecated, use AbstractString instead.
-ERROR: LoadError: LoadError: invalid doc expression $(Expr(:toplevel, :($(Expr(:toplevel, :(module Universes
-    eval(x) = begin  # /home/vagrant/.julia/v0.4/Jumos/src/Jumos.jl, line 34:
-            top(Core).eval(Universes,x)
+ERROR: LoadError: LoadError: invalid doc expression:
+
+@reexport module Universes
+    eval(x) = begin 
+            $(Expr(:line, 34, symbol("/home/vagrant/.julia/v0.4/Jumos/src/Jumos.jl")))
+            $(Expr(:top, :Core)).eval(Universes,x)
         end
-    eval(m,x) = begin  # /home/vagrant/.julia/v0.4/Jumos/src/Jumos.jl, line 34:
-            top(Core).eval(m,x)
-        end # /home/vagrant/.julia/v0.4/Jumos/src/Jumos.jl, line 35:
-    $(Expr(:toplevel, :(using Jumos), :(using Jumos.Arrays))) # /home/vagrant/.julia/v0.4/Jumos/src/Jumos.jl, line 36:
+    eval(m,x) = begin 
+            $(Expr(:line, 34, symbol("/home/vagrant/.julia/v0.4/Jumos/src/Jumos.jl")))
+            $(Expr(:top, :Core)).eval(m,x)
+        end
+    $(Expr(:line, 35, symbol("/home/vagrant/.julia/v0.4/Jumos/src/Jumos.jl")))
+    $(Expr(:toplevel, :(using Jumos), :(using Jumos.Arrays)))
+    $(Expr(:line, 36, symbol("/home/vagrant/.julia/v0.4/Jumos/src/Jumos.jl")))
     include("Universe/Universe.jl")
-    end), :(using .Universes)))), :(eval(Expr(:export,setdiff(names(Universes),[mod])...)))))
+    end
+
+'@reexport' is not documentable. See 'help?> Base.@__doc__' for details.
  in include at ./boot.jl:261
  in include_from_node1 at ./loading.jl:304
  in require at ./loading.jl:243
