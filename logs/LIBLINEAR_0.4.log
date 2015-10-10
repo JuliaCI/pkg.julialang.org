@@ -1,0 +1,80 @@
+>>> 'Pkg.add("LIBLINEAR")' log
+INFO: Cloning cache of LIBLINEAR from git://github.com/innerlee/LIBLINEAR.jl.git
+INFO: Installing LIBLINEAR v0.0.1
+INFO: Building LIBLINEAR
+g++ -Wall -Wconversion -O3 -fPIC -c -o linear.o linear.cpp
+g++ -Wall -Wconversion -O3 -fPIC -c -o tron.o tron.cpp
+make -C blas OPTFLAGS='-Wall -Wconversion -O3 -fPIC' CC='cc';
+make[1]: Entering directory `/home/vagrant/.julia/v0.4/LIBLINEAR/deps/liblinear-210/blas'
+cc -Wall -Wconversion -O3 -fPIC  -c dnrm2.c
+cc -Wall -Wconversion -O3 -fPIC  -c daxpy.c
+cc -Wall -Wconversion -O3 -fPIC  -c ddot.c
+cc -Wall -Wconversion -O3 -fPIC  -c dscal.c
+ar rcv blas.a dnrm2.o daxpy.o ddot.o dscal.o   
+a - dnrm2.o
+a - daxpy.o
+a - ddot.o
+a - dscal.o
+ranlib  blas.a
+make[1]: Leaving directory `/home/vagrant/.julia/v0.4/LIBLINEAR/deps/liblinear-210/blas'
+if [ "Linux" = "Darwin" ]; then \
+		SHARED_LIB_FLAG="-dynamiclib -Wl,-install_name,liblinear.so.3"; \
+	else \
+		SHARED_LIB_FLAG="-shared -Wl,-soname,liblinear.so.3"; \
+	fi; \
+	g++ ${SHARED_LIB_FLAG} linear.o tron.o blas/blas.a -o liblinear.so.3
+INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of LIBLINEAR
+INFO: Use `Pkg.update()` to get the latest versions of your packages
+
+>>> 'Pkg.test("LIBLINEAR")' log
+Julia Version 0.4.0
+Commit 0ff703b* (2015-10-08 06:20 UTC)
+Platform Info:
+  System: Linux (x86_64-unknown-linux-gnu)
+  CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
+  WORD_SIZE: 64
+  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
+  LAPACK: libopenblas64_
+  LIBM: libopenlibm
+  LLVM: libLLVM-3.3
+INFO: Testing LIBLINEAR
+iter  1 act 3.836e+01 pre 3.349e+01 delta 1.267e+00 f 5.199e+01 |g| 1.489e+02 CG   2
+iter  2 act 6.558e+00 pre 5.301e+00 delta 1.267e+00 f 1.362e+01 |g| 4.190e+01 CG   2
+iter  3 act 1.721e+00 pre 1.435e+00 delta 1.267e+00 f 7.066e+00 |g| 1.552e+01 CG   2
+iter  4 act 2.715e-01 pre 2.404e-01 delta 1.267e+00 f 5.345e+00 |g| 5.265e+00 CG   2
+iter  5 act 1.483e-02 pre 1.420e-02 delta 1.267e+00 f 5.073e+00 |g| 1.215e+00 CG   2
+iter  1 act 7.536e+00 pre 7.084e+00 delta 4.642e-01 f 5.199e+01 |g| 9.028e+01 CG   2
+cg reaches trust region boundary
+iter  2 act 1.354e+00 pre 1.294e+00 delta 6.488e-01 f 4.445e+01 |g| 8.767e+00 CG   2
+cg reaches trust region boundary
+iter  3 act 1.429e+00 pre 1.445e+00 delta 8.274e-01 f 4.310e+01 |g| 4.431e+00 CG   3
+iter  4 act 3.622e-01 pre 3.550e-01 delta 8.274e-01 f 4.167e+01 |g| 2.852e+00 CG   3
+iter  5 act 6.850e-03 pre 6.846e-03 delta 8.274e-01 f 4.131e+01 |g| 4.368e-01 CG   3
+iter  1 act 2.293e+01 pre 1.975e+01 delta 1.107e+00 f 5.199e+01 |g| 7.034e+01 CG   2
+iter  2 act 6.293e+00 pre 4.788e+00 delta 1.107e+00 f 2.905e+01 |g| 2.719e+01 CG   2
+iter  3 act 3.515e+00 pre 2.871e+00 delta 1.335e+00 f 2.276e+01 |g| 1.233e+01 CG   2
+iter  4 act 5.462e-01 pre 5.159e-01 delta 1.335e+00 f 1.924e+01 |g| 3.990e+00 CG   2
+iter  5 act 1.944e-02 pre 1.943e-02 delta 1.335e+00 f 1.870e+01 |g| 5.041e-01 CG   3
+pass 1.
+iter  1 act 3.836e+01 pre 3.349e+01 delta 1.267e+00 f 5.199e+01 |g| 1.489e+02 CG   2
+iter  2 act 6.558e+00 pre 5.301e+00 delta 1.267e+00 f 1.362e+01 |g| 4.190e+01 CG   2
+iter  3 act 1.721e+00 pre 1.435e+00 delta 1.267e+00 f 7.066e+00 |g| 1.552e+01 CG   2
+iter  4 act 2.715e-01 pre 2.404e-01 delta 1.267e+00 f 5.345e+00 |g| 5.265e+00 CG   2
+iter  5 act 1.483e-02 pre 1.420e-02 delta 1.267e+00 f 5.073e+00 |g| 1.215e+00 CG   2
+iter  1 act 7.536e+00 pre 7.084e+00 delta 4.642e-01 f 5.199e+01 |g| 9.028e+01 CG   2
+cg reaches trust region boundary
+iter  2 act 1.354e+00 pre 1.294e+00 delta 6.488e-01 f 4.445e+01 |g| 8.767e+00 CG   2
+cg reaches trust region boundary
+iter  3 act 1.429e+00 pre 1.445e+00 delta 8.274e-01 f 4.310e+01 |g| 4.431e+00 CG   3
+iter  4 act 3.622e-01 pre 3.550e-01 delta 8.274e-01 f 4.167e+01 |g| 2.852e+00 CG   3
+iter  5 act 6.850e-03 pre 6.846e-03 delta 8.274e-01 f 4.131e+01 |g| 4.368e-01 CG   3
+iter  1 act 2.293e+01 pre 1.975e+01 delta 1.107e+00 f 5.199e+01 |g| 7.034e+01 CG   2
+iter  2 act 6.293e+00 pre 4.788e+00 delta 1.107e+00 f 2.905e+01 |g| 2.719e+01 CG   2
+iter  3 act 3.515e+00 pre 2.871e+00 delta 1.335e+00 f 2.276e+01 |g| 1.233e+01 CG   2
+iter  4 act 5.462e-01 pre 5.159e-01 delta 1.335e+00 f 1.924e+01 |g| 3.990e+00 CG   2
+iter  5 act 1.944e-02 pre 1.943e-02 delta 1.335e+00 f 1.870e+01 |g| 5.041e-01 CG   3
+pass 2.
+INFO: LIBLINEAR tests passed
+
+>>> End of log

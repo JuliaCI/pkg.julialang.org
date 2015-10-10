@@ -192,7 +192,9 @@ for i in 1:5
                                     "name"  =>  change[1],
                                     "prev"  =>  change[2],
                                     "cur"   =>  change[3],
-                                    "url"   =>  pkgdict[NIGHTLY][change[1]]["url"],
+                                    "url"   =>  ((change[1] in keys(pkgdict[RELEASE])) ?
+                                                    pkgdict[RELEASE][change[1]]["url"] :
+                                                    pkgdict[NIGHTLY][change[1]]["url"]),
                                     "purl"  =>  "../logs/$(change[1])_$NIGHTLY.log"
                                     ))
     end
