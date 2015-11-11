@@ -15,12 +15,10 @@ INFO: Building HDF5
 INFO: Building PyCall
 INFO: PyCall is using /usr/bin/python (Python 2.7.6) at /usr/bin/python, libpython = libpython2.7
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of ShapeModels
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("ShapeModels")' log
-Julia Version 0.4.0
-Commit 0ff703b* (2015-10-08 06:20 UTC)
+Julia Version 0.4.1
+Commit cbe1bee* (2015-11-08 10:33 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
@@ -35,31 +33,46 @@ INFO: Testing ShapeModels
 Running runtests.jl ...
 INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/HDF5.ji for module HDF5.
 INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/PyCall.ji for module PyCall.
-WARNING: No working GUI backend found for matplotlib.
-WARNING: The `=>` syntax is deprecated, use `-->` instead
-basic: ....
-utils: ..
-shape: .
-modes: E
-  Error :: (line:-1)
-    Expression: size(modeshapes(a,1)) --> (2,128,10)
-    MethodError: `modeshapes` has no method matching modeshapes(::ShapeModels.PCAShapeModel, ::Int64, ::LinSpace{Float64})
-    Closest candidates are:
-      modeshapes(::ShapeModels.PCAShapeModel, ::Any)
-      modeshapes(::ShapeModels.PCAShapeModel, ::Any, !Matched::Array{T,1})
-     in modeshapes at /home/vagrant/.julia/v0.4/ShapeModels/src/ShapeModels.jl:85
-     in anonymous at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:271
-     in do_fact at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:333
-     [inlined code] from /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:271
-     in anonymous at /home/vagrant/.julia/v0.4/ShapeModels/test/runtests.jl:258
-     in facts at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:448
-     in shouldtest at /home/vagrant/.julia/v0.4/ShapeModels/test/runtests.jl:5
-     in include at ./boot.jl:261
-     in include_from_node1 at ./loading.jl:304
-     in process_options at ./client.jl:308
-     in _start at ./client.jl:411
-  ... finished runtests.jl
-INFO: ShapeModels tests passed
+ERROR: LoadError: LoadError: LoadError: InitError: Failed to pyimport("matplotlib"): PyPlot will not work until you have a functioning matplotlib module.
+
+For automated Matplotlib installation, try configuring PyCall to use the Conda Python distribution within Julia.  Relaunch Julia and run:
+      ENV["PYTHON"]=""
+      Pkg.build("PyCall")
+      using PyPlot
+
+pyimport exception was: PyError (:PyImport_ImportModule) <type 'exceptions.ImportError'>
+ImportError('No module named matplotlib',)
+
+ in __init__ at /home/vagrant/.julia/v0.4/PyPlot/src/PyPlot.jl:229
+ in _require_from_serialized at loading.jl:84
+ in require at ./loading.jl:251
+ in include at ./boot.jl:261
+ in include_from_node1 at ./loading.jl:304
+ in include at ./boot.jl:261
+ in include_from_node1 at ./loading.jl:304
+ in require at ./loading.jl:243
+ in include at ./boot.jl:261
+ in include_from_node1 at ./loading.jl:304
+ in process_options at ./client.jl:280
+ in _start at ./client.jl:378
+during initialization of module PyPlot
+while loading /home/vagrant/.julia/v0.4/ShapeModels/src/plotfunctions.jl, in expression starting on line 3
+while loading /home/vagrant/.julia/v0.4/ShapeModels/src/ShapeModels.jl, in expression starting on line 35
+while loading /home/vagrant/.julia/v0.4/ShapeModels/test/runtests.jl, in expression starting on line 2
+=============================[ ERROR: ShapeModels ]=============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.4/ShapeModels/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: No packages to install, update or remove
+ERROR: ShapeModels had test errors
+ in error at ./error.jl:21
+ in test at pkg/entry.jl:803
+ in anonymous at pkg/dir.jl:31
+ in cd at file.jl:22
+ in cd at pkg/dir.jl:31
+ in test at pkg.jl:71
+ in process_options at ./client.jl:257
+ in _start at ./client.jl:378
 
 >>> End of log

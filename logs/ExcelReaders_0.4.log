@@ -1,13 +1,13 @@
 >>> 'Pkg.add("ExcelReaders")' log
 INFO: Cloning cache of ExcelReaders from git://github.com/davidanthoff/ExcelReaders.jl.git
 INFO: Installing ArrayViews v0.6.4
-INFO: Installing Conda v0.1.7
-INFO: Installing DataArrays v0.2.19
+INFO: Installing Conda v0.1.8
+INFO: Installing DataArrays v0.2.20
 INFO: Installing DataFrames v0.6.10
 INFO: Installing Dates v0.4.4
 INFO: Installing ExcelReaders v0.4.0
 INFO: Installing GZip v0.2.18
-INFO: Installing PyCall v1.1.2
+INFO: Installing PyCall v1.2.0
 INFO: Installing Reexport v0.0.3
 INFO: Installing SortingAlgorithms v0.0.6
 INFO: Installing StatsBase v0.7.4
@@ -15,12 +15,10 @@ INFO: Installing StatsFuns v0.2.0
 INFO: Building PyCall
 INFO: PyCall is using /usr/bin/python (Python 2.7.6) at /usr/bin/python, libpython = libpython2.7
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of ExcelReaders
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("ExcelReaders")' log
-Julia Version 0.4.0
-Commit 0ff703b* (2015-10-08 06:20 UTC)
+Julia Version 0.4.1
+Commit cbe1bee* (2015-11-08 10:33 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
@@ -31,6 +29,38 @@ Platform Info:
   LLVM: libLLVM-3.3
 INFO: Testing ExcelReaders
 INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/PyCall.ji for module PyCall.
-INFO: ExcelReaders tests passed
+ERROR: LoadError: InitError: Failed to pyimport("xlrd"): ExcelReaders will not work until you have a functioning xlrd module.
+
+For automated ExcelReaders installation, try configuring PyCall to use the Conda Python distribution within Julia.  Relaunch Julia and run:
+      ENV["PYTHON"]=""
+      Pkg.build("PyCall")
+      using ExcelReaders
+
+pyimport exception was: PyError (:PyImport_ImportModule) <type 'exceptions.ImportError'>
+ImportError('No module named xlrd',)
+
+ in __init__ at /home/vagrant/.julia/v0.4/ExcelReaders/src/ExcelReaders.jl:22
+ in _require_from_serialized at loading.jl:84
+ in require at ./loading.jl:251
+ in include at ./boot.jl:261
+ in include_from_node1 at ./loading.jl:304
+ in process_options at ./client.jl:280
+ in _start at ./client.jl:378
+during initialization of module ExcelReaders
+while loading /home/vagrant/.julia/v0.4/ExcelReaders/test/runtests.jl, in expression starting on line 1
+============================[ ERROR: ExcelReaders ]=============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.4/ExcelReaders/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: ExcelReaders had test errors
+ in error at ./error.jl:21
+ in test at pkg/entry.jl:803
+ in anonymous at pkg/dir.jl:31
+ in cd at file.jl:22
+ in cd at pkg/dir.jl:31
+ in test at pkg.jl:71
+ in process_options at ./client.jl:257
+ in _start at ./client.jl:378
 
 >>> End of log
