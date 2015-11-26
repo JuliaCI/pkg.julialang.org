@@ -1,10 +1,8 @@
 >>> 'Pkg.add("GraphMatrices")' log
 INFO: Cloning cache of GraphMatrices from git://github.com/jpfairbanks/GraphMatrices.jl.git
-INFO: Installing FactCheck v0.4.1
+INFO: Installing FactCheck v0.4.2
 INFO: Installing GraphMatrices v0.1.0
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of GraphMatrices
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("GraphMatrices")' log
 Julia Version 0.3.12
@@ -180,8 +178,34 @@ Out of 43 total facts:
   Verified: 34
   Errored:  9
 arithmetic
-adjmat * ones(Float64,n) => [4.0,3.0,5.0,3.0,5.0,2.0,4.0,5.0,7.0,3.0]
-12 facts verified.
+adjmat * ones(Float64,n) => [5.0,4.0,5.0,5.0,6.0,5.0,6.0,0.0,3.0,6.0]
+  Failure :: (line:-1) :: fact was false
+    Expression: sum(abs((stochmat * onevec) / sum(onevec))) --> roughly(1)
+      Expected: 0.8999999999999999 ≅ 1
+  Error :: (line:-1)
+    Expression: ((eigs(avgmat,which=:LR))[1])[1] --> roughly(1.0)
+    ARPACKException(-14)
+     in eupd_wrapper at linalg/arpack.jl:163
+     in eigs at linalg/arnoldi.jl:105
+     in eigs at linalg/arnoldi.jl:5
+     in anonymous at /home/vagrant/.julia/v0.3/FactCheck/src/FactCheck.jl:271
+     in do_fact at /home/vagrant/.julia/v0.3/FactCheck/src/FactCheck.jl:333
+     in test_arithmetic at /home/vagrant/.julia/v0.3/GraphMatrices/test/types.jl:271
+     in anonymous at /home/vagrant/.julia/v0.3/GraphMatrices/test/types.jl:169
+     in facts at /home/vagrant/.julia/v0.3/FactCheck/src/FactCheck.jl:448
+     in include at ./boot.jl:245
+     in include_from_node1 at ./loading.jl:128
+     in include at ./boot.jl:245
+     in include_from_node1 at loading.jl:128
+     in process_options at ./client.jl:285
+     in _start at ./client.jl:354
+  Failure :: (line:-1) :: fact was false
+    Expression: ((eigs(lhat,which=:LR))[1])[1] --> less_than(2.0 + 1.0e-9)
+      Expected: NaN < 2.000000001
+Out of 12 total facts:
+  Verified: 9
+  Failed:   2
+  Errored:  1
 other tests
   > equality testing 
 20 facts verified.

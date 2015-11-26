@@ -1,18 +1,15 @@
 >>> 'Pkg.add("OnlineStats")' log
 INFO: Cloning cache of OnlineStats from git://github.com/joshday/OnlineStats.jl.git
 INFO: Installing ArrayViews v0.6.4
-INFO: Installing Dates v0.4.4
 INFO: Installing Distributions v0.8.7
-INFO: Installing Docile v0.5.19
+INFO: Installing MacroTools v0.2.0
 INFO: Installing MultivariateStats v0.2.1
-INFO: Installing OnlineStats v0.3.0
+INFO: Installing OnlineStats v0.4.0
 INFO: Installing PDMats v0.3.6
-INFO: Installing Reexport v0.0.3
+INFO: Installing Requires v0.2.1
 INFO: Installing StatsBase v0.7.4
 INFO: Installing StatsFuns v0.2.0
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of OnlineStats
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("OnlineStats")' log
 Julia Version 0.4.1
@@ -32,27 +29,31 @@ INFO: Installing Calculus v0.1.14
 INFO: Installing Codecs v0.1.5
 INFO: Installing ColorTypes v0.2.0
 INFO: Installing Colors v0.6.0
-INFO: Installing Compose v0.3.18
+INFO: Installing Compose v0.4.0
 INFO: Installing Contour v0.0.8
 INFO: Installing DataArrays v0.2.20
 INFO: Installing DataFrames v0.6.10
 INFO: Installing DataStructures v0.3.13
+INFO: Installing Dates v0.4.4
 INFO: Installing Distances v0.2.1
+INFO: Installing Docile v0.5.19
 INFO: Installing DualNumbers v0.1.5
-INFO: Installing FactCheck v0.4.1
+INFO: Installing FactCheck v0.4.2
 INFO: Installing FixedPointNumbers v0.1.1
 INFO: Installing GLM v0.4.8
 INFO: Installing GZip v0.2.18
-INFO: Installing Gadfly v0.3.18
+INFO: Installing Gadfly v0.4.0
 INFO: Installing Grid v0.4.0
 INFO: Installing Hexagons v0.0.4
 INFO: Installing ImmutableArrays v0.0.11
 INFO: Installing Iterators v0.1.9
 INFO: Installing KernelDensity v0.1.2
 INFO: Installing Loess v0.0.5
+INFO: Installing Measures v0.0.1
 INFO: Installing NaNMath v0.1.1
 INFO: Installing Optim v0.4.4
-INFO: Installing Plots v0.4.2
+INFO: Installing Plots v0.5.0
+INFO: Installing Reexport v0.0.3
 INFO: Installing Showoff v0.0.6
 INFO: Installing SortingAlgorithms v0.0.6
 INFO: Installing WoodburyMatrices v0.1.2
@@ -231,7 +232,7 @@ Out of 130 total facts:
   Pending:  1
 NormalMix
   > Offline: emstart() and em()
-  > Online: updatebatch!
+  > Online: update in batches
   > Online: update!
   > Online: other
 20 facts verified.
@@ -261,13 +262,13 @@ Test OnlineFLS
 Mean
   > Mean
   > Means
-44 facts verified.
+45 facts verified.
 Variance
   > Variance
   > Variances
-76 facts verified.
+78 facts verified.
 Summary
-28 facts verified.
+29 facts verified.
 Diff
 22 facts verified.
 Diffs
@@ -284,7 +285,7 @@ Quantiles
   > QuantileSort
 18 facts verified.
 CovarianceMatrix
-  > update! vs. updatebatch!
+  > update singletons vs batches
   > PCA
 16 facts verified.
 Bootstrap
@@ -294,6 +295,11 @@ Bootstrap
 1 fact verified.
 HyperLogLog
 3 facts verified.
+ModelDefinition Methods
+  > loss
+  > classify
+  > penalty
+23 facts verified.
 SGD
  * L2Regression * 
   > NoPenalty
@@ -375,6 +381,7 @@ RDA
   > L1Penalty
   > L2Penalty
   > ElasticNetPenalty
+  > SCADPenalty
  * L1Regression * 
   > NoPenalty
   > L1Penalty
@@ -405,57 +412,100 @@ RDA
   > L1Penalty
   > L2Penalty
   > ElasticNetPenalty
-2 facts verified.
-SGModelCV
-  > Penalty:     L1Penalty, λ = 0.44833428449795276
-
-
-rmse truth:     93.33243390995591
-rmse cv fit:    95.52307237333244
-rmse fit:       190.62896604098765
-rmse LinReg:    105.66824067514113
+3 facts verified.
+MMGrad
+  > L2Regression
+  > LogisticRegression
+  > PoissonRegression
+  > QuantileRegression
+  > Check that unsupported models give an error
+1 fact verified.
+StochasticModelCV
+OnlineStats.rmse truth:     105.27127087657519
+OnlineStats.rmse cv fit:    252.12100855471508
+OnlineStats.rmse fit:       567.6872425474033
+OnlineStats.rmse LinReg:    117.93258610548186
+6 facts verified.
+StochasticModelCV: L2Regression
+  > NoPenalty
+  > L1Penalty
+  > L2Penalty
+  > ElasticNetPenalty
+  > SCADPenalty
 0 facts verified.
+StochasticModelCV: L1Regression
+0 facts verified.
+StochasticModelCV: HuberRegression
+0 facts verified.
+StochasticModelCV: QuantileRegression
+0 facts verified.
+Constructors
+3 facts verified.
 Common
   > Show and print methods
 Output here is messy for the sake of getting coverage for show and print
 OnlineStat: OnlineStats.Mean{OnlineStats.EqualWeighting}
- *        μ:  0.502445
- *     nobs:  100OnlineStats.Mean{OnlineStats.EqualWeighting}{μ=0.502445213702066 nobs=100}[OnlineStats.Mean{OnlineStats.EqualWeighting}{μ=0.502445213702066 nobs=100}, OnlineStats.Mean{OnlineStats.EqualWeighting}{μ=0.502445213702066 nobs=100}]OnlineStats.BernoulliBootstrap{OnlineStats.OnlineStat}
+ >        μ:  0.541456
+ >     nobs:  200OnlineStats.Mean{OnlineStats.EqualWeighting}{μ=0.5414561083771654 nobs=200}[OnlineStats.Mean{OnlineStats.EqualWeighting}{μ=0.5414561083771654 nobs=200}, OnlineStats.Mean{OnlineStats.EqualWeighting}{μ=0.5414561083771654 nobs=200}]OnlineStats.BernoulliBootstrap{OnlineStats.OnlineStat}
 Online Bootstrap of OnlineStats.Mean{OnlineStats.EqualWeighting} using function: mean()
 *  nreplicates = 1000
 *         nobs = 0
 Online OnlineStats.FitNormal{OnlineStats.EqualWeighting}, nobs:100
-Distributions.Normal(μ=-0.13216195852559537, σ=1.0520052268655535)  > Penalty:     NoPenalty
-  > Penalty:     L1Penalty, λ = 0.1
-  > Penalty:     L2Penalty, λ = 0.1
-  > Penalty:     ElasticNetPenalty, λ = 0.1, α = 0.5
-SGModel
-  > Algorithm:   OnlineStats.SGD
-  > Model:       OnlineStats.L2Regression
-  > Intercept:   Yes
-  > nobs:        0
-  > Penalty:     NoPenalty
-  > β: [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
+Distributions.Normal(μ=-0.14064108477829806, σ=0.9968033542871618)NoPenaltyL1Penalty(λ = 0.1)L2Penalty(λ = 0.1)ElasticNetPenalty(λ = 0.1, α = 0.5)SCADPenalty(λ = 0.1, a = 4.0)StochasticModel
+  > Nobs:       0
+  > Intercept:  true
+  > Model:      L2Regression
+  > Penalty:    NoPenalty
+  > Algorithm:  SGD with rate γ_t = 1.0 / (1 + 1.0 * t) ^ 1.0
+  > Sparsity:   0.00 nonzero
+  > β:          [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
+RDA(η = 1.0)MMGrad with OnlineStats.LearningRate
+ProxGrad(η = 1.0)SGD with rate γ_t = 1.0 / (1 + 1.0 * t) ^ 1.0L1RegressionL2RegressionLogisticRegressionPoissonRegressionQuantileLoss(τ = 0.6)SVMLikeHuberRegression(δ = 2.0)StochasticModel
+  > Nobs:       0
+  > Intercept:  true
+  > Model:      L2Regression
+  > Penalty:    NoPenalty
+  > Algorithm:  SGD with rate γ_t = 1.0 / (1 + 1.0 * t) ^ 1.0
+  > Sparsity:   0.00 nonzero
+  > β:          [0.0,0.0,0.0,0.0,0.0,0.0]
+StochasticModel
+  > Nobs:       0
+  > Intercept:  false
+  > Model:      L2Regression
+  > Penalty:    NoPenalty
+  > Algorithm:  SGD with rate γ_t = 1.0 / (1 + 1.0 * t) ^ 1.0
+  > Sparsity:   0.00 nonzero
+  > β:          [0.0,0.0,0.0,0.0,0.0]
+Cross-Validated StochasticModel:
+  > Burnin:     1000
+  > Avg. loss:  1.208515818437828
+StochasticModel
+  > Nobs:       100
+  > Intercept:  true
+  > Model:      L2Regression
+  > Penalty:    NoPenalty
+  > Algorithm:  SGD with rate γ_t = 1.0 / (1 + 1.0 * t) ^ 1.0
+  > Sparsity:   1.00 nonzero
+  > β:          [0.05703557839514877,0.0467436518978072,0.048345050371474935,-0.13683614066007777,-0.03223555240711455,-0.02667728261388438]
   > Helper Functions
   > Weighting
-  > onlinefit!()
   > Show DistributionStat
   > Bias
-104 facts verified.
+101 facts verified.
 $(Expr(:escape, quote  # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 250:
-    function ##streamed#16014(INPUT1) # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 251:
+    function ##streamed#15017(INPUT1) # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 251:
         mean(update_get!(mn,abs(diff(update_get!(d,INPUT1)))))
     end # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 253:
-    ##streamed#16014
+    ##streamed#15017
 end))
 $(Expr(:escape, quote  # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 250:
-    function ##streamed#16043(INPUT1) # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 251:
+    function ##streamed#15046(INPUT1) # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 251:
         update_get!(m,diff(update_get!(d,INPUT1)))
     end # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 253:
-    ##streamed#16043
+    ##streamed#15046
 end))
 $(Expr(:escape, quote  # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 250:
-    function ##streamed#16046(INPUT1) # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 251:
+    function ##streamed#15049(INPUT1) # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 251:
         begin 
             $(Expr(:line, 55, symbol("/home/vagrant/.julia/v0.4/OnlineStats/test/react_test.jl")))
             df = diff(update_get!(d,INPUT1))
@@ -467,23 +517,23 @@ $(Expr(:escape, quote  # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, lin
             end
         end
     end # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 253:
-    ##streamed#16046
+    ##streamed#15049
 end))
 $(Expr(:escape, quote  # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 250:
-    function ##streamed#16051(INPUT1,INPUT2) # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 251:
+    function ##streamed#15054(INPUT1,INPUT2) # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 251:
         update_get!(reg,INPUT1,INPUT2)
     end # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 253:
-    ##streamed#16051
+    ##streamed#15054
 end))
 $(Expr(:escape, quote  # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 250:
-    function ##streamed#16053(INPUT1,INPUT2) # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 251:
+    function ##streamed#15056(INPUT1,INPUT2) # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 251:
         begin 
-            ##16063 = update_get!(reg1,INPUT1,INPUT2)
-            ##16065 = update_get!(reg2,INPUT1,INPUT2)
-            (INPUT2 - predict(##16063,INPUT1),INPUT2 - predict(##16065,INPUT1))
+            ##15066 = update_get!(reg1,INPUT1,INPUT2)
+            ##15068 = update_get!(reg2,INPUT1,INPUT2)
+            (INPUT2 - predict(##15066,INPUT1),INPUT2 - predict(##15068,INPUT1))
         end
     end # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 253:
-    ##streamed#16053
+    ##streamed#15056
 end))
 React
   > DiffMean1
@@ -494,25 +544,24 @@ d: OnlineStats.Diff{Float64}{diff=-5.0 last=3.0 nobs=3}
 m: OnlineStats.Mean{OnlineStats.EqualWeighting}{μ=-1.0 nobs=2}
   > 1 Arg Stream
   > Regression
-OnlineStats.SGModel{OnlineStats.ProxGrad,OnlineStats.L2Regression,OnlineStats.NoPenalty}{β=[1.0435873569682317,2.060043234642596,3.052207290032088,4.005868245451889,5.076348932647556] nobs=1000000}
-  0.168613 seconds (1000.00 k allocations: 45.776 MB, 6.42% gc time)
-  0.513007 seconds (5.00 M allocations: 122.070 MB, 5.43% gc time)
+OnlineStats.StochasticModel{OnlineStats.ProxGrad,OnlineStats.L2Regression,OnlineStats.NoPenalty}{β=[0.9533284097867294,1.8420904384664682,2.9633903228652922,4.000281489405914,4.834531784959183] nobs=1000000}
+  0.119610 seconds (1000.00 k allocations: 45.776 MB, 7.16% gc time)
+  0.432674 seconds (5.00 M allocations: 122.070 MB, 5.66% gc time)
   > Mapping pipe and currying
-outval: (-8.93967075389689,-8.81059103227431)
-Any[:($(Expr(:lambda, Any[:INPUT1,:INPUT2], Any[Any[Any[:INPUT1,ArrayViews.StridedView{Float64,1,0,Array{Float64,2}},0],Any[:INPUT2,Float64,0],Any[symbol("##16063"),OnlineStats.OnlineStat,18],Any[symbol("##16065"),OnlineStats.OnlineStat,18]],Any[Any[:reg1,Any,19],Any[:reg2,Any,19]],Any[],Any[]], :(begin  # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 251:
-        ##16063 = (OnlineStatsTests.ReactTest.update_get!)(reg1,INPUT1::ArrayViews.StridedView{Float64,1,0,Array{Float64,2}},INPUT2::Float64)::OnlineStats.OnlineStat
-        ##16065 = (OnlineStatsTests.ReactTest.update_get!)(reg2,INPUT1::ArrayViews.StridedView{Float64,1,0,Array{Float64,2}},INPUT2::Float64)::OnlineStats.OnlineStat
-        return (top(tuple))(INPUT2::Float64 - (OnlineStatsTests.ReactTest.predict)(##16063::OnlineStats.OnlineStat,INPUT1::ArrayViews.StridedView{Float64,1,0,Array{Float64,2}}),INPUT2::Float64 - (OnlineStatsTests.ReactTest.predict)(##16065::OnlineStats.OnlineStat,INPUT1::ArrayViews.StridedView{Float64,1,0,Array{Float64,2}}))::Tuple{Any,Any}
+outval: (-14.79659907544043,-14.591072488722883)
+Any[:($(Expr(:lambda, Any[:INPUT1,:INPUT2], Any[Any[Any[:INPUT1,ArrayViews.StridedView{Float64,1,0,Array{Float64,2}},0],Any[:INPUT2,Float64,0],Any[symbol("##15066"),OnlineStats.OnlineStat,18],Any[symbol("##15068"),OnlineStats.OnlineStat,18]],Any[Any[:reg1,Any,19],Any[:reg2,Any,19]],Any[],Any[]], :(begin  # /home/vagrant/.julia/v0.4/OnlineStats/src/react.jl, line 251:
+        ##15066 = (OnlineStatsTests.ReactTest.update_get!)(reg1,INPUT1::ArrayViews.StridedView{Float64,1,0,Array{Float64,2}},INPUT2::Float64)::OnlineStats.OnlineStat
+        ##15068 = (OnlineStatsTests.ReactTest.update_get!)(reg2,INPUT1::ArrayViews.StridedView{Float64,1,0,Array{Float64,2}},INPUT2::Float64)::OnlineStats.OnlineStat
+        return (top(tuple))(INPUT2::Float64 - (OnlineStatsTests.ReactTest.predict)(##15066::OnlineStats.OnlineStat,INPUT1::ArrayViews.StridedView{Float64,1,0,Array{Float64,2}}),INPUT2::Float64 - (OnlineStatsTests.ReactTest.predict)(##15068::OnlineStats.OnlineStat,INPUT1::ArrayViews.StridedView{Float64,1,0,Array{Float64,2}}))::Tuple{Any,Any}
     end::Tuple{Any,Any}))))]
-OnlineStats.SGModel{OnlineStats.ProxGrad,OnlineStats.L2Regression,OnlineStats.NoPenalty}{β=[0.8707467283163125,2.030318862750396,3.0375668108590457,3.9582100795993447,5.00818610886074] nobs=1000000}
-OnlineStats.SGModel{OnlineStats.SGD,OnlineStats.L2Regression,OnlineStats.NoPenalty}{β=[0.44511623235422876,2.1324536327739727,2.7652892973721968,3.693186197102055,5.0746368184338415] nobs=1000000}
-  0.258622 seconds (2.00 M allocations: 91.553 MB, 8.61% gc time)
-  1.274028 seconds (13.00 M allocations: 274.658 MB, 5.11% gc time)
+OnlineStats.StochasticModel{OnlineStats.ProxGrad,OnlineStats.L2Regression,OnlineStats.NoPenalty}{β=[0.9344607289532539,2.0177362463591995,2.8760693117254115,3.9746153205849053,4.920847418779908] nobs=1000000}
+OnlineStats.StochasticModel{OnlineStats.SGD,OnlineStats.L2Regression,OnlineStats.NoPenalty}{β=[0.9960310993458955,1.9937836807140386,3.0080006093457063,3.9905409393352724,5.008143205525209] nobs=1000000}
+  0.186115 seconds (2.00 M allocations: 91.553 MB, 10.38% gc time)
+  1.221126 seconds (13.00 M allocations: 274.658 MB, 5.28% gc time)
 Out of 14 total facts:
   Verified: 13
   Pending:  1
-Plotting
-  > traceplot
+Plots
 [Plots.jl] Initializing backend: gadfly
 0 facts verified.
 INFO: OnlineStats tests passed
@@ -520,27 +569,31 @@ INFO: Removing Calculus v0.1.14
 INFO: Removing Codecs v0.1.5
 INFO: Removing ColorTypes v0.2.0
 INFO: Removing Colors v0.6.0
-INFO: Removing Compose v0.3.18
+INFO: Removing Compose v0.4.0
 INFO: Removing Contour v0.0.8
 INFO: Removing DataArrays v0.2.20
 INFO: Removing DataFrames v0.6.10
 INFO: Removing DataStructures v0.3.13
+INFO: Removing Dates v0.4.4
 INFO: Removing Distances v0.2.1
+INFO: Removing Docile v0.5.19
 INFO: Removing DualNumbers v0.1.5
-INFO: Removing FactCheck v0.4.1
+INFO: Removing FactCheck v0.4.2
 INFO: Removing FixedPointNumbers v0.1.1
 INFO: Removing GLM v0.4.8
 INFO: Removing GZip v0.2.18
-INFO: Removing Gadfly v0.3.18
+INFO: Removing Gadfly v0.4.0
 INFO: Removing Grid v0.4.0
 INFO: Removing Hexagons v0.0.4
 INFO: Removing ImmutableArrays v0.0.11
 INFO: Removing Iterators v0.1.9
 INFO: Removing KernelDensity v0.1.2
 INFO: Removing Loess v0.0.5
+INFO: Removing Measures v0.0.1
 INFO: Removing NaNMath v0.1.1
 INFO: Removing Optim v0.4.4
-INFO: Removing Plots v0.4.2
+INFO: Removing Plots v0.5.0
+INFO: Removing Reexport v0.0.3
 INFO: Removing Showoff v0.0.6
 INFO: Removing SortingAlgorithms v0.0.6
 INFO: Removing WoodburyMatrices v0.1.2
