@@ -1,12 +1,14 @@
 >>> 'Pkg.add("Cbc")' log
-INFO: Installing Cbc v0.1.8
-INFO: Installing MathProgBase v0.3.19
+INFO: Installing Cbc v0.2.0
+INFO: Installing MathProgBase v0.4.0
 INFO: Building Cbc
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of Cbc
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Cbc")' log
-Julia Version 0.5.0-dev+1479
-Commit 9eb74d4 (2015-11-26 01:21 UTC)
+Julia Version 0.5.0-dev+1526
+Commit b775873 (2015-11-30 04:16 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
@@ -20,12 +22,12 @@ INFO: Cloning cache of JuMP from https://github.com/JuliaOpt/JuMP.jl.git
 INFO: Cloning cache of ReverseDiffSparse from https://github.com/mlubin/ReverseDiffSparse.jl.git
 INFO: Installing ArrayViews v0.6.4
 INFO: Installing Calculus v0.1.14
-INFO: Installing Clp v0.1.1
+INFO: Installing Clp v0.2.0
 INFO: Installing DataStructures v0.3.13
 INFO: Installing Docile v0.5.19
 INFO: Installing DualNumbers v0.1.5
 INFO: Installing FactCheck v0.4.2
-INFO: Installing JuMP v0.10.3
+INFO: Installing JuMP v0.11.1
 INFO: Installing NaNMath v0.1.1
 INFO: Installing ReverseDiffSparse v0.2.11
 INFO: Building Cbc
@@ -47,6 +49,12 @@ Cbc0001I Search completed - best objective -16, took 1 iterations and 0 nodes (0
 Cbc0035I Maximum depth 0, 4 variables fixed on reduced cost
 Total time (CPU seconds):       0.00   (Wallclock seconds):       0.00
 
+Problem LIN1
+Problem LIN1A
+Problem LIN2
+Problem LIN2A
+Problem LIN3
+Problem LIN4
 [print] JuMPContainer{Variable}
   > bound printing
   > index set printing
@@ -65,6 +73,8 @@ Total time (CPU seconds):       0.00   (Wallclock seconds):       0.00
 9 facts verified.
 [print] Variable
 32 facts verified.
+[print] User-created Array{Variable}
+6 facts verified.
 [variable] constructors
 11 facts verified.
 [variable] get and set bounds
@@ -98,15 +108,12 @@ WARNING: Variable value not defined for component of z. Check that the model was
 4 facts verified.
 [operator] Testing basic operator overloads
   > Number--???
-WARNING: The comparison operator >= has been deprecated for constructing constraints. Use the macro form @addConstraint instead.
-WARNING: The comparison operator == has been deprecated for constructing constraints. Use the macro form @addConstraint instead.
-WARNING: The comparison operator <= has been deprecated for constructing constraints. Use the macro form @addConstraint instead.
   > Variable--???
   > Norm--???
   > AffExpr--???
   > QuadExpr--???
   > SOCExpr--???
-347 facts verified.
+290 facts verified.
 [operator] Higher-level operators
   > sum
   > dot
@@ -118,27 +125,9 @@ Vectorized operations
   > Vectorized comparisons
 86 facts verified.
 [operator] JuMPArray concatenation
-WARNING: [a,b] concatenation is deprecated; use [a;b] instead
- in depwarn at deprecated.jl:73
- in oldstyle_vcat_warning at ./abstractarray.jl:29
- in vect at abstractarray.jl:32
- in anonymous at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:271
- in do_fact at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
- [inlined code] from /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:271
- in anonymous at /home/vagrant/.julia/v0.5/JuMP/test/operator.jl:803
- in facts at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include at ./boot.jl:260
- in include_from_node1 at ./loading.jl:392
- in include at ./boot.jl:260
- in include_from_node1 at ./loading.jl:392
- in include at ./boot.jl:260
- in include_from_node1 at ./loading.jl:392
- in process_options at ./client.jl:277
- in _start at ./client.jl:377
-while loading /home/vagrant/.julia/v0.5/JuMP/test/operator.jl, in expression starting on line 763
 9 facts verified.
 [macros] Check Julia expression parsing
-13 facts verified.
+17 facts verified.
 [macros] Check @addConstraint basics
 11 facts verified.
 [macros] Checking @defVar with reverse direction bounds
@@ -179,6 +168,8 @@ while loading /home/vagrant/.julia/v0.5/JuMP/test/operator.jl, in expression sta
 1 fact verified.
 [macros] Special-case binary multiplication in addToExpression_reorder (#537)
 3 facts verified.
+[macros] Indices in macros don't leak out of scope (#582)
+25 facts verified.
 [macros] Issue #621
 1 fact verified.
 [fuzzer] Check macros for expression construction
@@ -196,7 +187,7 @@ Warning, MPS does not support maximization sense. Flipping objective coefficient
 20 facts verified.
 [model] Test solving a MILP
   > With solver Cbc.CbcMathProgSolverInterface.CbcSolver
-9 facts verified.
+10 facts verified.
 [model] Test solving an LP (Min)
   > With solver Clp.ClpMathProgSolverInterface.ClpSolver
 19 facts verified.
@@ -250,8 +241,12 @@ Cbc3007W No integer variables - nothing to do
 1 fact verified.
 [model] Test getLinearIndex
 5 facts verified.
+[model] Test LinearConstraint from ConstraintRef
+1 fact verified.
 [model] Test getValue on OneIndexedArrays
 2 facts verified.
+[model] Relaxation keyword argument to solve
+20 facts verified.
 [model] Unrecognized keyword argument to solve
 1 fact verified.
 [probmod] Testing problem modification basics
@@ -275,11 +270,6 @@ Optimal - objective value 2.2
 After Postsolve, objective 2.2, infeasibilities - dual 0 (0), primal 0 (0)
 Optimal objective 2.2 - 0 iterations time 0.002, Presolve 0.00
 Cbc0045I Solution with objective value -2.2 saved
-Presolve 0 (-3) rows, 0 (-3) columns and 0 (-7) elements
-Optimal - objective value 101.1
-After Postsolve, objective 101.1, infeasibilities - dual 0 (0), primal 0 (0)
-Optimal objective 101.1 - 0 iterations time 0.002, Presolve 0.00
-Cbc0045I Solution with objective value -101.1 saved
 18 facts verified.
 [probmod] Test adding a range constraint and modifying it
 1 fact verified.
@@ -288,6 +278,11 @@ Cbc0045I Solution with objective value -101.1 saved
 2 facts verified.
 [probmod] Test buildInternalModel
   > With solver Clp.ClpMathProgSolverInterface.ClpSolver
+Presolve 0 (-3) rows, 0 (-3) columns and 0 (-7) elements
+Optimal - objective value 101.1
+After Postsolve, objective 101.1, infeasibilities - dual 0 (0), primal 0 (0)
+Optimal objective 101.1 - 0 iterations time 0.002, Presolve 0.00
+Cbc0045I Solution with objective value -101.1 saved
 8 facts verified.
 [probmod] Test buildInternalModel with MIP
   > With solver Cbc.CbcMathProgSolverInterface.CbcSolver
@@ -411,12 +406,12 @@ WARNING: Semidefinite tests not run!
 INFO: Cbc tests passed
 INFO: Removing ArrayViews v0.6.4
 INFO: Removing Calculus v0.1.14
-INFO: Removing Clp v0.1.1
+INFO: Removing Clp v0.2.0
 INFO: Removing DataStructures v0.3.13
 INFO: Removing Docile v0.5.19
 INFO: Removing DualNumbers v0.1.5
 INFO: Removing FactCheck v0.4.2
-INFO: Removing JuMP v0.10.3
+INFO: Removing JuMP v0.11.1
 INFO: Removing NaNMath v0.1.1
 INFO: Removing ReverseDiffSparse v0.2.11
 
