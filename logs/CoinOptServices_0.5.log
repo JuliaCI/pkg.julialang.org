@@ -12,8 +12,8 @@ INFO: Building CoinOptServices
 INFO: Package database updated
 
 >>> 'Pkg.test("CoinOptServices")' log
-Julia Version 0.5.0-dev+1526
-Commit b775873 (2015-11-30 04:16 UTC)
+Julia Version 0.5.0-dev+1968
+Commit e55c22a (2016-01-02 23:28 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
@@ -25,13 +25,12 @@ Platform Info:
 INFO: Computing test dependencies for CoinOptServices...
 INFO: Installing ArrayViews v0.6.4
 INFO: Installing Calculus v0.1.14
-INFO: Installing DataStructures v0.3.13
-INFO: Installing Docile v0.5.20
-INFO: Installing DualNumbers v0.1.5
+INFO: Installing DataStructures v0.4.1
+INFO: Installing DualNumbers v0.2.0
 INFO: Installing FactCheck v0.4.2
 INFO: Installing JuMP v0.11.1
 INFO: Installing NaNMath v0.1.1
-INFO: Installing ReverseDiffSparse v0.2.11
+INFO: Installing ReverseDiffSparse v0.3.0
 INFO: Testing CoinOptServices
 
 
@@ -169,8 +168,38 @@ WARNING: Variable value not defined for x. Check that the model was properly sol
 WARNING: The addition operator has been used on JuMP expressions a large number of times. This warning is safe to ignore but may indicate that model generation is slower than necessary. For performance reasons, you should not add expressions in a loop. Instead of x += y, use append!(x,y) to modify x in place. If y is a single variable, you may also use push!(x, coef, y) in place of x += coef*y.
 0 facts verified.
 [model] Test printing a model
+  Failure :: (line:-1) :: fact was false
+    Expression: strip(line) --> strip(modALP[lineInd])
+      Expected: "obj: .16666666666666666 VAR1 + .16666666666666666 VAR2 + 1 VAR3 + 1 VAR4"
+      Occurred: "obj: 0.16666666666666666 VAR1 + 0.16666666666666666 VAR2 + 1 VAR3 + 1 VAR4"
+  Failure :: (line:-1) :: fact was false
+    Expression: strip(line) --> strip(modALP[lineInd])
+      Expected: "c3: 1 VAR4 + 1 VAR5 + 1 VAR6 + .5 VAR1 <= 1"
+      Occurred: "c3: 1 VAR4 + 1 VAR5 + 1 VAR6 + 0.5 VAR1 <= 1"
+  Failure :: (line:-1) :: fact was false
+    Expression: strip(line) --> strip(modALP[lineInd])
+      Expected: "c4: 6 VAR2 + 1 VAR2 - 1 VAR3 - .5263157894736842 VAR7 <= 0"
+      Occurred: "c4: 6 VAR2 + 1 VAR2 - 1 VAR3 - 0.5263157894736842 VAR7 <= 0"
 Warning, MPS does not support maximization sense. Flipping objective coefficients.
-65 facts verified.
+  Failure :: (line:-1) :: fact was false
+    Expression: chomp(line) --> modAMPS[lineInd]
+      Expected: "    VAR1  CON2  .5"
+      Occurred: "    VAR1  CON2  0.5"
+  Failure :: (line:-1) :: fact was false
+    Expression: chomp(line) --> modAMPS[lineInd]
+      Expected: "    VAR1  OBJ  -.16666666666666666"
+      Occurred: "    VAR1  OBJ  -0.16666666666666666"
+  Failure :: (line:-1) :: fact was false
+    Expression: chomp(line) --> modAMPS[lineInd]
+      Expected: "    VAR2  OBJ  -.16666666666666666"
+      Occurred: "    VAR2  OBJ  -0.16666666666666666"
+  Failure :: (line:-1) :: fact was false
+    Expression: chomp(line) --> modAMPS[lineInd]
+      Expected: "    VAR7  CON3  -.5263157894736842"
+      Occurred: "    VAR7  CON3  -0.5263157894736842"
+Out of 65 total facts:
+  Verified: 58
+  Failed:   7
 [model] Quadratic MPS writer
 20 facts verified.
 [model] Test solving a MILP
@@ -248,58 +277,58 @@ Cbc3007W No integer variables - nothing to do
 
 NLP0012I 
               Num      Status      Obj             It       time                 Location
-NLP0014I             1         OPT -7639415.2        8 0.071015
-NLP0014I             2      INFEAS 1       13 0.048748
+NLP0014I             1         OPT -7639415.2        8 0.049169
+NLP0014I             2      INFEAS 1       13 0.082951
 Coin0506I Presolve 49 (-1) rows, 18 (-5) columns and 124 (-19) elements
 Clp0006I 0  Obj -5.7204592e+08 Primal inf 44942.181 (19) Dual inf 416619.86 (4)
 Clp0006I 6  Obj -7.4747283e+08
 Clp0000I Optimal - objective value -7.4747283e+08
 Clp0032I Optimal objective -747472832.6 - 6 iterations time 0.002, Presolve 0.00
 Clp0000I Optimal - objective value -7.4747283e+08
-Couenne: new cutoff value 6.9896992684e-09 (7.04671 seconds)
+Couenne: new cutoff value 6.9896992684e-09 (7.58829 seconds)
 NLP Heuristic: time limit reached.
 Clp0000I Optimal - objective value -7.4747283e+08
-Optimality Based BT: Couenne: new cutoff value -3.7947771136e-07 (7.04962 seconds)
+Optimality Based BT: Couenne: new cutoff value -3.7947771136e-07 (7.58829 seconds)
 0 improved bounds
 Probing: 0 improved bounds
 NLP Heuristic: no solution.
 Optimality Based BT: 0 improved bounds
 Optimality Based BT: 0 improved bounds
-Couenne: new cutoff value -3.5143102592e+06 (7.26902 seconds)
-Couenne: new cutoff value -4.9832192005e+06 (7.49096 seconds)
-Couenne: new cutoff value -6.3172319400e+06 (7.76699 seconds)
-Couenne: new cutoff value -7.6295948429e+06 (7.83407 seconds)
-Couenne: new cutoff value -7.6295948429e+06 (7.99595 seconds)
-Couenne: new cutoff value -7.6295948429e+06 (8.51357 seconds)
+Couenne: new cutoff value -3.5143102592e+06 (7.8111 seconds)
+Couenne: new cutoff value -4.9832192005e+06 (8.08516 seconds)
+Couenne: new cutoff value -6.3172319400e+06 (8.32605 seconds)
+Couenne: new cutoff value -7.6295948429e+06 (8.40954 seconds)
+Couenne: new cutoff value -7.6295948429e+06 (8.59631 seconds)
+Couenne: new cutoff value -7.6295948429e+06 (9.13075 seconds)
   Failure :: (line:-1) :: fact was false
     Expression: bestsubset(solver,X,y,2,500,true) --> roughly([106.25,53.7799,0.0,0.0],10TOL)
       Expected: [106.25298660651602,53.77801270022649,0.0,0.0] ≅ [106.25,53.7799,0.0,0.0]
 
 NLP0012I 
               Num      Status      Obj             It       time                 Location
-NLP0014I             1         OPT -7639415.2        8 0.036749
-NLP0014I             2      INFEAS 1       13 0.048714
+NLP0014I             1         OPT -7639415.2        8 0.051526
+NLP0014I             2      INFEAS 1       13 0.082619
 Coin0506I Presolve 49 (-1) rows, 18 (-5) columns and 124 (-19) elements
 Clp0006I 0  Obj -5.7204592e+08 Primal inf 44942.181 (19) Dual inf 416619.86 (4)
 Clp0006I 6  Obj -7.4747283e+08
 Clp0000I Optimal - objective value -7.4747283e+08
 Clp0032I Optimal objective -747472832.6 - 6 iterations time 0.002, Presolve 0.00
 Clp0000I Optimal - objective value -7.4747283e+08
-Couenne: new cutoff value 6.9896992684e-09 (6.69435 seconds)
+Couenne: new cutoff value 6.9896992684e-09 (7.6296 seconds)
 NLP Heuristic: time limit reached.
 Clp0000I Optimal - objective value -7.4747283e+08
-Optimality Based BT: Couenne: new cutoff value -3.7947771136e-07 (6.69435 seconds)
+Optimality Based BT: Couenne: new cutoff value -3.7947771136e-07 (7.6296 seconds)
 0 improved bounds
 Probing: 0 improved bounds
 NLP Heuristic: no solution.
 Optimality Based BT: 0 improved bounds
 Optimality Based BT: 0 improved bounds
-Couenne: new cutoff value -3.5143102592e+06 (6.86361 seconds)
-Couenne: new cutoff value -4.9832192005e+06 (7.08941 seconds)
-Couenne: new cutoff value -6.3172319400e+06 (7.37898 seconds)
-Couenne: new cutoff value -7.6295948429e+06 (7.47537 seconds)
-Couenne: new cutoff value -7.6295948429e+06 (7.70719 seconds)
-Couenne: new cutoff value -7.6295948429e+06 (8.37105 seconds)
+Couenne: new cutoff value -3.5143102592e+06 (7.87581 seconds)
+Couenne: new cutoff value -4.9832192005e+06 (8.1477 seconds)
+Couenne: new cutoff value -6.3172319400e+06 (8.469 seconds)
+Couenne: new cutoff value -7.6295948429e+06 (8.58281 seconds)
+Couenne: new cutoff value -7.6295948429e+06 (8.74084 seconds)
+Couenne: new cutoff value -7.6295948429e+06 (9.13548 seconds)
   Failure :: (line:-1) :: fact was false
     Expression: bestsubset(solver,sparse(X),y,2,500,true) --> roughly([106.25,53.7799,0.0,0.0],10TOL)
       Expected: [106.25298660651602,53.77801270022649,0.0,0.0] ≅ [106.25,53.7799,0.0,0.0]
@@ -353,13 +382,13 @@ Cbc0045I Solution with objective value -2.2 saved
   > With solver CoinOptServices.OsilSolver
 
 
-
-
 Presolve 0 (-3) rows, 0 (-3) columns and 0 (-7) elements
 Optimal - objective value 101.1
 After Postsolve, objective 101.1, infeasibilities - dual 0 (0), primal 0 (0)
 Optimal objective 101.1 - 0 iterations time 0.002, Presolve 0.00
 Cbc0045I Solution with objective value -101.1 saved
+
+
 
 
 36 facts verified.
@@ -430,8 +459,8 @@ WARNING: Callback tests not run!
 
 NLP0012I 
               Num      Status      Obj             It       time                 Location
-NLP0014I             1         OPT 247        6 0.002211
-Couenne: new cutoff value 2.4700000000e+02 (0.012734 seconds)
+NLP0014I             1         OPT 247        6 0
+Couenne: new cutoff value 2.4700000000e+02 (0 seconds)
 Coin0506I Presolve 0 (-4) rows, 0 (-8) columns and 0 (-10) elements
 Clp0000I Optimal - objective value 247
 Clp0032I Optimal objective 247 - 0 iterations time 0.002, Presolve 0.00
@@ -442,8 +471,8 @@ Clp0000I Optimal - objective value 247
 
 NLP0012I 
               Num      Status      Obj             It       time                 Location
-NLP0014I             1         OPT 247        6 0.006752
-Couenne: new cutoff value 2.4700000000e+02 (0.018048 seconds)
+NLP0014I             1         OPT 247        6 0.006944
+Couenne: new cutoff value 2.4700000000e+02 (0.021217 seconds)
 Coin0506I Presolve 0 (-4) rows, 0 (-8) columns and 0 (-10) elements
 Clp0000I Optimal - objective value 247
 Clp0032I Optimal objective 247 - 0 iterations time 0.002, Presolve 0.00
@@ -454,8 +483,8 @@ Clp0000I Optimal - objective value 247
 
 NLP0012I 
               Num      Status      Obj             It       time                 Location
-NLP0014I             1         OPT 247        7 0.003194
-Couenne: new cutoff value 2.4700000000e+02 (0.016943 seconds)
+NLP0014I             1         OPT 247        7 0.002704
+Couenne: new cutoff value 2.4700000000e+02 (0.014261 seconds)
 Coin0506I Presolve 0 (-4) rows, 0 (-8) columns and 0 (-10) elements
 Clp0000I Optimal - objective value 247
 Clp0032I Optimal objective 247 - 0 iterations time 0.002, Presolve 0.00
@@ -466,8 +495,8 @@ Clp0000I Optimal - objective value 247
 
 NLP0012I 
               Num      Status      Obj             It       time                 Location
-NLP0014I             1         OPT 247        6 0.006327
-Couenne: new cutoff value 2.4700000000e+02 (0.018768 seconds)
+NLP0014I             1         OPT 247        6 0
+Couenne: new cutoff value 2.4700000000e+02 (0.013219 seconds)
 Coin0506I Presolve 0 (-4) rows, 0 (-8) columns and 0 (-10) elements
 Clp0000I Optimal - objective value 247
 Clp0032I Optimal objective 247 - 0 iterations time 0.002, Presolve 0.00
@@ -478,8 +507,8 @@ Clp0000I Optimal - objective value 247
 
 NLP0012I 
               Num      Status      Obj             It       time                 Location
-NLP0014I             1         OPT 247        7 0.001585
-Couenne: new cutoff value 2.4700000000e+02 (0.013323 seconds)
+NLP0014I             1         OPT 247        7 0.003148
+Couenne: new cutoff value 2.4700000000e+02 (0.014041 seconds)
 Coin0506I Presolve 0 (-4) rows, 0 (-8) columns and 0 (-10) elements
 Clp0000I Optimal - objective value 247
 Clp0032I Optimal objective 247 - 0 iterations time 0.002, Presolve 0.00
@@ -490,8 +519,8 @@ Clp0000I Optimal - objective value 247
 
 NLP0012I 
               Num      Status      Obj             It       time                 Location
-NLP0014I             1         OPT 247        6 0.001295
-Couenne: new cutoff value 2.4700000000e+02 (0.013625 seconds)
+NLP0014I             1         OPT 247        6 0.010601
+Couenne: new cutoff value 2.4700000000e+02 (0.021362 seconds)
 Coin0506I Presolve 0 (-4) rows, 0 (-8) columns and 0 (-10) elements
 Clp0000I Optimal - objective value 247
 Clp0032I Optimal objective 247 - 0 iterations time 0.002, Presolve 0.00
@@ -534,11 +563,11 @@ WARNING: Variable type not provided for variables 4:6, assuming Continuous
 
   > With solver CoinOptServices.OsilSolver
 
-Couenne: new cutoff value 0.0000000000e+00 (0.013198 seconds)
+Couenne: new cutoff value 0.0000000000e+00 (0.018673 seconds)
 NLP0012I 
               Num      Status      Obj             It       time                 Location
-NLP0014I             1         OPT -3.3094011       14 0.004455
-Couenne: new cutoff value -2.0000000000e+00 (0.018722 seconds)
+NLP0014I             1         OPT -3.3094011       14 0.021621
+Couenne: new cutoff value -2.0000000000e+00 (0.042432 seconds)
 NLP0014I             2         OPT -2        0 0
 Coin0506I Presolve 9 (0) rows, 6 (-1) columns and 22 (-1) elements
 Clp0006I 0  Obj -2 Primal inf 1.999999 (1) Dual inf 0.999999 (1)
@@ -546,12 +575,12 @@ Clp0006I 5  Obj -4
 Clp0000I Optimal - objective value -4
 Clp0032I Optimal objective -4 - 5 iterations time 0.002, Presolve 0.00
 Clp0000I Optimal - objective value -4
-NLP Heuristic: NLP0014I             3         OPT -3.3094011        9 0
+NLP Heuristic: NLP0014I             3         OPT -3.3094011        9 0.007209
 no solution.
 Clp0000I Optimal - objective value -4
 Optimality Based BT: 2 improved bounds
 Probing: 1 improved bounds
-NLP Heuristic: Couenne: new cutoff value -3.0000000000e+00 (0.018722 seconds)
+NLP Heuristic: Couenne: new cutoff value -3.0000000000e+00 (0.049641 seconds)
 no solution.
 Optimality Based BT: 0 improved bounds
 6 facts verified.
@@ -611,26 +640,26 @@ WARNING: Variable type not provided for variables 4:7, assuming Continuous
 
   > With solver CoinOptServices.OsilSolver
 
-Couenne: new cutoff value 1.0000000000e+01 (0.007678 seconds)
+Couenne: new cutoff value 1.0000000000e+01 (0.004177 seconds)
 NLP0012I 
               Num      Status      Obj             It       time                 Location
-NLP0014I             1         OPT 0.75928418        9 0.007949
-NLP0014I             2      INFEAS 0.99999999       14 0.004039
+NLP0014I             1         OPT 0.75928418        9 0.002695
+NLP0014I             2      INFEAS 0.99999999       14 0.0053
 Coin0506I Presolve 20 (-2) rows, 10 (-7) columns and 53 (-8) elements
 Clp0006I 0  Obj 10.0011 Primal inf 2.4306479 (3) Dual inf 19.199999 (1)
 Clp0006I 12  Obj 0.50999604
 Clp0000I Optimal - objective value 0.50999604
 Clp0032I Optimal objective 0.5099960377 - 12 iterations time 0.002, Presolve 0.00
 Clp0000I Optimal - objective value 0.50999604
-NLP Heuristic: NLP0014I             3         OPT 9.9999997       13 1.7e-05
-Couenne: new cutoff value 9.9999997410e+00 (0.019913 seconds)
+NLP Heuristic: NLP0014I             3         OPT 9.9999997       13 0.008104
+Couenne: new cutoff value 9.9999997410e+00 (0.020441 seconds)
 solution found, obj. 10
 Clp0000I Optimal - objective value 0.50999604
-Optimality Based BT: Couenne: new cutoff value 8.2249788040e+00 (0.019913 seconds)
-Couenne: new cutoff value 7.9066440576e+00 (0.019913 seconds)
+Optimality Based BT: Couenne: new cutoff value 8.2249788040e+00 (0.024109 seconds)
+Couenne: new cutoff value 7.9066440576e+00 (0.024197 seconds)
 5 improved bounds
 Probing: 0 improved bounds
-NLP Heuristic: Couenne: new cutoff value 6.0097589010e+00 (0.035897 seconds)
+NLP Heuristic: Couenne: new cutoff value 6.0097589010e+00 (0.028076 seconds)
 solution found, obj. 6.00976
 Optimality Based BT: 8 improved bounds
 8 facts verified.
@@ -718,15 +747,15 @@ Optimality Based BT: 8 improved bounds
 [sdp] Robust uncertainty example (with norms)
 0 facts verified.
 WARNING: Semidefinite tests not run!
-ERROR: LoadError: LoadError: FactCheck finished with 2 non-successful tests.
+ERROR: LoadError: LoadError: FactCheck finished with 9 non-successful tests.
  in error at ./error.jl:21
  in exitstatus at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:563
- in include at ./boot.jl:260
- in include_from_node1 at ./loading.jl:392
- in include at ./boot.jl:260
- in include_from_node1 at ./loading.jl:392
- in process_options at ./client.jl:277
- in _start at ./client.jl:377
+ in include at ./boot.jl:262
+ in include_from_node1 at ./loading.jl:401
+ in include at ./boot.jl:262
+ in include_from_node1 at ./loading.jl:401
+ in process_options at ./client.jl:245
+ in _start at ./client.jl:301
 while loading /home/vagrant/.julia/v0.5/JuMP/test/runtests.jl, in expression starting on line 41
 while loading /home/vagrant/.julia/v0.5/CoinOptServices/test/runtests.jl, in expression starting on line 26
 ===========================[ ERROR: CoinOptServices ]===========================
@@ -736,23 +765,21 @@ failed process: Process(`/home/vagrant/julia/bin/julia --check-bounds=yes --code
 ================================================================================
 INFO: Removing ArrayViews v0.6.4
 INFO: Removing Calculus v0.1.14
-INFO: Removing DataStructures v0.3.13
-INFO: Removing Docile v0.5.20
-INFO: Removing DualNumbers v0.1.5
+INFO: Removing DataStructures v0.4.1
+INFO: Removing DualNumbers v0.2.0
 INFO: Removing FactCheck v0.4.2
 INFO: Removing JuMP v0.11.1
 INFO: Removing NaNMath v0.1.1
-INFO: Removing ReverseDiffSparse v0.2.11
+INFO: Removing ReverseDiffSparse v0.3.0
 ERROR: Base.Pkg.PkgError("CoinOptServices had test errors")
- [inlined code] from iostream.jl:207
- in __test#370__ at pkg/entry.jl:671
+ in test at pkg/entry.jl:671
  in anonymous at pkg/dir.jl:31
  in cd at file.jl:47
  in cd at pkg/dir.jl:31
- in test at pkg.jl:55
- in eval at ./boot.jl:263
+ in test at pkg.jl:228
+ in eval at ./boot.jl:265
  [inlined code] from ./sysimg.jl:14
- in process_options at ./client.jl:254
- in _start at ./client.jl:377
+ in process_options at ./client.jl:222
+ in _start at ./client.jl:301
 
 >>> End of log
