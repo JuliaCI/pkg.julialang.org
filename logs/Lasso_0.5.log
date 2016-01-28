@@ -1,7 +1,7 @@
 >>> 'Pkg.add("Lasso")' log
 INFO: Cloning cache of Lasso from https://github.com/simonster/Lasso.jl.git
-INFO: Installing Distributions v0.8.8
-INFO: Installing GLM v0.4.8
+INFO: Installing Distributions v0.8.9
+INFO: Installing GLM v0.5.0
 INFO: Installing Lasso v0.0.4
 INFO: Installing PDMats v0.3.6
 INFO: Package database updated
@@ -9,8 +9,8 @@ INFO: METADATA is out-of-date — you may not have the latest version of Lasso
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Lasso")' log
-Julia Version 0.5.0-dev+1968
-Commit e55c22a (2016-01-02 23:28 UTC)
+Julia Version 0.5.0-dev+2335
+Commit 5b1b0c5 (2016-01-28 04:34 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
@@ -18,12 +18,19 @@ Platform Info:
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
   LIBM: libopenlibm
-  LLVM: libLLVM-3.3
+  LLVM: libLLVM-3.7.1
 INFO: Computing test dependencies for Lasso...
 INFO: Installing FactCheck v0.4.2
 INFO: Installing GLMNet v0.0.5
 INFO: Building GLMNet
 INFO: Testing Lasso
+WARNING: New definition 
+    write(GZip.GZipStream, Array{#T<:Any, N<:Any}) at /home/vagrant/.julia/v0.5/GZip/src/GZip.jl:456
+is ambiguous with: 
+    write(Base.IO, Array{UInt8, N<:Any}) at io.jl:154.
+To fix, define 
+    write(GZip.GZipStream, Array{UInt8, N<:Any})
+before the new definition.
 LassoPath
   > Normal IdentityLink
     > dense
@@ -161,16 +168,32 @@ LassoPath
               > covariance
                 > as Matrix
                 > as SparseMatrixCSC
+                  Failure :: (line:725) :: as SparseMatrixCSC :: fact was false
+                    Expression: l.niter --> niter
+                      Expected: 363
+                      Occurred: 364
               > naive
                 > as Matrix
                 > as SparseMatrixCSC
+                  Failure :: (line:725) :: as SparseMatrixCSC :: fact was false
+                    Expression: l.niter --> niter
+                      Expected: 363
+                      Occurred: 364
             > random
               > covariance
                 > as Matrix
                 > as SparseMatrixCSC
+                  Failure :: (line:725) :: as SparseMatrixCSC :: fact was false
+                    Expression: l.niter --> niter
+                      Expected: 378
+                      Occurred: 381
               > naive
                 > as Matrix
                 > as SparseMatrixCSC
+                  Failure :: (line:725) :: as SparseMatrixCSC :: fact was false
+                    Expression: l.niter --> niter
+                      Expected: 378
+                      Occurred: 381
           > w/ offset
             > sequential
               > covariance
@@ -199,9 +222,17 @@ LassoPath
               > covariance
                 > as Matrix
                 > as SparseMatrixCSC
+                  Failure :: (line:725) :: as SparseMatrixCSC :: fact was false
+                    Expression: l.niter --> niter
+                      Expected: 402
+                      Occurred: 395
               > naive
                 > as Matrix
                 > as SparseMatrixCSC
+                  Failure :: (line:725) :: as SparseMatrixCSC :: fact was false
+                    Expression: l.niter --> niter
+                      Expected: 402
+                      Occurred: 395
           > w/ offset
             > sequential
               > covariance
@@ -790,7 +821,9 @@ LassoPath
               > naive
                 > as Matrix
                 > as SparseMatrixCSC
-1056 facts verified.
+Out of 1056 total facts:
+  Verified: 1050
+  Failed:   6
 WARNING: The `=>` syntax is deprecated, use `-->` instead
 FusedLasso
   > λ = 10
@@ -816,8 +849,30 @@ TrendFiltering
     > lambda = 10.0
     > lambda = 100.0
 9 facts verified.
-INFO: Lasso tests passed
+ERROR: LoadError: FactCheck finished with 6 non-successful tests.
+ in error at ./error.jl:21
+ in exitstatus at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:563
+ in include at ./boot.jl:262
+ in include_from_node1 at ./loading.jl:417
+ in process_options at ./client.jl:245
+ in _start at ./client.jl:301
+while loading /home/vagrant/.julia/v0.5/Lasso/test/runtests.jl, in expression starting on line 7
+================================[ ERROR: Lasso ]================================
+
+failed process: Process(`/home/vagrant/julia/bin/julia --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.5/Lasso/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing FactCheck v0.4.2
 INFO: Removing GLMNet v0.0.5
+ERROR: Base.Pkg.PkgError("Lasso had test errors")
+ in test at ./pkg/entry.jl:671
+ in anonymous at ./pkg/dir.jl:31
+ in cd at ./file.jl:47
+ in cd at ./pkg/dir.jl:31
+ in test at ./pkg.jl:228
+ in eval at ./boot.jl:265
+ [inlined code] from ./sysimg.jl:14
+ in process_options at ./client.jl:222
+ in _start at ./client.jl:301
 
 >>> End of log
