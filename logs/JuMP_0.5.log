@@ -1,16 +1,20 @@
 >>> 'Pkg.add("JuMP")' log
 INFO: Installing Calculus v0.1.14
-INFO: Installing DataStructures v0.4.2
-INFO: Installing DualNumbers v0.2.1
-INFO: Installing JuMP v0.11.3
-INFO: Installing MathProgBase v0.4.1
+INFO: Installing DataStructures v0.4.3
+INFO: Installing ForwardDiff v0.1.6
+INFO: Installing JuMP v0.12.0
+INFO: Installing Lazy v0.10.1
+INFO: Installing MacroTools v0.3.0
+INFO: Installing MathProgBase v0.4.2
 INFO: Installing NaNMath v0.2.0
-INFO: Installing ReverseDiffSparse v0.3.0
+INFO: Installing ReverseDiffSparse v0.5.3
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of JuMP
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("JuMP")' log
-Julia Version 0.5.0-dev+2440
-Commit 2bb94d6 (2016-02-01 02:22 UTC)
+Julia Version 0.5.0-dev+2918
+Commit 1eacbbb (2016-02-28 16:56 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
@@ -26,7 +30,7 @@ INFO: Installing ECOS v0.6.1
 INFO: Installing FactCheck v0.4.2
 INFO: Installing GLPK v0.2.17
 INFO: Installing GLPKMathProgInterface v0.2.0
-INFO: Installing Ipopt v0.2.0
+INFO: Installing Ipopt v0.2.1
 INFO: Installing SCS v0.2.0
 INFO: Building Cbc
 INFO: Building ECOS
@@ -68,9 +72,6 @@ INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.5/Clp.ji for modu
 1 fact verified.
 [variable] condition in indexing
 3 facts verified.
-[variable] JuMPContainer iteration
-WARNING: Iteration over JuMP containers is deprecated. Use keys(d) and values(d) instead
-87 facts verified.
 [variable] @defVar returning Array{Variable}
 WARNING: Variable value not defined for component of x. Check that the model was properly solved.
 WARNING: Variable value not defined for component of z. Check that the model was properly solved.
@@ -80,12 +81,10 @@ WARNING: Variable value not defined for component of z. Check that the model was
 [expr] Test expression construction
   > AffExpr
   > QuadExpr
-6 facts verified.
+8 facts verified.
 [expr] Test getValue(expr)
 2 facts verified.
 [expr] Test expression iterators
-4 facts verified.
-[expr] Test in(::Variable, ::AffExpr)
 4 facts verified.
 [operator] Testing basic operator overloads
   > Number--???
@@ -98,7 +97,7 @@ WARNING: Variable value not defined for component of z. Check that the model was
 [operator] Higher-level operators
   > sum
   > dot
-17 facts verified.
+18 facts verified.
 Vectorized operations
   > Transpose
   > Vectorized arithmetic
@@ -137,8 +136,10 @@ Vectorized operations
 158 facts verified.
 [macros] Multidimensional indexing
 1 fact verified.
+WARNING: The two-argument version of @defExpr is deprecated. The corresponding JuMP model is now required as the first argument. The new syntax is @defExpr(<JuMP model>, <name of expression(s)>, <expression>)
+WARNING: The one-argument version of @defExpr is deprecated. The corresponding JuMP model is now required as the first argument, and a name for the expression or collection of expressions is required as the second argument. The new syntax is @defExpr(<JuMP model>, <name of expression(s)>, <expression>)
 [macros] @defExpr
-4 facts verified.
+6 facts verified.
 [macros] Conditions in constraint indexing
 7 facts verified.
 [macros] Test changes in condition parsing
@@ -157,8 +158,6 @@ Vectorized operations
 WARNING: Base.SparseMatrix is deprecated.
   likely near /home/vagrant/.julia/v0.5/GLPK/src/GLPK.jl:812
 INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.5/Ipopt.ji for module Ipopt.
-WARNING: Method definition eval_f_cb(Any) in module Ipopt at /home/vagrant/.julia/v0.5/Ipopt/src/IpoptSolverInterface.jl:49 overwritten at /home/vagrant/.julia/v0.5/Ipopt/src/IpoptSolverInterface.jl:51.
-WARNING: Method definition eval_grad_f_cb(Any, Any) in module Ipopt at /home/vagrant/.julia/v0.5/Ipopt/src/IpoptSolverInterface.jl:56 overwritten at /home/vagrant/.julia/v0.5/Ipopt/src/IpoptSolverInterface.jl:58.
 INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.5/ECOS.ji for module ECOS.
 INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.5/SCS.ji for module SCS.
 [model] Check error cases
@@ -188,309 +187,22 @@ This program contains Ipopt, a library for large-scale nonlinear optimization.
          For more information visit http://projects.coin-or.org/Ipopt
 ******************************************************************************
 
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getObjectiveValue(modA) --> roughly(-5.8446115,TOL)
-        Expected: 1.333333307744513 ≅ -5.8446115
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(x) --> roughly(0.9774436,TOL)
-        Expected: 1.587850399410312 ≅ 0.9774436
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(y) --> roughly(1.0225563,TOL)
-        Expected: 0.41214959662623735 ≅ 1.0225563
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(z) --> roughly(4.0,TOL)
-        Expected: 2.0 ≅ 4.0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getValue(r))[3] --> roughly(0.5112781,TOL)
-        Expected: 0.0 ≅ 0.5112781
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getValue(r))[4] --> roughly(0.0,TOL)
-        Expected: 0.0751144526549715 ≅ 0.0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getValue(r))[5] --> roughly(0.0,TOL)
-        Expected: 0.07765426869995982 ≅ 0.0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getValue(r))[6] --> roughly(6.0,TOL)
-        Expected: 2.2017708602267043 ≅ 6.0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getDual(z) --> roughly(-1.0714286,TOL)
-        Expected: 0.999999998418049 ≅ -1.0714286
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getDual(r))[3] --> roughly(0.0,TOL)
-        Expected: 1.0000000266030566 ≅ 0.0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getDual(r))[4] --> roughly(1.0,TOL)
-        Expected: 2.66030568184169e-8 ≅ 1.0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getDual(r))[5] --> roughly(1.0,TOL)
-        Expected: 2.6603056818418276e-8 ≅ 1.0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getDual(r))[6] --> roughly(-0.03759398,TOL)
-        Expected: -8.326058155687319e-10 ≅ -0.03759398
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getDual(cons))[1] --> roughly(0.333333,TOL)
-        Expected: 0.16666667829683418 ≅ 0.333333
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getDual(cons))[2] --> roughly(-1.0,TOL)
-        Expected: -2.660305681841674e-8 ≅ -1.0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getDual(cons))[3] --> roughly(-0.0714286,TOL)
-        Expected: -1.5819510495808368e-9 ≅ -0.0714286
   > With solver ECOS.ECOSSolver
   > With solver SCS.SCSSolver
-Out of 95 total facts:
-  Verified: 79
-  Failed:   16
+95 facts verified.
 [model] Test solving an LP (Max)
   > With solver Clp.ClpMathProgSolverInterface.ClpSolver
   > With solver GLPKMathProgInterface.GLPKInterfaceLP.GLPKSolverLP
   > With solver Ipopt.IpoptSolver
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: solve(modA) --> :(:Optimal)
-      UndefVarError: eval_f_cb not defined
-       in loadproblem!(MathProgBase.SolverInterface.#loadproblem!, Ipopt.IpoptMathProgModel, Int64, Int64, Array{Float64,1}, Array{Float64,1}, Array{Float64,1}, Array{Float64,1}, Symbol, MathProgBase.SolverInterface.LPQPEvaluator) at /home/vagrant/.julia/v0.5/Ipopt/src/IpoptSolverInterface.jl:98
-       in optimize!(MathProgBase.SolverInterface.#optimize!, MathProgBase.SolverInterface.NonlinearToLPQPBridge) at /home/vagrant/.julia/v0.5/MathProgBase/src/SolverInterface/nonlinear_to_lpqp.jl:66
-       in #solve#49(JuMP.##solve#49, Bool, Bool, Bool, Array{Any,1}, Any, JuMP.Model) at /home/vagrant/.julia/v0.5/JuMP/src/solvers.jl:88
-       in do_fact(FactCheck.#do_fact, ##2560#2600, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:363
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getObjectiveValue(modA) --> roughly(5.8446115,TOL)
-        Expected: 0 ≅ 5.8446115
-WARNING: Variable value not defined for x. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(x) --> roughly(0.9774436,TOL)
-        Expected: NaN ≅ 0.9774436
-WARNING: Variable value not defined for y. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(y) --> roughly(1.0225563,TOL)
-        Expected: NaN ≅ 1.0225563
-WARNING: Variable value not defined for z. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(z) --> roughly(4.0,TOL)
-        Expected: NaN ≅ 4.0
-WARNING: Variable value not defined for entry of r. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getValue(r))[3] --> roughly(0.5112781,TOL)
-        Expected: NaN ≅ 0.5112781
-WARNING: Variable value not defined for entry of r. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getValue(r))[4] --> roughly(0.0,TOL)
-        Expected: NaN ≅ 0.0
-WARNING: Variable value not defined for entry of r. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getValue(r))[5] --> roughly(0.0,TOL)
-        Expected: NaN ≅ 0.0
-WARNING: Variable value not defined for entry of r. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getValue(r))[6] --> roughly(6.0,TOL)
-        Expected: NaN ≅ 6.0
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: getDual(x) --> roughly(0.0,TOL)
-      Variable bound duals (reduced costs) not available. Check that the model was properly solved and no integer variables are present.
-       in getDual(JuMP.#getDual, JuMP.Variable) at /home/vagrant/.julia/v0.5/JuMP/src/JuMP.jl:420
-       in do_fact(FactCheck.#do_fact, ##2578#2618, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:374
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: getDual(y) --> roughly(0.0,TOL)
-      Variable bound duals (reduced costs) not available. Check that the model was properly solved and no integer variables are present.
-       in getDual(JuMP.#getDual, JuMP.Variable) at /home/vagrant/.julia/v0.5/JuMP/src/JuMP.jl:420
-       in do_fact(FactCheck.#do_fact, ##2580#2620, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:375
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: getDual(z) --> roughly(1.0714286,TOL)
-      Variable bound duals (reduced costs) not available. Check that the model was properly solved and no integer variables are present.
-       in getDual(JuMP.#getDual, JuMP.Variable) at /home/vagrant/.julia/v0.5/JuMP/src/JuMP.jl:420
-       in do_fact(FactCheck.#do_fact, ##2582#2622, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:376
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: (getDual(r))[3] --> roughly(0.0,TOL)
-      Variable bound duals (reduced costs) not available. Check that the model was properly solved and no integer variables are present.
-       [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/JuMP.jl:420
-       in map(Base.#map, JuMP.#getDual, Array{JuMP.Variable,1}) at ./abstractarray.jl:1327
-       in getDual(JuMP.#getDual, JuMP.JuMPArray##38515{JuMP.Variable}) at /home/vagrant/.julia/v0.5/JuMP/src/JuMPContainer.jl:179
-       in do_fact(FactCheck.#do_fact, ##2584#2624, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:377
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: (getDual(r))[4] --> roughly(-1.0,TOL)
-      Variable bound duals (reduced costs) not available. Check that the model was properly solved and no integer variables are present.
-       [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/JuMP.jl:420
-       in map(Base.#map, JuMP.#getDual, Array{JuMP.Variable,1}) at ./abstractarray.jl:1327
-       in getDual(JuMP.#getDual, JuMP.JuMPArray##38515{JuMP.Variable}) at /home/vagrant/.julia/v0.5/JuMP/src/JuMPContainer.jl:179
-       in do_fact(FactCheck.#do_fact, ##2586#2626, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:378
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: (getDual(r))[5] --> roughly(-1.0,TOL)
-      Variable bound duals (reduced costs) not available. Check that the model was properly solved and no integer variables are present.
-       [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/JuMP.jl:420
-       in map(Base.#map, JuMP.#getDual, Array{JuMP.Variable,1}) at ./abstractarray.jl:1327
-       in getDual(JuMP.#getDual, JuMP.JuMPArray##38515{JuMP.Variable}) at /home/vagrant/.julia/v0.5/JuMP/src/JuMPContainer.jl:179
-       in do_fact(FactCheck.#do_fact, ##2588#2628, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:379
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: (getDual(r))[6] --> roughly(0.03759398,TOL)
-      Variable bound duals (reduced costs) not available. Check that the model was properly solved and no integer variables are present.
-       [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/JuMP.jl:420
-       in map(Base.#map, JuMP.#getDual, Array{JuMP.Variable,1}) at ./abstractarray.jl:1327
-       in getDual(JuMP.#getDual, JuMP.JuMPArray##38515{JuMP.Variable}) at /home/vagrant/.julia/v0.5/JuMP/src/JuMPContainer.jl:179
-       in do_fact(FactCheck.#do_fact, ##2590#2630, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:380
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: (getDual(cons))[1] --> roughly(-0.333333,TOL)
-      Dual solution not available. Check that the model was properly solved and no integer variables are present.
-       in getDual(JuMP.#getDual, JuMP.ConstraintRef{JuMP.GenericRangeConstraint{JuMP.GenericAffExpr{Float64,JuMP.Variable}}}) at /home/vagrant/.julia/v0.5/JuMP/src/JuMP.jl:523
-       in map(Base.#map, JuMP.#getDual, Array{JuMP.ConstraintRef{T<:JuMP.JuMPConstraint},1}) at ./abstractarray.jl:1327
-       in getDual(JuMP.#getDual, Array{JuMP.ConstraintRef{T<:JuMP.JuMPConstraint},1}) at /home/vagrant/.julia/v0.5/JuMP/src/JuMPContainer.jl:179
-       in do_fact(FactCheck.#do_fact, ##2592#2632, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:383
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: (getDual(cons))[2] --> roughly(1.0,TOL)
-      Dual solution not available. Check that the model was properly solved and no integer variables are present.
-       in getDual(JuMP.#getDual, JuMP.ConstraintRef{JuMP.GenericRangeConstraint{JuMP.GenericAffExpr{Float64,JuMP.Variable}}}) at /home/vagrant/.julia/v0.5/JuMP/src/JuMP.jl:523
-       in map(Base.#map, JuMP.#getDual, Array{JuMP.ConstraintRef{T<:JuMP.JuMPConstraint},1}) at ./abstractarray.jl:1327
-       in getDual(JuMP.#getDual, Array{JuMP.ConstraintRef{T<:JuMP.JuMPConstraint},1}) at /home/vagrant/.julia/v0.5/JuMP/src/JuMPContainer.jl:179
-       in do_fact(FactCheck.#do_fact, ##2594#2634, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:384
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: (getDual(cons))[3] --> roughly(0.0714286,TOL)
-      Dual solution not available. Check that the model was properly solved and no integer variables are present.
-       in getDual(JuMP.#getDual, JuMP.ConstraintRef{JuMP.GenericRangeConstraint{JuMP.GenericAffExpr{Float64,JuMP.Variable}}}) at /home/vagrant/.julia/v0.5/JuMP/src/JuMP.jl:523
-       in map(Base.#map, JuMP.#getDual, Array{JuMP.ConstraintRef{T<:JuMP.JuMPConstraint},1}) at ./abstractarray.jl:1327
-       in getDual(JuMP.#getDual, Array{JuMP.ConstraintRef{T<:JuMP.JuMPConstraint},1}) at /home/vagrant/.julia/v0.5/JuMP/src/JuMPContainer.jl:179
-       in do_fact(FactCheck.#do_fact, ##2596#2636, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:385
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
   > With solver ECOS.ECOSSolver
   > With solver SCS.SCSSolver
-Out of 95 total facts:
-  Verified: 76
-  Failed:   8
-  Errored:  11
+95 facts verified.
 [model] Test binary variable handling
   > With solver Cbc.CbcMathProgSolverInterface.CbcSolver
   > With solver GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP
 4 facts verified.
 [model] Test model copying
-29 facts verified.
+28 facts verified.
 [model] Test variable/model 'hygiene'
   > Linear constraint
   > Linear objective
@@ -515,24 +227,13 @@ Warning, MPS does not support maximization sense. Flipping objective coefficient
   > With solver Clp.ClpMathProgSolverInterface.ClpSolver
   > With solver GLPKMathProgInterface.GLPKInterfaceLP.GLPKSolverLP
   > With solver Ipopt.IpoptSolver
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(x[i]) --> roughly(0,TOL)
-        Expected: 2.0 ≅ 0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(x[i]) --> roughly(0,TOL)
-        Expected: 2.0 ≅ 0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(x[i]) --> roughly(0,TOL)
-        Expected: 2.0 ≅ 0
   > With solver ECOS.ECOSSolver
   > With solver SCS.SCSSolver
   > With solver Cbc.CbcMathProgSolverInterface.CbcSolver
 WARNING: Ignoring partial starting solution. Cbc requires a feasible value to be specified for all variables.
   > With solver GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP
 WARNING: Solver does not appear to support providing initial feasible solutions.
-Out of 27 total facts:
-  Verified: 24
-  Failed:   3
+27 facts verified.
 [model] Test SOS constraints
   > With solver Cbc.CbcMathProgSolverInterface.CbcSolver
 Cbc3007W No integer variables - nothing to do
@@ -541,14 +242,7 @@ Cbc3007W No integer variables - nothing to do
 [model] Test vectorized model creation
 2 facts verified.
 [model] Test MIQP vectorization
-  Failure :: (line:727) :: fact was false
-    Expression: bestsubset(solver,X,y,2,500,false) --> roughly([101.789,49.414,8.63904,1.72663],10TOL)
-      Expected: [-500.0000050098507,-499.9999950300816,-2.5182590640193378e-11,-2.7075092738243257e-11] ≅ [101.789,49.414,8.63904,1.72663]
-  Failure :: (line:727) :: fact was false
-    Expression: bestsubset(solver,sparse(X),y,2,500,false) --> roughly([101.789,49.414,8.63904,1.72663],10TOL)
-      Expected: [-500.0000050098507,-499.9999950300816,-2.5182590640193378e-11,-2.7075092738243257e-11] ≅ [101.789,49.414,8.63904,1.72663]
-Out of 2 total facts:
-  Failed:   2
+2 facts verified.
 [model] Test setSolver
 26 facts verified.
 [model] Setting solve hook
@@ -562,113 +256,18 @@ Out of 2 total facts:
 [model] Test getValue on OneIndexedArrays
 2 facts verified.
 [model] Relaxation keyword argument to solve
-20 facts verified.
+24 facts verified.
 [model] Unrecognized keyword argument to solve
 1 fact verified.
 [probmod] Testing problem modification basics
   > With solver Clp.ClpMathProgSolverInterface.ClpSolver
   > With solver GLPKMathProgInterface.GLPKInterfaceLP.GLPKSolverLP
   > With solver Ipopt.IpoptSolver
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: solve(m) --> :(:Optimal)
-      UndefVarError: eval_f_cb not defined
-       in loadproblem!(MathProgBase.SolverInterface.#loadproblem!, Ipopt.IpoptMathProgModel, Int64, Int64, Array{Float64,1}, Array{Float64,1}, Array{Float64,1}, Array{Float64,1}, Symbol, MathProgBase.SolverInterface.LPQPEvaluator) at /home/vagrant/.julia/v0.5/Ipopt/src/IpoptSolverInterface.jl:98
-       in optimize!(MathProgBase.SolverInterface.#optimize!, MathProgBase.SolverInterface.NonlinearToLPQPBridge) at /home/vagrant/.julia/v0.5/MathProgBase/src/SolverInterface/nonlinear_to_lpqp.jl:66
-       in #solve#49(JuMP.##solve#49, Bool, Bool, Bool, Array{Any,1}, Any, JuMP.Model) at /home/vagrant/.julia/v0.5/JuMP/src/solvers.jl:88
-       in do_fact(FactCheck.#do_fact, ##3119#3147, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #3117(##3117#3145) at /home/vagrant/.julia/v0.5/JuMP/test/probmod.jl:35
-       in context(FactCheck.#context, ##3117#3145, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #3116(##3116#3144) at /home/vagrant/.julia/v0.5/JuMP/test/probmod.jl:23
-       in facts(FactCheck.#facts, ##3116#3144, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-WARNING: Variable value not defined for x. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(x) --> roughly(2.0,TOL)
-        Expected: NaN ≅ 2.0
-WARNING: Variable value not defined for y. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(y) --> roughly(1.0,TOL)
-        Expected: NaN ≅ 1.0
 WARNING: Solver does not appear to support adding variables to an existing model. Hot-start is disabled.
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: solve(m) --> :(:Optimal)
-      UndefVarError: eval_f_cb not defined
-       in loadproblem!(MathProgBase.SolverInterface.#loadproblem!, Ipopt.IpoptMathProgModel, Int64, Int64, Array{Float64,1}, Array{Float64,1}, Array{Float64,1}, Array{Float64,1}, Symbol, MathProgBase.SolverInterface.LPQPEvaluator) at /home/vagrant/.julia/v0.5/Ipopt/src/IpoptSolverInterface.jl:98
-       in optimize!(MathProgBase.SolverInterface.#optimize!, MathProgBase.SolverInterface.NonlinearToLPQPBridge) at /home/vagrant/.julia/v0.5/MathProgBase/src/SolverInterface/nonlinear_to_lpqp.jl:66
-       in #solve#49(JuMP.##solve#49, Bool, Bool, Bool, Array{Any,1}, Any, JuMP.Model) at /home/vagrant/.julia/v0.5/JuMP/src/solvers.jl:88
-       in do_fact(FactCheck.#do_fact, ##3127#3155, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #3117(##3117#3145) at /home/vagrant/.julia/v0.5/JuMP/test/probmod.jl:48
-       in context(FactCheck.#context, ##3117#3145, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #3116(##3116#3144) at /home/vagrant/.julia/v0.5/JuMP/test/probmod.jl:23
-       in facts(FactCheck.#facts, ##3116#3144, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-WARNING: Variable value not defined for x. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(x) --> roughly(0.0,TOL)
-        Expected: NaN ≅ 0.0
-WARNING: Variable value not defined for y. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(y) --> roughly(1.0,TOL)
-        Expected: NaN ≅ 1.0
-WARNING: Variable value not defined for z. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(z) --> roughly(2.0,TOL)
-        Expected: NaN ≅ 2.0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getObjectiveValue(m) --> roughly(201.0,TOL)
-        Expected: 0 ≅ 201.0
 WARNING: Solver does not appear to support hot-starts. Model will be built from scratch.
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: solve(m) --> :(:Optimal)
-      UndefVarError: eval_f_cb not defined
-       in loadproblem!(MathProgBase.SolverInterface.#loadproblem!, Ipopt.IpoptMathProgModel, Int64, Int64, Array{Float64,1}, Array{Float64,1}, Array{Float64,1}, Array{Float64,1}, Symbol, MathProgBase.SolverInterface.LPQPEvaluator) at /home/vagrant/.julia/v0.5/Ipopt/src/IpoptSolverInterface.jl:98
-       in optimize!(MathProgBase.SolverInterface.#optimize!, MathProgBase.SolverInterface.NonlinearToLPQPBridge) at /home/vagrant/.julia/v0.5/MathProgBase/src/SolverInterface/nonlinear_to_lpqp.jl:66
-       in #solve#49(JuMP.##solve#49, Bool, Bool, Bool, Array{Any,1}, Any, JuMP.Model) at /home/vagrant/.julia/v0.5/JuMP/src/solvers.jl:88
-       in do_fact(FactCheck.#do_fact, ##3137#3165, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #3117(##3117#3145) at /home/vagrant/.julia/v0.5/JuMP/test/probmod.jl:64
-       in context(FactCheck.#context, ##3117#3145, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #3116(##3116#3144) at /home/vagrant/.julia/v0.5/JuMP/test/probmod.jl:23
-       in facts(FactCheck.#facts, ##3116#3144, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-WARNING: Variable value not defined for x. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(x) --> roughly(1.0,TOL)
-        Expected: NaN ≅ 1.0
-WARNING: Variable value not defined for y. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(y) --> roughly(0.0,TOL)
-        Expected: NaN ≅ 0.0
-WARNING: Variable value not defined for z. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(z) --> roughly(2.0,TOL)
-        Expected: NaN ≅ 2.0
   > With solver ECOS.ECOSSolver
   > With solver SCS.SCSSolver
-Out of 65 total facts:
-  Verified: 53
-  Failed:   9
-  Errored:  3
+65 facts verified.
 [probmod] Testing problem modification part two
   > With solver Cbc.CbcMathProgSolverInterface.CbcSolver
 Presolve 0 (-1) rows, 0 (-3) columns and 0 (-3) elements
@@ -686,12 +285,12 @@ Optimal - objective value 2.2
 After Postsolve, objective 2.2, infeasibilities - dual 0 (0), primal 0 (0)
 Optimal objective 2.2 - 0 iterations time 0.002, Presolve 0.00
 Cbc0045I Solution with objective value -2.2 saved
-  > With solver GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP
 Presolve 0 (-3) rows, 0 (-3) columns and 0 (-7) elements
 Optimal - objective value 101.1
 After Postsolve, objective 101.1, infeasibilities - dual 0 (0), primal 0 (0)
 Optimal objective 101.1 - 0 iterations time 0.002, Presolve 0.00
 Cbc0045I Solution with objective value -101.1 saved
+  > With solver GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP
 36 facts verified.
 [probmod] Test adding a range constraint and modifying it
 1 fact verified.
@@ -699,64 +298,936 @@ Cbc0045I Solution with objective value -101.1 saved
   > With solver Clp.ClpMathProgSolverInterface.ClpSolver
   > With solver GLPKMathProgInterface.GLPKInterfaceLP.GLPKSolverLP
   > With solver Ipopt.IpoptSolver
-WARNING: Not solved to optimality, status: Unbounded
-WARNING: Unbounded ray not available
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(x) --> roughly(0.0,TOL)
-        Expected: 1.000000007490702 ≅ 0.0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(y) --> roughly(1.0,TOL)
-        Expected: 0.0 ≅ 1.0
   > With solver ECOS.ECOSSolver
   > With solver SCS.SCSSolver
-Out of 10 total facts:
-  Verified: 8
-  Failed:   2
+10 facts verified.
 [probmod] Test buildInternalModel
   > With solver Clp.ClpMathProgSolverInterface.ClpSolver
   > With solver GLPKMathProgInterface.GLPKInterfaceLP.GLPKSolverLP
   > With solver Ipopt.IpoptSolver
-ERROR: LoadError: LoadError: UndefVarError: eval_f_cb not defined
- in loadproblem!(MathProgBase.SolverInterface.#loadproblem!, Ipopt.IpoptMathProgModel, Int64, Int64, Array{Float64,1}, Array{Float64,1}, Array{Float64,1}, Array{Float64,1}, Symbol, MathProgBase.SolverInterface.LPQPEvaluator) at /home/vagrant/.julia/v0.5/Ipopt/src/IpoptSolverInterface.jl:98
- in optimize!(MathProgBase.SolverInterface.#optimize!, MathProgBase.SolverInterface.NonlinearToLPQPBridge) at /home/vagrant/.julia/v0.5/MathProgBase/src/SolverInterface/nonlinear_to_lpqp.jl:66
- in #solve#49(JuMP.##solve#49, Bool, Bool, Bool, Array{Any,1}, Any, JuMP.Model) at /home/vagrant/.julia/v0.5/JuMP/src/solvers.jl:88
- in #3265(##3265#3283) at /home/vagrant/.julia/v0.5/JuMP/test/probmod.jl:190
- in context(FactCheck.#context, ##3265#3283, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+  > With solver ECOS.ECOSSolver
+  > With solver SCS.SCSSolver
+40 facts verified.
+[probmod] Test buildInternalModel with MIP
+  > With solver Cbc.CbcMathProgSolverInterface.CbcSolver
+  > With solver GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP
+12 facts verified.
+[probmod] Test adding empty constraints
+  > With solver Clp.ClpMathProgSolverInterface.ClpSolver
+  > With solver GLPKMathProgInterface.GLPKInterfaceLP.GLPKSolverLP
+  > With solver Ipopt.IpoptSolver
+  > With solver ECOS.ECOSSolver
+  > With solver SCS.SCSSolver
+10 facts verified.
+[probmod] Test bound modification on binaries
+  > With solver Cbc.CbcMathProgSolverInterface.CbcSolver
+Optimal - objective value 1
+Optimal objective 1 - 0 iterations time 0.002
+Cbc0045I Solution with objective value -1 saved
+Optimal - objective value 0
+Optimal objective 0 - 0 iterations time 0.002
+Cbc0045I Solution with objective value 0 saved
+  > With solver GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP
+12 facts verified.
+[probmod] Applicable regressions
+  > Clp
+  > Cbc
+  > GLPK LP
+  > GLPK MIP
+72 facts verified.
+[callback] Test lazy constraints
+  > With solver GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP
+8 facts verified.
+[callback] Test user cuts
+  > With solver GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP
+3 facts verified.
+[callback] Test heuristics
+  > With solver GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP
+WARNING: Ignoring infeasible solution from heuristic callback
+6 facts verified.
+[callback] Test informational callback
+0 facts verified.
+[qcqpmodel] Test quad objective (discrete)
+0 facts verified.
+[qcqpmodel] Test quad objective (continuous)
+  > With solver Ipopt.IpoptSolver
+9 facts verified.
+[qcqpmodel] Test quad constraints (continuous)
+  > With solver Ipopt.IpoptSolver
+19 facts verified.
+[qcqpmodel] Test SOC constraints (continuous)
+  > With solver ECOS.ECOSSolver
+  > With solver SCS.SCSSolver
+32 facts verified.
+[qcqpmodel] Test SOC duals
+  > With solver ECOS.ECOSSolver
+  > With solver SCS.SCSSolver
+20 facts verified.
+[qcqpmodel] Test quad constraints (discrete)
+0 facts verified.
+[qcqpmodel] Test simple normed problem
+  > With solver ECOS.ECOSSolver
+  > With solver SCS.SCSSolver
+6 facts verified.
+[qcqpmodel] Test quad problem modification
+  > With solver Ipopt.IpoptSolver
+10 facts verified.
+[qcqpmodel] Rotated second-order cones
+0 facts verified.
+[nonlinear] Test getValue on arrays
+5 facts verified.
+[nonlinear] Test HS071 solves correctly
+  > With solver Ipopt.IpoptSolver
+3 facts verified.
+[nonlinear] Test HS071 solves correctly, epigraph
+  > With solver Ipopt.IpoptSolver
+2 facts verified.
+[nonlinear] Test ifelse
+  > With solver Ipopt.IpoptSolver
+2 facts verified.
+[nonlinear] Accepting fixed variables
+  > With solver Ipopt.IpoptSolver, simplify = true
+  > With solver Ipopt.IpoptSolver, simplify = false
+8 facts verified.
+[nonlinear] Test QP solve through NL pathway
+  > With solver Ipopt.IpoptSolver
+8 facts verified.
+[nonlinear] Test quad con solve through NL pathway
+  > With solver Ipopt.IpoptSolver
+3 facts verified.
+[nonlinear] Test resolve with parameter
+  > With solver Ipopt.IpoptSolver, simplify = true
+  > With solver Ipopt.IpoptSolver, simplify = false
+8 facts verified.
+[nonlinear] Test two-sided nonlinear constraints
+  > With solver Ipopt.IpoptSolver
+4 facts verified.
+[nonlinear] Quadratic equality constraints
+  > With solver Ipopt.IpoptSolver
+2 facts verified.
+[nonlinear] Test mixed integer nonlinear problems
+0 facts verified.
+[nonlinear] Test continuous relaxation of minlp test problem
+  > With solver Ipopt.IpoptSolver
+5 facts verified.
+[nonlinear] Test maximization objective
+  > With solver Ipopt.IpoptSolver
+3 facts verified.
+WARNING: in @defNLExpr(quadexpr2,x + x ^ 2 + x * y + y ^ 2): three arguments are required.
+Note that the syntax of @defNLExpr has recently changed:
+The first argument should be the model to which the expression is attached.
+The second is the name of the expression (or collection of expressions).
+The third is the expression itself.
+Example:
+@defNLExpr(m, my_expr, x^2/y)
+@defNLExpr(m, my_expr_collection[i=1:2], sin(z[i])^2)
+Support for the old syntax (with the model omitted) will be removed in an upcoming release.
+WARNING: in @defNLExpr(x + x ^ 2 + x * y + y ^ 2): three arguments are required.
+Note that the syntax of @defNLExpr has recently changed:
+The first argument should be the model to which the expression is attached.
+The second is the name of the expression (or collection of expressions).
+The third is the expression itself.
+Example:
+@defNLExpr(m, my_expr, x^2/y)
+@defNLExpr(m, my_expr_collection[i=1:2], sin(z[i])^2)
+Support for the old syntax (with the model omitted) will be removed in an upcoming release.
+[nonlinear] Test maximization objective (embedded expressions)
+  > With solver Ipopt.IpoptSolver, simplify = true
+  > With solver Ipopt.IpoptSolver, simplify = false
+12 facts verified.
+[nonlinear] Test infeasibility detection
+  > With solver Ipopt.IpoptSolver
+1 fact verified.
+[nonlinear] Test unboundedness detection
+  > With solver Ipopt.IpoptSolver
+1 fact verified.
+[nonlinear] Test entropy maximization
+  > With solver Ipopt.IpoptSolver
+2 facts verified.
+[nonlinear] Test entropy maximization (reformulation)
+  > With solver Ipopt.IpoptSolver
+4 facts verified.
+[nonlinear] Test derivatives of x^4, x < 0
+  > With solver Ipopt.IpoptSolver
+2 facts verified.
+[nonlinear] Test nonlinear duals
+  > With solver Ipopt.IpoptSolver, simplify = true
+  > With solver Ipopt.IpoptSolver, simplify = false
+38 facts verified.
+[nonlinear] Test nonlinear duals (Max)
+  > With solver Ipopt.IpoptSolver
+19 facts verified.
+[nonlinear] Test Hessian chunking code
+  > With solver Ipopt.IpoptSolver
+2 facts verified.
+[nonlinear] Test NL MPB interface (-1.0 * x[1] + 1.0 * x[2])
+11 facts verified.
+[nonlinear] Test NL MPB interface (x[1] ^ x[2])
+11 facts verified.
+[nonlinear] Expression graph for linear problem
+1 fact verified.
+[nonlinear] Hessians through MPB
+2 facts verified.
+[nonlinear] Hess-vec through MPB
+1 fact verified.
+[nonlinear] Error on NLP resolve
+2 facts verified.
+[nonlinear] User-defined functions
+10 facts verified.
+WARNING: Mixed-integer Nonlinear tests not run!
+[sdp] Test simple SDP
+  > With solver SCS.SCSSolver
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:8
+ in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in #3264(##3264#3282) at /home/vagrant/.julia/v0.5/JuMP/test/probmod.jl:181
- in facts(FactCheck.#facts, ##3264#3282, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include at ./boot.jl:264
- in include_from_node1 at ./loading.jl:417
- in include at ./boot.jl:264
- in include_from_node1 at ./loading.jl:417
- in process_options at ./client.jl:244
- in _start at ./client.jl:300
-while loading /home/vagrant/.julia/v0.5/JuMP/test/probmod.jl, in expression starting on line 179
-while loading /home/vagrant/.julia/v0.5/JuMP/test/runtests.jl, in expression starting on line 33
-================================[ ERROR: JuMP ]=================================
-
-failed process: Process(`/home/vagrant/julia/bin/julia --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.5/JuMP/test/runtests.jl`, ProcessExited(1)) [1]
-
-================================================================================
+ in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:8
+ in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:10
+ in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:10
+ in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:13
+ in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:13
+ in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
+WARNING: Not solved to optimality, status: UnknownError
+WARNING: Not solved to optimality, status: UnknownError
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:72
+ in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:72
+ in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:85
+ in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:85
+ in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:86
+ in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:86
+ in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
+38 facts verified.
+[sdp] Nonsensical SDPs
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Array{Float64,2}) at ./deprecated.jl:30
+ [inlined code] from ./boot.jl:333
+ in (::##4680#4695)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
+ in do_fact(::##4680#4695, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+ [inlined code] from ./boot.jl:331
+ in (::##4668#4683)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:136
+ in facts(::##4668#4683, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 127
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Array{Float64,2}) at ./deprecated.jl:30
+ [inlined code] from ./boot.jl:333
+ in (::##4681#4696)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
+ in do_fact(::##4681#4696, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+ [inlined code] from ./boot.jl:331
+ in (::##4668#4683)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:137
+ in facts(::##4668#4683, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 127
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Array{Float64,2}) at ./deprecated.jl:30
+ [inlined code] from ./boot.jl:333
+ in (::##4681#4696)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
+ in do_fact(::##4681#4696, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+ [inlined code] from ./boot.jl:331
+ in (::##4668#4683)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:137
+ in facts(::##4668#4683, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 127
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Array{Float64,2}) at ./deprecated.jl:30
+ [inlined code] from ./random.jl:329
+ in (::##4682#4697)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
+ in do_fact(::##4682#4697, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+ [inlined code] from ./boot.jl:331
+ in (::##4668#4683)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:138
+ in facts(::##4668#4683, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 127
+9 facts verified.
+[sdp] SDP with quadratics
+  > With solver SCS.SCSSolver
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4699#4719)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:145
+ in context(::##4699#4719, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4698#4718)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:143
+ in facts(::##4698#4718, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 141
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4699#4719)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:145
+ in context(::##4699#4719, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4698#4718)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:143
+ in facts(::##4698#4718, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 141
+9 facts verified.
+[sdp] Test problem #2
+  > With solver SCS.SCSSolver
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4739#4745)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:198
+ in context(::##4739#4745, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4738#4744)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:196
+ in facts(::##4738#4744, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 194
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4739#4745)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:198
+ in context(::##4739#4745, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4738#4744)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:196
+ in facts(::##4738#4744, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 194
+2 facts verified.
+[sdp] Test problem #3
+  > With solver SCS.SCSSolver
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4751#4755)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:212
+ in context(::##4751#4755, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4750#4754)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:209
+ in facts(::##4750#4754, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 207
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4751#4755)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:212
+ in context(::##4751#4755, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4750#4754)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:209
+ in facts(::##4750#4754, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 207
+1 fact verified.
+[sdp] Test problem #4
+  > With solver SCS.SCSSolver
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4759#4763)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:225
+ in context(::##4759#4763, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4758#4762)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:222
+ in facts(::##4758#4762, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 220
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4759#4763)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:225
+ in context(::##4759#4763, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4758#4762)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:222
+ in facts(::##4758#4762, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 220
+WARNING: Not solved to optimality, status: UnknownError
+1 fact verified.
+[sdp] Test problem #5
+  > With solver SCS.SCSSolver
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4767#4773)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:246
+ in context(::##4767#4773, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4766#4772)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:244
+ in facts(::##4766#4772, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 242
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4767#4773)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:246
+ in context(::##4767#4773, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4766#4772)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:244
+ in facts(::##4766#4772, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 242
+2 facts verified.
+[sdp] Test problem #6
+  > With solver SCS.SCSSolver
+2 facts verified.
+[sdp] Test problem #7
+  > With solver SCS.SCSSolver
+2 facts verified.
+[sdp] Test problem #8
+  > With solver SCS.SCSSolver
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4803#4809)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:309
+ in context(::##4803#4809, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4802#4808)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:307
+ in facts(::##4802#4808, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 305
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4803#4809)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:309
+ in context(::##4803#4809, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4802#4808)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:307
+ in facts(::##4802#4808, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 305
+2 facts verified.
+[sdp] Test problem #9
+  > With solver SCS.SCSSolver
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in matrix_frac(::JuMP.Model, ::Array{Int64,1}, ::Array{JuMP.Variable,2}) at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:320
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:609
+ in (::##4815#4821)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:336
+ in context(::##4815#4821, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4814#4820)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:329
+ in facts(::##4814#4820, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 327
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in matrix_frac(::JuMP.Model, ::Array{Int64,1}, ::Array{JuMP.Variable,2}) at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:320
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:609
+ in (::##4815#4821)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:336
+ in context(::##4815#4821, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4814#4820)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:329
+ in facts(::##4814#4820, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 327
+2 facts verified.
+[sdp] Correlation example
+  > With solver SCS.SCSSolver
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4827#4837)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:347
+ in context(::##4827#4837, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4826#4836)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:344
+ in facts(::##4826#4836, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 342
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4827#4837)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:347
+ in context(::##4827#4837, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4826#4836)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:344
+ in facts(::##4826#4836, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 342
+4 facts verified.
+[sdp] Robust uncertainty example
+  > With solver SCS.SCSSolver
+    > d = 3
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4848#4857)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:394
+ in context(::##4848#4857, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4847#4854)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:386
+ in context(::##4847#4854, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4846#4853)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:375
+ in facts(::##4846#4853, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 373
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4848#4857)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:394
+ in context(::##4848#4857, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4847#4854)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:386
+ in context(::##4847#4854, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4846#4853)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:375
+ in facts(::##4846#4853, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 373
+    > d = 5
+    > d = 8
+6 facts verified.
+[sdp] Robust uncertainty example (with norms)
+  > With solver SCS.SCSSolver
+    > d = 3
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4864#4873)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:447
+ in context(::##4864#4873, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4863#4870)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:439
+ in context(::##4863#4870, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4862#4869)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:428
+ in facts(::##4862#4869, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 426
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4864#4873)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:447
+ in context(::##4864#4873, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4863#4870)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:439
+ in context(::##4863#4870, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4862#4869)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:428
+ in facts(::##4862#4869, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 426
+    > d = 5
+    > d = 8
+6 facts verified.
+[sdp] Can't mix SDP and QP (#665)
+  > With solver SCS.SCSSolver
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4879#4882)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:474
+ in context(::##4879#4882, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4878#4881)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:472
+ in facts(::##4878#4881, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 470
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4879#4882)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:474
+ in context(::##4879#4882, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4878#4881)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:472
+ in facts(::##4878#4881, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 470
+1 fact verified.
+[sdp] Just another SDP
+  > With solver SCS.SCSSolver
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4885#4893)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:484
+ in context(::##4885#4893, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4884#4892)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:482
+ in facts(::##4884#4892, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 480
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Float64) at ./deprecated.jl:30
+ [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
+ in (::##4885#4893)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:484
+ in context(::##4885#4893, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ [inlined code] from ./strings/io.jl:73
+ in (::##4884#4892)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:482
+ in facts(::##4884#4892, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 480
+3 facts verified.
+[socduals] SOC dual
+  > With solver ECOS.ECOSSolver
+  > With solver SCS.SCSSolver
+10 facts verified.
+[socduals] LP dual vs SOC dual (Max)
+  > With LP solver Clp.ClpMathProgSolverInterface.ClpSolver
+  > With LP solver GLPKMathProgInterface.GLPKInterfaceLP.GLPKSolverLP
+  > With LP solver Ipopt.IpoptSolver
+  > With LP solver ECOS.ECOSSolver
+  > With LP solver SCS.SCSSolver
+  > With conic solver ECOS.ECOSSolver
+  > With conic solver SCS.SCSSolver
+21 facts verified.
+[socduals] LP vs SOC dual (Min)
+  > With LP solver Clp.ClpMathProgSolverInterface.ClpSolver
+  > With LP solver GLPKMathProgInterface.GLPKInterfaceLP.GLPKSolverLP
+  > With LP solver Ipopt.IpoptSolver
+  > With LP solver ECOS.ECOSSolver
+  > With LP solver SCS.SCSSolver
+  > With conic solver ECOS.ECOSSolver
+  > With conic solver SCS.SCSSolver
+21 facts verified.
+[socduals] LP vs SOC reduced costs
+  > With LP solver Clp.ClpMathProgSolverInterface.ClpSolver
+  > With LP solver GLPKMathProgInterface.GLPKInterfaceLP.GLPKSolverLP
+  > With LP solver Ipopt.IpoptSolver
+  > With LP solver ECOS.ECOSSolver
+  > With LP solver SCS.SCSSolver
+  > With conic solver ECOS.ECOSSolver
+  > With conic solver SCS.SCSSolver
+70 facts verified.
+[socduals] SOC infeasibility ray test
+  > With conic solver ECOS.ECOSSolver
+WARNING: Not solved to optimality, status: Infeasible
+  > With conic solver SCS.SCSSolver
+WARNING: Not solved to optimality, status: Infeasible
+6 facts verified.
+INFO: JuMP tests passed
 INFO: Removing Cbc v0.2.0
 INFO: Removing Clp v0.2.0
 INFO: Removing ECOS v0.6.1
 INFO: Removing FactCheck v0.4.2
 INFO: Removing GLPK v0.2.17
 INFO: Removing GLPKMathProgInterface v0.2.0
-INFO: Removing Ipopt v0.2.0
+INFO: Removing Ipopt v0.2.1
 INFO: Removing SCS v0.2.0
-ERROR: Base.Pkg.PkgError("JuMP had test errors")
- in #test#55(Base.Pkg.Entry.##test#55, Bool, Any, Array{AbstractString,1}) at ./pkg/entry.jl:671
- [inlined code] from ./boot.jl:331
- in #2(Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}) at ./pkg/dir.jl:31
- in cd(Base.Filesystem.#cd, Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, UTF8String) at ./file.jl:47
- in #cd#1(Base.Pkg.Dir.##cd#1, Array{Any,1}, Any, Any, Array{AbstractString,1}, Vararg{Array{AbstractString,1}}) at ./pkg/dir.jl:31
- [inlined code] from ./boot.jl:331
- in #test#4(Base.Pkg.##test#4, Bool, Any, ASCIIString, Vararg{ASCIIString}) at ./pkg.jl:228
- in eval at ./boot.jl:267
- [inlined code] from ./sysimg.jl:14
- in process_options at ./client.jl:221
- in _start at ./client.jl:300
 
 >>> End of log

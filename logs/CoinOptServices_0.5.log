@@ -2,9 +2,9 @@
 INFO: Installing Cbc v0.2.0
 INFO: Installing Clp v0.2.0
 INFO: Installing CoinOptServices v0.1.0
-INFO: Installing Ipopt v0.2.0
+INFO: Installing Ipopt v0.2.1
 INFO: Installing LightXML v0.2.1
-INFO: Installing MathProgBase v0.4.1
+INFO: Installing MathProgBase v0.4.2
 INFO: Building Cbc
 INFO: Building Ipopt
 INFO: Building LightXML
@@ -13,8 +13,8 @@ WARNING: Method definition @checked_lib(ANY<:Any, ANY<:Any) in module __anon__ a
 INFO: Package database updated
 
 >>> 'Pkg.test("CoinOptServices")' log
-Julia Version 0.5.0-dev+2440
-Commit 2bb94d6 (2016-02-01 02:22 UTC)
+Julia Version 0.5.0-dev+2918
+Commit 1eacbbb (2016-02-28 16:56 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
@@ -24,14 +24,15 @@ Platform Info:
   LIBM: libopenlibm
   LLVM: libLLVM-3.7.1
 INFO: Computing test dependencies for CoinOptServices...
-INFO: Installing ArrayViews v0.6.4
 INFO: Installing Calculus v0.1.14
-INFO: Installing DataStructures v0.4.2
-INFO: Installing DualNumbers v0.2.1
+INFO: Installing DataStructures v0.4.3
 INFO: Installing FactCheck v0.4.2
-INFO: Installing JuMP v0.11.3
+INFO: Installing ForwardDiff v0.1.6
+INFO: Installing JuMP v0.12.0
+INFO: Installing Lazy v0.10.1
+INFO: Installing MacroTools v0.3.0
 INFO: Installing NaNMath v0.2.0
-INFO: Installing ReverseDiffSparse v0.3.0
+INFO: Installing ReverseDiffSparse v0.5.3
 INFO: Testing CoinOptServices
 
 
@@ -75,9 +76,6 @@ INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.5/Clp.ji for modu
 1 fact verified.
 [variable] condition in indexing
 3 facts verified.
-[variable] JuMPContainer iteration
-WARNING: Iteration over JuMP containers is deprecated. Use keys(d) and values(d) instead
-87 facts verified.
 [variable] @defVar returning Array{Variable}
 WARNING: Variable value not defined for component of x. Check that the model was properly solved.
 WARNING: Variable value not defined for component of z. Check that the model was properly solved.
@@ -87,12 +85,10 @@ WARNING: Variable value not defined for component of z. Check that the model was
 [expr] Test expression construction
   > AffExpr
   > QuadExpr
-6 facts verified.
+8 facts verified.
 [expr] Test getValue(expr)
 2 facts verified.
 [expr] Test expression iterators
-4 facts verified.
-[expr] Test in(::Variable, ::AffExpr)
 4 facts verified.
 [operator] Testing basic operator overloads
   > Number--???
@@ -105,7 +101,7 @@ WARNING: Variable value not defined for component of z. Check that the model was
 [operator] Higher-level operators
   > sum
   > dot
-17 facts verified.
+18 facts verified.
 Vectorized operations
   > Transpose
   > Vectorized arithmetic
@@ -144,8 +140,10 @@ Vectorized operations
 158 facts verified.
 [macros] Multidimensional indexing
 1 fact verified.
+WARNING: The two-argument version of @defExpr is deprecated. The corresponding JuMP model is now required as the first argument. The new syntax is @defExpr(<JuMP model>, <name of expression(s)>, <expression>)
+WARNING: The one-argument version of @defExpr is deprecated. The corresponding JuMP model is now required as the first argument, and a name for the expression or collection of expressions is required as the second argument. The new syntax is @defExpr(<JuMP model>, <name of expression(s)>, <expression>)
 [macros] @defExpr
-4 facts verified.
+6 facts verified.
 [macros] Conditions in constraint indexing
 7 facts verified.
 [macros] Test changes in condition parsing
@@ -161,8 +159,6 @@ Vectorized operations
 [macros] Issue #621
 1 fact verified.
 [fuzzer] Check macros for expression construction
-WARNING: Method definition eval_f_cb(Any) in module Ipopt at /home/vagrant/.julia/v0.5/Ipopt/src/IpoptSolverInterface.jl:49 overwritten at /home/vagrant/.julia/v0.5/Ipopt/src/IpoptSolverInterface.jl:51.
-WARNING: Method definition eval_grad_f_cb(Any, Any) in module Ipopt at /home/vagrant/.julia/v0.5/Ipopt/src/IpoptSolverInterface.jl:56 overwritten at /home/vagrant/.julia/v0.5/Ipopt/src/IpoptSolverInterface.jl:58.
 [model] Check error cases
 WARNING: Variable value not defined for errVar. Check that the model was properly solved.
 WARNING: Variable value not defined for x. Check that the model was properly solved.
@@ -190,331 +186,22 @@ This program contains Ipopt, a library for large-scale nonlinear optimization.
          For more information visit http://projects.coin-or.org/Ipopt
 ******************************************************************************
 
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getObjectiveValue(modA) --> roughly(-5.8446115,TOL)
-        Expected: 1.333333307744513 ≅ -5.8446115
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(x) --> roughly(0.9774436,TOL)
-        Expected: 1.587850399410312 ≅ 0.9774436
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(y) --> roughly(1.0225563,TOL)
-        Expected: 0.41214959662623735 ≅ 1.0225563
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(z) --> roughly(4.0,TOL)
-        Expected: 2.0 ≅ 4.0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getValue(r))[3] --> roughly(0.5112781,TOL)
-        Expected: 0.0 ≅ 0.5112781
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getValue(r))[4] --> roughly(0.0,TOL)
-        Expected: 0.0751144526549715 ≅ 0.0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getValue(r))[5] --> roughly(0.0,TOL)
-        Expected: 0.07765426869995982 ≅ 0.0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getValue(r))[6] --> roughly(6.0,TOL)
-        Expected: 2.2017708602267043 ≅ 6.0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getDual(z) --> roughly(-1.0714286,TOL)
-        Expected: 0.999999998418049 ≅ -1.0714286
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getDual(r))[3] --> roughly(0.0,TOL)
-        Expected: 1.0000000266030566 ≅ 0.0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getDual(r))[4] --> roughly(1.0,TOL)
-        Expected: 2.66030568184169e-8 ≅ 1.0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getDual(r))[5] --> roughly(1.0,TOL)
-        Expected: 2.6603056818418276e-8 ≅ 1.0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getDual(r))[6] --> roughly(-0.03759398,TOL)
-        Expected: -8.326058155687319e-10 ≅ -0.03759398
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getDual(cons))[1] --> roughly(0.333333,TOL)
-        Expected: 0.16666667829683418 ≅ 0.333333
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getDual(cons))[2] --> roughly(-1.0,TOL)
-        Expected: -2.660305681841674e-8 ≅ -1.0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getDual(cons))[3] --> roughly(-0.0714286,TOL)
-        Expected: -1.5819510495808368e-9 ≅ -0.0714286
   > With solver CoinOptServices.OsilSolver
 
-Out of 57 total facts:
-  Verified: 41
-  Failed:   16
+57 facts verified.
 [model] Test solving an LP (Max)
   > With solver Clp.ClpMathProgSolverInterface.ClpSolver
   > With solver Ipopt.IpoptSolver
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: solve(modA) --> :(:Optimal)
-      UndefVarError: eval_f_cb not defined
-       in loadproblem!(MathProgBase.SolverInterface.#loadproblem!, Ipopt.IpoptMathProgModel, Int64, Int64, Array{Float64,1}, Array{Float64,1}, Array{Float64,1}, Array{Float64,1}, Symbol, MathProgBase.SolverInterface.LPQPEvaluator) at /home/vagrant/.julia/v0.5/Ipopt/src/IpoptSolverInterface.jl:98
-       in optimize!(MathProgBase.SolverInterface.#optimize!, MathProgBase.SolverInterface.NonlinearToLPQPBridge) at /home/vagrant/.julia/v0.5/MathProgBase/src/SolverInterface/nonlinear_to_lpqp.jl:66
-       in #solve#49(JuMP.##solve#49, Bool, Bool, Bool, Array{Any,1}, Any, JuMP.Model) at /home/vagrant/.julia/v0.5/JuMP/src/solvers.jl:88
-       in do_fact(FactCheck.#do_fact, ##2560#2600, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:363
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getObjectiveValue(modA) --> roughly(5.8446115,TOL)
-        Expected: 0 ≅ 5.8446115
-WARNING: Variable value not defined for x. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(x) --> roughly(0.9774436,TOL)
-        Expected: NaN ≅ 0.9774436
-WARNING: Variable value not defined for y. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(y) --> roughly(1.0225563,TOL)
-        Expected: NaN ≅ 1.0225563
-WARNING: Variable value not defined for z. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(z) --> roughly(4.0,TOL)
-        Expected: NaN ≅ 4.0
-WARNING: Variable value not defined for entry of r. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getValue(r))[3] --> roughly(0.5112781,TOL)
-        Expected: NaN ≅ 0.5112781
-WARNING: Variable value not defined for entry of r. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getValue(r))[4] --> roughly(0.0,TOL)
-        Expected: NaN ≅ 0.0
-WARNING: Variable value not defined for entry of r. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getValue(r))[5] --> roughly(0.0,TOL)
-        Expected: NaN ≅ 0.0
-WARNING: Variable value not defined for entry of r. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: (getValue(r))[6] --> roughly(6.0,TOL)
-        Expected: NaN ≅ 6.0
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: getDual(x) --> roughly(0.0,TOL)
-      Variable bound duals (reduced costs) not available. Check that the model was properly solved and no integer variables are present.
-       in getDual(JuMP.#getDual, JuMP.Variable) at /home/vagrant/.julia/v0.5/JuMP/src/JuMP.jl:420
-       in do_fact(FactCheck.#do_fact, ##2578#2618, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:374
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: getDual(y) --> roughly(0.0,TOL)
-      Variable bound duals (reduced costs) not available. Check that the model was properly solved and no integer variables are present.
-       in getDual(JuMP.#getDual, JuMP.Variable) at /home/vagrant/.julia/v0.5/JuMP/src/JuMP.jl:420
-       in do_fact(FactCheck.#do_fact, ##2580#2620, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:375
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: getDual(z) --> roughly(1.0714286,TOL)
-      Variable bound duals (reduced costs) not available. Check that the model was properly solved and no integer variables are present.
-       in getDual(JuMP.#getDual, JuMP.Variable) at /home/vagrant/.julia/v0.5/JuMP/src/JuMP.jl:420
-       in do_fact(FactCheck.#do_fact, ##2582#2622, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:376
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: (getDual(r))[3] --> roughly(0.0,TOL)
-      Variable bound duals (reduced costs) not available. Check that the model was properly solved and no integer variables are present.
-       [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/JuMP.jl:420
-       in map(Base.#map, JuMP.#getDual, Array{JuMP.Variable,1}) at ./abstractarray.jl:1327
-       in getDual(JuMP.#getDual, JuMP.JuMPArray##37344{JuMP.Variable}) at /home/vagrant/.julia/v0.5/JuMP/src/JuMPContainer.jl:179
-       in do_fact(FactCheck.#do_fact, ##2584#2624, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:377
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: (getDual(r))[4] --> roughly(-1.0,TOL)
-      Variable bound duals (reduced costs) not available. Check that the model was properly solved and no integer variables are present.
-       [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/JuMP.jl:420
-       in map(Base.#map, JuMP.#getDual, Array{JuMP.Variable,1}) at ./abstractarray.jl:1327
-       in getDual(JuMP.#getDual, JuMP.JuMPArray##37344{JuMP.Variable}) at /home/vagrant/.julia/v0.5/JuMP/src/JuMPContainer.jl:179
-       in do_fact(FactCheck.#do_fact, ##2586#2626, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:378
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: (getDual(r))[5] --> roughly(-1.0,TOL)
-      Variable bound duals (reduced costs) not available. Check that the model was properly solved and no integer variables are present.
-       [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/JuMP.jl:420
-       in map(Base.#map, JuMP.#getDual, Array{JuMP.Variable,1}) at ./abstractarray.jl:1327
-       in getDual(JuMP.#getDual, JuMP.JuMPArray##37344{JuMP.Variable}) at /home/vagrant/.julia/v0.5/JuMP/src/JuMPContainer.jl:179
-       in do_fact(FactCheck.#do_fact, ##2588#2628, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:379
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: (getDual(r))[6] --> roughly(0.03759398,TOL)
-      Variable bound duals (reduced costs) not available. Check that the model was properly solved and no integer variables are present.
-       [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/JuMP.jl:420
-       in map(Base.#map, JuMP.#getDual, Array{JuMP.Variable,1}) at ./abstractarray.jl:1327
-       in getDual(JuMP.#getDual, JuMP.JuMPArray##37344{JuMP.Variable}) at /home/vagrant/.julia/v0.5/JuMP/src/JuMPContainer.jl:179
-       in do_fact(FactCheck.#do_fact, ##2590#2630, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:380
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: (getDual(cons))[1] --> roughly(-0.333333,TOL)
-      Dual solution not available. Check that the model was properly solved and no integer variables are present.
-       in getDual(JuMP.#getDual, JuMP.ConstraintRef{JuMP.GenericRangeConstraint{JuMP.GenericAffExpr{Float64,JuMP.Variable}}}) at /home/vagrant/.julia/v0.5/JuMP/src/JuMP.jl:523
-       in map(Base.#map, JuMP.#getDual, Array{JuMP.ConstraintRef{T<:JuMP.JuMPConstraint},1}) at ./abstractarray.jl:1327
-       in getDual(JuMP.#getDual, Array{JuMP.ConstraintRef{T<:JuMP.JuMPConstraint},1}) at /home/vagrant/.julia/v0.5/JuMP/src/JuMPContainer.jl:179
-       in do_fact(FactCheck.#do_fact, ##2592#2632, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:383
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: (getDual(cons))[2] --> roughly(1.0,TOL)
-      Dual solution not available. Check that the model was properly solved and no integer variables are present.
-       in getDual(JuMP.#getDual, JuMP.ConstraintRef{JuMP.GenericRangeConstraint{JuMP.GenericAffExpr{Float64,JuMP.Variable}}}) at /home/vagrant/.julia/v0.5/JuMP/src/JuMP.jl:523
-       in map(Base.#map, JuMP.#getDual, Array{JuMP.ConstraintRef{T<:JuMP.JuMPConstraint},1}) at ./abstractarray.jl:1327
-       in getDual(JuMP.#getDual, Array{JuMP.ConstraintRef{T<:JuMP.JuMPConstraint},1}) at /home/vagrant/.julia/v0.5/JuMP/src/JuMPContainer.jl:179
-       in do_fact(FactCheck.#do_fact, ##2594#2634, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:384
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: (getDual(cons))[3] --> roughly(0.0714286,TOL)
-      Dual solution not available. Check that the model was properly solved and no integer variables are present.
-       in getDual(JuMP.#getDual, JuMP.ConstraintRef{JuMP.GenericRangeConstraint{JuMP.GenericAffExpr{Float64,JuMP.Variable}}}) at /home/vagrant/.julia/v0.5/JuMP/src/JuMP.jl:523
-       in map(Base.#map, JuMP.#getDual, Array{JuMP.ConstraintRef{T<:JuMP.JuMPConstraint},1}) at ./abstractarray.jl:1327
-       in getDual(JuMP.#getDual, Array{JuMP.ConstraintRef{T<:JuMP.JuMPConstraint},1}) at /home/vagrant/.julia/v0.5/JuMP/src/JuMPContainer.jl:179
-       in do_fact(FactCheck.#do_fact, ##2596#2636, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #2558(##2558#2598) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:385
-       in context(FactCheck.#context, ##2558#2598, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #2557(##2557#2597) at /home/vagrant/.julia/v0.5/JuMP/test/model.jl:350
-       in facts(FactCheck.#facts, ##2557#2597, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
   > With solver CoinOptServices.OsilSolver
 
-Out of 57 total facts:
-  Verified: 38
-  Failed:   8
-  Errored:  11
+57 facts verified.
 [model] Test binary variable handling
   > With solver Cbc.CbcMathProgSolverInterface.CbcSolver
   > With solver CoinOptServices.OsilSolver
 
 4 facts verified.
 [model] Test model copying
-29 facts verified.
+28 facts verified.
 [model] Test variable/model 'hygiene'
   > Linear constraint
   > Linear objective
@@ -538,23 +225,12 @@ Warning, MPS does not support maximization sense. Flipping objective coefficient
 [model] Test fixed variables don't leak through MPB
   > With solver Clp.ClpMathProgSolverInterface.ClpSolver
   > With solver Ipopt.IpoptSolver
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(x[i]) --> roughly(0,TOL)
-        Expected: 2.0 ≅ 0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(x[i]) --> roughly(0,TOL)
-        Expected: 2.0 ≅ 0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(x[i]) --> roughly(0,TOL)
-        Expected: 2.0 ≅ 0
   > With solver CoinOptServices.OsilSolver
 
   > With solver Cbc.CbcMathProgSolverInterface.CbcSolver
 WARNING: Ignoring partial starting solution. Cbc requires a feasible value to be specified for all variables.
   > With solver CoinOptServices.OsilSolver
-Out of 17 total facts:
-  Verified: 14
-  Failed:   3
+17 facts verified.
 [model] Test SOS constraints
   > With solver Cbc.CbcMathProgSolverInterface.CbcSolver
 Cbc3007W No integer variables - nothing to do
@@ -565,69 +241,61 @@ Cbc3007W No integer variables - nothing to do
 [model] Test MIQP vectorization
 
 
-  Failure :: (line:727) :: fact was false
-    Expression: bestsubset(solver,X,y,2,500,false) --> roughly([101.789,49.414,8.63904,1.72663],10TOL)
-      Expected: [-500.0000050098507,-499.9999950300816,-2.5182590640193378e-11,-2.7075092738243257e-11] ≅ [101.789,49.414,8.63904,1.72663]
-  Failure :: (line:727) :: fact was false
-    Expression: bestsubset(solver,sparse(X),y,2,500,false) --> roughly([101.789,49.414,8.63904,1.72663],10TOL)
-      Expected: [-500.0000050098507,-499.9999950300816,-2.5182590640193378e-11,-2.7075092738243257e-11] ≅ [101.789,49.414,8.63904,1.72663]
 
 
 
 NLP0012I 
               Num      Status      Obj             It       time                 Location
-NLP0014I             1         OPT -7639415.2        8 0.063495
-NLP0014I             2      INFEAS 1       13 0.076006
+NLP0014I             1         OPT -7639415.2        8 0.063052
+NLP0014I             2      INFEAS 1       13 0.093788
 Coin0506I Presolve 49 (-1) rows, 18 (-5) columns and 124 (-19) elements
 Clp0006I 0  Obj -5.7204592e+08 Primal inf 44942.181 (19) Dual inf 416619.86 (4)
 Clp0006I 6  Obj -7.4747283e+08
 Clp0000I Optimal - objective value -7.4747283e+08
 Clp0032I Optimal objective -747472832.6 - 6 iterations time 0.002, Presolve 0.00
 Clp0000I Optimal - objective value -7.4747283e+08
-Couenne: new cutoff value 6.9896992684e-09 (6.74706 seconds)
+Couenne: new cutoff value 6.9896992684e-09 (6.73911 seconds)
 NLP Heuristic: time limit reached.
 Clp0000I Optimal - objective value -7.4747283e+08
-Optimality Based BT: Couenne: new cutoff value -3.7947771136e-07 (6.74713 seconds)
+Optimality Based BT: Couenne: new cutoff value -3.7947771136e-07 (6.73943 seconds)
 0 improved bounds
 Probing: 0 improved bounds
 NLP Heuristic: no solution.
 Optimality Based BT: 0 improved bounds
 Optimality Based BT: 0 improved bounds
-Couenne: new cutoff value -3.5143102592e+06 (6.99241 seconds)
-Couenne: new cutoff value -4.9832192005e+06 (7.25595 seconds)
-Couenne: new cutoff value -6.3172319400e+06 (7.47081 seconds)
-Couenne: new cutoff value -7.6295948429e+06 (7.56524 seconds)
-Couenne: new cutoff value -7.6295948429e+06 (7.71447 seconds)
-Couenne: new cutoff value -7.6295948429e+06 (8.22386 seconds)
+Couenne: new cutoff value -3.5143102592e+06 (7.02191 seconds)
+Couenne: new cutoff value -4.9832192005e+06 (7.22864 seconds)
+Couenne: new cutoff value -6.3172319400e+06 (7.41778 seconds)
+Couenne: new cutoff value -7.6295948429e+06 (7.47004 seconds)
+Couenne: new cutoff value -7.6295948429e+06 (7.6344 seconds)
+Couenne: new cutoff value -7.6295948429e+06 (8.03142 seconds)
 
 NLP0012I 
               Num      Status      Obj             It       time                 Location
-NLP0014I             1         OPT -7639415.2        8 0.032386
-NLP0014I             2      INFEAS 1       13 0.032205
+NLP0014I             1         OPT -7639415.2        8 0.04558
+NLP0014I             2      INFEAS 1       13 0.085299
 Coin0506I Presolve 49 (-1) rows, 18 (-5) columns and 124 (-19) elements
 Clp0006I 0  Obj -5.7204592e+08 Primal inf 44942.181 (19) Dual inf 416619.86 (4)
 Clp0006I 6  Obj -7.4747283e+08
 Clp0000I Optimal - objective value -7.4747283e+08
 Clp0032I Optimal objective -747472832.6 - 6 iterations time 0.002, Presolve 0.00
 Clp0000I Optimal - objective value -7.4747283e+08
-Couenne: new cutoff value 6.9896992684e-09 (6.0607 seconds)
+Couenne: new cutoff value 6.9896992684e-09 (7.52635 seconds)
 NLP Heuristic: time limit reached.
 Clp0000I Optimal - objective value -7.4747283e+08
-Optimality Based BT: Couenne: new cutoff value -3.7947771136e-07 (6.0607 seconds)
+Optimality Based BT: Couenne: new cutoff value -3.7947771136e-07 (7.52635 seconds)
 0 improved bounds
 Probing: 0 improved bounds
 NLP Heuristic: no solution.
 Optimality Based BT: 0 improved bounds
 Optimality Based BT: 0 improved bounds
-Couenne: new cutoff value -3.5143102592e+06 (6.23471 seconds)
-Couenne: new cutoff value -4.9832192005e+06 (6.43876 seconds)
-Couenne: new cutoff value -6.3172319400e+06 (6.61909 seconds)
-Couenne: new cutoff value -7.6295948429e+06 (6.69815 seconds)
-Couenne: new cutoff value -7.6295948429e+06 (6.8281 seconds)
-Couenne: new cutoff value -7.6295948429e+06 (7.29226 seconds)
-Out of 8 total facts:
-  Verified: 6
-  Failed:   2
+Couenne: new cutoff value -3.5143102592e+06 (7.71272 seconds)
+Couenne: new cutoff value -4.9832192005e+06 (7.86886 seconds)
+Couenne: new cutoff value -6.3172319400e+06 (8.07078 seconds)
+Couenne: new cutoff value -7.6295948429e+06 (8.15188 seconds)
+Couenne: new cutoff value -7.6295948429e+06 (8.32688 seconds)
+Couenne: new cutoff value -7.6295948429e+06 (8.83249 seconds)
+8 facts verified.
 [model] Test setSolver
 
 16 facts verified.
@@ -642,120 +310,19 @@ Out of 8 total facts:
 [model] Test getValue on OneIndexedArrays
 2 facts verified.
 [model] Relaxation keyword argument to solve
-20 facts verified.
+24 facts verified.
 [model] Unrecognized keyword argument to solve
 1 fact verified.
 [probmod] Testing problem modification basics
   > With solver Clp.ClpMathProgSolverInterface.ClpSolver
   > With solver Ipopt.IpoptSolver
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: solve(m) --> :(:Optimal)
-      UndefVarError: eval_f_cb not defined
-       in loadproblem!(MathProgBase.SolverInterface.#loadproblem!, Ipopt.IpoptMathProgModel, Int64, Int64, Array{Float64,1}, Array{Float64,1}, Array{Float64,1}, Array{Float64,1}, Symbol, MathProgBase.SolverInterface.LPQPEvaluator) at /home/vagrant/.julia/v0.5/Ipopt/src/IpoptSolverInterface.jl:98
-       in optimize!(MathProgBase.SolverInterface.#optimize!, MathProgBase.SolverInterface.NonlinearToLPQPBridge) at /home/vagrant/.julia/v0.5/MathProgBase/src/SolverInterface/nonlinear_to_lpqp.jl:66
-       in #solve#49(JuMP.##solve#49, Bool, Bool, Bool, Array{Any,1}, Any, JuMP.Model) at /home/vagrant/.julia/v0.5/JuMP/src/solvers.jl:88
-       in do_fact(FactCheck.#do_fact, ##3119#3147, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #3117(##3117#3145) at /home/vagrant/.julia/v0.5/JuMP/test/probmod.jl:35
-       in context(FactCheck.#context, ##3117#3145, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #3116(##3116#3144) at /home/vagrant/.julia/v0.5/JuMP/test/probmod.jl:23
-       in facts(FactCheck.#facts, ##3116#3144, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-WARNING: Variable value not defined for x. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(x) --> roughly(2.0,TOL)
-        Expected: NaN ≅ 2.0
-WARNING: Variable value not defined for y. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(y) --> roughly(1.0,TOL)
-        Expected: NaN ≅ 1.0
 WARNING: Solver does not appear to support adding variables to an existing model. Hot-start is disabled.
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: solve(m) --> :(:Optimal)
-      UndefVarError: eval_f_cb not defined
-       in loadproblem!(MathProgBase.SolverInterface.#loadproblem!, Ipopt.IpoptMathProgModel, Int64, Int64, Array{Float64,1}, Array{Float64,1}, Array{Float64,1}, Array{Float64,1}, Symbol, MathProgBase.SolverInterface.LPQPEvaluator) at /home/vagrant/.julia/v0.5/Ipopt/src/IpoptSolverInterface.jl:98
-       in optimize!(MathProgBase.SolverInterface.#optimize!, MathProgBase.SolverInterface.NonlinearToLPQPBridge) at /home/vagrant/.julia/v0.5/MathProgBase/src/SolverInterface/nonlinear_to_lpqp.jl:66
-       in #solve#49(JuMP.##solve#49, Bool, Bool, Bool, Array{Any,1}, Any, JuMP.Model) at /home/vagrant/.julia/v0.5/JuMP/src/solvers.jl:88
-       in do_fact(FactCheck.#do_fact, ##3127#3155, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #3117(##3117#3145) at /home/vagrant/.julia/v0.5/JuMP/test/probmod.jl:48
-       in context(FactCheck.#context, ##3117#3145, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #3116(##3116#3144) at /home/vagrant/.julia/v0.5/JuMP/test/probmod.jl:23
-       in facts(FactCheck.#facts, ##3116#3144, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-WARNING: Variable value not defined for x. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(x) --> roughly(0.0,TOL)
-        Expected: NaN ≅ 0.0
-WARNING: Variable value not defined for y. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(y) --> roughly(1.0,TOL)
-        Expected: NaN ≅ 1.0
-WARNING: Variable value not defined for z. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(z) --> roughly(2.0,TOL)
-        Expected: NaN ≅ 2.0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getObjectiveValue(m) --> roughly(201.0,TOL)
-        Expected: 0 ≅ 201.0
 WARNING: Solver does not appear to support hot-starts. Model will be built from scratch.
-    Error :: (line:727) :: With solver Ipopt.IpoptSolver
-      Expression: solve(m) --> :(:Optimal)
-      UndefVarError: eval_f_cb not defined
-       in loadproblem!(MathProgBase.SolverInterface.#loadproblem!, Ipopt.IpoptMathProgModel, Int64, Int64, Array{Float64,1}, Array{Float64,1}, Array{Float64,1}, Array{Float64,1}, Symbol, MathProgBase.SolverInterface.LPQPEvaluator) at /home/vagrant/.julia/v0.5/Ipopt/src/IpoptSolverInterface.jl:98
-       in optimize!(MathProgBase.SolverInterface.#optimize!, MathProgBase.SolverInterface.NonlinearToLPQPBridge) at /home/vagrant/.julia/v0.5/MathProgBase/src/SolverInterface/nonlinear_to_lpqp.jl:66
-       in #solve#49(JuMP.##solve#49, Bool, Bool, Bool, Array{Any,1}, Any, JuMP.Model) at /home/vagrant/.julia/v0.5/JuMP/src/solvers.jl:88
-       in do_fact(FactCheck.#do_fact, ##3137#3165, Expr, Symbol, FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
-       [inlined code] from ./boot.jl:331
-       in #3117(##3117#3145) at /home/vagrant/.julia/v0.5/JuMP/test/probmod.jl:64
-       in context(FactCheck.#context, ##3117#3145, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
-       [inlined code] from ./strings/io.jl:73
-       in #3116(##3116#3144) at /home/vagrant/.julia/v0.5/JuMP/test/probmod.jl:23
-       in facts(FactCheck.#facts, ##3116#3144, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in include at ./boot.jl:264
-       in include_from_node1 at ./loading.jl:417
-       in process_options at ./client.jl:244
-       in _start at ./client.jl:300
-WARNING: Variable value not defined for x. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(x) --> roughly(1.0,TOL)
-        Expected: NaN ≅ 1.0
-WARNING: Variable value not defined for y. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(y) --> roughly(0.0,TOL)
-        Expected: NaN ≅ 0.0
-WARNING: Variable value not defined for z. Check that the model was properly solved.
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(z) --> roughly(2.0,TOL)
-        Expected: NaN ≅ 2.0
   > With solver CoinOptServices.OsilSolver
 
 
 
-Out of 39 total facts:
-  Verified: 27
-  Failed:   9
-  Errored:  3
+39 facts verified.
 [probmod] Testing problem modification part two
   > With solver Cbc.CbcMathProgSolverInterface.CbcSolver
 Presolve 0 (-1) rows, 0 (-3) columns and 0 (-3) elements
@@ -776,11 +343,6 @@ Cbc0045I Solution with objective value -2.2 saved
   > With solver CoinOptServices.OsilSolver
 
 
-Presolve 0 (-3) rows, 0 (-3) columns and 0 (-7) elements
-Optimal - objective value 101.1
-After Postsolve, objective 101.1, infeasibilities - dual 0 (0), primal 0 (0)
-Optimal objective 101.1 - 0 iterations time 0.002, Presolve 0.00
-Cbc0045I Solution with objective value -101.1 saved
 
 
 
@@ -788,70 +350,542 @@ Cbc0045I Solution with objective value -101.1 saved
 36 facts verified.
 [probmod] Test adding a range constraint and modifying it
 1 fact verified.
+Presolve 0 (-3) rows, 0 (-3) columns and 0 (-7) elements
+Optimal - objective value 101.1
+After Postsolve, objective 101.1, infeasibilities - dual 0 (0), primal 0 (0)
+Optimal objective 101.1 - 0 iterations time 0.002, Presolve 0.00
+Cbc0045I Solution with objective value -101.1 saved
 [probmod] Test adding a 'decoupled' variable (#205)
   > With solver Clp.ClpMathProgSolverInterface.ClpSolver
   > With solver Ipopt.IpoptSolver
-WARNING: Not solved to optimality, status: Unbounded
-WARNING: Unbounded ray not available
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(x) --> roughly(0.0,TOL)
-        Expected: 1.000000007490702 ≅ 0.0
-    Failure :: (line:727) :: With solver Ipopt.IpoptSolver :: fact was false
-      Expression: getValue(y) --> roughly(1.0,TOL)
-        Expected: 0.0 ≅ 1.0
   > With solver CoinOptServices.OsilSolver
 
 
-Out of 6 total facts:
-  Verified: 4
-  Failed:   2
+6 facts verified.
 [probmod] Test buildInternalModel
   > With solver Clp.ClpMathProgSolverInterface.ClpSolver
   > With solver Ipopt.IpoptSolver
-ERROR: LoadError: LoadError: LoadError: UndefVarError: eval_f_cb not defined
- in loadproblem!(MathProgBase.SolverInterface.#loadproblem!, Ipopt.IpoptMathProgModel, Int64, Int64, Array{Float64,1}, Array{Float64,1}, Array{Float64,1}, Array{Float64,1}, Symbol, MathProgBase.SolverInterface.LPQPEvaluator) at /home/vagrant/.julia/v0.5/Ipopt/src/IpoptSolverInterface.jl:98
- in optimize!(MathProgBase.SolverInterface.#optimize!, MathProgBase.SolverInterface.NonlinearToLPQPBridge) at /home/vagrant/.julia/v0.5/MathProgBase/src/SolverInterface/nonlinear_to_lpqp.jl:66
- in #solve#49(JuMP.##solve#49, Bool, Bool, Bool, Array{Any,1}, Any, JuMP.Model) at /home/vagrant/.julia/v0.5/JuMP/src/solvers.jl:88
- in #3265(##3265#3283) at /home/vagrant/.julia/v0.5/JuMP/test/probmod.jl:190
- in context(FactCheck.#context, ##3265#3283, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
- [inlined code] from ./strings/io.jl:73
- in #3264(##3264#3282) at /home/vagrant/.julia/v0.5/JuMP/test/probmod.jl:181
- in facts(FactCheck.#facts, ##3264#3282, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include at ./boot.jl:264
- in include_from_node1 at ./loading.jl:417
- in include at ./boot.jl:264
- in include_from_node1 at ./loading.jl:417
- in include at ./boot.jl:264
- in include_from_node1 at ./loading.jl:417
- in process_options at ./client.jl:244
- in _start at ./client.jl:300
-while loading /home/vagrant/.julia/v0.5/JuMP/test/probmod.jl, in expression starting on line 179
-while loading /home/vagrant/.julia/v0.5/JuMP/test/runtests.jl, in expression starting on line 33
-while loading /home/vagrant/.julia/v0.5/CoinOptServices/test/runtests.jl, in expression starting on line 26
-===========================[ ERROR: CoinOptServices ]===========================
+  > With solver CoinOptServices.OsilSolver
 
-failed process: Process(`/home/vagrant/julia/bin/julia --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.5/CoinOptServices/test/runtests.jl`, ProcessExited(1)) [1]
+24 facts verified.
+[probmod] Test buildInternalModel with MIP
+  > With solver Cbc.CbcMathProgSolverInterface.CbcSolver
+  > With solver CoinOptServices.OsilSolver
 
-================================================================================
-INFO: Removing ArrayViews v0.6.4
+12 facts verified.
+[probmod] Test adding empty constraints
+  > With solver Clp.ClpMathProgSolverInterface.ClpSolver
+  > With solver Ipopt.IpoptSolver
+  > With solver CoinOptServices.OsilSolver
+
+
+6 facts verified.
+[probmod] Test bound modification on binaries
+  > With solver Cbc.CbcMathProgSolverInterface.CbcSolver
+Optimal - objective value 1
+Optimal objective 1 - 0 iterations time 0.002
+Cbc0045I Solution with objective value -1 saved
+Optimal - objective value 0
+Optimal objective 0 - 0 iterations time 0.002
+Cbc0045I Solution with objective value 0 saved
+  > With solver CoinOptServices.OsilSolver
+
+WARNING: Setting upper bound for binary variable x[1] to 1.0 (was 2.0)
+
+WARNING: Modifying initial conditions to satisfy bounds
+
+
+WARNING: Setting lower bound for binary variable x[1] to 0.0 (was -1.0)
+
+WARNING: Modifying initial conditions to satisfy bounds
+
+12 facts verified.
+[probmod] Applicable regressions
+  > Clp
+  > Cbc
+30 facts verified.
+[callback] Test lazy constraints
+0 facts verified.
+[callback] Test user cuts
+0 facts verified.
+[callback] Test heuristics
+0 facts verified.
+[callback] Test informational callback
+0 facts verified.
+WARNING: Callback tests not run!
+[qcqpmodel] Test quad objective (discrete)
+  > With solver CoinOptServices.OsilSolver
+
+
+
+
+
+
+  > With solver CoinOptServices.OsilSolver
+
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I             1         OPT 247        6 0.005219
+Couenne: new cutoff value 2.4700000000e+02 (0.016446 seconds)
+Coin0506I Presolve 0 (-4) rows, 0 (-8) columns and 0 (-10) elements
+Clp0000I Optimal - objective value 247
+Clp0032I Optimal objective 247 - 0 iterations time 0.002, Presolve 0.00
+Clp0000I Optimal - objective value 247
+NLP Heuristic: NLP0014I             2         OPT 247        0 0
+no solution.
+Clp0000I Optimal - objective value 247
+
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I             1         OPT 247        6 0.000234
+Couenne: new cutoff value 2.4700000000e+02 (0.015545 seconds)
+Coin0506I Presolve 0 (-4) rows, 0 (-8) columns and 0 (-10) elements
+Clp0000I Optimal - objective value 247
+Clp0032I Optimal objective 247 - 0 iterations time 0.002, Presolve 0.00
+Clp0000I Optimal - objective value 247
+NLP Heuristic: NLP0014I             2         OPT 247        0 0
+no solution.
+Clp0000I Optimal - objective value 247
+
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I             1         OPT 247        7 0.005932
+Couenne: new cutoff value 2.4700000000e+02 (0.01418 seconds)
+Coin0506I Presolve 0 (-4) rows, 0 (-8) columns and 0 (-10) elements
+Clp0000I Optimal - objective value 247
+Clp0032I Optimal objective 247 - 0 iterations time 0.002, Presolve 0.00
+Clp0000I Optimal - objective value 247
+NLP Heuristic: NLP0014I             2         OPT 247        0 0
+no solution.
+Clp0000I Optimal - objective value 247
+
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I             1         OPT 247        6 0.005817
+Couenne: new cutoff value 2.4700000000e+02 (0.016776 seconds)
+Coin0506I Presolve 0 (-4) rows, 0 (-8) columns and 0 (-10) elements
+Clp0000I Optimal - objective value 247
+Clp0032I Optimal objective 247 - 0 iterations time 0.002, Presolve 0.00
+Clp0000I Optimal - objective value 247
+NLP Heuristic: NLP0014I             2         OPT 247        0 0
+no solution.
+Clp0000I Optimal - objective value 247
+
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I             1         OPT 247        7 0
+Couenne: new cutoff value 2.4700000000e+02 (0.013353 seconds)
+Coin0506I Presolve 0 (-4) rows, 0 (-8) columns and 0 (-10) elements
+Clp0000I Optimal - objective value 247
+Clp0032I Optimal objective 247 - 0 iterations time 0.002, Presolve 0.00
+Clp0000I Optimal - objective value 247
+NLP Heuristic: NLP0014I             2         OPT 247        0 0
+no solution.
+Clp0000I Optimal - objective value 247
+
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I             1         OPT 247        6 0.002922
+Couenne: new cutoff value 2.4700000000e+02 (0.013852 seconds)
+Coin0506I Presolve 0 (-4) rows, 0 (-8) columns and 0 (-10) elements
+Clp0000I Optimal - objective value 247
+Clp0032I Optimal objective 247 - 0 iterations time 0.002, Presolve 0.00
+Clp0000I Optimal - objective value 247
+NLP Heuristic: NLP0014I             2         OPT 247        0 0
+no solution.
+Clp0000I Optimal - objective value 247
+36 facts verified.
+[qcqpmodel] Test quad objective (continuous)
+  > With solver CoinOptServices.OsilSolver
+
+
+
+  > With solver Ipopt.IpoptSolver
+18 facts verified.
+[qcqpmodel] Test quad constraints (continuous)
+  > With solver CoinOptServices.OsilSolver
+
+
+
+  > With solver Ipopt.IpoptSolver
+38 facts verified.
+[qcqpmodel] Test SOC constraints (continuous)
+  > With solver CoinOptServices.OsilSolver
+
+
+
+WARNING: Variable type not provided for variables 4:6, assuming Continuous
+
+WARNING: Variable type not provided for variables 4:6, assuming Continuous
+
+16 facts verified.
+[qcqpmodel] Test SOC duals
+  > With solver CoinOptServices.OsilSolver
+
+
+10 facts verified.
+[qcqpmodel] Test quad constraints (discrete)
+  > With solver CoinOptServices.OsilSolver
+
+  > With solver CoinOptServices.OsilSolver
+
+Couenne: new cutoff value 0.0000000000e+00 (0.012773 seconds)
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I             1         OPT -3.3094011       14 0.002337
+Couenne: new cutoff value -2.0000000000e+00 (0.016027 seconds)
+NLP0014I             2         OPT -2        0 0
+Coin0506I Presolve 9 (0) rows, 6 (-1) columns and 22 (-1) elements
+Clp0006I 0  Obj -2 Primal inf 1.999999 (1) Dual inf 0.999999 (1)
+Clp0006I 5  Obj -4
+Clp0000I Optimal - objective value -4
+Clp0032I Optimal objective -4 - 5 iterations time 0.002, Presolve 0.00
+Clp0000I Optimal - objective value -4
+NLP Heuristic: NLP0014I             3         OPT -3.3094011        9 0.001779
+no solution.
+Clp0000I Optimal - objective value -4
+Optimality Based BT: 2 improved bounds
+Probing: 1 improved bounds
+NLP Heuristic: Couenne: new cutoff value -3.0000000000e+00 (0.01984 seconds)
+no solution.
+Optimality Based BT: 0 improved bounds
+6 facts verified.
+[qcqpmodel] Test simple normed problem
+  > With solver CoinOptServices.OsilSolver
+WARNING: Variable type not provided for variables 4:7, assuming Continuous
+
+3 facts verified.
+[qcqpmodel] Test quad problem modification
+  > With solver CoinOptServices.OsilSolver
+
+
+
+
+  > With solver Ipopt.IpoptSolver
+20 facts verified.
+[qcqpmodel] Rotated second-order cones
+0 facts verified.
+[nonlinear] Test getValue on arrays
+5 facts verified.
+[nonlinear] Test HS071 solves correctly
+  > With solver Ipopt.IpoptSolver
+  > With solver CoinOptServices.OsilSolver
+
+6 facts verified.
+[nonlinear] Test HS071 solves correctly, epigraph
+  > With solver Ipopt.IpoptSolver
+  > With solver CoinOptServices.OsilSolver
+
+4 facts verified.
+[nonlinear] Test ifelse
+  > With solver Ipopt.IpoptSolver
+2 facts verified.
+[nonlinear] Accepting fixed variables
+  > With solver Ipopt.IpoptSolver, simplify = true
+  > With solver Ipopt.IpoptSolver, simplify = false
+  > With solver CoinOptServices.OsilSolver, simplify = true
+
+
+
+
+  > With solver CoinOptServices.OsilSolver, simplify = false
+
+
+
+
+16 facts verified.
+[nonlinear] Test QP solve through NL pathway
+  > With solver Ipopt.IpoptSolver
+  > With solver CoinOptServices.OsilSolver
+
+
+16 facts verified.
+[nonlinear] Test quad con solve through NL pathway
+  > With solver Ipopt.IpoptSolver
+  > With solver CoinOptServices.OsilSolver
+
+6 facts verified.
+[nonlinear] Test resolve with parameter
+  > With solver Ipopt.IpoptSolver, simplify = true
+  > With solver Ipopt.IpoptSolver, simplify = false
+  > With solver CoinOptServices.OsilSolver, simplify = true
+
+
+  > With solver CoinOptServices.OsilSolver, simplify = false
+
+
+16 facts verified.
+[nonlinear] Test two-sided nonlinear constraints
+  > With solver Ipopt.IpoptSolver
+  > With solver CoinOptServices.OsilSolver
+
+
+8 facts verified.
+[nonlinear] Quadratic equality constraints
+  > With solver Ipopt.IpoptSolver
+  > With solver CoinOptServices.OsilSolver
+
+4 facts verified.
+[nonlinear] Test mixed integer nonlinear problems
+  > With solver CoinOptServices.OsilSolver
+
+  > With solver CoinOptServices.OsilSolver
+
+Couenne: new cutoff value 1.0000000000e+01 (0.004464 seconds)
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I             1         OPT 0.75928418        9 0.00732
+NLP0014I             2      INFEAS 0.99999999       14 0.001517
+Coin0506I Presolve 20 (-2) rows, 10 (-7) columns and 53 (-8) elements
+Clp0006I 0  Obj 10.0011 Primal inf 2.4306479 (3) Dual inf 19.199999 (1)
+Clp0006I 12  Obj 0.50999604
+Clp0000I Optimal - objective value 0.50999604
+Clp0032I Optimal objective 0.5099960377 - 12 iterations time 0.002, Presolve 0.00
+Clp0000I Optimal - objective value 0.50999604
+NLP Heuristic: NLP0014I             3         OPT 9.9999997       13 0.009546
+Couenne: new cutoff value 9.9999997410e+00 (0.023192 seconds)
+solution found, obj. 10
+Clp0000I Optimal - objective value 0.50999604
+Optimality Based BT: Couenne: new cutoff value 8.2249788040e+00 (0.024407 seconds)
+Couenne: new cutoff value 7.9066440576e+00 (0.024407 seconds)
+5 improved bounds
+Probing: 0 improved bounds
+NLP Heuristic: Couenne: new cutoff value 6.0097589010e+00 (0.025463 seconds)
+solution found, obj. 6.00976
+Optimality Based BT: 8 improved bounds
+8 facts verified.
+[nonlinear] Test continuous relaxation of minlp test problem
+  > With solver Ipopt.IpoptSolver
+  > With solver CoinOptServices.OsilSolver
+
+10 facts verified.
+[nonlinear] Test maximization objective
+  > With solver Ipopt.IpoptSolver
+  > With solver CoinOptServices.OsilSolver
+
+6 facts verified.
+WARNING: in @defNLExpr(quadexpr2,x + x ^ 2 + x * y + y ^ 2): three arguments are required.
+Note that the syntax of @defNLExpr has recently changed:
+The first argument should be the model to which the expression is attached.
+The second is the name of the expression (or collection of expressions).
+The third is the expression itself.
+Example:
+@defNLExpr(m, my_expr, x^2/y)
+@defNLExpr(m, my_expr_collection[i=1:2], sin(z[i])^2)
+Support for the old syntax (with the model omitted) will be removed in an upcoming release.
+WARNING: in @defNLExpr(x + x ^ 2 + x * y + y ^ 2): three arguments are required.
+Note that the syntax of @defNLExpr has recently changed:
+The first argument should be the model to which the expression is attached.
+The second is the name of the expression (or collection of expressions).
+The third is the expression itself.
+Example:
+@defNLExpr(m, my_expr, x^2/y)
+@defNLExpr(m, my_expr_collection[i=1:2], sin(z[i])^2)
+Support for the old syntax (with the model omitted) will be removed in an upcoming release.
+[nonlinear] Test maximization objective (embedded expressions)
+  > With solver Ipopt.IpoptSolver, simplify = true
+  > With solver Ipopt.IpoptSolver, simplify = false
+  > With solver CoinOptServices.OsilSolver, simplify = true
+
+  > With solver CoinOptServices.OsilSolver, simplify = false
+
+24 facts verified.
+[nonlinear] Test infeasibility detection
+  > With solver Ipopt.IpoptSolver
+  > With solver CoinOptServices.OsilSolver
+
+2 facts verified.
+[nonlinear] Test unboundedness detection
+  > With solver Ipopt.IpoptSolver
+  > With solver CoinOptServices.OsilSolver
+
+2 facts verified.
+[nonlinear] Test entropy maximization
+  > With solver Ipopt.IpoptSolver
+  > With solver CoinOptServices.OsilSolver
+
+4 facts verified.
+[nonlinear] Test entropy maximization (reformulation)
+  > With solver Ipopt.IpoptSolver
+  > With solver CoinOptServices.OsilSolver
+
+8 facts verified.
+[nonlinear] Test derivatives of x^4, x < 0
+  > With solver Ipopt.IpoptSolver
+  > With solver CoinOptServices.OsilSolver
+
+4 facts verified.
+[nonlinear] Test nonlinear duals
+  > With solver Ipopt.IpoptSolver, simplify = true
+  > With solver Ipopt.IpoptSolver, simplify = false
+  > With solver CoinOptServices.OsilSolver, simplify = true
+
+  > With solver CoinOptServices.OsilSolver, simplify = false
+
+76 facts verified.
+[nonlinear] Test nonlinear duals (Max)
+  > With solver Ipopt.IpoptSolver
+  > With solver CoinOptServices.OsilSolver
+
+38 facts verified.
+[nonlinear] Test Hessian chunking code
+  > With solver Ipopt.IpoptSolver
+  > With solver CoinOptServices.OsilSolver
+
+4 facts verified.
+[nonlinear] Test NL MPB interface (-1.0 * x[1] + 1.0 * x[2])
+11 facts verified.
+[nonlinear] Test NL MPB interface (x[1] ^ x[2])
+11 facts verified.
+[nonlinear] Expression graph for linear problem
+1 fact verified.
+[nonlinear] Hessians through MPB
+2 facts verified.
+[nonlinear] Hess-vec through MPB
+1 fact verified.
+[nonlinear] Error on NLP resolve
+2 facts verified.
+[nonlinear] User-defined functions
+10 facts verified.
+[sdp] Test simple SDP
+0 facts verified.
+[sdp] Nonsensical SDPs
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Array{Float64,2}) at ./deprecated.jl:30
+ [inlined code] from ./boot.jl:333
+ in (::##4680#4695)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
+ in do_fact(::##4680#4695, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+ [inlined code] from ./boot.jl:331
+ in (::##4668#4683)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:136
+ in facts(::##4668#4683, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 127
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Array{Float64,2}) at ./deprecated.jl:30
+ [inlined code] from ./boot.jl:333
+ in (::##4681#4696)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
+ in do_fact(::##4681#4696, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+ [inlined code] from ./boot.jl:331
+ in (::##4668#4683)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:137
+ in facts(::##4668#4683, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 127
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Array{Float64,2}) at ./deprecated.jl:30
+ [inlined code] from ./boot.jl:333
+ in (::##4681#4696)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
+ in do_fact(::##4681#4696, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+ [inlined code] from ./boot.jl:331
+ in (::##4668#4683)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:137
+ in facts(::##4668#4683, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 127
+WARNING: issym is deprecated, use issymmetric instead.
+ in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
+ in issym(::Array{Float64,2}) at ./deprecated.jl:30
+ [inlined code] from ./random.jl:329
+ in (::##4682#4697)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
+ in do_fact(::##4682#4697, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+ [inlined code] from ./boot.jl:331
+ in (::##4668#4683)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:138
+ in facts(::##4668#4683, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::UTF8String) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 127
+9 facts verified.
+[sdp] SDP with quadratics
+0 facts verified.
+[sdp] Test problem #2
+0 facts verified.
+[sdp] Test problem #3
+0 facts verified.
+[sdp] Test problem #4
+0 facts verified.
+[sdp] Test problem #5
+0 facts verified.
+[sdp] Test problem #6
+0 facts verified.
+[sdp] Test problem #7
+0 facts verified.
+[sdp] Test problem #8
+0 facts verified.
+[sdp] Test problem #9
+0 facts verified.
+[sdp] Correlation example
+0 facts verified.
+[sdp] Robust uncertainty example
+0 facts verified.
+[sdp] Robust uncertainty example (with norms)
+0 facts verified.
+[sdp] Can't mix SDP and QP (#665)
+0 facts verified.
+[sdp] Just another SDP
+0 facts verified.
+WARNING: Semidefinite tests not run!
+[socduals] SOC dual
+0 facts verified.
+[socduals] LP dual vs SOC dual (Max)
+  > With LP solver Clp.ClpMathProgSolverInterface.ClpSolver
+  > With LP solver Ipopt.IpoptSolver
+  > With LP solver CoinOptServices.OsilSolver
+
+9 facts verified.
+[socduals] LP vs SOC dual (Min)
+  > With LP solver Clp.ClpMathProgSolverInterface.ClpSolver
+  > With LP solver Ipopt.IpoptSolver
+  > With LP solver CoinOptServices.OsilSolver
+
+9 facts verified.
+[socduals] LP vs SOC reduced costs
+  > With LP solver Clp.ClpMathProgSolverInterface.ClpSolver
+  > With LP solver Ipopt.IpoptSolver
+  > With LP solver CoinOptServices.OsilSolver
+
+
+
+30 facts verified.
+[socduals] SOC infeasibility ray test
+0 facts verified.
+WARNING: Conic solvers with duals tests not run!
+INFO: CoinOptServices tests passed
 INFO: Removing Calculus v0.1.14
-INFO: Removing DataStructures v0.4.2
-INFO: Removing DualNumbers v0.2.1
+INFO: Removing DataStructures v0.4.3
 INFO: Removing FactCheck v0.4.2
-INFO: Removing JuMP v0.11.3
+INFO: Removing ForwardDiff v0.1.6
+INFO: Removing JuMP v0.12.0
+INFO: Removing Lazy v0.10.1
+INFO: Removing MacroTools v0.3.0
 INFO: Removing NaNMath v0.2.0
-INFO: Removing ReverseDiffSparse v0.3.0
-ERROR: Base.Pkg.PkgError("CoinOptServices had test errors")
- in #test#55(Base.Pkg.Entry.##test#55, Bool, Any, Array{AbstractString,1}) at ./pkg/entry.jl:671
- [inlined code] from ./boot.jl:331
- in #2(Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}) at ./pkg/dir.jl:31
- in cd(Base.Filesystem.#cd, Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, UTF8String) at ./file.jl:47
- in #cd#1(Base.Pkg.Dir.##cd#1, Array{Any,1}, Any, Any, Array{AbstractString,1}, Vararg{Array{AbstractString,1}}) at ./pkg/dir.jl:31
- [inlined code] from ./boot.jl:331
- in #test#4(Base.Pkg.##test#4, Bool, Any, ASCIIString, Vararg{ASCIIString}) at ./pkg.jl:228
- in eval at ./boot.jl:267
- [inlined code] from ./sysimg.jl:14
- in process_options at ./client.jl:221
- in _start at ./client.jl:300
+INFO: Removing ReverseDiffSparse v0.5.3
 
 >>> End of log

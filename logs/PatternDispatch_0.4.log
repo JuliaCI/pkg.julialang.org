@@ -1,8 +1,346 @@
 >>> 'Pkg.add("PatternDispatch")' log
 INFO: Cloning cache of PatternDispatch from git://github.com/toivoh/PatternDispatch.jl.git
-INFO: Installing PatternDispatch v0.0.2
+INFO: Installing PatternDispatch v0.2.0
 INFO: Package database updated
 
 >>> 'Pkg.test("PatternDispatch")' log
-No tests found.
+Julia Version 0.4.3
+Commit a2f713d (2016-01-12 21:37 UTC)
+Platform Info:
+  System: Linux (x86_64-unknown-linux-gnu)
+  CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
+  WORD_SIZE: 64
+  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
+  LAPACK: libopenblas64_
+  LIBM: libopenlibm
+  LLVM: libLLVM-3.3
+INFO: Testing PatternDispatch
+Warning: New @pattern method f(x_A, y_A::Int64)
+         is ambiguous with   f(x_B::Int64, y_B).
+         Make sure f(x_A~x_B::Int64, y_A~y_B::Int64) is defined first.
+Warning: New @pattern method g(x_A, 2)
+         is ambiguous with   g(1, y_B).
+         Make sure g(x_A~1, y_B~2) is defined first.
+const f = (args...)->dispatch(args...)
+
+# ---- Pattern methods: ----
+# f(1, 1)
+function match1() # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_big_dtree.jl, line 4:
+    11
+end
+
+# f(1, 2)
+function match2() # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_big_dtree.jl, line 5:
+    12
+end
+
+# f(2, 1)
+function match3() # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_big_dtree.jl, line 6:
+    21
+end
+
+# f(2, 2)
+function match4() # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_big_dtree.jl, line 7:
+    21
+end
+
+# f(1, y::Int64)
+function match5(y) # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_big_dtree.jl, line 8:
+    1
+end
+
+# f(2, y::Int64)
+function match6(y) # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_big_dtree.jl, line 9:
+    2
+end
+
+# f(x::Int64, 1)
+function match7(x) # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_big_dtree.jl, line 10:
+    1
+end
+
+# f(x::Int64, 2)
+function match8(x) # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_big_dtree.jl, line 11:
+    2
+end
+
+# f(x::Int64, y::Int64)
+function match9(y,x) # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_big_dtree.jl, line 12:
+    0
+end
+
+# ---- Dispatch methods: ----
+function dispatch(x_9::$(Expr(:quote, Int64)),y_9::$(Expr(:quote, Int64)))
+    ##t#7976 = $(Expr(:quote, 1))
+    if is(x_9,##t#7976)
+        if is(y_9,##t#7976)
+            match1()
+        else 
+            if is(y_9,$(Expr(:quote, 2)))
+                match2()
+            else 
+                match5(y_9)
+            end
+        end
+    else 
+        ##t#7977 = $(Expr(:quote, 2))
+        if is(x_9,##t#7977)
+            if is(y_9,$(Expr(:quote, 1)))
+                match3()
+            else 
+                if is(y_9,##t#7977)
+                    match4()
+                else 
+                    match6(y_9)
+                end
+            end
+        else 
+            if is(y_9,$(Expr(:quote, 2)))
+                match8(x_9)
+            else 
+                if is(y_9,$(Expr(:quote, 1)))
+                    match7(x_9)
+                else 
+                    match9(x_9,y_9)
+                end
+            end
+        end
+    end
+end
+
+Any[1,42,3,4]
+
+const f = (args...)->dispatch(args...)
+
+# ---- Pattern methods: ----
+# f(x,)
+function match1(x) # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_examples.jl, line 4:
+    x
+end
+
+# f(2,)
+function match2() # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_examples.jl, line 5:
+    42
+end
+
+# ---- Dispatch methods: ----
+function dispatch(x_1::$(Expr(:quote, Int64)))
+    if is(x_1,$(Expr(:quote, 2)))
+        match2()
+    else 
+        match1(x_1)
+    end
+end
+
+function dispatch(x_1::$(Expr(:quote, Any)))
+    match1(x_1)
+end
+
+const f = (args...)->dispatch(args...)
+
+# ---- Pattern methods: ----
+# f(x,)
+function match1(x) # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_examples.jl, line 4:
+    x
+end
+
+# f(2,)
+function match2() # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_examples.jl, line 5:
+    42
+end
+
+# ---- Dispatch methods: ----
+function dispatch(x_1::$(Expr(:quote, Int64)))
+    if is(x_1,$(Expr(:quote, 2)))
+        match2()
+    else 
+        match1(x_1)
+    end
+end
+
+
+f2((2,5)) = 10
+f2((4,3)) = 12
+f2([4,3]) = 1.3333333333333333
+f2((4,'a')) = nothing
+f2(Any[4,'a']) = nothing
+f2(1) = nothing
+f2("foo") = nothing
+f2((1,)) = nothing
+f2((1,2,3)) = nothing
+
+f3([3,2]) = Any[[3,2],6]
+f3(Any[3,2]) = Any[Any[3,2],6]
+f3([3,2.0]) = nothing
+
+f4(nothing) = 1
+f4(1) = 2
+f4(:x) = 2
+f4("foo") = 2
+
+Warning: New @pattern method ambiguous(x_A, (1, z_A))
+         is ambiguous with   ambiguous((x_B, y_B), z_B).
+         Make sure ambiguous(x_A~(x_B, y_B), z_B~(1, z_A)) is defined first.
+julia_signature_of(@qpat((x,))) = (Any,)
+julia_signature_of(@qpat((x::Int,))) = (Int64,)
+julia_signature_of(@qpat((x,y))) = (Any,Any)
+julia_signature_of(@qpat((x,y::Int))) = (Any,Int64)
+julia_signature_of(@qpat((x::Number,y::AbstractString))) = (Number,AbstractString)
+julia_signature_of(@qpat((x::Int,(y::Int,z::Real)))) = (Int64,Tuple)
+const f = (args...)->dispatch(args...)
+
+# ---- Pattern methods: ----
+# f((1, 2),)
+function match1() # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_named_nodes.jl, line 4:
+    3
+end
+
+# f((x::Int64, 2),)
+function match2(x) # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_named_nodes.jl, line 5:
+    2
+end
+
+# f((1, y::Int64),)
+function match3(y) # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_named_nodes.jl, line 6:
+    1
+end
+
+# f((x::Int64, y::Int64),)
+function match4(y,x) # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_named_nodes.jl, line 7:
+    x * y
+end
+
+# ---- Dispatch methods: ----
+function dispatch(arg1::$(Expr(:quote, Tuple)))
+    ##t#8151 = $(Expr(:quote, 2))
+    if (is(length(arg1),##t#8151) && begin 
+                    y_4 = arg1[2]
+                    isa(y_4,$(Expr(:quote, Int64)))
+                end) && begin 
+                x_4 = arg1[1]
+                isa(x_4,$(Expr(:quote, Int64)))
+            end
+        if is(x_4,$(Expr(:quote, 1)))
+            if is(y_4,##t#8151)
+                match1()
+            else 
+                match3(y_4)
+            end
+        else 
+            if is(y_4,##t#8151)
+                match2(x_4)
+            else 
+                match4(x_4,y_4)
+            end
+        end
+    else 
+        error("No matching pattern method found")
+    end
+end
+
+==== Full dispatch: ====
+const f = (args...)->dispatch(args...)
+
+# ---- Pattern methods: ----
+# f(x, y)
+function match1(y,x) # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_show_dispatch.jl, line 8:
+    1
+end
+
+# f(1, y)
+function match2(y) # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_show_dispatch.jl, line 9:
+    2
+end
+
+# f(1, 2)
+function match3() # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_show_dispatch.jl, line 10:
+    3
+end
+
+# ---- Dispatch methods: ----
+function dispatch(x_1::$(Expr(:quote, Int64)),y_1::$(Expr(:quote, Int64)))
+    if is(x_1,$(Expr(:quote, 1)))
+        if is(y_1,$(Expr(:quote, 2)))
+            match3()
+        else 
+            match2(y_1)
+        end
+    else 
+        match1(x_1,y_1)
+    end
+end
+
+function dispatch(x_1::$(Expr(:quote, Any)),y_1::$(Expr(:quote, Any)))
+    match1(x_1,y_1)
+end
+
+function dispatch(x_1::$(Expr(:quote, Int64)),y_1::$(Expr(:quote, Any)))
+    if is(x_1,$(Expr(:quote, 1)))
+        match2(y_1)
+    else 
+        match1(x_1,y_1)
+    end
+end
+
+
+==== Dispatch for (Int,Any): ====
+const f = (args...)->dispatch(args...)
+
+# ---- Pattern methods: ----
+# f(x, y)
+function match1(y,x) # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_show_dispatch.jl, line 8:
+    1
+end
+
+# f(1, y)
+function match2(y) # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_show_dispatch.jl, line 9:
+    2
+end
+
+# f(1, 2)
+function match3() # /home/vagrant/.julia/v0.4/PatternDispatch/test/test_show_dispatch.jl, line 10:
+    3
+end
+
+# ---- Dispatch methods: ----
+function dispatch(x_1::$(Expr(:quote, Int64)),y_1::$(Expr(:quote, Int64)))
+    if is(x_1,$(Expr(:quote, 1)))
+        if is(y_1,$(Expr(:quote, 2)))
+            match3()
+        else 
+            match2(y_1)
+        end
+    else 
+        match1(x_1,y_1)
+    end
+end
+
+function dispatch(x_1::$(Expr(:quote, Int64)),y_1::$(Expr(:quote, Any)))
+    if is(x_1,$(Expr(:quote, 1)))
+        match2(y_1)
+    else 
+        match1(x_1,y_1)
+    end
+end
+
+@qpat(1) = 1
+@qpat(1::Int) = 1
+@qpat(1::Float64) = ::Union{}
+
+@qpat(x::Any) = x
+@qpat(::Any) = ::Any
+@qpat(::Union{}) = ::Union{}
+@qpat((x::Union{},y::Int)) = ::Union{}
+
+@qpat(x) = x
+@qpat(::Int) = ::Int64
+@qpat(x::Int) = x::Int64
+@qpat(@~(x,y)) = x~y
+@qpat(@~(x,y::Int)) = x~y::Int64
+
+@qpat((x,y)) = (x, y)
+@qpat((x,y)::Tuple) = (x, y)
+@qpat(@~(z,(x::Int,1))) = z~(x::Int64, 1)
+INFO: PatternDispatch tests passed
+
 >>> End of log

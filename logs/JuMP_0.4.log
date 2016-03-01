@@ -1,12 +1,16 @@
 >>> 'Pkg.add("JuMP")' log
 INFO: Installing Calculus v0.1.14
-INFO: Installing DataStructures v0.4.2
-INFO: Installing DualNumbers v0.2.1
-INFO: Installing JuMP v0.11.3
-INFO: Installing MathProgBase v0.4.1
+INFO: Installing DataStructures v0.4.3
+INFO: Installing ForwardDiff v0.1.6
+INFO: Installing JuMP v0.12.0
+INFO: Installing Lazy v0.10.1
+INFO: Installing MacroTools v0.3.0
+INFO: Installing MathProgBase v0.4.2
 INFO: Installing NaNMath v0.2.0
-INFO: Installing ReverseDiffSparse v0.3.0
+INFO: Installing ReverseDiffSparse v0.5.3
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of JuMP
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("JuMP")' log
 Julia Version 0.4.3
@@ -26,7 +30,7 @@ INFO: Installing ECOS v0.6.1
 INFO: Installing FactCheck v0.4.2
 INFO: Installing GLPK v0.2.17
 INFO: Installing GLPKMathProgInterface v0.2.0
-INFO: Installing Ipopt v0.2.0
+INFO: Installing Ipopt v0.2.1
 INFO: Installing SCS v0.2.0
 INFO: Building Cbc
 INFO: Building ECOS
@@ -68,9 +72,6 @@ INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/Clp.ji for modu
 1 fact verified.
 [variable] condition in indexing
 3 facts verified.
-[variable] JuMPContainer iteration
-WARNING: Iteration over JuMP containers is deprecated. Use keys(d) and values(d) instead
-87 facts verified.
 [variable] @defVar returning Array{Variable}
 WARNING: Variable value not defined for component of x. Check that the model was properly solved.
 WARNING: Variable value not defined for component of z. Check that the model was properly solved.
@@ -80,12 +81,10 @@ WARNING: Variable value not defined for component of z. Check that the model was
 [expr] Test expression construction
   > AffExpr
   > QuadExpr
-6 facts verified.
+8 facts verified.
 [expr] Test getValue(expr)
 2 facts verified.
 [expr] Test expression iterators
-4 facts verified.
-[expr] Test in(::Variable, ::AffExpr)
 4 facts verified.
 [operator] Testing basic operator overloads
   > Number--???
@@ -98,7 +97,7 @@ WARNING: Variable value not defined for component of z. Check that the model was
 [operator] Higher-level operators
   > sum
   > dot
-17 facts verified.
+18 facts verified.
 Vectorized operations
   > Transpose
   > Vectorized arithmetic
@@ -137,8 +136,10 @@ Vectorized operations
 158 facts verified.
 [macros] Multidimensional indexing
 1 fact verified.
+WARNING: The two-argument version of @defExpr is deprecated. The corresponding JuMP model is now required as the first argument. The new syntax is @defExpr(<JuMP model>, <name of expression(s)>, <expression>)
+WARNING: The one-argument version of @defExpr is deprecated. The corresponding JuMP model is now required as the first argument, and a name for the expression or collection of expressions is required as the second argument. The new syntax is @defExpr(<JuMP model>, <name of expression(s)>, <expression>)
 [macros] @defExpr
-4 facts verified.
+6 facts verified.
 [macros] Conditions in constraint indexing
 7 facts verified.
 [macros] Test changes in condition parsing
@@ -199,7 +200,7 @@ This program contains Ipopt, a library for large-scale nonlinear optimization.
   > With solver GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP
 4 facts verified.
 [model] Test model copying
-29 facts verified.
+28 facts verified.
 [model] Test variable/model 'hygiene'
   > Linear constraint
   > Linear objective
@@ -253,7 +254,7 @@ Cbc3007W No integer variables - nothing to do
 [model] Test getValue on OneIndexedArrays
 2 facts verified.
 [model] Relaxation keyword argument to solve
-20 facts verified.
+24 facts verified.
 [model] Unrecognized keyword argument to solve
 1 fact verified.
 [probmod] Testing problem modification basics
@@ -309,6 +310,13 @@ Cbc0045I Solution with objective value -101.1 saved
   > With solver Cbc.CbcMathProgSolverInterface.CbcSolver
   > With solver GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP
 12 facts verified.
+[probmod] Test adding empty constraints
+  > With solver Clp.ClpMathProgSolverInterface.ClpSolver
+  > With solver GLPKMathProgInterface.GLPKInterfaceLP.GLPKSolverLP
+  > With solver Ipopt.IpoptSolver
+  > With solver ECOS.ECOSSolver
+  > With solver SCS.SCSSolver
+10 facts verified.
 [probmod] Test bound modification on binaries
   > With solver Cbc.CbcMathProgSolverInterface.CbcSolver
 Optimal - objective value 1
@@ -337,9 +345,6 @@ WARNING: Ignoring infeasible solution from heuristic callback
 6 facts verified.
 [callback] Test informational callback
 0 facts verified.
-[callback] Callback exit on CallbackAbort
-  > With solver GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP
-1 fact verified.
 [qcqpmodel] Test quad objective (discrete)
 0 facts verified.
 [qcqpmodel] Test quad objective (continuous)
@@ -347,9 +352,6 @@ WARNING: Ignoring infeasible solution from heuristic callback
 9 facts verified.
 [qcqpmodel] Test quad constraints (continuous)
   > With solver Ipopt.IpoptSolver
-glp_delete_prob: operation not allowed
-Error detected in file /home/vagrant/.julia/v0.4/GLPK/deps/src/glpk-4.52/src/glpapi01.c at line 1564
-error in running finalizer: GLPK.GLPKFatalError(msg="GLPK call failed. All GLPK objects you defined so far are now invalidated.")
 19 facts verified.
 [qcqpmodel] Test SOC constraints (continuous)
   > With solver ECOS.ECOSSolver
@@ -370,6 +372,8 @@ error in running finalizer: GLPK.GLPKFatalError(msg="GLPK call failed. All GLPK 
 10 facts verified.
 [qcqpmodel] Rotated second-order cones
 0 facts verified.
+[nonlinear] Test getValue on arrays
+5 facts verified.
 [nonlinear] Test HS071 solves correctly
   > With solver Ipopt.IpoptSolver
 3 facts verified.
@@ -380,17 +384,25 @@ error in running finalizer: GLPK.GLPKFatalError(msg="GLPK call failed. All GLPK 
   > With solver Ipopt.IpoptSolver
 2 facts verified.
 [nonlinear] Accepting fixed variables
-  > With solver Ipopt.IpoptSolver
-4 facts verified.
+  > With solver Ipopt.IpoptSolver, simplify = true
+  > With solver Ipopt.IpoptSolver, simplify = false
+8 facts verified.
 [nonlinear] Test QP solve through NL pathway
   > With solver Ipopt.IpoptSolver
-6 facts verified.
+8 facts verified.
 [nonlinear] Test quad con solve through NL pathway
   > With solver Ipopt.IpoptSolver
 3 facts verified.
+[nonlinear] Test resolve with parameter
+  > With solver Ipopt.IpoptSolver, simplify = true
+  > With solver Ipopt.IpoptSolver, simplify = false
+8 facts verified.
 [nonlinear] Test two-sided nonlinear constraints
   > With solver Ipopt.IpoptSolver
 4 facts verified.
+[nonlinear] Quadratic equality constraints
+  > With solver Ipopt.IpoptSolver
+2 facts verified.
 [nonlinear] Test mixed integer nonlinear problems
 0 facts verified.
 [nonlinear] Test continuous relaxation of minlp test problem
@@ -399,9 +411,28 @@ error in running finalizer: GLPK.GLPKFatalError(msg="GLPK call failed. All GLPK 
 [nonlinear] Test maximization objective
   > With solver Ipopt.IpoptSolver
 3 facts verified.
+WARNING: in @defNLExpr(quadexpr2,x + x ^ 2 + x * y + y ^ 2): three arguments are required.
+Note that the syntax of @defNLExpr has recently changed:
+The first argument should be the model to which the expression is attached.
+The second is the name of the expression (or collection of expressions).
+The third is the expression itself.
+Example:
+@defNLExpr(m, my_expr, x^2/y)
+@defNLExpr(m, my_expr_collection[i=1:2], sin(z[i])^2)
+Support for the old syntax (with the model omitted) will be removed in an upcoming release.
+WARNING: in @defNLExpr(x + x ^ 2 + x * y + y ^ 2): three arguments are required.
+Note that the syntax of @defNLExpr has recently changed:
+The first argument should be the model to which the expression is attached.
+The second is the name of the expression (or collection of expressions).
+The third is the expression itself.
+Example:
+@defNLExpr(m, my_expr, x^2/y)
+@defNLExpr(m, my_expr_collection[i=1:2], sin(z[i])^2)
+Support for the old syntax (with the model omitted) will be removed in an upcoming release.
 [nonlinear] Test maximization objective (embedded expressions)
-  > With solver Ipopt.IpoptSolver
-4 facts verified.
+  > With solver Ipopt.IpoptSolver, simplify = true
+  > With solver Ipopt.IpoptSolver, simplify = false
+12 facts verified.
 [nonlinear] Test infeasibility detection
   > With solver Ipopt.IpoptSolver
 1 fact verified.
@@ -414,12 +445,19 @@ error in running finalizer: GLPK.GLPKFatalError(msg="GLPK call failed. All GLPK 
 [nonlinear] Test entropy maximization (reformulation)
   > With solver Ipopt.IpoptSolver
 4 facts verified.
-[nonlinear] Test nonlinear duals
+[nonlinear] Test derivatives of x^4, x < 0
   > With solver Ipopt.IpoptSolver
-19 facts verified.
+2 facts verified.
+[nonlinear] Test nonlinear duals
+  > With solver Ipopt.IpoptSolver, simplify = true
+  > With solver Ipopt.IpoptSolver, simplify = false
+38 facts verified.
 [nonlinear] Test nonlinear duals (Max)
   > With solver Ipopt.IpoptSolver
 19 facts verified.
+[nonlinear] Test Hessian chunking code
+  > With solver Ipopt.IpoptSolver
+2 facts verified.
 [nonlinear] Test NL MPB interface (-1.0 * x[1] + 1.0 * x[2])
 11 facts verified.
 [nonlinear] Test NL MPB interface (x[1] ^ x[2])
@@ -427,9 +465,13 @@ error in running finalizer: GLPK.GLPKFatalError(msg="GLPK call failed. All GLPK 
 [nonlinear] Expression graph for linear problem
 1 fact verified.
 [nonlinear] Hessians through MPB
-1 fact verified.
+2 facts verified.
 [nonlinear] Hess-vec through MPB
 1 fact verified.
+[nonlinear] Error on NLP resolve
+2 facts verified.
+[nonlinear] User-defined functions
+10 facts verified.
 WARNING: Mixed-integer Nonlinear tests not run!
 [sdp] Test simple SDP
   > With solver SCS.SCSSolver
@@ -484,6 +526,46 @@ WARNING: Not solved to optimality, status: UnknownError
 [sdp] Can't mix SDP and QP (#665)
   > With solver SCS.SCSSolver
 1 fact verified.
+[sdp] Just another SDP
+  > With solver SCS.SCSSolver
+3 facts verified.
+[socduals] SOC dual
+  > With solver ECOS.ECOSSolver
+  > With solver SCS.SCSSolver
+10 facts verified.
+[socduals] LP dual vs SOC dual (Max)
+  > With LP solver Clp.ClpMathProgSolverInterface.ClpSolver
+  > With LP solver GLPKMathProgInterface.GLPKInterfaceLP.GLPKSolverLP
+  > With LP solver Ipopt.IpoptSolver
+  > With LP solver ECOS.ECOSSolver
+  > With LP solver SCS.SCSSolver
+  > With conic solver ECOS.ECOSSolver
+  > With conic solver SCS.SCSSolver
+21 facts verified.
+[socduals] LP vs SOC dual (Min)
+  > With LP solver Clp.ClpMathProgSolverInterface.ClpSolver
+  > With LP solver GLPKMathProgInterface.GLPKInterfaceLP.GLPKSolverLP
+  > With LP solver Ipopt.IpoptSolver
+  > With LP solver ECOS.ECOSSolver
+  > With LP solver SCS.SCSSolver
+  > With conic solver ECOS.ECOSSolver
+  > With conic solver SCS.SCSSolver
+21 facts verified.
+[socduals] LP vs SOC reduced costs
+  > With LP solver Clp.ClpMathProgSolverInterface.ClpSolver
+  > With LP solver GLPKMathProgInterface.GLPKInterfaceLP.GLPKSolverLP
+  > With LP solver Ipopt.IpoptSolver
+  > With LP solver ECOS.ECOSSolver
+  > With LP solver SCS.SCSSolver
+  > With conic solver ECOS.ECOSSolver
+  > With conic solver SCS.SCSSolver
+70 facts verified.
+[socduals] SOC infeasibility ray test
+  > With conic solver ECOS.ECOSSolver
+WARNING: Not solved to optimality, status: Infeasible
+  > With conic solver SCS.SCSSolver
+WARNING: Not solved to optimality, status: Infeasible
+6 facts verified.
 INFO: JuMP tests passed
 INFO: Removing Cbc v0.2.0
 INFO: Removing Clp v0.2.0
@@ -491,7 +573,7 @@ INFO: Removing ECOS v0.6.1
 INFO: Removing FactCheck v0.4.2
 INFO: Removing GLPK v0.2.17
 INFO: Removing GLPKMathProgInterface v0.2.0
-INFO: Removing Ipopt v0.2.0
+INFO: Removing Ipopt v0.2.1
 INFO: Removing SCS v0.2.0
 
 >>> End of log

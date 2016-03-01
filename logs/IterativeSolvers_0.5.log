@@ -1,11 +1,13 @@
 >>> 'Pkg.add("IterativeSolvers")' log
 INFO: Cloning cache of IterativeSolvers from https://github.com/JuliaLang/IterativeSolvers.jl.git
-INFO: Installing IterativeSolvers v0.2.1
+INFO: Installing IterativeSolvers v0.2.2
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of IterativeSolvers
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("IterativeSolvers")' log
-Julia Version 0.5.0-dev+2440
-Commit 2bb94d6 (2016-02-01 02:22 UTC)
+Julia Version 0.5.0-dev+2918
+Commit 1eacbbb (2016-02-28 16:56 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
@@ -50,6 +52,14 @@ gmres
   > SparseMatrixCSC{Float64}
   > SparseMatrixCSC{Complex{Float64}}
 36 facts verified.
+idrs
+  > Matrix{Float32}
+  > Matrix{Float64}
+  > Matrix{Complex{Float32}}
+  > Matrix{Complex{Float64}}
+  > SparseMatrixCSC{Float64}
+  > SparseMatrixCSC{Complex{Float64}}
+12 facts verified.
 Chebyshev
   > Matrix{Float32}
   > Matrix{Float64}
@@ -73,15 +83,9 @@ simple eigensolvers
 eigvals_lanczos
   > Matrix{Float32}
   > Op{Float32}
-    Failure :: (line:727) :: Op{Float32} :: fact was false
-      Expression: c_lanczos.isconverged --> true
-        Expected: true
-        Occurred: false
   > Matrix{Float64}
   > Op{Float64}
-Out of 7 total facts:
-  Verified: 6
-  Failed:   1
+8 facts verified.
 svdl
   > Thick restart with method=ritz
     > Diagonal Matrix{Float32}
@@ -90,48 +94,42 @@ svdl
     > Rectangular Matrix{Float64}
   > Thick restart with method=harmonic
     > Diagonal Matrix{Float32}
-ERROR: LoadError: LoadError: ArgumentError: number of rows of each array must match (got (10,1))
- [inlined code] from ./strings/io.jl:73
- in typed_hcat(Base.#typed_hcat, Type{T}, Array{Float32,2}, Array{Float32,2}) at ./abstractarray.jl:767
- [inlined code] from ./abstractarray.jl:757
- in harmonicrestart!(IterativeSolvers.#harmonicrestart!, Array{Float32,2}, IterativeSolvers.PartialFactorization{Float32,Float32}, Base.LinAlg.SVD{Float32,Float32,Array{Float32,2}}, Int64) at /home/vagrant/.julia/v0.5/IterativeSolvers/src/svdl.jl:454
- in #svdl#58(IterativeSolvers.##svdl#58, Int64, Int64, Array{Float32,1}, Int64, Float64, Float64, Bool, Symbol, Bool, Symbol, Bool, IterativeSolvers.#svdl, Array{Float32,2}, Int64) at /home/vagrant/.julia/v0.5/IterativeSolvers/src/svdl.jl:202
- [inlined code] from ./boot.jl:331
- in #299(##299#314) at /home/vagrant/.julia/v0.5/IterativeSolvers/test/svdl.jl:15
- in context(FactCheck.#context, ##299#314, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
- in #298(##298#313) at /home/vagrant/.julia/v0.5/IterativeSolvers/test/svdl.jl:8
- in context(FactCheck.#context, ##298#313, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
- in #297(##297#312) at /home/vagrant/.julia/v0.5/IterativeSolvers/test/svdl.jl:6
- in facts(FactCheck.#facts, ##297#312, ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include at ./boot.jl:264
- in include_from_node1 at ./loading.jl:417
- in include at ./boot.jl:264
- in include_from_node1 at ./loading.jl:417
- in process_options at ./client.jl:244
- in _start at ./client.jl:300
-while loading /home/vagrant/.julia/v0.5/IterativeSolvers/test/svdl.jl, in expression starting on line 4
-while loading /home/vagrant/.julia/v0.5/IterativeSolvers/test/runtests.jl, in expression starting on line 219
-==========================[ ERROR: IterativeSolvers ]===========================
-
-failed process: Process(`/home/vagrant/julia/bin/julia --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.5/IterativeSolvers/test/runtests.jl`, ProcessExited(1)) [1]
-
-================================================================================
+    > Rectangular Matrix{Float32}
+    > Diagonal Matrix{Float64}
+    > Rectangular Matrix{Float64}
+24 facts verified.
+BrokenArrowBidiagonal
+5 facts verified.
+lsqr
+  > Small dense matrix
+  > SOL test
+  > Issue 64
+7 facts verified.
+WARNING: Method definition scale!(Main.DampenedVector, Number) in module Main at /home/vagrant/.julia/v0.5/IterativeSolvers/test/lsmr.jl:72 overwritten at /home/vagrant/.julia/v0.5/IterativeSolvers/test/lsmr.jl:78.
+lsmr
+  > Small dense matrix
+  > SOL test
+  > dampened test
+6 facts verified.
+Randomized linear algebra
+203 facts verified.
+IterativeSolvers.rsvdfact
+  > Small wide rectangular
+  > Small tall rectangular
+  > Small square
+  > Low rank
+  > rrange_adaptive
+13 facts verified.
+rsvd_fnkz
+  > Rank 2 matrix
+  > Linearly dependent matrix
+  > Zero matrix
+5 facts verified.
+INFO: IterativeSolvers tests passed
 INFO: Removing Blosc v0.1.4
 INFO: Removing FactCheck v0.4.2
 INFO: Removing HDF5 v0.5.8
 INFO: Removing MAT v0.2.14
 INFO: Removing MatrixMarket v0.0.1
-ERROR: Base.Pkg.PkgError("IterativeSolvers had test errors")
- in #test#55(Base.Pkg.Entry.##test#55, Bool, Any, Array{AbstractString,1}) at ./pkg/entry.jl:671
- [inlined code] from ./boot.jl:331
- in #2(Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}) at ./pkg/dir.jl:31
- in cd(Base.Filesystem.#cd, Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, UTF8String) at ./file.jl:47
- in #cd#1(Base.Pkg.Dir.##cd#1, Array{Any,1}, Any, Any, Array{AbstractString,1}, Vararg{Array{AbstractString,1}}) at ./pkg/dir.jl:31
- [inlined code] from ./boot.jl:331
- in #test#4(Base.Pkg.##test#4, Bool, Any, ASCIIString, Vararg{ASCIIString}) at ./pkg.jl:228
- in eval at ./boot.jl:267
- [inlined code] from ./sysimg.jl:14
- in process_options at ./client.jl:221
- in _start at ./client.jl:300
 
 >>> End of log
