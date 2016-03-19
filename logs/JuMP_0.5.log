@@ -2,19 +2,19 @@
 INFO: Installing Calculus v0.1.14
 INFO: Installing DataStructures v0.4.3
 INFO: Installing ForwardDiff v0.1.6
-INFO: Installing JuMP v0.12.0
+INFO: Installing JuMP v0.12.2
 INFO: Installing Lazy v0.10.1
 INFO: Installing MacroTools v0.3.0
 INFO: Installing MathProgBase v0.4.2
-INFO: Installing NaNMath v0.2.0
-INFO: Installing ReverseDiffSparse v0.5.3
+INFO: Installing NaNMath v0.2.1
+INFO: Installing ReverseDiffSparse v0.5.5
 INFO: Package database updated
 INFO: METADATA is out-of-date — you may not have the latest version of JuMP
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("JuMP")' log
-Julia Version 0.5.0-dev+2918
-Commit 1eacbbb (2016-02-28 16:56 UTC)
+Julia Version 0.5.0-dev+3184
+Commit fb283c6 (2016-03-17 08:49 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
@@ -22,16 +22,16 @@ Platform Info:
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
   LIBM: libopenlibm
-  LLVM: libLLVM-3.7.1
+  LLVM: libLLVM-3.7.1 (ORCJIT, haswell)
 INFO: Computing test dependencies for JuMP...
 INFO: Installing Cbc v0.2.0
 INFO: Installing Clp v0.2.0
-INFO: Installing ECOS v0.6.1
+INFO: Installing ECOS v0.6.2
 INFO: Installing FactCheck v0.4.2
 INFO: Installing GLPK v0.2.17
-INFO: Installing GLPKMathProgInterface v0.2.0
+INFO: Installing GLPKMathProgInterface v0.2.1
 INFO: Installing Ipopt v0.2.1
-INFO: Installing SCS v0.2.0
+INFO: Installing SCS v0.2.1
 INFO: Building Cbc
 INFO: Building ECOS
 INFO: Building GLPK
@@ -78,6 +78,107 @@ WARNING: Variable value not defined for component of z. Check that the model was
 6 facts verified.
 [variable] getValue on empty things
 5 facts verified.
+[variable] Slices of JuMPArray (#684)
+  Failure :: (line:26) :: fact was false
+    Expression: x[1,:,:] --> sliceof(x,1,1:4,1:2,0,0,0)
+      Expected: 1x4x2 Array{JuMP.Variable,3}:
+[:, :, 1] =
+ x[1,1,1]  x[1,2,1]  x[1,3,1]  x[1,4,1]
+
+[:, :, 2] =
+ x[1,1,2]  x[1,2,2]  x[1,3,2]  x[1,4,2]
+      Occurred: 4x2 Array{JuMP.Variable,2}:
+ x[1,1,1]  x[1,1,2]
+ x[1,2,1]  x[1,2,2]
+ x[1,3,1]  x[1,3,2]
+ x[1,4,1]  x[1,4,2]
+  Failure :: (line:26) :: fact was false
+    Expression: x[1,:,2] --> sliceof(x,1,1:4,2,0,0,0)
+      Expected: 1x4 Array{JuMP.Variable,2}:
+ x[1,1,2]  x[1,2,2]  x[1,3,2]  x[1,4,2]
+      Occurred: [x[1,1,2],x[1,2,2],x[1,3,2],x[1,4,2]]
+  Failure :: (line:26) :: fact was false
+    Expression: y[1,:,:] --> sliceof(y,1,1:4,1:2,0,-2,2)
+      Expected: 1x4x2 Array{JuMP.Variable,3}:
+[:, :, 1] =
+ y[1,-1,3]  y[1,0,3]  y[1,1,3]  y[1,2,3]
+
+[:, :, 2] =
+ y[1,-1,4]  y[1,0,4]  y[1,1,4]  y[1,2,4]
+      Occurred: 4x2 Array{JuMP.Variable,2}:
+ y[1,-1,3]  y[1,-1,4]
+ y[1,0,3]   y[1,0,4] 
+ y[1,1,3]   y[1,1,4] 
+ y[1,2,3]   y[1,2,4] 
+  Failure :: (line:26) :: fact was false
+    Expression: y[1,:,4] --> sliceof(y,1,1:4,2,0,-2,2)
+      Expected: 1x4 Array{JuMP.Variable,2}:
+ y[1,-1,4]  y[1,0,4]  y[1,1,4]  y[1,2,4]
+      Occurred: [y[1,-1,4],y[1,0,4],y[1,1,4],y[1,2,4]]
+  Failure :: (line:26) :: fact was false
+    Expression: z[:,1,:] --> sliceof(z,1:3,3,1:2,0,-2,2)
+      Expected: 3x1x2 Array{JuMP.Variable,3}:
+[:, :, 1] =
+ z[1,1,3]
+ z[2,1,3]
+ z[3,1,3]
+
+[:, :, 2] =
+ z[1,1,4]
+ z[2,1,4]
+ z[3,1,4]
+      Occurred: 3x2 Array{JuMP.Variable,2}:
+ z[1,1,3]  z[1,1,4]
+ z[2,1,3]  z[2,1,4]
+ z[3,1,3]  z[3,1,4]
+  Failure :: (line:26) :: fact was false
+    Expression: z[1,1,:] --> sliceof(z,1,3,1:2,0,-2,2)
+      Expected: 1x1x2 Array{JuMP.Variable,3}:
+[:, :, 1] =
+ z[1,1,3]
+
+[:, :, 2] =
+ z[1,1,4]
+      Occurred: [z[1,1,3],z[1,1,4]]
+  Failure :: (line:26) :: fact was false
+    Expression: z[1:2,1,:] --> sliceof(z,1:2,3,1:2,0,-2,2)
+      Expected: 2x1x2 Array{JuMP.Variable,3}:
+[:, :, 1] =
+ z[1,1,3]
+ z[2,1,3]
+
+[:, :, 2] =
+ z[1,1,4]
+ z[2,1,4]
+      Occurred: 2x2 Array{JuMP.Variable,2}:
+ z[1,1,3]  z[1,1,4]
+ z[2,1,3]  z[2,1,4]
+  Failure :: (line:26) :: fact was false
+    Expression: z[1:2,1,3:4] --> sliceof(z,1:2,3,1:2,0,-2,2)
+      Expected: 2x1x2 Array{JuMP.Variable,3}:
+[:, :, 1] =
+ z[1,1,3]
+ z[2,1,3]
+
+[:, :, 2] =
+ z[1,1,4]
+ z[2,1,4]
+      Occurred: 2x2 Array{JuMP.Variable,2}:
+ z[1,1,3]  z[1,1,4]
+ z[2,1,3]  z[2,1,4]
+  Failure :: (line:26) :: fact was false
+    Expression: w[1,:,"blue"] --> sliceof(w,1,1:4,["blue"],0,-2)
+      Expected: 1x4 Array{JuMP.Variable,2}:
+ w[1,-1,blue]  w[1,0,blue]  w[1,1,blue]  w[1,2,blue]
+      Occurred: [w[1,-1,blue],w[1,0,blue],w[1,1,blue],w[1,2,blue]]
+  Failure :: (line:26) :: fact was false
+    Expression: w[1,:,:red] --> sliceof(w,1,1:4,[:red],0,-2)
+      Expected: 1x4 Array{JuMP.Variable,2}:
+ w[1,-1,red]  w[1,0,red]  w[1,1,red]  w[1,2,red]
+      Occurred: [w[1,-1,red],w[1,0,red],w[1,1,red],w[1,2,red]]
+Out of 33 total facts:
+  Verified: 23
+  Failed:   10
 [expr] Test expression construction
   > AffExpr
   > QuadExpr
@@ -128,6 +229,8 @@ Vectorized operations
 4 facts verified.
 [macros] @addNLConstraints
 5 facts verified.
+[macros] Vectors in nonlinear expressions
+2 facts verified.
 [macros] @setObjective with quadratic
 1 fact verified.
 [macros] @addConstraint with quadratic
@@ -285,11 +388,6 @@ Optimal - objective value 2.2
 After Postsolve, objective 2.2, infeasibilities - dual 0 (0), primal 0 (0)
 Optimal objective 2.2 - 0 iterations time 0.002, Presolve 0.00
 Cbc0045I Solution with objective value -2.2 saved
-Presolve 0 (-3) rows, 0 (-3) columns and 0 (-7) elements
-Optimal - objective value 101.1
-After Postsolve, objective 101.1, infeasibilities - dual 0 (0), primal 0 (0)
-Optimal objective 101.1 - 0 iterations time 0.002, Presolve 0.00
-Cbc0045I Solution with objective value -101.1 saved
   > With solver GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP
 36 facts verified.
 [probmod] Test adding a range constraint and modifying it
@@ -298,6 +396,11 @@ Cbc0045I Solution with objective value -101.1 saved
   > With solver Clp.ClpMathProgSolverInterface.ClpSolver
   > With solver GLPKMathProgInterface.GLPKInterfaceLP.GLPKSolverLP
   > With solver Ipopt.IpoptSolver
+Presolve 0 (-3) rows, 0 (-3) columns and 0 (-7) elements
+Optimal - objective value 101.1
+After Postsolve, objective 101.1, infeasibilities - dual 0 (0), primal 0 (0)
+Optimal objective 101.1 - 0 iterations time 0.002, Presolve 0.00
+Cbc0045I Solution with objective value -101.1 saved
   > With solver ECOS.ECOSSolver
   > With solver SCS.SCSSolver
 10 facts verified.
@@ -467,7 +570,7 @@ Support for the old syntax (with the model omitted) will be removed in an upcomi
 [nonlinear] Expression graph for linear problem
 1 fact verified.
 [nonlinear] Hessians through MPB
-2 facts verified.
+3 facts verified.
 [nonlinear] Hess-vec through MPB
 1 fact verified.
 [nonlinear] Error on NLP resolve
@@ -478,15 +581,16 @@ WARNING: Mixed-integer Nonlinear tests not run!
 [sdp] Test simple SDP
   > With solver SCS.SCSSolver
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:8
- in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4639#4717)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:8
+ in context(::##4639#4717, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
- in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4638#4716)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4638#4716, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -494,15 +598,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:8
- in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4639#4717)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:8
+ in context(::##4639#4717, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
- in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4638#4716)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4638#4716, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -510,15 +615,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:10
- in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4639#4717)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:10
+ in context(::##4639#4717, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
- in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4638#4716)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4638#4716, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -526,15 +632,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:10
- in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4639#4717)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:10
+ in context(::##4639#4717, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
- in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4638#4716)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4638#4716, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -542,15 +649,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:13
- in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4639#4717)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:13
+ in context(::##4639#4717, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
- in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4638#4716)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4638#4716, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -558,15 +666,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:13
- in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4639#4717)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:13
+ in context(::##4639#4717, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
- in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4638#4716)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4638#4716, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -576,15 +685,16 @@ while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting
 WARNING: Not solved to optimality, status: UnknownError
 WARNING: Not solved to optimality, status: UnknownError
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:72
- in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4639#4717)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:72
+ in context(::##4639#4717, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
- in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4638#4716)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4638#4716, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -592,15 +702,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:72
- in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4639#4717)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:72
+ in context(::##4639#4717, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
- in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4638#4716)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4638#4716, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -608,15 +719,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:85
- in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4639#4717)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:85
+ in context(::##4639#4717, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
- in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4638#4716)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4638#4716, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -624,15 +736,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:85
- in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4639#4717)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:85
+ in context(::##4639#4717, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
- in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4638#4716)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4638#4716, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -640,15 +753,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:86
- in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4639#4717)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:86
+ in context(::##4639#4717, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
- in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4638#4716)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4638#4716, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -656,15 +770,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 4
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4513#4591)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:86
- in context(::##4513#4591, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4639#4717)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:86
+ in context(::##4639#4717, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4512#4590)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
- in facts(::##4512#4590, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4638#4716)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:6
+ in facts(::##4638#4716, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -674,15 +789,16 @@ while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting
 38 facts verified.
 [sdp] Nonsensical SDPs
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Array{Float64,2}) at ./deprecated.jl:30
  [inlined code] from ./boot.jl:333
- in (::##4680#4695)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
- in do_fact(::##4680#4695, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+ in (::##4806#4821)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
+ in do_fact(::##4806#4821, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
  [inlined code] from ./boot.jl:331
- in (::##4668#4683)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:136
- in facts(::##4668#4683, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4794#4809)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:136
+ in facts(::##4794#4809, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -690,15 +806,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 127
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Array{Float64,2}) at ./deprecated.jl:30
  [inlined code] from ./boot.jl:333
- in (::##4681#4696)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
- in do_fact(::##4681#4696, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+ in (::##4807#4822)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
+ in do_fact(::##4807#4822, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
  [inlined code] from ./boot.jl:331
- in (::##4668#4683)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:137
- in facts(::##4668#4683, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4794#4809)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:137
+ in facts(::##4794#4809, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -706,15 +823,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 127
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Array{Float64,2}) at ./deprecated.jl:30
  [inlined code] from ./boot.jl:333
- in (::##4681#4696)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
- in do_fact(::##4681#4696, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+ in (::##4807#4822)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
+ in do_fact(::##4807#4822, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
  [inlined code] from ./boot.jl:331
- in (::##4668#4683)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:137
- in facts(::##4668#4683, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4794#4809)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:137
+ in facts(::##4794#4809, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -722,15 +840,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 127
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Array{Float64,2}) at ./deprecated.jl:30
  [inlined code] from ./random.jl:329
- in (::##4682#4697)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
- in do_fact(::##4682#4697, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+ in (::##4808#4823)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
+ in do_fact(::##4808#4823, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
  [inlined code] from ./boot.jl:331
- in (::##4668#4683)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:138
- in facts(::##4668#4683, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4794#4809)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:138
+ in facts(::##4794#4809, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -741,15 +860,16 @@ while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting
 [sdp] SDP with quadratics
   > With solver SCS.SCSSolver
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4699#4719)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:145
- in context(::##4699#4719, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4825#4845)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:145
+ in context(::##4825#4845, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4698#4718)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:143
- in facts(::##4698#4718, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4824#4844)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:143
+ in facts(::##4824#4844, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -757,15 +877,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 141
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4699#4719)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:145
- in context(::##4699#4719, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4825#4845)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:145
+ in context(::##4825#4845, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4698#4718)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:143
- in facts(::##4698#4718, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4824#4844)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:143
+ in facts(::##4824#4844, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -776,15 +897,16 @@ while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting
 [sdp] Test problem #2
   > With solver SCS.SCSSolver
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4739#4745)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:198
- in context(::##4739#4745, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4865#4871)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:198
+ in context(::##4865#4871, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4738#4744)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:196
- in facts(::##4738#4744, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4864#4870)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:196
+ in facts(::##4864#4870, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -792,15 +914,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 194
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4739#4745)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:198
- in context(::##4739#4745, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4865#4871)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:198
+ in context(::##4865#4871, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4738#4744)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:196
- in facts(::##4738#4744, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4864#4870)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:196
+ in facts(::##4864#4870, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -811,15 +934,16 @@ while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting
 [sdp] Test problem #3
   > With solver SCS.SCSSolver
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4751#4755)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:212
- in context(::##4751#4755, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4877#4881)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:212
+ in context(::##4877#4881, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4750#4754)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:209
- in facts(::##4750#4754, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4876#4880)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:209
+ in facts(::##4876#4880, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -827,15 +951,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 207
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4751#4755)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:212
- in context(::##4751#4755, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4877#4881)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:212
+ in context(::##4877#4881, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4750#4754)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:209
- in facts(::##4750#4754, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4876#4880)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:209
+ in facts(::##4876#4880, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -846,15 +971,16 @@ while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting
 [sdp] Test problem #4
   > With solver SCS.SCSSolver
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4759#4763)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:225
- in context(::##4759#4763, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4885#4889)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:225
+ in context(::##4885#4889, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4758#4762)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:222
- in facts(::##4758#4762, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4884#4888)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:222
+ in facts(::##4884#4888, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -862,15 +988,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 220
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4759#4763)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:225
- in context(::##4759#4763, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4885#4889)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:225
+ in context(::##4885#4889, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4758#4762)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:222
- in facts(::##4758#4762, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4884#4888)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:222
+ in facts(::##4884#4888, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -882,15 +1009,16 @@ WARNING: Not solved to optimality, status: UnknownError
 [sdp] Test problem #5
   > With solver SCS.SCSSolver
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4767#4773)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:246
- in context(::##4767#4773, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4893#4899)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:246
+ in context(::##4893#4899, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4766#4772)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:244
- in facts(::##4766#4772, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4892#4898)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:244
+ in facts(::##4892#4898, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -898,15 +1026,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 242
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4767#4773)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:246
- in context(::##4767#4773, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4893#4899)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:246
+ in context(::##4893#4899, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4766#4772)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:244
- in facts(::##4766#4772, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4892#4898)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:244
+ in facts(::##4892#4898, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -923,15 +1052,16 @@ while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting
 [sdp] Test problem #8
   > With solver SCS.SCSSolver
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4803#4809)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:309
- in context(::##4803#4809, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4929#4935)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:309
+ in context(::##4929#4935, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4802#4808)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:307
- in facts(::##4802#4808, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4928#4934)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:307
+ in facts(::##4928#4934, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -939,15 +1069,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 305
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4803#4809)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:309
- in context(::##4803#4809, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4929#4935)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:309
+ in context(::##4929#4935, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4802#4808)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:307
- in facts(::##4802#4808, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4928#4934)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:307
+ in facts(::##4928#4934, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -958,17 +1089,18 @@ while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting
 [sdp] Test problem #9
   > With solver SCS.SCSSolver
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
  in matrix_frac(::JuMP.Model, ::Array{Int64,1}, ::Array{JuMP.Variable,2}) at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:320
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:609
- in (::##4815#4821)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:336
- in context(::##4815#4821, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4941#4947)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:336
+ in context(::##4941#4947, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4814#4820)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:329
- in facts(::##4814#4820, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4940#4946)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:329
+ in facts(::##4940#4946, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -976,17 +1108,18 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 327
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
  in matrix_frac(::JuMP.Model, ::Array{Int64,1}, ::Array{JuMP.Variable,2}) at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:320
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:609
- in (::##4815#4821)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:336
- in context(::##4815#4821, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4941#4947)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:336
+ in context(::##4941#4947, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4814#4820)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:329
- in facts(::##4814#4820, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4940#4946)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:329
+ in facts(::##4940#4946, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -997,15 +1130,16 @@ while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting
 [sdp] Correlation example
   > With solver SCS.SCSSolver
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4827#4837)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:347
- in context(::##4827#4837, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4953#4963)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:347
+ in context(::##4953#4963, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4826#4836)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:344
- in facts(::##4826#4836, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4952#4962)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:344
+ in facts(::##4952#4962, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -1013,15 +1147,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 342
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4827#4837)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:347
- in context(::##4827#4837, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4953#4963)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:347
+ in context(::##4953#4963, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4826#4836)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:344
- in facts(::##4826#4836, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4952#4962)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:344
+ in facts(::##4952#4962, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -1033,17 +1168,18 @@ while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting
   > With solver SCS.SCSSolver
     > d = 3
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4848#4857)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:394
- in context(::##4848#4857, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
- in (::##4847#4854)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:386
- in context(::##4847#4854, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4974#4983)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:394
+ in context(::##4974#4983, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4973#4980)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:386
+ in context(::##4973#4980, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4846#4853)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:375
- in facts(::##4846#4853, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4972#4979)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:375
+ in facts(::##4972#4979, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -1051,17 +1187,18 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 373
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4848#4857)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:394
- in context(::##4848#4857, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
- in (::##4847#4854)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:386
- in context(::##4847#4854, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4974#4983)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:394
+ in context(::##4974#4983, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4973#4980)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:386
+ in context(::##4973#4980, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4846#4853)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:375
- in facts(::##4846#4853, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4972#4979)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:375
+ in facts(::##4972#4979, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -1075,17 +1212,18 @@ while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting
   > With solver SCS.SCSSolver
     > d = 3
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4864#4873)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:447
- in context(::##4864#4873, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
- in (::##4863#4870)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:439
- in context(::##4863#4870, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4990#4999)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:447
+ in context(::##4990#4999, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4989#4996)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:439
+ in context(::##4989#4996, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4862#4869)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:428
- in facts(::##4862#4869, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4988#4995)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:428
+ in facts(::##4988#4995, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -1093,17 +1231,18 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 426
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4864#4873)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:447
- in context(::##4864#4873, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
- in (::##4863#4870)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:439
- in context(::##4863#4870, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4990#4999)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:447
+ in context(::##4990#4999, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##4989#4996)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:439
+ in context(::##4989#4996, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4862#4869)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:428
- in facts(::##4862#4869, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4988#4995)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:428
+ in facts(::##4988#4995, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -1116,15 +1255,16 @@ while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting
 [sdp] Can't mix SDP and QP (#665)
   > With solver SCS.SCSSolver
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4879#4882)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:474
- in context(::##4879#4882, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##5005#5008)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:474
+ in context(::##5005#5008, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4878#4881)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:472
- in facts(::##4878#4881, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##5004#5007)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:472
+ in facts(::##5004#5007, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -1132,15 +1272,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 470
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4879#4882)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:474
- in context(::##4879#4882, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##5005#5008)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:474
+ in context(::##5005#5008, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4878#4881)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:472
- in facts(::##4878#4881, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##5004#5007)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:472
+ in facts(::##5004#5007, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -1151,15 +1292,16 @@ while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting
 [sdp] Just another SDP
   > With solver SCS.SCSSolver
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4885#4893)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:484
- in context(::##4885#4893, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##5011#5019)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:484
+ in context(::##5011#5019, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4884#4892)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:482
- in facts(::##4884#4892, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##5010#5018)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:482
+ in facts(::##5010#5018, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -1167,15 +1309,16 @@ WARNING: issym is deprecated, use issymmetric instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 480
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Float64) at ./deprecated.jl:30
  [inlined code] from /home/vagrant/.julia/v0.5/JuMP/src/macros.jl:879
- in (::##4885#4893)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:484
- in context(::##4885#4893, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+ in (::##5011#5019)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:484
+ in context(::##5011#5019, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
  [inlined code] from ./strings/io.jl:73
- in (::##4884#4892)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:482
- in facts(::##4884#4892, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##5010#5018)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:482
+ in facts(::##5010#5018, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
@@ -1220,14 +1363,38 @@ WARNING: Not solved to optimality, status: Infeasible
   > With conic solver SCS.SCSSolver
 WARNING: Not solved to optimality, status: Infeasible
 6 facts verified.
-INFO: JuMP tests passed
+ERROR: LoadError: FactCheck finished with 10 non-successful tests.
+ in error(::ASCIIString) at ./error.jl:21
+ in exitstatus() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:563
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/runtests.jl, in expression starting on line 41
+================================[ ERROR: JuMP ]=================================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.5/JuMP/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing Cbc v0.2.0
 INFO: Removing Clp v0.2.0
-INFO: Removing ECOS v0.6.1
+INFO: Removing ECOS v0.6.2
 INFO: Removing FactCheck v0.4.2
 INFO: Removing GLPK v0.2.17
-INFO: Removing GLPKMathProgInterface v0.2.0
+INFO: Removing GLPKMathProgInterface v0.2.1
 INFO: Removing Ipopt v0.2.1
-INFO: Removing SCS v0.2.0
+INFO: Removing SCS v0.2.1
+ERROR: Base.Pkg.PkgError("JuMP had test errors")
+ in #test#55(::Bool, ::Any, ::Array{AbstractString,1}) at ./pkg/entry.jl:671
+ [inlined code] from ./boot.jl:331
+ in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::ASCIIString) at ./file.jl:48
+ in #cd#1(::Array{Any,1}, ::Any, ::Any, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1}}) at ./pkg/dir.jl:31
+ [inlined code] from ./boot.jl:331
+ in #test#3(::Bool, ::Any, ::ASCIIString, ::Vararg{ASCIIString}) at ./pkg.jl:228
+ in eval(::Module, ::Any) at ./boot.jl:267
+ [inlined code] from ./sysimg.jl:14
+ in process_options(::Base.JLOptions) at ./client.jl:239
+ in _start() at ./client.jl:318
 
 >>> End of log

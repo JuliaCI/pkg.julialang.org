@@ -13,8 +13,8 @@ INFO: METADATA is out-of-date — you may not have the latest version of Images
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Images")' log
-Julia Version 0.5.0-dev+2918
-Commit 1eacbbb (2016-02-28 16:56 UTC)
+Julia Version 0.5.0-dev+3184
+Commit fb283c6 (2016-03-17 08:49 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
@@ -22,14 +22,15 @@ Platform Info:
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
   LIBM: libopenlibm
-  LLVM: libLLVM-3.7.1
+  LLVM: libLLVM-3.7.1 (ORCJIT, haswell)
 INFO: Computing test dependencies for Images...
 INFO: Installing FactCheck v0.4.2
 INFO: Installing ImageMagick v0.1.3
 INFO: Building ImageMagick
 WARNING: readall is deprecated, use readstring instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
- in readall(::UTF8String, ::Vararg{UTF8String}) at ./deprecated.jl:30
+ in readall(::ASCIIString, ::Vararg{ASCIIString}) at ./deprecated.jl:30
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in eval(::Module, ::Any) at ./boot.jl:267
@@ -45,43 +46,269 @@ WARNING: readall is deprecated, use readstring instead.
 while loading /home/vagrant/.julia/v0.5/ImageMagick/deps/build.jl, in expression starting on line 96
 INFO: Testing Images
 WARNING: New definition 
-    sub(Images.AbstractImage, Union{T<:Real, AbstractArray{T<:Real, N<:Any}, Base.Colon}...) at /home/vagrant/.julia/v0.5/Images/src/core.jl:473
+    slice(Images.AbstractImage, Union{Base.Colon, AbstractArray{T<:Real, N<:Any}, T<:Real}...) at /home/vagrant/.julia/v0.5/Images/src/core.jl:478
 is ambiguous with: 
-    sub(AbstractArray, Union{Real, AbstractArray{T<:Any, 1}, Base.Colon}...) at subarray.jl:98.
+    slice(AbstractArray, Union{AbstractArray{T<:Any, 1}, Base.Colon, Real}...) at subarray.jl:82.
 To fix, define 
-    sub(Images.AbstractImage, Union{AbstractArray{T<:Real, 1}, Real, Base.Colon}...)
+    slice(Images.AbstractImage, Union{Base.Colon, Real, AbstractArray{T<:Real, 1}}...)
 before the new definition.
 WARNING: New definition 
-    slice(Images.AbstractImage, Union{T<:Real, AbstractArray{T<:Real, N<:Any}, Base.Colon}...) at /home/vagrant/.julia/v0.5/Images/src/core.jl:478
+    sub(Images.AbstractImage, Union{Base.Colon, AbstractArray{T<:Real, N<:Any}, T<:Real}...) at /home/vagrant/.julia/v0.5/Images/src/core.jl:473
 is ambiguous with: 
-    slice(AbstractArray, Union{Real, AbstractArray{T<:Any, 1}, Base.Colon}...) at subarray.jl:86.
+    sub(AbstractArray, Union{AbstractArray{T<:Any, 1}, Base.Colon, Real}...) at subarray.jl:94.
 To fix, define 
-    slice(Images.AbstractImage, Union{AbstractArray{T<:Real, 1}, Real, Base.Colon}...)
+    sub(Images.AbstractImage, Union{Base.Colon, Real, AbstractArray{T<:Real, 1}}...)
 before the new definition.
-WARNING: Method definition sliceim(Images.AbstractImage, AbstractString, Union{T<:Real, AbstractArray{T<:Real, N<:Any}, Base.Colon}, Any...) in module Images at /home/vagrant/.julia/v0.5/Images/src/core.jl:585 overwritten at /home/vagrant/.julia/v0.5/Images/src/core.jl:587.
-ERROR: LoadError: LoadError: error in method definition: function Base.take must be explicitly imported to be extended
- in include(::UTF8String) at ./boot.jl:264
- in include_from_node1(::ASCIIString) at ./loading.jl:417
- in include(::ASCIIString) at ./boot.jl:264
- in include_from_node1(::ASCIIString) at ./loading.jl:417
- in eval(::Module, ::Any) at ./boot.jl:267
- [inlined code] from ./sysimg.jl:14
- in process_options(::Base.JLOptions) at ./client.jl:239
- in _start() at ./client.jl:318
-while loading /home/vagrant/.julia/v0.5/Images/src/map.jl, in expression starting on line 494
-while loading /home/vagrant/.julia/v0.5/Images/src/Images.jl, in expression starting on line 35
-ERROR: LoadError: Failed to precompile Images to /home/vagrant/.julia/lib/v0.5/Images.ji
- in error(::ASCIIString) at ./error.jl:21
- in compilecache(::ASCIIString) at ./loading.jl:496
- in require(::Symbol) at ./loading.jl:355
- in include(::ASCIIString) at ./boot.jl:264
- in include_from_node1(::UTF8String) at ./loading.jl:417
- in process_options(::Base.JLOptions) at ./client.jl:262
- in _start() at ./client.jl:318
-while loading /home/vagrant/.julia/v0.5/Images/test/runtests.jl, in expression starting on line 3
+Core
+  > Constructors of Image types
+  > Colorim
+  > Indexed color
+  > Basic information
+  > 1-dimensional images
+  > Printing
+  > Copy / similar
+  > Getindex / setindex!
+  > Properties
+  > Dims and ordering
+  > Sub / slice
+  > Named indexing
+  > Spatial order, width/ height, and permutations
+  > Reinterpret, separate, more convert
+233 facts verified.
+Map
+  > MapNone
+  > BitShift
+  > Clamp
+  > Issue #285
+  > ScaleMinMax
+  > ScaleSigned
+  > ScaleAutoMinMax
+  > Scaling and ssd
+  > sc
+  > Color conversion
+  > Map and indexed images
+122 facts verified.
+Overlay
+  > One
+  > Two
+  > Three
+  > Four
+27 facts verified.
+Algorithms
+  > Arithmetic
+  > Reductions
+  > fft and ifft
+  > Array padding
+  > Filtering
+    Error :: (line:26) :: Filtering
+      Expression: maximum(abs(Images.imfilter_fft(A,kern) - rot180(kern))) --> less_than(EPS)
+      MethodError: no method matching padarray(::Array{Float64,2}, ::Array{Int64,1}, ::Array{Any,1}, ::ASCIIString, ::Float64)
+      Closest candidates are:
+        padarray{T,n}(::AbstractArray{T,n}, ::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, !Matched::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, ::AbstractString, ::Any)
+        padarray{T,n}(::AbstractArray{T,n}, ::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, !Matched::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, ::AbstractString)
+        padarray{T<:Number,n}(::AbstractArray{T<:Number,n}, ::Array{Int64,1}, !Matched::T<:Number, ::AbstractString)
+        ...
+       in imfilter_fft_inseparable(::Array{Float64,2}, ::Array{Float64,2}, ::ASCIIString, ::Int64) at /home/vagrant/.julia/v0.5/Images/src/algorithms.jl:745
+       in imfilter_fft(::Array{Float64,2}, ::Array{Float64,2}, ::ASCIIString, ::Int64) at /home/vagrant/.julia/v0.5/Images/src/algorithms.jl:722
+       in imfilter_fft(::Array{Float64,2}, ::Array{Float64,2}) at /home/vagrant/.julia/v0.5/Images/src/algorithms.jl:723
+       in (::ImagesTests.##1745#2066)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:271
+       in do_fact(::ImagesTests.##1745#2066, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+       [inlined code] from ./boot.jl:331
+       in (::ImagesTests.##1727#2048)() at /home/vagrant/.julia/v0.5/Images/test/algorithms.jl:194
+       in context(::ImagesTests.##1727#2048, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+       in (::ImagesTests.##1583#1903)() at /home/vagrant/.julia/v0.5/Images/test/algorithms.jl:166
+       in facts(::ImagesTests.##1583#1903, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+       in include(::ASCIIString) at ./boot.jl:264
+       in include_from_node1(::ASCIIString) at ./loading.jl:417
+       in include(::ASCIIString) at ./boot.jl:264
+       in include_from_node1(::UTF8String) at ./loading.jl:417
+       in process_options(::Base.JLOptions) at ./client.jl:262
+       in _start() at ./client.jl:318
+    Error :: (line:26) :: Filtering
+      Expression: maximum(abs((Images.imfilter_fft(A,kern))[1:2,:] - rot180(kern))) --> less_than(EPS)
+      MethodError: no method matching padarray(::Array{Float64,2}, ::Array{Int64,1}, ::Array{Any,1}, ::ASCIIString, ::Float64)
+      Closest candidates are:
+        padarray{T,n}(::AbstractArray{T,n}, ::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, !Matched::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, ::AbstractString, ::Any)
+        padarray{T,n}(::AbstractArray{T,n}, ::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, !Matched::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, ::AbstractString)
+        padarray{T<:Number,n}(::AbstractArray{T<:Number,n}, ::Array{Int64,1}, !Matched::T<:Number, ::AbstractString)
+        ...
+       in imfilter_fft_inseparable(::Array{Float64,2}, ::Array{Float64,2}, ::ASCIIString, ::Int64) at /home/vagrant/.julia/v0.5/Images/src/algorithms.jl:745
+       in imfilter_fft(::Array{Float64,2}, ::Array{Float64,2}, ::ASCIIString, ::Int64) at /home/vagrant/.julia/v0.5/Images/src/algorithms.jl:722
+       in (::ImagesTests.##1747#2068)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:271
+       in do_fact(::ImagesTests.##1747#2068, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+       [inlined code] from ./boot.jl:331
+       in (::ImagesTests.##1727#2048)() at /home/vagrant/.julia/v0.5/Images/test/algorithms.jl:196
+       in context(::ImagesTests.##1727#2048, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+       in (::ImagesTests.##1583#1903)() at /home/vagrant/.julia/v0.5/Images/test/algorithms.jl:166
+       in facts(::ImagesTests.##1583#1903, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+       in include(::ASCIIString) at ./boot.jl:264
+       in include_from_node1(::ASCIIString) at ./loading.jl:417
+       in include(::ASCIIString) at ./boot.jl:264
+       in include_from_node1(::UTF8String) at ./loading.jl:417
+       in process_options(::Base.JLOptions) at ./client.jl:262
+       in _start() at ./client.jl:318
+    Error :: (line:26) :: Filtering
+      Expression: maximum(abs((Images.imfilter_fft(A,kern))[:,1:2] - rot180(kern))) --> less_than(EPS)
+      MethodError: no method matching padarray(::Array{Float64,2}, ::Array{Int64,1}, ::Array{Any,1}, ::ASCIIString, ::Float64)
+      Closest candidates are:
+        padarray{T,n}(::AbstractArray{T,n}, ::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, !Matched::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, ::AbstractString, ::Any)
+        padarray{T,n}(::AbstractArray{T,n}, ::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, !Matched::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, ::AbstractString)
+        padarray{T<:Number,n}(::AbstractArray{T<:Number,n}, ::Array{Int64,1}, !Matched::T<:Number, ::AbstractString)
+        ...
+       in imfilter_fft_inseparable(::Array{Float64,2}, ::Array{Float64,2}, ::ASCIIString, ::Int64) at /home/vagrant/.julia/v0.5/Images/src/algorithms.jl:745
+       in imfilter_fft(::Array{Float64,2}, ::Array{Float64,2}, ::ASCIIString, ::Int64) at /home/vagrant/.julia/v0.5/Images/src/algorithms.jl:722
+       [inlined code] from /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:271
+       in do_fact(::ImagesTests.##1749#2070, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+       [inlined code] from ./boot.jl:331
+       in (::ImagesTests.##1727#2048)() at /home/vagrant/.julia/v0.5/Images/test/algorithms.jl:198
+       in context(::ImagesTests.##1727#2048, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+       in (::ImagesTests.##1583#1903)() at /home/vagrant/.julia/v0.5/Images/test/algorithms.jl:166
+       in facts(::ImagesTests.##1583#1903, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+       in include(::ASCIIString) at ./boot.jl:264
+       in include_from_node1(::ASCIIString) at ./loading.jl:417
+       in include(::ASCIIString) at ./boot.jl:264
+       in include_from_node1(::UTF8String) at ./loading.jl:417
+       in process_options(::Base.JLOptions) at ./client.jl:262
+       in _start() at ./client.jl:318
+    Error :: (line:26) :: Filtering
+      Expression: maximum(map(abs,imgcol - Images.imfilter_fft(imgcol,kern))) --> less_than(EPS)
+      MethodError: no method matching padarray(::Array{Float64,3}, ::Array{Int64,1}, ::Array{Any,1}, ::ASCIIString, ::Float64)
+      Closest candidates are:
+        padarray{T,n}(::AbstractArray{T,n}, ::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, !Matched::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, ::AbstractString, ::Any)
+        padarray{T,n}(::AbstractArray{T,n}, ::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, !Matched::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, ::AbstractString)
+        padarray{T<:Number,n}(::AbstractArray{T<:Number,n}, ::Array{Int64,1}, !Matched::T<:Number, ::AbstractString)
+        ...
+       in imfilter_fft_inseparable(::Array{Float64,3}, ::Array{Float64,3}, ::ASCIIString, ::Int64) at /home/vagrant/.julia/v0.5/Images/src/algorithms.jl:745
+       in imfilter_fft_inseparable(::Images.Image{ColorTypes.RGB{Float64},2,Array{ColorTypes.RGB{Float64},2}}, ::Array{Float64,2}, ::ASCIIString, ::Int64) at /home/vagrant/.julia/v0.5/Images/src/algorithms.jl:732
+       in imfilter_fft(::Images.Image{ColorTypes.RGB{Float64},2,Array{ColorTypes.RGB{Float64},2}}, ::Array{Float64,2}, ::ASCIIString, ::Int64) at /home/vagrant/.julia/v0.5/Images/src/algorithms.jl:722
+       in (::ImagesTests.##1751#2072)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:271
+       in do_fact(::ImagesTests.##1751#2072, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+       [inlined code] from ./boot.jl:331
+       in (::ImagesTests.##1727#2048)() at /home/vagrant/.julia/v0.5/Images/test/algorithms.jl:200
+       in context(::ImagesTests.##1727#2048, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+       in (::ImagesTests.##1583#1903)() at /home/vagrant/.julia/v0.5/Images/test/algorithms.jl:166
+       in facts(::ImagesTests.##1583#1903, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+       in include(::ASCIIString) at ./boot.jl:264
+       in include_from_node1(::ASCIIString) at ./loading.jl:417
+       in include(::ASCIIString) at ./boot.jl:264
+       in include_from_node1(::UTF8String) at ./loading.jl:417
+       in process_options(::Base.JLOptions) at ./client.jl:262
+       in _start() at ./client.jl:318
+    Error :: (line:26) :: Filtering
+      Expression: maximum(map(abs,imgcolf - Images.imfilter_fft(imgcolf,kern))) --> less_than(EPS)
+      MethodError: no method matching padarray(::Array{FixedPointNumbers.UFixed{UInt8,8},3}, ::Array{Int64,1}, ::Array{Any,1}, ::ASCIIString, ::FixedPointNumbers.UFixed{UInt8,8})
+      Closest candidates are:
+        padarray{T,n}(::AbstractArray{T,n}, ::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, !Matched::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, ::AbstractString, ::Any)
+        padarray{T,n}(::AbstractArray{T,n}, ::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, !Matched::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, ::AbstractString)
+        padarray{T<:Number,n}(::AbstractArray{T<:Number,n}, ::Array{Int64,1}, !Matched::T<:Number, ::AbstractString)
+        ...
+       in imfilter_fft_inseparable(::Array{FixedPointNumbers.UFixed{UInt8,8},3}, ::Array{Float64,3}, ::ASCIIString, ::Int64) at /home/vagrant/.julia/v0.5/Images/src/algorithms.jl:745
+       in imfilter_fft_inseparable(::Images.Image{ColorTypes.RGB{FixedPointNumbers.UFixed{UInt8,8}},2,Array{ColorTypes.RGB{FixedPointNumbers.UFixed{UInt8,8}},2}}, ::Array{Float64,2}, ::ASCIIString, ::Int64) at /home/vagrant/.julia/v0.5/Images/src/algorithms.jl:732
+       in imfilter_fft(::Images.Image{ColorTypes.RGB{FixedPointNumbers.UFixed{UInt8,8}},2,Array{ColorTypes.RGB{FixedPointNumbers.UFixed{UInt8,8}},2}}, ::Array{Float64,2}, ::ASCIIString, ::Int64) at /home/vagrant/.julia/v0.5/Images/src/algorithms.jl:722
+       in (::ImagesTests.##1753#2074)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:271
+       in do_fact(::ImagesTests.##1753#2074, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+       [inlined code] from ./boot.jl:331
+       in (::ImagesTests.##1727#2048)() at /home/vagrant/.julia/v0.5/Images/test/algorithms.jl:201
+       in context(::ImagesTests.##1727#2048, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+       in (::ImagesTests.##1583#1903)() at /home/vagrant/.julia/v0.5/Images/test/algorithms.jl:166
+       in facts(::ImagesTests.##1583#1903, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+       in include(::ASCIIString) at ./boot.jl:264
+       in include_from_node1(::ASCIIString) at ./loading.jl:417
+       in include(::ASCIIString) at ./boot.jl:264
+       in include_from_node1(::UTF8String) at ./loading.jl:417
+       in process_options(::Base.JLOptions) at ./client.jl:262
+       in _start() at ./client.jl:318
+    Error :: (line:26) :: Filtering
+      Expression: (Images.imfilter_fft(A,kern,"circular"))[[1,4,5],2:4] --> roughly(kern[[1,3,2],[3,2,1]])
+      MethodError: no method matching padarray(::Array{Float64,2}, ::Array{Int64,1}, ::Array{Any,1}, ::ASCIIString, ::Float64)
+      Closest candidates are:
+        padarray{T,n}(::AbstractArray{T,n}, ::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, !Matched::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, ::AbstractString, ::Any)
+        padarray{T,n}(::AbstractArray{T,n}, ::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, !Matched::Union{Array{Int64,1},Tuple{Vararg{Int64}}}, ::AbstractString)
+        padarray{T<:Number,n}(::AbstractArray{T<:Number,n}, ::Array{Int64,1}, !Matched::T<:Number, ::AbstractString)
+        ...
+       in imfilter_fft_inseparable(::Array{Float64,2}, ::Array{Float64,2}, ::ASCIIString, ::Int64) at /home/vagrant/.julia/v0.5/Images/src/algorithms.jl:745
+       [inlined code] from /home/vagrant/.julia/v0.5/Images/src/algorithms.jl:724
+       in (::ImagesTests.##1779#2100)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:271
+       in do_fact(::ImagesTests.##1779#2100, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+       [inlined code] from ./boot.jl:331
+       in (::ImagesTests.##1727#2048)() at /home/vagrant/.julia/v0.5/Images/test/algorithms.jl:239
+       in context(::ImagesTests.##1727#2048, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:474
+       in (::ImagesTests.##1583#1903)() at /home/vagrant/.julia/v0.5/Images/test/algorithms.jl:166
+       in facts(::ImagesTests.##1583#1903, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+       in include(::ASCIIString) at ./boot.jl:264
+       in include_from_node1(::ASCIIString) at ./loading.jl:417
+       in include(::ASCIIString) at ./boot.jl:264
+       in include_from_node1(::UTF8String) at ./loading.jl:417
+       in process_options(::Base.JLOptions) at ./client.jl:262
+       in _start() at ./client.jl:318
+  > Restriction
+  > Erode/ dilate
+  > Extrema_filter
+  > Opening / closing
+  > Morphological Top-hat
+  > Morphological Bottom-hat
+  > Morphological Gradient
+  > Morphological Laplacian
+  > Label components
+  > Phantoms
+  > Image resize
+  > Contrast
+Out of 163 total facts:
+  Verified: 157
+  Errored:  6
+Edge
+
+signal (11): Segmentation fault
+while loading /home/vagrant/.julia/v0.5/Images/test/edge.jl, in expression starting on line 3
+[inline] at /home/centos/buildbot/slave/package_tarball64/build/src/jltypes.c:1693
+valid_type_param at /home/centos/buildbot/slave/package_tarball64/build/src/jltypes.c:1737
+#2224 at /home/vagrant/.julia/v0.5/Images/test/edge.jl:13
+[inline] at ./dict.jl:765
+facts at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:449
+unknown function (ip: 0x7f0f3bbc3cb1)
+[inline] at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:69
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1863
+do_call at /home/centos/buildbot/slave/package_tarball64/build/src/interpreter.c:66
+eval at /home/centos/buildbot/slave/package_tarball64/build/src/interpreter.c:185
+eval_body at /home/centos/buildbot/slave/package_tarball64/build/src/interpreter.c:556
+jl_interpret_toplevel_thunk_with at /home/centos/buildbot/slave/package_tarball64/build/src/interpreter.c:582
+jl_toplevel_eval_flex at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:555
+jl_parse_eval_all at /home/centos/buildbot/slave/package_tarball64/build/src/ast.c:784
+jl_load at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:580
+include at ./boot.jl:264
+[inline] at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:69
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1863
+include_from_node1 at ./loading.jl:417
+unknown function (ip: 0x7f1150f33d45)
+[inline] at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:69
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1863
+do_call at /home/centos/buildbot/slave/package_tarball64/build/src/interpreter.c:66
+eval at /home/centos/buildbot/slave/package_tarball64/build/src/interpreter.c:185
+jl_toplevel_eval_flex at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:557
+[inline] at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:426
+jl_toplevel_eval_flex at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:173
+jl_toplevel_eval_flex at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:436
+jl_parse_eval_all at /home/centos/buildbot/slave/package_tarball64/build/src/ast.c:784
+jl_load at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:580
+include at ./boot.jl:264
+[inline] at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:69
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1863
+include_from_node1 at ./loading.jl:417
+unknown function (ip: 0x7f1150f7f265)
+[inline] at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:69
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1863
+process_options at ./client.jl:266
+_start at ./client.jl:318
+unknown function (ip: 0x7f1150f79002)
+[inline] at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:69
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1863
+unknown function (ip: 0x401c64)
+unknown function (ip: 0x40181f)
+__libc_start_main at /lib/x86_64-linux-gnu/libc.so.6 (unknown line)
+Allocations: 61928965 (Pool: 61894919; Big: 34046); GC: 132
 ===============================[ ERROR: Images ]================================
 
-failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.5/Images/test/runtests.jl`, ProcessExited(1)) [1]
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.5/Images/test/runtests.jl`, ProcessSignaled(11)) [0]
 
 ================================================================================
 INFO: Removing FactCheck v0.4.2
@@ -90,10 +317,10 @@ ERROR: Base.Pkg.PkgError("Images had test errors")
  in #test#55(::Bool, ::Any, ::Array{AbstractString,1}) at ./pkg/entry.jl:671
  [inlined code] from ./boot.jl:331
  in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
- in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::UTF8String) at ./file.jl:48
+ in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::ASCIIString) at ./file.jl:48
  in #cd#1(::Array{Any,1}, ::Any, ::Any, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1}}) at ./pkg/dir.jl:31
  [inlined code] from ./boot.jl:331
- in #test#4(::Bool, ::Any, ::ASCIIString, ::Vararg{ASCIIString}) at ./pkg.jl:228
+ in #test#3(::Bool, ::Any, ::ASCIIString, ::Vararg{ASCIIString}) at ./pkg.jl:228
  in eval(::Module, ::Any) at ./boot.jl:267
  [inlined code] from ./sysimg.jl:14
  in process_options(::Base.JLOptions) at ./client.jl:239

@@ -3,10 +3,12 @@ INFO: Installing Cbc v0.2.0
 INFO: Installing MathProgBase v0.4.2
 INFO: Building Cbc
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of Cbc
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Cbc")' log
-Julia Version 0.5.0-dev+2918
-Commit 1eacbbb (2016-02-28 16:56 UTC)
+Julia Version 0.5.0-dev+3184
+Commit fb283c6 (2016-03-17 08:49 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
@@ -14,18 +16,18 @@ Platform Info:
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
   LIBM: libopenlibm
-  LLVM: libLLVM-3.7.1
+  LLVM: libLLVM-3.7.1 (ORCJIT, haswell)
 INFO: Computing test dependencies for Cbc...
 INFO: Installing Calculus v0.1.14
 INFO: Installing Clp v0.2.0
 INFO: Installing DataStructures v0.4.3
 INFO: Installing FactCheck v0.4.2
 INFO: Installing ForwardDiff v0.1.6
-INFO: Installing JuMP v0.12.0
+INFO: Installing JuMP v0.12.2
 INFO: Installing Lazy v0.10.1
 INFO: Installing MacroTools v0.3.0
-INFO: Installing NaNMath v0.2.0
-INFO: Installing ReverseDiffSparse v0.5.3
+INFO: Installing NaNMath v0.2.1
+INFO: Installing ReverseDiffSparse v0.5.5
 INFO: Building Cbc
 INFO: Testing Cbc
 WARNING: Method definition setsense!() in module SolverInterface at /home/vagrant/.julia/v0.5/MathProgBase/src/SolverInterface/SolverInterface.jl:11 overwritten at /home/vagrant/.julia/v0.5/MathProgBase/src/SolverInterface/SolverInterface.jl:11.
@@ -40,6 +42,7 @@ Solution status: Optimal
 Optimal value: -7.0
 Solution vector: [1.0,1.0,0.0,0.0,1.0]
 Testing mixintprog with solver Cbc.CbcMathProgSolverInterface.CbcSolver
+Done
 Cgl0004I processed model has 1 rows, 5 columns (5 integer (5 of which binary)) and 5 elements
 Cutoff increment increased from 1e-05 to 0.9999
 Cbc0038I Initial state - 1 integers unsatisfied sum - 0.25
@@ -52,7 +55,6 @@ Cbc0001I Search completed - best objective -16, took 1 iterations and 0 nodes (0
 Cbc0035I Maximum depth 0, 4 variables fixed on reduced cost
 Total time (CPU seconds):       0.00   (Wallclock seconds):       0.00
 
-Done
 Problem LIN1
 Problem LIN1A
 Problem LIN2
@@ -119,6 +121,107 @@ WARNING: Variable value not defined for component of z. Check that the model was
 6 facts verified.
 [variable] getValue on empty things
 5 facts verified.
+[variable] Slices of JuMPArray (#684)
+  Failure :: (line:26) :: fact was false
+    Expression: x[1,:,:] --> sliceof(x,1,1:4,1:2,0,0,0)
+      Expected: 1x4x2 Array{JuMP.Variable,3}:
+[:, :, 1] =
+ x[1,1,1]  x[1,2,1]  x[1,3,1]  x[1,4,1]
+
+[:, :, 2] =
+ x[1,1,2]  x[1,2,2]  x[1,3,2]  x[1,4,2]
+      Occurred: 4x2 Array{JuMP.Variable,2}:
+ x[1,1,1]  x[1,1,2]
+ x[1,2,1]  x[1,2,2]
+ x[1,3,1]  x[1,3,2]
+ x[1,4,1]  x[1,4,2]
+  Failure :: (line:26) :: fact was false
+    Expression: x[1,:,2] --> sliceof(x,1,1:4,2,0,0,0)
+      Expected: 1x4 Array{JuMP.Variable,2}:
+ x[1,1,2]  x[1,2,2]  x[1,3,2]  x[1,4,2]
+      Occurred: [x[1,1,2],x[1,2,2],x[1,3,2],x[1,4,2]]
+  Failure :: (line:26) :: fact was false
+    Expression: y[1,:,:] --> sliceof(y,1,1:4,1:2,0,-2,2)
+      Expected: 1x4x2 Array{JuMP.Variable,3}:
+[:, :, 1] =
+ y[1,-1,3]  y[1,0,3]  y[1,1,3]  y[1,2,3]
+
+[:, :, 2] =
+ y[1,-1,4]  y[1,0,4]  y[1,1,4]  y[1,2,4]
+      Occurred: 4x2 Array{JuMP.Variable,2}:
+ y[1,-1,3]  y[1,-1,4]
+ y[1,0,3]   y[1,0,4] 
+ y[1,1,3]   y[1,1,4] 
+ y[1,2,3]   y[1,2,4] 
+  Failure :: (line:26) :: fact was false
+    Expression: y[1,:,4] --> sliceof(y,1,1:4,2,0,-2,2)
+      Expected: 1x4 Array{JuMP.Variable,2}:
+ y[1,-1,4]  y[1,0,4]  y[1,1,4]  y[1,2,4]
+      Occurred: [y[1,-1,4],y[1,0,4],y[1,1,4],y[1,2,4]]
+  Failure :: (line:26) :: fact was false
+    Expression: z[:,1,:] --> sliceof(z,1:3,3,1:2,0,-2,2)
+      Expected: 3x1x2 Array{JuMP.Variable,3}:
+[:, :, 1] =
+ z[1,1,3]
+ z[2,1,3]
+ z[3,1,3]
+
+[:, :, 2] =
+ z[1,1,4]
+ z[2,1,4]
+ z[3,1,4]
+      Occurred: 3x2 Array{JuMP.Variable,2}:
+ z[1,1,3]  z[1,1,4]
+ z[2,1,3]  z[2,1,4]
+ z[3,1,3]  z[3,1,4]
+  Failure :: (line:26) :: fact was false
+    Expression: z[1,1,:] --> sliceof(z,1,3,1:2,0,-2,2)
+      Expected: 1x1x2 Array{JuMP.Variable,3}:
+[:, :, 1] =
+ z[1,1,3]
+
+[:, :, 2] =
+ z[1,1,4]
+      Occurred: [z[1,1,3],z[1,1,4]]
+  Failure :: (line:26) :: fact was false
+    Expression: z[1:2,1,:] --> sliceof(z,1:2,3,1:2,0,-2,2)
+      Expected: 2x1x2 Array{JuMP.Variable,3}:
+[:, :, 1] =
+ z[1,1,3]
+ z[2,1,3]
+
+[:, :, 2] =
+ z[1,1,4]
+ z[2,1,4]
+      Occurred: 2x2 Array{JuMP.Variable,2}:
+ z[1,1,3]  z[1,1,4]
+ z[2,1,3]  z[2,1,4]
+  Failure :: (line:26) :: fact was false
+    Expression: z[1:2,1,3:4] --> sliceof(z,1:2,3,1:2,0,-2,2)
+      Expected: 2x1x2 Array{JuMP.Variable,3}:
+[:, :, 1] =
+ z[1,1,3]
+ z[2,1,3]
+
+[:, :, 2] =
+ z[1,1,4]
+ z[2,1,4]
+      Occurred: 2x2 Array{JuMP.Variable,2}:
+ z[1,1,3]  z[1,1,4]
+ z[2,1,3]  z[2,1,4]
+  Failure :: (line:26) :: fact was false
+    Expression: w[1,:,"blue"] --> sliceof(w,1,1:4,["blue"],0,-2)
+      Expected: 1x4 Array{JuMP.Variable,2}:
+ w[1,-1,blue]  w[1,0,blue]  w[1,1,blue]  w[1,2,blue]
+      Occurred: [w[1,-1,blue],w[1,0,blue],w[1,1,blue],w[1,2,blue]]
+  Failure :: (line:26) :: fact was false
+    Expression: w[1,:,:red] --> sliceof(w,1,1:4,[:red],0,-2)
+      Expected: 1x4 Array{JuMP.Variable,2}:
+ w[1,-1,red]  w[1,0,red]  w[1,1,red]  w[1,2,red]
+      Occurred: [w[1,-1,red],w[1,0,red],w[1,1,red],w[1,2,red]]
+Out of 33 total facts:
+  Verified: 23
+  Failed:   10
 [expr] Test expression construction
   > AffExpr
   > QuadExpr
@@ -169,6 +272,8 @@ Vectorized operations
 4 facts verified.
 [macros] @addNLConstraints
 5 facts verified.
+[macros] Vectors in nonlinear expressions
+2 facts verified.
 [macros] @setObjective with quadratic
 1 fact verified.
 [macros] @addConstraint with quadratic
@@ -299,13 +404,13 @@ Cbc0045I Solution with objective value -2.2 saved
 [probmod] Test adding a 'decoupled' variable (#205)
   > With solver Clp.ClpMathProgSolverInterface.ClpSolver
 2 facts verified.
-[probmod] Test buildInternalModel
-  > With solver Clp.ClpMathProgSolverInterface.ClpSolver
 Presolve 0 (-3) rows, 0 (-3) columns and 0 (-7) elements
 Optimal - objective value 101.1
 After Postsolve, objective 101.1, infeasibilities - dual 0 (0), primal 0 (0)
 Optimal objective 101.1 - 0 iterations time 0.002, Presolve 0.00
 Cbc0045I Solution with objective value -101.1 saved
+[probmod] Test buildInternalModel
+  > With solver Clp.ClpMathProgSolverInterface.ClpSolver
 8 facts verified.
 [probmod] Test buildInternalModel with MIP
   > With solver Cbc.CbcMathProgSolverInterface.CbcSolver
@@ -423,7 +528,7 @@ Support for the old syntax (with the model omitted) will be removed in an upcomi
 [nonlinear] Expression graph for linear problem
 1 fact verified.
 [nonlinear] Hessians through MPB
-2 facts verified.
+3 facts verified.
 [nonlinear] Hess-vec through MPB
 1 fact verified.
 WARNING: Nonlinear tests not run!
@@ -432,72 +537,76 @@ WARNING: Mixed-integer Nonlinear tests not run!
 0 facts verified.
 [sdp] Nonsensical SDPs
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Array{Float64,2}) at ./deprecated.jl:30
  [inlined code] from ./boot.jl:333
- in (::##4686#4701)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
- in do_fact(::##4686#4701, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+ in (::##4812#4827)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
+ in do_fact(::##4812#4827, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
  [inlined code] from ./boot.jl:331
- in (::##4674#4689)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:136
- in facts(::##4674#4689, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4800#4815)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:136
+ in facts(::##4800#4815, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
- in include(::UTF8String) at ./boot.jl:264
- in include_from_node1(::UTF8String) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
  in process_options(::Base.JLOptions) at ./client.jl:262
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 127
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Array{Float64,2}) at ./deprecated.jl:30
  [inlined code] from ./boot.jl:333
- in (::##4687#4702)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
- in do_fact(::##4687#4702, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+ in (::##4813#4828)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
+ in do_fact(::##4813#4828, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
  [inlined code] from ./boot.jl:331
- in (::##4674#4689)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:137
- in facts(::##4674#4689, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4800#4815)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:137
+ in facts(::##4800#4815, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
- in include(::UTF8String) at ./boot.jl:264
- in include_from_node1(::UTF8String) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
  in process_options(::Base.JLOptions) at ./client.jl:262
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 127
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Array{Float64,2}) at ./deprecated.jl:30
  [inlined code] from ./boot.jl:333
- in (::##4687#4702)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
- in do_fact(::##4687#4702, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+ in (::##4813#4828)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
+ in do_fact(::##4813#4828, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
  [inlined code] from ./boot.jl:331
- in (::##4674#4689)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:137
- in facts(::##4674#4689, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4800#4815)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:137
+ in facts(::##4800#4815, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
- in include(::UTF8String) at ./boot.jl:264
- in include_from_node1(::UTF8String) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
  in process_options(::Base.JLOptions) at ./client.jl:262
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl, in expression starting on line 127
 WARNING: issym is deprecated, use issymmetric instead.
+ [inlined code] from ./error.jl:26
  in depwarn(::ASCIIString, ::Symbol) at ./deprecated.jl:64
  in issym(::Array{Float64,2}) at ./deprecated.jl:30
  [inlined code] from ./random.jl:329
- in (::##4688#4703)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
- in do_fact(::##4688#4703, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
+ in (::##4814#4829)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:308
+ in do_fact(::##4814#4829, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:333
  [inlined code] from ./boot.jl:331
- in (::##4674#4689)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:138
- in facts(::##4674#4689, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
- in include(::UTF8String) at ./boot.jl:264
+ in (::##4800#4815)() at /home/vagrant/.julia/v0.5/JuMP/test/sdp.jl:138
+ in facts(::##4800#4815, ::ASCIIString) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:448
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
- in include(::UTF8String) at ./boot.jl:264
- in include_from_node1(::UTF8String) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
  in process_options(::Base.JLOptions) at ./client.jl:262
@@ -547,16 +656,43 @@ WARNING: Semidefinite tests not run!
 [socduals] SOC infeasibility ray test
 0 facts verified.
 WARNING: Conic solvers with duals tests not run!
-INFO: Cbc tests passed
+ERROR: LoadError: LoadError: FactCheck finished with 10 non-successful tests.
+ in error(::ASCIIString) at ./error.jl:21
+ in exitstatus() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:563
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::ASCIIString) at ./loading.jl:417
+ in include(::ASCIIString) at ./boot.jl:264
+ in include_from_node1(::UTF8String) at ./loading.jl:417
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/JuMP/test/runtests.jl, in expression starting on line 41
+while loading /home/vagrant/.julia/v0.5/Cbc/test/runtests.jl, in expression starting on line 12
+=================================[ ERROR: Cbc ]=================================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.5/Cbc/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing Calculus v0.1.14
 INFO: Removing Clp v0.2.0
 INFO: Removing DataStructures v0.4.3
 INFO: Removing FactCheck v0.4.2
 INFO: Removing ForwardDiff v0.1.6
-INFO: Removing JuMP v0.12.0
+INFO: Removing JuMP v0.12.2
 INFO: Removing Lazy v0.10.1
 INFO: Removing MacroTools v0.3.0
-INFO: Removing NaNMath v0.2.0
-INFO: Removing ReverseDiffSparse v0.5.3
+INFO: Removing NaNMath v0.2.1
+INFO: Removing ReverseDiffSparse v0.5.5
+ERROR: Base.Pkg.PkgError("Cbc had test errors")
+ in #test#55(::Bool, ::Any, ::Array{AbstractString,1}) at ./pkg/entry.jl:671
+ [inlined code] from ./boot.jl:331
+ in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::ASCIIString) at ./file.jl:48
+ in #cd#1(::Array{Any,1}, ::Any, ::Any, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1}}) at ./pkg/dir.jl:31
+ [inlined code] from ./boot.jl:331
+ in #test#3(::Bool, ::Any, ::ASCIIString, ::Vararg{ASCIIString}) at ./pkg.jl:228
+ in eval(::Module, ::Any) at ./boot.jl:267
+ [inlined code] from ./sysimg.jl:14
+ in process_options(::Base.JLOptions) at ./client.jl:239
+ in _start() at ./client.jl:318
 
 >>> End of log

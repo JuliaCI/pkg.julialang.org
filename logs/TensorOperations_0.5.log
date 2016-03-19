@@ -1,12 +1,12 @@
 >>> 'Pkg.add("TensorOperations")' log
-INFO: Installing TensorOperations v0.4.0
+INFO: Installing TensorOperations v0.4.1
 INFO: Package database updated
 INFO: METADATA is out-of-date — you may not have the latest version of TensorOperations
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("TensorOperations")' log
-Julia Version 0.5.0-dev+2918
-Commit 1eacbbb (2016-02-28 16:56 UTC)
+Julia Version 0.5.0-dev+3184
+Commit fb283c6 (2016-03-17 08:49 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
@@ -14,7 +14,7 @@ Platform Info:
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
   LIBM: libopenlibm
-  LLVM: libLLVM-3.7.1
+  LLVM: libLLVM-3.7.1 (ORCJIT, haswell)
 INFO: Testing TensorOperations
 
 WARNING: deprecated syntax "call(::Type{IndexedObject{I,C}}, ...)".
@@ -22,20 +22,42 @@ Use "(::Type{IndexedObject{I,C}})(...)" instead.
 
 WARNING: deprecated syntax "call(::Type{IndexedObject{I,C}}, ...)".
 Use "(::Type{IndexedObject{I,C}})(...)" instead.
-Test Failed
-  Expression: tensorcopy(A,1:3,1:4)
-    Expected: TensorOperations.IndexError{S<:AbstractString}
-      Thrown: TensorOperations.IndexError{ASCIIString}
-ERROR: LoadError: LoadError: There was an error during testing
- in record(::Base.Test.FallbackTestSet, ::Base.Test.Fail) at ./test.jl:317
- in do_test_throws(::Base.Test.Threw, ::Expr, ::Type{T}) at ./test.jl:251
- in include(::UTF8String) at ./boot.jl:264
+ERROR: LoadError: LoadError: BoundsError: attempt to access 810000-element Array{Float64,1}:
+  0.689472 
+  0.989894 
+  0.055835 
+ -0.941076 
+ -1.38117  
+ -0.526474 
+ -1.33835  
+  1.73301  
+ -1.27783  
+  1.08547  
+  ⋮        
+  0.611677 
+ -0.470661 
+ -1.45824  
+  0.0560323
+  0.0730855
+ -0.125127 
+  1.63874  
+  0.265613 
+  0.137271 
+  at index [0]
+ [inlined code] from ./simdloop.jl:73
+ in add_micro!(::TensorOperations.One, ::TensorOperations.StridedData{4,Float64,:N}, ::TensorOperations.Zero, ::TensorOperations.StridedData{4,Complex{Float64},:N}, ::Tuple{Int64,Int64,Int64,Int64}, ::Int64, ::Int64) at /home/vagrant/.julia/v0.5/TensorOperations/src/implementation/kernels.jl:11
+ in add_rec!(::TensorOperations.One, ::TensorOperations.StridedData{4,Float64,:N}, ::TensorOperations.Zero, ::TensorOperations.StridedData{4,Complex{Float64},:N}, ::Tuple{Int64,Int64,Int64,Int64}, ::Int64, ::Int64, ::Tuple{Int64,Int64,Int64,Int64}) at /home/vagrant/.julia/v0.5/TensorOperations/src/implementation/recursive.jl:13
+ in add_rec!(::TensorOperations.One, ::TensorOperations.StridedData{4,Float64,:N}, ::TensorOperations.Zero, ::TensorOperations.StridedData{4,Complex{Float64},:N}, ::Tuple{Int64,Int64,Int64,Int64}, ::Int64, ::Int64, ::Tuple{Int64,Int64,Int64,Int64}) at /home/vagrant/.julia/v0.5/TensorOperations/src/implementation/recursive.jl:17 (repeats 2 times)
+ in add!(::Int64, ::SubArray{Float64,4,Array{Float64,4},Tuple{StepRange{Int64,Int64},StepRange{Int64,Int64},StepRange{Int64,Int64},StepRange{Int64,Int64}},false}, ::Type{Val{:N}}, ::Int64, ::SubArray{Complex{Float64},4,Array{Complex{Float64},4},Tuple{UnitRange{Int64},StepRange{Int64,Int64},StepRange{Int64,Int64},StepRange{Int64,Int64}},false}, ::Array{Int64,1}) at /home/vagrant/.julia/v0.5/TensorOperations/src/implementation/stridedarray.jl:25
+ in tensoradd!(::Int64, ::SubArray{Float64,4,Array{Float64,4},Tuple{StepRange{Int64,Int64},StepRange{Int64,Int64},StepRange{Int64,Int64},StepRange{Int64,Int64}},false}, ::UnitRange{Int64}, ::Int64, ::SubArray{Complex{Float64},4,Array{Complex{Float64},4},Tuple{UnitRange{Int64},StepRange{Int64,Int64},StepRange{Int64,Int64},StepRange{Int64,Int64}},false}, ::Array{Int64,1}) at /home/vagrant/.julia/v0.5/TensorOperations/src/functions/inplace.jl:11
+ in tensorcopy!(::SubArray{Float64,4,Array{Float64,4},Tuple{StepRange{Int64,Int64},StepRange{Int64,Int64},StepRange{Int64,Int64},StepRange{Int64,Int64}},false}, ::UnitRange{Int64}, ::SubArray{Complex{Float64},4,Array{Complex{Float64},4},Tuple{UnitRange{Int64},StepRange{Int64,Int64},StepRange{Int64,Int64},StepRange{Int64,Int64}},false}, ::Array{Int64,1}) at /home/vagrant/.julia/v0.5/TensorOperations/src/functions/inplace.jl:5
+ in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::ASCIIString) at ./loading.jl:417
  in include(::ASCIIString) at ./boot.jl:264
  in include_from_node1(::UTF8String) at ./loading.jl:417
  in process_options(::Base.JLOptions) at ./client.jl:262
  in _start() at ./client.jl:318
-while loading /home/vagrant/.julia/v0.5/TensorOperations/test/methods.jl, in expression starting on line 9
+while loading /home/vagrant/.julia/v0.5/TensorOperations/test/methods.jl, in expression starting on line 96
 while loading /home/vagrant/.julia/v0.5/TensorOperations/test/runtests.jl, in expression starting on line 4
 ==========================[ ERROR: TensorOperations ]===========================
 
@@ -46,10 +68,10 @@ ERROR: Base.Pkg.PkgError("TensorOperations had test errors")
  in #test#55(::Bool, ::Any, ::Array{AbstractString,1}) at ./pkg/entry.jl:671
  [inlined code] from ./boot.jl:331
  in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
- in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::UTF8String) at ./file.jl:48
+ in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::ASCIIString) at ./file.jl:48
  in #cd#1(::Array{Any,1}, ::Any, ::Any, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1}}) at ./pkg/dir.jl:31
  [inlined code] from ./boot.jl:331
- in #test#4(::Bool, ::Any, ::ASCIIString, ::Vararg{ASCIIString}) at ./pkg.jl:228
+ in #test#3(::Bool, ::Any, ::ASCIIString, ::Vararg{ASCIIString}) at ./pkg.jl:228
  in eval(::Module, ::Any) at ./boot.jl:267
  [inlined code] from ./sysimg.jl:14
  in process_options(::Base.JLOptions) at ./client.jl:239
