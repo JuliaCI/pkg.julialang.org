@@ -1,11 +1,11 @@
 >>> 'Pkg.add("JuMP")' log
 INFO: Installing Calculus v0.1.14
-INFO: Installing DataStructures v0.4.3
-INFO: Installing ForwardDiff v0.1.6
-INFO: Installing JuMP v0.12.2
+INFO: Installing DataStructures v0.4.4
+INFO: Installing ForwardDiff v0.1.7
+INFO: Installing JuMP v0.13.1
 INFO: Installing Lazy v0.10.1
 INFO: Installing MacroTools v0.3.0
-INFO: Installing MathProgBase v0.4.2
+INFO: Installing MathProgBase v0.4.3
 INFO: Installing NaNMath v0.2.1
 INFO: Installing ReverseDiffSparse v0.5.5
 INFO: Package database updated
@@ -13,8 +13,8 @@ INFO: METADATA is out-of-date — you may not have the latest version of JuMP
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("JuMP")' log
-Julia Version 0.4.3
-Commit a2f713d (2016-01-12 21:37 UTC)
+Julia Version 0.4.5
+Commit 2ac304d (2016-03-18 00:58 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
@@ -60,6 +60,8 @@ INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/Clp.ji for modu
 32 facts verified.
 [print] User-created Array{Variable}
 6 facts verified.
+[print] basename keyword argument
+15 facts verified.
 [variable] constructors
 11 facts verified.
 [variable] get and set bounds
@@ -72,19 +74,21 @@ INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/Clp.ji for modu
 1 fact verified.
 [variable] condition in indexing
 3 facts verified.
-[variable] @defVar returning Array{Variable}
+[variable] @variable returning Array{Variable}
 WARNING: Variable value not defined for component of x. Check that the model was properly solved.
 WARNING: Variable value not defined for component of z. Check that the model was properly solved.
 6 facts verified.
-[variable] getValue on empty things
+[variable] getvalue on empty things
 5 facts verified.
 [variable] Slices of JuMPArray (#684)
 33 facts verified.
+[variable] Can't use end for indexing a JuMPContainer
+6 facts verified.
 [expr] Test expression construction
   > AffExpr
   > QuadExpr
 8 facts verified.
-[expr] Test getValue(expr)
+[expr] Test getvalue(expr)
 2 facts verified.
 [expr] Test expression iterators
 4 facts verified.
@@ -110,9 +114,9 @@ Vectorized operations
 9 facts verified.
 [macros] Check Julia expression parsing
 13 facts verified.
-[macros] Check @addConstraint basics
+[macros] Check @constraint basics
 11 facts verified.
-[macros] Checking @defVar with reverse direction bounds
+[macros] Checking @variable with reverse direction bounds
 2 facts verified.
 [macros] sum{}
 5 facts verified.
@@ -120,29 +124,29 @@ Vectorized operations
 4 facts verified.
 [macros] Using pre-built affine is OK in macro
 4 facts verified.
-[macros] Test ranges in @defVar
+[macros] Test ranges in @variable
 10 facts verified.
 [macros] Unicode comparisons
 9 facts verified.
-[macros] Three argument @addConstraint
+[macros] Three argument @constraint
 3 facts verified.
-[macros] @addConstraints
+[macros] @constraints
 4 facts verified.
-[macros] @addNLConstraints
+[macros] @NLconstraints
 5 facts verified.
 [macros] Vectors in nonlinear expressions
 2 facts verified.
-[macros] @setObjective with quadratic
+[macros] @objective with quadratic
 1 fact verified.
-[macros] @addConstraint with quadratic
+[macros] @constraint with quadratic
 13 facts verified.
 [macros] Triangular indexing, iteration
 158 facts verified.
 [macros] Multidimensional indexing
 1 fact verified.
-WARNING: The two-argument version of @defExpr is deprecated. The corresponding JuMP model is now required as the first argument. The new syntax is @defExpr(<JuMP model>, <name of expression(s)>, <expression>)
-WARNING: The one-argument version of @defExpr is deprecated. The corresponding JuMP model is now required as the first argument, and a name for the expression or collection of expressions is required as the second argument. The new syntax is @defExpr(<JuMP model>, <name of expression(s)>, <expression>)
-[macros] @defExpr
+WARNING: The two-argument version of @defExpr is deprecated. The corresponding JuMP model is now required as the first argument. The new syntax is @expression(<JuMP model>, <name of expression(s)>, <expression>)
+WARNING: The one-argument version of @defExpr is deprecated. The corresponding JuMP model is now required as the first argument, and a name for the expression or collection of expressions is required as the second argument. The new syntax is @expression(<JuMP model>, <name of expression(s)>, <expression>)
+[macros] @expression
 6 facts verified.
 [macros] Conditions in constraint indexing
 7 facts verified.
@@ -152,12 +156,18 @@ WARNING: The one-argument version of @defExpr is deprecated. The corresponding J
 5 facts verified.
 [macros] Extraneous terms in QuadExpr (#535)
 1 fact verified.
-[macros] Special-case binary multiplication in addToExpression_reorder (#537)
+[macros] Special-case binary multiplication in addtoexpr_reorder (#537)
 3 facts verified.
 [macros] Indices in macros don't leak out of scope (#582)
 25 facts verified.
 [macros] Issue #621
 1 fact verified.
+[macros] @variables and @constraints
+13 facts verified.
+[macros] No bare symbols in constraint macros
+6 facts verified.
+[macros] LB/UB kwargs
+6 facts verified.
 [fuzzer] Check macros for expression construction
 INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/Ipopt.ji for module Ipopt.
 INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/ECOS.ji for module ECOS.
@@ -245,17 +255,17 @@ Cbc3007W No integer variables - nothing to do
 2 facts verified.
 [model] Test MIQP vectorization
 2 facts verified.
-[model] Test setSolver
+[model] Test setsolver
 26 facts verified.
 [model] Setting solve hook
 2 facts verified.
 [model] Setting print hook
 1 fact verified.
-[model] Test getLinearIndex
+[model] Test linearindex
 5 facts verified.
 [model] Test LinearConstraint from ConstraintRef
 1 fact verified.
-[model] Test getValue on OneIndexedArrays
+[model] Test getvalue on OneIndexedArrays
 2 facts verified.
 [model] Relaxation keyword argument to solve
 24 facts verified.
@@ -303,14 +313,14 @@ Cbc0045I Solution with objective value -101.1 saved
   > With solver ECOS.ECOSSolver
   > With solver SCS.SCSSolver
 10 facts verified.
-[probmod] Test buildInternalModel
+[probmod] Test JuMP.build
   > With solver Clp.ClpMathProgSolverInterface.ClpSolver
   > With solver GLPKMathProgInterface.GLPKInterfaceLP.GLPKSolverLP
   > With solver Ipopt.IpoptSolver
   > With solver ECOS.ECOSSolver
   > With solver SCS.SCSSolver
 40 facts verified.
-[probmod] Test buildInternalModel with MIP
+[probmod] Test JuMP.build with MIP
   > With solver Cbc.CbcMathProgSolverInterface.CbcSolver
   > With solver GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP
 12 facts verified.
@@ -349,6 +359,10 @@ WARNING: Ignoring infeasible solution from heuristic callback
 6 facts verified.
 [callback] Test informational callback
 0 facts verified.
+[callback] Callback exit on CallbackAbort
+  > With solver GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP
+WARNING: Not solved to optimality, status: UserLimit
+1 fact verified.
 [qcqpmodel] Test quad objective (discrete)
 0 facts verified.
 [qcqpmodel] Test quad objective (continuous)
@@ -370,13 +384,13 @@ WARNING: Ignoring infeasible solution from heuristic callback
 [qcqpmodel] Test simple normed problem
   > With solver ECOS.ECOSSolver
   > With solver SCS.SCSSolver
-6 facts verified.
+10 facts verified.
 [qcqpmodel] Test quad problem modification
   > With solver Ipopt.IpoptSolver
 10 facts verified.
 [qcqpmodel] Rotated second-order cones
 0 facts verified.
-[nonlinear] Test getValue on arrays
+[nonlinear] Test getvalue on arrays
 5 facts verified.
 [nonlinear] Test HS071 solves correctly
   > With solver Ipopt.IpoptSolver
@@ -415,23 +429,23 @@ WARNING: Ignoring infeasible solution from heuristic callback
 [nonlinear] Test maximization objective
   > With solver Ipopt.IpoptSolver
 3 facts verified.
-WARNING: in @defNLExpr(quadexpr2,x + x ^ 2 + x * y + y ^ 2): three arguments are required.
-Note that the syntax of @defNLExpr has recently changed:
+WARNING: in @NLexpression(quadexpr2,x + x ^ 2 + x * y + y ^ 2): three arguments are required.
+Note that the syntax of @NLexpression has recently changed:
 The first argument should be the model to which the expression is attached.
 The second is the name of the expression (or collection of expressions).
 The third is the expression itself.
 Example:
-@defNLExpr(m, my_expr, x^2/y)
-@defNLExpr(m, my_expr_collection[i=1:2], sin(z[i])^2)
+@NLexpression(m, my_expr, x^2/y)
+@NLexpression(m, my_expr_collection[i=1:2], sin(z[i])^2)
 Support for the old syntax (with the model omitted) will be removed in an upcoming release.
-WARNING: in @defNLExpr(x + x ^ 2 + x * y + y ^ 2): three arguments are required.
-Note that the syntax of @defNLExpr has recently changed:
+WARNING: in @NLexpression(x + x ^ 2 + x * y + y ^ 2): three arguments are required.
+Note that the syntax of @NLexpression has recently changed:
 The first argument should be the model to which the expression is attached.
 The second is the name of the expression (or collection of expressions).
 The third is the expression itself.
 Example:
-@defNLExpr(m, my_expr, x^2/y)
-@defNLExpr(m, my_expr_collection[i=1:2], sin(z[i])^2)
+@NLexpression(m, my_expr, x^2/y)
+@NLexpression(m, my_expr_collection[i=1:2], sin(z[i])^2)
 Support for the old syntax (with the model omitted) will be removed in an upcoming release.
 [nonlinear] Test maximization objective (embedded expressions)
   > With solver Ipopt.IpoptSolver, simplify = true
@@ -471,6 +485,8 @@ Support for the old syntax (with the model omitted) will be removed in an upcomi
 [nonlinear] Hessians through MPB
 3 facts verified.
 [nonlinear] Hess-vec through MPB
+1 fact verified.
+[nonlinear] NaN corner case (#695)
 1 fact verified.
 [nonlinear] Error on NLP resolve
 2 facts verified.

@@ -1,18 +1,16 @@
 >>> 'Pkg.add("BlackBoxOptim")' log
 INFO: Installing ArrayViews v0.6.4
-INFO: Installing BlackBoxOptim v0.1.3
+INFO: Installing BlackBoxOptim v0.2.0
 INFO: Installing Distributions v0.8.10
 INFO: Installing FactCheck v0.4.2
-INFO: Installing PDMats v0.4.0
+INFO: Installing PDMats v0.4.1
 INFO: Installing StatsBase v0.8.0
 INFO: Installing StatsFuns v0.2.0
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of BlackBoxOptim
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("BlackBoxOptim")' log
-Julia Version 0.4.3
-Commit a2f713d (2016-01-12 21:37 UTC)
+Julia Version 0.4.5
+Commit 2ac304d (2016-03-18 00:58 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
@@ -55,18 +53,40 @@ Parameters
   > Merge with Parameters or Dict
 28 facts verified.
 Fitness
-  > hat_compare floats
-  > is_minimizing in ScalarFitness schemes
-  > hat_compare floats in a minimizing fitness scheme
-  > hat_compare floats in a maximizing fitness scheme
-  > hat_compare fitnesses of size 1 in a minimizing FitnessScheme
-  > hat_compare fitnesses of size 1 in a maximizing FitnessScheme
-  > hat_compare fitnesses of size > 1 in a minimizing FitnessScheme
-  > hat_compare fitnesses of size > 1 in a minimizing FitnessScheme
-  > is_better/is_worse/same_fitness in a minimizing FitnessScheme
-  > is_better/is_worse/same_fitness in a maximizing FitnessScheme
-  > fitness_scheme(x, y)
-87 facts verified.
+  > hat_compare() Float64
+  > ScalarFitnessScheme
+    > is_minimizing()
+    > hat_compare(..., MinimizingFitnessScheme)
+    > hat_compare(..., MaximizingFitnessScheme)
+    > fitness_scheme(x, y)
+  > TupleFitnessScheme
+    > general interface
+      > ParetoFitnessScheme{1}
+      > ParetoFitnessScheme{1}(is_minimizing=false)
+      > ParetoFitnessScheme{3}()
+    > hat_compare(..., ParetoFitnessScheme{1}())
+    > hat_compare(..., ParetoFitnessScheme{1}(is_minimizing=false))
+    > hat_compare(..., ParetoFitnessScheme{2}(is_minimizing=true))
+    > hat_compare(..., ParetoFitnessScheme{2}(is_minimizing=false))
+    > is_better/is_worse/same_fitness(..., ParetoFitnessScheme{2}(is_minimizing=true))
+    > is_better/is_worse/same_fitness(..., ParetoFitnessScheme{2}(is_minimizing=false))
+  > ϵ-box FitnessScheme
+    > ϵ-index()
+    > IndexedTupleFitness
+    > hat_compare(..., EpsBoxDominanceFitnessScheme{2}(...))
+Out of 167 total facts:
+  Verified: 163
+  Pending:  4
+Evaluator
+  > ProblemEvaluator
+    > Basic evaluation with a single-objective function to be minimized
+    > update_fitness!()
+    > rank_by_fitness!()
+  > ParallelEvaluator
+    > Basic evaluation with a single-objective function to be minimized
+    > update_fitness!()
+    > rank_by_fitness!()
+38 facts verified.
 Population
   > FitPopulation
     > candidates pool
@@ -87,42 +107,60 @@ Search space
   > rand_individuals_lhs samples in LHS intervals
   > feasible finds feasible points in the search space
   > diameters
-9494 facts verified.
+  > concat(ss1, ss2)
+10649 facts verified.
 Mutation operators
-  > SimpleGibbsMutation
+  > UniformMutation
   > MutationClock
   > FixedGeneticOperatorsMixture
   > FAGeneticOperatorsMixture
 22615 facts verified.
+Crossover operators
+  > DiffEvoRandBin1
+    > always copies from donor if length is 1
+    > always copies at least one element from donor
+    > unlikely to copy everything if vectors are large
+    > correctly modifies the parameters vector
+608 facts verified.
+Selection operators
+  > SimpleSelector
+  > RadiusLimitedSelector
+  > Tournament
+    > tournament()
+    > select()
+801 facts verified.
+Embedding operators
+  > RandomBound
+    > does nothing if within bounds
+    > bounds if lower than min bound
+    > bounds if higher than max bound
+11 facts verified.
 Frequency Adaptation
   > returns all indices once in the first block
   > increases the frequency of a method that has higher progress values
-1022 facts verified.
+1220 facts verified.
 TopListArchive
-  > ArchivedIndividual
+  > TopListIndividual
   > Constructing a small archive and adding to it
   > magnitude_class for positive fitness values
   > magnitude_class for negative fitness values
   > archive copies the individuals
   > for maximizing fitness
 98 facts verified.
+EpsBoxArchive
+  > EpsBoxFrontierIndividual
+  > Constructing a small archive and adding to it
+    > noprogress_streak(since_restart=0) is reset after restart
+    > updating best candidate index if old and new non-dominated
+  > shaffer1() Pareto frontier
+  > archive copies the individuals
+62 facts verified.
 Random search
   > ask()
 900 facts verified.
 Differential evolution optimizer
-  > SimpleSelector
-  > RadiusLimitedSelector
-  > RandomBound
-    > does nothing if within bounds
-    > bounds if lower than min bound
-    > bounds if higher than max bound
-  > DiffEvoRandBin1
-    > always copies from donor if length is 1
-    > always copies at least one element from donor
-    > unlikely to copy everything if vectors are large
-    > correctly modifies the parameters vector
   > ask()/tell!()
-2027 facts verified.
+1000 facts verified.
 Adaptive differential evolution optimizer
   > parameters adjust!()
   > ask()
@@ -132,32 +170,50 @@ sNES
     > when indices are already ordered
     > when indices are not ordered
 35 facts verified.
+BorgMOEA
+  > Schaffer1
+  > CEC09_UP8
+2 facts verified.
+Testing methods diagnostic tracing
+  > trace_state()
+    > silent
+    > compact
+    > verbose
+0 facts verified.
 Top-level interface
   > run a simple optimization
     > using bboptimize() with mostly defaults
     > using bbsetup()/bboptimize() with mostly defaults
     > using non-population optimizer
     > using population optimizer
+    > using population optimizer and parallel evaluator
   > continue running an optimization after it finished
+  > return results after interruption
+    > :RecoverResults on
+WARNING: Optimization interrupted, recovering intermediate results...
+    > :RecoverResults off
   > continue running an optimization after serializing to disc
-46 facts verified.
-bboptimize smoketest
-  > testing resampling_memetic_search method to ensure it works
-  > testing de_rand_2_bin_radiuslimited method to ensure it works
-  > testing de_rand_2_bin method to ensure it works
-  > testing de_rand_1_bin_radiuslimited method to ensure it works
-  > testing adaptive_de_rand_1_bin_radiuslimited method to ensure it works
-  > testing adaptive_de_rand_1_bin method to ensure it works
-  > testing separable_nes method to ensure it works
-  > testing dxnes method to ensure it works
-  > testing simultaneous_perturbation_stochastic_approximation method to ensure it works
-  > testing de_rand_1_bin method to ensure it works
-  > testing generating_set_search method to ensure it works
-  > testing resampling_inheritance_memetic_search method to ensure it works
-  > testing xnes method to ensure it works
-  > testing probabilistic_descent method to ensure it works
-  > testing random_search method to ensure it works
+49 facts verified.
+bboptimize() single-objective methods smoketest
+  > resampling_memetic_search
+  > de_rand_2_bin_radiuslimited
+  > de_rand_2_bin
+  > de_rand_1_bin_radiuslimited
+  > adaptive_de_rand_1_bin_radiuslimited
+  > adaptive_de_rand_1_bin
+  > separable_nes
+  > dxnes
+  > simultaneous_perturbation_stochastic_approximation
+  > de_rand_1_bin
+  > generating_set_search
+  > resampling_inheritance_memetic_search
+  > xnes
+  > probabilistic_descent
+  > random_search
 45 facts verified.
+bboptimize() multi-objective methods smoketest
+  > borg_moea
+4 facts verified.
 Single objective functions
   > Sphere
   > Schwefel2.22
@@ -168,7 +224,7 @@ Single objective functions
 Generating set search
 2 facts verified.
 Random sampling on unit, n-dimensional sphere
-789 facts verified.
+832 facts verified.
 Random direction generator
 2 facts verified.
 Mirrored random direction generator
