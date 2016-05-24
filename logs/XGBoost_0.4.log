@@ -1,15 +1,20 @@
 >>> 'Pkg.add("XGBoost")' log
 INFO: Cloning cache of XGBoost from git://github.com/dmlc/XGBoost.jl.git
-INFO: Installing XGBoost v0.1.0
+INFO: Installing XGBoost v0.2.0
 INFO: Building XGBoost
-
-WARNING: deprecated syntax "[a=>b, ...]" at /home/vagrant/.julia/v0.4/XGBoost/deps/build.jl:24.
-Use "Dict(a=>b, ...)" instead.
 Cloning into 'xgboost'...
+Submodule 'dmlc-core' (https://github.com/dmlc/dmlc-core) registered for path 'dmlc-core'
+Submodule 'rabit' (https://github.com/dmlc/rabit) registered for path 'rabit'
+Cloning into 'dmlc-core'...
+Submodule path 'dmlc-core': checked out '1db0792e1a55355b1f07699bba18c88ded996953'
+Cloning into 'rabit'...
+Submodule path 'rabit': checked out '8f61535b83e650331459d7f33a1615fa7d27b7bd'
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.4/XGBoost/deps/usr
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.4/XGBoost/deps/usr/lib
 INFO: Changing Directory to xgboost
-Note: checking out 'v0.32'.
+warning: unable to rmdir dmlc-core: Directory not empty
+warning: unable to rmdir rabit: Directory not empty
+Note: checking out '0.47'.
 
 You are in 'detached HEAD' state. You can look around, make experimental
 changes and commit them, and you can discard any commits you make in this
@@ -20,17 +25,90 @@ do so (now or later) by using -b with the checkout command again. Example:
 
   git checkout -b new_branch_name
 
-HEAD is now at 852ce6b... Update README.md
-g++ -c -Wall -O3 -msse2  -Wno-unknown-pragmas -fPIC -pedantic  -fopenmp -o updater.o src/tree/updater.cpp
-g++ -c -Wall -O3 -msse2  -Wno-unknown-pragmas -fPIC -pedantic  -fopenmp -o gbm.o src/gbm/gbm.cpp
-g++ -c -Wall -O3 -msse2  -Wno-unknown-pragmas -fPIC -pedantic  -fopenmp -o io.o src/io/io.cpp
-g++ -Wall -O3 -msse2  -Wno-unknown-pragmas -fPIC -pedantic  -fopenmp -pthread -lm  -o xgboost src/xgboost_main.cpp updater.o gbm.o io.o
-g++ -Wall -O3 -msse2  -Wno-unknown-pragmas -fPIC -pedantic  -fopenmp -fPIC -pthread -lm  -shared -o wrapper/libxgboostwrapper.so wrapper/xgboost_wrapper.cpp updater.o gbm.o io.o
+HEAD is now at 0dc68b1... Update CHANGES.md
+g++ -c -Wall -O3 -msse2  -Wno-unknown-pragmas -funroll-loops -fopenmp -fPIC -o updater.o src/tree/updater.cpp
+g++ -c -Wall -O3 -msse2  -Wno-unknown-pragmas -funroll-loops -fopenmp -fPIC -o gbm.o src/gbm/gbm.cpp
+g++ -c -Wall -O3 -msse2  -Wno-unknown-pragmas -funroll-loops -fopenmp -fPIC -o io.o src/io/io.cpp
+g++ -c -Wall -O3 -msse2  -Wno-unknown-pragmas -funroll-loops -fopenmp -fPIC -o main.o src/xgboost_main.cpp
+cd subtree/rabit;make lib/librabit.a; cd ../..
+make[1]: Entering directory `/home/vagrant/.julia/v0.4/XGBoost/deps/xgboost/subtree/rabit'
+g++ -c -O3 -msse2 -Wall -Wextra -Wno-unused-parameter -Wno-unknown-pragmas -std=c++0x -fPIC -o allreduce_base.o src/allreduce_base.cc
+g++ -c -O3 -msse2 -Wall -Wextra -Wno-unused-parameter -Wno-unknown-pragmas -std=c++0x -fPIC -o allreduce_robust.o src/allreduce_robust.cc
+g++ -c -O3 -msse2 -Wall -Wextra -Wno-unused-parameter -Wno-unknown-pragmas -std=c++0x -fPIC -o engine.o src/engine.cc
+ar cr lib/librabit.a allreduce_base.o allreduce_robust.o engine.o
+make[1]: Leaving directory `/home/vagrant/.julia/v0.4/XGBoost/deps/xgboost/subtree/rabit'
+g++ -c -Wall -O3 -msse2  -Wno-unknown-pragmas -funroll-loops -fopenmp -fPIC -o dmlc_simple.o src/io/dmlc_simple.cpp
+g++ -Wall -O3 -msse2  -Wno-unknown-pragmas -funroll-loops -fopenmp -fPIC -fPIC -o xgboost updater.o gbm.o io.o main.o subtree/rabit/lib/librabit.a dmlc_simple.o -pthread -lm -lrt
+g++ -Wall -O3 -msse2  -Wno-unknown-pragmas -funroll-loops -fopenmp -fPIC -fPIC -shared -o wrapper/libxgboostwrapper.so wrapper/xgboost_wrapper.cpp updater.o gbm.o io.o subtree/rabit/lib/librabit.a dmlc_simple.o -pthread -lm -lrt 
 Successfully build multi-thread xgboost
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of XGBoost
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("XGBoost")' log
-No tests found.
+Julia Version 0.4.5
+Commit 2ac304d (2016-03-18 00:58 UTC)
+Platform Info:
+  System: Linux (x86_64-unknown-linux-gnu)
+  CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
+  WORD_SIZE: 64
+  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
+  LAPACK: libopenblas64_
+  LIBM: libopenlibm
+  LLVM: libLLVM-3.3
+INFO: Computing test dependencies for XGBoost...
+INFO: Installing FactCheck v0.4.3
+INFO: Testing XGBoost
+Sparse matrices
+0 facts verified.
+DMatrix loading
+2 facts verified.
+Agaricus training
+3 facts verified.
+Cross validation
+[1]	cv-test-error:0.057577+0.013687	cv-train-error:0.053892+0.015585
+[2]	cv-test-error:0.020881+0.005796	cv-train-error:0.020497+0.001968
+[3]	cv-test-error:0.011516+0.006878	cv-train-error:0.012053+0.009126
+[4]	cv-test-error:0.013665+0.004660	cv-train-error:0.013435+0.002064
+[5]	cv-test-error:0.005528+0.003770	cv-train-error:0.005297+0.002656
+0 facts verified.
+Feature importance
+Out of 2 total facts:
+  Verified: 1
+  Pending:  1
+Example is running
+training xgboost with dense matrix
+[1]	train-error:0.046522
+[2]	train-error:0.022263
+training xgboost with sparse matrix
+[1]	train-error:0.046522
+[2]	train-error:0.022263
+training xgboost with DMatrix[1]	train-error:0.000614
+[2]	train-error:0.000000
+[1]	train-error:0.046522
+[2]	train-error:0.022263
+test-error=0.48168839230291743
+sum(abs(pred2-pred))=0.0
+[1]	eval-logloss:0.226687	eval-error:0.042831	train-logloss:0.233366	train-error:0.046522
+[2]	eval-logloss:0.137875	eval-error:0.021726	train-logloss:0.136656	train-error:0.022263
+test-error=0.48168839230291743
+Array(XGBoost.FeatureImportance,(4,)) 4-element Array{XGBoost.FeatureImportance,1}:
+Gain      Coverage  Frequency  Feature
+0.6762    0.4979    0.4000     odor=none
+0.1714    0.1921    0.2000     stalk-root=club
+0.1232    0.1639    0.2000     stalk-root=rooted
+0.0293    0.1462    0.2000     spore-print-color=green
+
+0 facts verified.
+6513x126 matrix with 143286 entries is loaded from ../data/agaricus.txt.train
+6513x126 matrix with 143286 entries is loaded from ../data/agaricus.txt.train
+1611x126 matrix with 35442 entries is loaded from ../data/agaricus.txt.test
+6513x126 matrix with 143286 entries is loaded from ../data/agaricus.txt.train
+1611x126 matrix with 35442 entries is loaded from ../data/agaricus.txt.test
+6513x126 matrix with 143286 entries is loaded from ../data/agaricus.txt.train
+1611x126 matrix with 35442 entries is loaded from ../data/agaricus.txt.test
+6513x126 matrix with 143286 entries is loaded from ../data/agaricus.txt.train
+6513x126 matrix with 820638 entries is loaded from dtrain.buffer
+1611x126 matrix with 202986 entries is loaded from dtest.buffer
+INFO: XGBoost tests passed
+INFO: Removing FactCheck v0.4.3
+
 >>> End of log
