@@ -1,9 +1,6 @@
 >>> 'Pkg.add("Gumbo")' log
 INFO: Installing Gumbo v0.2.0
 INFO: Building Gumbo
-
-WARNING: deprecated syntax "[a=>b, ...]" at /home/vagrant/.julia/v0.5/Gumbo/deps/build.jl:19.
-Use "Dict(a=>b, ...)" instead.
 WARNING: isless(x::Char,y::Integer) is deprecated, use UInt32(x) < y instead.
  in depwarn(::String, ::Symbol) at ./deprecated.jl:64
  in isless(::Char, ::UInt8) at ./deprecated.jl:50
@@ -22,6 +19,7 @@ WARNING: isless(x::Char,y::Integer) is deprecated, use UInt32(x) < y instead.
 while loading /home/vagrant/.julia/v0.5/Gumbo/deps/build.jl, in expression starting on line 7
 WARNING: Base.WORD_SIZE is deprecated.
   likely near /home/vagrant/.julia/v0.5/Gumbo/deps/build.jl:12
+WARNING: Incorrect mapping in BinDeps.@install call. No dependencies will be cached.
 WARNING: Base.ASCIIString is deprecated, use String instead.
   likely near /home/vagrant/.julia/v0.5/Gumbo/deps/build.jl:19
 WARNING: Base.ASCIIString is deprecated, use String instead.
@@ -141,11 +139,29 @@ in can_provide at /home/vagrant/.julia/v0.5/BinDeps/src/dependencies.jl
 WARNING: Base.OS_NAME is deprecated.
   likely near /home/vagrant/.julia/v0.5/Gumbo/deps/build.jl:19
 in can_provide at /home/vagrant/.julia/v0.5/BinDeps/src/dependencies.jl
+================================[ ERROR: Gumbo ]================================
+
+LoadError: MethodError: no method matching keys(::Array{Pair{Symbol,Symbol},1})
+while loading /home/vagrant/.julia/v0.5/Gumbo/deps/build.jl, in expression starting on line 19
+
+================================================================================
+
+================================[ BUILD ERRORS ]================================
+
+WARNING: Gumbo had build errors.
+
+ - packages with build errors remain installed in /home/vagrant/.julia/v0.5
+ - build the package(s) and all dependencies with `Pkg.build("Gumbo")`
+ - build a single package by running its `deps/build.jl` script
+
+================================================================================
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of Gumbo
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Gumbo")' log
-Julia Version 0.5.0-dev+4452
-Commit c95b61b (2016-06-02 20:46 UTC)
+Julia Version 0.5.0-dev+4506
+Commit cd2a278 (2016-06-04 02:39 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
@@ -155,118 +171,34 @@ Platform Info:
   LIBM: libopenlibm
   LLVM: libLLVM-3.7.1 (ORCJIT, haswell)
 INFO: Testing Gumbo
-WARNING: readall is deprecated, use readstring instead.
- in depwarn(::String, ::Symbol) at ./deprecated.jl:64
- in readall(::IOStream, ::Vararg{IOStream,N}) at ./deprecated.jl:30
- in #1 at /home/vagrant/.julia/v0.5/Gumbo/test/parsing.jl:9 [inlined]
- in open(::##1#2, ::String) at ./iostream.jl:113
+Test Failed
+  Expression: parsehtml("",strict=true)
+    Expected: Gumbo.InvalidHTMLException
+      Thrown: UndefVarError
+ERROR: LoadError: LoadError: There was an error during testing
+ in record(::Base.Test.FallbackTestSet, ::Base.Test.Fail) at ./test.jl:321
+ in do_test_throws(::Base.Test.Threw, ::Expr, ::Type{T}) at ./test.jl:255
  in include_from_node1(::String) at ./loading.jl:426 (repeats 2 times)
  in process_options(::Base.JLOptions) at ./client.jl:266
  in _start() at ./client.jl:322
-while loading /home/vagrant/.julia/v0.5/Gumbo/test/parsing.jl, in expression starting on line 8
-WARNING: bytestring(p::Union{Ptr{Int8},Ptr{UInt8}}) is deprecated, use String(p) instead.
- in depwarn(::String, ::Symbol) at ./deprecated.jl:64
- in bytestring(::Ptr{UInt8}) at ./deprecated.jl:50
- in document_from_gumbo(::Gumbo.CGumbo.Output) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:98
- in #parsehtml#7(::Bool, ::Function, ::String) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:11
- in open(::##1#2, ::String) at ./iostream.jl:113
- in include_from_node1(::String) at ./loading.jl:426 (repeats 2 times)
- in process_options(::Base.JLOptions) at ./client.jl:266
+while loading /home/vagrant/.julia/v0.5/Gumbo/test/parsing.jl, in expression starting on line 5
+while loading /home/vagrant/.julia/v0.5/Gumbo/test/runtests.jl, in expression starting on line 6
+================================[ ERROR: Gumbo ]================================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.5/Gumbo/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: Gumbo had test errors
+ in #test#49(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:694
+ in (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./null:0
+ in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:59
+ in #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
+ in (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./null:0
+ in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg.jl:245
+ in test(::String, ::Vararg{String,N}) at ./pkg.jl:245
+ in eval(::Module, ::Any) at ./boot.jl:225
+ in process_options(::Base.JLOptions) at ./client.jl:243
  in _start() at ./client.jl:322
-while loading /home/vagrant/.julia/v0.5/Gumbo/test/parsing.jl, in expression starting on line 8
-WARNING: bytestring(p::Union{Ptr{Int8},Ptr{UInt8}}) is deprecated, use String(p) instead.
- in depwarn(::String, ::Symbol) at ./deprecated.jl:64
- in bytestring(::Ptr{UInt8}) at ./deprecated.jl:50
- in attributes(::Array{Ptr{Gumbo.CGumbo.Attribute},1}) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:35
- in gumbo_to_jl(::Gumbo.HTMLElement{:head}, ::Gumbo.CGumbo.Element) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:51
- in gumbo_to_jl(::Gumbo.HTMLElement{:HTML}, ::Gumbo.CGumbo.Element) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:57 (repeats 2 times)
- in document_from_gumbo(::Gumbo.CGumbo.Output) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:100
- in #parsehtml#7(::Bool, ::Function, ::String) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:11
- in open(::##1#2, ::String) at ./iostream.jl:113
- in include_from_node1(::String) at ./loading.jl:426 (repeats 2 times)
- in process_options(::Base.JLOptions) at ./client.jl:266
- in _start() at ./client.jl:322
-while loading /home/vagrant/.julia/v0.5/Gumbo/test/parsing.jl, in expression starting on line 8
-WARNING: bytestring(p::Union{Ptr{Int8},Ptr{UInt8}}) is deprecated, use String(p) instead.
- in depwarn(::String, ::Symbol) at ./deprecated.jl:64
- in bytestring(::Ptr{UInt8}) at ./deprecated.jl:50
- in attributes(::Array{Ptr{Gumbo.CGumbo.Attribute},1}) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:35
- in gumbo_to_jl(::Gumbo.HTMLElement{:head}, ::Gumbo.CGumbo.Element) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:51
- in gumbo_to_jl(::Gumbo.HTMLElement{:HTML}, ::Gumbo.CGumbo.Element) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:57 (repeats 2 times)
- in document_from_gumbo(::Gumbo.CGumbo.Output) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:100
- in #parsehtml#7(::Bool, ::Function, ::String) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:11
- in open(::##1#2, ::String) at ./iostream.jl:113
- in include_from_node1(::String) at ./loading.jl:426 (repeats 2 times)
- in process_options(::Base.JLOptions) at ./client.jl:266
- in _start() at ./client.jl:322
-while loading /home/vagrant/.julia/v0.5/Gumbo/test/parsing.jl, in expression starting on line 8
-WARNING: bytestring(p::Union{Ptr{Int8},Ptr{UInt8}}) is deprecated, use String(p) instead.
- in depwarn(::String, ::Symbol) at ./deprecated.jl:64
- in bytestring(::Ptr{UInt8}) at ./deprecated.jl:50
- in gumbo_to_jl(::Gumbo.HTMLElement{:p}, ::Gumbo.CGumbo.Text) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:65
- in gumbo_to_jl(::Gumbo.HTMLElement{:body}, ::Gumbo.CGumbo.Element) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:57 (repeats 3 times)
- in document_from_gumbo(::Gumbo.CGumbo.Output) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:100
- in #parsehtml#7(::Bool, ::Function, ::String) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:11
- in open(::##1#2, ::String) at ./iostream.jl:113
- in include_from_node1(::String) at ./loading.jl:426 (repeats 2 times)
- in process_options(::Base.JLOptions) at ./client.jl:266
- in _start() at ./client.jl:322
-while loading /home/vagrant/.julia/v0.5/Gumbo/test/parsing.jl, in expression starting on line 8
-WARNING: bytestring(p::Union{Ptr{Int8},Ptr{UInt8}},len::Integer) is deprecated, use String(p,len) instead.
- in depwarn(::String, ::Symbol) at ./deprecated.jl:64
- in bytestring(::Ptr{UInt8}, ::UInt64) at ./deprecated.jl:50
- in elem_tag(::Gumbo.CGumbo.Element) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:44
- in gumbo_to_jl(::Gumbo.HTMLElement{:body}, ::Gumbo.CGumbo.Element) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:50
- in gumbo_to_jl(::Gumbo.HTMLElement{:HTML}, ::Gumbo.CGumbo.Element) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:57 (repeats 2 times)
- in document_from_gumbo(::Gumbo.CGumbo.Output) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:100
- in #parsehtml#7(::Bool, ::Function, ::String) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:11
- in parsehtml(::String) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:2
- in include_from_node1(::String) at ./loading.jl:426 (repeats 2 times)
- in process_options(::Base.JLOptions) at ./client.jl:266
- in _start() at ./client.jl:322
-while loading /home/vagrant/.julia/v0.5/Gumbo/test/parsing.jl, in expression starting on line 22
-WARNING: symbol is deprecated, use Symbol instead.
- in depwarn(::String, ::Symbol) at ./deprecated.jl:64
- in symbol(::String, ::Vararg{String,N}) at ./deprecated.jl:30
- in elem_tag(::Gumbo.CGumbo.Element) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:44
- in gumbo_to_jl(::Gumbo.HTMLElement{:body}, ::Gumbo.CGumbo.Element) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:50
- in gumbo_to_jl(::Gumbo.HTMLElement{:HTML}, ::Gumbo.CGumbo.Element) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:57 (repeats 2 times)
- in document_from_gumbo(::Gumbo.CGumbo.Output) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:100
- in #parsehtml#7(::Bool, ::Function, ::String) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:11
- in parsehtml(::String) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:2
- in include_from_node1(::String) at ./loading.jl:426 (repeats 2 times)
- in process_options(::Base.JLOptions) at ./client.jl:266
- in _start() at ./client.jl:322
-while loading /home/vagrant/.julia/v0.5/Gumbo/test/parsing.jl, in expression starting on line 22
-WARNING: bytestring(p::Union{Ptr{Int8},Ptr{UInt8}}) is deprecated, use String(p) instead.
- in depwarn(::String, ::Symbol) at ./deprecated.jl:64
- in bytestring(::Ptr{UInt8}) at ./deprecated.jl:50
- in gumbo_to_jl(::Gumbo.HTMLElement{:strong}, ::Gumbo.CGumbo.Text) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:65
- in gumbo_to_jl(::Gumbo.HTMLElement{:p}, ::Gumbo.CGumbo.Element) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:57 (repeats 4 times)
- in document_from_gumbo(::Gumbo.CGumbo.Output) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:100
- in #parsehtml#7(::Bool, ::Function, ::String) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:11
- in parsehtml(::String) at /home/vagrant/.julia/v0.5/Gumbo/src/conversion.jl:2
- in include_from_node1(::String) at ./loading.jl:426 (repeats 2 times)
- in process_options(::Base.JLOptions) at ./client.jl:266
- in _start() at ./client.jl:322
-while loading /home/vagrant/.julia/v0.5/Gumbo/test/traversal.jl, in expression starting on line 1
-WARNING: readall is deprecated, use readstring instead.
- in depwarn(::String, ::Symbol) at ./deprecated.jl:64
- in readall(::IOStream, ::Vararg{IOStream,N}) at ./deprecated.jl:30
- in #9 at /home/vagrant/.julia/v0.5/Gumbo/test/io.jl:4 [inlined]
- in open(::##9#10, ::String) at ./iostream.jl:113
- in include_from_node1(::String) at ./loading.jl:426 (repeats 2 times)
- in process_options(::Base.JLOptions) at ./client.jl:266
- in _start() at ./client.jl:322
-while loading /home/vagrant/.julia/v0.5/Gumbo/test/io.jl, in expression starting on line 3
-WARNING: readall is deprecated, use readstring instead.
- in depwarn(::String, ::Symbol) at ./deprecated.jl:64
- in readall(::Base.AbstractIOBuffer{Array{UInt8,1}}, ::Vararg{Base.AbstractIOBuffer{Array{UInt8,1}},N}) at ./deprecated.jl:30
- in |>(::Base.AbstractIOBuffer{Array{UInt8,1}}, ::Base.#readall) at ./operators.jl:316
- in include_from_node1(::String) at ./loading.jl:426 (repeats 2 times)
- in process_options(::Base.JLOptions) at ./client.jl:266
- in _start() at ./client.jl:322
-while loading /home/vagrant/.julia/v0.5/Gumbo/test/io.jl, in expression starting on line 9
-INFO: Gumbo tests passed
 
 >>> End of log
