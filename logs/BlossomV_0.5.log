@@ -9,7 +9,6 @@ WARNING: isless(x::Char,y::Integer) is deprecated, use UInt32(x) < y instead.
  in parse_url(::String) at /home/vagrant/.julia/v0.5/URIParser/src/parser.jl:260
  in URIParser.URI(::String) at /home/vagrant/.julia/v0.5/URIParser/src/parser.jl:295
  in include_from_node1(::String) at ./loading.jl:426
- in eval(::Module, ::Any) at ./boot.jl:225
  in evalfile(::String, ::Array{String,1}) at ./loading.jl:442 (repeats 2 times)
  in cd(::##2#4, ::String) at ./file.jl:59
  in (::##1#3)(::IOStream) at ./none:13
@@ -127,7 +126,7 @@ INFO: Attempting to Create directory /home/vagrant/.julia/v0.5/BlossomV/deps/dow
 INFO: Downloading file http://pub.ist.ac.at/~vnk/software/blossom5-v2.04.src.tar.gz
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 47427  100 47427    0     0  51415      0 --:--:-- --:--:-- --:--:-- 51383
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0100 47427  100 47427    0     0  24592      0  0:00:01  0:00:01 --:--:-- 24586
 INFO: Done downloading file http://pub.ist.ac.at/~vnk/software/blossom5-v2.04.src.tar.gz
 WARNING: readbytes is deprecated, use read instead.
  in depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -142,7 +141,6 @@ WARNING: readbytes is deprecated, use read instead.
  in macro expansion; at /home/vagrant/.julia/v0.5/BinDeps/src/dependencies.jl:831 [inlined]
  in anonymous at ./<missing>:826
  in include_from_node1(::String) at ./loading.jl:426
- in eval(::Module, ::Any) at ./boot.jl:225
  in evalfile(::String, ::Array{String,1}) at ./loading.jl:442 (repeats 2 times)
  in cd(::##2#4, ::String) at ./file.jl:59
  in (::##1#3)(::IOStream) at ./none:13
@@ -165,6 +163,8 @@ g++ -O3 -D_NDEBUG -fPIC -fvisibility=hidden -std=c++1y  PMexpand.cpp -c -o PMexp
 g++ -O3 -D_NDEBUG -fPIC -fvisibility=hidden -std=c++1y  PMinit.cpp -c -o PMinit.o
 g++ -O3 -D_NDEBUG -fPIC -fvisibility=hidden -std=c++1y  PMinterface.cpp -c -o PMinterface.o
 g++ -O3 -D_NDEBUG -fPIC -fvisibility=hidden -std=c++1y  PMmain.cpp -c -o PMmain.o
+g++ -O3 -D_NDEBUG -fPIC -fvisibility=hidden -std=c++1y  PMrepair.cpp -c -o PMrepair.o
+g++ -O3 -D_NDEBUG -fPIC -fvisibility=hidden -std=c++1y  PMshrink.cpp -c -o PMshrink.o
 interface.cpp: In function ‘matching* matching_construct(int32_t, int32_t)’:
 interface.cpp:25:14: error: ‘make_unique’ is not a member of ‘std’
      result = std::make_unique<matching>(node_num, edge_num_max).release();
@@ -179,7 +179,7 @@ make: *** [interface.o] Error 1
 make: *** Waiting for unfinished jobs....
 ==============================[ ERROR: BlossomV ]===============================
 
-LoadError: failed process: Process(setenv(`make -j8 all`,String["PYTHON=","PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/vagrant/julia/bin/","PWD=/vagrant/0.5AL","SHELL=/bin/bash","SSH_CONNECTION=10.0.2.2 35381 10.0.2.15 22","MAIL=/var/mail/vagrant","LANG=en_US.UTF-8","SHLVL=3","LOGNAME=vagrant","XDG_RUNTIME_DIR=/run/user/1000","XDG_SESSION_ID=3","OLDPWD=/home/vagrant","SSH_CLIENT=10.0.2.2 35381 22","_=/usr/bin/timeout","USER=vagrant","TERM=vt100","HOME=/home/vagrant","OPENBLAS_MAIN_FREE=1","JAVA_HOME=/usr/lib/jvm/java-7-oracle"]), ProcessExited(2)) [2]
+LoadError: failed process: Process(setenv(`make -j8 all`,String["PYTHON=","PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/vagrant/julia/bin/","PWD=/vagrant/0.5AL","SHELL=/bin/bash","SSH_CONNECTION=10.0.2.2 53562 10.0.2.15 22","MAIL=/var/mail/vagrant","LANG=en_US.UTF-8","SHLVL=3","LOGNAME=vagrant","XDG_RUNTIME_DIR=/run/user/1000","XDG_SESSION_ID=3","OLDPWD=/home/vagrant","SSH_CLIENT=10.0.2.2 53562 22","_=/usr/bin/timeout","USER=vagrant","TERM=vt100","HOME=/home/vagrant","OPENBLAS_MAIN_FREE=1","JAVA_HOME=/usr/lib/jvm/java-7-oracle"]), ProcessExited(2)) [2]
 while loading /home/vagrant/.julia/v0.5/BlossomV/deps/build.jl, in expression starting on line 28
 
 ================================================================================
@@ -196,8 +196,8 @@ WARNING: BlossomV had build errors.
 INFO: Package database updated
 
 >>> 'Pkg.test("BlossomV")' log
-Julia Version 0.5.0-dev+4602
-Commit f7137f6* (2016-06-08 21:59 UTC)
+Julia Version 0.5.0-dev+4637
+Commit 6dfa7be* (2016-06-10 01:27 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
