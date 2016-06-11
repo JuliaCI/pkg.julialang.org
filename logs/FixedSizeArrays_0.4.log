@@ -1,5 +1,5 @@
 >>> 'Pkg.add("FixedSizeArrays")' log
-INFO: Installing FixedSizeArrays v0.1.2
+INFO: Installing FixedSizeArrays v0.2.0
 INFO: Package database updated
 
 >>> 'Pkg.test("FixedSizeArrays")' log
@@ -28,31 +28,32 @@ FixedSizeArrays
     > size_or
     > eltype_or
     > ndims_or
-    > similar
+    > similar_type
+    > construct_similar
   > Array of FixedArrays
     > reduce
     > array ops
     > Show
 [FixedSizeArrays.Mat{4,4,Float64}(
-    0.7075189465184373 0.028964238021055744 0.14223968703149104 0.3293000572554088
-    0.9843833060520286 0.7449940058229116 0.1323406865949659 0.7113522991483916
-    0.31252895698998207 0.8670546258530831 0.2446812327165977 0.9581873361390791
-    0.9404202052620716 0.37591242670701996 0.43117323936133545 0.19426272345310602
+    0.599454637670046 0.9389446740872953 0.9936957389876682 0.8714447997844794
+    0.7077573865517024 0.6818532667856878 0.30019696502685456 0.3036039381991813
+    0.7478204949514675 0.25664681427336267 0.6004425737317498 0.4766242005942056
+    0.7722335878633437 0.0867810283197552 0.7614348071079962 0.16253233522149935
 )
 ,FixedSizeArrays.Mat{4,4,Float64}(
-    0.24649690576147187 0.25161170439989067 0.8336641551211041 0.9932454083867857
-    0.19203481474273487 0.8162439322284032 0.4542266506708357 0.44741565007760475
-    0.39675468788411217 0.23873624635417312 0.3727591486034154 0.267164943994588
-    0.6081497693210949 0.5851421956408287 0.8531920444587986 0.7042754616274673
+    0.031896312648783454 0.44258359631111555 0.28524928738584343 0.666421493491834
+    0.14688964063988497 0.9146493152887172 0.8586137744457529 0.3679732218247411
+    0.30350734081710584 0.8450290604931454 0.42176697691208775 0.8065269842157314
+    0.08743801484876901 0.07053438128537359 0.6023408841297142 0.18125460304528684
 )
 ]
 2-elementArray{FSAtesting.RGB{Float32},1}:
- RGB(0.2978909,0.8167249,0.8582213)
- RGB(0.8822372,0.9787184,0.37355256)
+ RGB(0.74450636,0.8687415,0.1714139)
+ RGB(0.97068536,0.9056097,0.40535164)
 
 2-elementArray{FixedSizeArrays.Vec{3,Float32},1}:
- Vec(0.8917955,0.19871926,0.119520426)
- Vec(0.25641382,0.90473974,0.82415736)
+ Vec(0.69497263,0.9370825,0.1954974)
+ Vec(0.14236367,0.6938342,0.6199075)
 
 Point(1,2,3)  > Constructor FixedVectorNoTuple
     > Float32
@@ -72,6 +73,12 @@ Point(1,2,3)  > Constructor FixedVectorNoTuple
     > construction, conversion, 10
   > Constructors
     > FixedVector: unary, from FixedVector
+  > map
+    > Vec and AbstractVector
+    > FixedVectorNoTuple
+    > Mat and AbstractMatrix
+    > Size checking
+    > Broadcast of scalars
   > Complex Ops
     > dot product
   > Destructure
@@ -83,10 +90,12 @@ Point(1,2,3)  > Constructor FixedVectorNoTuple
       > setindex
   > Ops
     > Negation
-    > Negation
-    > Negation
+    > Addition
+    > Subtraction
     > Multiplication
+    > Mixed Type Multiplication
     > Division
+    > Relational
     > Scalar
     > vector norm+cross product
     > hypot
@@ -119,6 +128,8 @@ Point(1,2,3)  > Constructor FixedVectorNoTuple
     > Matrix{1, 1} * Vector{1}
     > Matrix{1, 1} * Matrix{1, 1}
     > Matrix{1, 1}*(2I)
+    > Matrix{1, 1, T} * Vector{1, U}
+    > Matrix{1, 1, T} * Matrix{1, 1, U}
     > (2*I + I*M)\v
     > det(M)
     > trace(M)
@@ -131,30 +142,40 @@ Point(1,2,3)  > Constructor FixedVectorNoTuple
     > Matrix{1, 2} * Vector{2}
     > Matrix{1, 2} * Matrix{2, 1}
     > Matrix{1, 2}*(2I)
+    > Matrix{1, 2, T} * Vector{2, U}
+    > Matrix{1, 2, T} * Matrix{2, 1, U}
     > Matrix{1, 2} * Matrix{1, 2}
     > transpose M
     > ctranspose M
     > Matrix{1, 3} * Vector{3}
     > Matrix{1, 3} * Matrix{3, 1}
     > Matrix{1, 3}*(2I)
+    > Matrix{1, 3, T} * Vector{3, U}
+    > Matrix{1, 3, T} * Matrix{3, 1, U}
     > Matrix{1, 3} * Matrix{1, 3}
     > transpose M
     > ctranspose M
     > Matrix{1, 4} * Vector{4}
     > Matrix{1, 4} * Matrix{4, 1}
     > Matrix{1, 4}*(2I)
+    > Matrix{1, 4, T} * Vector{4, U}
+    > Matrix{1, 4, T} * Matrix{4, 1, U}
     > Matrix{1, 4} * Matrix{1, 4}
     > transpose M
     > ctranspose M
     > Matrix{2, 1} * Vector{1}
     > Matrix{2, 1} * Matrix{1, 2}
     > Matrix{2, 1}*(2I)
+    > Matrix{2, 1, T} * Vector{1, U}
+    > Matrix{2, 1, T} * Matrix{1, 2, U}
     > Matrix{2, 1} * Matrix{2, 1}
     > transpose M
     > ctranspose M
     > Matrix{2, 2} * Vector{2}
     > Matrix{2, 2} * Matrix{2, 2}
     > Matrix{2, 2}*(2I)
+    > Matrix{2, 2, T} * Vector{2, U}
+    > Matrix{2, 2, T} * Matrix{2, 2, U}
     > (2*I + I*M)\v
     > det(M)
     > trace(M)
@@ -167,30 +188,40 @@ Point(1,2,3)  > Constructor FixedVectorNoTuple
     > Matrix{2, 3} * Vector{3}
     > Matrix{2, 3} * Matrix{3, 2}
     > Matrix{2, 3}*(2I)
+    > Matrix{2, 3, T} * Vector{3, U}
+    > Matrix{2, 3, T} * Matrix{3, 2, U}
     > Matrix{2, 3} * Matrix{2, 3}
     > transpose M
     > ctranspose M
     > Matrix{2, 4} * Vector{4}
     > Matrix{2, 4} * Matrix{4, 2}
     > Matrix{2, 4}*(2I)
+    > Matrix{2, 4, T} * Vector{4, U}
+    > Matrix{2, 4, T} * Matrix{4, 2, U}
     > Matrix{2, 4} * Matrix{2, 4}
     > transpose M
     > ctranspose M
     > Matrix{3, 1} * Vector{1}
     > Matrix{3, 1} * Matrix{1, 3}
     > Matrix{3, 1}*(2I)
+    > Matrix{3, 1, T} * Vector{1, U}
+    > Matrix{3, 1, T} * Matrix{1, 3, U}
     > Matrix{3, 1} * Matrix{3, 1}
     > transpose M
     > ctranspose M
     > Matrix{3, 2} * Vector{2}
     > Matrix{3, 2} * Matrix{2, 3}
     > Matrix{3, 2}*(2I)
+    > Matrix{3, 2, T} * Vector{2, U}
+    > Matrix{3, 2, T} * Matrix{2, 3, U}
     > Matrix{3, 2} * Matrix{3, 2}
     > transpose M
     > ctranspose M
     > Matrix{3, 3} * Vector{3}
     > Matrix{3, 3} * Matrix{3, 3}
     > Matrix{3, 3}*(2I)
+    > Matrix{3, 3, T} * Vector{3, U}
+    > Matrix{3, 3, T} * Matrix{3, 3, U}
     > (2*I + I*M)\v
     > det(M)
     > trace(M)
@@ -203,30 +234,40 @@ Point(1,2,3)  > Constructor FixedVectorNoTuple
     > Matrix{3, 4} * Vector{4}
     > Matrix{3, 4} * Matrix{4, 3}
     > Matrix{3, 4}*(2I)
+    > Matrix{3, 4, T} * Vector{4, U}
+    > Matrix{3, 4, T} * Matrix{4, 3, U}
     > Matrix{3, 4} * Matrix{3, 4}
     > transpose M
     > ctranspose M
     > Matrix{4, 1} * Vector{1}
     > Matrix{4, 1} * Matrix{1, 4}
     > Matrix{4, 1}*(2I)
+    > Matrix{4, 1, T} * Vector{1, U}
+    > Matrix{4, 1, T} * Matrix{1, 4, U}
     > Matrix{4, 1} * Matrix{4, 1}
     > transpose M
     > ctranspose M
     > Matrix{4, 2} * Vector{2}
     > Matrix{4, 2} * Matrix{2, 4}
     > Matrix{4, 2}*(2I)
+    > Matrix{4, 2, T} * Vector{2, U}
+    > Matrix{4, 2, T} * Matrix{2, 4, U}
     > Matrix{4, 2} * Matrix{4, 2}
     > transpose M
     > ctranspose M
     > Matrix{4, 3} * Vector{3}
     > Matrix{4, 3} * Matrix{3, 4}
     > Matrix{4, 3}*(2I)
+    > Matrix{4, 3, T} * Vector{3, U}
+    > Matrix{4, 3, T} * Matrix{3, 4, U}
     > Matrix{4, 3} * Matrix{4, 3}
     > transpose M
     > ctranspose M
     > Matrix{4, 4} * Vector{4}
     > Matrix{4, 4} * Matrix{4, 4}
     > Matrix{4, 4}*(2I)
+    > Matrix{4, 4, T} * Vector{4, U}
+    > Matrix{4, 4, T} * Matrix{4, 4, U}
     > (2*I + I*M)\v
     > det(M)
     > trace(M)
@@ -1043,6 +1084,38 @@ Point(1,2,3)  > Constructor FixedVectorNoTuple
 )
 
       > dawson with Vec(0.777,0.777,0.777,0.777)
+      > trunc with Vec(1,2,9223372036854775807)
+      > trunc with FixedSizeArrays.Mat{3,3,Int64}(
+    -9223372036854775808 2 -2
+    2 3 3
+    5 5 6
+)
+
+      > trunc with Vec(0.777,0.777,0.777,0.777)
+      > round with Vec(1,2,9223372036854775807)
+      > round with FixedSizeArrays.Mat{3,3,Int64}(
+    -9223372036854775808 2 -2
+    2 3 3
+    5 5 6
+)
+
+      > round with Vec(0.777,0.777,0.777,0.777)
+      > ceil with Vec(1,2,9223372036854775807)
+      > ceil with FixedSizeArrays.Mat{3,3,Int64}(
+    -9223372036854775808 2 -2
+    2 3 3
+    5 5 6
+)
+
+      > ceil with Vec(0.777,0.777,0.777,0.777)
+      > floor with Vec(1,2,9223372036854775807)
+      > floor with FixedSizeArrays.Mat{3,3,Int64}(
+    -9223372036854775808 2 -2
+    2 3 3
+    5 5 6
+)
+
+      > floor with Vec(0.777,0.777,0.777,0.777)
       > significand with Vec(1,2,9223372036854775807)
       > significand with FixedSizeArrays.Mat{3,3,Int64}(
     -9223372036854775808 2 -2
@@ -1195,11 +1268,27 @@ Point(1,2,3)  > Constructor FixedVectorNoTuple
 )
 
       > digamma with Vec(0.777,0.777,0.777,0.777)
+      > real with Vec(1,2,9223372036854775807)
+      > real with FixedSizeArrays.Mat{3,3,Int64}(
+    -9223372036854775808 2 -2
+    2 3 3
+    5 5 6
+)
+
+      > real with Vec(0.777,0.777,0.777,0.777)
+      > imag with Vec(1,2,9223372036854775807)
+      > imag with FixedSizeArrays.Mat{3,3,Int64}(
+    -9223372036854775808 2 -2
+    2 3 3
+    5 5 6
+)
+
+      > imag with Vec(0.777,0.777,0.777,0.777)
   > Base.Test
 show for subtype
 1 fact verified.
-Out of 8818 total facts:
-  Verified: 8817
+Out of 9125 total facts:
+  Verified: 9124
   Failed:   1
 ERROR: LoadError: FactCheck finished with 1 non-successful tests.
  in error at ./error.jl:21
@@ -1208,7 +1297,7 @@ ERROR: LoadError: FactCheck finished with 1 non-successful tests.
  in include_from_node1 at ./loading.jl:320
  in process_options at ./client.jl:280
  in _start at ./client.jl:378
-while loading /home/vagrant/.julia/v0.4/FixedSizeArrays/test/runtests.jl, in expression starting on line 1086
+while loading /home/vagrant/.julia/v0.4/FixedSizeArrays/test/runtests.jl, in expression starting on line 1227
 ===========================[ ERROR: FixedSizeArrays ]===========================
 
 failed process: Process(`/home/vagrant/julia/bin/julia --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.4/FixedSizeArrays/test/runtests.jl`, ProcessExited(1)) [1]
