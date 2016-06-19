@@ -1,8 +1,6 @@
 >>> 'Pkg.add("Reactive")' log
 INFO: Installing Reactive v0.3.3
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of Reactive
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Reactive")' log
 Julia Version 0.4.5
@@ -18,7 +16,7 @@ Platform Info:
 INFO: Computing test dependencies for Reactive...
 INFO: Installing FactCheck v0.4.3
 INFO: Testing Reactive
-Killing Task (waiting) @0x00007fa88ca04330
+Killing Task (waiting) @0x00007f9119910330
 Basic checks
   > map
   > merge
@@ -41,14 +39,50 @@ Flatten
 11 facts verified.
 Timing functions
   > fpswhen
+    Failure :: (line:-1) :: fpswhen :: fact was false
+      Expression: dt --> roughly(1,atol=0.2)
+        Expected: 1.462979632 ≅ 1
   > fps
+    Failure :: (line:-1) :: fps :: fact was false
+      Expression: sum(log) --> roughly(1.0,atol=0.05)
+        Expected: 1.1788358688354492 ≅ 1.0
+    Failure :: (line:-1) :: fps :: fact was false
+      Expression: [1 / 10 for i = 1:10] --> roughly(log,atol=0.03)
+        Expected: [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1] ≅ [0.10149002075195312,0.2657608985900879,0.10034608840942383,0.10135602951049805,0.1013188362121582,0.10034918785095215,0.10134696960449219,0.1013498306274414,0.10135102272033691,0.10416698455810547]
+    Failure :: (line:-1) :: fps :: fact was false
+      Expression: queue_size() --> 0
+        Expected: 0
+        Occurred: 1
   > every
   > throttle
-26 facts verified.
+Out of 26 total facts:
+  Verified: 22
+  Failed:   4
 Async
   > async_map
 3 facts verified.
-INFO: Reactive tests passed
+ERROR: LoadError: FactCheck finished with 4 non-successful tests.
+ in error at ./error.jl:21
+ in exitstatus at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:568
+ in include at ./boot.jl:261
+ in include_from_node1 at ./loading.jl:320
+ in process_options at ./client.jl:280
+ in _start at ./client.jl:378
+while loading /home/vagrant/.julia/v0.4/Reactive/test/runtests.jl, in expression starting on line 17
+==============================[ ERROR: Reactive ]===============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.4/Reactive/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing FactCheck v0.4.3
+ERROR: Reactive had test errors
+ in error at ./error.jl:21
+ in test at pkg/entry.jl:803
+ in anonymous at pkg/dir.jl:31
+ in cd at file.jl:22
+ in cd at pkg/dir.jl:31
+ in test at pkg.jl:71
+ in process_options at ./client.jl:257
+ in _start at ./client.jl:378
 
 >>> End of log
