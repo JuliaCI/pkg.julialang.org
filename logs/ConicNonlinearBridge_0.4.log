@@ -1,7 +1,7 @@
 >>> 'Pkg.add("ConicNonlinearBridge")' log
 INFO: Cloning cache of ConicNonlinearBridge from git://github.com/mlubin/ConicNonlinearBridge.jl.git
 INFO: Installing Calculus v0.1.15
-INFO: Installing ConicNonlinearBridge v0.0.2
+INFO: Installing ConicNonlinearBridge v0.0.3
 INFO: Installing DataStructures v0.4.4
 INFO: Installing ForwardDiff v0.1.8
 INFO: Installing JuMP v0.13.2
@@ -9,10 +9,8 @@ INFO: Installing Lazy v0.10.1
 INFO: Installing MacroTools v0.3.0
 INFO: Installing MathProgBase v0.5.1
 INFO: Installing NaNMath v0.2.1
-INFO: Installing ReverseDiffSparse v0.5.5
+INFO: Installing ReverseDiffSparse v0.5.6
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of ConicNonlinearBridge
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("ConicNonlinearBridge")' log
 Julia Version 0.4.6
@@ -38,8 +36,8 @@ INFO: Attempting to Create directory /home/vagrant/.julia/v0.4/SCS/deps/download
 INFO: Downloading file https://github.com/cvxgrp/scs/archive/v1.1.8.tar.gz
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   118    0   118    0     0    696      0 --:--:-- --:--:-- --:--:--   698
-100  264k  100  264k    0     0   569k      0 --:--:-- --:--:-- --:--:--  569k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   118    0   118    0     0   1006      0 --:--:-- --:--:-- --:--:--  1008
+100  264k  100  264k    0     0  1035k      0 --:--:-- --:--:-- --:--:-- 1035k
 INFO: Done downloading file https://github.com/cvxgrp/scs/archive/v1.1.8.tar.gz
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.4/SCS/deps/src
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.4/SCS/deps
@@ -200,40 +198,76 @@ This program contains Ipopt, a library for large-scale nonlinear optimization.
          For more information visit http://projects.coin-or.org/Ipopt
 ******************************************************************************
 
-ERROR: LoadError: LoadError: MethodError: `numconstr` has no method matching numconstr(::ConicNonlinearBridge.NonlinearToConicBridge)
- in populate_solution! at /home/vagrant/.julia/v0.4/Convex/src/solution.jl:101
- in solve! at /home/vagrant/.julia/v0.4/Convex/src/solution.jl:38
- in anonymous at /home/vagrant/.julia/v0.4/Convex/test/test_affine.jl:12
- in context at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:475
- in anonymous at /home/vagrant/.julia/v0.4/Convex/test/test_affine.jl:7
- in facts at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:449
- in include at ./boot.jl:261
- in include_from_node1 at ./loading.jl:320
- [inlined code] from /home/vagrant/.julia/v0.4/ConicNonlinearBridge/test/runtests.jl:20
- in anonymous at no file:0
- in include at ./boot.jl:261
- in include_from_node1 at ./loading.jl:320
- in process_options at ./client.jl:280
- in _start at ./client.jl:378
-while loading /home/vagrant/.julia/v0.4/Convex/test/test_affine.jl, in expression starting on line 6
-while loading /home/vagrant/.julia/v0.4/ConicNonlinearBridge/test/runtests.jl, in expression starting on line 18
-========================[ ERROR: ConicNonlinearBridge ]=========================
-
-failed process: Process(`/home/vagrant/julia/bin/julia --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.4/ConicNonlinearBridge/test/runtests.jl`, ProcessExited(1)) [1]
-
-================================================================================
+  > multiply atom
+  > dot atom
+  > vecdot atom
+  > add atom
+  > transpose atom
+  > index atom
+  > sum atom
+  > diag atom
+  > trace atom
+  > dot multiply atom
+  > reshape atom
+  > hcat atom
+  > vcat atom
+  > diagm atom
+WARNING: Problem status Infeasible; solution may be inaccurate.
+  > conv atom
+  > satisfy problems
+  > dual
+109 facts verified.
+INFO:  Test: test_lp.jl
+LP Atoms
+  > abs atom
+  > maximum atom
+  > minimum atom
+  > max atom
+  > min atom
+  > pos atom
+  > neg atom
+  > sumlargest atom
+  > sumsmallest atom
+  > dotsort atom
+  > hinge loss atom
+  > norm inf atom
+  > norm 1 atom
+52 facts verified.
+INFO:  Test: test_socp.jl
+SOCP Atoms
+  > norm 2 atom
+  > frobenius norm atom
+  > quad over lin atom
+  > sum squares atom
+  > square atom
+  > inv pos atom
+  > geo mean atom
+WARNING: Problem not DCP compliant: objective is not DCP
+  > sqrt atom
+  > quad form atom
+  > huber atom
+  > rational norm atom
+  > rational norm dual norm
+WARNING: Rational norm generating 18 intermediate constraints.
+	Increasing :max_iters or decreasing solver tolerance
+	may give more accurate solutions
+  > rational norm atom sum
+  > norm consistent with Base
+62 facts verified.
+INFO:  Test: test_exp.jl
+Exp Atoms
+  > exp atom
+  > log atom
+  > log sum exp atom
+  > logistic loss atom
+  > entropy atom
+  > relative entropy atom
+  > log perspective atom
+27 facts verified.
+INFO: ConicNonlinearBridge tests passed
 INFO: Removing Convex v0.3.0
 INFO: Removing FactCheck v0.4.3
 INFO: Removing Ipopt v0.2.2
 INFO: Removing SCS v0.2.4
-ERROR: ConicNonlinearBridge had test errors
- in error at ./error.jl:21
- in test at pkg/entry.jl:803
- in anonymous at pkg/dir.jl:31
- in cd at file.jl:22
- in cd at pkg/dir.jl:31
- in test at pkg.jl:71
- in process_options at ./client.jl:257
- in _start at ./client.jl:378
 
 >>> End of log
