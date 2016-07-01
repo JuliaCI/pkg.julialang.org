@@ -2,6 +2,8 @@
 INFO: Installing AutoHashEquals v0.0.9
 INFO: Installing ParserCombinator v1.7.8
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of ParserCombinator
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("ParserCombinator")' log
 Julia Version 0.5.0-dev+4951
@@ -51,38 +53,38 @@ Transform
 `-f
 print ok
 names ok
+3 4 a r"a{3,4}"
+1 1 aa r"a{1,1}?"
+1 1 aaa r"a{1,1}"
+2 4 a r"a{2,4}?"
+3 4 a r"a{3,4}"
+3 5 aaaa r"a{3,5}?"
 1 2 aa r"a{1,2}"
-1 1 a r"a{1,1}?"
-2 4 aa r"a{2,4}"
-1 3 aaa r"a{1,3}?"
-1 2 aaa r"a{1,2}"
-3 5 a r"a{3,5}?"
-0 2 a r"a{0,2}"
-2 4  r"a{2,4}?"
-2 3 aaaa r"a{2,3}"
-0 0  r"a{0,0}?"
-1 2 aa r"a{1,2}"
-3 3  r"a{3,3}?"
-1 2 aaaa r"a{1,2}"
-2 2 a r"a{2,2}?"
-0 0  r"a{0,0}"
+1 3 a r"a{1,3}?"
+3 4 a r"a{3,4}"
+1 2 aaaa r"a{1,2}?"
+2 2 aaaa r"a{2,2}"
+0 1 aa r"a{0,1}?"
+3 5 a r"a{3,5}"
 0 1  r"a{0,1}?"
-1 2 a r"a{1,2}"
-0 2  r"a{0,2}?"
+3 4 aaa r"a{3,4}"
+3 3 aa r"a{3,3}?"
+3 5 aaa r"a{3,5}"
+3 4 aa r"a{3,4}?"
 1 3 a r"a{1,3}"
-3 5 aaa r"a{3,5}?"
+2 3 aaa r"a{2,3}?"
 tests ok
 greedy true
 ParserCombinator.NoCache{S,I}
-  0.049457 seconds (21.34 k allocations: 1.072 MB)
-  0.020729 seconds (11.49 k allocations: 710.078 KB)
+  0.040767 seconds (21.34 k allocations: 1.072 MB)
+  0.027272 seconds (11.49 k allocations: 710.078 KB)
 n results: 35
 max depth: 5
 max iter: 4
 n calls: 323
 ParserCombinator.Cache{S,I}
-  0.129567 seconds (52.79 k allocations: 1.805 MB)
-  0.019084 seconds (32.07 k allocations: 878.266 KB)
+  0.122230 seconds (59.22 k allocations: 2.101 MB)
+  0.014899 seconds (32.29 k allocations: 885.234 KB)
 n results: 35
 max depth: 4
 max iter: 4
@@ -114,7 +116,29 @@ all
 |   +-Seq
 |   | +-[1]:prd
 |   | | +-Seq
-|   | | | +-[1]:neg...
+|   | | | +-[1]:neg
+|   | | | | `-Alt
+|   | | | |   +-[1]:Seq
+|   | | | |   | +-[1]:Drop
+|   | | | |   | | `-Equal
+|   | | | |   | |   `-"("
+|   | | | |   | +-[2]:sum...
+|   | | | |   | `-[3]:Drop
+|   | | | |   |   `-Equal
+|   | | | |   |     `-")"
+|   | | | |   +-[2]:Transform
+|   | | | |   | +-Pattern
+|   | | | |   | | +-text="-?(\d*\.?\d+|\d+\.\d*)([eE]\d+)?"
+|   | | | |   | | +-regex=r"^(?:-?(\d*\.?\d+|\d+\.\d*)([eE]\d+)?)(.??)"
+|   | | | |   | | `-groups
+|   | | | |   | `-f
+|   | | | |   `-[3]:Transform
+|   | | | |     +-Seq
+|   | | | |     | +-[1]:Drop
+|   | | | |     | | `-Equal
+|   | | | |     | |   `-"-"
+|   | | | |     | `-[2]:neg...
+|   | | | |     `-f
 |   | | | `-[2]:Depth
 |   | | |   +-Alt
 |   | | |   | +-[1]:mul
@@ -127,29 +151,7 @@ all
 |   | | |   |   | +-[1]:Drop
 |   | | |   |   | | `-Equal
 |   | | |   |   | |   `-"/"
-|   | | |   |   | `-[2]:neg
-|   | | |   |   |   `-Alt
-|   | | |   |   |     +-[1]:Seq
-|   | | |   |   |     | +-[1]:Drop
-|   | | |   |   |     | | `-Equal
-|   | | |   |   |     | |   `-"("
-|   | | |   |   |     | +-[2]:sum...
-|   | | |   |   |     | `-[3]:Drop
-|   | | |   |   |     |   `-Equal
-|   | | |   |   |     |     `-")"
-|   | | |   |   |     +-[2]:Transform
-|   | | |   |   |     | +-Pattern
-|   | | |   |   |     | | +-text="-?(\d*\.?\d+|\d+\.\d*)([eE]\d+)?"
-|   | | |   |   |     | | +-regex=r"^(?:-?(\d*\.?\d+|\d+\.\d*)([eE]\d+)?)(.??)"
-|   | | |   |   |     | | `-groups
-|   | | |   |   |     | `-f
-|   | | |   |   |     `-[3]:Transform
-|   | | |   |   |       +-Seq
-|   | | |   |   |       | +-[1]:Drop
-|   | | |   |   |       | | `-Equal
-|   | | |   |   |       | |   `-"-"
-|   | | |   |   |       | `-[2]:neg...
-|   | | |   |   |       `-f
+|   | | |   |   | `-[2]:neg...
 |   | | |   |   `-f
 |   | | |   +-lo=0
 |   | | |   +-hi=9223372036854775807
@@ -340,46 +342,46 @@ CoreTest.Inv(CoreTest.Prd(Any[CoreTest.Neg(CoreTest.Sum(Any[CoreTest.Prd(Any[0.0
 CoreTest.Inv(CoreTest.Sum(Any[CoreTest.Prd(Any[CoreTest.Neg(CoreTest.Sum(Any[CoreTest.Prd(Any[0.0])]))])])) -Inf
 CoreTest.Neg(CoreTest.Prd(Any[7.0,CoreTest.Inv(0.0),CoreTest.Inv(2.0),CoreTest.Inv(CoreTest.Sum(Any[CoreTest.Prd(Any[CoreTest.Neg(CoreTest.Sum(Any[CoreTest.Prd(Any[0.0])]))])])),3.0])) Inf Inf
 Inf CoreTest.Sum(Any[CoreTest.Prd(Any[-9.0]),CoreTest.Neg(CoreTest.Prd(Any[7.0,CoreTest.Inv(0.0),CoreTest.Inv(2.0),CoreTest.Inv(CoreTest.Sum(Any[CoreTest.Prd(Any[CoreTest.Neg(CoreTest.Sum(Any[CoreTest.Prd(Any[0.0])]))])])),3.0])),CoreTest.Neg(CoreTest.Prd(Any[7.0,CoreTest.Inv(CoreTest.Neg(CoreTest.Sum(Any[CoreTest.Prd(Any[9.0]),CoreTest.Prd(Any[5.0])])))])),CoreTest.Prd(Any[5.0]),CoreTest.Neg(CoreTest.Prd(Any[7.0]))]) Inf
-expr (1.0)*((5.0)-0.0+7.0)+(1.0*7.0+3.0/4.0)+(3.0)-1.0-8.0
-13.75 13.75
-expr ((0.0)-3.0-2.0/3.0)/((7.0)*1.0)/(-((4.0)))-4.0-7.0+-8.0/4.0/2.0
--11.869047619047619 -11.869047619047619
-expr 8.0+6.0/-(8.0)/3.0*4.0/5.0
-7.8 7.8
-expr (-3.0+9.0/1.0-0.0)+9.0+8.0*7.0+0.0*2.0-0.0+9.0*8.0/5.0/6.0*6.0-1.0-4.0
-80.4 80.4
-expr -1.0+9.0/5.0*2.0*0.0-9.0/6.0*(0.0)+7.0-1.0+9.0/-8.0+0.0-6.0+-9.0-8.0+3.0
--16.125 -16.125
-expr ((9.0))/0.0/5.0/1.0/5.0/8.0*6.0*9.0
-Inf Inf
-expr -8.0*6.0+2.0/-6.0/0.0*1.0-(4.0)+((7.0)*1.0-6.0)
--Inf -Inf
-expr 9.0*9.0-8.0-8.0*0.0+8.0*3.0-0.0/4.0+(2.0*3.0)+3.0*4.0+7.0
-122.0 122.0
-expr ((7.0)-5.0)-(-6.0+0.0)*((3.0/4.0)-9.0)
--47.5 -47.5
-expr (2.0-8.0)
--6.0 -6.0
-expr -5.0*-4.0-1.0/-5.0-4.0+-2.0*9.0+3.0+1.0+-6.0/0.0/9.0
--Inf -Inf
-expr (3.0)/2.0*-((2.0))-1.0*(3.0)*(2.0)
--9.0 -9.0
-expr ((1.0*9.0))*1.0*2.0-0.0/2.0*7.0-7.0-2.0/(5.0-6.0)-3.0-6.0/-3.0-6.0
-6.0 6.0
-expr -(8.0)/0.0*4.0+(9.0)
--Inf -Inf
-expr 4.0+1.0/9.0+(9.0+9.0+4.0+3.0)/3.0+2.0-9.0
-5.444444444444445 5.444444444444443
-expr -7.0*(4.0)*4.0+8.0/2.0+9.0*6.0*7.0
-270.0 270.0
-expr 4.0-8.0+-7.0/8.0-4.0*9.0*9.0-0.0/(2.0+0.0+0.0/8.0)-8.0
--336.875 -336.875
-expr (1.0-8.0)/6.0+-(8.0)/1.0*5.0*2.0/1.0
--81.16666666666667 -81.16666666666667
-expr -5.0-6.0-0.0+-6.0-4.0+0.0-5.0
--26.0 -26.0
-expr -3.0*8.0+0.0/(4.0)+2.0+4.0+4.0/1.0
+expr (0.0*1.0)+9.0*6.0+1.0/6.0+(-5.0/2.0+5.0)-4.0/-6.0
+57.33333333333333 57.33333333333333
+expr (5.0*5.0)+6.0
+31.0 31.0
+expr -5.0*2.0+1.0/1.0+4.0*(-2.0/8.0)+1.0+0.0-(6.0)+-4.0/4.0+2.0
 -14.0 -14.0
+expr 4.0*6.0*6.0+2.0+9.0+1.0+1.0
+157.0 157.0
+expr 9.0/6.0-8.0*5.0*6.0*2.0+7.0*9.0+6.0+(3.0/2.0/2.0+2.0)/9.0-2.0-9.0*-(4.0)-8.0*4.0
+-407.19444444444446 -407.19444444444446
+expr 6.0/8.0*1.0/1.0*0.0/9.0-0.0
+0.0 0.0
+expr 9.0/4.0-0.0+7.0/(7.0+2.0)-6.0
+-2.9722222222222223 -2.9722222222222223
+expr -(-3.0)+6.0*3.0/8.0*4.0+5.0+8.0+2.0-5.0-2.0+6.0-5.0-8.0
+13.0 13.0
+expr -3.0*8.0*1.0/3.0+7.0-0.0+1.0*4.0/0.0+2.0-3.0*9.0+8.0-3.0/0.0/4.0+-7.0
+NaN NaN
+expr -3.0*7.0*3.0-1.0+9.0*4.0+-9.0-7.0-(-0.0)-2.0-9.0
+-55.0 -55.0
+expr (6.0)-(1.0*7.0)*0.0*9.0+(2.0)*3.0-6.0
+6.0 6.0
+expr (8.0)+5.0*9.0*3.0+5.0
+148.0 148.0
+expr (9.0/0.0-2.0+3.0)*8.0+9.0*0.0*2.0-(8.0)+2.0+1.0-9.0/((8.0))-6.0-2.0
+Inf Inf
+expr -(3.0)*2.0*6.0/5.0-0.0/2.0-4.0+6.0*2.0-8.0*1.0
+-7.199999999999999 -7.199999999999999
+expr -5.0*5.0+5.0+3.0*4.0+-1.0*5.0/8.0+(8.0/4.0*2.0*9.0/7.0)
+-3.4821428571428568 -3.4821428571428577
+expr 5.0*2.0
+10.0 10.0
+expr -9.0+1.0*1.0/6.0/1.0+3.0*2.0*0.0-9.0*2.0+7.0/3.0-4.0-0.0/4.0/2.0-8.0*2.0*9.0
+-172.5 -172.5
+expr -3.0-3.0-7.0+2.0+((7.0))-8.0*1.0+(9.0/1.0+7.0)/2.0
+-4.0 -4.0
+expr -8.0+7.0+7.0/3.0+-2.0*4.0-(0.0+1.0*4.0)+-4.0*8.0*9.0
+-298.6666666666667 -298.6666666666667
+expr -5.0/7.0*-3.0/1.0-8.0*5.0*7.0-4.0/6.0
+-278.5238095238095 -278.5238095238095
 calc ok
 one level
   1:ab         00 Trace->Dot
@@ -869,9 +871,9 @@ edge 1 - 3
 edge 1 - 2
 fragments ok
 subgraphs ok
- 30.609524 seconds (11.88 M allocations: 445.701 MB, 0.48% gc time)
-  0.481179 seconds (217.82 k allocations: 112.731 MB, 21.19% gc time)
-  0.571221 seconds (184.14 k allocations: 107.470 MB, 32.67% gc time)
+ 32.758646 seconds (11.88 M allocations: 445.701 MB, 0.45% gc time)
+  0.558063 seconds (217.82 k allocations: 112.732 MB, 18.18% gc time)
+  0.759416 seconds (184.14 k allocations: 107.468 MB, 37.93% gc time)
 examples ok
 INFO: ParserCombinator tests passed
 INFO: Removing ZipFile v0.2.6
