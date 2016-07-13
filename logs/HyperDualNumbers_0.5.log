@@ -1,11 +1,13 @@
 >>> 'Pkg.add("HyperDualNumbers")' log
 INFO: Cloning cache of HyperDualNumbers from https://github.com/JuliaDiff/HyperDualNumbers.jl.git
-INFO: Installing HyperDualNumbers v0.1.7
+INFO: Installing HyperDualNumbers v1.0.0
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of HyperDualNumbers
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("HyperDualNumbers")' log
-Julia Version 0.5.0-dev+5309
-Commit 0a2a9db* (2016-07-11 23:22 UTC)
+Julia Version 0.5.0-dev+5364
+Commit f47d9fe* (2016-07-12 17:36 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
@@ -20,36 +22,39 @@ Running tests:
 
 Examples of show() for hyperdual numbers with NaN:
 
-ERROR: LoadError: LoadError: UndefVarError: FloatingPoint not defined
- in hyper_show(::Base.AbstractIOBuffer{Array{UInt8,1}}, ::HyperDualNumbers.Hyper{Float64}, ::Bool) at /home/vagrant/.julia/v0.5/HyperDualNumbers/src/hyperdual.jl:101
- in print(::Base.AbstractIOBuffer{Array{UInt8,1}}, ::HyperDualNumbers.Hyper{Float64}) at ./strings/io.jl:8
- in #print_to_string#220(::Void, ::Function, ::String, ::Vararg{Any,N}) at ./strings/io.jl:59
- in print_to_string(::String, ::Vararg{Any,N}) at ./strings/io.jl:48
- in string(::String, ::HyperDualNumbers.Hyper{Float64}, ::Vararg{HyperDualNumbers.Hyper{Float64},N}) at ./strings/io.jl:66
- in include_from_node1(::String) at ./loading.jl:426
- in macro expansion; at /home/vagrant/.julia/v0.5/HyperDualNumbers/test/runtests.jl:9 [inlined]
- in anonymous at ./<missing>:?
- in include_from_node1(::String) at ./loading.jl:426
- in process_options(::Base.JLOptions) at ./client.jl:266
- in _start() at ./client.jl:322
-while loading /home/vagrant/.julia/v0.5/HyperDualNumbers/test/test_basics.jl, in expression starting on line 33
-while loading /home/vagrant/.julia/v0.5/HyperDualNumbers/test/runtests.jl, in expression starting on line 7
-==========================[ ERROR: HyperDualNumbers ]===========================
+hdNaN = NaN + 0.0ϵ1 + 0.0ϵ2 + 0.0ϵ1ϵ2
+hdNaN + hd4 = NaN + 4.0ϵ1 + 3.0ϵ2 + 4.0ϵ1ϵ2
 
-failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.5/HyperDualNumbers/test/runtests.jl`, ProcessExited(1)) [1]
+Testing includes Tim Holy's division performance improvement.
+Testing includes ngedwin98's fixes for asin, acos and atan.
 
-================================================================================
-ERROR: HyperDualNumbers had test errors
- in #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:720
- in (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
- in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
- in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:59
- in #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
- in (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
- in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:255
- in test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:255
- in eval(::Module, ::Any) at ./boot.jl:234
- in process_options(::Base.JLOptions) at ./client.jl:243
- in _start() at ./client.jl:322
+
+
+  * test_TimHoly_example.jl *
+8//25 - 8//5ϵ1 - 8//5ϵ2 + 144//25ϵ1ϵ2
+
+
+
+  * test_Paper_example.jl *
+
+"THE" example
+f(1.5) = 4.497780053946162
+
+t0 = 1.5 + 1.0ϵ1 + 1.0ϵ2 + 0.0ϵ1ϵ2
+t1 = 4.4816890703380645 + 4.4816890703380645ϵ1 + 4.4816890703380645ϵ2 + 4.4816890703380645ϵ1ϵ2
+t2 = 0.9974949866040544 + 0.0707372016677029ϵ1 + 0.0707372016677029ϵ2 - 0.9974949866040544ϵ1ϵ2
+t3 = 0.9925037693693151 + 0.21114975082386195ϵ1 + 0.21114975082386195ϵ2 - 2.947564004699509ϵ1ϵ2
+t4 = 0.0707372016677029 - 0.9974949866040544ϵ1 - 0.9974949866040544ϵ2 - 0.0707372016677029ϵ1ϵ2
+t5 = 0.000353951393082256 - 0.014973651704218029ϵ1 - 0.014973651704218029ϵ2 + 0.42123764746847714ϵ1ϵ2
+t5a = 0.000353951393082256 - 0.014973651704218029ϵ1 - 0.014973651704218029ϵ2 + 0.42123764746847714ϵ1ϵ2
+t6 = 0.9928577207623973 + 0.19617609911964393ϵ1 + 0.19617609911964393ϵ2 - 2.526326357231032ϵ1ϵ2
+t7 = 1.0035903837494204 - 0.0991483686337086ϵ1 - 0.0991483686337086ϵ2 + 1.3062034995890381ϵ1ϵ2
+t8 = 4.497780053946162 + 4.053427893898621ϵ1 + 4.053427893898621ϵ2 + 9.463073681596603ϵ1ϵ2
+
+f(t0) = 4.497780053946162 + 4.05342789389862ϵ1 + 4.05342789389862ϵ2 + 9.463073681596601ϵ1ϵ2
+
+
+
+INFO: HyperDualNumbers tests passed
 
 >>> End of log
