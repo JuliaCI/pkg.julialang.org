@@ -3,8 +3,8 @@ INFO: Installing Reactive v0.3.3
 INFO: Package database updated
 
 >>> 'Pkg.test("Reactive")' log
-Julia Version 0.5.0-dev+5393
-Commit 1595a28* (2016-07-13 20:54 UTC)
+Julia Version 0.5.0-dev+5440
+Commit edb112a* (2016-07-14 21:40 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
@@ -19,7 +19,7 @@ INFO: Testing Reactive
 
 WARNING: deprecated syntax "call(::Type{Signal{T}}, ...)".
 Use "(::Type{Signal{T}})(...)" instead.
-Killing Task (runnable) @0x00007fed5523c9d0
+Killing Task (runnable) @0x00007eff8c5035b0
 Basic checks
   > map
   > merge
@@ -43,10 +43,17 @@ Flatten
 11 facts verified.
 Timing functions
   > fpswhen
-    Failure :: (line:272) :: fpswhen :: fact was false
-      Expression: dt --> roughly(1,atol=0.2)
-        Expected: 1.413136249 ≅ 1
   > fps
+    Failure :: (line:272) :: fps :: fact was false
+      Expression: sum(log) --> roughly(1.0,atol=0.05)
+        Expected: 1.0713350772857666 ≅ 1.0
+    Failure :: (line:272) :: fps :: fact was false
+      Expression: [1 / 10 for i = 1:10] --> roughly(log,atol=0.03)
+        Expected: [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1] ≅ [0.101836,0.158488,0.101475,0.10134,0.101332,0.10134,0.101348,0.101364,0.101332,0.10148]
+    Failure :: (line:272) :: fps :: fact was false
+      Expression: queue_size() --> 0
+        Expected: 0
+        Occurred: 1
   > every
   > throttle
     Failure :: (line:272) :: throttle :: fact was false
@@ -54,12 +61,12 @@ Timing functions
         Expected: 1
         Occurred: 2
 Out of 26 total facts:
-  Verified: 24
-  Failed:   2
+  Verified: 22
+  Failed:   4
 Async
   > async_map
 3 facts verified.
-ERROR: LoadError: FactCheck finished with 2 non-successful tests.
+ERROR: LoadError: FactCheck finished with 4 non-successful tests.
  in exitstatus() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:568
  in include_from_node1(::String) at ./loading.jl:426
  in process_options(::Base.JLOptions) at ./client.jl:262

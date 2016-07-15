@@ -6,7 +6,10 @@ INFO: Installing PDMats v0.4.2
 INFO: Installing ProgressMeter v0.3.2
 INFO: Installing TensorDecompositions v0.1.0
 INFO: Installing TensorOperations v0.4.1
+INFO: Building Rmath
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of TensorDecompositions
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("TensorDecompositions")' log
 Julia Version 0.4.6
@@ -20,6 +23,10 @@ Platform Info:
   LIBM: libopenlibm
   LLVM: libLLVM-3.3
 INFO: Testing TensorDecompositions
+INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/Rmath.ji for module Rmath.
+INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/StatsFuns.ji for module StatsFuns.
+INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/Distributions.ji for module Distributions.
+INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/StatsBase.ji for module StatsBase.
 Utilities
   > _row_unfold()
   > _col_unfold()
@@ -27,20 +34,20 @@ Utilities
 8 facts verified.
 HO-SVD
   > no residuals calculation
-  3.733370 seconds (4.25 M allocations: 197.575 MB, 1.30% gc time)
+  2.737943 seconds (4.25 M allocations: 197.425 MB, 1.73% gc time)
   > core reconstruction and residuals
-  0.115897 seconds (18.57 k allocations: 1.264 MB, 4.75% gc time)
+  0.116334 seconds (18.57 k allocations: 1.264 MB)
   > core dimension equal to the original dimension
 WARNING: Adjusting nev from 10 to 9
 WARNING: Adjusting nev from 20 to 19
-  0.052650 seconds (44.39 k allocations: 2.563 MB)
+  0.057053 seconds (37.46 k allocations: 2.230 MB, 9.57% gc time)
     Failure :: (line:-1) :: core dimension equal to the original dimension :: fact was false
       Expression: size(factors.core) --> (10,20,5)
         Expected: (10,20,5)
         Occurred: (9,19,5)
     Failure :: (line:-1) :: core dimension equal to the original dimension :: fact was false
       Expression: rel_residue(factors) --> less_than(1.0e-5)
-        Expected: 0.8612572451561947 < 1.0e-5
+        Expected: 0.867954628185735 < 1.0e-5
 Out of 8 total facts:
   Verified: 6
   Failed:   2
@@ -52,29 +59,24 @@ INFO: Applying CANDECOMP ALdS method...
 INFO: Initializing factor matrices...
 INFO: Applying CANDECOMP ALS method...
 WARNING: Maximum number 100 of iterations exceeded.
-  1.126476 seconds (410.11 k allocations: 49.125 MB, 1.15% gc time)
-    Failure :: (line:-1) :: ALS (Alternating least squares) :: fact was false
-      Expression: rel_residue(factors) --> less_than(1.0e-5)
-        Expected: 0.007908930538360445 < 1.0e-5
+  0.704729 seconds (410.12 k allocations: 49.131 MB, 1.40% gc time)
   > SGSD (Simultaneous generalized Schur decomposition)
 INFO: Initializing factor matrices...
 INFO: Applying CANDECOMP SGSD method...
-INFO: Algorithm converged after 3 iterations.
-  2.386494 seconds (800.64 k allocations: 38.922 MB, 0.44% gc time)
-Out of 10 total facts:
-  Verified: 9
-  Failed:   1
+INFO: Algorithm converged after 4 iterations.
+  1.555223 seconds (801.39 k allocations: 39.250 MB, 0.71% gc time)
+10 facts verified.
 SS-HOPM
   > Dense representation
 INFO: Algorithm converged after 28 iterations.
-  1.052642 seconds (1.12 M allocations: 54.853 MB, 1.11% gc time)
+  0.823372 seconds (1.12 M allocations: 54.852 MB, 1.81% gc time)
   > Sparse representation
 INFO: Algorithm converged after 12 iterations.
-  0.109636 seconds (898.83 k allocations: 32.016 MB, 10.23% gc time)
+  0.092988 seconds (897.69 k allocations: 31.963 MB, 5.67% gc time)
 4 facts verified.
 Non-negative CANDECOMP
 INFO: Algorithm converged after 9 iterations.
-  0.621778 seconds (309.19 k allocations: 16.661 MB)
+  0.325515 seconds (309.19 k allocations: 16.662 MB)
   Failure :: (line:-1) :: fact was false
     Expression: rel_residue(factors) --> less_than(0.05)
       Expected: 0.1132559388930732 < 0.05
@@ -84,17 +86,17 @@ Out of 4 total facts:
 Tensor-CUR
   > Small case
     > slab axis: 1
-  3.267088 seconds (3.49 M allocations: 170.454 MB, 1.66% gc time)
+  2.314768 seconds (3.50 M allocations: 170.282 MB, 2.05% gc time)
     > slab axis: 2
-  0.351650 seconds (134.58 k allocations: 9.503 MB, 1.40% gc time)
+  0.284402 seconds (135.41 k allocations: 9.554 MB, 2.31% gc time)
     > slab axis: 3
-  0.119854 seconds (51.56 k allocations: 4.698 MB)
+  0.100779 seconds (51.56 k allocations: 4.696 MB)
   > Large case without reconstruction
-  0.048027 seconds (11.55 k allocations: 6.789 MB, 12.77% gc time)
+  0.047519 seconds (11.55 k allocations: 6.789 MB, 10.71% gc time)
 13 facts verified.
 PARAFAC2
 WARNING: Maximum number 100 of iterations exceeded.
-  0.829863 seconds (478.81 k allocations: 25.961 MB, 0.82% gc time)
+  0.625039 seconds (478.81 k allocations: 25.958 MB, 1.05% gc time)
 5 facts verified.
 Sparse (semi-)nonnegative Tucker decomposition
   > nonnegative decomposition
@@ -105,10 +107,10 @@ INFO: Rescaling initial decomposition...
 INFO: Initial residue=1913.1534109780941
 WARNING: 1: residue increase at redo step
 WARNING: 1: residue increase at redo step
-[1GAlternating proximal gradient iterations  0%|           |  ETA: 0:18:11[K[1GAlternating proximal gradient iterations  4%|           |  ETA: 0:01:00[K[1GAlternating proximal gradient iterations  6%|█          |  ETA: 0:00:40[K[1GAlternating proximal gradient iterations  8%|█          |  ETA: 0:00:30[K[1GAlternating proximal gradient iterations 10%|█          |  ETA: 0:00:24[K[1GAlternating proximal gradient iterations 13%|█          |  ETA: 0:00:20[K[1GAlternating proximal gradient iterations 15%|██         |  ETA: 0:00:17[K[1GAlternating proximal gradient iterations 17%|██         |  ETA: 0:00:15[K[1GAlternating proximal gradient iterations 20%|██         |  ETA: 0:00:13[K[1GAlternating proximal gradient iterations 22%|██         |  ETA: 0:00:12[K[1GAlternating proximal gradient iterations 24%|███        |  ETA: 0:00:11[K[1GAlternating proximal gradient iterations 27%|███        |  ETA: 0:00:10[K[1GAlternating proximal gradient iterations 30%|███        |  ETA: 0:00:08[K[1GAlternating proximal gradient iterations 33%|████       |  ETA: 0:00:07[K[1GAlternating proximal gradient iterations 36%|████       |  ETA: 0:00:07[K[1GAlternating proximal gradient iterations 38%|████       |  ETA: 0:00:06[K[1GAlternating proximal gradient iterations 40%|████       |  ETA: 0:00:06[K[1GAlternating proximal gradient iterations 42%|█████      |  ETA: 0:00:06[K[1GAlternating proximal gradient iterations 45%|█████      |  ETA: 0:00:05[K[1GAlternating proximal gradient iterations 47%|█████      |  ETA: 0:00:05[K[1GAlternating proximal gradient iterations 50%|█████      |  ETA: 0:00:04[K[1GAlternating proximal gradient iterations 52%|██████     |  ETA: 0:00:04[K[1GAlternating proximal gradient iterations 54%|██████     |  ETA: 0:00:04[K[1GAlternating proximal gradient iterations 56%|██████     |  ETA: 0:00:04[K[1GAlternating proximal gradient iterations 59%|██████     |  ETA: 0:00:03[K[1GAlternating proximal gradient iterations 61%|███████    |  ETA: 0:00:03[K[1GAlternating proximal gradient iterations 62%|███████    |  ETA: 0:00:03[K[1GAlternating proximal gradient iterations 64%|███████    |  ETA: 0:00:03[K[1GAlternating proximal gradient iterations 66%|███████    |  ETA: 0:00:03[K[1GAlternating proximal gradient iterations 68%|████████   |  ETA: 0:00:03[K[1GAlternating proximal gradient iterations 70%|████████   |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 72%|████████   |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 74%|████████   |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 76%|████████   |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 79%|█████████  |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 81%|█████████  |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 83%|█████████  |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 86%|█████████  |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 88%|██████████ |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 90%|██████████ |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 93%|██████████ |  ETA: 0:00:00[K[1GAlternating proximal gradient iterations 95%|██████████ |  ETA: 0:00:00[KINFO: Relative error below 0.0001 3 times in a row
+[1GAlternating proximal gradient iterations  0%|           |  ETA: 0:09:42[K[1GAlternating proximal gradient iterations  6%|█          |  ETA: 0:00:23[K[1GAlternating proximal gradient iterations 10%|█          |  ETA: 0:00:14[K[1GAlternating proximal gradient iterations 14%|██         |  ETA: 0:00:10[K[1GAlternating proximal gradient iterations 18%|██         |  ETA: 0:00:08[K[1GAlternating proximal gradient iterations 21%|██         |  ETA: 0:00:07[K[1GAlternating proximal gradient iterations 25%|███        |  ETA: 0:00:06[K[1GAlternating proximal gradient iterations 29%|███        |  ETA: 0:00:05[K[1GAlternating proximal gradient iterations 32%|████       |  ETA: 0:00:04[K[1GAlternating proximal gradient iterations 36%|████       |  ETA: 0:00:04[K[1GAlternating proximal gradient iterations 40%|████       |  ETA: 0:00:04[K[1GAlternating proximal gradient iterations 43%|█████      |  ETA: 0:00:03[K[1GAlternating proximal gradient iterations 47%|█████      |  ETA: 0:00:03[K[1GAlternating proximal gradient iterations 51%|██████     |  ETA: 0:00:03[K[1GAlternating proximal gradient iterations 54%|██████     |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 58%|██████     |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 61%|███████    |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 65%|███████    |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 69%|████████   |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 72%|████████   |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 76%|████████   |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 79%|█████████  |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 83%|█████████  |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 86%|██████████ |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 90%|██████████ |  ETA: 0:00:00[K[1GAlternating proximal gradient iterations 94%|██████████ |  ETA: 0:00:00[KINFO: Relative error below 0.0001 3 times in a row
 INFO: spnntucker() converged in 965 iteration(s), 2 redo steps
-[1GAlternating proximal gradient iterations100%|███████████| Time: 0:00:07[K
- 12.995295 seconds (13.68 M allocations: 2.266 GB, 3.09% gc time)
+[1GAlternating proximal gradient iterations100%|███████████| Time: 0:00:04[K
+  7.323511 seconds (13.68 M allocations: 2.266 GB, 4.83% gc time)
     Failure :: (line:-1) :: nonnegative decomposition :: fact was false
       Expression: rel_residue(tucker_spnn) --> less_than(0.05)
         Expected: 0.051855314624193675 < 0.05
@@ -121,10 +123,10 @@ INFO: Rescaling initial decomposition...
 INFO: Initial residue=5553.874285269915
 WARNING: 1: residue increase at redo step
 WARNING: 1: residue increase at redo step
-[1GAlternating proximal gradient iterations  1%|           |  ETA: 0:00:07[K[1GAlternating proximal gradient iterations  3%|           |  ETA: 0:00:06[K[1GAlternating proximal gradient iterations  7%|█          |  ETA: 0:00:04[K[1GAlternating proximal gradient iterations  9%|█          |  ETA: 0:00:04[K[1GAlternating proximal gradient iterations 11%|█          |  ETA: 0:00:04[K[1GAlternating proximal gradient iterations 13%|█          |  ETA: 0:00:04[K[1GAlternating proximal gradient iterations 14%|██         |  ETA: 0:00:04[K[1GAlternating proximal gradient iterations 16%|██         |  ETA: 0:00:04[K[1GAlternating proximal gradient iterations 19%|██         |  ETA: 0:00:04[K[1GAlternating proximal gradient iterations 21%|██         |  ETA: 0:00:04[K[1GAlternating proximal gradient iterations 23%|███        |  ETA: 0:00:04[K[1GAlternating proximal gradient iterations 25%|███        |  ETA: 0:00:04[K[1GAlternating proximal gradient iterations 27%|███        |  ETA: 0:00:04[K[1GAlternating proximal gradient iterations 31%|███        |  ETA: 0:00:03[K[1GAlternating proximal gradient iterations 34%|████       |  ETA: 0:00:03[K[1GAlternating proximal gradient iterations 37%|████       |  ETA: 0:00:03[K[1GAlternating proximal gradient iterations 39%|████       |  ETA: 0:00:03[K[1GAlternating proximal gradient iterations 41%|█████      |  ETA: 0:00:03[K[1GAlternating proximal gradient iterations 43%|█████      |  ETA: 0:00:03[K[1GAlternating proximal gradient iterations 46%|█████      |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 48%|█████      |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 50%|██████     |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 52%|██████     |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 55%|██████     |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 57%|██████     |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 59%|███████    |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 61%|███████    |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 64%|███████    |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 66%|███████    |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 68%|███████    |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 70%|████████   |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 72%|████████   |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 75%|████████   |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 78%|█████████  |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 80%|█████████  |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 83%|█████████  |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 85%|█████████  |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 88%|██████████ |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 91%|██████████ |  ETA: 0:00:00[K[1GAlternating proximal gradient iterations 94%|██████████ |  ETA: 0:00:00[K[1GAlternating proximal gradient iterations 96%|███████████|  ETA: 0:00:00[K[1GAlternating proximal gradient iterations 98%|███████████|  ETA: 0:00:00[K[1GMaximal number of iterations reached, might be not an optimal solution[K
+[1GAlternating proximal gradient iterations  2%|           |  ETA: 0:00:05[K[1GAlternating proximal gradient iterations  5%|█          |  ETA: 0:00:04[K[1GAlternating proximal gradient iterations  8%|█          |  ETA: 0:00:03[K[1GAlternating proximal gradient iterations 12%|█          |  ETA: 0:00:03[K[1GAlternating proximal gradient iterations 16%|██         |  ETA: 0:00:03[K[1GAlternating proximal gradient iterations 20%|██         |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 23%|███        |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 27%|███        |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 30%|███        |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 34%|████       |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 38%|████       |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 41%|█████      |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 45%|█████      |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 48%|█████      |  ETA: 0:00:02[K[1GAlternating proximal gradient iterations 52%|██████     |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 55%|██████     |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 59%|██████     |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 63%|███████    |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 66%|███████    |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 70%|████████   |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 74%|████████   |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 78%|█████████  |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 81%|█████████  |  ETA: 0:00:01[K[1GAlternating proximal gradient iterations 84%|█████████  |  ETA: 0:00:00[K[1GAlternating proximal gradient iterations 88%|██████████ |  ETA: 0:00:00[K[1GAlternating proximal gradient iterations 91%|██████████ |  ETA: 0:00:00[K[1GAlternating proximal gradient iterations 95%|██████████ |  ETA: 0:00:00[K[1GAlternating proximal gradient iterations 98%|███████████|  ETA: 0:00:00[K[1GMaximal number of iterations reached, might be not an optimal solution[K
 INFO: Final relative error 0.06531835014697364
-[1GAlternating proximal gradient iterations100%|███████████| Time: 0:00:04[K
-  4.439496 seconds (5.85 M allocations: 1.960 GB, 6.14% gc time)
+[1GAlternating proximal gradient iterations100%|███████████| Time: 0:00:03[K
+  2.932521 seconds (5.85 M allocations: 1.960 GB, 8.64% gc time)
 INFO: Relative error of decomposition : 0.01253262547900655
 Out of 2 total facts:
   Verified: 1
