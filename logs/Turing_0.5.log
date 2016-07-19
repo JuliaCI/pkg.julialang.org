@@ -21,7 +21,13 @@ WARNING: `@unix_only` is deprecated, use `@static if is_unix()` instead
  in process_options(::Base.JLOptions) at ./client.jl:239
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/Turing/deps/build.jl, in expression starting on line 1
-gcc -fPIC -DJULIA_INIT_DIR=\"/home/vagrant/julia/lib\" -I/home/vagrant/julia/include/julia -O2 -shared -fPIC task.c -L/home/vagrant/julia/lib -Wl,-rpath,/home/vagrant/julia/lib -ljulia -o libtask.so
+gcc -DJULIA_ENABLE_THREADING=1 -fPIC -DJULIA_INIT_DIR=\"/home/vagrant/julia/lib\" -I/home/vagrant/julia/include/julia -O2 -shared -fPIC task.c -L/home/vagrant/julia/lib -Wl,-rpath,/home/vagrant/julia/lib -ljulia -o libtask.so
+In file included from task.c:6:0:
+/home/vagrant/julia/include/julia/julia.h: In function ‘jl_eh_restore_state’:
+/home/vagrant/julia/include/julia/julia.h:1520:9: error: ‘for’ loop initial declarations are only allowed in C99 mode
+         for (size_t i = locks->len;i > eh->locks_len;i--)
+         ^
+/home/vagrant/julia/include/julia/julia.h:1520:9: note: use option -std=c99 or -std=gnu99 to compile your code
 task.c: In function ‘jl_clone_task’:
 task.c:17:9: error: ‘jl_task_t’ has no member named ‘last’
      newt->last = t->last;
@@ -50,12 +56,10 @@ WARNING: Turing had build errors.
 
 ================================================================================
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of Turing
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Turing")' log
-Julia Version 0.5.0-dev+5456
-Commit a1fbb84 (2016-07-16 21:33 UTC)
+Julia Version 0.5.0-dev+5501
+Commit d0dfbd9 (2016-07-19 03:21 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
