@@ -1,28 +1,24 @@
 >>> 'Pkg.add("Reactive")' log
 INFO: Installing Reactive v0.3.3
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of Reactive
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 INFO: Nothing to be done
-INFO: METADATA is out-of-date — you may not have the latest version of Reactive
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Reactive")' log
-Julia Version 0.5.0-pre+5688
-Commit da9c28e (2016-07-25 21:05 UTC)
+Julia Version 0.5.0-rc0+0
+Commit 0030eec* (2016-07-26 20:22 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.4 LTS
   uname: Linux 3.13.0-92-generic #139-Ubuntu SMP Tue Jun 28 20:42:26 UTC 2016 x86_64 x86_64
-Memory: 2.4471054077148438 GB (703.08203125 MB free)
-Uptime: 16181.0 sec
-Load Avg:  1.0029296875  0.97265625  0.98193359375
+Memory: 2.4471054077148438 GB (666.73046875 MB free)
+Uptime: 17407.0 sec
+Load Avg:  0.9599609375  0.9521484375  0.9541015625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz     831830 s       3308 s      97006 s     462175 s         34 s
-#2  3499 MHz     304768 s        748 s      76275 s    1171624 s          0 s
+#1  3499 MHz     839388 s       5867 s     142779 s     541914 s         44 s
+#2  3499 MHz     332558 s       1548 s      92272 s    1228828 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -39,26 +35,15 @@ Package Directory: /home/vagrant/.julia/v0.5
 2 required packages:
  - JSON                          0.6.0
  - Reactive                      0.3.3
-12 additional packages:
- - ColorTypes                    0.2.5
- - ColorVectorSpace              0.1.5
- - Colors                        0.6.6
+1 additional packages:
  - Compat                        0.8.6
- - FileIO                        0.1.0
- - FixedPointNumbers             0.1.4
- - Graphics                      0.1.3
- - Images                        0.5.5              8840a952 (dirty)
- - Reexport                      0.0.3
- - SIUnits                       0.0.6
- - TexExtensions                 0.0.3
- - Zlib                          0.1.12
 INFO: Computing test dependencies for Reactive...
 INFO: Installing FactCheck v0.4.3
 INFO: Testing Reactive
 
 WARNING: deprecated syntax "call(::Type{Signal{T}}, ...)".
 Use "(::Type{Signal{T}})(...)" instead.
-Killing Task (runnable) @0x00007f59c536c010
+Killing Task (runnable) @0x00007f434852a980
 Basic checks
   > map
   > merge
@@ -84,17 +69,30 @@ Timing functions
   > fpswhen
     Failure :: (line:272) :: fpswhen :: fact was false
       Expression: dt --> roughly(1,atol=0.2)
-        Expected: 1.253018725 ≅ 1
+        Expected: 2.036657581 ≅ 1
   > fps
+    Failure :: (line:272) :: fps :: fact was false
+      Expression: sum(log) --> roughly(1.0,atol=0.05)
+        Expected: 1.1605651378631592 ≅ 1.0
+    Failure :: (line:272) :: fps :: fact was false
+      Expression: [1 / 10 for i = 1:10] --> roughly(log,atol=0.03)
+        Expected: [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1] ≅ [0.214428,0.128007,0.101438,0.101343,0.101364,0.101404,0.101353,0.101343,0.101343,0.108542]
+    Failure :: (line:272) :: fps :: fact was false
+      Expression: queue_size() --> 0
+        Expected: 0
+        Occurred: 1
   > every
+    Failure :: (line:272) :: every :: fact was false
+      Expression: [0.1 for i = 1:10] --> roughly(diff(log),atol=0.03)
+        Expected: [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1] ≅ [0.10029,0.100291,0.100276,0.100296,0.100286,0.10032,0.180385,0.100353,0.100367,0.0993071]
   > throttle
 Out of 26 total facts:
-  Verified: 25
-  Failed:   1
+  Verified: 21
+  Failed:   5
 Async
   > async_map
 3 facts verified.
-ERROR: LoadError: FactCheck finished with 1 non-successful tests.
+ERROR: LoadError: FactCheck finished with 5 non-successful tests.
  in exitstatus() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:568
  in include_from_node1(::String) at ./loading.jl:426
  in process_options(::Base.JLOptions) at ./client.jl:262
