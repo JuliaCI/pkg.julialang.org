@@ -3,13 +3,13 @@ INFO: Cloning cache of BlossomV from https://github.com/mlewe/BlossomV.jl.git
 INFO: Installing BinDeps v0.4.2
 INFO: Installing BlossomV v0.0.3
 INFO: Installing SHA v0.2.0
-INFO: Installing URIParser v0.1.5
+INFO: Installing URIParser v0.1.6
 INFO: Building BlossomV
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.5/BlossomV/deps/downloads
 INFO: Downloading file http://pub.ist.ac.at/~vnk/software/blossom5-v2.05.src.tar.gz
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0 63 47922   63 30574    0     0   7973      0  0:00:06  0:00:03  0:00:03  7974100 47922  100 47922    0     0  12170      0  0:00:03  0:00:03 --:--:-- 12169
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0100 47922  100 47922    0     0  24400      0  0:00:01  0:00:01 --:--:-- 24400
 INFO: Done downloading file http://pub.ist.ac.at/~vnk/software/blossom5-v2.05.src.tar.gz
 WARNING: readbytes is deprecated, use read instead.
  in depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -46,6 +46,8 @@ g++ -O3 -D_NDEBUG -fPIC -fvisibility=hidden -std=c++1y  PMexpand.cpp -c -o PMexp
 g++ -O3 -D_NDEBUG -fPIC -fvisibility=hidden -std=c++1y  PMinit.cpp -c -o PMinit.o
 g++ -O3 -D_NDEBUG -fPIC -fvisibility=hidden -std=c++1y  PMinterface.cpp -c -o PMinterface.o
 g++ -O3 -D_NDEBUG -fPIC -fvisibility=hidden -std=c++1y  PMmain.cpp -c -o PMmain.o
+g++ -O3 -D_NDEBUG -fPIC -fvisibility=hidden -std=c++1y  PMrepair.cpp -c -o PMrepair.o
+g++ -O3 -D_NDEBUG -fPIC -fvisibility=hidden -std=c++1y  PMshrink.cpp -c -o PMshrink.o
 interface.cpp: In function ‘matching* matching_construct(int32_t, int32_t)’:
 interface.cpp:25:14: error: ‘make_unique’ is not a member of ‘std’
      result = std::make_unique<matching>(node_num, edge_num_max).release();
@@ -56,13 +58,11 @@ interface.cpp:25:39: error: expected primary-expression before ‘>’ token
 interface.cpp:25:65: error: request for member ‘release’ in ‘(0, edge_num_max)’, which is of non-class type ‘int32_t {aka int}’
      result = std::make_unique<matching>(node_num, edge_num_max).release();
                                                                  ^
-g++ -O3 -D_NDEBUG -fPIC -fvisibility=hidden -std=c++1y  PMrepair.cpp -c -o PMrepair.o
-g++ -O3 -D_NDEBUG -fPIC -fvisibility=hidden -std=c++1y  PMshrink.cpp -c -o PMshrink.o
 make: *** [interface.o] Error 1
 make: *** Waiting for unfinished jobs....
 ==============================[ ERROR: BlossomV ]===============================
 
-LoadError: failed process: Process(setenv(`make -j8 all`,String["PYTHON=","PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/vagrant/julia/bin/","PWD=/vagrant/0.5AL","SHELL=/bin/bash","SSH_CONNECTION=10.0.2.2 60246 10.0.2.15 22","LD_LIBRARY_PATH=:/usr/local/lib/","MAIL=/var/mail/vagrant","LANG=en_US.UTF-8","SHLVL=3","LOGNAME=vagrant","XDG_RUNTIME_DIR=/run/user/1000","XDG_SESSION_ID=3","OLDPWD=/home/vagrant","SSH_CLIENT=10.0.2.2 60246 22","_=/usr/bin/timeout","USER=vagrant","TERM=vt100","HOME=/home/vagrant","OPENBLAS_MAIN_FREE=1","JAVA_HOME=/usr/lib/jvm/java-7-oracle"]), ProcessExited(2)) [2]
+LoadError: failed process: Process(setenv(`make -j8 all`,String["PYTHON=","PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/vagrant/julia/bin/","PWD=/vagrant/0.5AL","SHELL=/bin/bash","SSH_CONNECTION=10.0.2.2 50739 10.0.2.15 22","LD_LIBRARY_PATH=:/usr/local/lib/","MAIL=/var/mail/vagrant","LANG=en_US.UTF-8","SHLVL=3","LOGNAME=vagrant","XDG_RUNTIME_DIR=/run/user/1000","XDG_SESSION_ID=3","OLDPWD=/home/vagrant","SSH_CLIENT=10.0.2.2 50739 22","_=/usr/bin/timeout","USER=vagrant","TERM=vt100","HOME=/home/vagrant","OPENBLAS_MAIN_FREE=1","JAVA_HOME=/usr/lib/jvm/java-7-oracle"]), ProcessExited(2)) [2]
 while loading /home/vagrant/.julia/v0.5/BlossomV/deps/build.jl, in expression starting on line 28
 
 ================================================================================
@@ -79,21 +79,21 @@ WARNING: BlossomV had build errors.
 INFO: Package database updated
 
 >>> 'Pkg.test("BlossomV")' log
-Julia Version 0.5.0-rc1+0
-Commit cede539 (2016-08-04 08:48 UTC)
+Julia Version 0.5.0-rc1+1
+Commit acfd04c (2016-08-05 15:23 UTC)
 Platform Info:
   System: Linux (x86_64-unknown-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-92-generic #139-Ubuntu SMP Tue Jun 28 20:42:26 UTC 2016 x86_64 x86_64
-Memory: 2.4471054077148438 GB (1768.25 MB free)
-Uptime: 6057.0 sec
-Load Avg:  0.92919921875  1.0  1.037109375
+Memory: 2.4471054077148438 GB (812.0703125 MB free)
+Uptime: 6893.0 sec
+Load Avg:  1.01953125  1.0146484375  0.970703125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz     300875 s         90 s      47258 s     169845 s         11 s
-#2  3499 MHz      89236 s         44 s      27778 s     462722 s          0 s
+#1  3504 MHz     312700 s         60 s      47785 s     246457 s         16 s
+#2  3504 MHz     106137 s         85 s      28954 s     526327 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -114,7 +114,7 @@ Package Directory: /home/vagrant/.julia/v0.5
  - BinDeps                       0.4.2
  - Compat                        0.8.6
  - SHA                           0.2.0
- - URIParser                     0.1.5
+ - URIParser                     0.1.6
 INFO: Testing BlossomV
 ERROR: LoadError: LoadError: BlossomV not properly installed. Please run Pkg.build("BlossomV")
  in error(::String) at ./error.jl:21
