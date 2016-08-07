@@ -1,7 +1,10 @@
 >>> 'Pkg.add("Documenter")' log
 INFO: Cloning cache of Documenter from git://github.com/JuliaDocs/Documenter.jl.git
-INFO: Installing Documenter v0.1.6
+INFO: Installing DocStringExtensions v0.1.0
+INFO: Installing Documenter v0.2.0
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of Documenter
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Documenter")' log
 Julia Version 0.4.6
@@ -12,13 +15,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-92-generic #139-Ubuntu SMP Tue Jun 28 20:42:26 UTC 2016 x86_64 x86_64
-Memory: 2.4471054077148438 GB (762.65625 MB free)
-Uptime: 17997.0 sec
-Load Avg:  1.0048828125  1.107421875  1.07421875
+Memory: 2.4471054077148438 GB (750.31640625 MB free)
+Uptime: 18174.0 sec
+Load Avg:  0.8720703125  1.10107421875  1.05859375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz     755878 s       1834 s      90548 s     730965 s         44 s
-#2  3500 MHz     492413 s       5641 s      81554 s    1117781 s          0 s
+#1  3503 MHz     758792 s       2455 s      87496 s     749814 s         47 s
+#2  3503 MHz     531953 s       4734 s      82906 s    1107654 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -33,22 +36,23 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.4
 2 required packages:
- - Documenter                    0.1.6
+ - Documenter                    0.2.0
  - JSON                          0.6.0
-1 additional packages:
+2 additional packages:
  - Compat                        0.8.6
+ - DocStringExtensions           0.1.0
 INFO: Testing Documenter
+==================================================
 INFO: The following errors are expected output.
 Documenter: setting up build directory.
-Documenter: redirecting output streams.
 Documenter: expanding markdown templates.
+ !! Undefined binding 'Tests.missing_doc'. [src/index.md]
  !! Warning in src/index.md:
 
 Failed to parse expression.
 
 ERROR: ParseError("extra token \"error\" after end of expression")
 
- !! Undefined binding 'Tests.missing_doc'. [src/index.md]
  !! Warning in src/index.md:
 
 Failed to evaluate `CurrentModule = NonExistantModule` in `@meta` block.
@@ -61,49 +65,117 @@ Failed to evaluate `Modules = [NonExistantModule]` in `@autodocs` block.
 
 ERROR: UndefVarError(:NonExistantModule)
 
+ !! '@autodocs' missing 'Modules = ...'. [src/index.md]
  !! Warning in src/index.md:
 
 Failed to evaluate `@eval` block.
 
 ERROR: UndefVarError(:NonExistantModule)
 
- !! '@autodocs' missing 'Modules = ...'. [src/index.md]
+ !! Unable to get the binding for '# comment in a @docs block'. [src/index.md]
+
+ERROR: ArgumentError("cannot convert `nothing` to a `Binding`.")
+
+expression 'nothing' in module 'Tests'
+
 Documenter: building cross-references.
+ !! Unable to evaluate the type signature for '[`foo(x::Foo)`](@ref)'. [src/index.md]
+
+ERROR: UndefVarError(:Foo)
+
+expression 'foo(x::Foo)' in module 'Tests'
+
+ !! No doc found for reference '[`UndefVarError`](@ref)'. [src/index.md]
+ !! Unable to get the binding for '[`1`](@ref)'. [src/index.md]
+
+ERROR: ArgumentError("cannot convert `1` to a `Binding`.")
+
+expression '1' in module 'Tests'
+
+ !! Unable to get the binding for '[`"strings"`](@ref)'. [src/index.md]
+
+ERROR: ArgumentError("cannot convert `strings` to a `Binding`.")
+
+expression 'strings' in module 'Tests'
+
+ !! Unable to parse the reference '[`foo+*bar`](@ref)'. [src/index.md]
+ !! Unable to get the binding for '[`foo(x`](@ref)'. [src/index.md]
+
+ERROR: ErrorException("`binding` cannot understand expression `\$(Expr(:incomplete, \"incomplete: premature end of input\"))`.")
+
+expression '$(Expr(:incomplete, "incomplete: premature end of input"))' in module 'Tests'
+
 Documenter: running document checks.
-Documenter: restoring output streams.
+ !! Test error in the following code block in '/home/vagrant/.julia/v0.4/Documenter/test/errors/make.jl':
+
+        julia> a = 1
+        2
+        
+
+    in expression:
+
+        a = 1
+
+    expected:
+
+        2
+
+    returned:
+
+        1
+
+ !! Invalid doctest block. Requires `julia> ` or `# output` in '/home/vagrant/.julia/v0.4/Documenter/test/errors/make.jl'
+
+```jldoctest
+
+```
+
+ !! Test error in the following code block in 'src/index.md':
+
+        julia> b = 1
+        2
+        
+
+    in expression:
+
+        b = 1
+
+    expected:
+
+        2
+
+    returned:
+
+        1
+
 Documenter: populating indices.
 Documenter: rendering document.
 Documenter: copying assets to build directory.
 INFO: END of expected error output.
+==================================================
 Documenter: setting up build directory.
-Documenter: redirecting output streams.
 Documenter: expanding markdown templates.
 Documenter: building cross-references.
 Documenter: running document checks.
-Documenter: restoring output streams.
 Documenter: populating indices.
 Documenter: rendering document.
 Documenter: copying assets to build directory.
 Documenter: setting up build directory.
-Documenter: redirecting output streams.
 Documenter: expanding markdown templates.
 Documenter: building cross-references.
 Documenter: running document checks.
-Documenter: restoring output streams.
 Documenter: populating indices.
 Documenter: rendering document.
 Documenter: copying assets to build directory.
-INFO: Deploying documentation to /tmp/tmpKUnRRM/docs
-INFO: Generating .gitignore at /tmp/tmpKUnRRM/docs/.gitignore
-INFO: Generating make.jl at /tmp/tmpKUnRRM/docs/make.jl
-INFO: Generating mkdocs.yml at /tmp/tmpKUnRRM/docs/mkdocs.yml
-INFO: Generating src/index.md at /tmp/tmpKUnRRM/docs/src/index.md
+INFO: Deploying documentation to /tmp/tmpLCG7YC/docs
+INFO: Generating .gitignore at /tmp/tmpLCG7YC/docs/.gitignore
+INFO: Generating make.jl at /tmp/tmpLCG7YC/docs/make.jl
+INFO: Generating mkdocs.yml at /tmp/tmpLCG7YC/docs/mkdocs.yml
+INFO: Generating src/index.md at /tmp/tmpLCG7YC/docs/src/index.md
 Documenter: setting up build directory.
-Documenter: redirecting output streams.
 Documenter: expanding markdown templates.
 Documenter: building cross-references.
 Documenter: running document checks.
-Documenter: restoring output streams.
 Documenter: populating indices.
 Documenter: rendering document.
 Documenter: copying assets to build directory.
