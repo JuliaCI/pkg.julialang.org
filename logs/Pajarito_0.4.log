@@ -10,7 +10,7 @@ INFO: Installing Lazy v0.10.1
 INFO: Installing MacroTools v0.3.0
 INFO: Installing MathProgBase v0.5.2
 INFO: Installing NaNMath v0.2.1
-INFO: Installing Pajarito v0.1.1
+INFO: Installing Pajarito v0.2.0
 INFO: Installing ReverseDiffSparse v0.5.8
 INFO: Package database updated
 
@@ -23,13 +23,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-92-generic #139-Ubuntu SMP Tue Jun 28 20:42:26 UTC 2016 x86_64 x86_64
-Memory: 2.4471054077148438 GB (841.45703125 MB free)
-Uptime: 13497.0 sec
-Load Avg:  1.08740234375  1.0859375  1.05322265625
+Memory: 2.4471054077148438 GB (826.93359375 MB free)
+Uptime: 13295.0 sec
+Load Avg:  1.01025390625  1.0283203125  1.013671875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3504 MHz     561953 s         75 s      55562 s     568195 s         22 s
-#2  3504 MHz     387919 s         70 s      48205 s     849443 s          0 s
+#1  3500 MHz     548730 s       2614 s      61218 s     564519 s         21 s
+#2  3500 MHz     408866 s       5387 s      52822 s     795835 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -45,7 +45,7 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.4
 2 required packages:
  - JSON                          0.6.0
- - Pajarito                      0.1.1
+ - Pajarito                      0.2.0
 11 additional packages:
  - Calculus                      0.1.15
  - Compat                        0.8.6
@@ -62,12 +62,12 @@ INFO: Computing test dependencies for Pajarito...
 INFO: Cloning cache of Convex from git://github.com/JuliaOpt/Convex.jl.git
 INFO: Cloning cache of ECOS from git://github.com/JuliaOpt/ECOS.jl.git
 INFO: Installing BinDeps v0.4.2
-INFO: Installing Cbc v0.2.2
+INFO: Installing Cbc v0.2.3
 INFO: Installing Clp v0.2.2
 INFO: Installing Convex v0.3.0
 INFO: Installing ECOS v0.6.6
 INFO: Installing FactCheck v0.4.3
-INFO: Installing GLPK v0.2.17
+INFO: Installing GLPK v0.3.0
 INFO: Installing GLPKMathProgInterface v0.2.2
 INFO: Installing Ipopt v0.2.3
 INFO: Installing SHA v0.2.0
@@ -78,9 +78,9 @@ INFO: Attempting to Create directory /home/vagrant/.julia/v0.4/ECOS/deps/downloa
 INFO: Downloading file https://github.com/ifa-ethz/ecos/archive/v2.0.5.tar.gz
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   120    0   120    0     0   1372      0 --:--:-- --:--:-- --:--:--  1379
-  0     0    0   121    0     0    943      0 --:--:-- --:--:-- --:--:--   943
-  0     0    0 1244k    0     0  1913k      0 --:--:-- --:--:-- --:--:-- 1913k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   120    0   120    0     0   1510      0 --:--:-- --:--:-- --:--:--  1518
+  0     0    0   121    0     0   1036      0 --:--:-- --:--:-- --:--:--  1036
+  1 1244k    1 14462    0     0  66777      0  0:00:19 --:--:--  0:00:19 66777100 1244k  100 1244k    0     0  4284k      0 --:--:-- --:--:-- --:--:-- 16.4M
 INFO: Done downloading file https://github.com/ifa-ethz/ecos/archive/v2.0.5.tar.gz
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.4/ECOS/deps/src
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.4/ECOS/deps
@@ -142,9 +142,13 @@ INFO: Changing Directory to /home/vagrant/.julia/v0.4/ECOS/deps/src/ecos-2.0.5
 INFO: Building GLPK
 INFO: Building Ipopt
 INFO: Testing Pajarito
-INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/Ipopt.ji for module Ipopt.
 INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/Cbc.ji for module Cbc.
 INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/Clp.ji for module Clp.
+INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/Ipopt.ji for module Ipopt.
+solvers_mip = Any[GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP(false,Any[])]
+solvers_nlnr = Any[Ipopt.IpoptSolver(Any[(:print_level,0)])]
+solvers_conic = [ECOS.ECOSSolver(Any[(:verbose,false)])]
+solvers_sdp = Any[]
 Sparse matrix bug test
 
 ******************************************************************************
@@ -154,99 +158,7 @@ This program contains Ipopt, a library for large-scale nonlinear optimization.
 ******************************************************************************
 
 1 fact verified.
-Convex constraint with LB and UB
-1 fact verified.
-Infeasible NLP problem
-WARNING: Initial NLP Relaxation Infeasible.
-WARNING: Not solved to optimality, status: Infeasible
-1 fact verified.
-Infeasible MIP problem
-WARNING: Initial NLP Relaxation Infeasible.
-WARNING: Not solved to optimality, status: Infeasible
-1 fact verified.
-Solver test
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and Ipopt.IpoptSolver
-WARNING: Solver does not appear to support adding constraints to an existing model. Hot-start is disabled.
-  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
-WARNING: Solver does not appear to support providing initial feasible solutions.
-4 facts verified.
-Optimal solution with nonlinear objective
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and Ipopt.IpoptSolver
-  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
-4 facts verified.
-No integer variables
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and Ipopt.IpoptSolver
-WARNING: Nonlinear solver does not provide dual solutions
-  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
-2 facts verified.
-Maximization problem
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and Ipopt.IpoptSolver
-Presolve 0 (-3) rows, 0 (-3) columns and 0 (-4) elements
-Optimal - objective value -9.5
-After Postsolve, objective -9.5, infeasibilities - dual 0 (0), primal 0 (0)
-Optimal objective -9.5 - 0 iterations time 0.002, Presolve 0.00
-Cbc0045I Solution with objective value -9.5 saved
-WARNING: Mixed-integer cycling detected, terminating Pajarito...
-WARNING: Not solved to optimality, status: Suboptimal
-  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
-WARNING: Mixed-integer cycling detected, terminating Pajarito...
-WARNING: Not solved to optimality, status: Suboptimal
-2 facts verified.
-Maximization problem with nonlinear function
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and Ipopt.IpoptSolver
-  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
-2 facts verified.
-Print test
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and Ipopt.IpoptSolver
-Objective function is nonlinear
-
-Pajarito started...
-
-MINLP algorithm OA is chosen.
-MINLP has 2 variables, 1 linear constraints, 1 nonlinear constraints.
-Initial objective =      -1.93750.
-
-Iteration   MIP Objective     NLP Objective   Optimality Gap   Best Solution    Primal Inf.      OA Inf.
-        0   +1.9375000e+00   -2.0000000e+00   -3.9375000e+00   +2.0000000e+00   -9.0000000e+00   +0.0000000e+00
-
-Pajarito finished...
-
-Status            =       Optimal.
-Optimum objective =      -2.00000.
-Iterations        =             0.
-Total time        =       0.35177 sec.
-MIP total time    =       0.00286 sec.
-NLP total time    =       0.01060 sec.
-
-Profiler:
-Subproblem load time =       0.00190 sec.
-  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
-Objective function is nonlinear
-
-Pajarito started...
-
-MINLP algorithm OA is chosen.
-MINLP has 2 variables, 1 linear constraints, 1 nonlinear constraints.
-Initial objective =      -1.93750.
-
-Iteration   MIP Objective     NLP Objective   Optimality Gap   Best Solution    Primal Inf.      OA Inf.
-        0   +1.9375000e+00   -2.0000000e+00   -3.9375000e+00   +2.0000000e+00   -9.0000000e+00   +0.0000000e+00
-
-Pajarito finished...
-
-Status            =       Optimal.
-Optimum objective =      -2.00000.
-Iterations        =             0.
-Total time        =       0.02207 sec.
-MIP total time    =       0.00079 sec.
-NLP total time    =       0.01276 sec.
-
-Profiler:
-Subproblem load time =       0.00216 sec.
-2 facts verified.
-Sparse matrix bug test
-1 fact verified.
-Convex constraint with LB and UB
+Convex constraint with LB and UB test
 1 fact verified.
 Infeasible NLP problem
 WARNING: Initial NLP Relaxation Infeasible.
@@ -259,10 +171,10 @@ WARNING: Not solved to optimality, status: Infeasible
 Solver test
   > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
 2 facts verified.
-Optimal solution with nonlinear objective
+Optimal solution with nonlinear objective test
   > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
 2 facts verified.
-No integer variables
+No integer variables test
   > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
 1 fact verified.
 Maximization problem
@@ -272,1016 +184,214 @@ Maximization problem with nonlinear function
   > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
 WARNING: Ignoring infeasible solution from heuristic callback
 1 fact verified.
-Default solvers test
-This is Ipopt version 3.12.1, running with linear solver mumps.
-NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
-
-Number of nonzeros in equality constraint Jacobian...:        8
-Number of nonzeros in inequality constraint Jacobian.:        5
-Number of nonzeros in Lagrangian Hessian.............:        3
-
-Total number of variables............................:        6
-                     variables with only lower bounds:        1
-                variables with lower and upper bounds:        0
-                     variables with only upper bounds:        0
-Total number of equality constraints.................:        4
-Total number of inequality constraints...............:        4
-        inequality constraints with only lower bounds:        0
-   inequality constraints with lower and upper bounds:        0
-        inequality constraints with only upper bounds:        4
-
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-   0 -1.0000000e+00 2.00e+00 3.62e-01  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
-   1 -4.5660605e+00 9.00e-01 1.06e+00  -1.0 3.57e+00    -  4.83e-01 1.00e+00f  1
-   2 -8.3321668e+00 9.38e-01 4.33e-01  -1.0 3.77e+00    -  1.00e+00 1.00e+00f  1
-   3 -1.0375165e+01 5.86e-01 1.93e-01  -1.7 5.51e+00    -  5.39e-01 7.58e-01f  1
-   4 -9.0158375e+00 1.38e-02 2.55e-02  -1.7 1.36e+00    -  9.81e-01 1.00e+00h  1
-   5 -9.0004766e+00 4.81e-04 9.56e-04  -3.8 3.63e-02    -  1.00e+00 9.82e-01h  1
-   6 -8.9999964e+00 8.88e-16 1.10e-07  -5.7 1.45e-03    -  1.00e+00 1.00e+00h  1
-   7 -9.0000001e+00 0.00e+00 2.53e-14  -8.6 3.94e-06    -  1.00e+00 1.00e+00h  1
-
-Number of Iterations....: 7
-
-                                   (scaled)                 (unscaled)
-Objective...............:  -9.0000000649878267e+00   -9.0000000649878267e+00
-Dual infeasibility......:   2.5313084961453569e-14    2.5313084961453569e-14
-Constraint violation....:   0.0000000000000000e+00    0.0000000000000000e+00
-Complementarity.........:   2.5066908490201525e-09    2.5066908490201525e-09
-Overall NLP error.......:   2.5066908490201525e-09    2.5066908490201525e-09
-
-
-Number of objective function evaluations             = 8
-Number of objective gradient evaluations             = 8
-Number of equality constraint evaluations            = 8
-Number of inequality constraint evaluations          = 8
-Number of equality constraint Jacobian evaluations   = 8
-Number of inequality constraint Jacobian evaluations = 8
-Number of Lagrangian Hessian evaluations             = 7
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.001
-Total CPU secs in NLP function evaluations           =      0.000
-
-EXIT: Optimal Solution Found.
-This is Ipopt version 3.12.1, running with linear solver mumps.
-NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
-
-Number of nonzeros in equality constraint Jacobian...:        9
-Number of nonzeros in inequality constraint Jacobian.:        4
-Number of nonzeros in Lagrangian Hessian.............:        3
-
-Total number of variables............................:        7
-                     variables with only lower bounds:        3
-                variables with lower and upper bounds:        0
-                     variables with only upper bounds:        0
-Total number of equality constraints.................:        5
-Total number of inequality constraints...............:        2
-        inequality constraints with only lower bounds:        0
-   inequality constraints with lower and upper bounds:        0
-        inequality constraints with only upper bounds:        2
-
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-   0  9.9999900e-03 1.00e-02 7.19e-01  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
-   1  1.2010915e-01 0.00e+00 1.02e+00  -1.0 1.50e-01    -  4.92e-01 1.00e+00f  1
-   2  2.0312331e-01 0.00e+00 1.10e-02  -1.0 1.23e-01    -  1.00e+00 1.00e+00f  1
-   3  3.3765430e-02 0.00e+00 4.92e-03  -2.5 1.93e-01    -  1.00e+00 8.80e-01f  1
-   4  6.1016069e-04 1.78e-15 1.06e-04  -3.8 1.64e-01    -  1.00e+00 1.00e+00f  1
-   5  4.6519776e-06 2.79e-07 1.16e-06  -5.7 1.90e-03    -  1.00e+00 1.00e+00h  1
-   6 -6.3780240e-09 1.78e-15 8.62e-11  -8.6 2.47e-05    -  1.00e+00 1.00e+00h  1
-
-Number of Iterations....: 6
-
-                                   (scaled)                 (unscaled)
-Objective...............:  -6.3780239626809595e-09   -6.3780239626809595e-09
-Dual infeasibility......:   8.6192636361559494e-11    8.6192636361559494e-11
-Constraint violation....:   1.7763568394002505e-15    1.7763568394002505e-15
-Complementarity.........:   2.8391395417937261e-09    2.8391395417937261e-09
-Overall NLP error.......:   2.8391395417937261e-09    2.8391395417937261e-09
-
-
-Number of objective function evaluations             = 7
-Number of objective gradient evaluations             = 7
-Number of equality constraint evaluations            = 7
-Number of inequality constraint evaluations          = 7
-Number of equality constraint Jacobian evaluations   = 7
-Number of inequality constraint Jacobian evaluations = 7
-Number of Lagrangian Hessian evaluations             = 6
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.004
-Total CPU secs in NLP function evaluations           =      0.001
-
-EXIT: Optimal Solution Found.
-This is Ipopt version 3.12.1, running with linear solver mumps.
-NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
-
-Number of nonzeros in equality constraint Jacobian...:        6
-Number of nonzeros in inequality constraint Jacobian.:        4
-Number of nonzeros in Lagrangian Hessian.............:        3
-
-Total number of variables............................:        5
-                     variables with only lower bounds:        1
-                variables with lower and upper bounds:        0
-                     variables with only upper bounds:        0
-Total number of equality constraints.................:        4
-Total number of inequality constraints...............:        2
-        inequality constraints with only lower bounds:        0
-   inequality constraints with lower and upper bounds:        0
-        inequality constraints with only upper bounds:        2
-
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-   0 -9.0000000e+00 0.00e+00 4.95e-02  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
-   1 -9.0000000e+00 5.99e-03 7.50e-01  -1.0 9.65e-02    -  9.99e-01 9.23e-01h  1
-   2 -9.0000000e+00 3.21e-04 8.57e+00  -1.7 1.36e-02    -  1.00e+00 5.57e-01h  1
-   3 -9.0000000e+00 1.23e-03 2.11e+01  -1.7 7.90e-03    -  1.00e+00 5.83e-01h  1
-   4 -9.0000000e+00 5.49e-05 5.04e+01  -1.7 2.56e-03    -  1.00e+00 5.87e-01h  1
-   5 -9.0000000e+00 2.10e-04 1.22e+02  -1.7 1.35e-03    -  1.00e+00 5.86e-01h  1
-   6 -9.0000000e+00 9.42e-06 2.94e+02  -1.7 4.39e-04    -  1.00e+00 5.86e-01h  1
-   7 -9.0000000e+00 3.60e-05 7.09e+02  -1.7 2.32e-04    -  1.00e+00 5.86e-01h  1
-   8 -9.0000000e+00 1.39e-05 2.92e+03  -1.7 7.52e-05    -  1.00e+00 2.93e-01f  2
-   9 -9.0000000e+00 5.20e-07 1.52e+03  -1.7 2.07e-05    -  1.00e+00 8.04e-01h  1
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-  10 -9.0000000e+00 3.46e-12 1.96e+04  -1.7 1.65e-05    -  1.00e+00 2.37e-01f  2
-  11 -9.0000000e+00 5.72e-07 7.88e+03  -1.7 4.68e-06    -  1.00e+00 8.45e-01h  1
-  12 -9.0000000e+00 8.71e-08 1.31e+05  -1.7 2.01e-06    -  1.00e+00 2.41e-01f  2
-  13 -9.0000000e+00 6.32e-08 3.78e-03  -1.7 2.88e-07    -  1.00e+00 1.00e+00h  1
-  14 -9.0000000e+00 6.32e-08 1.29e+05  -8.6 1.33e-07    -  1.00e+00 3.81e-06h 19
-  15 -9.0000000e+00 0.00e+00 1.25e-03  -8.6 1.10e-07    -  1.00e+00 1.00e+00h  1
-  16 -9.0000000e+00 8.88e-16 2.15e-10  -8.6 3.29e-14    -  1.00e+00 1.00e+00h  1
-
-Number of Iterations....: 16
-
-                                   (scaled)                 (unscaled)
-Objective...............:  -9.0000000000000000e+00   -9.0000000000000000e+00
-Dual infeasibility......:   2.1505300318303000e-10    2.1505300318303000e-10
-Constraint violation....:   8.8817841970012523e-16    8.8817841970012523e-16
-Complementarity.........:   3.3800602445669285e-09    3.3800602445669285e-09
-Overall NLP error.......:   3.3800602445669285e-09    3.3800602445669285e-09
-
-
-Number of objective function evaluations             = 39
-Number of objective gradient evaluations             = 17
-Number of equality constraint evaluations            = 39
-Number of inequality constraint evaluations          = 39
-Number of equality constraint Jacobian evaluations   = 17
-Number of inequality constraint Jacobian evaluations = 17
-Number of Lagrangian Hessian evaluations             = 16
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.012
-Total CPU secs in NLP function evaluations           =      0.001
-
-EXIT: Optimal Solution Found.
+Sparse matrix bug test
 1 fact verified.
-Default MIP solver test
-  > With OA, ECOS.ECOSSolver
-  > With OA, Ipopt.IpoptSolver
-2 facts verified.
-Default DCP solver test
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver
-This is Ipopt version 3.12.1, running with linear solver mumps.
-NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
-
-Number of nonzeros in equality constraint Jacobian...:        8
-Number of nonzeros in inequality constraint Jacobian.:        5
-Number of nonzeros in Lagrangian Hessian.............:        3
-
-Total number of variables............................:        6
-                     variables with only lower bounds:        1
-                variables with lower and upper bounds:        0
-                     variables with only upper bounds:        0
-Total number of equality constraints.................:        4
-Total number of inequality constraints...............:        4
-        inequality constraints with only lower bounds:        0
-   inequality constraints with lower and upper bounds:        0
-        inequality constraints with only upper bounds:        4
-
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-   0 -1.0000000e+00 2.00e+00 3.62e-01  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
-   1 -4.5660605e+00 9.00e-01 1.06e+00  -1.0 3.57e+00    -  4.83e-01 1.00e+00f  1
-   2 -8.3321668e+00 9.38e-01 4.33e-01  -1.0 3.77e+00    -  1.00e+00 1.00e+00f  1
-   3 -1.0375165e+01 5.86e-01 1.93e-01  -1.7 5.51e+00    -  5.39e-01 7.58e-01f  1
-   4 -9.0158375e+00 1.38e-02 2.55e-02  -1.7 1.36e+00    -  9.81e-01 1.00e+00h  1
-   5 -9.0004766e+00 4.81e-04 9.56e-04  -3.8 3.63e-02    -  1.00e+00 9.82e-01h  1
-   6 -8.9999964e+00 8.88e-16 1.10e-07  -5.7 1.45e-03    -  1.00e+00 1.00e+00h  1
-   7 -9.0000001e+00 0.00e+00 2.53e-14  -8.6 3.94e-06    -  1.00e+00 1.00e+00h  1
-
-Number of Iterations....: 7
-
-                                   (scaled)                 (unscaled)
-Objective...............:  -9.0000000649878267e+00   -9.0000000649878267e+00
-Dual infeasibility......:   2.5313084961453569e-14    2.5313084961453569e-14
-Constraint violation....:   0.0000000000000000e+00    0.0000000000000000e+00
-Complementarity.........:   2.5066908490201525e-09    2.5066908490201525e-09
-Overall NLP error.......:   2.5066908490201525e-09    2.5066908490201525e-09
-
-
-Number of objective function evaluations             = 8
-Number of objective gradient evaluations             = 8
-Number of equality constraint evaluations            = 8
-Number of inequality constraint evaluations          = 8
-Number of equality constraint Jacobian evaluations   = 8
-Number of inequality constraint Jacobian evaluations = 8
-Number of Lagrangian Hessian evaluations             = 7
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.001
-Total CPU secs in NLP function evaluations           =      0.000
-
-EXIT: Optimal Solution Found.
-This is Ipopt version 3.12.1, running with linear solver mumps.
-NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
-
-Number of nonzeros in equality constraint Jacobian...:        9
-Number of nonzeros in inequality constraint Jacobian.:        4
-Number of nonzeros in Lagrangian Hessian.............:        3
-
-Total number of variables............................:        7
-                     variables with only lower bounds:        3
-                variables with lower and upper bounds:        0
-                     variables with only upper bounds:        0
-Total number of equality constraints.................:        5
-Total number of inequality constraints...............:        2
-        inequality constraints with only lower bounds:        0
-   inequality constraints with lower and upper bounds:        0
-        inequality constraints with only upper bounds:        2
-
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-   0  9.9999900e-03 1.00e-02 7.19e-01  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
-   1  1.2010915e-01 0.00e+00 1.02e+00  -1.0 1.50e-01    -  4.92e-01 1.00e+00f  1
-   2  2.0312331e-01 0.00e+00 1.10e-02  -1.0 1.23e-01    -  1.00e+00 1.00e+00f  1
-   3  3.3765430e-02 0.00e+00 4.92e-03  -2.5 1.93e-01    -  1.00e+00 8.80e-01f  1
-   4  6.1016069e-04 1.78e-15 1.06e-04  -3.8 1.64e-01    -  1.00e+00 1.00e+00f  1
-   5  4.6519776e-06 2.79e-07 1.16e-06  -5.7 1.90e-03    -  1.00e+00 1.00e+00h  1
-   6 -6.3780240e-09 1.78e-15 8.62e-11  -8.6 2.47e-05    -  1.00e+00 1.00e+00h  1
-
-Number of Iterations....: 6
-
-                                   (scaled)                 (unscaled)
-Objective...............:  -6.3780239626809595e-09   -6.3780239626809595e-09
-Dual infeasibility......:   8.6192636361559494e-11    8.6192636361559494e-11
-Constraint violation....:   1.7763568394002505e-15    1.7763568394002505e-15
-Complementarity.........:   2.8391395417937261e-09    2.8391395417937261e-09
-Overall NLP error.......:   2.8391395417937261e-09    2.8391395417937261e-09
-
-
-Number of objective function evaluations             = 7
-Number of objective gradient evaluations             = 7
-Number of equality constraint evaluations            = 7
-Number of inequality constraint evaluations          = 7
-Number of equality constraint Jacobian evaluations   = 7
-Number of inequality constraint Jacobian evaluations = 7
-Number of Lagrangian Hessian evaluations             = 6
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.001
-Total CPU secs in NLP function evaluations           =      0.000
-
-EXIT: Optimal Solution Found.
-This is Ipopt version 3.12.1, running with linear solver mumps.
-NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
-
-Number of nonzeros in equality constraint Jacobian...:        6
-Number of nonzeros in inequality constraint Jacobian.:        4
-Number of nonzeros in Lagrangian Hessian.............:        3
-
-Total number of variables............................:        5
-                     variables with only lower bounds:        1
-                variables with lower and upper bounds:        0
-                     variables with only upper bounds:        0
-Total number of equality constraints.................:        4
-Total number of inequality constraints...............:        2
-        inequality constraints with only lower bounds:        0
-   inequality constraints with lower and upper bounds:        0
-        inequality constraints with only upper bounds:        2
-
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-   0 -9.0000000e+00 0.00e+00 4.95e-02  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
-   1 -9.0000000e+00 5.99e-03 7.50e-01  -1.0 9.65e-02    -  9.99e-01 9.23e-01h  1
-   2 -9.0000000e+00 3.21e-04 8.57e+00  -1.7 1.36e-02    -  1.00e+00 5.57e-01h  1
-   3 -9.0000000e+00 1.23e-03 2.11e+01  -1.7 7.90e-03    -  1.00e+00 5.83e-01h  1
-   4 -9.0000000e+00 5.49e-05 5.04e+01  -1.7 2.56e-03    -  1.00e+00 5.87e-01h  1
-   5 -9.0000000e+00 2.10e-04 1.22e+02  -1.7 1.35e-03    -  1.00e+00 5.86e-01h  1
-   6 -9.0000000e+00 9.42e-06 2.94e+02  -1.7 4.39e-04    -  1.00e+00 5.86e-01h  1
-   7 -9.0000000e+00 3.60e-05 7.09e+02  -1.7 2.32e-04    -  1.00e+00 5.86e-01h  1
-   8 -9.0000000e+00 1.39e-05 2.92e+03  -1.7 7.52e-05    -  1.00e+00 2.93e-01f  2
-   9 -9.0000000e+00 5.20e-07 1.52e+03  -1.7 2.07e-05    -  1.00e+00 8.04e-01h  1
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-  10 -9.0000000e+00 3.46e-12 1.96e+04  -1.7 1.65e-05    -  1.00e+00 2.37e-01f  2
-  11 -9.0000000e+00 5.72e-07 7.88e+03  -1.7 4.68e-06    -  1.00e+00 8.45e-01h  1
-  12 -9.0000000e+00 8.71e-08 1.31e+05  -1.7 2.01e-06    -  1.00e+00 2.41e-01f  2
-  13 -9.0000000e+00 6.32e-08 3.78e-03  -1.7 2.88e-07    -  1.00e+00 1.00e+00h  1
-  14 -9.0000000e+00 6.32e-08 1.29e+05  -8.6 1.33e-07    -  1.00e+00 3.81e-06h 19
-  15 -9.0000000e+00 0.00e+00 1.25e-03  -8.6 1.10e-07    -  1.00e+00 1.00e+00h  1
-  16 -9.0000000e+00 8.88e-16 2.15e-10  -8.6 3.29e-14    -  1.00e+00 1.00e+00h  1
-
-Number of Iterations....: 16
-
-                                   (scaled)                 (unscaled)
-Objective...............:  -9.0000000000000000e+00   -9.0000000000000000e+00
-Dual infeasibility......:   2.1505300318303000e-10    2.1505300318303000e-10
-Constraint violation....:   8.8817841970012523e-16    8.8817841970012523e-16
-Complementarity.........:   3.3800602445669285e-09    3.3800602445669285e-09
-Overall NLP error.......:   3.3800602445669285e-09    3.3800602445669285e-09
-
-
-Number of objective function evaluations             = 39
-Number of objective gradient evaluations             = 17
-Number of equality constraint evaluations            = 39
-Number of inequality constraint evaluations          = 39
-Number of equality constraint Jacobian evaluations   = 17
-Number of inequality constraint Jacobian evaluations = 17
-Number of Lagrangian Hessian evaluations             = 16
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.008
-Total CPU secs in NLP function evaluations           =      0.002
-
-EXIT: Optimal Solution Found.
-  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP
-This is Ipopt version 3.12.1, running with linear solver mumps.
-NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
-
-Number of nonzeros in equality constraint Jacobian...:        8
-Number of nonzeros in inequality constraint Jacobian.:        5
-Number of nonzeros in Lagrangian Hessian.............:        3
-
-Total number of variables............................:        6
-                     variables with only lower bounds:        1
-                variables with lower and upper bounds:        0
-                     variables with only upper bounds:        0
-Total number of equality constraints.................:        4
-Total number of inequality constraints...............:        4
-        inequality constraints with only lower bounds:        0
-   inequality constraints with lower and upper bounds:        0
-        inequality constraints with only upper bounds:        4
-
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-   0 -1.0000000e+00 2.00e+00 3.62e-01  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
-   1 -4.5660605e+00 9.00e-01 1.06e+00  -1.0 3.57e+00    -  4.83e-01 1.00e+00f  1
-   2 -8.3321668e+00 9.38e-01 4.33e-01  -1.0 3.77e+00    -  1.00e+00 1.00e+00f  1
-   3 -1.0375165e+01 5.86e-01 1.93e-01  -1.7 5.51e+00    -  5.39e-01 7.58e-01f  1
-   4 -9.0158375e+00 1.38e-02 2.55e-02  -1.7 1.36e+00    -  9.81e-01 1.00e+00h  1
-   5 -9.0004766e+00 4.81e-04 9.56e-04  -3.8 3.63e-02    -  1.00e+00 9.82e-01h  1
-   6 -8.9999964e+00 8.88e-16 1.10e-07  -5.7 1.45e-03    -  1.00e+00 1.00e+00h  1
-   7 -9.0000001e+00 0.00e+00 2.53e-14  -8.6 3.94e-06    -  1.00e+00 1.00e+00h  1
-
-Number of Iterations....: 7
-
-                                   (scaled)                 (unscaled)
-Objective...............:  -9.0000000649878267e+00   -9.0000000649878267e+00
-Dual infeasibility......:   2.5313084961453569e-14    2.5313084961453569e-14
-Constraint violation....:   0.0000000000000000e+00    0.0000000000000000e+00
-Complementarity.........:   2.5066908490201525e-09    2.5066908490201525e-09
-Overall NLP error.......:   2.5066908490201525e-09    2.5066908490201525e-09
-
-
-Number of objective function evaluations             = 8
-Number of objective gradient evaluations             = 8
-Number of equality constraint evaluations            = 8
-Number of inequality constraint evaluations          = 8
-Number of equality constraint Jacobian evaluations   = 8
-Number of inequality constraint Jacobian evaluations = 8
-Number of Lagrangian Hessian evaluations             = 7
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.002
-Total CPU secs in NLP function evaluations           =      0.000
-
-EXIT: Optimal Solution Found.
-This is Ipopt version 3.12.1, running with linear solver mumps.
-NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
-
-Number of nonzeros in equality constraint Jacobian...:        9
-Number of nonzeros in inequality constraint Jacobian.:        4
-Number of nonzeros in Lagrangian Hessian.............:        3
-
-Total number of variables............................:        7
-                     variables with only lower bounds:        3
-                variables with lower and upper bounds:        0
-                     variables with only upper bounds:        0
-Total number of equality constraints.................:        5
-Total number of inequality constraints...............:        2
-        inequality constraints with only lower bounds:        0
-   inequality constraints with lower and upper bounds:        0
-        inequality constraints with only upper bounds:        2
-
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-   0  9.9999900e-03 1.00e-02 7.19e-01  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
-   1  1.2010915e-01 1.78e-15 1.02e+00  -1.0 1.50e-01    -  4.92e-01 1.00e+00f  1
-   2  2.0312331e-01 8.88e-16 1.10e-02  -1.0 1.23e-01    -  1.00e+00 1.00e+00f  1
-   3  3.3765430e-02 1.78e-15 4.92e-03  -2.5 1.93e-01    -  1.00e+00 8.80e-01f  1
-   4  6.1016069e-04 1.78e-15 1.06e-04  -3.8 1.64e-01    -  1.00e+00 1.00e+00f  1
-   5  4.6519776e-06 2.79e-07 1.16e-06  -5.7 1.90e-03    -  1.00e+00 1.00e+00h  1
-   6 -6.3780240e-09 1.78e-15 8.62e-11  -8.6 2.47e-05    -  1.00e+00 1.00e+00h  1
-
-Number of Iterations....: 6
-
-                                   (scaled)                 (unscaled)
-Objective...............:  -6.3780239613655173e-09   -6.3780239613655173e-09
-Dual infeasibility......:   8.6192636361559494e-11    8.6192636361559494e-11
-Constraint violation....:   1.7763568394002505e-15    1.7763568394002505e-15
-Complementarity.........:   2.8391395428240432e-09    2.8391395428240432e-09
-Overall NLP error.......:   2.8391395428240432e-09    2.8391395428240432e-09
-
-
-Number of objective function evaluations             = 7
-Number of objective gradient evaluations             = 7
-Number of equality constraint evaluations            = 7
-Number of inequality constraint evaluations          = 7
-Number of equality constraint Jacobian evaluations   = 7
-Number of inequality constraint Jacobian evaluations = 7
-Number of Lagrangian Hessian evaluations             = 6
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.003
-Total CPU secs in NLP function evaluations           =      0.000
-
-EXIT: Optimal Solution Found.
-This is Ipopt version 3.12.1, running with linear solver mumps.
-NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
-
-Number of nonzeros in equality constraint Jacobian...:        6
-Number of nonzeros in inequality constraint Jacobian.:        4
-Number of nonzeros in Lagrangian Hessian.............:        3
-
-Total number of variables............................:        5
-                     variables with only lower bounds:        1
-                variables with lower and upper bounds:        0
-                     variables with only upper bounds:        0
-Total number of equality constraints.................:        4
-Total number of inequality constraints...............:        2
-        inequality constraints with only lower bounds:        0
-   inequality constraints with lower and upper bounds:        0
-        inequality constraints with only upper bounds:        2
-
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-   0 -9.0000000e+00 0.00e+00 4.95e-02  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
-   1 -9.0000000e+00 5.99e-03 7.50e-01  -1.0 9.65e-02    -  9.99e-01 9.23e-01h  1
-   2 -9.0000000e+00 3.21e-04 8.57e+00  -1.7 1.36e-02    -  1.00e+00 5.57e-01h  1
-   3 -9.0000000e+00 1.23e-03 2.11e+01  -1.7 7.90e-03    -  1.00e+00 5.83e-01h  1
-   4 -9.0000000e+00 5.49e-05 5.04e+01  -1.7 2.56e-03    -  1.00e+00 5.87e-01h  1
-   5 -9.0000000e+00 2.10e-04 1.22e+02  -1.7 1.35e-03    -  1.00e+00 5.86e-01h  1
-   6 -9.0000000e+00 9.42e-06 2.94e+02  -1.7 4.39e-04    -  1.00e+00 5.86e-01h  1
-   7 -9.0000000e+00 3.60e-05 7.09e+02  -1.7 2.32e-04    -  1.00e+00 5.86e-01h  1
-   8 -9.0000000e+00 1.39e-05 2.92e+03  -1.7 7.52e-05    -  1.00e+00 2.93e-01f  2
-   9 -9.0000000e+00 5.20e-07 1.52e+03  -1.7 2.07e-05    -  1.00e+00 8.04e-01h  1
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-  10 -9.0000000e+00 3.46e-12 1.96e+04  -1.7 1.65e-05    -  1.00e+00 2.37e-01f  2
-  11 -9.0000000e+00 5.72e-07 7.88e+03  -1.7 4.68e-06    -  1.00e+00 8.45e-01h  1
-  12 -9.0000000e+00 8.71e-08 1.31e+05  -1.7 2.01e-06    -  1.00e+00 2.41e-01f  2
-  13 -9.0000000e+00 6.32e-08 3.78e-03  -1.7 2.88e-07    -  1.00e+00 1.00e+00h  1
-  14 -9.0000000e+00 6.32e-08 1.29e+05  -8.6 1.33e-07    -  1.00e+00 3.81e-06h 19
-  15 -9.0000000e+00 0.00e+00 1.25e-03  -8.6 1.10e-07    -  1.00e+00 1.00e+00h  1
-  16 -9.0000000e+00 8.88e-16 2.15e-10  -8.6 3.29e-14    -  1.00e+00 1.00e+00h  1
-
-Number of Iterations....: 16
-
-                                   (scaled)                 (unscaled)
-Objective...............:  -9.0000000000000000e+00   -9.0000000000000000e+00
-Dual infeasibility......:   2.1505300318303000e-10    2.1505300318303000e-10
-Constraint violation....:   8.8817841970012523e-16    8.8817841970012523e-16
-Complementarity.........:   3.3800602445669285e-09    3.3800602445669285e-09
-Overall NLP error.......:   3.3800602445669285e-09    3.3800602445669285e-09
-
-
-Number of objective function evaluations             = 39
-Number of objective gradient evaluations             = 17
-Number of equality constraint evaluations            = 39
-Number of inequality constraint evaluations          = 39
-Number of equality constraint Jacobian evaluations   = 17
-Number of inequality constraint Jacobian evaluations = 17
-Number of Lagrangian Hessian evaluations             = 16
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.020
-Total CPU secs in NLP function evaluations           =      0.001
-
-EXIT: Optimal Solution Found.
-2 facts verified.
-Infeasible Conic problem
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and ECOS.ECOSSolver
-WARNING: Initial Conic Relaxation Infeasible.
-WARNING: Problem status Infeasible; solution may be inaccurate.
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and Ipopt.IpoptSolver
-WARNING: Initial Conic Relaxation Infeasible.
-WARNING: Problem status Infeasible; solution may be inaccurate.
-  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
-WARNING: Initial Conic Relaxation Infeasible.
-WARNING: Problem status Infeasible; solution may be inaccurate.
-  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
-WARNING: Initial Conic Relaxation Infeasible.
-WARNING: Problem status Infeasible; solution may be inaccurate.
-4 facts verified.
-Univariate maximization problem
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and ECOS.ECOSSolver
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and Ipopt.IpoptSolver
-  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
-  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
-4 facts verified.
-Continuous problem
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and ECOS.ECOSSolver
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and Ipopt.IpoptSolver
-  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
-  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
-4 facts verified.
-Maximization problem
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and ECOS.ECOSSolver
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and Ipopt.IpoptSolver
-  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
-  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
-4 facts verified.
+Convex constraint with LB and UB test
+1 fact verified.
+Infeasible NLP problem
+WARNING: Initial NLP Relaxation Infeasible.
+WARNING: Not solved to optimality, status: Infeasible
+1 fact verified.
+Infeasible MIP problem
+WARNING: Initial NLP Relaxation Infeasible.
+WARNING: Not solved to optimality, status: Infeasible
+1 fact verified.
 Solver test
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and ECOS.ECOSSolver
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and Ipopt.IpoptSolver
-  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
   > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
-8 facts verified.
-Turn on SOC disaggregator test
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and ECOS.ECOSSolver
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and Ipopt.IpoptSolver
-  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
+WARNING: Solver does not appear to support providing initial feasible solutions.
+2 facts verified.
+Optimal solution with nonlinear objective test
   > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
-12 facts verified.
-Turn off SOC disaggregator test
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and ECOS.ECOSSolver
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and Ipopt.IpoptSolver
-  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
+2 facts verified.
+No integer variables test
   > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
-8 facts verified.
-Solver test 2
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and ECOS.ECOSSolver
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and Ipopt.IpoptSolver
-  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
+1 fact verified.
+Maximization problem
   > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
-8 facts verified.
-Print test
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and ECOS.ECOSSolver
-
-Pajarito started...
-
-MICONE algorithm OA is chosen.
-MICONE has 11 variables, 13 linear constraints, 2 nonlinear cones.
-Initial objective =      -8.26928.
-
-Iteration   MIP Objective   Conic Objective   Optimality Gap   Best Solution    Primal Inf.      OA Inf.
-        0   -7.6106266e+00   -7.6094378e+00   +1.1887716e-03   -7.6094378e+00   +2.2491963e-02   +1.1886752e-03
-        1   -7.6094379e+00   -7.6094378e+00   +9.6327040e-08   -7.6094378e+00   -7.2511829e-08   +0.0000000e+00
-
-Pajarito finished...
-
-Status            =       Optimal.
-Optimum objective =      -7.60944.
-Iterations        =             1.
-Total time        =       0.01229 sec.
-MIP total time    =       0.00550 sec.
-CONE total time   =       0.00066 sec.
-
-Profiler:
-Preparing Conic subproblem   =       0.00055 sec.
- - Preprocess out integers   =       0.00009 sec.
- - Redundant row elimination =       0.00008 sec.
-
- - Subproblem load time      =       0.00041 sec.
-  > With OA, Cbc.CbcMathProgSolverInterface.CbcSolver and Ipopt.IpoptSolver
-
-Pajarito started...
-
-MICONE algorithm OA is chosen.
-MICONE has 11 variables, 13 linear constraints, 2 nonlinear cones.
-Initial objective =      -8.26928.
-
-Iteration   MIP Objective   Conic Objective   Optimality Gap   Best Solution    Primal Inf.      OA Inf.
-        0   -7.6106266e+00   -7.6094379e+00   +1.1886418e-03   -7.6094379e+00   +2.2491331e-02   +5.9432440e-03
-        1   -7.6094379e+00   -7.6094379e+00   -6.9923054e-09   -7.6094379e+00   +1.7327399e-02   +0.0000000e+00
-
-Pajarito finished...
-
-Status            =       Optimal.
-Optimum objective =      -7.60944.
-Iterations        =             1.
-Total time        =       0.04328 sec.
-MIP total time    =       0.00489 sec.
-CONE total time   =       0.02981 sec.
-
-Profiler:
-Preparing Conic subproblem   =       0.00200 sec.
- - Preprocess out integers   =       0.00015 sec.
- - Redundant row elimination =       0.00014 sec.
-
- - Subproblem load time      =       0.00141 sec.
-  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
-
-Pajarito started...
-
-MICONE algorithm OA is chosen.
-MICONE has 11 variables, 13 linear constraints, 2 nonlinear cones.
-Initial objective =      -8.26928.
-
-Iteration   MIP Objective   Conic Objective   Optimality Gap   Best Solution    Primal Inf.      OA Inf.
-        0   -7.6106266e+00   -7.6094378e+00   +1.1887716e-03   -7.6094378e+00   +5.9468373e-03   +1.1886752e-03
-        1   -7.6094379e+00   -7.6094378e+00   +9.6327040e-08   -7.6094378e+00   -7.2511829e-08   +0.0000000e+00
-
-Pajarito finished...
-
-Status            =       Optimal.
-Optimum objective =      -7.60944.
-Iterations        =             1.
-Total time        =       0.00917 sec.
-MIP total time    =       0.00119 sec.
-CONE total time   =       0.00060 sec.
-
-Profiler:
-Preparing Conic subproblem   =       0.00040 sec.
- - Preprocess out integers   =       0.00005 sec.
- - Redundant row elimination =       0.00006 sec.
-
- - Subproblem load time      =       0.00057 sec.
+WARNING: Mixed-integer cycling detected, terminating Pajarito...
+WARNING: Not solved to optimality, status: Suboptimal
+1 fact verified.
+Maximization problem with nonlinear function
   > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
-
-Pajarito started...
-
-MICONE algorithm OA is chosen.
-MICONE has 11 variables, 13 linear constraints, 2 nonlinear cones.
-Initial objective =      -8.26928.
-
-Iteration   MIP Objective   Conic Objective   Optimality Gap   Best Solution    Primal Inf.      OA Inf.
-        0   -7.6106266e+00   -7.6094379e+00   +1.1886418e-03   -7.6094379e+00   +5.9467776e-03   +5.9432440e-03
-        1   -7.6094379e+00   -7.6094379e+00   -6.9923107e-09   -7.6094379e+00   -1.7763568e-15   +0.0000000e+00
-
-Pajarito finished...
-
-Status            =       Optimal.
-Optimum objective =      -7.60944.
-Iterations        =             1.
-Total time        =       0.04590 sec.
-MIP total time    =       0.00076 sec.
-CONE total time   =       0.03284 sec.
-
-Profiler:
-Preparing Conic subproblem   =       0.00199 sec.
- - Preprocess out integers   =       0.00015 sec.
- - Redundant row elimination =       0.00015 sec.
-
- - Subproblem load time      =       0.00138 sec.
-4 facts verified.
+1 fact verified.
 Default solvers test
-This is Ipopt version 3.12.1, running with linear solver mumps.
-NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
-
-Number of nonzeros in equality constraint Jacobian...:        8
-Number of nonzeros in inequality constraint Jacobian.:        5
-Number of nonzeros in Lagrangian Hessian.............:        3
-
-Total number of variables............................:        6
-                     variables with only lower bounds:        1
-                variables with lower and upper bounds:        0
-                     variables with only upper bounds:        0
-Total number of equality constraints.................:        4
-Total number of inequality constraints...............:        4
-        inequality constraints with only lower bounds:        0
-   inequality constraints with lower and upper bounds:        0
-        inequality constraints with only upper bounds:        4
-
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-   0 -1.0000000e+00 2.00e+00 3.62e-01  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
-   1 -4.5660605e+00 9.00e-01 1.06e+00  -1.0 3.57e+00    -  4.83e-01 1.00e+00f  1
-   2 -8.3321668e+00 9.38e-01 4.33e-01  -1.0 3.77e+00    -  1.00e+00 1.00e+00f  1
-   3 -1.0375165e+01 5.86e-01 1.93e-01  -1.7 5.51e+00    -  5.39e-01 7.58e-01f  1
-   4 -9.0158375e+00 1.38e-02 2.55e-02  -1.7 1.36e+00    -  9.81e-01 1.00e+00h  1
-   5 -9.0004766e+00 4.81e-04 9.56e-04  -3.8 3.63e-02    -  1.00e+00 9.82e-01h  1
-   6 -8.9999964e+00 8.88e-16 1.10e-07  -5.7 1.45e-03    -  1.00e+00 1.00e+00h  1
-   7 -9.0000001e+00 0.00e+00 2.53e-14  -8.6 3.94e-06    -  1.00e+00 1.00e+00h  1
-
-Number of Iterations....: 7
-
-                                   (scaled)                 (unscaled)
-Objective...............:  -9.0000000649878267e+00   -9.0000000649878267e+00
-Dual infeasibility......:   2.5313084961453569e-14    2.5313084961453569e-14
-Constraint violation....:   0.0000000000000000e+00    0.0000000000000000e+00
-Complementarity.........:   2.5066908490201525e-09    2.5066908490201525e-09
-Overall NLP error.......:   2.5066908490201525e-09    2.5066908490201525e-09
+  > With OA, defaulting to MathProgBase.DefaultMIPSolver and MathProgBase.DefaultConicSolver
 
 
-Number of objective function evaluations             = 8
-Number of objective gradient evaluations             = 8
-Number of equality constraint evaluations            = 8
-Number of inequality constraint evaluations          = 8
-Number of equality constraint Jacobian evaluations   = 8
-Number of inequality constraint Jacobian evaluations = 8
-Number of Lagrangian Hessian evaluations             = 7
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.000
-Total CPU secs in NLP function evaluations           =      0.000
 
-EXIT: Optimal Solution Found.
-This is Ipopt version 3.12.1, running with linear solver mumps.
-NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
+ECOS 2.0.5 - (C) embotech GmbH, Zurich Switzerland, 2012-15. Web: www.embotech.com/ECOS
 
-Number of nonzeros in equality constraint Jacobian...:        9
-Number of nonzeros in inequality constraint Jacobian.:        4
-Number of nonzeros in Lagrangian Hessian.............:        3
+It     pcost       dcost      gap   pres   dres    k/t    mu     step   sigma     IR    |   BT
+ 0  -2.456e+01  -6.950e+01  +5e+01  2e-01  2e-01  1e+00  1e+01    ---    ---    1  1  - |  -  - 
+ 1  +1.904e-01  -4.431e+01  +3e+01  3e-01  2e-01  7e+00  5e+00  0.7226  3e-01   1  1  1 |  0  0
+ 2  -1.050e+01  -1.538e+01  +6e+00  4e-02  4e-02  4e+00  2e+00  0.7656  1e-01   1  1  1 |  0  0
+ 3  -9.911e+00  -1.087e+01  +1e+00  8e-03  7e-03  7e-01  4e-01  0.7903  7e-03   1  1  1 |  0  0
+ 4  -9.401e+00  -1.032e+01  +1e+00  8e-03  6e-03  7e-01  3e-01  0.4019  6e-01   1  1  1 |  0  0
+ 5  -9.038e+00  -9.083e+00  +5e-02  3e-04  2e-04  3e-02  1e-02  0.9560  1e-03   1  1  1 |  0  0
+ 6  -9.001e+00  -9.008e+00  +7e-03  4e-05  3e-05  2e-03  2e-03  0.9774  1e-01   1  1  1 |  0  0
+ 7  -9.000e+00  -9.001e+00  +4e-04  2e-06  2e-06  1e-04  1e-04  0.9428  3e-04   1  1  1 |  0  0
+ 8  -9.000e+00  -9.000e+00  +3e-05  2e-07  1e-07  9e-06  7e-06  0.9890  6e-02   1  1  1 |  0  0
+ 9  -9.000e+00  -9.000e+00  +4e-07  2e-09  2e-09  1e-07  9e-08  0.9869  1e-04   1  1  1 |  0  0
+10  -9.000e+00  -9.000e+00  +1e-08  7e-11  5e-11  4e-09  3e-09  0.9659  1e-04   1  1  1 |  0  0
 
-Total number of variables............................:        7
-                     variables with only lower bounds:        3
-                variables with lower and upper bounds:        0
-                     variables with only upper bounds:        0
-Total number of equality constraints.................:        5
-Total number of inequality constraints...............:        2
-        inequality constraints with only lower bounds:        0
-   inequality constraints with lower and upper bounds:        0
-        inequality constraints with only upper bounds:        2
+OPTIMAL (within feastol=7.4e-11, reltol=1.4e-09, abstol=1.3e-08).
+Runtime: 0.000177 seconds.
 
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-   0  9.9999900e-03 1.00e-02 7.19e-01  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
-   1  1.2010915e-01 0.00e+00 1.02e+00  -1.0 1.50e-01    -  4.92e-01 1.00e+00f  1
-   2  2.0312331e-01 0.00e+00 1.10e-02  -1.0 1.23e-01    -  1.00e+00 1.00e+00f  1
-   3  3.3765430e-02 0.00e+00 4.92e-03  -2.5 1.93e-01    -  1.00e+00 8.80e-01f  1
-   4  6.1016069e-04 1.78e-15 1.06e-04  -3.8 1.64e-01    -  1.00e+00 1.00e+00f  1
-   5  4.6519776e-06 2.79e-07 1.16e-06  -5.7 1.90e-03    -  1.00e+00 1.00e+00h  1
-   6 -6.3780240e-09 1.78e-15 8.62e-11  -8.6 2.47e-05    -  1.00e+00 1.00e+00h  1
-
-Number of Iterations....: 6
-
-                                   (scaled)                 (unscaled)
-Objective...............:  -6.3780239626809595e-09   -6.3780239626809595e-09
-Dual infeasibility......:   8.6192636361559494e-11    8.6192636361559494e-11
-Constraint violation....:   1.7763568394002505e-15    1.7763568394002505e-15
-Complementarity.........:   2.8391395417937261e-09    2.8391395417937261e-09
-Overall NLP error.......:   2.8391395417937261e-09    2.8391395417937261e-09
-
-
-Number of objective function evaluations             = 7
-Number of objective gradient evaluations             = 7
-Number of equality constraint evaluations            = 7
-Number of inequality constraint evaluations          = 7
-Number of equality constraint Jacobian evaluations   = 7
-Number of inequality constraint Jacobian evaluations = 7
-Number of Lagrangian Hessian evaluations             = 6
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.002
-Total CPU secs in NLP function evaluations           =      0.000
-
-EXIT: Optimal Solution Found.
-This is Ipopt version 3.12.1, running with linear solver mumps.
-NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
-
-Number of nonzeros in equality constraint Jacobian...:        6
-Number of nonzeros in inequality constraint Jacobian.:        4
-Number of nonzeros in Lagrangian Hessian.............:        3
-
-Total number of variables............................:        5
-                     variables with only lower bounds:        1
-                variables with lower and upper bounds:        0
-                     variables with only upper bounds:        0
-Total number of equality constraints.................:        4
-Total number of inequality constraints...............:        2
-        inequality constraints with only lower bounds:        0
-   inequality constraints with lower and upper bounds:        0
-        inequality constraints with only upper bounds:        2
-
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-   0 -9.0000000e+00 0.00e+00 4.95e-02  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
-   1 -9.0000000e+00 5.99e-03 7.50e-01  -1.0 9.65e-02    -  9.99e-01 9.23e-01h  1
-   2 -9.0000000e+00 3.21e-04 8.57e+00  -1.7 1.36e-02    -  1.00e+00 5.57e-01h  1
-   3 -9.0000000e+00 1.23e-03 2.11e+01  -1.7 7.90e-03    -  1.00e+00 5.83e-01h  1
-   4 -9.0000000e+00 5.49e-05 5.04e+01  -1.7 2.56e-03    -  1.00e+00 5.87e-01h  1
-   5 -9.0000000e+00 2.10e-04 1.22e+02  -1.7 1.35e-03    -  1.00e+00 5.86e-01h  1
-   6 -9.0000000e+00 9.42e-06 2.94e+02  -1.7 4.39e-04    -  1.00e+00 5.86e-01h  1
-   7 -9.0000000e+00 3.60e-05 7.09e+02  -1.7 2.32e-04    -  1.00e+00 5.86e-01h  1
-   8 -9.0000000e+00 1.39e-05 2.92e+03  -1.7 7.52e-05    -  1.00e+00 2.93e-01f  2
-   9 -9.0000000e+00 5.20e-07 1.52e+03  -1.7 2.07e-05    -  1.00e+00 8.04e-01h  1
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-  10 -9.0000000e+00 3.46e-12 1.96e+04  -1.7 1.65e-05    -  1.00e+00 2.37e-01f  2
-  11 -9.0000000e+00 5.72e-07 7.88e+03  -1.7 4.68e-06    -  1.00e+00 8.45e-01h  1
-  12 -9.0000000e+00 8.71e-08 1.31e+05  -1.7 2.01e-06    -  1.00e+00 2.41e-01f  2
-  13 -9.0000000e+00 6.32e-08 3.78e-03  -1.7 2.88e-07    -  1.00e+00 1.00e+00h  1
-  14 -9.0000000e+00 6.32e-08 1.29e+05  -8.6 1.33e-07    -  1.00e+00 3.81e-06h 19
-  15 -9.0000000e+00 0.00e+00 1.25e-03  -8.6 1.10e-07    -  1.00e+00 1.00e+00h  1
-  16 -9.0000000e+00 8.88e-16 2.15e-10  -8.6 3.29e-14    -  1.00e+00 1.00e+00h  1
-
-Number of Iterations....: 16
-
-                                   (scaled)                 (unscaled)
-Objective...............:  -9.0000000000000000e+00   -9.0000000000000000e+00
-Dual infeasibility......:   2.1505300318303000e-10    2.1505300318303000e-10
-Constraint violation....:   8.8817841970012523e-16    8.8817841970012523e-16
-Complementarity.........:   3.3800602445669285e-09    3.3800602445669285e-09
-Overall NLP error.......:   3.3800602445669285e-09    3.3800602445669285e-09
-
-
-Number of objective function evaluations             = 39
-Number of objective gradient evaluations             = 17
-Number of equality constraint evaluations            = 39
-Number of inequality constraint evaluations          = 39
-Number of equality constraint Jacobian evaluations   = 17
-Number of inequality constraint Jacobian evaluations = 17
-Number of Lagrangian Hessian evaluations             = 16
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.000
-Total CPU secs in NLP function evaluations           =      0.000
-
-EXIT: Optimal Solution Found.
-1 fact verified.
-Default MIP solver test
-  > With BC, ECOS.ECOSSolver
-  > With BC, Ipopt.IpoptSolver
+WARNING: Ignoring partial starting solution. Cbc requires a feasible value to be specified for all variables.
+WARNING: Solver does not appear to support adding constraints to an existing model. Hot-start is disabled.
 2 facts verified.
-Default DCP solver test
-  > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP
-This is Ipopt version 3.12.1, running with linear solver mumps.
-NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
-
-Number of nonzeros in equality constraint Jacobian...:        8
-Number of nonzeros in inequality constraint Jacobian.:        5
-Number of nonzeros in Lagrangian Hessian.............:        3
-
-Total number of variables............................:        6
-                     variables with only lower bounds:        1
-                variables with lower and upper bounds:        0
-                     variables with only upper bounds:        0
-Total number of equality constraints.................:        4
-Total number of inequality constraints...............:        4
-        inequality constraints with only lower bounds:        0
-   inequality constraints with lower and upper bounds:        0
-        inequality constraints with only upper bounds:        4
-
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-   0 -1.0000000e+00 2.00e+00 3.62e-01  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
-   1 -4.5660605e+00 9.00e-01 1.06e+00  -1.0 3.57e+00    -  4.83e-01 1.00e+00f  1
-   2 -8.3321668e+00 9.38e-01 4.33e-01  -1.0 3.77e+00    -  1.00e+00 1.00e+00f  1
-   3 -1.0375165e+01 5.86e-01 1.93e-01  -1.7 5.51e+00    -  5.39e-01 7.58e-01f  1
-   4 -9.0158375e+00 1.38e-02 2.55e-02  -1.7 1.36e+00    -  9.81e-01 1.00e+00h  1
-   5 -9.0004766e+00 4.81e-04 9.56e-04  -3.8 3.63e-02    -  1.00e+00 9.82e-01h  1
-   6 -8.9999964e+00 8.88e-16 1.10e-07  -5.7 1.45e-03    -  1.00e+00 1.00e+00h  1
-   7 -9.0000001e+00 0.00e+00 2.53e-14  -8.6 3.94e-06    -  1.00e+00 1.00e+00h  1
-
-Number of Iterations....: 7
-
-                                   (scaled)                 (unscaled)
-Objective...............:  -9.0000000649878267e+00   -9.0000000649878267e+00
-Dual infeasibility......:   2.5313084961453569e-14    2.5313084961453569e-14
-Constraint violation....:   0.0000000000000000e+00    0.0000000000000000e+00
-Complementarity.........:   2.5066908490201525e-09    2.5066908490201525e-09
-Overall NLP error.......:   2.5066908490201525e-09    2.5066908490201525e-09
-
-
-Number of objective function evaluations             = 8
-Number of objective gradient evaluations             = 8
-Number of equality constraint evaluations            = 8
-Number of inequality constraint evaluations          = 8
-Number of equality constraint Jacobian evaluations   = 8
-Number of inequality constraint Jacobian evaluations = 8
-Number of Lagrangian Hessian evaluations             = 7
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.003
-Total CPU secs in NLP function evaluations           =      0.001
-
-EXIT: Optimal Solution Found.
-This is Ipopt version 3.12.1, running with linear solver mumps.
-NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
-
-Number of nonzeros in equality constraint Jacobian...:        9
-Number of nonzeros in inequality constraint Jacobian.:        4
-Number of nonzeros in Lagrangian Hessian.............:        3
-
-Total number of variables............................:        7
-                     variables with only lower bounds:        3
-                variables with lower and upper bounds:        0
-                     variables with only upper bounds:        0
-Total number of equality constraints.................:        5
-Total number of inequality constraints...............:        2
-        inequality constraints with only lower bounds:        0
-   inequality constraints with lower and upper bounds:        0
-        inequality constraints with only upper bounds:        2
-
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-   0  9.9999900e-03 1.00e-02 7.19e-01  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
-   1  1.2010915e-01 1.78e-15 1.02e+00  -1.0 1.50e-01    -  4.92e-01 1.00e+00f  1
-   2  2.0312331e-01 8.88e-16 1.10e-02  -1.0 1.23e-01    -  1.00e+00 1.00e+00f  1
-   3  3.3765430e-02 1.78e-15 4.92e-03  -2.5 1.93e-01    -  1.00e+00 8.80e-01f  1
-   4  6.1016069e-04 1.78e-15 1.06e-04  -3.8 1.64e-01    -  1.00e+00 1.00e+00f  1
-   5  4.6519776e-06 2.79e-07 1.16e-06  -5.7 1.90e-03    -  1.00e+00 1.00e+00h  1
-   6 -6.3780240e-09 1.78e-15 8.62e-11  -8.6 2.47e-05    -  1.00e+00 1.00e+00h  1
-
-Number of Iterations....: 6
-
-                                   (scaled)                 (unscaled)
-Objective...............:  -6.3780239613655173e-09   -6.3780239613655173e-09
-Dual infeasibility......:   8.6192636361559494e-11    8.6192636361559494e-11
-Constraint violation....:   1.7763568394002505e-15    1.7763568394002505e-15
-Complementarity.........:   2.8391395428240432e-09    2.8391395428240432e-09
-Overall NLP error.......:   2.8391395428240432e-09    2.8391395428240432e-09
-
-
-Number of objective function evaluations             = 7
-Number of objective gradient evaluations             = 7
-Number of equality constraint evaluations            = 7
-Number of inequality constraint evaluations          = 7
-Number of equality constraint Jacobian evaluations   = 7
-Number of inequality constraint Jacobian evaluations = 7
-Number of Lagrangian Hessian evaluations             = 6
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.003
-Total CPU secs in NLP function evaluations           =      0.000
-
-EXIT: Optimal Solution Found.
-This is Ipopt version 3.12.1, running with linear solver mumps.
-NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
-
-Number of nonzeros in equality constraint Jacobian...:        6
-Number of nonzeros in inequality constraint Jacobian.:        4
-Number of nonzeros in Lagrangian Hessian.............:        3
-
-Total number of variables............................:        5
-                     variables with only lower bounds:        1
-                variables with lower and upper bounds:        0
-                     variables with only upper bounds:        0
-Total number of equality constraints.................:        4
-Total number of inequality constraints...............:        2
-        inequality constraints with only lower bounds:        0
-   inequality constraints with lower and upper bounds:        0
-        inequality constraints with only upper bounds:        2
-
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-   0 -9.0000000e+00 0.00e+00 4.95e-02  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
-   1 -9.0000000e+00 5.99e-03 7.50e-01  -1.0 9.65e-02    -  9.99e-01 9.23e-01h  1
-   2 -9.0000000e+00 3.21e-04 8.57e+00  -1.7 1.36e-02    -  1.00e+00 5.57e-01h  1
-   3 -9.0000000e+00 1.23e-03 2.11e+01  -1.7 7.90e-03    -  1.00e+00 5.83e-01h  1
-   4 -9.0000000e+00 5.49e-05 5.04e+01  -1.7 2.56e-03    -  1.00e+00 5.87e-01h  1
-   5 -9.0000000e+00 2.10e-04 1.22e+02  -1.7 1.35e-03    -  1.00e+00 5.86e-01h  1
-   6 -9.0000000e+00 9.42e-06 2.94e+02  -1.7 4.39e-04    -  1.00e+00 5.86e-01h  1
-   7 -9.0000000e+00 3.60e-05 7.09e+02  -1.7 2.32e-04    -  1.00e+00 5.86e-01h  1
-   8 -9.0000000e+00 1.39e-05 2.92e+03  -1.7 7.52e-05    -  1.00e+00 2.93e-01f  2
-   9 -9.0000000e+00 5.20e-07 1.52e+03  -1.7 2.07e-05    -  1.00e+00 8.04e-01h  1
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-  10 -9.0000000e+00 3.46e-12 1.96e+04  -1.7 1.65e-05    -  1.00e+00 2.37e-01f  2
-  11 -9.0000000e+00 5.72e-07 7.88e+03  -1.7 4.68e-06    -  1.00e+00 8.45e-01h  1
-  12 -9.0000000e+00 8.71e-08 1.31e+05  -1.7 2.01e-06    -  1.00e+00 2.41e-01f  2
-  13 -9.0000000e+00 6.32e-08 3.78e-03  -1.7 2.88e-07    -  1.00e+00 1.00e+00h  1
-  14 -9.0000000e+00 6.32e-08 1.29e+05  -8.6 1.33e-07    -  1.00e+00 3.81e-06h 19
-  15 -9.0000000e+00 0.00e+00 1.25e-03  -8.6 1.10e-07    -  1.00e+00 1.00e+00h  1
-  16 -9.0000000e+00 8.88e-16 2.15e-10  -8.6 3.29e-14    -  1.00e+00 1.00e+00h  1
-
-Number of Iterations....: 16
-
-                                   (scaled)                 (unscaled)
-Objective...............:  -9.0000000000000000e+00   -9.0000000000000000e+00
-Dual infeasibility......:   2.1505300318303000e-10    2.1505300318303000e-10
-Constraint violation....:   8.8817841970012523e-16    8.8817841970012523e-16
-Complementarity.........:   3.3800602445669285e-09    3.3800602445669285e-09
-Overall NLP error.......:   3.3800602445669285e-09    3.3800602445669285e-09
-
-
-Number of objective function evaluations             = 39
-Number of objective gradient evaluations             = 17
-Number of equality constraint evaluations            = 39
-Number of inequality constraint evaluations          = 39
-Number of equality constraint Jacobian evaluations   = 17
-Number of inequality constraint Jacobian evaluations = 17
-Number of Lagrangian Hessian evaluations             = 16
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.006
-Total CPU secs in NLP function evaluations           =      0.001
-
-EXIT: Optimal Solution Found.
-1 fact verified.
-Infeasible Conic problem
+Infeasible conic problem
   > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
-WARNING: Initial Conic Relaxation Infeasible.
+
+
+WARNING: For the MIP-solver-driven algorithm, time limit and optimality tolerance must be specified as MIP solver options, not Pajarito options
+WARNING: Initial conic relaxation status was Infeasible
 WARNING: Problem status Infeasible; solution may be inaccurate.
-  > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
-WARNING: Initial Conic Relaxation Infeasible.
-WARNING: Problem status Infeasible; solution may be inaccurate.
-2 facts verified.
+1 fact verified.
 Univariate maximization problem
   > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
-  > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
+
+
+WARNING: For the MIP-solver-driven algorithm, time limit and optimality tolerance must be specified as MIP solver options, not Pajarito options
 2 facts verified.
 Continuous problem
   > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
-  > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
-2 facts verified.
+
+
+WARNING: For the MIP-solver-driven algorithm, time limit and optimality tolerance must be specified as MIP solver options, not Pajarito options
+1 fact verified.
 Maximization problem
   > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
-  > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
+
+
+WARNING: For the MIP-solver-driven algorithm, time limit and optimality tolerance must be specified as MIP solver options, not Pajarito options
 2 facts verified.
 Solver test
   > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
-  > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
-4 facts verified.
-Turn on SOC disaggregator test
+
+
+WARNING: For the MIP-solver-driven algorithm, time limit and optimality tolerance must be specified as MIP solver options, not Pajarito options
+2 facts verified.
+No SOC disaggregation test
   > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
-  > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
-6 facts verified.
-Turn off SOC disaggregator test
-  > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
-  > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
-4 facts verified.
+
+
+WARNING: For the MIP-solver-driven algorithm, time limit and optimality tolerance must be specified as MIP solver options, not Pajarito options
+2 facts verified.
 Solver test 2
   > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
+
+
+WARNING: For the MIP-solver-driven algorithm, time limit and optimality tolerance must be specified as MIP solver options, not Pajarito options
+2 facts verified.
+Infeasible conic problem
   > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
-WARNING: setSolutionValue! is deprecated, use setsolutionvalue instead.
- in depwarn at deprecated.jl:73
- in setSolutionValue! at deprecated.jl:30
- in heuristiccallback at /home/vagrant/.julia/v0.4/Pajarito/src/conic.jl:1217
- in heurcallback at /home/vagrant/.julia/v0.4/JuMP/src/callbacks.jl:118
- in anonymous at /home/vagrant/.julia/v0.4/JuMP/src/callbacks.jl:131
- in _internal_callback at /home/vagrant/.julia/v0.4/GLPKMathProgInterface/src/GLPKInterfaceMIP.jl:143
-while loading /home/vagrant/.julia/v0.4/Pajarito/test/runtests.jl, in expression starting on line 40
-WARNING: setSolutionValue! is deprecated, use setsolutionvalue instead.
- in depwarn at deprecated.jl:73
- in setSolutionValue! at deprecated.jl:30
- in heuristiccallback at /home/vagrant/.julia/v0.4/Pajarito/src/conic.jl:1217
- in heurcallback at /home/vagrant/.julia/v0.4/JuMP/src/callbacks.jl:118
- in anonymous at /home/vagrant/.julia/v0.4/JuMP/src/callbacks.jl:131
- in _internal_callback at /home/vagrant/.julia/v0.4/GLPKMathProgInterface/src/GLPKInterfaceMIP.jl:143
-while loading /home/vagrant/.julia/v0.4/Pajarito/test/runtests.jl, in expression starting on line 40
-4 facts verified.
+
+ECOS 2.0.5 - (C) embotech GmbH, Zurich Switzerland, 2012-15. Web: www.embotech.com/ECOS
+
+It     pcost       dcost      gap   pres   dres    k/t    mu     step   sigma     IR    |   BT
+ 0  -9.000e+00  -1.855e+01  +1e+01  8e-02  1e-01  1e+00  4e+00    ---    ---    1  1  - |  -  - 
+ 1  -9.000e+00  -1.153e+01  +3e+00  2e-02  3e-02  4e-01  1e+00  0.7312  6e-02   1  1  1 |  0  0
+ 2  -9.000e+00  -1.320e+01  +2e+00  8e-02  3e-02  2e+00  7e-01  0.6961  5e-01   2  2  2 |  0  0
+ 3  -9.000e+00  -9.091e+00  +4e-02  1e-03  5e-04  2e-02  1e-02  0.9818  2e-04   1  1  1 |  0  0
+ 4  -9.000e+00  -9.009e+00  +5e-03  1e-04  5e-05  2e-04  2e-03  0.8873  7e-03   2  2  2 |  0  0
+ 5  -9.000e+00  -9.000e+00  +2e-04  2e-06  2e-06  1e-04  9e-05  0.9779  4e-02   2  2  2 |  0  0
+ 6  -9.000e+00  -9.000e+00  +1e-05  1e-07  1e-07  3e-06  6e-06  0.9403  4e-04   3  3  4 |  0  0
+ 7  -9.000e+00  -9.000e+00  +5e-07  5e-09  5e-09  3e-07  3e-07  0.9890  4e-02   4  4  4 |  0  0
+ 8  -9.000e+00  -9.000e+00  +8e-09  7e-11  7e-11  5e-09  4e-09  0.9847  1e-04   2  2  2 |  0  0
+
+OPTIMAL (within feastol=7.0e-11, reltol=8.6e-10, abstol=7.7e-09).
+Runtime: 0.000119 seconds.
+
+WARNING: Initial NLP Relaxation Infeasible.
+WARNING: Problem status Infeasible; solution may be inaccurate.
+1 fact verified.
+Univariate maximization problem
+  > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
+2 facts verified.
+Continuous problem
+  > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
+1 fact verified.
+Maximization problem
+  > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
+2 facts verified.
+Solver test
+  > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
+2 facts verified.
+No SOC disaggregation test
+  > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
+2 facts verified.
+Solver test 2
+  > With BC, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
+2 facts verified.
+Infeasible conic problem
+  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
+
+
+WARNING: Initial conic relaxation status was Infeasible
+WARNING: Problem status Infeasible; solution may be inaccurate.
+1 fact verified.
+Univariate maximization problem
+  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
+
+
+2 facts verified.
+Continuous problem
+  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
+
+
+1 fact verified.
+Maximization problem
+  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
+
+
+2 facts verified.
+Solver test
+  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
+
+
+2 facts verified.
+No SOC disaggregation test
+  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
+
+
+2 facts verified.
+Solver test 2
+  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and ECOS.ECOSSolver
+
+
+2 facts verified.
+Infeasible conic problem
+  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
+WARNING: Initial NLP Relaxation Infeasible.
+WARNING: Problem status Infeasible; solution may be inaccurate.
+1 fact verified.
+Univariate maximization problem
+  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
+2 facts verified.
+Continuous problem
+  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
+1 fact verified.
+Maximization problem
+  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
+2 facts verified.
+Solver test
+  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
+2 facts verified.
+No SOC disaggregation test
+  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
+2 facts verified.
+Solver test 2
+  > With OA, GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP and Ipopt.IpoptSolver
+2 facts verified.
 INFO: Pajarito tests passed
 INFO: Removing BinDeps v0.4.2
-INFO: Removing Cbc v0.2.2
+INFO: Removing Cbc v0.2.3
 INFO: Removing Clp v0.2.2
 INFO: Removing Convex v0.3.0
 INFO: Removing ECOS v0.6.6
 INFO: Removing FactCheck v0.4.3
-INFO: Removing GLPK v0.2.17
+INFO: Removing GLPK v0.3.0
 INFO: Removing GLPKMathProgInterface v0.2.2
 INFO: Removing Ipopt v0.2.3
 INFO: Removing SHA v0.2.0
