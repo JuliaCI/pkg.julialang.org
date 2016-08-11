@@ -9,13 +9,14 @@ INFO: Installing Distances v0.3.2
 INFO: Installing Distributions v0.10.2
 INFO: Installing HDF5 v0.6.5
 INFO: Installing Iterators v0.1.10
+INFO: Installing LegacyStrings v0.1.1
 INFO: Installing MAT v0.2.14
 INFO: Installing MLBase v0.5.3
 INFO: Installing PDMats v0.4.2
 INFO: Installing ProgressMeter v0.3.2
 INFO: Installing Reexport v0.0.3
 INFO: Installing Rmath v0.1.2
-INFO: Installing SALSA v0.0.5
+INFO: Installing SALSA v0.1.0
 INFO: Installing SHA v0.2.0
 INFO: Installing StatsBase v0.9.0
 INFO: Installing StatsFuns v0.3.0
@@ -25,8 +26,6 @@ INFO: Building Blosc
 INFO: Building Rmath
 INFO: Building HDF5
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of SALSA
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("SALSA")' log
 Julia Version 0.4.6
@@ -36,14 +35,14 @@ Platform Info:
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-92-generic #139-Ubuntu SMP Tue Jun 28 20:42:26 UTC 2016 x86_64 x86_64
-Memory: 2.4471054077148438 GB (639.04296875 MB free)
-Uptime: 20395.0 sec
-Load Avg:  0.92626953125  0.98193359375  1.00146484375
+  uname: Linux 3.13.0-93-generic #140-Ubuntu SMP Mon Jul 18 21:21:05 UTC 2016 x86_64 x86_64
+Memory: 2.4471054077148438 GB (595.52734375 MB free)
+Uptime: 21380.0 sec
+Load Avg:  1.1259765625  1.0048828125  0.98046875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz     896152 s       4205 s      84675 s     807152 s         31 s
-#2  3499 MHz     555860 s        277 s      71302 s    1322041 s          0 s
+#1  3499 MHz     893323 s       7029 s      96364 s     883297 s         70 s
+#2  3499 MHz     638774 s         52 s      85937 s    1279166 s          2 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -59,8 +58,8 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.4
 2 required packages:
  - JSON                          0.6.0
- - SALSA                         0.0.5
-21 additional packages:
+ - SALSA                         0.1.0
+22 additional packages:
  - ArrayViews                    0.6.4
  - BinDeps                       0.4.2
  - Blosc                         0.1.6
@@ -71,6 +70,7 @@ Package Directory: /home/vagrant/.julia/v0.4
  - Distributions                 0.10.2
  - HDF5                          0.6.5
  - Iterators                     0.1.10
+ - LegacyStrings                 0.1.1
  - MAT                           0.2.14
  - MLBase                        0.5.3
  - PDMats                        0.4.2
@@ -86,8 +86,8 @@ INFO: Testing SALSA
 Running tests:
 * unit/test_loss_derivative.jl
 INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/Rmath.ji for module Rmath.
-INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/StatsFuns.ji for module StatsFuns.
 INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/StatsBase.ji for module StatsBase.
+INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/StatsFuns.ji for module StatsFuns.
 INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/Distributions.ji for module Distributions.
 INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/Clustering.ji for module Clustering.
 WARNING: Base.String is deprecated, use AbstractString instead.
@@ -97,20 +97,62 @@ WARNING: Base.String is deprecated, use AbstractString instead.
 WARNING: Base.String is deprecated, use AbstractString instead.
   likely near /home/vagrant/.julia/v0.4/SALSA/src/support/data_wrapper.jl:26
 WARNING: New definition 
+    dot(#T<:Base.SparseMatrix.AbstractSparseArray, #T<:Base.SparseMatrix.AbstractSparseArray) at /home/vagrant/.julia/v0.4/SALSA/src/support/definitions.jl:27
+is ambiguous with: 
+    dot(AbstractArray{T<:Any, 1}, AbstractArray{T<:Any, 1}) at linalg/generic.jl:292.
+To fix, define 
+    dot(_<:Base.SparseMatrix.AbstractSparseArray{T<:Any, Ti<:Any, 1}, _<:Base.SparseMatrix.AbstractSparseArray{T<:Any, Ti<:Any, 1})
+before the new definition.
+WARNING: New definition 
     kernel_matrix(SALSA.Kernel, SALSA.DelimitedFile, Any) at /home/vagrant/.julia/v0.4/SALSA/src/kernels/kernels.jl:31
 is ambiguous with: 
     kernel_matrix(SALSA.Kernel, Any, Base.SubArray) at /home/vagrant/.julia/v0.4/SALSA/src/kernels/kernels.jl:29.
 To fix, define 
     kernel_matrix(SALSA.Kernel, SALSA.DelimitedFile, Base.SubArray)
 before the new definition.
+WARNING: New definition 
+    hinge_loss(#T<:Base.SparseMatrix.AbstractSparseArray, Any, Any) at /home/vagrant/.julia/v0.4/SALSA/src/loss_derivative.jl:63
+is ambiguous with: 
+    hinge_loss(Any, #T<:Number, Any) at /home/vagrant/.julia/v0.4/SALSA/src/loss_derivative.jl:61.
+To fix, define 
+    hinge_loss(_<:Any, _<:Any, Any)
+before the new definition.
+WARNING: New definition 
+    squared_hinge_loss(#T<:Base.SparseMatrix.AbstractSparseArray, Any, Any, Any) at /home/vagrant/.julia/v0.4/SALSA/src/loss_derivative.jl:78
+is ambiguous with: 
+    squared_hinge_loss(Any, #T<:Number, Any, Any) at /home/vagrant/.julia/v0.4/SALSA/src/loss_derivative.jl:76.
+To fix, define 
+    squared_hinge_loss(_<:Any, _<:Any, Any, Any)
+before the new definition.
+WARNING: New definition 
+    logistic_loss(#T<:Base.SparseMatrix.AbstractSparseArray, Any, Any) at /home/vagrant/.julia/v0.4/SALSA/src/loss_derivative.jl:100
+is ambiguous with: 
+    logistic_loss(Any, #T<:Number, Any) at /home/vagrant/.julia/v0.4/SALSA/src/loss_derivative.jl:98.
+To fix, define 
+    logistic_loss(_<:Any, _<:Any, Any)
+before the new definition.
+WARNING: New definition 
+    logistic_loss(#T<:Base.SparseMatrix.AbstractSparseArray, Any, Any, Any) at /home/vagrant/.julia/v0.4/SALSA/src/loss_derivative.jl:100
+is ambiguous with: 
+    logistic_loss(Any, #T<:Number, Any, Any) at /home/vagrant/.julia/v0.4/SALSA/src/loss_derivative.jl:98.
+To fix, define 
+    logistic_loss(_<:Any, _<:Any, Any, Any)
+before the new definition.
+WARNING: New definition 
+    least_squares_loss(#T<:Base.SparseMatrix.AbstractSparseArray, Any, Any) at /home/vagrant/.julia/v0.4/SALSA/src/loss_derivative.jl:105
+is ambiguous with: 
+    least_squares_loss(Any, #T<:Number, Any) at /home/vagrant/.julia/v0.4/SALSA/src/loss_derivative.jl:104.
+To fix, define 
+    least_squares_loss(_<:Any, _<:Any, Any)
+before the new definition.
 
 
   ____    _    _     ____    _       [31m_ [0m_   | Software Lab for Advanced Machine Learning
- / ___|  / \  | |   / ___|  / \     [31m([31m_[31m) [0m|  | and Stochastic Algorithms in Julia
+ / ___|  / \  | |   / ___|  / \     [31m([31m_[31m) [0m|  | with Stochastic Algorithms in Julia
  \___ \ / _ \ | |   \___ \ / _ \    | | |  |
-  ___) / ___ \| |___ ___) / ___ \ [32m_ [0m| | |  | Documentation: http://salsajl.readthedocs.org
+  ___) / ___ \| |___ ___) / ___ \ [32m_ [0m| | |  | Docs & license: http://salsajl.readthedocs.org
  |____/_/   \_\_____|____/_/   \_[32m([32m_[32m)[0m/ |_|  | CI builds: http://travis-ci.org/jumutc/SALSA.jl
-                                  |__/     | Version: 0.0.5
+                                  |__/     | Version: 0.1.0
 
 * unit/test_pegasos.jl
 * unit/test_wrapper.jl
@@ -127,69 +169,65 @@ WARNING: Base.String is deprecated, use AbstractString instead.
 INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/HDF5.ji for module HDF5.
 INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.4/MAT.ji for module MAT.
 * functional/regression/test_fsinc.jl
-[1GRunning hyperparameter tuning...  10%|██                  |  ETA: 0:00:16[K[1GRunning hyperparameter tuning...  20%|████                |  ETA: 0:00:15[K[1GRunning hyperparameter tuning...  30%|██████              |  ETA: 0:00:12[K[1GRunning hyperparameter tuning...  40%|████████            |  ETA: 0:00:10[K[1GRunning hyperparameter tuning...  50%|██████████          |  ETA: 0:00:08[K[1GRunning hyperparameter tuning...  60%|████████████        |  ETA: 0:00:07[K[1GRunning hyperparameter tuning...  65%|█████████████       |  ETA: 0:00:06[K[1GRunning hyperparameter tuning...  70%|██████████████      |  ETA: 0:00:06[K[1GRunning hyperparameter tuning...  80%|████████████████    |  ETA: 0:00:04[K[1GRunning hyperparameter tuning...  90%|██████████████████  |  ETA: 0:00:02[K[1GRunning hyperparameter tuning...  95%|███████████████████ |  ETA: 0:00:01[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:19[K
+[1GRunning hyperparameter tuning...  10%|██                  |  ETA: 0:00:17[K[1GRunning hyperparameter tuning...  20%|████                |  ETA: 0:00:13[K[1GRunning hyperparameter tuning...  30%|██████              |  ETA: 0:00:11[K[1GRunning hyperparameter tuning...  35%|███████             |  ETA: 0:00:11[K[1GRunning hyperparameter tuning...  45%|█████████           |  ETA: 0:00:09[K[1GRunning hyperparameter tuning...  50%|██████████          |  ETA: 0:00:09[K[1GRunning hyperparameter tuning...  60%|████████████        |  ETA: 0:00:07[K[1GRunning hyperparameter tuning...  70%|██████████████      |  ETA: 0:00:05[K[1GRunning hyperparameter tuning...  80%|████████████████    |  ETA: 0:00:03[K[1GRunning hyperparameter tuning...  90%|██████████████████  |  ETA: 0:00:02[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:17[K
 CSA results: optimal mean squared error = 0.005
-[1GRunning hyperparameter tuning...  10%|██                  |  ETA: 0:00:12[K[1GRunning hyperparameter tuning...  20%|████                |  ETA: 0:00:10[K[1GRunning hyperparameter tuning...  30%|██████              |  ETA: 0:00:10[K[1GRunning hyperparameter tuning...  35%|███████             |  ETA: 0:00:10[K[1GRunning hyperparameter tuning...  45%|█████████           |  ETA: 0:00:08[K[1GRunning hyperparameter tuning...  55%|███████████         |  ETA: 0:00:07[K[1GRunning hyperparameter tuning...  65%|█████████████       |  ETA: 0:00:06[K[1GRunning hyperparameter tuning...  75%|███████████████     |  ETA: 0:00:04[K[1GRunning hyperparameter tuning...  85%|█████████████████   |  ETA: 0:00:02[K[1GRunning hyperparameter tuning...  95%|███████████████████ |  ETA: 0:00:01[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:16[K
+[1GRunning hyperparameter tuning...  10%|██                  |  ETA: 0:00:13[K[1GRunning hyperparameter tuning...  20%|████                |  ETA: 0:00:12[K[1GRunning hyperparameter tuning...  30%|██████              |  ETA: 0:00:10[K[1GRunning hyperparameter tuning...  40%|████████            |  ETA: 0:00:09[K[1GRunning hyperparameter tuning...  50%|██████████          |  ETA: 0:00:08[K[1GRunning hyperparameter tuning...  60%|████████████        |  ETA: 0:00:06[K[1GRunning hyperparameter tuning...  70%|██████████████      |  ETA: 0:00:05[K[1GRunning hyperparameter tuning...  80%|████████████████    |  ETA: 0:00:03[K[1GRunning hyperparameter tuning...  90%|██████████████████  |  ETA: 0:00:02[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:16[K
 CSA results: optimal mean squared error = 0.026
 * functional/clustering/test_clustering.jl
-[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:02:37[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:03[K
+[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:02:46[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:03[K
 DS results: optimal mean silhouette = 0.501
-[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:44:57[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:55[K
-DS results: optimal mean silhouette = 0.285
 * functional/classification/test_linear.jl
-[1GRunning hyperparameter tuning...   5%|█                   |  ETA: 0:00:34[K[1GRunning hyperparameter tuning...  10%|██                  |  ETA: 0:00:36[K[1GRunning hyperparameter tuning...  15%|███                 |  ETA: 0:00:31[K[1GRunning hyperparameter tuning...  20%|████                |  ETA: 0:00:31[K[1GRunning hyperparameter tuning...  25%|█████               |  ETA: 0:00:29[K[1GRunning hyperparameter tuning...  30%|██████              |  ETA: 0:00:25[K[1GRunning hyperparameter tuning...  35%|███████             |  ETA: 0:00:24[K[1GRunning hyperparameter tuning...  40%|████████            |  ETA: 0:00:22[K[1GRunning hyperparameter tuning...  45%|█████████           |  ETA: 0:00:22[K[1GRunning hyperparameter tuning...  50%|██████████          |  ETA: 0:00:20[K[1GRunning hyperparameter tuning...  55%|███████████         |  ETA: 0:00:17[K[1GRunning hyperparameter tuning...  60%|████████████        |  ETA: 0:00:15[K[1GRunning hyperparameter tuning...  65%|█████████████       |  ETA: 0:00:13[K[1GRunning hyperparameter tuning...  70%|██████████████      |  ETA: 0:00:11[K[1GRunning hyperparameter tuning...  75%|███████████████     |  ETA: 0:00:09[K[1GRunning hyperparameter tuning...  80%|████████████████    |  ETA: 0:00:08[K[1GRunning hyperparameter tuning...  85%|█████████████████   |  ETA: 0:00:06[K[1GRunning hyperparameter tuning...  90%|██████████████████  |  ETA: 0:00:04[K[1GRunning hyperparameter tuning...  95%|███████████████████ |  ETA: 0:00:02[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:38[K
+[1GRunning hyperparameter tuning...   5%|█                   |  ETA: 0:00:37[K[1GRunning hyperparameter tuning...  10%|██                  |  ETA: 0:00:37[K[1GRunning hyperparameter tuning...  15%|███                 |  ETA: 0:00:35[K[1GRunning hyperparameter tuning...  20%|████                |  ETA: 0:00:34[K[1GRunning hyperparameter tuning...  25%|█████               |  ETA: 0:00:31[K[1GRunning hyperparameter tuning...  30%|██████              |  ETA: 0:00:27[K[1GRunning hyperparameter tuning...  35%|███████             |  ETA: 0:00:25[K[1GRunning hyperparameter tuning...  40%|████████            |  ETA: 0:00:23[K[1GRunning hyperparameter tuning...  45%|█████████           |  ETA: 0:00:21[K[1GRunning hyperparameter tuning...  50%|██████████          |  ETA: 0:00:19[K[1GRunning hyperparameter tuning...  55%|███████████         |  ETA: 0:00:17[K[1GRunning hyperparameter tuning...  60%|████████████        |  ETA: 0:00:15[K[1GRunning hyperparameter tuning...  65%|█████████████       |  ETA: 0:00:13[K[1GRunning hyperparameter tuning...  70%|██████████████      |  ETA: 0:00:11[K[1GRunning hyperparameter tuning...  75%|███████████████     |  ETA: 0:00:09[K[1GRunning hyperparameter tuning...  80%|████████████████    |  ETA: 0:00:07[K[1GRunning hyperparameter tuning...  85%|█████████████████   |  ETA: 0:00:06[K[1GRunning hyperparameter tuning...  90%|██████████████████  |  ETA: 0:00:04[K[1GRunning hyperparameter tuning...  95%|███████████████████ |  ETA: 0:00:02[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:38[K
 CSA results: optimal misclassification rate = 0.136
-[1GRunning hyperparameter tuning...   5%|█                   |  ETA: 0:00:39[K[1GRunning hyperparameter tuning...  10%|██                  |  ETA: 0:00:35[K[1GRunning hyperparameter tuning...  15%|███                 |  ETA: 0:00:31[K[1GRunning hyperparameter tuning...  20%|████                |  ETA: 0:00:29[K[1GRunning hyperparameter tuning...  25%|█████               |  ETA: 0:00:29[K[1GRunning hyperparameter tuning...  30%|██████              |  ETA: 0:00:26[K[1GRunning hyperparameter tuning...  35%|███████             |  ETA: 0:00:26[K[1GRunning hyperparameter tuning...  40%|████████            |  ETA: 0:00:25[K[1GRunning hyperparameter tuning...  45%|█████████           |  ETA: 0:00:22[K[1GRunning hyperparameter tuning...  50%|██████████          |  ETA: 0:00:20[K[1GRunning hyperparameter tuning...  55%|███████████         |  ETA: 0:00:19[K[1GRunning hyperparameter tuning...  60%|████████████        |  ETA: 0:00:17[K[1GRunning hyperparameter tuning...  65%|█████████████       |  ETA: 0:00:15[K[1GRunning hyperparameter tuning...  70%|██████████████      |  ETA: 0:00:13[K[1GRunning hyperparameter tuning...  75%|███████████████     |  ETA: 0:00:11[K[1GRunning hyperparameter tuning...  80%|████████████████    |  ETA: 0:00:09[K[1GRunning hyperparameter tuning...  85%|█████████████████   |  ETA: 0:00:06[K[1GRunning hyperparameter tuning...  90%|██████████████████  |  ETA: 0:00:04[K[1GRunning hyperparameter tuning...  95%|███████████████████ |  ETA: 0:00:02[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:44[K
+[1GRunning hyperparameter tuning...   5%|█                   |  ETA: 0:00:56[K[1GRunning hyperparameter tuning...  10%|██                  |  ETA: 0:00:46[K[1GRunning hyperparameter tuning...  15%|███                 |  ETA: 0:00:42[K[1GRunning hyperparameter tuning...  20%|████                |  ETA: 0:00:39[K[1GRunning hyperparameter tuning...  25%|█████               |  ETA: 0:00:36[K[1GRunning hyperparameter tuning...  30%|██████              |  ETA: 0:00:31[K[1GRunning hyperparameter tuning...  35%|███████             |  ETA: 0:00:28[K[1GRunning hyperparameter tuning...  40%|████████            |  ETA: 0:00:25[K[1GRunning hyperparameter tuning...  45%|█████████           |  ETA: 0:00:23[K[1GRunning hyperparameter tuning...  50%|██████████          |  ETA: 0:00:21[K[1GRunning hyperparameter tuning...  55%|███████████         |  ETA: 0:00:19[K[1GRunning hyperparameter tuning...  60%|████████████        |  ETA: 0:00:17[K[1GRunning hyperparameter tuning...  65%|█████████████       |  ETA: 0:00:15[K[1GRunning hyperparameter tuning...  70%|██████████████      |  ETA: 0:00:13[K[1GRunning hyperparameter tuning...  75%|███████████████     |  ETA: 0:00:11[K[1GRunning hyperparameter tuning...  80%|████████████████    |  ETA: 0:00:09[K[1GRunning hyperparameter tuning...  85%|█████████████████   |  ETA: 0:00:06[K[1GRunning hyperparameter tuning...  90%|██████████████████  |  ETA: 0:00:04[K[1GRunning hyperparameter tuning...  95%|███████████████████ |  ETA: 0:00:02[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:44[K
 CSA results: optimal misclassification rate = 0.132
-[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:01:21[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:02[K
+[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:01:40[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:02[K
 DS results: optimal misclassification rate = 0.160
-[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:00:53[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:01[K
 DS results: optimal AUC (area under curve) = 0.934
 DS results: optimal misclassification rate = 0.136
-[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:00:55[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:01[K
 DS results: optimal misclassification rate = 0.144
 DS results: optimal misclassification rate = 0.176
-[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:01:47[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:02[K
+[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:01:03[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:01[K
 DS results: optimal weighted combination of: error/sparsity = 0.315
-[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:01:49[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:02[K
+[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:02:12[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:03[K
 DS results: optimal weighted combination of: error/sparsity = 0.318
-[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:03:04[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:04[K
+[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:03:08[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:04[K
 DS results: optimal weighted combination of: error/sparsity = 0.222
-[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:02:44[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:03[K
+[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:03:15[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:04[K
 DS results: optimal weighted combination of: error/sparsity = 0.318
 * functional/classification/test_sparse.jl
-[1GRunning hyperparameter tuning...   5%|█                   |  ETA: 0:00:52[K[1GRunning hyperparameter tuning...  10%|██                  |  ETA: 0:00:47[K[1GRunning hyperparameter tuning...  15%|███                 |  ETA: 0:00:43[K[1GRunning hyperparameter tuning...  20%|████                |  ETA: 0:00:39[K[1GRunning hyperparameter tuning...  25%|█████               |  ETA: 0:00:36[K[1GRunning hyperparameter tuning...  30%|██████              |  ETA: 0:00:34[K[1GRunning hyperparameter tuning...  35%|███████             |  ETA: 0:00:31[K[1GRunning hyperparameter tuning...  40%|████████            |  ETA: 0:00:28[K[1GRunning hyperparameter tuning...  45%|█████████           |  ETA: 0:00:26[K[1GRunning hyperparameter tuning...  50%|██████████          |  ETA: 0:00:24[K[1GRunning hyperparameter tuning...  55%|███████████         |  ETA: 0:00:22[K[1GRunning hyperparameter tuning...  60%|████████████        |  ETA: 0:00:20[K[1GRunning hyperparameter tuning...  65%|█████████████       |  ETA: 0:00:17[K[1GRunning hyperparameter tuning...  70%|██████████████      |  ETA: 0:00:15[K[1GRunning hyperparameter tuning...  75%|███████████████     |  ETA: 0:00:12[K[1GRunning hyperparameter tuning...  80%|████████████████    |  ETA: 0:00:10[K[1GRunning hyperparameter tuning...  85%|█████████████████   |  ETA: 0:00:07[K[1GRunning hyperparameter tuning...  90%|██████████████████  |  ETA: 0:00:05[K[1GRunning hyperparameter tuning...  95%|███████████████████ |  ETA: 0:00:03[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:50[K
+[1GRunning hyperparameter tuning...   5%|█                   |  ETA: 0:00:45[K[1GRunning hyperparameter tuning...  10%|██                  |  ETA: 0:00:48[K[1GRunning hyperparameter tuning...  15%|███                 |  ETA: 0:00:46[K[1GRunning hyperparameter tuning...  20%|████                |  ETA: 0:00:43[K[1GRunning hyperparameter tuning...  25%|█████               |  ETA: 0:00:40[K[1GRunning hyperparameter tuning...  30%|██████              |  ETA: 0:00:38[K[1GRunning hyperparameter tuning...  35%|███████             |  ETA: 0:00:35[K[1GRunning hyperparameter tuning...  40%|████████            |  ETA: 0:00:33[K[1GRunning hyperparameter tuning...  45%|█████████           |  ETA: 0:00:30[K[1GRunning hyperparameter tuning...  50%|██████████          |  ETA: 0:00:26[K[1GRunning hyperparameter tuning...  55%|███████████         |  ETA: 0:00:23[K[1GRunning hyperparameter tuning...  60%|████████████        |  ETA: 0:00:21[K[1GRunning hyperparameter tuning...  65%|█████████████       |  ETA: 0:00:18[K[1GRunning hyperparameter tuning...  70%|██████████████      |  ETA: 0:00:16[K[1GRunning hyperparameter tuning...  75%|███████████████     |  ETA: 0:00:13[K[1GRunning hyperparameter tuning...  80%|████████████████    |  ETA: 0:00:10[K[1GRunning hyperparameter tuning...  85%|█████████████████   |  ETA: 0:00:08[K[1GRunning hyperparameter tuning...  90%|██████████████████  |  ETA: 0:00:05[K[1GRunning hyperparameter tuning...  95%|███████████████████ |  ETA: 0:00:03[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:51[K
 CSA results: optimal misclassification rate = 0.132
-[1GRunning hyperparameter tuning...   5%|█                   |  ETA: 0:00:37[K[1GRunning hyperparameter tuning...  10%|██                  |  ETA: 0:00:35[K[1GRunning hyperparameter tuning...  15%|███                 |  ETA: 0:00:39[K[1GRunning hyperparameter tuning...  20%|████                |  ETA: 0:00:39[K[1GRunning hyperparameter tuning...  25%|█████               |  ETA: 0:00:36[K[1GRunning hyperparameter tuning...  30%|██████              |  ETA: 0:00:33[K[1GRunning hyperparameter tuning...  35%|███████             |  ETA: 0:00:30[K[1GRunning hyperparameter tuning...  40%|████████            |  ETA: 0:00:28[K[1GRunning hyperparameter tuning...  45%|█████████           |  ETA: 0:00:26[K[1GRunning hyperparameter tuning...  50%|██████████          |  ETA: 0:00:24[K[1GRunning hyperparameter tuning...  55%|███████████         |  ETA: 0:00:22[K[1GRunning hyperparameter tuning...  60%|████████████        |  ETA: 0:00:19[K[1GRunning hyperparameter tuning...  65%|█████████████       |  ETA: 0:00:17[K[1GRunning hyperparameter tuning...  70%|██████████████      |  ETA: 0:00:15[K[1GRunning hyperparameter tuning...  75%|███████████████     |  ETA: 0:00:12[K[1GRunning hyperparameter tuning...  80%|████████████████    |  ETA: 0:00:10[K[1GRunning hyperparameter tuning...  85%|█████████████████   |  ETA: 0:00:07[K[1GRunning hyperparameter tuning...  90%|██████████████████  |  ETA: 0:00:05[K[1GRunning hyperparameter tuning...  95%|███████████████████ |  ETA: 0:00:02[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:49[K
+[1GRunning hyperparameter tuning...   5%|█                   |  ETA: 0:00:51[K[1GRunning hyperparameter tuning...  10%|██                  |  ETA: 0:00:46[K[1GRunning hyperparameter tuning...  15%|███                 |  ETA: 0:00:40[K[1GRunning hyperparameter tuning...  20%|████                |  ETA: 0:00:37[K[1GRunning hyperparameter tuning...  25%|█████               |  ETA: 0:00:35[K[1GRunning hyperparameter tuning...  30%|██████              |  ETA: 0:00:33[K[1GRunning hyperparameter tuning...  35%|███████             |  ETA: 0:00:32[K[1GRunning hyperparameter tuning...  40%|████████            |  ETA: 0:00:28[K[1GRunning hyperparameter tuning...  45%|█████████           |  ETA: 0:00:26[K[1GRunning hyperparameter tuning...  50%|██████████          |  ETA: 0:00:23[K[1GRunning hyperparameter tuning...  55%|███████████         |  ETA: 0:00:21[K[1GRunning hyperparameter tuning...  60%|████████████        |  ETA: 0:00:19[K[1GRunning hyperparameter tuning...  65%|█████████████       |  ETA: 0:00:17[K[1GRunning hyperparameter tuning...  70%|██████████████      |  ETA: 0:00:14[K[1GRunning hyperparameter tuning...  75%|███████████████     |  ETA: 0:00:12[K[1GRunning hyperparameter tuning...  80%|████████████████    |  ETA: 0:00:09[K[1GRunning hyperparameter tuning...  85%|█████████████████   |  ETA: 0:00:07[K[1GRunning hyperparameter tuning...  90%|██████████████████  |  ETA: 0:00:05[K[1GRunning hyperparameter tuning...  95%|███████████████████ |  ETA: 0:00:02[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:46[K
 CSA results: optimal misclassification rate = 0.132
-[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:00:57[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:01[K
+[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:00:55[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:01[K
 DS results: optimal AUC (area under curve) = 0.935
 DS results: optimal misclassification rate = 0.136
-[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:00:51[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:01[K
+[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:01:00[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:01[K
 DS results: optimal misclassification rate = 0.148
-[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:01:14[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:02[K
-DS results: optimal misclassification rate = 0.152
-[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:03:06[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:04[K
+[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:00:58[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:01[K
+DS results: optimal misclassification rate = 0.160
+[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:03:03[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:04[K
 DS results: optimal weighted combination of: error/sparsity = 0.315
-[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:05:18[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:06[K
+[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:05:42[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:07[K
 DS results: optimal weighted combination of: error/sparsity = 0.232
-[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:03:14[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:04[K
+[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:03:40[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:04[K
 DS results: optimal weighted combination of: error/sparsity = 0.222
-[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:03:28[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:04[K
+[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:04:04[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:05[K
 DS results: optimal weighted combination of: error/sparsity = 0.312
 * functional/classification/test_multiclass.jl
-[1GRunning hyperparameter tuning...   5%|█                   |  ETA: 0:01:54[K[1GRunning hyperparameter tuning...  10%|██                  |  ETA: 0:02:02[K[1GRunning hyperparameter tuning...  15%|███                 |  ETA: 0:01:50[K[1GRunning hyperparameter tuning...  20%|████                |  ETA: 0:01:42[K[1GRunning hyperparameter tuning...  25%|█████               |  ETA: 0:01:35[K[1GRunning hyperparameter tuning...  30%|██████              |  ETA: 0:01:29[K[1GRunning hyperparameter tuning...  35%|███████             |  ETA: 0:01:23[K[1GRunning hyperparameter tuning...  40%|████████            |  ETA: 0:01:16[K[1GRunning hyperparameter tuning...  45%|█████████           |  ETA: 0:01:10[K[1GRunning hyperparameter tuning...  50%|██████████          |  ETA: 0:01:03[K[1GRunning hyperparameter tuning...  55%|███████████         |  ETA: 0:00:57[K[1GRunning hyperparameter tuning...  60%|████████████        |  ETA: 0:00:51[K[1GRunning hyperparameter tuning...  65%|█████████████       |  ETA: 0:00:45[K[1GRunning hyperparameter tuning...  70%|██████████████      |  ETA: 0:00:38[K[1GRunning hyperparameter tuning...  75%|███████████████     |  ETA: 0:00:31[K[1GRunning hyperparameter tuning...  80%|████████████████    |  ETA: 0:00:25[K[1GRunning hyperparameter tuning...  85%|█████████████████   |  ETA: 0:00:19[K[1GRunning hyperparameter tuning...  90%|██████████████████  |  ETA: 0:00:12[K[1GRunning hyperparameter tuning...  95%|███████████████████ |  ETA: 0:00:06[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:02:05[K
+[1GRunning hyperparameter tuning...   5%|█                   |  ETA: 0:02:07[K[1GRunning hyperparameter tuning...  10%|██                  |  ETA: 0:02:08[K[1GRunning hyperparameter tuning...  15%|███                 |  ETA: 0:01:59[K[1GRunning hyperparameter tuning...  20%|████                |  ETA: 0:01:46[K[1GRunning hyperparameter tuning...  25%|█████               |  ETA: 0:01:39[K[1GRunning hyperparameter tuning...  30%|██████              |  ETA: 0:01:29[K[1GRunning hyperparameter tuning...  35%|███████             |  ETA: 0:01:19[K[1GRunning hyperparameter tuning...  40%|████████            |  ETA: 0:01:11[K[1GRunning hyperparameter tuning...  45%|█████████           |  ETA: 0:01:04[K[1GRunning hyperparameter tuning...  50%|██████████          |  ETA: 0:00:59[K[1GRunning hyperparameter tuning...  55%|███████████         |  ETA: 0:00:54[K[1GRunning hyperparameter tuning...  60%|████████████        |  ETA: 0:00:48[K[1GRunning hyperparameter tuning...  65%|█████████████       |  ETA: 0:00:42[K[1GRunning hyperparameter tuning...  70%|██████████████      |  ETA: 0:00:36[K[1GRunning hyperparameter tuning...  75%|███████████████     |  ETA: 0:00:29[K[1GRunning hyperparameter tuning...  80%|████████████████    |  ETA: 0:00:24[K[1GRunning hyperparameter tuning...  85%|█████████████████   |  ETA: 0:00:18[K[1GRunning hyperparameter tuning...  90%|██████████████████  |  ETA: 0:00:12[K[1GRunning hyperparameter tuning...  95%|███████████████████ |  ETA: 0:00:06[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:01:56[K
 CSA results: optimal misclassification rate = 0.382
 * functional/classification/test_nonlinear.jl
-[1GRunning hyperparameter tuning...   5%|█                   |  ETA: 0:00:52[K[1GRunning hyperparameter tuning...  10%|██                  |  ETA: 0:00:52[K[1GRunning hyperparameter tuning...  15%|███                 |  ETA: 0:00:48[K[1GRunning hyperparameter tuning...  20%|████                |  ETA: 0:00:44[K[1GRunning hyperparameter tuning...  25%|█████               |  ETA: 0:00:42[K[1GRunning hyperparameter tuning...  30%|██████              |  ETA: 0:00:40[K[1GRunning hyperparameter tuning...  35%|███████             |  ETA: 0:00:37[K[1GRunning hyperparameter tuning...  40%|████████            |  ETA: 0:00:34[K[1GRunning hyperparameter tuning...  45%|█████████           |  ETA: 0:00:31[K[1GRunning hyperparameter tuning...  50%|██████████          |  ETA: 0:00:28[K[1GRunning hyperparameter tuning...  55%|███████████         |  ETA: 0:00:25[K[1GRunning hyperparameter tuning...  60%|████████████        |  ETA: 0:00:22[K[1GRunning hyperparameter tuning...  65%|█████████████       |  ETA: 0:00:19[K[1GRunning hyperparameter tuning...  70%|██████████████      |  ETA: 0:00:16[K[1GRunning hyperparameter tuning...  75%|███████████████     |  ETA: 0:00:13[K[1GRunning hyperparameter tuning...  80%|████████████████    |  ETA: 0:00:11[K[1GRunning hyperparameter tuning...  85%|█████████████████   |  ETA: 0:00:08[K[1GRunning hyperparameter tuning...  90%|██████████████████  |  ETA: 0:00:05[K[1GRunning hyperparameter tuning...  95%|███████████████████ |  ETA: 0:00:03[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:52[K
+[1GRunning hyperparameter tuning...   5%|█                   |  ETA: 0:00:57[K[1GRunning hyperparameter tuning...  10%|██                  |  ETA: 0:00:54[K[1GRunning hyperparameter tuning...  15%|███                 |  ETA: 0:00:49[K[1GRunning hyperparameter tuning...  20%|████                |  ETA: 0:00:46[K[1GRunning hyperparameter tuning...  25%|█████               |  ETA: 0:00:44[K[1GRunning hyperparameter tuning...  30%|██████              |  ETA: 0:00:41[K[1GRunning hyperparameter tuning...  35%|███████             |  ETA: 0:00:38[K[1GRunning hyperparameter tuning...  40%|████████            |  ETA: 0:00:35[K[1GRunning hyperparameter tuning...  45%|█████████           |  ETA: 0:00:32[K[1GRunning hyperparameter tuning...  50%|██████████          |  ETA: 0:00:28[K[1GRunning hyperparameter tuning...  55%|███████████         |  ETA: 0:00:25[K[1GRunning hyperparameter tuning...  60%|████████████        |  ETA: 0:00:22[K[1GRunning hyperparameter tuning...  65%|█████████████       |  ETA: 0:00:20[K[1GRunning hyperparameter tuning...  70%|██████████████      |  ETA: 0:00:17[K[1GRunning hyperparameter tuning...  75%|███████████████     |  ETA: 0:00:13[K[1GRunning hyperparameter tuning...  80%|████████████████    |  ETA: 0:00:11[K[1GRunning hyperparameter tuning...  85%|█████████████████   |  ETA: 0:00:08[K[1GRunning hyperparameter tuning...  90%|██████████████████  |  ETA: 0:00:05[K[1GRunning hyperparameter tuning...  95%|███████████████████ |  ETA: 0:00:03[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:51[K
 CSA results: optimal misclassification rate = 0.152
-[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:02:36[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:03[K
+[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:02:31[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:03[K
 DS results: optimal misclassification rate = 0.172
-[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:00:53[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:01[K
+[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:00:50[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:01[K
 DS results: optimal misclassification rate = 0.148
-[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:06:03[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:07[K
+[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:04:58[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:06[K
 DS results: optimal weighted combination of: error/sparsity = 0.166
-[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:08:33[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:10[K
+[1GRunning hyperparameter tuning...   2%|                    |  ETA: 0:06:16[K[1GRunning hyperparameter tuning... 100%|████████████████████| Time: 0:00:08[K
 DS results: optimal weighted combination of: error/sparsity = 0.190
 INFO: SALSA tests passed
 
