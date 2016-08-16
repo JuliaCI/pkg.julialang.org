@@ -1,11 +1,13 @@
 >>> 'Pkg.add("Geodesy")' log
 INFO: Cloning cache of Geodesy from https://github.com/JuliaGeo/Geodesy.jl.git
-INFO: Installing CoordinateTransformations v0.2.0
+INFO: Installing CoordinateTransformations v0.3.0
 INFO: Installing FixedSizeArrays v0.2.2
 INFO: Installing Geodesy v0.2.0
 INFO: Installing Rotations v0.3.0
 INFO: Installing StaticArrays v0.0.4
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of Geodesy
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Geodesy")' log
 Julia Version 0.5.0-rc2+0
@@ -16,13 +18,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-93-generic #140-Ubuntu SMP Mon Jul 18 21:21:05 UTC 2016 x86_64 x86_64
-Memory: 2.4471054077148438 GB (1648.74609375 MB free)
-Uptime: 23882.0 sec
-Load Avg:  0.96337890625  1.05810546875  1.03466796875
+Memory: 2.4471054077148438 GB (1723.77734375 MB free)
+Uptime: 22270.0 sec
+Load Avg:  0.9658203125  1.0419921875  1.0517578125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    1271800 s       6386 s     180356 s     588636 s         41 s
-#2  3500 MHz     446834 s        258 s      76366 s    1773299 s          0 s
+#1  3499 MHz    1242986 s         82 s     139749 s     521177 s         34 s
+#2  3499 MHz     416034 s         65 s      65960 s    1659117 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -40,40 +42,160 @@ Package Directory: /home/vagrant/.julia/v0.5
  - Geodesy                       0.2.0
  - JSON                          0.6.0
 5 additional packages:
- - Compat                        0.8.6
- - CoordinateTransformations     0.2.0
+ - Compat                        0.8.7
+ - CoordinateTransformations     0.3.0
  - FixedSizeArrays               0.2.2
  - Rotations                     0.3.0
  - StaticArrays                  0.0.4
 INFO: Computing test dependencies for Geodesy...
 INFO: Installing BaseTestNext v0.2.2
 INFO: Testing Geodesy
-ERROR: LoadError: LoadError: UndefVarError: Quaternion not defined
- in include_from_node1(::String) at ./loading.jl:426 (repeats 2 times)
- in macro expansion; at ./none:2 [inlined]
+
+WARNING: deprecated syntax "zone::Int64".
+Use "local zone::Int64" instead.
+
+WARNING: deprecated syntax "isnorth::Bool".
+Use "local isnorth::Bool" instead.
+Basic example: Error During Test
+  Test threw an exception of type MethodError
+  Expression: norm(x_GDA94 - (Geodesy.GDA94_from_ITRF_Dawson2010(2005,Date(2010,6,16)))(x_ITRF)) < 0.0002
+  MethodError: no method matching CoordinateTransformations.AffineMap{M<:AbstractArray{T,2},V<:AbstractArray{T,1}}(::FixedSizeArrays.Mat{3,3,Float64}, ::FixedSizeArrays.Vec{3,Float64})
+  Closest candidates are:
+    CoordinateTransformations.AffineMap{M<:AbstractArray{T,2},V<:AbstractArray{T,1}}(!Matched::CoordinateTransformations.Transformation, ::Any) at /home/vagrant/.julia/v0.5/CoordinateTransformations/src/affine.jl:119
+    CoordinateTransformations.AffineMap{M<:AbstractArray{T,2},V<:AbstractArray{T,1}}{T}(::Any) at sysimg.jl:53
+   in * at /home/vagrant/.julia/v0.5/FixedSizeArrays/src/ops.jl:105 [inlined]
+   in GDA94_from_ITRF_Dawson2010(::Int64, ::Date) at /home/vagrant/.julia/v0.5/Geodesy/src/datum_transformations.jl:101
+   in do_test(::##267#274, ::Expr) at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:181
+   in macro expansion; at /home/vagrant/.julia/v0.5/Geodesy/test/datum_transformations.jl:13 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/Geodesy/test/datum_transformations.jl:9 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/Geodesy/test/datum_transformations.jl:5 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:426
+   in macro expansion; at /home/vagrant/.julia/v0.5/Geodesy/test/runtests.jl:19 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:426
+   in process_options(::Base.JLOptions) at ./client.jl:262
+   in _start() at ./client.jl:318
+Basic example: Error During Test
+  Got an exception of type MethodError outside of a @test
+  MethodError: no method matching CoordinateTransformations.AffineMap{M<:AbstractArray{T,2},V<:AbstractArray{T,1}}(::FixedSizeArrays.Mat{3,3,Float64}, ::FixedSizeArrays.Vec{3,Float64})
+  Closest candidates are:
+    CoordinateTransformations.AffineMap{M<:AbstractArray{T,2},V<:AbstractArray{T,1}}(!Matched::CoordinateTransformations.Transformation, ::Any) at /home/vagrant/.julia/v0.5/CoordinateTransformations/src/affine.jl:119
+    CoordinateTransformations.AffineMap{M<:AbstractArray{T,2},V<:AbstractArray{T,1}}{T}(::Any) at sysimg.jl:53
+   in * at /home/vagrant/.julia/v0.5/FixedSizeArrays/src/ops.jl:105 [inlined]
+   in GDA94_from_ITRF_Dawson2010(::Int64, ::Date) at /home/vagrant/.julia/v0.5/Geodesy/src/datum_transformations.jl:101
+   in macro expansion; at /home/vagrant/.julia/v0.5/Geodesy/test/datum_transformations.jl:17 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/Geodesy/test/datum_transformations.jl:9 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/Geodesy/test/datum_transformations.jl:5 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:426
+   in macro expansion; at /home/vagrant/.julia/v0.5/Geodesy/test/runtests.jl:19 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:426
+   in process_options(::Base.JLOptions) at ./client.jl:262
+   in _start() at ./client.jl:318
+ITRS realizations: Error During Test
+  Test threw an exception of type MethodError
+  Expression: (datum_shift_ECEF(GDA94(),ITRF{2008}(epoch)))(x_GDA94) == (Geodesy.GDA94_from_ITRF_Dawson2010(2008,epoch))(x_GDA94)
+  MethodError: no method matching CoordinateTransformations.AffineMap{M<:AbstractArray{T,2},V<:AbstractArray{T,1}}(::FixedSizeArrays.Mat{3,3,Float64}, ::FixedSizeArrays.Vec{3,Float64})
+  Closest candidates are:
+    CoordinateTransformations.AffineMap{M<:AbstractArray{T,2},V<:AbstractArray{T,1}}(!Matched::CoordinateTransformations.Transformation, ::Any) at /home/vagrant/.julia/v0.5/CoordinateTransformations/src/affine.jl:119
+    CoordinateTransformations.AffineMap{M<:AbstractArray{T,2},V<:AbstractArray{T,1}}{T}(::Any) at sysimg.jl:53
+   in * at /home/vagrant/.julia/v0.5/FixedSizeArrays/src/ops.jl:105 [inlined]
+   in GDA94_from_ITRF_Dawson2010(::Int64, ::Date) at /home/vagrant/.julia/v0.5/Geodesy/src/datum_transformations.jl:101
+   in datum_shift_ECEF(::Geodesy.GDA94, ::Geodesy.ITRF{2008,Date}) at /home/vagrant/.julia/v0.5/Geodesy/src/datum_transformations.jl:109
+   in do_test(::##270#277, ::Expr) at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:181
+   in macro expansion; at /home/vagrant/.julia/v0.5/Geodesy/test/datum_transformations.jl:27 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/Geodesy/test/datum_transformations.jl:22 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/Geodesy/test/datum_transformations.jl:5 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:426
+   in macro expansion; at /home/vagrant/.julia/v0.5/Geodesy/test/runtests.jl:19 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:426
+   in process_options(::Base.JLOptions) at ./client.jl:262
+   in _start() at ./client.jl:318
+ITRS realizations: Error During Test
+  Test threw an exception of type MethodError
+  Expression: (datum_shift_ECEF(GDA94(),ITRF{1996}(epoch)))(x_GDA94) == (Geodesy.GDA94_from_ITRF_Dawson2010(1996,epoch))(x_GDA94)
+  MethodError: no method matching CoordinateTransformations.AffineMap{M<:AbstractArray{T,2},V<:AbstractArray{T,1}}(::FixedSizeArrays.Mat{3,3,Float64}, ::FixedSizeArrays.Vec{3,Float64})
+  Closest candidates are:
+    CoordinateTransformations.AffineMap{M<:AbstractArray{T,2},V<:AbstractArray{T,1}}(!Matched::CoordinateTransformations.Transformation, ::Any) at /home/vagrant/.julia/v0.5/CoordinateTransformations/src/affine.jl:119
+    CoordinateTransformations.AffineMap{M<:AbstractArray{T,2},V<:AbstractArray{T,1}}{T}(::Any) at sysimg.jl:53
+   in * at /home/vagrant/.julia/v0.5/FixedSizeArrays/src/ops.jl:105 [inlined]
+   in GDA94_from_ITRF_Dawson2010(::Int64, ::Date) at /home/vagrant/.julia/v0.5/Geodesy/src/datum_transformations.jl:101
+   in datum_shift_ECEF(::Geodesy.GDA94, ::Geodesy.ITRF{1996,Date}) at /home/vagrant/.julia/v0.5/Geodesy/src/datum_transformations.jl:109
+   in do_test(::##271#278, ::Expr) at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:181
+   in macro expansion; at /home/vagrant/.julia/v0.5/Geodesy/test/datum_transformations.jl:28 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/Geodesy/test/datum_transformations.jl:22 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/Geodesy/test/datum_transformations.jl:5 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:426
+   in macro expansion; at /home/vagrant/.julia/v0.5/Geodesy/test/runtests.jl:19 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:426
+   in process_options(::Base.JLOptions) at ./client.jl:262
+   in _start() at ./client.jl:318
+GDA94 from ITRF: Error During Test
+  Got an exception of type MethodError outside of a @test
+  MethodError: no method matching CoordinateTransformations.AffineMap{M<:AbstractArray{T,2},V<:AbstractArray{T,1}}(::FixedSizeArrays.Mat{3,3,Float64}, ::FixedSizeArrays.Vec{3,Float64})
+  Closest candidates are:
+    CoordinateTransformations.AffineMap{M<:AbstractArray{T,2},V<:AbstractArray{T,1}}(!Matched::CoordinateTransformations.Transformation, ::Any) at /home/vagrant/.julia/v0.5/CoordinateTransformations/src/affine.jl:119
+    CoordinateTransformations.AffineMap{M<:AbstractArray{T,2},V<:AbstractArray{T,1}}{T}(::Any) at sysimg.jl:53
+   in * at /home/vagrant/.julia/v0.5/FixedSizeArrays/src/ops.jl:105 [inlined]
+   in GDA94_from_ITRF_Dawson2010(::Int64, ::Date) at /home/vagrant/.julia/v0.5/Geodesy/src/datum_transformations.jl:101
+   in macro expansion; at /home/vagrant/.julia/v0.5/Geodesy/test/datum_transformations.jl:81 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/Geodesy/test/datum_transformations.jl:34 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/Geodesy/test/datum_transformations.jl:5 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:426
+   in macro expansion; at /home/vagrant/.julia/v0.5/Geodesy/test/runtests.jl:19 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:426
+   in process_options(::Base.JLOptions) at ./client.jl:262
+   in _start() at ./client.jl:318
+Test Summary:                                |  Pass  Error  Total
+Geodesy                                      | 30225      5  30230
+  Point constructors                         |    10            10
+  Datums and ellipsoids                      |    14            14
+  Transverse Mercator projection and inverse | 10000         10000
+  Polar stereographic                        |    16            16
+  UTM functions                              |    18            18
+  Coordinate system transformations          |    38            38
+  Co-ordinate system conversion              | 20128         20128
+  Datum transforms                           |     1      5      6
+    GDA94 from ITRF                          |     1      5      6
+      Basic example                          |            2      2
+      ITRS realizations                      |     1      2      3
+      GDA94 from ITRF                        |            1      1
+ERROR: LoadError: Some tests did not pass: 30225 passed, 0 failed, 5 errored.
+ in finish(::BaseTestNext.DefaultTestSet) at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:385
+ in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:559 [inlined]
  in anonymous at ./<missing>:?
- in eval(::Module, ::Any) at ./boot.jl:234
- in process_options(::Base.JLOptions) at ./client.jl:239
- in _start() at ./client.jl:318
-while loading /home/vagrant/.julia/v0.5/CoordinateTransformations/src/commontransformations.jl, in expression starting on line 480
-while loading /home/vagrant/.julia/v0.5/CoordinateTransformations/src/CoordinateTransformations.jl, in expression starting on line 52
-ERROR: LoadError: Failed to precompile CoordinateTransformations to /home/vagrant/.julia/lib/v0.5/CoordinateTransformations.ji
- in compilecache(::String) at ./loading.jl:505
- in require(::Symbol) at ./loading.jl:337
- in include_from_node1(::String) at ./loading.jl:426
- in macro expansion; at ./none:2 [inlined]
- in anonymous at ./<missing>:?
- in eval(::Module, ::Any) at ./boot.jl:234
- in process_options(::Base.JLOptions) at ./client.jl:239
- in _start() at ./client.jl:318
-while loading /home/vagrant/.julia/v0.5/Geodesy/src/Geodesy.jl, in expression starting on line 5
-ERROR: LoadError: Failed to precompile Geodesy to /home/vagrant/.julia/lib/v0.5/Geodesy.ji
- in compilecache(::String) at ./loading.jl:505
- in require(::Symbol) at ./loading.jl:364
  in include_from_node1(::String) at ./loading.jl:426
  in process_options(::Base.JLOptions) at ./client.jl:262
  in _start() at ./client.jl:318
-while loading /home/vagrant/.julia/v0.5/Geodesy/test/runtests.jl, in expression starting on line 1
+while loading /home/vagrant/.julia/v0.5/Geodesy/test/runtests.jl, in expression starting on line 11
 ===============================[ ERROR: Geodesy ]===============================
 
 failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.5/Geodesy/test/runtests.jl`, ProcessExited(1)) [1]
