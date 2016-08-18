@@ -25,13 +25,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-93-generic #140-Ubuntu SMP Mon Jul 18 21:21:05 UTC 2016 x86_64 x86_64
-Memory: 2.4471054077148438 GB (1026.39453125 MB free)
-Uptime: 13974.0 sec
-Load Avg:  0.95556640625  0.98583984375  1.044921875
+Memory: 2.4471054077148438 GB (1038.77734375 MB free)
+Uptime: 14382.0 sec
+Load Avg:  0.94580078125  0.9580078125  1.029296875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz     706812 s       6342 s      79656 s     421313 s         36 s
-#2  3499 MHz     232465 s        114 s      40167 s    1061489 s          1 s
+#1  3499 MHz     719983 s        104 s      89890 s     433773 s         31 s
+#2  3499 MHz     250536 s       6770 s      44488 s    1086107 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -141,9 +141,9 @@ WARNING: replacing docs for 'DataCubes.reorder :: Union{}' in module 'DataCubes'
 WARNING: replacing docs for 'DataCubes.rename :: Union{}' in module 'DataCubes'.
 INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.5/Rmath.ji for module Rmath.
 INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.5/StatsFuns.ji for module StatsFuns.
-INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.5/DataArrays.ji for module DataArrays.
-INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.5/StatsBase.ji for module StatsBase.
 INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.5/DataFrames.ji for module DataFrames.
+INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.5/StatsBase.ji for module StatsBase.
+INFO: Recompiling stale cache file /home/vagrant/.julia/lib/v0.5/DataArrays.ji for module DataArrays.
 WARNING: symbol is deprecated, use Symbol instead.
  in depwarn(::String, ::Symbol) at ./deprecated.jl:64
  in symbol(::Symbol, ::Vararg{Any,N}) at ./deprecated.jl:30
@@ -1350,9 +1350,9 @@ WARNING: the no-op `transpose` fallback is deprecated, and no more specific `tra
 while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl, in expression starting on line 7
     Error :: (line:272) :: array related method tests
       Expression: (@darr(a=[1 2 3;4 5 6],'x'=[:a :b :c;:x :y :z]))[:a] --> nalift([1 2 3;4 5 6])
-      BoundsError: attempt to access (Nullable{Int64}(4),Nullable{Int64}(140047268562856),Nullable{Int64}(3),Nullable{Int64}(140047175500083),Nullable{Int64}(),Nullable{Int64}(140047268562888))
-        at index [140047175500272]
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
+      BoundsError: attempt to access 0-element Array{Nullable{Int64},1} at index [1]
+       in collect_to_with_first!(::Array{Nullable{Int64},1}, ::Nullable{Int64}, ::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}, ::Int64) at ./array.jl:323
+       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
        in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
        in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1146 [inlined]
@@ -1371,8 +1371,9 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl, in ex
        in _start() at ./client.jl:318
     Error :: (line:272) :: array related method tests
       Expression: (@darr(a=1.0 * [1 2 3;4 5 6],b=[:a :b :c;:x :y :z]))[:a,:b] --> Any[1.0 * nalift([1 2 3;4 5 6]),nalift([:a :b :c;:x :y :z])]
-      OutOfMemoryError()
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
+      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}(140627924070088),Nullable{Int64}(),Nullable{Int64}(140627924070120))
+        at index [140627981856816]
+       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
        in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1146 [inlined]
@@ -1391,11 +1392,10 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl, in ex
        in _start() at ./client.jl:318
     Error :: (line:272) :: array related method tests
       Expression: (@darr(a=[1 2 3;4 5 6],b=[:a :b :c;:x :y :z]))[[:a,:b]] --> @darr a=[1 2 3;4 5 6] b=[:a :b :c;:x :y :z]
-      OutOfMemoryError()
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
-       in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
-       in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
-       in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1146 [inlined]
+      ArgumentError: the result sizes for different fields are inconsistent: Dict{Symbol,Tuple{Int64,Vararg{Int64,N}}}(Pair{Symbol,Tuple{Int64,Vararg{Int64,N}}}(:a,(2,3)),Pair{Symbol,Tuple{Int64,Vararg{Int64,N}}}(:b,(0,)))
+       in darr_inner(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1226
+       in #darr#127(::Array{Any,1}, ::Function, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
+       in darr(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Any},1,Array{Nullable{Any},1}}}, ::Vararg{Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Any},1,Array{Nullable{Any},1}}},N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
        in (::TestDataCubes.TestDictArray.##105#530)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272
        in do_fact(::TestDataCubes.TestDictArray.##105#530, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
        in macro expansion at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272 [inlined]
@@ -1411,8 +1411,9 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl, in ex
        in _start() at ./client.jl:318
     Error :: (line:272) :: array related method tests
       Expression: (@darr(a=[1 2 3;4 5 6],b=[:a :b :c;:x :y :z]))[(:a,:b)] --> (nalift([1 2 3;4 5 6]),nalift([:a :b :c;:x :y :z]))
-      OutOfMemoryError()
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
+      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}(140627983637000),Nullable{Int64}(21),Nullable{Int64}(140627983637032))
+        at index [21]
+       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
        in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1146 [inlined]
@@ -1434,9 +1435,8 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl, in ex
       Expression: mapslices((x->begin  # /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl, line 113:
             x
         end),@darr(a=[1 2 3;4 5 6],b=["a" "b" "c";"d" "e" "f"]),[]) --> @darr a=[1 2 3;4 5 6] b=["a" "b" "c";"d" "e" "f"]
-      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}(140047344716808),Nullable{Int64}(105),Nullable{Int64}(140047344716840))
-        at index [105]
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
+      OutOfMemoryError()
+       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
        in getindex(::Tuple{Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{String}, ::Vararg{Nullable{String},N}) at ./abstractarray.jl:1354
        in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1146 [inlined]
@@ -1457,8 +1457,8 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl, in ex
       Expression: mapslices((x->begin  # /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl, line 115:
             x
         end),@darr(a=[1 2 3;4 5 6],b=["a" "b" "c";"d" "e" "f"]),[1]) --> @darr a=[1 2 3;4 5 6] b=["a" "b" "c";"d" "e" "f"]
-      BoundsError: attempt to access (Nullable{Int64}(4),Nullable{Int64}(140047344878280),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}(256),Nullable{Int64}(140047344878344))
-        at index [140047345297584]
+      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(140627981166336),Nullable{Int64}(140627922034472),Nullable{Int64}(0),Nullable{Int64}())
+        at index [140627905955136]
        in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{String}, ::Vararg{Nullable{String},N}) at ./abstractarray.jl:1354
@@ -1480,8 +1480,9 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl, in ex
       Expression: mapslices((x->begin  # /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl, line 116:
             x
         end),@darr(a=[1 2 3;4 5 6],b=["a" "b" "c";"d" "e" "f"]),1) --> @darr a=[1 2 3;4 5 6] b=["a" "b" "c";"d" "e" "f"]
-      OutOfMemoryError()
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
+      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(140627967105136),Nullable{Int64}(140627829604658),Nullable{Int64}(),Nullable{Int64}(140627922114536))
+        at index [140627829867664]
+       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{String}, ::Vararg{Nullable{String},N}) at ./abstractarray.jl:1354
        in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1146 [inlined]
@@ -1502,8 +1503,9 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl, in ex
       Expression: mapslices((x->begin  # /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl, line 117:
             x[1]
         end),@darr(a=[1 2 3;4 5 6],b=["a" "b" "c";"d" "e" "f"]),[1]) --> @darr a=[1,2,3] b=["a","b","c"]
-      OutOfMemoryError()
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
+      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(140627967166928),Nullable{Int64}(140627922211368),Nullable{Int64}(140627967167312),Nullable{Int64}(140627922211400))
+        at index [140627827515624]
+       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{String}, ::Vararg{Nullable{String},N}) at ./abstractarray.jl:1354
        in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1146 [inlined]
@@ -1524,10 +1526,12 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl, in ex
       Expression: mapslices((x->begin  # /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl, line 118:
             x[1]
         end),@darr(a=[1 2 3;4 5 6],b=["a" "b" "c";"d" "e" "f"]),[2]) --> @darr a=[1,4] b=["a","d"]
-      ArgumentError: the result sizes for different fields are inconsistent: Dict(:a=>(2,3),:b=>(2,2))
-       in darr_inner(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1226
-       in #darr#127(::Array{Any,1}, ::Function, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}},N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
-       in darr(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}},N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
+      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(140627981446432),Nullable{Int64}(140627922311144),Nullable{Int64}(140627981446544),Nullable{Int64}(140627922311176))
+        at index [140627827514520]
+       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
+       in getindex(::Tuple{Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String}}, ::UnitRange{Int64}) at ./tuple.jl:10
+       in hvcat(::Tuple{Int64,Int64}, ::Nullable{String}, ::Vararg{Nullable{String},N}) at ./abstractarray.jl:1354
+       in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1146 [inlined]
        in (::TestDataCubes.TestDictArray.##142#567)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272
        in do_fact(::TestDataCubes.TestDictArray.##142#567, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
        in macro expansion at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272 [inlined]
@@ -1543,11 +1547,10 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl, in ex
        in _start() at ./client.jl:318
     Error :: (line:272) :: additional method tests
       Expression: mapslices(length,@darr(a=[1 2 3;4 5 6],b=["a" "b" "c";"d" "e" "f"]),[1]) --> @rap @nalift([2,2,2])
-      BoundsError: attempt to access 0-element Array{Nullable{Int64},1} at index [1]
-       in collect_to_with_first!(::Array{Nullable{Int64},1}, ::Nullable{Int64}, ::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}, ::Int64) at ./array.jl:323
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
-       in getindex(::Tuple{Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String}}, ::UnitRange{Int64}) at ./tuple.jl:10
-       in hvcat(::Tuple{Int64,Int64}, ::Nullable{String}, ::Vararg{Nullable{String},N}) at ./abstractarray.jl:1354
+      DimensionMismatch("mismatch in dimension 2 (expected 1 got 2)")
+       in cat_t(::Int64, ::Type{T}, ::Array{Any,1}, ::Vararg{Any,N}) at ./abstractarray.jl:1078
+       in vcat(::Array{Any,1}, ::Array{Nullable{Int64},2}) at ./array.jl:723
+       in hvcat(::Tuple{Int64,Int64}, ::Nullable{String}, ::Vararg{Nullable{String},N}) at ./abstractarray.jl:1357
        in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1146 [inlined]
        in (::TestDataCubes.TestDictArray.##145#570)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272
        in do_fact(::TestDataCubes.TestDictArray.##145#570, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
@@ -1564,9 +1567,8 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl, in ex
        in _start() at ./client.jl:318
     Error :: (line:272) :: additional method tests
       Expression: mapslices(length,@darr(a=[1 2 3;4 5 6],b=["a" "b" "c";"d" "e" "f"]),[2]) --> @rap @nalift([3,3])
-      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}(140047175500083),Nullable{Int64}(140047239351504),Nullable{Int64}(140047329852136))
-        at index [140047173398472]
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
+      OutOfMemoryError()
+       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
        in getindex(::Tuple{Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{String}, ::Vararg{Nullable{String},N}) at ./abstractarray.jl:1354
        in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1146 [inlined]
@@ -1585,12 +1587,10 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl, in ex
        in _start() at ./client.jl:318
     Error :: (line:272) :: additional method tests
       Expression: mapslices(length,@darr(a=[1 2 3;4 5 6],b=["a" "b" "c";"d" "e" "f"]),2) --> @rap @nalift([3,3])
-      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(140047352954160),Nullable{Int64}(140047329901064),Nullable{Int64}(140047352954256),Nullable{Int64}(140047329901096))
-        at index [140047173398472]
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
-       in getindex(::Tuple{Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String}}, ::UnitRange{Int64}) at ./tuple.jl:10
-       in hvcat(::Tuple{Int64,Int64}, ::Nullable{String}, ::Vararg{Nullable{String},N}) at ./abstractarray.jl:1354
-       in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1146 [inlined]
+      ArgumentError: the result sizes for different fields are inconsistent: Dict{Symbol,Tuple{Int64,Vararg{Int64,N}}}(Pair{Symbol,Tuple{Int64,Vararg{Int64,N}}}(:a,(2,3)),Pair{Symbol,Tuple{Int64,Vararg{Int64,N}}}(:b,(0,)))
+       in darr_inner(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1226
+       in #darr#127(::Array{Any,1}, ::Function, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
+       in darr(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Any},1,Array{Nullable{Any},1}}}, ::Vararg{Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Any},1,Array{Nullable{Any},1}}},N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
        in (::TestDataCubes.TestDictArray.##149#574)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272
        in do_fact(::TestDataCubes.TestDictArray.##149#574, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
        in macro expansion at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272 [inlined]
@@ -2255,31 +2255,31 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl, in ex
 
 a          
 -----------
-0.23244147 
-0.67299984 
+0.24753305 
+0.48432609 
 2 x 3 DictArray
 
-a          |a          |a          
------------+-----------+-----------
-0.87753313 |0.10398444 |0.74351242 
-0.40515746 |0.79938562 |0.22050342 
+a          |a          |a            
+-----------+-----------+-------------
+0.24349553 |0.81010338 |0.0084904033 
+0.70340021 |0.39821279 |0.89155663   
 2 x 3 x 2 DictArray
 
 [:,:,1]
 2 x 3 DictArray
 
-    a          |a           |a          
-    -----------+------------+-----------
-    0.61605144 |0.097820139 |0.70165995 
-    0.55287578 |0.19094527  |0.17209103 
+    a          |a          |a          
+    -----------+-----------+-----------
+    0.38694213 |0.94045264 |0.37785058 
+    0.60297876 |0.95377585 |0.69733359 
 
 [:,:,2]
 2 x 3 DictArray
 
-    a           |a          |a          
-    ------------+-----------+-----------
-    0.53198417  |0.22694662 |0.66410716 
-    0.086246974 |0.90697476 |0.11455132 
+    a           |a          |a           
+    ------------+-----------+------------
+    0.31339666  |0.91526938 |0.032685601 
+    0.055076266 |0.5463523  |0.59203394  
 2 x 3 x 2 x 2 DictArray
 
 [:,:,:,1]
@@ -2288,18 +2288,18 @@ a          |a          |a
     [:,:,1]
 2 x 3 DictArray
 
-        a          |a          |a          
-        -----------+-----------+-----------
-        0.79064047 |0.6856993  |0.32828707 
-        0.35037997 |0.91559204 |0.4782443  
+        a          |a          |a           
+        -----------+-----------+------------
+        0.63510225 |0.16853204 |0.31195522  
+        0.9593601  |0.29765377 |0.098901583 
 
     [:,:,2]
 2 x 3 DictArray
 
         a          |a          |a          
         -----------+-----------+-----------
-        0.70095849 |0.38109818 |0.70382086 
-        0.58269835 |0.69159775 |0.96542285 
+        0.60393167 |0.74881717 |0.90121405 
+        0.84115942 |0.80081296 |0.80545608 
 
 [:,:,:,2]
 2 x 3 x 2 DictArray
@@ -2309,16 +2309,16 @@ a          |a          |a
 
         a          |a          |a          
         -----------+-----------+-----------
-        0.89624691 |0.61284999 |0.78775004 
-        0.844454   |0.23861153 |0.67777744 
+        0.66361463 |0.8425287  |0.62336064 
+        0.54251532 |0.65171619 |0.47307029 
 
     [:,:,2]
 2 x 3 DictArray
 
-        a           |a          |a          
-        ------------+-----------+-----------
-        0.4114753   |0.48563909 |0.8651169  
-        0.084179756 |0.64983161 |0.77461881 
+        a          |a          |a          
+        -----------+-----------+-----------
+        0.31963426 |0.83769921 |0.12335298 
+        0.44392762 |0.53361036 |0.96663595 
     > show tests
 WARNING: slice is deprecated, use view instead.
  in depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -2345,16 +2345,16 @@ DataCubes.LDict(:a=>1)0 DictArray
 a 
 2 DictArray
 
-a          
------------
-0.64309103 
-0.99699594 
+a           
+------------
+0.051523598 
+0.28655683  
 2 x 3 DictArray
 
-a          |a          |a          
------------+-----------+-----------
-0.73477647 |0.72467445 |0.99297358 
-0.15318822 |0.69581767 |0.68311317 
+a           |a            |a          
+------------+-------------+-----------
+0.026309164 |0.97023477   |0.33598342 
+0.18688986  |0.0050571448 |0.93766258 
 2 x 3 x 2 DictArray
 
 [:,:,1]
@@ -2362,16 +2362,16 @@ a          |a          |a
 
     a          |a          |a          
     -----------+-----------+-----------
-    0.34317088 |0.30562286 |0.7791694  
-    0.99850645 |0.91384815 |0.13505102 
+    0.54638357 |0.35653377 |0.89006485 
+    0.74082587 |0.37423448 |0.28337761 
 
 [:,:,2]
 2 x 3 DictArray
 
-    a          |a           |a           
-    -----------+------------+------------
-    0.99619528 |0.81705565  |0.53862976  
-    0.9541455  |0.090287393 |0.070976561 
+    a          |a          |a          
+    -----------+-----------+-----------
+    0.80475464 |0.11252467 |0.22083903 
+    0.72499488 |0.90568289 |0.21332554 
 2 x 3 x 2 x 2 DictArray
 
 [:,:,:,1]
@@ -2380,18 +2380,18 @@ a          |a          |a
     [:,:,1]
 2 x 3 DictArray
 
-        a          |a          |a          
-        -----------+-----------+-----------
-        0.5891754  |0.48518706 |0.95100525 
-        0.11105364 |0.17690935 |0.17032691 
+        a            |a          |a          
+        -------------+-----------+-----------
+        0.9034408    |0.95161087 |0.84389611 
+        0.0052819801 |0.42911244 |0.3653479  
 
     [:,:,2]
 2 x 3 DictArray
 
         a           |a           |a          
         ------------+------------+-----------
-        0.15293521  |0.082771764 |0.20905471 
-        0.024479023 |0.78696921  |0.81448568 
+        0.047784082 |0.51943634  |0.25450594 
+        0.53262001  |0.020261848 |0.52348912 
 
 [:,:,:,2]
 2 x 3 x 2 DictArray
@@ -2399,72 +2399,72 @@ a          |a          |a
     [:,:,1]
 2 x 3 DictArray
 
-        a          |a          |a          
-        -----------+-----------+-----------
-        0.48937086 |0.51445517 |0.29104546 
-        0.61122549 |0.98356853 |0.58219051 
+        a          |a          |a           
+        -----------+-----------+------------
+        0.22787529 |0.92123692 |0.94853114  
+        0.92210671 |0.13001042 |0.068608447 
 
     [:,:,2]
-2 x 3 DictArray
-
-        a          |a          |a          
-        -----------+-----------+-----------
-        0.99401962 |0.76519033 |0.16849253 
-        0.44698715 |0.50399587 |0.59191672 
-2 x 3 x 2 x 2 DictArray
-
-[:,:,:,1]
-2 x 3 x 2 DictArray
-
-    [:,:,1]
-2 x 3 DictArray
-
-        a          |a          |a          
-        -----------+-----------+-----------
-        0.61921971 |0.51310805 |0.4545232  
-        0.93618665 |0.3452106  |0.68267136 
-
-    [:,:,2]
-2 x 3 DictArray
-
-        a          |a          |a          
-        -----------+-----------+-----------
-        0.85841446 |0.22610146 |0.19826948 
-        0.86255093 |0.30931255 |0.43063343 
-
-[:,:,:,2]
-2 x 3 x 2 DictArray
-
-    [:,:,1]
 2 x 3 DictArray
 
         a          |a           |a          
         -----------+------------+-----------
-        0.37544134 |0.20497444  |0.76732641 
-        0.58284539 |0.091145037 |0.76540818 
+        0.12845138 |0.43839518  |0.73405411 
+        0.88123429 |0.032689321 |0.71662954 
+2 x 3 x 2 x 2 DictArray
+
+[:,:,:,1]
+2 x 3 x 2 DictArray
+
+    [:,:,1]
+2 x 3 DictArray
+
+        a          |a          |a          
+        -----------+-----------+-----------
+        0.44640705 |0.26419187 |0.43532294 
+        0.15240776 |0.84626684 |0.72771602 
 
     [:,:,2]
 2 x 3 DictArray
 
-        a           |a           |a          
-        ------------+------------+-----------
-        0.96994521  |0.88221449  |0.89857698 
-        0.066163999 |0.061436753 |0.43283521 
+        a          |a          |a          
+        -----------+-----------+-----------
+        0.89478135 |0.7363034  |0.31034338 
+        0.94564965 |0.33176852 |0.14344226 
+
+[:,:,:,2]
+2 x 3 x 2 DictArray
+
+    [:,:,1]
+2 x 3 DictArray
+
+        a           |a          |a          
+        ------------+-----------+-----------
+        0.47255248  |0.30125218 |0.8571045  
+        0.074982924 |0.27469374 |0.92256769 
+
+    [:,:,2]
+2 x 3 DictArray
+
+        a           |a          |a          
+        ------------+-----------+-----------
+        0.020681032 |0.27200749 |0.96451597 
+        0.19248562  |0.3046723  |0.52864896 
 10 x 10 DictArray
 
 a     ...
 -----
-0.2.. ...
-0.5.. ...
+0.0.. ...
+0.3.. ...
 0.6.. ...
-0.8.. ...
+0.7.. ...
 :
 10 x 10 DictArray
 
 a     ...
 -----
-0.6.. ...
-0.9.. ...
+0.4.. ...
+0.2.. ...
 :
 10 x 10 DictArray
 
@@ -2475,58 +2475,58 @@ a   ...
 :
 3 DictArray
 
-a |0.05565326 
-b |0.27182594 
+a |0.63087708 
+b |0.31490466 
 c |X          
 --+-----------
-a |0.4005607  
-b |0.54688355 
+a |0.4515199  
+b |0.02207948 
 c |X          
 --+-----------
-a |0.19341728 
-b |0.7435859  
+a |0.72543332 
+b |0.35157616 
 c |X          
 3 DictArray
 
-a           b            c 
----------------------------
-0.068671174 0.53925958   X 
-0.28287945  0.25642622   X 
-0.86937872  0.0056894224 X 
+a          b          c 
+------------------------
+0.96729068 0.20331591 X 
+0.4987103  0.68720163 X 
+0.68092628 0.90173889 X 
 3 x 5 DictArray
 
-a |0.71737904  0.69867348 0.85677096 0.036268571 0.5924843   
-b |0.59389083  0.38720663 0.17228417 0.63024493  0.045547342 
-c |X           X          X          X           X           
---+----------------------------------------------------------
-a |0.067990188 0.23472001 0.53108877 0.89519381  0.060724899 
-b |0.45422993  0.99433823 0.62837237 0.50641496  0.99804777  
-c |X           X          X          X           X           
---+----------------------------------------------------------
-a |0.48865448  0.23285243 0.42743636 0.010641822 0.34539621  
-b |0.074841669 0.42087654 0.5546869  0.28005639  0.20822309  
-c |X           X          X          X           X           
+a |0.75235891 0.91936115 0.12831166 0.10397181 0.72387349 
+b |0.8651899  0.95926587 0.6603483  0.76980677 0.89614701 
+c |X          X          X          X          X          
+--+-------------------------------------------------------
+a |0.91857239 0.25345564 0.66200187 0.64281337 0.91222139 
+b |0.90206704 0.33404508 0.84454784 0.83735826 0.91443984 
+c |X          X          X          X          X          
+--+-------------------------------------------------------
+a |0.38597393 0.21410849 0.8976365  0.64358787 0.12532507 
+b |0.39771064 0.05228114 0.61714605 0.95446049 0.9660209  
+c |X          X          X          X          X          
 3 x 5 DictArray
 
 a          b          c |a          b          c |a          b          c ...
 ------------------------+------------------------+-----------------------
-0.70154244 0.43156095 X |0.64154455 0.25465874 X |0.30423269 0.39512874 X ...
-0.24357766 0.3392112  X |0.69877753 0.9507136  X |0.58113463 0.60489724 X ...
-0.82427923 0.19297315 X |0.89053856 0.60103009 X |0.30192242 0.59821406 X ...
+0.85255717 0.46655862 X |0.67654587 0.8652528  X |0.78961998 0.51319289 X ...
+0.68369104 0.77458236 X |0.57778365 0.87324048 X |0.9179622  0.44641861 X ...
+0.76809282 0.22534286 X |0.11641616 0.16058713 X |0.44536565 0.76459653 X ...
 3 x 5 DictArray
 
 a    b    c |a    b    c |a    b    c |a    b    c |a    b    c 
 ------------+------------+------------+------------+------------
-0.75 0.83 X |0.85 0.35 X |0.94 0.50 X |0.85 0.65 X |0.52 0.08 X 
-0.18 0.49 X |0.08 0.32 X |0.46 0.86 X |0.91 0.29 X |0.80 0.12 X 
-0.10 0.07 X |0.21 0.57 X |0.99 0.18 X |0.50 0.92 X |0.94 0.60 X 
+0.40 0.62 X |0.16 0.83 X |0.40 0.97 X |0.86 0.79 X |0.93 0.14 X 
+0.39 0.88 X |0.78 0.48 X |0.39 0.40 X |0.74 0.28 X |0.09 0.87 X 
+0.64 0.81 X |0.27 0.85 X |0.58 0.37 X |0.03 0.54 X |0.67 0.97 X 
 3 x 5 DictArray
 
-a          b           c |a          b          c |a          b          .. ...
--------------------------+------------------------+----------------------
-0.15665626 0.33382162  X |0.67535586 0.62759995 X |0.34842454 0.22175782 .. ...
-0.7834587  0.090224189 X |0.16051133 0.11663011 X |0.3168345  0.15159386 .. ...
-0.75520108 0.22770228  X |0.62547392 0.98093567 X |0.91974534 0.8548799  .. ...
+a          b           c |a            b          c |a          b         ...
+-------------------------+--------------------------+--------------------
+0.33586202 0.028135477 X |0.84278522   0.49128903 X |0.67940324 0.07965.. ...
+0.64982588 0.16185339  X |0.0047808029 0.59208074 X |0.34487162 0.81235.. ...
+0.29610973 0.98058943  X |0.22136606   0.86154609 X |0.68748007 0.42359.. ...
 WARNING: Base.writemime is deprecated.
   likely near /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl:7
 in #407 at 
@@ -2542,7 +2542,7 @@ WARNING: Base.writemime is deprecated.
   likely near /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl:7
 in #407 at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl
 10 x 10 DictArray
-<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.20937827</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.20170551</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.27292982</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.88882571</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">0.47202574</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.53589985</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.61099682</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.38888602</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">0.038249155</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.13879216</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.021824099</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.99928773</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table>WARNING: Base.writemime is deprecated.
+<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.96316739</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.46816081</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.89063591</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.1375079</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">0.02235447</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.37680883</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.85962399</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.58111087</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">0.95151414</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.23431281</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.95814274</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.74353996</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table>WARNING: Base.writemime is deprecated.
   likely near /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl:7
 in #409 at 
 WARNING: Base.writemime is deprecated.
@@ -2557,7 +2557,7 @@ WARNING: Base.writemime is deprecated.
   likely near /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl:7
 in #409 at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl
 10 x 10 DictArray
-<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.38798952</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.58488573</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.72042678</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.39765</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table>WARNING: Base.writemime is deprecated.
+<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.79433219</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.37688924</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.63552077</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.084907486</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table>WARNING: Base.writemime is deprecated.
   likely near /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl:7
 in #411 at 
 WARNING: Base.writemime is deprecated.
@@ -2572,7 +2572,7 @@ WARNING: Base.writemime is deprecated.
   likely near /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl:7
 in #411 at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl
 10 x 10 DictArray
-<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.10730698</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.72068022</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table>WARNING: Base.writemime is deprecated.
+<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.42753601</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.55377589</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table>WARNING: Base.writemime is deprecated.
   likely near /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl:7
 in #413 at 
 WARNING: Base.writemime is deprecated.
@@ -2600,13 +2600,13 @@ in #writemime#97 at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array
 2 x 3 x 4 DictArray
 <ul><li>[:,:,1]
 2 x 3 DictArray
-<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.88754002</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.6080454</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table></li><li>[:,:,2]
+<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.099034728</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.55710142</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table></li><li>[:,:,2]
 2 x 3 DictArray
-<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.40264019</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.68374875</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table></li><li>[:,:,3]
+<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.82657642</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.054236124</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table></li><li>[:,:,3]
 2 x 3 DictArray
-<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.60875961</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.61438128</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table></li><li>[:,:,4]
+<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.10442028</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.39945375</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table></li><li>[:,:,4]
 2 x 3 DictArray
-<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.84065984</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.60037746</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table></li></ul>WARNING: Base.writemime is deprecated.
+<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">a</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.71628222</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.26653815</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table></li></ul>WARNING: Base.writemime is deprecated.
   likely near /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl:7
 in #415 at 
 WARNING: Base.writemime is deprecated.
@@ -2654,7 +2654,7 @@ WARNING: Base.writemime is deprecated.
   likely near /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl:7
 in #419 at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl
 3 x 5 DictArray
-<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.097403628</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">b</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.44777636</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table>WARNING: Base.writemime is deprecated.
+<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.23715004</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">b</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.91860247</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table>WARNING: Base.writemime is deprecated.
   likely near /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl:7
 in #421 at 
 WARNING: Base.writemime is deprecated.
@@ -2669,7 +2669,7 @@ WARNING: Base.writemime is deprecated.
   likely near /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl:7
 in #421 at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl
 3 x 5 DictArray
-<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">b</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.36794395</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.92848054</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table>WARNING: Base.writemime is deprecated.
+<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">b</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.14356575</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.15155595</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table>WARNING: Base.writemime is deprecated.
   likely near /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl:7
 in #423 at 
 WARNING: Base.writemime is deprecated.
@@ -2684,7 +2684,7 @@ WARNING: Base.writemime is deprecated.
   likely near /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl:7
 in #423 at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl
 3 x 5 DictArray
-<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">b</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.77</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.69</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table>WARNING: Base.writemime is deprecated.
+<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">b</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.97</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.19</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table>WARNING: Base.writemime is deprecated.
   likely near /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl:7
 in #425 at 
 WARNING: Base.writemime is deprecated.
@@ -2699,7 +2699,7 @@ WARNING: Base.writemime is deprecated.
   likely near /home/vagrant/.julia/v0.5/DataCubes/test/test_dict_array.jl:7
 in #425 at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl
 3 x 5 DictArray
-<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">b</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.43021916</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.43112714</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table>Out of 176 total facts:
+<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">a</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">b</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.79133674</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">0.49519557</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table>Out of 176 total facts:
   Verified: 151
   Errored:  25
 WARNING: Base.writemime is deprecated.
@@ -2878,8 +2878,8 @@ LabeledArray tests
   > constructor tests
     Error :: (line:272) :: constructor tests
       Expression: @larr @larr(a=[1 NA;3 4;NA NA],:b => [1.0 1.5;:sym 'a';"X" "Y"],c=1,axis[:U,NA,:W],axis[r = ['m','n']]) c=[NA NA;3 4;5 6] :d => :X axis1[k = ["g","h","i"]] --> @larr a=[1 NA;3 4;NA NA] b=[1.0 1.5;:sym 'a';"X" "Y"] c=[NA NA;3 4;5 6] d=reshape(fill(:X,6),3,2) axis2[r = ['m','n']] axis1[k = ["g","h","i"]]
-      BoundsError: attempt to access (Nullable{Int64}(5),Nullable{Int64}(140047390209896),Nullable{Int64}(0),Nullable{Int64}(140047390209960),Nullable{Int64}(),Nullable{Int64}(1320019971))
-        at index [77309411328]
+      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(140627924385256),Nullable{Int64}(140628001944720),Nullable{Int64}(140627924385288),Nullable{Int64}(140627978394288),Nullable{Int64}(140627924385320))
+        at index [140627827514520]
        in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{Float64},Nullable{Float64},Nullable{Symbol},Nullable{Char},Nullable{String},Nullable{String}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64,Int64}, ::Nullable{Float64}, ::Vararg{Any,N}) at ./abstractarray.jl:1354
@@ -2900,27 +2900,39 @@ LabeledArray tests
        in process_options(::Base.JLOptions) at ./client.jl:262
        in _start() at ./client.jl:318
   > array related method tests
-WARNING: cell(dims::Integer...) is deprecated, use Array{Any}(dims...) instead.
- in depwarn(::String, ::Symbol) at ./deprecated.jl:64
- in cell(::Int64) at ./deprecated.jl:50
- in permutedims(::DataCubes.LabeledArray{DataCubes.LDict{Any,Nullable{Any}},2,Tuple{DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{T,1,A<:AbstractArray},Nullable{Any}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Symbol},1,Array{Nullable{Symbol},1}},Nullable{Symbol}}},DataCubes.DictArray{Any,2,DataCubes.AbstractArrayWrapper{T,2,A<:AbstractArray},Nullable{Any}}}, ::Tuple{Int64,Int64}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:745
- in do_fact(::TestDataCubes.TestLabeledArray.##66#494{DataCubes.LabeledArray{DataCubes.LDict{Any,Nullable{Any}},2,Tuple{DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{T,1,A<:AbstractArray},Nullable{Any}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Symbol},1,Array{Nullable{Symbol},1}},Nullable{Symbol}}},DataCubes.DictArray{Any,2,DataCubes.AbstractArrayWrapper{T,2,A<:AbstractArray},Nullable{Any}}}}, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
- in macro expansion at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272 [inlined]
- in (::TestDataCubes.TestLabeledArray.##26#454)() at /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl:71
- in context(::TestDataCubes.TestLabeledArray.##26#454, ::String) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:475
- in (::TestDataCubes.TestLabeledArray.##1#429)() at /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl:30
- in facts(::TestDataCubes.TestLabeledArray.##1#429, ::String) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:449
- in include_from_node1(::String) at ./loading.jl:426
- in macro expansion; at /home/vagrant/.julia/v0.5/DataCubes/test/runtests.jl:24 [inlined]
- in anonymous at ./<missing>:?
- in include_from_node1(::String) at ./loading.jl:426
- in process_options(::Base.JLOptions) at ./client.jl:262
- in _start() at ./client.jl:318
-while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl, in expression starting on line 6
     Error :: (line:272) :: array related method tests
-      Expression: (@larr(a=[1 2 3;4 5 6],'x'=[:a :b :c;:x :y :z]))[:a] --> nalift([1 2 3;4 5 6])
+      Expression: permutedims(arr,(2,1)) --> transpose(arr)
       OutOfMemoryError()
        in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
+       in getindex(::Tuple{Base.OneTo{Int64},Base.OneTo{Int64}}, ::UnitRange{Int64}) at ./tuple.jl:10
+       in _copy!(::Base.PermutedDimsArrays.PermutedDimsArray{Float64,2,(2,1),(2,1),Array{Float64,2}}, ::Base.ReshapedArray{Float64,2,FloatRange{Float64},Tuple{}}) at ./permuteddimsarray.jl:74
+       in permutedims! at ./permuteddimsarray.jl:54 [inlined]
+       in permutedims(::Base.ReshapedArray{Float64,2,FloatRange{Float64},Tuple{}}, ::Tuple{Int64,Int64}) at ./permuteddimsarray.jl:48
+       in permutedims(::DataCubes.FloatNAArray{Float64,2,Base.ReshapedArray{Float64,2,FloatRange{Float64},Tuple{}}}, ::Tuple{Int64,Int64}) at ./<missing>:0 (repeats 2 times)
+       in #60 at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:298 [inlined]
+       in next at ./generator.jl:26 [inlined]
+       in collect_to!(::Array{DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}},1}, ::Base.Generator{Array{DataCubes.AbstractArrayWrapper{T,2,A<:AbstractArray},1},DataCubes.##60#61{Tuple{Int64,Int64}}}, ::Int64, ::Int64) at ./array.jl:337
+       in _collect(::Array{DataCubes.AbstractArrayWrapper{T,2,A<:AbstractArray},1}, ::Base.Generator{Array{DataCubes.AbstractArrayWrapper{T,2,A<:AbstractArray},1},DataCubes.##60#61{Tuple{Int64,Int64}}}, ::Base.EltypeUnknown, ::Base.HasShape) at ./array.jl:318
+       in mapvalues(::Function, ::DataCubes.LDict{Any,DataCubes.AbstractArrayWrapper{T,2,A<:AbstractArray}}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/ldict.jl:238
+       in permutedims at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:298 [inlined]
+       in permutedims(::DataCubes.LabeledArray{DataCubes.LDict{Any,Nullable{Any}},2,Tuple{DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{T,1,A<:AbstractArray},Nullable{Any}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Symbol},1,Array{Nullable{Symbol},1}},Nullable{Symbol}}},DataCubes.DictArray{Any,2,DataCubes.AbstractArrayWrapper{T,2,A<:AbstractArray},Nullable{Any}}}, ::Tuple{Int64,Int64}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:744
+       in do_fact(::TestDataCubes.TestLabeledArray.##66#494{DataCubes.LabeledArray{DataCubes.LDict{Any,Nullable{Any}},2,Tuple{DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{T,1,A<:AbstractArray},Nullable{Any}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Symbol},1,Array{Nullable{Symbol},1}},Nullable{Symbol}}},DataCubes.DictArray{Any,2,DataCubes.AbstractArrayWrapper{T,2,A<:AbstractArray},Nullable{Any}}}}, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
+       in macro expansion at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272 [inlined]
+       in (::TestDataCubes.TestLabeledArray.##26#454)() at /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl:71
+       in context(::TestDataCubes.TestLabeledArray.##26#454, ::String) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:475
+       in (::TestDataCubes.TestLabeledArray.##1#429)() at /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl:30
+       in facts(::TestDataCubes.TestLabeledArray.##1#429, ::String) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:449
+       in include_from_node1(::String) at ./loading.jl:426
+       in macro expansion; at /home/vagrant/.julia/v0.5/DataCubes/test/runtests.jl:24 [inlined]
+       in anonymous at ./<missing>:?
+       in include_from_node1(::String) at ./loading.jl:426
+       in process_options(::Base.JLOptions) at ./client.jl:262
+       in _start() at ./client.jl:318
+    Error :: (line:272) :: array related method tests
+      Expression: (@larr(a=[1 2 3;4 5 6],'x'=[:a :b :c;:x :y :z]))[:a] --> nalift([1 2 3;4 5 6])
+      BoundsError: attempt to access (Nullable{Int64}(4),Nullable{Int64}(140628001641736),Nullable{Int64}(5),Nullable{Int64}(),Nullable{Int64}(140627893456080),Nullable{Int64}(140628001641768))
+        at index [78]
+       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
        in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:1366 [inlined]
@@ -2939,8 +2951,9 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl, in
        in _start() at ./client.jl:318
     Error :: (line:272) :: array related method tests
       Expression: (@larr(a=[1 2 3;4 5 6],b=[:a :b :c;:x :y :z]))[:a,:b] --> Any[nalift([1 2 3;4 5 6]),nalift([:a :b :c;:x :y :z])]
-      OutOfMemoryError()
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
+      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}(140628001743368),Nullable{Int64}(5),Nullable{Int64}())
+        at index [224]
+       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
        in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:1366 [inlined]
@@ -2959,10 +2972,10 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl, in
        in _start() at ./client.jl:318
     Error :: (line:272) :: array related method tests
       Expression: (@larr(a=[1 2 3;4 5 6],b=[:a :b :c;:x :y :z]))[[:a,:b]] --> @darr a=[1 2 3;4 5 6] b=[:a :b :c;:x :y :z]
-      OutOfMemoryError()
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
-       in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
-       in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
+      DimensionMismatch("mismatch in dimension 2 (expected 1 got 2)")
+       in cat_t(::Int64, ::Type{T}, ::Array{Any,1}, ::Vararg{Any,N}) at ./abstractarray.jl:1078
+       in vcat(::Array{Any,1}, ::Array{Nullable{Int64},2}) at ./array.jl:723
+       in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1357
        in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:1366 [inlined]
        in (::TestDataCubes.TestLabeledArray.##102#530)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272
        in do_fact(::TestDataCubes.TestLabeledArray.##102#530, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
@@ -2979,11 +2992,10 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl, in
        in _start() at ./client.jl:318
     Error :: (line:272) :: array related method tests
       Expression: (@larr(a=[1 2 3;4 5 6],b=[:a :b :c;:x :y :z]))[(:a,:b)] --> (nalift([1 2 3;4 5 6]),nalift([:a :b :c;:x :y :z]))
-      OutOfMemoryError()
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
-       in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
-       in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
-       in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:1366 [inlined]
+      ArgumentError: the result sizes for different fields are inconsistent: Dict{Symbol,Tuple{Int64,Vararg{Int64,N}}}(Pair{Symbol,Tuple{Int64,Vararg{Int64,N}}}(:a,(2,3)),Pair{Symbol,Tuple{Int64,Vararg{Int64,N}}}(:b,(0,)))
+       in darr_inner(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1226
+       in #darr#127(::Array{Any,1}, ::Function, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
+       in darr(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Any},1,Array{Nullable{Any},1}}}, ::Vararg{Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Any},1,Array{Nullable{Any},1}}},N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
        in (::TestDataCubes.TestLabeledArray.##104#532)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272
        in do_fact(::TestDataCubes.TestLabeledArray.##104#532, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
        in macro expansion at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272 [inlined]
@@ -3021,10 +3033,10 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl, in
       Expression: mapslices((x->begin  # /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl, line 104:
             LDict(:c => Nullable(length(x)))
         end),@larr(a=[1 2 3;4 5 6],b=["a" "b" "c";"d" "e" "f"],axis1[k = [:x,:y]],axis2[r = [:m,:n,:p]]),[1]) --> @larr c=[2,2,2] axis1[r = [:m,:n,:p]]
-      OutOfMemoryError()
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
-       in getindex(::Tuple{Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String}}, ::UnitRange{Int64}) at ./tuple.jl:10
-       in hvcat(::Tuple{Int64,Int64}, ::Nullable{String}, ::Vararg{Nullable{String},N}) at ./abstractarray.jl:1354
+      ArgumentError: number of columns of each array must match (got (2,1))
+       in typed_vcat(::Type{Nullable{Int64}}, ::Array{Nullable{Int64},2}, ::Array{Nullable{Int64},2}) at ./abstractarray.jl:1035
+       in vcat(::Array{Nullable{Int64},2}, ::Array{Nullable{Int64},2}) at ./array.jl:722
+       in hvcat(::Tuple{Int64,Int64}, ::Nullable{String}, ::Vararg{Nullable{String},N}) at ./abstractarray.jl:1357
        in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:1366 [inlined]
        in (::TestDataCubes.TestLabeledArray.##127#555)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272
        in do_fact(::TestDataCubes.TestLabeledArray.##127#555, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
@@ -3043,8 +3055,8 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl, in
       Expression: mapslices((x->begin  # /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl, line 105:
             LDict(:c => Nullable(length(x)))
         end),@larr(a=[1 2 3;4 5 6],b=["a" "b" "c";"d" "e" "f"],axis1[k = [:x,:y]],axis2[r = [:m,:n,:p]]),1) --> @larr c=[2,2,2] axis1[r = [:m,:n,:p]]
-      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(140047259282512),Nullable{Int64}(140047250208360),Nullable{Int64}(21),Nullable{Int64}(140047250208392))
-        at index [21]
+      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}(140628063197064),Nullable{Int64}(),Nullable{Int64}(140628063197096))
+        at index [140627827524824]
        in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{String}, ::Vararg{Nullable{String},N}) at ./abstractarray.jl:1354
@@ -3066,8 +3078,9 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl, in
       Expression: mapslices((x->begin  # /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl, line 106:
             LDict(:c => Nullable(length(x)))
         end),@larr(a=[1 2 3;4 5 6],b=["a" "b" "c";"d" "e" "f"],axis1[k = [:x,:y]],axis2[r = [:m,:n,:p]]),[2]) --> @larr c=[3,3] axis1[k = [:x,:y]]
-      OutOfMemoryError()
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
+      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(140628017279824),Nullable{Int64}(140628063229352),Nullable{Int64}(140628069790192),Nullable{Int64}(140628063229384))
+        at index [140628067495424]
+       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{String}, ::Vararg{Nullable{String},N}) at ./abstractarray.jl:1354
        in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:1366 [inlined]
@@ -3088,12 +3101,10 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl, in
       Expression: mapslices((x->begin  # /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl, line 107:
             LDict(:c => Nullable(length(x)))
         end),@larr(a=[1 2 3;4 5 6],b=["a" "b" "c";"d" "e" "f"],axis1[k = [:x,:y]],axis2[r = [:m,:n,:p]]),2) --> @larr c=[3,3] axis1[k = [:x,:y]]
-      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(140047186507664),Nullable{Int64}(140047250293288),Nullable{Int64}(140047324428112),Nullable{Int64}(140047250293320))
-        at index [8234114368903933762]
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
-       in getindex(::Tuple{Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String}}, ::UnitRange{Int64}) at ./tuple.jl:10
-       in hvcat(::Tuple{Int64,Int64}, ::Nullable{String}, ::Vararg{Nullable{String},N}) at ./abstractarray.jl:1354
-       in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:1366 [inlined]
+      ArgumentError: the result sizes for different fields are inconsistent: Dict{Symbol,Tuple{Int64,Vararg{Int64,N}}}(Pair{Symbol,Tuple{Int64,Vararg{Int64,N}}}(:a,(2,3)),Pair{Symbol,Tuple{Int64,Vararg{Int64,N}}}(:b,(0,)))
+       in darr_inner(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1226
+       in #darr#127(::Array{Any,1}, ::Function, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
+       in darr(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Any},1,Array{Nullable{Any},1}}}, ::Vararg{Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Any},1,Array{Nullable{Any},1}}},N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
        in (::TestDataCubes.TestLabeledArray.##136#564)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272
        in do_fact(::TestDataCubes.TestLabeledArray.##136#564, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
        in macro expansion at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272 [inlined]
@@ -3111,11 +3122,10 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl, in
       Expression: mapslices((x->begin  # /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl, line 108:
             Nullable(length(x))
         end),@larr(a=[1 2 3;4 5 6],b=["a" "b" "c";"d" "e" "f"]),[1]) --> LabeledArray(@nalift([2,2,2]),axes1=@nalift([1,2,3]))
-      OutOfMemoryError()
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
-       in getindex(::Tuple{Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String},Nullable{String}}, ::UnitRange{Int64}) at ./tuple.jl:10
-       in hvcat(::Tuple{Int64,Int64}, ::Nullable{String}, ::Vararg{Nullable{String},N}) at ./abstractarray.jl:1354
-       in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:1366 [inlined]
+      ArgumentError: the result sizes for different fields are inconsistent: Dict{Symbol,Tuple{Int64,Vararg{Int64,N}}}(Pair{Symbol,Tuple{Int64,Vararg{Int64,N}}}(:a,(2,3)),Pair{Symbol,Tuple{Int64,Vararg{Int64,N}}}(:b,(0,)))
+       in darr_inner(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1226
+       in #darr#127(::Array{Any,1}, ::Function, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
+       in darr(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Any},1,Array{Nullable{Any},1}}}, ::Vararg{Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Any},1,Array{Nullable{Any},1}}},N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
        in (::TestDataCubes.TestLabeledArray.##139#567)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272
        in do_fact(::TestDataCubes.TestLabeledArray.##139#567, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
        in macro expansion at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272 [inlined]
@@ -4596,54 +4606,54 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl, in
 
   |a          
 --+-----------
-1 |0.30504384 
-2 |0.80151366 
+1 |0.29994813 
+2 |0.8422507  
 2 LabeledArray
 
   |a           
 --+------------
-X |0.13703979  
-Y |0.044794351 
+X |0.029180973 
+Y |0.5194774   
 2 x 3 LabeledArray
 
-  |X          |Y           |.. 
---+-----------+------------+--
-  |a          |a           |.. 
---+-----------+------------+--
-a |0.47522736 |0.50567372  |.. 
-b |0.32705715 |0.043865886 |.. 
+  |X           |Y          |.. 
+--+------------+-----------+--
+  |a           |a          |.. 
+--+------------+-----------+--
+a |0.014930758 |0.89034875 |.. 
+b |0.36420381  |0.53786022 |.. 
 2 x 3 LabeledArray
 
   |X          |Y          |Z   
 --+-----------+-----------+---
   |a          |a          |a   
 --+-----------+-----------+---
-1 |0.84417396 |0.38201244 |0.. 
-2 |0.61000626 |0.10731444 |0.. 
+1 |0.19752393 |0.12343627 |0.. 
+2 |0.56921066 |0.33672138 |0.. 
 2 x 3 LabeledArray
 
 k |X          |Y          |Z   
 --+-----------+-----------+---
   |a          |a          |a   
 --+-----------+-----------+---
-1 |0.58744314 |0.68885161 |0.. 
-2 |0.15055854 |0.41951798 |0.. 
+1 |0.1269444  |0.36886036 |0.. 
+2 |0.60718772 |0.10032883 |0.. 
+2 x 3 LabeledArray
+
+  |1           |2          |.. 
+--+------------+-----------+--
+  |a           |a          |.. 
+--+------------+-----------+--
+X |0.9604674   |0.26027637 |.. 
+Y |0.036541741 |0.22173563 |.. 
 2 x 3 LabeledArray
 
   |1          |2          |3   
 --+-----------+-----------+---
   |a          |a          |a   
 --+-----------+-----------+---
-X |0.57713676 |0.51166314 |0.. 
-Y |0.38364552 |0.13468582 |0.. 
-2 x 3 LabeledArray
-
-  |1          |2          |3   
---+-----------+-----------+---
-  |a          |a          |a   
---+-----------+-----------+---
-1 |0.8577287  |0.51762579 |0.. 
-2 |0.45128636 |0.41539453 |0.. 
+1 |0.98399395 |0.53373884 |0.. 
+2 |0.38811498 |0.2582945  |0.. 
 2 x 3 x 2 LabeledArray
 
 Nullable{Symbol}(:x) [:,:,1]
@@ -4653,18 +4663,18 @@ Nullable{Symbol}(:x) [:,:,1]
     --+-----------+-----------+
       |a          |a          |.. 
     --+-----------+-----------+
-    1 |0.59100023 |0.91438786 |.. 
-    2 |0.56816994 |0.39195258 |.. 
+    1 |0.89072898 |0.71574661 |.. 
+    2 |0.99331598 |0.7868385  |.. 
 
 Nullable{Symbol}(:y) [:,:,2]
 2 x 3 LabeledArray
 
-      |1          |2           ...
-    --+-----------+-----------
-      |a          |a           ...
-    --+-----------+-----------
-    1 |0.47007695 |0.58792974  ...
-    2 |0.89388183 |0.045815581 ...
+      |1          |2          |.. 
+    --+-----------+-----------+
+      |a          |a          |.. 
+    --+-----------+-----------+
+    1 |0.85716978 |0.56087001 |.. 
+    2 |0.87322726 |0.62558966 |.. 
 2 x 3 x 2 x 2 LabeledArray
 
 Nullable{Int64}(1) [:,:,:,1]
@@ -4677,8 +4687,8 @@ Nullable{Int64}(1) [:,:,:,1]
         --+-----------+-------
           |a          |a       ...
         --+-----------+-------
-        1 |0.94920097 |0.553.. ...
-        2 |0.98801378 |0.199.. ...
+        1 |0.70131497 |0.340.. ...
+        2 |0.58020541 |0.586.. ...
 
     Nullable{Int64}(2) [:,:,2]
 2 x 3 LabeledArray
@@ -4687,8 +4697,55 @@ Nullable{Int64}(1) [:,:,:,1]
         --+-----------+-------
           |a          |a       ...
         --+-----------+-------
-        1 |0.13740854 |0.364.. ...
-        2 |0.18028556 |0.852.. ...
+        1 |0.1631679  |0.801.. ...
+        2 |0.13259548 |0.804.. ...
+
+Nullable{Int64}(2) [:,:,:,2]
+2 x 3 x 2 LabeledArray
+
+    Nullable{Int64}(1) [:,:,1]
+2 x 3 LabeledArray
+
+          |1          |2       ...
+        --+-----------+-------
+          |a          |a       ...
+        --+-----------+-------
+        1 |0.07878563 |0.803.. ...
+        2 |0.55034874 |0.798.. ...
+
+    Nullable{Int64}(2) [:,:,2]
+2 x 3 LabeledArray
+
+          |1           |2      ...
+        --+------------+------
+          |a           |a      ...
+        --+------------+------
+        1 |0.99393935  |0.97.. ...
+        2 |0.054540187 |0.82.. ...
+2 x 3 x 2 x 2 LabeledArray
+
+Nullable{Int64}(1) [:,:,:,1]
+2 x 3 x 2 LabeledArray
+
+    Nullable{Int64}(1) [:,:,1]
+2 x 3 LabeledArray
+
+          |1          |2       ...
+        --+-----------+-------
+          |a          |a       ...
+        --+-----------+-------
+        1 |0.88880206 |0.724.. ...
+        2 |0.23063484 |0.886.. ...
+
+    Nullable{Int64}(2) [:,:,2]
+2 x 3 LabeledArray
+
+          |1          |2       ...
+        --+-----------+-------
+          |a          |a       ...
+        --+-----------+-------
+        1 |0.40072619 |0.826.. ...
+        2 |0.48395377 |0.692.. ...
 
 Nullable{Int64}(2) [:,:,:,2]
 2 x 3 x 2 LabeledArray
@@ -4700,8 +4757,8 @@ Nullable{Int64}(2) [:,:,:,2]
         --+------------+------
           |a           |a      ...
         --+------------+------
-        1 |0.095799956 |0.49.. ...
-        2 |0.64122914  |0.71.. ...
+        1 |0.005767121 |0.74.. ...
+        2 |0.89080612  |0.34.. ...
 
     Nullable{Int64}(2) [:,:,2]
 2 x 3 LabeledArray
@@ -4710,55 +4767,8 @@ Nullable{Int64}(2) [:,:,:,2]
         --+-----------+-------
           |a          |a       ...
         --+-----------+-------
-        1 |0.89640913 |0.385.. ...
-        2 |0.31152822 |0.021.. ...
-2 x 3 x 2 x 2 LabeledArray
-
-Nullable{Int64}(1) [:,:,:,1]
-2 x 3 x 2 LabeledArray
-
-    Nullable{Int64}(1) [:,:,1]
-2 x 3 LabeledArray
-
-          |1          |2       ...
-        --+-----------+-------
-          |a          |a       ...
-        --+-----------+-------
-        1 |0.18358063 |0.398.. ...
-        2 |0.33556065 |0.775.. ...
-
-    Nullable{Int64}(2) [:,:,2]
-2 x 3 LabeledArray
-
-          |1          |2       ...
-        --+-----------+-------
-          |a          |a       ...
-        --+-----------+-------
-        1 |0.58840947 |0.677.. ...
-        2 |0.25446729 |0.116.. ...
-
-Nullable{Int64}(2) [:,:,:,2]
-2 x 3 x 2 LabeledArray
-
-    Nullable{Int64}(1) [:,:,1]
-2 x 3 LabeledArray
-
-          |1          |2       ...
-        --+-----------+-------
-          |a          |a       ...
-        --+-----------+-------
-        1 |0.56998121 |0.340.. ...
-        2 |0.08403816 |0.934.. ...
-
-    Nullable{Int64}(2) [:,:,2]
-2 x 3 LabeledArray
-
-          |1          |2       ...
-        --+-----------+-------
-          |a          |a       ...
-        --+-----------+-------
-        1 |0.3980855  |0.631.. ...
-        2 |0.83995784 |0.482.. ...
+        1 |0.1340336  |0.529.. ...
+        2 |0.42394676 |0.547.. ...
 10 x 10 LabeledArray
 
   |.. ...
@@ -4786,146 +4796,146 @@ Nullable{Int64}(2) [:,:,:,2]
 : |:
 3 LabeledArray
 
-  |  |           
---+--+-----------
-1 |a |0.81185238 
-1 |b |0.55980992 
-1 |c |X          
---+--+-----------
-2 |a |0.84992684 
-2 |b |0.75918709 
-2 |c |X          
---+--+-----------
-3 |a |0.90841457 
-3 |b |0.89249093 
-3 |c |X          
+  |  |            
+--+--+------------
+1 |a |0.41072644  
+1 |b |0.010579932 
+1 |c |X           
+--+--+------------
+2 |a |0.54418277  
+2 |b |0.082634885 
+2 |c |X           
+--+--+------------
+3 |a |0.61003296  
+3 |b |0.39491977  
+3 |c |X           
 3 LabeledArray
 
   |  |           
 --+--+-----------
-X |a |0.52530749 
-X |b |0.25006977 
+X |a |0.66055219 
+X |b |0.38697659 
 X |c |X          
 --+--+-----------
-Y |a |0.5383044  
-Y |b |0.83355385 
+Y |a |0.25108976 
+Y |b |0.66119055 
 Y |c |X          
 --+--+-----------
-Z |a |0.33031283 
-Z |b |0.69761414 
+Z |a |0.9198644  
+Z |b |0.24597524 
 Z |c |X          
 3 LabeledArray
 
 k |  |            
 --+--+------------
-X |a |0.60402407  
-  |b |0.52220329  
+X |a |0.52110733  
+  |b |0.13324588  
   |c |X           
 --+--+------------
-Y |a |0.10351645  
-  |b |0.27599594  
+Y |a |0.50505568  
+  |b |0.24728062  
   |c |X           
 --+--+------------
-Z |a |0.073458306 
-  |b |0.62342537  
+Z |a |0.096185505 
+  |b |0.85229558  
   |c |X           
 3 LabeledArray
 
-  |a          b           c 
---+-------------------------
-1 |0.41914314 0.94895984  X 
-2 |0.37271396 0.098300889 X 
-3 |0.08075614 0.091147166 X 
+  |a          b          c 
+--+------------------------
+1 |0.57334005 0.48302191 X 
+2 |0.69616582 0.59533176 X 
+3 |0.8265204  0.1455031  X 
 3 x 5 LabeledArray
 
-  |  |1          2           3          4           5          
---+--+---------------------------------------------------------
-1 |a |0.17217888 0.5795404   0.1170696  0.070544743 0.3317564  
-  |b |0.30696542 0.091853692 0.94250609 0.051666639 0.51286541 
-  |c |X          X           X          X           X          
---+--+---------------------------------------------------------
-2 |a |0.40361118 0.47620752  0.63512927 0.44225007  0.68777369 
-  |b |0.59445906 0.91098678  0.84918551 0.20450195  0.8947317  
-  |c |X          X           X          X           X          
---+--+---------------------------------------------------------
-3 |a |0.33348263 0.99745786  0.49557932 0.69514829  0.10037793 
-  |b |0.47424251 0.9493877   0.58990929 0.10984734  0.29710729 
-  |c |X          X           X          X           X          
+  |  |1           2          3            4           5          
+--+--+-----------------------------------------------------------
+1 |a |0.071165891 0.15330056 0.38216258   0.22467359  0.10791066 
+  |b |0.041108865 0.11955377 0.66914542   0.98136768  0.60450808 
+  |c |X           X          X            X           X          
+--+--+-----------------------------------------------------------
+2 |a |0.62665678  0.65638837 0.83322538   0.053908443 0.58092179 
+  |b |0.5145324   0.42420999 0.0064844415 0.027362732 0.87301534 
+  |c |X           X          X            X           X          
+--+--+-----------------------------------------------------------
+3 |a |0.62639493  0.12277754 0.84156296   0.40247484  0.32082716 
+  |b |0.46244388  0.1524138  0.38728291   0.26816628  0.5840343  
+  |c |X           X          X            X           X          
 3 x 5 LabeledArray
 
-k |  |1           2          3          4           5          
---+--+---------------------------------------------------------
-X |a |0.014980294 0.4972765  0.4955959  0.69297523  0.99483959 
-  |b |0.56676884  0.44730257 0.97773932 0.030024909 0.23276746 
-  |c |X           X          X          X           X          
---+--+---------------------------------------------------------
-Y |a |0.67813226  0.69804073 0.71047747 0.85452679  0.98024372 
-  |b |0.073372052 0.11991208 0.36247724 0.60853955  0.315008   
-  |c |X           X          X          X           X          
---+--+---------------------------------------------------------
-Z |a |0.91223782  0.55418257 0.9495554  0.45669963  0.18617842 
-  |b |0.41860663  0.15776201 0.48899305 0.14013162  0.35947099 
-  |c |X           X          X          X           X          
+k |  |1          2           3           4           5           
+--+--+-----------------------------------------------------------
+X |a |0.64918509 0.084099389 0.14647039  0.51958252  0.66533921  
+  |b |0.84996513 0.023355792 0.41077667  0.22988977  0.33394545  
+  |c |X          X           X           X           X           
+--+--+-----------------------------------------------------------
+Y |a |0.29020065 0.78906526  0.37801173  0.70696028  0.92951295  
+  |b |0.24955937 0.1463198   0.012882664 0.68039812  0.8205785   
+  |c |X          X           X           X           X           
+--+--+-----------------------------------------------------------
+Z |a |0.42877271 0.66400052  0.88567253  0.092042413 0.34685846  
+  |b |0.67578281 0.19737877  0.75370745  0.30346402  0.024442458 
+  |c |X          X           X           X           X           
 3 x 5 LabeledArray
 
   |1                       |2                       |3                    ...
 --+------------------------+------------------------+--------------------
-k |a          b          c |a          b          c |a          b         ...
+k |a          b          c |a          b          c |a           b        ...
 --+------------------------+------------------------+--------------------
-X |0.81235701 0.73665203 X |0.47202295 0.55419784 X |0.30066559 0.63695.. ...
-Y |0.23261467 0.53532168 X |0.23877057 0.28416684 X |0.81976919 0.18815.. ...
-Z |0.79130811 0.71939154 X |0.13558283 0.96152886 X |0.73275113 0.28238.. ...
+X |0.4820269  0.84843142 X |0.11423491 0.30742258 X |0.86835982  0.2667.. ...
+Y |0.76736521 0.28370846 X |0.99030955 0.27863285 X |0.18330937  0.0487.. ...
+Z |0.13815555 0.61778135 X |0.91856914 0.83117743 X |0.060900795 0.6043.. ...
 3 x 5 LabeledArray
 
-  |k |X           Y          Z          U           V          
---+--+---------------------------------------------------------
-1 |a |0.73861368  0.27943794 0.74139582 0.046954363 0.18871381 
-  |b |0.80666784  0.82839075 0.32893882 0.053791585 0.75606076 
-  |c |X           X          X          X           X          
---+--+---------------------------------------------------------
-2 |a |0.44031833  0.50984819 0.56798691 0.42121361  0.34306937 
-  |b |0.075857996 0.5419331  0.4721552  0.099812154 0.21848761 
-  |c |X           X          X          X           X          
---+--+---------------------------------------------------------
-3 |a |0.42363264  0.45918381 0.23810873 0.17255833  0.56371822 
-  |b |0.9019264   0.93299374 0.7706426  0.84851894  0.66374987 
-  |c |X           X          X          X           X          
+  |k |X            Y          Z          U          V            
+--+--+-----------------------------------------------------------
+1 |a |0.0051853252 0.52914645 0.55145584 0.19393179 0.61689577   
+  |b |0.52816385   0.54033451 0.92236304 0.92258491 0.75944906   
+  |c |X            X          X          X          X            
+--+--+-----------------------------------------------------------
+2 |a |0.43431226   0.28459692 0.14418236 0.97807292 0.11641101   
+  |b |0.56991851   0.71907373 0.31032589 0.11581957 0.47072582   
+  |c |X            X          X          X          X            
+--+--+-----------------------------------------------------------
+3 |a |0.11918073   0.79333957 0.81765306 0.97708615 0.0023302416 
+  |b |0.93846083   0.70894923 0.44155367 0.12701429 0.41723153   
+  |c |X            X          X          X          X            
 3 x 5 LabeledArray
 
 k |X                       |Y                        |Z                   ...
 --+------------------------+-------------------------+-------------------
   |a          b          c |a           b          c |a          b        ...
 --+------------------------+-------------------------+-------------------
-1 |0.13957209 0.34143445 X |0.29114674  0.50171323 X |0.61053123 0.6082.. ...
-2 |0.28508476 0.11138761 X |0.39423371  0.89854026 X |0.4184737  0.9475.. ...
-3 |0.98103412 0.93797676 X |0.084767675 0.82429156 X |0.26342656 0.3827.. ...
+1 |0.14932123 0.63738207 X |0.17303425  0.72713016 X |0.38911136 0.5743.. ...
+2 |0.26375286 0.98031395 X |0.062503103 0.24597233 X |0.30804356 0.9352.. ...
+3 |0.89459949 0.36677504 X |0.92612769  0.97397566 X |0.21642535 0.5624.. ...
 3 x 5 LabeledArray
 
-  |1                       |2                       |3                    ...
---+------------------------+------------------------+--------------------
-  |a          b          c |a          b          c |a          b         ...
---+------------------------+------------------------+--------------------
-1 |0.68669246 0.14031727 X |0.85751059 0.24567894 X |0.48129279 0.74798.. ...
-2 |0.98728238 0.49107252 X |0.24860647 0.61074903 X |0.19808066 0.58839.. ...
-3 |0.26314238 0.65660096 X |0.84577918 0.84872872 X |0.63758637 0.75012.. ...
+  |1                       |2                        |3                   ...
+--+------------------------+-------------------------+-------------------
+  |a          b          c |a          b           c |a          b        ...
+--+------------------------+-------------------------+-------------------
+1 |0.88651136 0.84330515 X |0.99511458 0.033150104 X |0.29724234 0.5982.. ...
+2 |0.20323197 0.39401538 X |0.21197012 0.69375114  X |0.7985777  0.9355.. ...
+3 |0.69000645 0.67826271 X |0.35235678 0.39313545  X |0.57782146 0.9784.. ...
 3 x 5 LabeledArray
 
   |1           |2           |3           |4           |5           
 --+------------+------------+------------+------------+------------
   |a    b    c |a    b    c |a    b    c |a    b    c |a    b    c 
 --+------------+------------+------------+------------+------------
-1 |0.40 0.79 X |0.49 0.56 X |0.09 0.27 X |0.50 0.38 X |0.88 0.22 X 
-2 |0.71 0.32 X |0.16 0.48 X |0.92 0.12 X |0.99 0.97 X |0.49 0.10 X 
-3 |0.22 0.87 X |0.11 0.09 X |0.32 0.44 X |0.46 0.79 X |0.74 0.76 X 
+1 |0.68 0.76 X |0.97 0.10 X |0.61 0.36 X |0.37 0.65 X |0.53 0.68 X 
+2 |0.74 0.31 X |0.95 0.33 X |0.74 0.47 X |0.61 0.26 X |0.38 0.28 X 
+3 |0.54 0.61 X |0.09 0.94 X |0.40 0.47 X |0.84 0.76 X |0.72 0.95 X 
 3 x 5 LabeledArray
 
   |1                        |2                       |3                   ...
 --+-------------------------+------------------------+-------------------
-  |a          b           c |a          b          c |a          b        ...
+  |a           b          c |a          b          c |a          b        ...
 --+-------------------------+------------------------+-------------------
-1 |0.85021247 0.022018239 X |0.67044715 0.59860719 X |0.6334859  0.9744.. ...
-2 |0.46829529 0.35632013  X |0.63343545 0.57427373 X |0.12860907 0.6469.. ...
-3 |0.288027   0.4720504   X |0.95228965 0.92303578 X |0.55050367 0.4356.. ...
+1 |0.8332769   0.60419279 X |0.55935129 0.39870606 X |0.62003041 0.0854.. ...
+2 |0.69637095  0.44149356 X |0.89541789 0.66504534 X |0.17144873 0.5996.. ...
+3 |0.047473343 0.27461824 X |0.23788418 0.69483276 X |0.34417082 0.9578.. ...
 WARNING: Base.writemime is deprecated.
   likely near /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl:6
 in #410 at 
@@ -4941,7 +4951,7 @@ WARNING: Base.writemime is deprecated.
   likely near /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl:6
 in #410 at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl
 10 x 10 LabeledArray
-<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px"></td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">1</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">2</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">3</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px"></td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">a</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">a</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">a</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">1</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.55075607</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.54158213</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.1072209</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">2</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.90907876</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.051047394</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.41305038</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table>WARNING: Base.writemime is deprecated.
+<table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px"></td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">1</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">2</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">3</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px"></td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">a</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">a</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">a</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px">1</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.82358639</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.40795856</td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">0.67909883</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px">2</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.50336323</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.10074224</td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">0.58859719</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table>WARNING: Base.writemime is deprecated.
   likely near /home/vagrant/.julia/v0.5/DataCubes/test/test_labeled_array.jl:6
 in #412 at 
 WARNING: Base.writemime is deprecated.
@@ -5099,9 +5109,9 @@ WARNING: Base.writemime is deprecated.
 in #428 at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl
 3 x 5 LabeledArray
 <table border="0" style="border:none; width:100%; border-collapse:collapse"><tr style="border:0"><td style="border:1px solid #ccc;border-width:0px 0px 0px 0px"></td><td style="border:1px solid #ccc;border-width:0px 0px 0px 1px">1</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #ccc;border-width:1px 0px 0px 0px"></td><td style="border:1px solid #ccc;border-width:1px 0px 0px 1px">a</td><td style="border:1px solid #000; border-width:0 0 0 0">...</td></tr><tr style="border:0"><td style="border:1px solid #000; border-width:0 0 0 0">:</td><td style="border:1px solid #000; border-width:0 0 0 0">:</td></tr></table>Out of 191 total facts:
-  Verified: 148
+  Verified: 147
   Failed:   1
-  Errored:  42
+  Errored:  43
 NA tests
   Failure :: (line:272) :: fact was false
     Expression: begin 
@@ -5134,8 +5144,9 @@ end --> DataCubes.AbstractArrayWrapper{Nullable,2,Array{Nullable,2}}
      in _start() at ./client.jl:318
   Error :: (line:272)
     Expression: isna(@enumeration([:a :b NA;:d NA :f])) --> [false false true;false true false]
-    OutOfMemoryError()
-     in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
+    BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}(140628084961832),Nullable{Int64}(1839),Nullable{Int64}(140628084961864))
+      at index [1839]
+     in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
      in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
      in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
      in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/enumeration_array.jl:274 [inlined]
@@ -5152,8 +5163,9 @@ end --> DataCubes.AbstractArrayWrapper{Nullable,2,Array{Nullable,2}}
      in _start() at ./client.jl:318
   Error :: (line:272)
     Expression: isna(@enumeration([:a :b NA;:d NA :f]),1:2,3) --> ([false false true;false true false])[1:2,3]
-    OutOfMemoryError()
-     in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
+    BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(140628017633712),Nullable{Int64}(140627829604659),Nullable{Int64}(140627967207856),Nullable{Int64}(140628085097768))
+      at index [140628085097680]
+     in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
      in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
      in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
      in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/enumeration_array.jl:274 [inlined]
@@ -5170,7 +5182,8 @@ end --> DataCubes.AbstractArrayWrapper{Nullable,2,Array{Nullable,2}}
      in _start() at ./client.jl:318
   Error :: (line:272)
     Expression: @nalift [NA NA;NA NA] --> wrap_array(reshape(fill(Nullable{Any}(),4),2,2))
-    OutOfMemoryError()
+    BoundsError: attempt to access 0-element Array{Nullable{Int64},1} at index [1]
+     in collect_to_with_first!(::Array{Nullable{Int64},1}, ::Nullable{Int64}, ::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}, ::Int64) at ./array.jl:323
      in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
      in getindex(::Tuple{Nullable{Any},Nullable{Any},Nullable{Any},Nullable{Any}}, ::UnitRange{Int64}) at ./tuple.jl:10
      in hvcat(::Tuple{Int64,Int64}, ::Nullable{Any}, ::Vararg{Nullable{Any},N}) at ./abstractarray.jl:1354
@@ -5187,8 +5200,8 @@ end --> DataCubes.AbstractArrayWrapper{Nullable,2,Array{Nullable,2}}
      in _start() at ./client.jl:318
   Error :: (line:272)
     Expression: @nalift [1 NA;NA NA] --> wrap_array([Nullable(1) Nullable{Int}();Nullable{Int}() Nullable{Int}()])
-    BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}())
-      at index [140047175552944]
+    BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}(140627829608211))
+      at index [140628074391952]
      in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
      in getindex(::Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}, ::UnitRange{Int64}) at ./tuple.jl:10
      in hvcat(::Tuple{Int64,Int64}, ::Nullable{Int64}, ::Vararg{Nullable{Int64},N}) at ./abstractarray.jl:1354
@@ -5724,11 +5737,10 @@ WARNING: symbol is deprecated, use Symbol instead.
 while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in expression starting on line 8
     Error :: (line:272) :: Array transformation tools tests
       Expression: replace_axes(@larr(c1=[1 2 3;4 5 6],c2=[:a :b :c;:d :e :f],axis1[k1 = ["x","y"],k2 = ['a','b']],axis2[r1 = [10.0,11.0,12.0]]),1 => [:c1,:k1],2 => [:c2]) --> @larr k2=['a' 'a' 'a';'b' 'b' 'b'] r1=[10.0 11.0 12.0;10.0 11.0 12.0] axis1[c1 = [1,4],k1 = ["x","y"]] axis2[c2 = [:a,:b,:c]]
-      OutOfMemoryError()
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
-       in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
-       in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
-       in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:1366 [inlined]
+      ArgumentError: the result sizes for different fields are inconsistent: Dict{Symbol,Tuple{Int64,Vararg{Int64,N}}}(Pair{Symbol,Tuple{Int64,Vararg{Int64,N}}}(:c1,(2,3)),Pair{Symbol,Tuple{Int64,Vararg{Int64,N}}}(:c2,(0,)))
+       in darr_inner(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1226
+       in #darr#127(::Array{Any,1}, ::Function, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
+       in darr(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Any},1,Array{Nullable{Any},1}}}, ::Vararg{Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Any},1,Array{Nullable{Any},1}}},N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
        in (::TestDataCubes.TestArrayUtil.##68#691)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272
        in do_fact(::TestDataCubes.TestArrayUtil.##68#691, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
        in macro expansion at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272 [inlined]
@@ -5744,11 +5756,10 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in ex
        in _start() at ./client.jl:318
     Error :: (line:272) :: Array transformation tools tests
       Expression: replace_axes(@larr(c1=[1 2 3;4 5 6],c2=[:a :b :c;:d :e :f],axis1[k1 = ["x","y"],k2 = ['a','b']],axis2[r1 = [10.0,11.0,12.0]]),1 => [:c1,:k1],2 => [:c2,:k2]) --> @larr r1=[10.0 11.0 12.0;10.0 11.0 12.0] axis1[c1 = [1,4],k1 = ["x","y"]] axis2[c2 = [:a,:b,:c],k2 = ['a','a','a']]
-      OutOfMemoryError()
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
-       in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
-       in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
-       in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:1366 [inlined]
+      ArgumentError: the result sizes for different fields are inconsistent: Dict{Symbol,Tuple{Int64,Vararg{Int64,N}}}(Pair{Symbol,Tuple{Int64,Vararg{Int64,N}}}(:c1,(2,3)),Pair{Symbol,Tuple{Int64,Vararg{Int64,N}}}(:c2,(0,)))
+       in darr_inner(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1226
+       in #darr#127(::Array{Any,1}, ::Function, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
+       in darr(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Any},1,Array{Nullable{Any},1}}}, ::Vararg{Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Any},1,Array{Nullable{Any},1}}},N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
        in (::TestDataCubes.TestArrayUtil.##70#693)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272
        in do_fact(::TestDataCubes.TestArrayUtil.##70#693, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
        in macro expansion at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272 [inlined]
@@ -5764,11 +5775,10 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in ex
        in _start() at ./client.jl:318
     Error :: (line:272) :: Array transformation tools tests
       Expression: replace_axes(@larr(c1=[1 2 3;4 5 6],c2=[:a :b :c;:d :e :f],axis1[k1 = ["x","y"],k2 = ['a','b']],axis2[r1 = [10.0,11.0,12.0]]),[:c1,:k1],2 => [:c2,:k2]) --> @larr r1=[10.0 11.0 12.0;10.0 11.0 12.0] axis1[c1 = [1,4],k1 = ["x","y"]] axis2[c2 = [:a,:b,:c],k2 = ['a','a','a']]
-      OutOfMemoryError()
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
-       in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
-       in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
-       in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:1366 [inlined]
+      ArgumentError: the result sizes for different fields are inconsistent: Dict{Symbol,Tuple{Int64,Vararg{Int64,N}}}(Pair{Symbol,Tuple{Int64,Vararg{Int64,N}}}(:c1,(2,3)),Pair{Symbol,Tuple{Int64,Vararg{Int64,N}}}(:c2,(0,)))
+       in darr_inner(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1226
+       in #darr#127(::Array{Any,1}, ::Function, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
+       in darr(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Any},1,Array{Nullable{Any},1}}}, ::Vararg{Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Any},1,Array{Nullable{Any},1}}},N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
        in (::TestDataCubes.TestArrayUtil.##72#695)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272
        in do_fact(::TestDataCubes.TestArrayUtil.##72#695, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
        in macro expansion at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272 [inlined]
@@ -5784,7 +5794,10 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in ex
        in _start() at ./client.jl:318
     Error :: (line:272) :: Array transformation tools tests
       Expression: replace_axes(@larr(c1=[1 2 3;4 5 6],c2=[:a :b :c;:d :e :f],axis1[k1 = ["x","y"],k2 = ['a','b']],axis2[r1 = [10.0,11.0,12.0]]),1 => [:c1,:k1],[:c2,:k2]) --> @larr r1=[10.0 11.0 12.0;10.0 11.0 12.0] axis1[c1 = [1,4],k1 = ["x","y"]] axis2[c2 = [:a,:b,:c],k2 = ['a','a','a']]
-      OutOfMemoryError()
+      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(5),Nullable{Int64}(140628090489928),Nullable{Int64}(),Nullable{Int64}(140628090489960))
+        at index [7]
+       in collect_to!(::Array{Nullable{Int64},1}, ::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}, ::Int64, ::Int64) at ./array.jl:337
+       in collect_to_with_first!(::Array{Nullable{Int64},1}, ::Nullable{Int64}, ::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}, ::Int64) at ./array.jl:324
        in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
        in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
@@ -5804,8 +5817,9 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in ex
        in _start() at ./client.jl:318
     Error :: (line:272) :: Array transformation tools tests
       Expression: replace_axes(@larr(c1=[1 2 3;4 5 6],c2=[:a :b :c;:d :e :f],axis1[k1 = ["x","y"],k2 = ['a','b']],axis2[r1 = [10.0,11.0,12.0]]),[:c1,:k1],[:c2,:k2]) --> @larr r1=[10.0 11.0 12.0;10.0 11.0 12.0] axis1[c1 = [1,4],k1 = ["x","y"]] axis2[c2 = [:a,:b,:c],k2 = ['a','a','a']]
-      OutOfMemoryError()
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
+      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(1),Nullable{Int64}(140628090551944),Nullable{Int64}(1),Nullable{Int64}(140628090551976))
+        at index [140627829637152]
+       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
        in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:1366 [inlined]
@@ -5843,7 +5857,8 @@ WARNING: symbol is deprecated, use Symbol instead.
 while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in expression starting on line 8
     Error :: (line:272) :: Array transformation tools tests
       Expression: replace_axes(larr(a=[1 2;3 4;5 6],axis=[:x,:y,:z]),1 => [:a]) --> @larr axis[a = [1,3,5]] x1=[:x :x;:y :y;:z :z]
-      OutOfMemoryError()
+      BoundsError: attempt to access 0-element Array{Nullable{Int64},1} at index [1]
+       in collect_to_with_first!(::Array{Nullable{Int64},1}, ::Nullable{Int64}, ::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}, ::Int64) at ./array.jl:323
        in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
        in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
@@ -5955,8 +5970,8 @@ WARNING: cell(dims::Integer...) is deprecated, use Array{Any}(dims...) instead.
 while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in expression starting on line 8
     Error :: (line:272) :: Array transformation tools tests
       Expression: axis2flds(@larr(col=[1 2;3 4],axis1[k = [:a,:b]],axis2[r = [:x,:y]])) --> @larr x_col=[1,3] :y_col => [2,4] axis1[k = [:a,:b]]
-      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(2),Nullable{Int64}(3),Nullable{Int64}(4),Nullable{Int64}(),Nullable{Int64}())
-        at index [140047492856432]
+      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(2),Nullable{Int64}(3),Nullable{Int64}(4),Nullable{Int64}(),Nullable{Int64}(140627829604371))
+        at index [140627829655360]
        in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Int64}, ::Vararg{Nullable{Int64},N}) at ./abstractarray.jl:1354
@@ -5976,8 +5991,8 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in ex
        in _start() at ./client.jl:318
     Error :: (line:272) :: Array transformation tools tests
       Expression: axis2flds(@larr(col=[1 2;3 4],axis1[k = [:a,:b]],axis2[r = [:x,NA]]),default_axis_value=3) --> @larr x_col=[1,3] symbol("3_col") => [2,4] axis1[k = [:a,:b]]
-      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(2),Nullable{Int64}(3),Nullable{Int64}(4),Nullable{Int64}(),Nullable{Int64}())
-        at index [140047175550784]
+      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(2),Nullable{Int64}(3),Nullable{Int64}(4),Nullable{Int64}(),Nullable{Int64}(140628118898568))
+        at index [140628118898544]
        in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Int64}, ::Vararg{Nullable{Int64},N}) at ./abstractarray.jl:1354
@@ -6037,8 +6052,8 @@ WARNING: symbol is deprecated, use Symbol instead.
 while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in expression starting on line 8
     Error :: (line:272) :: Array transformation tools tests
       Expression: axis2flds((permutedims(flds2axis(@larr(X=[1 2 3],Y=['a' 'b' 'c'],axis2[k = [100,200,300]]),fieldname="newfield",axisname=:newaxis),(3,2,1)))[:,:,1]) --> @larr symbol("100_newfield") => [1,'a'] symbol("200_newfield") => [2,'b'] symbol("300_newfield") => [3,'c'] axis1[newaxis = [:X,:Y]]
-      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}(140047175500083),Nullable{Int64}(),Nullable{Int64}(140047396075880))
-        at index [8]
+      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(140628106868624),Nullable{Int64}(140627829604659),Nullable{Int64}(140627883338928),Nullable{Int64}(140627994342024))
+        at index [140627827524824]
        in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Symbol},1,Array{Nullable{Symbol},1}},Nullable{Symbol}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},Nullable{Int64}}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in #axis2flds#479(::DataCubes.#default_fieldname_collapse_function, ::Void, ::Function, ::DataCubes.LabeledArray{DataCubes.LDict{String,Nullable{Any}},2,Tuple{DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Symbol},1,Array{Nullable{Symbol},1}},Nullable{Symbol}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},Nullable{Int64}}},DataCubes.DictArray{String,2,DataCubes.AbstractArrayWrapper{Nullable{Any},2,Array{Nullable{Any},2}},Nullable{Any}}}) at /home/vagrant/.julia/v0.5/DataCubes/src/util/array_util.jl:638
@@ -6080,11 +6095,10 @@ WARNING: symbol is deprecated, use Symbol instead.
 while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in expression starting on line 8
     Error :: (line:272) :: Array transformation tools tests
       Expression: axis2flds(flds2axis(@larr(X=[1 2 3],Y=['a' 'b' 'c'],axis2[k = [100,200,300]]),fieldname="newfield",axisname=:newaxis)) --> @larr symbol("X_newfield") => [1 2 3] symbol("Y_newfield") => ['a' 'b' 'c'] axis2[k = [100,200,300]]
-      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(140047175503923),Nullable{Int64}(140047341950608),Nullable{Int64}(140047175503923),Nullable{Int64}(140047341950704),Nullable{Int64}(140047175503923))
-        at index [140047173397656]
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
-       in getindex(::Tuple{DataCubes.DefaultAxis,DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},Nullable{Int64}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Symbol},1,Array{Nullable{Symbol},1}},Nullable{Symbol}}}, ::UnitRange{Int64}) at ./tuple.jl:10
-       in #axis2flds#479(::DataCubes.#default_fieldname_collapse_function, ::Void, ::Function, ::DataCubes.LabeledArray{DataCubes.LDict{String,Nullable{Any}},3,Tuple{DataCubes.DefaultAxis,DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},Nullable{Int64}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Symbol},1,Array{Nullable{Symbol},1}},Nullable{Symbol}}},DataCubes.DictArray{String,3,DataCubes.AbstractArrayWrapper{Nullable{Any},3,Array{Nullable{Any},3}},Nullable{Any}}}) at /home/vagrant/.julia/v0.5/DataCubes/src/util/array_util.jl:638
+      ArgumentError: LabeledArray: the number of axes 0 is not the same as the number of dimensions of data 2.
+       in DataCubes.LabeledArray{DataCubes.LDict{Symbol,Nullable{Any}},2,Tuple{},DataCubes.DictArray{Symbol,2,DataCubes.AbstractArrayWrapper{Nullable{Any},2,Array{Nullable{Any},2}},Nullable{Any}}}(::DataCubes.DictArray{Symbol,2,DataCubes.AbstractArrayWrapper{Nullable{Any},2,Array{Nullable{Any},2}},Nullable{Any}}, ::Tuple{}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:22
+       in DataCubes.LabeledArray{T,N,AXES<:Tuple,TN}(::DataCubes.DictArray{Symbol,2,DataCubes.AbstractArrayWrapper{Nullable{Any},2,Array{Nullable{Any},2}},Nullable{Any}}, ::Tuple{}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:71
+       in #axis2flds#479(::DataCubes.#default_fieldname_collapse_function, ::Void, ::Function, ::DataCubes.LabeledArray{DataCubes.LDict{String,Nullable{Any}},3,Tuple{DataCubes.DefaultAxis,DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},Nullable{Int64}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Symbol},1,Array{Nullable{Symbol},1}},Nullable{Symbol}}},DataCubes.DictArray{String,3,DataCubes.AbstractArrayWrapper{Nullable{Any},3,Array{Nullable{Any},3}},Nullable{Any}}}) at /home/vagrant/.julia/v0.5/DataCubes/src/util/array_util.jl:639
        in axis2flds(::DataCubes.LabeledArray{DataCubes.LDict{String,Nullable{Any}},3,Tuple{DataCubes.DefaultAxis,DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},Nullable{Int64}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Symbol},1,Array{Nullable{Symbol},1}},Nullable{Symbol}}},DataCubes.DictArray{String,3,DataCubes.AbstractArrayWrapper{Nullable{Any},3,Array{Nullable{Any},3}},Nullable{Any}}}) at /home/vagrant/.julia/v0.5/DataCubes/src/util/array_util.jl:621
        in (::TestDataCubes.TestArrayUtil.##104#727)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272
        in do_fact(::TestDataCubes.TestArrayUtil.##104#727, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
@@ -6101,9 +6115,8 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in ex
        in _start() at ./client.jl:318
     Error :: (line:272) :: Array transformation tools tests
       Expression: axis2flds(flds2axis(@larr(X=[1 2 3],Y=['a' 'b' 'c'],axis2[k = [100,200,300]]),fieldname="newfield")) --> @larr symbol("X_newfield") => [1 2 3] symbol("Y_newfield") => ['a' 'b' 'c'] axis2[k = [100,200,300]]
-      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(140047175500083),Nullable{Int64}(140047266877104),Nullable{Int64}(1320019971),Nullable{Int64}(0),Nullable{Int64}(140047348006920))
-        at index [140047173407960]
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
+      OutOfMemoryError()
+       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
        in getindex(::Tuple{DataCubes.DefaultAxis,DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},Nullable{Int64}},DataCubes.AbstractArrayWrapper{Nullable{Symbol},1,Array{Nullable{Symbol},1}}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in #axis2flds#479(::DataCubes.#default_fieldname_collapse_function, ::Void, ::Function, ::DataCubes.LabeledArray{DataCubes.LDict{String,Nullable{Any}},3,Tuple{DataCubes.DefaultAxis,DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},Nullable{Int64}},DataCubes.AbstractArrayWrapper{Nullable{Symbol},1,Array{Nullable{Symbol},1}}},DataCubes.DictArray{String,3,DataCubes.AbstractArrayWrapper{Nullable{Any},3,Array{Nullable{Any},3}},Nullable{Any}}}) at /home/vagrant/.julia/v0.5/DataCubes/src/util/array_util.jl:638
        in axis2flds(::DataCubes.LabeledArray{DataCubes.LDict{String,Nullable{Any}},3,Tuple{DataCubes.DefaultAxis,DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},Nullable{Int64}},DataCubes.AbstractArrayWrapper{Nullable{Symbol},1,Array{Nullable{Symbol},1}}},DataCubes.DictArray{String,3,DataCubes.AbstractArrayWrapper{Nullable{Any},3,Array{Nullable{Any},3}},Nullable{Any}}}) at /home/vagrant/.julia/v0.5/DataCubes/src/util/array_util.jl:621
@@ -6185,11 +6198,10 @@ WARNING: the no-op `transpose` fallback is deprecated, and no more specific `tra
 while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in expression starting on line 8
     Error :: (line:272) :: Array transformation tools tests
       Expression: axis2flds(flds2axis(@select(@larr(a=[1,2,3,4,5],b=[:x,:y,:z,:v,:w],c=['a','b','c','d','e']),:a))) --> @select @larr(a=[1,2,3,4,5],b=[:x,:y,:z,:v,:w],c=['a','b','c','d','e']) :a
-      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}(140047175500083),Nullable{Int64}(),Nullable{Int64}(140047335096872))
-        at index [140047460344512]
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
-       in getindex(::Tuple{DataCubes.DefaultAxis,DataCubes.AbstractArrayWrapper{Nullable{Symbol},1,Array{Nullable{Symbol},1}}}, ::UnitRange{Int64}) at ./tuple.jl:10
-       in #axis2flds#479(::DataCubes.#default_fieldname_collapse_function, ::Void, ::Function, ::DataCubes.LabeledArray{Nullable{Int64},2,Tuple{DataCubes.DefaultAxis,DataCubes.AbstractArrayWrapper{Nullable{Symbol},1,Array{Nullable{Symbol},1}}},DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}) at /home/vagrant/.julia/v0.5/DataCubes/src/util/array_util.jl:638
+      ArgumentError: LabeledArray: the number of axes 0 is not the same as the number of dimensions of data 1.
+       in DataCubes.LabeledArray{DataCubes.LDict{Symbol,Nullable{Int64}},1,Tuple{},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},Nullable{Int64}}}(::DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},Nullable{Int64}}, ::Tuple{}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:22
+       in DataCubes.LabeledArray{T,N,AXES<:Tuple,TN}(::DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},Nullable{Int64}}, ::Tuple{}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:71
+       in #axis2flds#479(::DataCubes.#default_fieldname_collapse_function, ::Void, ::Function, ::DataCubes.LabeledArray{Nullable{Int64},2,Tuple{DataCubes.DefaultAxis,DataCubes.AbstractArrayWrapper{Nullable{Symbol},1,Array{Nullable{Symbol},1}}},DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}) at /home/vagrant/.julia/v0.5/DataCubes/src/util/array_util.jl:639
        in axis2flds(::DataCubes.LabeledArray{Nullable{Int64},2,Tuple{DataCubes.DefaultAxis,DataCubes.AbstractArrayWrapper{Nullable{Symbol},1,Array{Nullable{Symbol},1}}},DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}) at /home/vagrant/.julia/v0.5/DataCubes/src/util/array_util.jl:621
        in (::TestDataCubes.TestArrayUtil.##110#733)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272
        in do_fact(::TestDataCubes.TestArrayUtil.##110#733, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
@@ -6227,8 +6239,8 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in ex
   > Misc functions tests
     Error :: (line:272) :: Misc functions tests
       Expression: DataCubes.dropna(@larr(a=[1 2 NA;NA 3 NA],b=[10 11 NA;13 14 NA],axis1[k = ['a','b']],axis2[r = [:x,:y,:z]])) --> @larr a=[1 2;NA 3] b=[10 11;13 14] axis1[k = ['a','b']] axis2[r = [:x,:y]]
-      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(2),Nullable{Int64}(),Nullable{Int64}(3),Nullable{Int64}(),Nullable{Int64}(140047175503056))
-        at index [140047498636240]
+      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(2),Nullable{Int64}(),Nullable{Int64}(3),Nullable{Int64}(),Nullable{Int64}(140628127782248))
+        at index [140627829655360]
        in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Int64}, ::Vararg{Nullable{Int64},N}) at ./abstractarray.jl:1354
@@ -6249,8 +6261,8 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in ex
        in _start() at ./client.jl:318
     Error :: (line:272) :: Misc functions tests
       Expression: DataCubes.dropna(@larr(a=[1 2 NA;NA 3 NA],b=[10 11 NA;13 14 NA])) --> @larr a=[1 2;NA 3] b=[10 11;13 14]
-      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(2),Nullable{Int64}(),Nullable{Int64}(3),Nullable{Int64}(),Nullable{Int64}())
-        at index [140047175560064]
+      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(2),Nullable{Int64}(),Nullable{Int64}(3),Nullable{Int64}(),Nullable{Int64}(140628137752168))
+        at index [140628137752144]
        in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Int64}, ::Vararg{Nullable{Int64},N}) at ./abstractarray.jl:1354
@@ -6272,7 +6284,7 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in ex
     Error :: (line:272) :: Misc functions tests
       Expression: DataCubes.dropna(@larr(a=[1 2 NA;NA 3 NA])) --> @larr a=[1 2;NA 3]
       BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(2),Nullable{Int64}(),Nullable{Int64}(3),Nullable{Int64}(),Nullable{Int64}())
-        at index [140047475717328]
+        at index [140627921296752]
        in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Int64}, ::Vararg{Nullable{Int64},N}) at ./abstractarray.jl:1354
@@ -6294,7 +6306,7 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in ex
     Error :: (line:272) :: Misc functions tests
       Expression: DataCubes.dropna(@darr(a=[1 2 NA;NA 3 NA])) --> @darr a=[1 2;NA 3]
       BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(2),Nullable{Int64}(),Nullable{Int64}(3),Nullable{Int64}(),Nullable{Int64}())
-        at index [140047482060976]
+        at index [140628046036720]
        in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Int64}, ::Vararg{Nullable{Int64},N}) at ./abstractarray.jl:1354
@@ -6316,7 +6328,7 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in ex
     Error :: (line:272) :: Misc functions tests
       Expression: DataCubes.dropna(@nalift([1 2 NA;NA 3 NA])) --> @nalift [1 2;NA 3]
       BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(2),Nullable{Int64}(),Nullable{Int64}(3),Nullable{Int64}(),Nullable{Int64}())
-        at index [140047484929616]
+        at index [140627829655360]
        in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Int64}, ::Vararg{Nullable{Int64},N}) at ./abstractarray.jl:1354
@@ -6380,9 +6392,8 @@ WARNING: the no-op `transpose` fallback is deprecated, and no more specific `tra
 while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in expression starting on line 8
     Error :: (line:272) :: Misc functions tests
       Expression: delete(@larr(a=reshape(1:6,2,3),b=[:x NA :y;:z :w NA],axis1[k1 = ["m","n"],k2 = [:u,:u]])) --> @larr a=reshape(1:6,2,3) b=[:x NA :y;:z :w NA] axis1[k1 = ["m","n"],k2 = [:u,:u]]
-      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(140047173417128),Nullable{Int64}(140047223494003),Nullable{Int64}(140047173417176),Nullable{Int64}(140047223494003))
-        at index [0]
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
+      OutOfMemoryError()
+       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
        in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
        in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:1366 [inlined]
@@ -6401,10 +6412,10 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in ex
        in _start() at ./client.jl:318
     Error :: (line:272) :: Misc functions tests
       Expression: delete(@larr(a=reshape(1:6,2,3),b=[:x NA :y;:z :w NA],axis1[k1 = ["m","n"],k2 = [:u,:u]]),:a) --> @larr b=[:x NA :y;:z :w NA] axis1[k1 = ["m","n"],k2 = [:u,:u]]
-      DimensionMismatch("mismatch in dimension 2 (expected 2 got 1)")
-       in cat_t(::Int64, ::Type{T}, ::Array{Nullable{Int64},2}, ::Vararg{Any,N}) at ./abstractarray.jl:1078
-       in vcat(::Array{Nullable{Int64},2}, ::Array{Any,1}) at ./array.jl:723
-       in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1357
+      OutOfMemoryError()
+       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
+       in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
+       in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
        in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:1366 [inlined]
        in (::TestDataCubes.TestArrayUtil.##154#777)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272
        in do_fact(::TestDataCubes.TestArrayUtil.##154#777, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
@@ -6481,8 +6492,8 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in ex
        in _start() at ./client.jl:318
     Error :: (line:272) :: Misc functions tests
       Expression: delete(@darr(a=reshape(1:6,2,3),b=[:x NA :y;:z :w NA]),:a) --> @darr b=[:x NA :y;:z :w NA]
-      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}(140047175500083),Nullable{Int64}(),Nullable{Int64}(140047250852616))
-        at index [140047173399624]
+      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(140628035820496),Nullable{Int64}(140627904470184),Nullable{Int64}(140628035822608),Nullable{Int64}(140627904470376))
+        at index [140627827514520]
        in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
@@ -6635,9 +6646,8 @@ WARNING: cell(dims::Integer...) is deprecated, use Array{Any}(dims...) instead.
 while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in expression starting on line 8
     Error :: (line:272) :: darr/larr tests
       Expression: darr(darr(larr(a=[1 2;3 4;5 6],axis1=darr(r=['x','y','z']))),:k => [:m :n;:o :r;:x :y]) --> @darr hcat(darr(r=['x','y','z']),darr(r=['x','y','z'])) :a => [1 2;3 4;5 6] k=[:m :n;:o :r;:x :y]
-      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(140047436709064),Nullable{Int64}(140047222574768),Nullable{Int64}(140047436709096),Nullable{Int64}(1),Nullable{Int64}(140047436709128))
-        at index [140047469773776]
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
+      OutOfMemoryError()
+       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
        in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
        in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1146 [inlined]
@@ -6791,7 +6801,7 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in ex
     Error :: (line:272) :: extract/discard tests
       Expression: extract(larr(a=[1 2 3;4 5 6],b=['x' 'y' 'z';'u' 'v' 'w'],axis1=[:m,:n],axis2=darr(r=["A","B","C"])),:,darr(r=["X","A"])) --> @larr a=[NA 1;NA 4] b=[NA 'x';NA 'u'] axis1[:m,:n] axis2[darr(r=["X","A"])]
       BoundsError: attempt to access (Nullable{Int64}(),Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(4),Nullable{Int64}(),Nullable{Int64}())
-        at index [140047494939376]
+        at index [140627829655360]
        in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Int64}, ::Vararg{Nullable{Int64},N}) at ./abstractarray.jl:1354
@@ -6812,7 +6822,7 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_array_util.jl, in ex
     Error :: (line:272) :: extract/discard tests
       Expression: extract(larr(a=[1 2 3;4 5 6],b=['x' 'y' 'z';'u' 'v' 'w'],axis1=[:m,:n],axis2=darr(r=["A","B","C"])),[:n,:o],darr(r=["X","A"])) --> @larr a=[NA 4;NA NA] b=[NA 'u';NA NA] axis1[:n,:o] axis2[darr(r=["X","A"])]
       BoundsError: attempt to access (Nullable{Int64}(),Nullable{Int64}(4),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}())
-        at index [140047466379984]
+        at index [140628148674896]
        in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Int64}, ::Vararg{Nullable{Int64},N}) at ./abstractarray.jl:1354
@@ -7563,8 +7573,9 @@ WARNING: symbol is deprecated, use Symbol instead.
 while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_join.jl, in expression starting on line 7
     Error :: (line:272) :: larr version tests
       Expression: leftjoin(larr(k=[:x :x :y;:z :u :v],axis1=[:x,:u],axis2=darr(r=[:x,:y,:z])),larr(axis1=darr(k=[:x,:y,:z,:m,:n,:p]),b=[1,2,3,4,5,6]),1) --> @larr k=[:x :x :y;:z :u :v] b=[1 1 2;3 NA NA] axis1[:x,:u] axis2[r = [:x,:y,:z]]
-      OutOfMemoryError()
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
+      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}(140628100055048),Nullable{Int64}(140628163631792),Nullable{Int64}(0))
+        at index [0]
+       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
        in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:1366 [inlined]
@@ -7583,9 +7594,8 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_join.jl, in expressi
        in _start() at ./client.jl:318
     Error :: (line:272) :: larr version tests
       Expression: leftjoin(larr(k=[:x :x :y;:z :u :v],axis1=[:x,:u],axis2=darr(r=[:x,:y,:z])),larr(axis1=darr(k=[:x,:y,:z,:m,:n,:p]),b=[1,2,3,4,5,6]),1 => 1) --> @larr k=[:x :x :y;:z :u :v] b=[1 1 1;NA NA NA] axis1[:x,:u] axis2[r = [:x,:y,:z]]
-      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(140047506123888),Nullable{Int64}(140047436284456),Nullable{Int64}(140047506123728),Nullable{Int64}(140047436284520))
-        at index [140047429151600]
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
+      OutOfMemoryError()
+       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
        in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
        in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:1366 [inlined]
@@ -7644,11 +7654,10 @@ WARNING: cell(dims::Integer...) is deprecated, use Array{Any}(dims...) instead.
 while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_join.jl, in expression starting on line 7
     Error :: (line:272) :: larr version tests
       Expression: innerjoin(larr(k=[:x :x :y;:z :u :v],axis1=[:x,:u],axis2=darr(r=[:x,:y,:z])),larr(axis1=darr(k=[:x,:y,:z,:m,:n,:p]),b=[1,2,3,4,5,6]),1) --> @larr k=[:x :x :y;:z :u :v] b=[1 1 2;3 NA NA] axis1[:x,:u] axis2[r = [:x,:y,:z]]
-      OutOfMemoryError()
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
-       in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
-       in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
-       in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:1366 [inlined]
+      ArgumentError: the result sizes for different fields are inconsistent: Dict{Symbol,Tuple{Int64,Vararg{Int64,N}}}(Pair{Symbol,Tuple{Int64,Vararg{Int64,N}}}(:b,(2,3)),Pair{Symbol,Tuple{Int64,Vararg{Int64,N}}}(:k,(0,)))
+       in darr_inner(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Any},1,Array{Nullable{Any},1}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1226
+       in #darr#127(::Array{Any,1}, ::Function, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Any},1,Array{Nullable{Any},1}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
+       in darr(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Any},1,Array{Nullable{Any},1}}}, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}},N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
        in (::TestDataCubes.TestJoin.##33#104)(::DataCubes.LabeledArray{DataCubes.LDict{Symbol,Nullable{Any}},2,Tuple{DataCubes.AbstractArrayWrapper{Nullable{Symbol},1,Array{Nullable{Symbol},1}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Symbol},1,Array{Nullable{Symbol},1}},Nullable{Symbol}}},DataCubes.DictArray{Symbol,2,DataCubes.AbstractArrayWrapper{T,2,A<:AbstractArray},Nullable{Any}}}) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:260
        in do_fact(::TestDataCubes.TestJoin.##34#105, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
        in macro expansion at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272 [inlined]
@@ -7664,8 +7673,8 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_join.jl, in expressi
        in _start() at ./client.jl:318
     Error :: (line:272) :: larr version tests
       Expression: innerjoin(larr(k=[:x :x :y;:z :u :v],axis1=[:x,:u],axis2=darr(r=[:x,:y,:z])),larr(axis1=darr(k=[:x,:y,:z,:m,:n,:p]),b=[1,2,3,4,5,6]),1 => Any[nalift([:o :x :x;:q :r :y])]) --> @larr k=[:x :y;:u :v] b=[1 1;NA 2] axis1[:x,:u] axis2[r = [:y,:z]]
-      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(2),Nullable{Int64}(),Nullable{Int64}(0))
-        at index [0]
+      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(2),Nullable{Int64}(),Nullable{Int64}())
+        at index [140628044351824]
        in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Int64}, ::Vararg{Nullable{Int64},N}) at ./abstractarray.jl:1354
@@ -7736,8 +7745,8 @@ WARNING: symbol is deprecated, use Symbol instead.
 while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_join.jl, in expression starting on line 7
     Error :: (line:272) :: darr version tests
       Expression: leftjoin(larr(axis=['X','Y'],s1=[1 2 1;2 1 2],s2=[:a :a :a;:b :b :b],s3=[:c :d :e;:c :e :e]),@larr(axis[s2 = [:a,:b]],axis[s3 = [:c,:d]],r=[1.0 2.0;3.0 4.0]),2,1) --> larr(axis1=['X','Y'],s1=[1 2 1;2 1 2],s2=[:a :a :a;:b :b :b],s3=[:c :d :e;:c :e :e],r=[1.0 2.0 NaN;3.0 NaN NaN])
-      BoundsError: attempt to access (Nullable{Int64}(4607182418800017408),Nullable{Int64}(4611686018427387904),Nullable{Int64}(4613937818241073152),Nullable{Int64}(4616189618054758400),Nullable{Int64}(),Nullable{Int64}())
-        at index [140047175550784]
+      BoundsError: attempt to access (Nullable{Int64}(4607182418800017408),Nullable{Int64}(4611686018427387904),Nullable{Int64}(4613937818241073152),Nullable{Int64}(4616189618054758400),Nullable{Int64}(),Nullable{Int64}(140628118211976))
+        at index [140627829657360]
        in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{Float64},Nullable{Float64},Nullable{Float64},Nullable{Float64}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Float64}, ::Vararg{Nullable{Float64},N}) at ./abstractarray.jl:1354
@@ -7757,8 +7766,8 @@ while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_join.jl, in expressi
        in _start() at ./client.jl:318
     Error :: (line:272) :: darr version tests
       Expression: innerjoin(larr(s1=[1 2 1;2 1 2],s2=[:a :a :a;:b :b :b],s3=[:c :d :e;:c :e :e]),@larr(axis[s2 = [:a,:b]],axis[s3 = [:c,:d]],r=[1.0 2.0;3.0 4.0]),2,1) --> larr(s1=[1 2;2 1],s2=[:a :a;:b :b],s3=[:c :d;:c :e],r=[1.0 2.0;3.0 NaN])
-      BoundsError: attempt to access (Nullable{Int64}(4607182418800017408),Nullable{Int64}(4611686018427387904),Nullable{Int64}(4613937818241073152),Nullable{Int64}(4616189618054758400),Nullable{Int64}(),Nullable{Int64}(140047175503059))
-        at index [140047495443184]
+      BoundsError: attempt to access (Nullable{Int64}(4607182418800017408),Nullable{Int64}(4611686018427387904),Nullable{Int64}(4613937818241073152),Nullable{Int64}(4616189618054758400),Nullable{Int64}(),Nullable{Int64}())
+        at index [140627829657520]
        in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{Float64},Nullable{Float64},Nullable{Float64},Nullable{Float64}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Float64}, ::Vararg{Nullable{Float64},N}) at ./abstractarray.jl:1354
@@ -8600,8 +8609,8 @@ end
   > @select misc tests
     Error :: (line:272) :: @select misc tests
       Expression: @select @larr(a=[1 2 3;4 5 6],b=[10 11 12;13 14 15],c=[:a :b :b;:b :a :a]) k=_[:a] where[_a .> 2] --> @larr k=[NA NA 3;4 5 6]
-      BoundsError: attempt to access (Nullable{Int64}(1),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}(),Nullable{Int64}(65),Nullable{Int64}(140047409582600))
-        at index [65]
+      BoundsError: attempt to access (Nullable{Int64}(4),Nullable{Int64}(140627829604659),Nullable{Int64}(140628056654800),Nullable{Int64}(140627829604659),Nullable{Int64}(140627988184992),Nullable{Int64}(140627997906696))
+        at index [9]
        in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
        in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
@@ -8643,9 +8652,8 @@ end
        in _start() at ./client.jl:318
     Error :: (line:272) :: @select misc tests
       Expression: @select @larr(a=[1 2 3;4 5 6],b=[10 11 12;13 14 15],c=[:a :b :b;:b :a :a]) k=_[_c] where[_a .> 2] --> @larr k=[NA NA 12;13 5 6]
-      BoundsError: attempt to access (Nullable{Int64}(4),Nullable{Int64}(140047269530280),Nullable{Int64}(140047477196288),Nullable{Int64}(140047269530312),Nullable{Int64}(140047477197408),Nullable{Int64}(140047269530376))
-        at index [140047480466384]
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:304
+      OutOfMemoryError()
+       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
        in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
        in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
        in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:1366 [inlined]
@@ -8877,11 +8885,10 @@ end
             end),where=(d->begin  # /home/vagrant/.julia/v0.5/DataCubes/test/test_select.jl, line 143:
                 d[:a] .> 2
             end)) --> @larr k=[NA NA 3;4 5 6]
-      OutOfMemoryError()
-       in collect(::Base.Generator{UnitRange{Int64},Base.##19#20{Tuple{Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64},Nullable{Int64}}}}) at ./array.jl:305
-       in getindex(::Tuple{Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol},Nullable{Symbol}}, ::UnitRange{Int64}) at ./tuple.jl:10
-       in hvcat(::Tuple{Int64,Int64}, ::Nullable{Symbol}, ::Vararg{Nullable{Symbol},N}) at ./abstractarray.jl:1354
-       in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:1366 [inlined]
+      ArgumentError: the result sizes for different fields are inconsistent: Dict{Symbol,Tuple{Int64,Vararg{Int64,N}}}(Pair{Symbol,Tuple{Int64,Vararg{Int64,N}}}(:c,(0,)),Pair{Symbol,Tuple{Int64,Vararg{Int64,N}}}(:a,(2,3)),Pair{Symbol,Tuple{Int64,Vararg{Int64,N}}}(:b,(2,3)))
+       in darr_inner(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1226
+       in #darr#127(::Array{Any,1}, ::Function, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
+       in darr(::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Pair{Symbol,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}}}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/dict_array.jl:1241
        in (::TestDataCubes.TestSelect.##232#890{TestDataCubes.TestSelect.##231#889})() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272
        in do_fact(::TestDataCubes.TestSelect.##232#890{TestDataCubes.TestSelect.##231#889}, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
        in macro expansion at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272 [inlined]
@@ -22051,56 +22058,70 @@ end --> true
      in include_from_node1(::String) at ./loading.jl:426
      in process_options(::Base.JLOptions) at ./client.jl:262
      in _start() at ./client.jl:318
+  Error :: (line:272)
+    Expression: begin 
+    t = larr(a=rand(0:1,3,5),b=rand(0:1,3,5),c=rand(0:1,3,5),axis2=darr(k=rand(0:1,5)))
+    sort(t,2) == sort(t,2,:k)
+end --> true
+    BoundsError: attempt to access (2,)
+      at index [2]
+     in getindexvalue(::DataCubes.BroadcastAxis{Nullable{Int64},1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,SubArray{Nullable{Int64},1,Array{Nullable{Int64},2},Tuple{Int64,Colon},true}},Nullable{Int64}}}, ::Int64) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:826
+     in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/util/sort.jl:26 [inlined]
+     in lt(::DataCubes.AbstractArrayLT{1,Tuple{Base.Order.ForwardOrdering},Tuple{DataCubes.BroadcastAxis{Nullable{Int64},1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,SubArray{Nullable{Int64},1,Array{Nullable{Int64},2},Tuple{Int64,Colon},true}},Nullable{Int64}}}}}, ::Int64, ::Int64) at /home/vagrant/.julia/v0.5/DataCubes/src/util/sort.jl:24
+     in sort!(::Array{Int64,1}, ::Int64, ::Int64, ::Base.Sort.InsertionSortAlg, ::DataCubes.AbstractArrayLT{1,Tuple{Base.Order.ForwardOrdering},Tuple{DataCubes.BroadcastAxis{Nullable{Int64},1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,SubArray{Nullable{Int64},1,Array{Nullable{Int64},2},Tuple{Int64,Colon},true}},Nullable{Int64}}}}}) at ./sort.jl:221
+     in sort!(::Array{Int64,1}, ::Int64, ::Int64, ::Base.Sort.MergeSortAlg, ::DataCubes.AbstractArrayLT{1,Tuple{Base.Order.ForwardOrdering},Tuple{DataCubes.BroadcastAxis{Nullable{Int64},1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,SubArray{Nullable{Int64},1,Array{Nullable{Int64},2},Tuple{Int64,Colon},true}},Nullable{Int64}}}}}, ::Array{Int64,1}) at ./sort.jl:310
+     in sortpermbase(::DataCubes.LabeledArray{DataCubes.LDict{Symbol,Nullable{Int64}},2,Tuple{DataCubes.DefaultAxis,DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},Nullable{Int64}}},DataCubes.DictArray{Symbol,2,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}},Nullable{Int64}}}, ::Int64, ::Base.Sort.MergeSortAlg, ::DataCubes.AbstractArrayLT{1,Tuple{Base.Order.ForwardOrdering},Tuple{DataCubes.BroadcastAxis{Nullable{Int64},1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,SubArray{Nullable{Int64},1,Array{Nullable{Int64},2},Tuple{Int64,Colon},true}},Nullable{Int64}}}}}) at /home/vagrant/.julia/v0.5/DataCubes/src/util/sort.jl:52
+     in sortbase at /home/vagrant/.julia/v0.5/DataCubes/src/util/sort.jl:66 [inlined]
+     in #sort#429(::Base.Sort.MergeSortAlg, ::Array{Any,1}, ::Function, ::DataCubes.LabeledArray{DataCubes.LDict{Symbol,Nullable{Int64}},2,Tuple{DataCubes.DefaultAxis,DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},Nullable{Int64}}},DataCubes.DictArray{Symbol,2,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}},Nullable{Int64}}}, ::Int64, ::Symbol, ::Vararg{Symbol,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/util/sort.jl:143
+     in (::TestDataCubes.TestSort.##91#204)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272
+     in do_fact(::TestDataCubes.TestSort.##91#204, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
+     in macro expansion at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272 [inlined]
+     in (::TestDataCubes.TestSort.##1#114)() at /home/vagrant/.julia/v0.5/DataCubes/test/test_sort.jl:54
+     in facts(::TestDataCubes.TestSort.##1#114, ::String) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:449
+     in include_from_node1(::String) at ./loading.jl:426
+     in macro expansion; at /home/vagrant/.julia/v0.5/DataCubes/test/runtests.jl:24 [inlined]
+     in anonymous at ./<missing>:?
+     in include_from_node1(::String) at ./loading.jl:426
+     in process_options(::Base.JLOptions) at ./client.jl:262
+     in _start() at ./client.jl:318
+  Error :: (line:272)
+    Expression: begin 
+    t = larr(a=rand(0:1,3,5),b=rand(0:1,3,5),c=rand(0:1,3,5),axis2=darr(k1=rand(0:1,5),k2=rand(0:1,5)))
+    sort(t,2) == sort(t,2,:k1,:k2)
+end --> true
+    BoundsError: attempt to access (2,)
+      at index [2]
+     in getindexvalue(::DataCubes.BroadcastAxis{Nullable{Int64},1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,SubArray{Nullable{Int64},1,Array{Nullable{Int64},2},Tuple{Int64,Colon},true}},Nullable{Int64}}}, ::Int64) at /home/vagrant/.julia/v0.5/DataCubes/src/datatypes/labeled_array.jl:826
+     in macro expansion at /home/vagrant/.julia/v0.5/DataCubes/src/util/sort.jl:26 [inlined]
+     in lt(::DataCubes.AbstractArrayLT{2,Tuple{Base.Order.ForwardOrdering,Base.Order.ForwardOrdering},Tuple{DataCubes.BroadcastAxis{Nullable{Int64},1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,SubArray{Nullable{Int64},1,Array{Nullable{Int64},2},Tuple{Int64,Colon},true}},Nullable{Int64}}},DataCubes.BroadcastAxis{Nullable{Int64},1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,SubArray{Nullable{Int64},1,Array{Nullable{Int64},2},Tuple{Int64,Colon},true}},Nullable{Int64}}}}}, ::Int64, ::Int64) at /home/vagrant/.julia/v0.5/DataCubes/src/util/sort.jl:24
+     in sort!(::Array{Int64,1}, ::Int64, ::Int64, ::Base.Sort.InsertionSortAlg, ::DataCubes.AbstractArrayLT{2,Tuple{Base.Order.ForwardOrdering,Base.Order.ForwardOrdering},Tuple{DataCubes.BroadcastAxis{Nullable{Int64},1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,SubArray{Nullable{Int64},1,Array{Nullable{Int64},2},Tuple{Int64,Colon},true}},Nullable{Int64}}},DataCubes.BroadcastAxis{Nullable{Int64},1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,SubArray{Nullable{Int64},1,Array{Nullable{Int64},2},Tuple{Int64,Colon},true}},Nullable{Int64}}}}}) at ./sort.jl:221
+     in sort!(::Array{Int64,1}, ::Int64, ::Int64, ::Base.Sort.MergeSortAlg, ::DataCubes.AbstractArrayLT{2,Tuple{Base.Order.ForwardOrdering,Base.Order.ForwardOrdering},Tuple{DataCubes.BroadcastAxis{Nullable{Int64},1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,SubArray{Nullable{Int64},1,Array{Nullable{Int64},2},Tuple{Int64,Colon},true}},Nullable{Int64}}},DataCubes.BroadcastAxis{Nullable{Int64},1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,SubArray{Nullable{Int64},1,Array{Nullable{Int64},2},Tuple{Int64,Colon},true}},Nullable{Int64}}}}}, ::Array{Int64,1}) at ./sort.jl:310
+     in sortpermbase(::DataCubes.LabeledArray{DataCubes.LDict{Symbol,Nullable{Int64}},2,Tuple{DataCubes.DefaultAxis,DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},Nullable{Int64}}},DataCubes.DictArray{Symbol,2,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}},Nullable{Int64}}}, ::Int64, ::Base.Sort.MergeSortAlg, ::DataCubes.AbstractArrayLT{2,Tuple{Base.Order.ForwardOrdering,Base.Order.ForwardOrdering},Tuple{DataCubes.BroadcastAxis{Nullable{Int64},1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,SubArray{Nullable{Int64},1,Array{Nullable{Int64},2},Tuple{Int64,Colon},true}},Nullable{Int64}}},DataCubes.BroadcastAxis{Nullable{Int64},1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,SubArray{Nullable{Int64},1,Array{Nullable{Int64},2},Tuple{Int64,Colon},true}},Nullable{Int64}}}}}) at /home/vagrant/.julia/v0.5/DataCubes/src/util/sort.jl:52
+     in sortbase at /home/vagrant/.julia/v0.5/DataCubes/src/util/sort.jl:66 [inlined]
+     in #sort#429(::Base.Sort.MergeSortAlg, ::Array{Any,1}, ::Function, ::DataCubes.LabeledArray{DataCubes.LDict{Symbol,Nullable{Int64}},2,Tuple{DataCubes.DefaultAxis,DataCubes.DictArray{Symbol,1,DataCubes.AbstractArrayWrapper{Nullable{Int64},1,Array{Nullable{Int64},1}},Nullable{Int64}}},DataCubes.DictArray{Symbol,2,DataCubes.AbstractArrayWrapper{Nullable{Int64},2,Array{Nullable{Int64},2}},Nullable{Int64}}}, ::Int64, ::Symbol, ::Vararg{Symbol,N}) at /home/vagrant/.julia/v0.5/DataCubes/src/util/sort.jl:143
+     in (::TestDataCubes.TestSort.##93#206)() at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272
+     in do_fact(::TestDataCubes.TestSort.##93#206, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
+     in macro expansion at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272 [inlined]
+     in (::TestDataCubes.TestSort.##1#114)() at /home/vagrant/.julia/v0.5/DataCubes/test/test_sort.jl:55
+     in facts(::TestDataCubes.TestSort.##1#114, ::String) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:449
+     in include_from_node1(::String) at ./loading.jl:426
+     in macro expansion; at /home/vagrant/.julia/v0.5/DataCubes/test/runtests.jl:24 [inlined]
+     in anonymous at ./<missing>:?
+     in include_from_node1(::String) at ./loading.jl:426
+     in process_options(::Base.JLOptions) at ./client.jl:262
+     in _start() at ./client.jl:318
 
 signal (15): Terminated
 while loading no file, in expression starting on line 0
 uv__epoll_wait at /home/centos/buildbot/slave/package_tarball64/build/deps/srccache/libuv-28743d6091531340cfe316de2b2d385fe1778ff5/src/unix/linux-syscalls.c:321
 uv__io_poll at /home/centos/buildbot/slave/package_tarball64/build/deps/srccache/libuv-28743d6091531340cfe316de2b2d385fe1778ff5/src/unix/linux-core.c:267
 uv_run at /home/centos/buildbot/slave/package_tarball64/build/deps/srccache/libuv-28743d6091531340cfe316de2b2d385fe1778ff5/src/unix/core.c:354
-
-signal (15): Terminated
-while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_sort.jl, in expression starting on line 6
-jl_unw_step at /home/centos/buildbot/slave/package_tarball64/build/src/stackwalk.c:327 [inlined]
-jl_unw_stepn at /home/centos/buildbot/slave/package_tarball64/build/src/stackwalk.c:47
-jl_backtrace_from_here at /home/centos/buildbot/slave/package_tarball64/build/src/stackwalk.c:111
-getline at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:521
-macro expansion at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272 [inlined]
-#1 at /home/vagrant/.julia/v0.5/DataCubes/test/test_sort.jl:52
-facts at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:449
-jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:192 [inlined]
-jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1930
-do_call at /home/centos/buildbot/slave/package_tarball64/build/src/interpreter.c:66
-eval at /home/centos/buildbot/slave/package_tarball64/build/src/interpreter.c:190
-eval_body at /home/centos/buildbot/slave/package_tarball64/build/src/interpreter.c:465
-jl_interpret_call at /home/centos/buildbot/slave/package_tarball64/build/src/interpreter.c:573
-jl_toplevel_eval_flex at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:572
-jl_eval_module_expr at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:196
-jl_toplevel_eval_flex at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:465
-jl_parse_eval_all at /home/centos/buildbot/slave/package_tarball64/build/src/ast.c:717
-jl_load at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:596
-jl_load_ at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:605
-include_from_node1 at ./loading.jl:426
-jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:192 [inlined]
-jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1930
-macro expansion; at /home/vagrant/.julia/v0.5/DataCubes/test/runtests.jl:24 [inlined]
-anonymous at ./<missing> (unknown line)
-jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:192 [inlined]
-jl_toplevel_eval_flex at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:569
-jl_eval_module_expr at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:196
-jl_toplevel_eval_flex at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:465
-jl_parse_eval_all at /home/centos/buildbot/slave/package_tarball64/build/src/ast.c:717
-jl_load at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:596
-jl_load_ at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:605
-include_from_node1 at ./loading.jl:426
-jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:192 [inlined]
-jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1930
 process_events at ./libuv.jl:82
 wait at ./event.jl:147
 wait at ./event.jl:27
 jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:192 [inlined]
 jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1930
 jl_apply_2va at /home/centos/buildbot/slave/package_tarball64/build/src/builtins.c:416
-process_options at ./client.jl:262
 stream_wait at ./stream.jl:44
 wait at ./process.jl:716 [inlined]
 success at ./process.jl:606
@@ -22142,6 +22163,77 @@ jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/s
 jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1930
 process_options at ./client.jl:239
 _start at ./client.jl:318
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:192 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1930
+unknown function (ip: 0x4018bd)
+unknown function (ip: 0x401376)
+unknown function (ip: 0x4013bc)
+unknown function (ip: 0xffffffffffffffff)
+Allocations: 9736661 (Pool: 9733667; Big: 2994); GC: 18
+
+signal (11): Segmentation fault
+while loading no file, in expression starting on line 0
+
+signal (15): Terminated
+while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_sort.jl, in expression starting on line 6
+jl_unw_step at /home/centos/buildbot/slave/package_tarball64/build/src/stackwalk.c:327 [inlined]
+jl_unw_stepn at /home/centos/buildbot/slave/package_tarball64/build/src/stackwalk.c:47
+jl_backtrace_from_here at /home/centos/buildbot/slave/package_tarball64/build/src/stackwalk.c:111
+depwarn at ./deprecated.jl:64
+symbol at ./deprecated.jl:30
+#417 at /home/vagrant/.julia/v0.5/DataCubes/src/util/sort.jl:11
+map at ./tuple.jl:94
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:192 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1930
+#AbstractArrayLT#416 at /home/vagrant/.julia/v0.5/DataCubes/src/util/sort.jl:9
+Type at /home/vagrant/.julia/v0.5/DataCubes/src/util/sort.jl:7
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:192 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1930
+jl_apply at /home/centos/buildbot/slave/package_tarball64/build/src/julia.h:1392 [inlined]
+jl_f__apply at /home/centos/buildbot/slave/package_tarball64/build/src/builtins.c:533
+#sortperm#428 at /home/vagrant/.julia/v0.5/DataCubes/src/util/sort.jl:63
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:192 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1930
+jl_apply at /home/centos/buildbot/slave/package_tarball64/build/src/julia.h:1392 [inlined]
+jl_f__apply at /home/centos/buildbot/slave/package_tarball64/build/src/builtins.c:533
+sortperm at /home/vagrant/.julia/v0.5/DataCubes/src/util/sort.jl:62
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:192 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1930
+#103 at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272
+do_fact at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:334
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:192 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1930
+macro expansion at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:272 [inlined]
+#1 at /home/vagrant/.julia/v0.5/DataCubes/test/test_sort.jl:61
+facts at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:449
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:192 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1930
+do_call at /home/centos/buildbot/slave/package_tarball64/build/src/interpreter.c:66
+eval at /home/centos/buildbot/slave/package_tarball64/build/src/interpreter.c:190
+eval_body at /home/centos/buildbot/slave/package_tarball64/build/src/interpreter.c:465
+jl_interpret_call at /home/centos/buildbot/slave/package_tarball64/build/src/interpreter.c:573
+jl_toplevel_eval_flex at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:572
+jl_eval_module_expr at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:196
+jl_toplevel_eval_flex at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:465
+jl_parse_eval_all at /home/centos/buildbot/slave/package_tarball64/build/src/ast.c:717
+jl_load at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:596
+jl_load_ at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:605
+include_from_node1 at ./loading.jl:426
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:192 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1930
+macro expansion; at /home/vagrant/.julia/v0.5/DataCubes/test/runtests.jl:24 [inlined]
+anonymous at ./<missing> (unknown line)
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:192 [inlined]
+jl_toplevel_eval_flex at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:569
+jl_eval_module_expr at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:196
+jl_toplevel_eval_flex at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:465
+jl_parse_eval_all at /home/centos/buildbot/slave/package_tarball64/build/src/ast.c:717
+jl_load at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:596
+jl_load_ at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:605
+include_from_node1 at ./loading.jl:426
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:192 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1930
+process_options at ./client.jl:262
 _start at ./client.jl:318
 jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:192 [inlined]
 jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1930
@@ -22149,20 +22241,10 @@ jl_apply at /home/centos/buildbot/slave/package_tarball64/build/ui/../src/julia.
 true_main at /home/centos/buildbot/slave/package_tarball64/build/ui/repl.c:112
 main at /home/centos/buildbot/slave/package_tarball64/build/ui/repl.c:232
 unknown function (ip: 0xffffffffffffffff)
-Allocations: 243126235 (Pool: 243056783; Big: 69452); GC: 531
+Allocations: 242985775 (Pool: 242916199; Big: 69576); GC: 516
 
 signal (11): Segmentation fault
 while loading /home/vagrant/.julia/v0.5/DataCubes/test/test_sort.jl, in expression starting on line 6
-jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:192 [inlined]
-jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1930
-unknown function (ip: 0x4018bd)
-unknown function (ip: 0x401376)
-unknown function (ip: 0x4013bc)
-unknown function (ip: 0xffffffffffffffff)
-Allocations: 9712063 (Pool: 9709069; Big: 2994); GC: 18
-
-signal (11): Segmentation fault
-while loading no file, in expression starting on line 0
 timeout: the monitored command dumped core
 
 >>> End of log
