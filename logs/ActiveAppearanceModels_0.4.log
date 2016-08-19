@@ -35,7 +35,7 @@ INFO: Cloning cache of Winston from git://github.com/nolta/Winston.jl.git
 INFO: Cloning cache of Zlib from git://github.com/dcjones/Zlib.jl.git
 INFO: Installing ActiveAppearanceModels v0.1.2
 INFO: Installing BinDeps v0.4.2
-INFO: Installing Blosc v0.1.6
+INFO: Installing Blosc v0.1.7
 INFO: Installing Cairo v0.2.34
 INFO: Installing ColorTypes v0.2.6
 INFO: Installing ColorVectorSpace v0.1.7
@@ -70,17 +70,23 @@ INFO: Installing Zlib v0.1.12
 INFO: Building Blosc
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   121    0   121    0     0   1463      0 --:--:-- --:--:-- --:--:--  1475
- 51  261k   51  134k    0     0   103k      0  0:00:02  0:00:01  0:00:01  103k100  261k  100  261k    0     0   200k      0  0:00:01  0:00:01 --:--:-- 17.8M
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   121    0   121    0     0   1346      0 --:--:-- --:--:-- --:--:--  1359
+  9  261k    9 26540    0     0  20024      0  0:00:13  0:00:01  0:00:12 20024 68  261k   68  179k    0     0   114k      0  0:00:02  0:00:01  0:00:01  648k100  261k  100  261k    0     0   167k      0  0:00:01  0:00:01 --:--:--  978k
 Compiling libblosc...
-gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o bitshuffle-generic.o bitshuffle-generic.c
-gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o shuffle-generic.o shuffle-generic.c
-gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o shuffle.o shuffle.c
-gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o blosclz.o blosclz.c
-gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o blosc.o blosc.c
-gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -msse2 -c -o bitshuffle-sse2.o bitshuffle-sse2.c
-gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -msse2 -c -o shuffle-sse2.o shuffle-sse2.c
-gcc -fPIC -O3 -pthread -shared bitshuffle-generic.o shuffle-generic.o shuffle.o blosclz.o blosc.o bitshuffle-sse2.o shuffle-sse2.o -o ../../libblosc.so
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o bitshuffle-generic.o bitshuffle-generic.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o shuffle-generic.o shuffle-generic.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o shuffle.o shuffle.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o blosclz.o blosclz.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o blosc.o blosc.c
+echo "building with AVX2"
+building with AVX2
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -mavx2 -c -o bitshuffle-avx2.o bitshuffle-avx2.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -mavx2 -c -o shuffle-avx2.o shuffle-avx2.c
+echo "building without AVX2"
+building without AVX2
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -msse2 -c -o bitshuffle-sse2.o bitshuffle-sse2.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -msse2 -c -o shuffle-sse2.o shuffle-sse2.c
+gcc -fPIC -O3 -pthread -shared bitshuffle-generic.o shuffle-generic.o shuffle.o blosclz.o blosc.o bitshuffle-avx2.o shuffle-avx2.o bitshuffle-sse2.o shuffle-sse2.o -o ../../libblosc.so
 INFO: Building HDF5
 Installing dependency hdf5-tools via `sudo apt-get install hdf5-tools`:
 Reading package lists...
@@ -96,7 +102,7 @@ After this operation, 5,841 kB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu/ trusty/universe libhdf5-7 amd64 1.8.11-5ubuntu7 [1,205 kB]
 Get:2 http://archive.ubuntu.com/ubuntu/ trusty/universe hdf5-tools amd64 1.8.11-5ubuntu7 [342 kB]
 dpkg-preconfigure: unable to re-open stdin: No such file or directory
-Fetched 1,547 kB in 0s (2,039 kB/s)
+Fetched 1,547 kB in 1s (1,124 kB/s)
 Selecting previously unselected package libhdf5-7:amd64.
 (Reading database ... 71168 files and directories currently installed.)
 Preparing to unpack .../libhdf5-7_1.8.11-5ubuntu7_amd64.deb ...
@@ -144,7 +150,7 @@ Get:11 http://archive.ubuntu.com/ubuntu/ trusty-updates/main libgs9-common all 9
 Get:12 http://archive.ubuntu.com/ubuntu/ trusty-updates/main libgs9 amd64 9.10~dfsg-0ubuntu10.4 [1,943 kB]
 Get:13 http://archive.ubuntu.com/ubuntu/ trusty-updates/main ghostscript amd64 9.10~dfsg-0ubuntu10.4 [40.8 kB]
 dpkg-preconfigure: unable to re-open stdin: No such file or directory
-Fetched 8,186 kB in 7s (1,037 kB/s)
+Fetched 8,186 kB in 4s (1,788 kB/s)
 Selecting previously unselected package imagemagick-common.
 (Reading database ... 71222 files and directories currently installed.)
 Preparing to unpack .../imagemagick-common_8%3a6.7.7.10-6ubuntu3.1_all.deb ...
@@ -215,13 +221,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-93-generic #140-Ubuntu SMP Mon Jul 18 21:21:05 UTC 2016 x86_64 x86_64
-Memory: 2.4471054077148438 GB (265.44921875 MB free)
-Uptime: 1710.0 sec
-Load Avg:  0.61767578125  0.53564453125  0.2607421875
+Memory: 2.4471054077148438 GB (269.8515625 MB free)
+Uptime: 1108.0 sec
+Load Avg:  0.408203125  0.38427734375  0.2099609375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3507 MHz      12190 s         64 s       3326 s     148917 s          3 s
-#2  3507 MHz       9074 s         89 s       2962 s     155657 s          0 s
+#1  3500 MHz      10958 s         54 s       2814 s      91592 s          4 s
+#2  3500 MHz       5568 s         88 s       2444 s     100494 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -240,7 +246,7 @@ Package Directory: /home/vagrant/.julia/v0.4
  - JSON                          0.6.0
 34 additional packages:
  - BinDeps                       0.4.2
- - Blosc                         0.1.6
+ - Blosc                         0.1.7
  - Cairo                         0.2.34
  - ColorTypes                    0.2.6
  - ColorVectorSpace              0.1.7
@@ -279,58 +285,58 @@ WARNING: deprecated syntax "AbstractVecOrMat{T} (" at /home/vagrant/.julia/v0.4/
 Use "AbstractVecOrMat{T}(" instead.
 WARNING: requiring "Dates" in module "Winston" did not define a corresponding module.
 WARNING: module Winston should explicitly import * from Base
- 15.375907 seconds (37.65 M allocations: 26.170 GB, 21.67% gc time)
-Sum of squared errors: 2985.4467519412988
-Sum of squared errors: 2344.827258922687
-Sum of squared errors: 1779.9047485025949
-Sum of squared errors: 1493.532861994566
-Sum of squared errors: 1374.9625200508785
-Sum of squared errors: 1329.7816838732233
-Sum of squared errors: 923.0957180326571
-Sum of squared errors: 779.6590480346467
-Sum of squared errors: 678.3617623247719
-Sum of squared errors: 583.2485993058488
-Sum of squared errors: 477.5931971750422
-Sum of squared errors: 375.35946993928724
-Sum of squared errors: 303.81794437741837
-Sum of squared errors: 278.3404018981955
-Sum of squared errors: 271.4973011239025
-Sum of squared errors: 269.9500997653615
-Sum of squared errors: 270.07943529227583
-Sum of squared errors: 270.1306055187133
-Sum of squared errors: 270.15567138196536
-Sum of squared errors: 270.1624947336263
-Sum of squared errors: 270.1651216484926
-Sum of squared errors: 270.16574406854744
-Sum of squared errors: 270.16603183298315
-Sum of squared errors: 270.1661036446094
-Sum of squared errors: 270.16613862306724
-Sum of squared errors: 270.16614741616183
-Sum of squared errors: 270.1661516199794
-Sum of squared errors: 270.16615268291605
-Sum of squared errors: 270.1661531847004
-Sum of squared errors: 270.1661533133353
-Sum of squared errors: 270.16615337324413
-Sum of squared errors: 270.1661533888125
-Sum of squared errors: 270.16615339596945
-Sum of squared errors: 270.1661533978514
-Sum of squared errors: 270.16615339870845
-Sum of squared errors: 270.166153398936
-Sum of squared errors: 270.16615339903865
-Sum of squared errors: 270.1661533990661
-Sum of squared errors: 270.1661533990781
-Sum of squared errors: 270.1661533990808
-Sum of squared errors: 270.166153399083
-Sum of squared errors: 270.16615339908225
-Sum of squared errors: 270.1661533990828
-Sum of squared errors: 270.1661533990822
-Sum of squared errors: 270.16615339908265
-Sum of squared errors: 270.1661533990824
-Sum of squared errors: 270.16615339908253
-Sum of squared errors: 270.166153399082
-Sum of squared errors: 270.1661533990829
-Sum of squared errors: 270.16615339908174
-  1.543489 seconds (408.20 k allocations: 339.866 MB, 9.86% gc time)
+ 15.113140 seconds (38.27 M allocations: 26.225 GB, 19.91% gc time)
+Sum of squared errors: 2986.298062478356
+Sum of squared errors: 2359.954399320432
+Sum of squared errors: 1799.5779630301192
+Sum of squared errors: 1504.7469251818775
+Sum of squared errors: 1378.1385051767352
+Sum of squared errors: 1328.2896906650535
+Sum of squared errors: 927.6042208154045
+Sum of squared errors: 779.6064143806668
+Sum of squared errors: 674.4254019958689
+Sum of squared errors: 576.4969097480257
+Sum of squared errors: 464.1656325818228
+Sum of squared errors: 357.3566000194344
+Sum of squared errors: 291.913410497654
+Sum of squared errors: 272.9884701403025
+Sum of squared errors: 269.1262560110528
+Sum of squared errors: 268.49883428085315
+Sum of squared errors: 268.5451776180159
+Sum of squared errors: 268.5837326520289
+Sum of squared errors: 268.5997200256986
+Sum of squared errors: 268.6053790586609
+Sum of squared errors: 268.607212755899
+Sum of squared errors: 268.6078191617785
+Sum of squared errors: 268.6080252492709
+Sum of squared errors: 268.6080881560441
+Sum of squared errors: 268.60810998685827
+Sum of squared errors: 268.6081164929765
+Sum of squared errors: 268.60811884669613
+Sum of squared errors: 268.6081195269883
+Sum of squared errors: 268.6081197801927
+Sum of squared errors: 268.60811985089407
+Sum of squared errors: 268.6081198780003
+Sum of squared errors: 268.60811988530236
+Sum of squared errors: 268.6081198881926
+Sum of squared errors: 268.60811988894113
+Sum of squared errors: 268.60811988925184
+Sum of squared errors: 268.6081198893247
+Sum of squared errors: 268.6081198893612
+Sum of squared errors: 268.60811988936604
+Sum of squared errors: 268.6081198893718
+Sum of squared errors: 268.60811988937155
+Sum of squared errors: 268.6081198893698
+Sum of squared errors: 268.6081198893696
+Sum of squared errors: 268.6081198893688
+Sum of squared errors: 268.60811988936854
+Sum of squared errors: 268.60811988936797
+Sum of squared errors: 268.6081198893679
+Sum of squared errors: 268.60811988936746
+Sum of squared errors: 268.6081198893674
+Sum of squared errors: 268.6081198893674
+Sum of squared errors: 268.60811988936666
+  1.444108 seconds (408.20 k allocations: 339.862 MB, 10.64% gc time)
 INFO: ActiveAppearanceModels tests passed
 
 >>> End of log
