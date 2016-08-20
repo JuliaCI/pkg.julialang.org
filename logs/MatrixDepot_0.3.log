@@ -6,6 +6,8 @@ INFO: Installing GZip v0.2.20
 INFO: Installing MatrixDepot v0.4.3
 INFO: Installing MatrixMarket v0.0.1
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of MatrixDepot
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("MatrixDepot")' log
 Julia Version 0.3.12
@@ -16,13 +18,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-93-generic #140-Ubuntu SMP Mon Jul 18 21:21:05 UTC 2016 x86_64 x86_64
-Memory: 2.4471054077148438 GB (356.734375 MB free)
-Uptime: 3583.0 sec
-Load Avg:  0.8818359375  0.87646484375  0.822265625
+Memory: 2.4471054077148438 GB (320.6875 MB free)
+Uptime: 3608.0 sec
+Load Avg:  0.96728515625  0.931640625  0.888671875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3503 MHz      78790 s        118 s      12028 s     237610 s          6 s
-#2  3503 MHz      70845 s         28 s      11125 s     253648 s          0 s
+#1  3500 MHz      92258 s         46 s      14535 s     219519 s          6 s
+#2  3500 MHz      83277 s        106 s      13904 s     247293 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas
@@ -115,22 +117,22 @@ Groups:
   inverse       pos-def       random        regprob     
   sparse        symmetric   
 matrixdepot: no information for `something`
-Clement Matrix:
-             The Clement matrix is a tridiagonal matrix with zero
-             diagonal entries. If k = 1, the matrix is symmetric.
+Image deblurring test problem:
+             The generated matrix A is an n*n-by-n*n sparse, symmetric, 
+             doubly block Toeplitz matrix that models blurring of an n-by-n 
+             image by a Gaussian point spread function.
              
  Input options:
              
- 1. [type,] dim, k: dim is the dimension of the matrix.
-             If k = 0, the matrix is Tridiagonal. If k = 1, the matrix
-             is SymTridiagonal;
+ 1. [type,] n, band, σ, [matrixonly]: the dimension of the matrix
+             is n^2. band is the half-bandwidth, only matrix elements within
+             a distance band-1 from the diagonal are nonzero. σ controls the
+             width of the Gaussin point spread function. The larger the σ, the 
+             wider the function and the more ill posed the problem. 
+             If matrixonly = false, the linear system A, b, x will be generated.
+             (matrixonly = true by default.)
              
- 2. [type,] dim: k = 0.
-             
- ['inverse', 'symmetric', 'eigen']
-             
- Reference: P. A. Clement, A class of triple-diagonal
-             matrices for test purposes, SIAM Review, 1 (1959), pp. 50-52.
+ 2. [type,] n, [matrixonly]: band = 3, σ = 0.7.
 error: access the 56 matrix
 Warning: Method definition IPv4(String,) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:60 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:60.
 Warning: Method definition IPv6(String,) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:61 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:61.
@@ -166,7 +168,7 @@ Warning: Method definition parse(Type{T<:Integer},Char) in module Compat at /hom
 Warning: Method definition parse(Type{T<:Integer},Char,Integer) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:352 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:352.
 Warning: Method definition parse(Type{T<:Integer},String) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:353 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:353.
 Warning: Method definition parse(Type{T<:Integer},String,Integer) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:354 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:354.
-Warning: Method definition parse(Type{T<:Union(Float64,Float32)},String) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:355 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:355.
+Warning: Method definition parse(Type{T<:Union(Float32,Float64)},String) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:355 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:355.
 Warning: Method definition parse(Type{BigFloat},String) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:359 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:359.
 Warning: Method definition isvalid(Char,) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:710 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:710.
 Warning: Method definition isvalid(ASCIIString,) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:711 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:711.
@@ -188,18 +190,18 @@ Warning: Method definition real(Type{Complex{T<:Real}},) in module Compat at /ho
 Warning: Method definition isapprox(AbstractArray{T<:Number,N},AbstractArray{S<:Number,N}) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:796 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:796.
 Warning: Method definition isapprox(Array{T,N},AbstractArray{T<:Number,N},AbstractArray{S<:Number,N}) in module Compat overwritten in module Compat.
 Warning: New definition 
-    +(Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint}),Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
+    +(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
 is ambiguous with: 
-    +(Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
+    +(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
 To fix, define 
-    +(Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}))
+    +(Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}))
 before the new definition.
 Warning: New definition 
-    -(Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint}),Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
+    -(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
 is ambiguous with: 
-    -(Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
+    -(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
 To fix, define 
-    -(Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}))
+    -(Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}))
 before the new definition.
 Warning: Method definition remotecall(Function,LocalProcess,Any...) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:853 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:853.
 Warning: Method definition remotecall(Function,Worker,Any...) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:854 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:854.
@@ -238,7 +240,7 @@ Warning: Method definition eachline(String,) in module Compat at /home/vagrant/.
 Warning: Method definition precision(Type{BigFloat},) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:977 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:977.
 Warning: Method definition srand(MersenneTwister,Array{Uint32,1}) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1293 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1293.
 Warning: Method definition srand(MersenneTwister,Union(Uint32,Int32)) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1306 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1306.
-Warning: Method definition srand(MersenneTwister,Union(Uint64,Int64)) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1307 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1307.
+Warning: Method definition srand(MersenneTwister,Union(Int64,Uint64)) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1307 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1307.
 Warning: Method definition srand(MersenneTwister,) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1309 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1309.
 Warning: Method definition rand(MersenneTwister,Type{Uint8}) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1311 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1311.
 Warning: Method definition rand(MersenneTwister,Type{Uint16}) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1312 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1312.
@@ -295,7 +297,7 @@ Warning: Method definition parse(Type{T<:Integer},Char) in module Compat at /hom
 Warning: Method definition parse(Type{T<:Integer},Char,Integer) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:352 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:352.
 Warning: Method definition parse(Type{T<:Integer},String) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:353 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:353.
 Warning: Method definition parse(Type{T<:Integer},String,Integer) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:354 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:354.
-Warning: Method definition parse(Type{T<:Union(Float64,Float32)},String) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:355 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:355.
+Warning: Method definition parse(Type{T<:Union(Float32,Float64)},String) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:355 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:355.
 Warning: Method definition parse(Type{BigFloat},String) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:359 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:359.
 Warning: Method definition isvalid(Char,) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:710 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:710.
 Warning: Method definition isvalid(ASCIIString,) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:711 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:711.
@@ -317,32 +319,32 @@ Warning: Method definition real(Type{Complex{T<:Real}},) in module Compat at /ho
 Warning: Method definition isapprox(AbstractArray{T<:Number,N},AbstractArray{S<:Number,N}) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:796 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:796.
 Warning: Method definition isapprox(Array{T,N},AbstractArray{T<:Number,N},AbstractArray{S<:Number,N}) in module Compat overwritten in module Compat.
 Warning: New definition 
-    +(Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
+    +(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
 is ambiguous with: 
-    +(Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
+    +(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
 To fix, define 
-    +(Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}))
+    +(Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}))
 before the new definition.
 Warning: New definition 
-    +(Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
+    +(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
 is ambiguous with: 
-    +(Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint}),Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
+    +(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
 To fix, define 
-    +(Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}))
+    +(Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}))
 before the new definition.
 Warning: New definition 
-    -(Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
+    -(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
 is ambiguous with: 
-    -(Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
+    -(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
 To fix, define 
-    -(Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}))
+    -(Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}))
 before the new definition.
 Warning: New definition 
-    -(Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
+    -(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
 is ambiguous with: 
-    -(Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint}),Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
+    -(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
 To fix, define 
-    -(Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}))
+    -(Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}))
 before the new definition.
 Warning: Method definition remotecall(Function,LocalProcess,Any...) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:853 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:853.
 Warning: Method definition remotecall(Function,Worker,Any...) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:854 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:854.
@@ -381,7 +383,7 @@ Warning: Method definition eachline(String,) in module Compat at /home/vagrant/.
 Warning: Method definition precision(Type{BigFloat},) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:977 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:977.
 Warning: Method definition srand(MersenneTwister,Array{Uint32,1}) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1293 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1293.
 Warning: Method definition srand(MersenneTwister,Union(Uint32,Int32)) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1306 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1306.
-Warning: Method definition srand(MersenneTwister,Union(Uint64,Int64)) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1307 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1307.
+Warning: Method definition srand(MersenneTwister,Union(Int64,Uint64)) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1307 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1307.
 Warning: Method definition srand(MersenneTwister,) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1309 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1309.
 Warning: Method definition rand(MersenneTwister,Type{Uint8}) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1311 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1311.
 Warning: Method definition rand(MersenneTwister,Type{Uint16}) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1312 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1312.
@@ -439,7 +441,7 @@ Warning: Method definition parse(Type{T<:Integer},Char) in module Compat at /hom
 Warning: Method definition parse(Type{T<:Integer},Char,Integer) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:352 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:352.
 Warning: Method definition parse(Type{T<:Integer},String) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:353 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:353.
 Warning: Method definition parse(Type{T<:Integer},String,Integer) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:354 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:354.
-Warning: Method definition parse(Type{T<:Union(Float64,Float32)},String) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:355 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:355.
+Warning: Method definition parse(Type{T<:Union(Float32,Float64)},String) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:355 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:355.
 Warning: Method definition parse(Type{BigFloat},String) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:359 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:359.
 Warning: Method definition isvalid(Char,) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:710 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:710.
 Warning: Method definition isvalid(ASCIIString,) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:711 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:711.
@@ -461,46 +463,46 @@ Warning: Method definition real(Type{Complex{T<:Real}},) in module Compat at /ho
 Warning: Method definition isapprox(AbstractArray{T<:Number,N},AbstractArray{S<:Number,N}) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:796 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:796.
 Warning: Method definition isapprox(Array{T,N},AbstractArray{T<:Number,N},AbstractArray{S<:Number,N}) in module Compat overwritten in module Compat.
 Warning: New definition 
-    +(Union(LinSpace{T<:FloatingPoint},OrdinalRange{T,S},FloatRange{T<:FloatingPoint}),Union(LinSpace{T<:FloatingPoint},OrdinalRange{T,S},FloatRange{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
+    +(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
 is ambiguous with: 
-    +(Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
+    +(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
 To fix, define 
-    +(Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}))
+    +(Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}))
 before the new definition.
 Warning: New definition 
-    +(Union(LinSpace{T<:FloatingPoint},OrdinalRange{T,S},FloatRange{T<:FloatingPoint}),Union(LinSpace{T<:FloatingPoint},OrdinalRange{T,S},FloatRange{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
+    +(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
 is ambiguous with: 
-    +(Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint}),Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
+    +(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
 To fix, define 
-    +(Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}))
+    +(Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}))
 before the new definition.
 Warning: New definition 
-    +(Union(LinSpace{T<:FloatingPoint},OrdinalRange{T,S},FloatRange{T<:FloatingPoint}),Union(LinSpace{T<:FloatingPoint},OrdinalRange{T,S},FloatRange{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
+    +(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
 is ambiguous with: 
-    +(Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
+    +(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
 To fix, define 
-    +(Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}))
+    +(Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}))
 before the new definition.
 Warning: New definition 
-    -(Union(LinSpace{T<:FloatingPoint},OrdinalRange{T,S},FloatRange{T<:FloatingPoint}),Union(LinSpace{T<:FloatingPoint},OrdinalRange{T,S},FloatRange{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
+    -(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
 is ambiguous with: 
-    -(Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
+    -(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
 To fix, define 
-    -(Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}))
+    -(Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}))
 before the new definition.
 Warning: New definition 
-    -(Union(LinSpace{T<:FloatingPoint},OrdinalRange{T,S},FloatRange{T<:FloatingPoint}),Union(LinSpace{T<:FloatingPoint},OrdinalRange{T,S},FloatRange{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
+    -(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
 is ambiguous with: 
-    -(Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint}),Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
+    -(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
 To fix, define 
-    -(Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}))
+    -(Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}))
 before the new definition.
 Warning: New definition 
-    -(Union(LinSpace{T<:FloatingPoint},OrdinalRange{T,S},FloatRange{T<:FloatingPoint}),Union(LinSpace{T<:FloatingPoint},OrdinalRange{T,S},FloatRange{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
+    -(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159
 is ambiguous with: 
-    -(Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},LinSpace{T<:FloatingPoint},FloatRange{T<:FloatingPoint})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
+    -(Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},LinSpace{T<:FloatingPoint},OrdinalRange{T,S})) at /home/vagrant/.julia/v0.3/Compat/src/linspace.jl:159.
 To fix, define 
-    -(Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}),Union(OrdinalRange{T,S},FloatRange{T<:FloatingPoint}))
+    -(Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}),Union(FloatRange{T<:FloatingPoint},OrdinalRange{T,S}))
 before the new definition.
 Warning: Method definition remotecall(Function,LocalProcess,Any...) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:853 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:853.
 Warning: Method definition remotecall(Function,Worker,Any...) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:854 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:854.
@@ -539,7 +541,7 @@ Warning: Method definition eachline(String,) in module Compat at /home/vagrant/.
 Warning: Method definition precision(Type{BigFloat},) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:977 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:977.
 Warning: Method definition srand(MersenneTwister,Array{Uint32,1}) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1293 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1293.
 Warning: Method definition srand(MersenneTwister,Union(Uint32,Int32)) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1306 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1306.
-Warning: Method definition srand(MersenneTwister,Union(Uint64,Int64)) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1307 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1307.
+Warning: Method definition srand(MersenneTwister,Union(Int64,Uint64)) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1307 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1307.
 Warning: Method definition srand(MersenneTwister,) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1309 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1309.
 Warning: Method definition rand(MersenneTwister,Type{Uint8}) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1311 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1311.
 Warning: Method definition rand(MersenneTwister,Type{Uint16}) in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1312 overwritten in module Compat at /home/vagrant/.julia/v0.3/Compat/src/Compat.jl:1312.
@@ -563,13 +565,15 @@ Warning: Method definition search(String,) in module MatrixDepot at /home/vagran
 running /home/vagrant/.julia/v0.3/MatrixDepot/test/download.jl ...
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 1887k    0 1887k    0     0  3124k      0 --:--:-- --:--:-- --:--:-- 3125k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   273  100   273    0     0    466      0 --:--:-- --:--:-- --:--:--   466
+  0     0    0 1887k    0     0  1775k      0 --:--:--  0:00:01 --:--:-- 1775k
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0100 41552    0 41552    0     0  25054      0 --:--:--  0:00:01 --:--:-- 25046
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 41552    0 41552    0     0  69122      0 --:--:-- --:--:-- --:--:-- 69023
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 19829  100 19829    0     0   154k      0 --:--:-- --:--:-- --:--:--  156k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   270  100   270    0     0   3435      0 --:--:-- --:--:-- --:--:--  3461
+100 19829  100 19829    0     0  60008      0 --:--:-- --:--:-- --:--:-- 60008
 download:/home/vagrant/.julia/v0.3/MatrixDepot/src/../data/uf/HB/1138_bus.tar.gz
 1138_bus/1138_bus.mtx
 
@@ -590,24 +594,28 @@ download:/home/vagrant/.julia/v0.3/MatrixDepot/src/../data/uf/HB/1138_bus.tar.gz
 use matrixdepot("HB/1138_bus", :read) to read the data
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  753k    0  753k    0     0  2382k      0 --:--:-- --:--:-- --:--:-- 2378k100 1887k    0 1887k    0     0  5270k      0 --:--:-- --:--:-- --:--:-- 5258k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   273  100   273    0     0   3450      0 --:--:-- --:--:-- --:--:--  3455
+  0     0    0 1887k    0     0  3318k      0 --:--:-- --:--:-- --:--:-- 3318k
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 41552    0 41552    0     0   427k      0 --:--:-- --:--:-- --:--:--  431k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 41552    0 41552    0     0   404k      0 --:--:-- --:--:-- --:--:--  405k
 Downloading all matrices in group Bates...
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  126k  100  126k    0     0   624k      0 --:--:-- --:--:-- --:--:--  627k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   273  100   273    0     0   3395      0 --:--:-- --:--:-- --:--:--  3412
+  0  126k    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  126k  100  126k    0     0   316k      0 --:--:-- --:--:-- --:--:-- 1163k
 download:/home/vagrant/.julia/v0.3/MatrixDepot/src/../data/uf/Bates/Chem97Zt.tar.gz
 Chem97Zt/Chem97Zt.mtx
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 23433  100 23433    0     0   111k      0 --:--:-- --:--:-- --:--:--  111k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   274  100   274    0     0   3373      0 --:--:-- --:--:-- --:--:--  3382
+100 23433  100 23433    0     0  70196      0 --:--:-- --:--:-- --:--:-- 70196
 download:/home/vagrant/.julia/v0.3/MatrixDepot/src/../data/uf/Bates/Chem97ZtZ.tar.gz
 Chem97ZtZ/Chem97ZtZ.mtx
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  4 20.4M    4  852k    0     0  2784k      0  0:00:07 --:--:--  0:00:07 2776k 12 20.4M   12 2656k    0     0  1395k      0  0:00:14  0:00:01  0:00:13 1395k 38 20.4M   38 8039k    0     0  2783k      0  0:00:07  0:00:02  0:00:05 2782k100 20.4M  100 20.4M    0     0  6723k      0  0:00:03  0:00:03 --:--:-- 6724k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   268  100   268    0     0   3432      0 --:--:-- --:--:-- --:--:--  3480
+  1 20.4M    1  240k    0     0   526k      0  0:00:39 --:--:--  0:00:39  526k  9 20.4M    9 2048k    0     0  1296k      0  0:00:16  0:00:01  0:00:15 1609k100 20.4M  100 20.4M    0     0  9060k      0  0:00:02  0:00:02 --:--:-- 10.9M
 download:/home/vagrant/.julia/v0.3/MatrixDepot/src/../data/uf/Bates/sls.tar.gz
 sls/sls.mtx
 
@@ -655,46 +663,72 @@ running /home/vagrant/.julia/v0.3/MatrixDepot/test/regu.jl ...
 deriv2: illegal value of example.
 Test problems for Regularization Methods
 A:
-8x8 Array{Float64,2}:
- 2.2835e-5   0.00211197   0.0175335  …  0.219339   0.205521     0.0597849 
- 0.00211197  0.0135021    0.0349847     0.584276   0.484839     0.205521  
- 0.0175335   0.0349847    0.0104303     1.08596    0.584276     0.219339  
- 0.0109602   0.000619043  0.115472      0.824485   0.191877     0.0346497 
- 0.0346497   0.191877     0.824485      0.115472   0.000619043  0.0109602 
- 0.219339    0.584276     1.08596    …  0.0104303  0.0349847    0.0175335 
- 0.205521    0.484839     0.584276      0.0349847  0.0135021    0.00211197
- 0.0597849   0.205521     0.219339      0.0175335  0.00211197   2.2835e-5 b:
-8-element Array{Float64,1}:
- 0.761277
- 1.96727 
- 3.42125 
- 3.44023 
- 2.93345 
- 2.32299 
- 1.1651  
- 0.425643x:
-8-element Array{Float64,1}:
- 0.216684
- 0.628662
- 0.984285
- 0.836776
- 0.603806
- 1.62463 
- 1.65281 
- 0.277044Test problems for Regularization Methods with No Solution
+14x14 Array{Float64,2}:
+ 4.50289e-7   4.49447e-5   0.000642877  …  0.0435306    0.0112523  
+ 4.49447e-5   0.000331985  0.00197105      0.0979138    0.0435306  
+ 0.000642877  0.00197105   0.00604978      0.161741     0.0866358  
+ 0.00343824   0.00710385   0.0140499       0.20011      0.114014   
+ 0.00891805   0.0143769    0.0195942       0.171813     0.0966241  
+ 0.0104711    0.0130875    0.00996134   …  0.0860717    0.0436945  
+ 0.00241527   0.00108928   0.000964559     0.0146191    0.00471125 
+ 0.00471125   0.0146191    0.0537058       0.00108928   0.00241527 
+ 0.0436945    0.0860717    0.185198        0.0130875    0.0104711  
+ 0.0966241    0.171813     0.304499        0.0143769    0.00891805 
+ 0.114014     0.20011      0.32302      …  0.00710385   0.00343824 
+ 0.0866358    0.161741     0.254072        0.00197105   0.000642877
+ 0.0435306    0.0979138    0.161741        0.000331985  4.49447e-5 
+ 0.0112523    0.0435306    0.0866358       4.49447e-5   4.50289e-7 b:
+14-element Array{Float64,1}:
+ 0.604674
+ 1.10119 
+ 1.85732 
+ 2.77179 
+ 3.47987 
+ 3.61274 
+ 3.29867 
+ 3.00624 
+ 2.80406 
+ 2.39479 
+ 1.74092 
+ 1.09053 
+ 0.620415
+ 0.337313x:
+14-element Array{Float64,1}:
+ 0.159165
+ 0.340244
+ 0.594647
+ 0.849673
+ 0.992616
+ 0.948862
+ 0.753817
+ 0.589603
+ 0.798047
+ 1.52491 
+ 2.03416 
+ 1.54628 
+ 0.647758
+ 0.148642Test problems for Regularization Methods with No Solution
 A:
-5x5 Array{Float32,2}:
- 0.167447  0.143348  0.125327   0.111341   0.100167 
- 0.143348  0.125327  0.111341   0.100167   0.091034 
- 0.125327  0.111341  0.100167   0.091034   0.0834273
- 0.111341  0.100167  0.091034   0.0834273  0.0770021
- 0.100167  0.091034  0.0834273  0.0770021  0.0714898b:
-5-element Array{Float32,1}:
- 0.447214
- 0.447214
- 0.447214
- 0.447214
- 0.447214Success in all tests.
+9x9 Array{Float32,2}:
+ 0.100167   0.0910356  0.0834295  …  0.0625405  0.0588575  0.055584 
+ 0.0910356  0.0834295  0.077         0.0588575  0.055584   0.0526532
+ 0.0834295  0.077      0.0714892     0.055584   0.0526532  0.0500173
+ 0.077      0.0714892  0.0667176     0.0526532  0.0500173  0.0476322
+ 0.0714892  0.0667176  0.0625405     0.0500173  0.0476322  0.0454705
+ 0.0667176  0.0625405  0.0588575  …  0.0476322  0.0454705  0.0434916
+ 0.0625405  0.0588575  0.055584      0.0454705  0.0434916  0.0416851
+ 0.0588575  0.055584   0.0526532     0.0434916  0.0416851  0.0400097
+ 0.055584   0.0526532  0.0500173     0.0416851  0.0400097  0.0384726b:
+9-element Array{Float32,1}:
+ 0.333333
+ 0.333333
+ 0.333333
+ 0.333333
+ 0.333333
+ 0.333333
+ 0.333333
+ 0.333333
+ 0.333333Success in all tests.
 INFO: MatrixDepot tests passed
 INFO: No packages to install, update or remove
 
