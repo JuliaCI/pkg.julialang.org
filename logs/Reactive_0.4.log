@@ -13,13 +13,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-95-generic #142-Ubuntu SMP Fri Aug 12 17:00:09 UTC 2016 x86_64 x86_64
-Memory: 2.4471054077148438 GB (505.2734375 MB free)
-Uptime: 17562.0 sec
-Load Avg:  0.9296875  0.95703125  0.95166015625
+Memory: 2.4471054077148438 GB (476.00390625 MB free)
+Uptime: 17127.0 sec
+Load Avg:  1.02880859375  1.044921875  1.0146484375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz     771728 s       4881 s      74651 s     695801 s         41 s
-#2  3500 MHz     517140 s        101 s      63059 s    1077518 s          1 s
+#1  3500 MHz     773923 s         61 s      81326 s     652514 s         41 s
+#2  3500 MHz     490590 s       6666 s      69632 s    1070300 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -37,11 +37,11 @@ Package Directory: /home/vagrant/.julia/v0.4
  - JSON                          0.7.0
  - Reactive                      0.3.4
 1 additional packages:
- - Compat                        0.9.0
+ - Compat                        0.9.1
 INFO: Computing test dependencies for Reactive...
 INFO: Installing FactCheck v0.4.3
 INFO: Testing Reactive
-Killing Task (waiting) @0x00007f73a9c601a0
+Killing Task (waiting) @0x00007f83f1dbc4c0
 Basic checks
   > map
   > merge
@@ -64,14 +64,53 @@ Flatten
 11 facts verified.
 Timing functions
   > fpswhen
+    Failure :: (line:-1) :: fpswhen :: fact was false
+      Expression: dt --> roughly(1,atol=0.2)
+        Expected: 1.323662638 ≅ 1
   > fps
+    Failure :: (line:-1) :: fps :: fact was false
+      Expression: sum(log) --> roughly(1.0,atol=0.05)
+        Expected: 1.0632340908050537 ≅ 1.0
+    Failure :: (line:-1) :: fps :: fact was false
+      Expression: [1 / 10 for i = 1:10] --> roughly(log,atol=0.03)
+        Expected: [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1] ≅ [0.10151004791259766,0.15074396133422852,0.10138392448425293,0.10137414932250977,0.10138392448425293,0.10140109062194824,0.10137295722961426,0.10136699676513672,0.10138893127441406,0.10130810737609863]
+    Failure :: (line:-1) :: fps :: fact was false
+      Expression: queue_size() --> 0
+        Expected: 0
+        Occurred: 1
   > every
+    Failure :: (line:-1) :: every :: fact was false
+      Expression: [0.1 for i = 1:10] --> roughly(diff(log),atol=0.03)
+        Expected: [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1] ≅ [0.09772086143493652,0.1099240779876709,0.10028910636901855,0.10031890869140625,0.10030102729797363,0.10029387474060059,0.10029816627502441,0.10029101371765137,0.15680384635925293,0.10025811195373535]
   > throttle
-27 facts verified.
+Out of 27 total facts:
+  Verified: 22
+  Failed:   5
 Async
   > async_map
 3 facts verified.
-INFO: Reactive tests passed
+ERROR: LoadError: FactCheck finished with 5 non-successful tests.
+ in error at ./error.jl:21
+ in exitstatus at /home/vagrant/.julia/v0.4/FactCheck/src/FactCheck.jl:568
+ in include at ./boot.jl:261
+ in include_from_node1 at ./loading.jl:320
+ in process_options at ./client.jl:280
+ in _start at ./client.jl:378
+while loading /home/vagrant/.julia/v0.4/Reactive/test/runtests.jl, in expression starting on line 17
+==============================[ ERROR: Reactive ]===============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.4/Reactive/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing FactCheck v0.4.3
+ERROR: Reactive had test errors
+ in error at ./error.jl:21
+ in test at pkg/entry.jl:803
+ in anonymous at pkg/dir.jl:31
+ in cd at file.jl:22
+ in cd at pkg/dir.jl:31
+ in test at pkg.jl:71
+ in process_options at ./client.jl:257
+ in _start at ./client.jl:378
 
 >>> End of log
