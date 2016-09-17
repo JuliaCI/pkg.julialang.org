@@ -3,13 +3,11 @@ INFO: Cloning cache of Elly from https://github.com/JuliaParallel/Elly.jl.git
 INFO: Cloning cache of ProtoBuf from https://github.com/tanmaykm/ProtoBuf.jl.git
 INFO: Installing ArgParse v0.3.1
 INFO: Installing CRC v1.1.1
-INFO: Installing Elly v0.0.8
+INFO: Installing Elly v0.0.9
 INFO: Installing ProtoBuf v0.2.0
 INFO: Installing TextWrap v0.1.6
 INFO: Installing URIParser v0.1.6
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of Elly
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Elly")' log
 Julia Version 0.5.0-rc4+0
@@ -20,13 +18,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-95-generic #142-Ubuntu SMP Fri Aug 12 17:00:09 UTC 2016 x86_64 x86_64
-Memory: 2.4471054077148438 GB (916.828125 MB free)
-Uptime: 21969.0 sec
-Load Avg:  0.95166015625  1.0146484375  1.0400390625
+Memory: 2.4471054077148438 GB (828.26171875 MB free)
+Uptime: 22417.0 sec
+Load Avg:  1.01416015625  0.98974609375  1.03466796875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    1259735 s         75 s     111237 s     531230 s         27 s
-#2  3500 MHz     661771 s       6238 s      70061 s    1321378 s          1 s
+#1  3499 MHz    1296126 s       6144 s     125387 s     516826 s         38 s
+#2  3499 MHz     637991 s        109 s      67587 s    1405954 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -41,7 +39,7 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.5
 2 required packages:
- - Elly                          0.0.8
+ - Elly                          0.0.9
  - JSON                          0.7.0
 6 additional packages:
  - ArgParse                      0.3.1
@@ -51,6 +49,41 @@ Package Directory: /home/vagrant/.julia/v0.5
  - TextWrap                      0.1.6
  - URIParser                     0.1.6
 INFO: Testing Elly
-INFO: Elly tests passed
+ERROR: LoadError: connect: connection refused (ECONNREFUSED)
+ in yieldto(::Task, ::ANY) at ./event.jl:136
+ in wait() at ./event.jl:169
+ in wait(::Condition) at ./event.jl:27
+ in stream_wait(::TCPSocket, ::Condition, ::Vararg{Condition,N}) at ./stream.jl:44
+ in wait_connected(::TCPSocket) at ./stream.jl:265
+ in connect at ./stream.jl:960 [inlined]
+ in connect(::String, ::Int64) at ./socket.jl:676
+ in connect(::Elly.HadoopRpcChannel) at /home/vagrant/.julia/v0.5/Elly/src/rpc.jl:200
+ in send_rpc_message(::Elly.HadoopRpcChannel, ::Elly.HadoopRpcController, ::ProtoBuf.MethodDescriptor, ::Elly.hadoop.hdfs.GetFileInfoRequestProto) at /home/vagrant/.julia/v0.5/Elly/src/rpc.jl:239
+ in call_method(::Elly.HadoopRpcChannel, ::ProtoBuf.MethodDescriptor, ::Elly.HadoopRpcController, ::Elly.hadoop.hdfs.GetFileInfoRequestProto) at /home/vagrant/.julia/v0.5/Elly/src/rpc.jl:290
+ in _get_file_info(::Elly.HDFSClient, ::String) at /home/vagrant/.julia/v0.5/Elly/src/api_hdfs_base.jl:165
+ in exists at /home/vagrant/.julia/v0.5/Elly/src/api_hdfs_base.jl:218 [inlined]
+ in test_hdfs(::String, ::Int64) at /home/vagrant/.julia/v0.5/Elly/test/hdfstests.jl:7
+ in test_hdfs() at /home/vagrant/.julia/v0.5/Elly/test/hdfstests.jl:5
+ in include_from_node1(::String) at ./loading.jl:488
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/Elly/test/runtests.jl, in expression starting on line 4
+================================[ ERROR: Elly ]=================================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.5/Elly/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: Elly had test errors
+ in #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:740
+ in (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
+ in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:59
+ in #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
+ in (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
+ in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in eval(::Module, ::Any) at ./boot.jl:234
+ in process_options(::Base.JLOptions) at ./client.jl:239
+ in _start() at ./client.jl:318
 
 >>> End of log
