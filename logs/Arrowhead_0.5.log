@@ -1,9 +1,9 @@
 >>> 'Pkg.add("Arrowhead")' log
-INFO: Cloning cache of Arrowhead from https://github.com/ivanslapnicar/Arrowhead.jl.git
-INFO: Cloning cache of DoubleDouble from https://github.com/simonbyrne/DoubleDouble.jl.git
 INFO: Installing Arrowhead v0.0.1
 INFO: Installing DoubleDouble v0.2.0
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of Arrowhead
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Arrowhead")' log
 Julia Version 0.5.0-rc4+0
@@ -14,13 +14,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-95-generic #142-Ubuntu SMP Fri Aug 12 17:00:09 UTC 2016 x86_64 x86_64
-Memory: 2.4471054077148438 GB (455.5234375 MB free)
-Uptime: 4782.0 sec
-Load Avg:  0.9423828125  1.517578125  1.6279296875
+Memory: 2.4471054077148438 GB (454.94921875 MB free)
+Uptime: 40394.0 sec
+Load Avg:  1.06640625  1.9638671875  1.7109375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz     179576 s         63 s      34568 s     219102 s          9 s
-#2  3499 MHz     159528 s        102 s      23844 s     268077 s          0 s
+#1  3501 MHz    1229530 s         54 s     168613 s    2190191 s        177 s
+#2  3501 MHz     424059 s        201 s      90405 s    3283675 s         10 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -29,17 +29,38 @@ Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz:
 Environment:
   TERM = vt100
   LD_LIBRARY_PATH = :/usr/local/lib/
-  PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/vagrant/julia/bin/
+  PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/vagrant/julia/bin/:/home/vagrant/julia/bin/
   JAVA_HOME = /usr/lib/jvm/java-7-oracle
   HOME = /home/vagrant
 
 Package Directory: /home/vagrant/.julia/v0.5
-2 required packages:
+6 required packages:
  - Arrowhead                     0.0.1
- - JSON                          0.7.0
-2 additional packages:
+ - ColorSchemes                  1.0.0
+ - ColorTypes                    0.2.6
+ - ColorVectorSpace              0.1.8
  - Compat                        0.9.2
+ - JSON                          0.7.0
+19 additional packages:
+ - BinDeps                       0.4.5
+ - Clustering                    0.6.0
+ - Colors                        0.6.7
+ - Distances                     0.3.2
  - DoubleDouble                  0.2.0
+ - FileIO                        0.1.2
+ - FixedPointNumbers             0.1.6
+ - Graphics                      0.1.3
+ - ImageMagick                   0.1.7
+ - Images                        0.5.10
+ - Reexport                      0.0.3
+ - Rmath                         0.1.3
+ - SHA                           0.2.1
+ - SIUnits                       0.0.6
+ - StatsBase                     0.9.0
+ - StatsFuns                     0.3.1
+ - TexExtensions                 0.0.3
+ - URIParser                     0.1.6
+ - Zlib                          0.1.12
 INFO: Testing Arrowhead
 There are four tests for arrowhead matrices, a random matrix test and three
 tests from the arrowhead paper [1] (see README for details)
@@ -48,9 +69,9 @@ tols = [100.0,100.0,100.0,100.0,100.0] = [100.0,100.0,100.0,100.0,100.0]
 
 1st test - Random SymArrow matrix
 
-A = Arrowhead.GenSymArrow(10,10) = [0.528587 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.113687; 0.0 0.989527 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.572269; 0.0 0.0 0.21377 0.0 0.0 0.0 0.0 0.0 0.0 0.183467; 0.0 0.0 0.0 0.533248 0.0 0.0 0.0 0.0 0.0 0.324359; 0.0 0.0 0.0 0.0 0.294718 0.0 0.0 0.0 0.0 0.217455; 0.0 0.0 0.0 0.0 0.0 0.804948 0.0 0.0 0.0 0.876601; 0.0 0.0 0.0 0.0 0.0 0.0 0.00787134 0.0 0.0 0.848878; 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.74795 0.0 0.568626; 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0391096 0.342526; 0.113687 0.572269 0.183467 0.324359 0.217455 0.876601 0.848878 0.568626 0.342526 0.280739]
-(U,Lambda) = eig(full(A)) = ([-1.21665,0.0344155,0.193515,0.257593,0.346118,0.529044,0.561387,0.764734,0.946856,2.02345],
-[-0.0464137 0.0028864 0.0312157 0.0491247 -0.100808 0.955056 0.263032 0.0119083 0.0179608 -0.0500486; -0.18482 0.00751742 0.0661422 0.0915534 -0.143908 -0.00476598 -0.101434 -0.0629703 -0.88621 -0.364244; -0.0913867 0.0128342 0.833339 -0.490226 0.224291 0.0022317 0.040052 0.00823671 0.0165376 -0.066717; -0.132069 0.00815817 0.0878386 0.137786 -0.280448 -0.295836 0.874766 0.0346594 0.0518211 -0.143239; -0.102515 0.0104813 0.197684 0.685884 0.68451 0.00355891 0.0618822 0.011444 0.0220343 -0.0827795; -0.308955 0.0142736 0.131902 0.187534 -0.309116 -0.0121845 -0.273124 -0.539184 0.408193 -0.47343; -0.493933 -0.401236 -0.420692 -0.398047 0.406053 0.0062464 0.116381 0.0277426 0.0597388 -0.277157; -0.206225 0.00999849 0.0943571 0.135788 -0.228957 -0.00996172 -0.231296 0.838007 0.188907 -0.293377; -0.194346 0.915501 -0.204094 -0.183578 0.180515 0.00268115 0.0497691 0.0116762 0.0249344 -0.113595; 0.712504 -0.0125465 -0.0920022 -0.117097 0.161797 0.003835 0.075887 0.0247354 0.06608 -0.658084])
+A = Arrowhead.GenSymArrow(10,10) = [0.867668 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.99104; 0.0 0.160787 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.535916; 0.0 0.0 0.430799 0.0 0.0 0.0 0.0 0.0 0.0 0.441561; 0.0 0.0 0.0 0.785136 0.0 0.0 0.0 0.0 0.0 0.84715; 0.0 0.0 0.0 0.0 0.622056 0.0 0.0 0.0 0.0 0.514773; 0.0 0.0 0.0 0.0 0.0 0.537133 0.0 0.0 0.0 0.437972; 0.0 0.0 0.0 0.0 0.0 0.0 0.0765073 0.0 0.0 0.785987; 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.489589 0.0 0.83221; 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.112834 0.479366; 0.99104 0.535916 0.441561 0.84715 0.514773 0.437972 0.785987 0.83221 0.479366 0.977713]
+(U,Lambda) = eig(full(A)) = ([-1.32977,0.0995754,0.139171,0.259726,0.441453,0.525326,0.587686,0.682698,0.826233,2.82813],
+[-0.296564 0.0255149 -0.0406829 -0.172863 0.0511239 0.0648137 0.173511 -0.37485 0.750302 -0.373464; -0.236425 0.173133 -0.741449 0.574384 -0.0419827 -0.0329147 -0.0615372 0.0718405 -0.0252639 -0.148434; -0.164923 0.0263624 -0.0452804 -0.273706 -0.911254 -0.104585 -0.137965 0.12264 -0.0350293 -0.136075; -0.263399 0.0244361 -0.0392193 -0.170977 0.0541957 0.0730031 0.210315 -0.578587 -0.64664 -0.306344; -0.173428 0.0194832 -0.0318801 -0.150655 0.0626688 0.119149 0.734177 0.593899 -0.0790905 -0.17239; -0.154266 0.0197937 -0.0329119 -0.167418 0.100644 0.83048 -0.424683 0.210503 -0.0475241 -0.141234; -0.367527 -0.673783 0.375098 0.454904 -0.0473533 -0.0392086 -0.0753717 0.0907141 -0.0328873 -0.211029; -0.300787 0.0421958 -0.0710224 -0.383917 0.380121 -0.521383 -0.415856 0.301508 -0.0775493 -0.262908; -0.218506 0.714951 0.54431 0.346053 -0.0320728 -0.0260189 -0.0494851 0.0588524 -0.021079 -0.130427; 0.657575 -0.019775 0.0299053 0.106041 -0.0219868 -0.0223891 -0.0490192 0.069963 -0.0313701 -0.738781])
 ERROR: LoadError: MethodError: Cannot `convert` an object of type Array{Float64,1} to an object of type Float64
 This may have arisen from a call to the constructor Float64(...),
 since type constructors fall back to convert methods.
