@@ -1,4 +1,7 @@
 >>> 'Pkg.add("MAT")' log
+INFO: Cloning cache of Blosc from git://github.com/stevengj/Blosc.jl.git
+INFO: Cloning cache of HDF5 from git://github.com/JuliaIO/HDF5.jl.git
+INFO: Cloning cache of MAT from git://github.com/simonster/MAT.jl.git
 INFO: Installing BinDeps v0.3.21
 INFO: Installing Blosc v0.1.7
 INFO: Installing Dates v0.3.2
@@ -9,10 +12,53 @@ INFO: Installing SHA v0.2.1
 INFO: Installing URIParser v0.0.7
 INFO: Installing Zlib v0.1.12
 INFO: Building Blosc
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   121    0   121    0     0   1363      0 --:--:-- --:--:-- --:--:--  1375
+100  261k  100  261k    0     0  1065k      0 --:--:-- --:--:-- --:--:-- 1065k
+Compiling libblosc...
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o bitshuffle-generic.o bitshuffle-generic.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o shuffle-generic.o shuffle-generic.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o shuffle.o shuffle.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o blosclz.o blosclz.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o blosc.o blosc.c
+echo "building with AVX2"
+building with AVX2
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -mavx2 -c -o bitshuffle-avx2.o bitshuffle-avx2.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -mavx2 -c -o shuffle-avx2.o shuffle-avx2.c
+echo "building without AVX2"
+building without AVX2
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -msse2 -c -o bitshuffle-sse2.o bitshuffle-sse2.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -msse2 -c -o shuffle-sse2.o shuffle-sse2.c
+gcc -fPIC -O3 -pthread -shared bitshuffle-generic.o shuffle-generic.o shuffle.o blosclz.o blosc.o bitshuffle-avx2.o shuffle-avx2.o bitshuffle-sse2.o shuffle-sse2.o -o ../../libblosc.so
 INFO: Building HDF5
+Installing dependency hdf5-tools via `sudo apt-get install hdf5-tools`:
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following extra packages will be installed:
+  libhdf5-7
+The following NEW packages will be installed:
+  hdf5-tools libhdf5-7
+0 upgraded, 2 newly installed, 0 to remove and 4 not upgraded.
+Need to get 1,547 kB of archives.
+After this operation, 5,841 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu/ trusty/universe libhdf5-7 amd64 1.8.11-5ubuntu7 [1,205 kB]
+Get:2 http://archive.ubuntu.com/ubuntu/ trusty/universe hdf5-tools amd64 1.8.11-5ubuntu7 [342 kB]
+dpkg-preconfigure: unable to re-open stdin: No such file or directory
+Fetched 1,547 kB in 2s (649 kB/s)
+Selecting previously unselected package libhdf5-7:amd64.
+(Reading database ... 71170 files and directories currently installed.)
+Preparing to unpack .../libhdf5-7_1.8.11-5ubuntu7_amd64.deb ...
+Unpacking libhdf5-7:amd64 (1.8.11-5ubuntu7) ...
+Selecting previously unselected package hdf5-tools.
+Preparing to unpack .../hdf5-tools_1.8.11-5ubuntu7_amd64.deb ...
+Unpacking hdf5-tools (1.8.11-5ubuntu7) ...
+Processing triggers for man-db (2.6.7.1-1ubuntu1) ...
+Setting up libhdf5-7:amd64 (1.8.11-5ubuntu7) ...
+Setting up hdf5-tools (1.8.11-5ubuntu7) ...
+Processing triggers for libc-bin (2.19-0ubuntu6.9) ...
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of MAT
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("MAT")' log
 Julia Version 0.3.12
@@ -23,13 +69,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-95-generic #142-Ubuntu SMP Fri Aug 12 17:00:09 UTC 2016 x86_64 x86_64
-Memory: 2.4471054077148438 GB (464.3984375 MB free)
-Uptime: 39199.0 sec
-Load Avg:  0.95166015625  0.98388671875  0.720703125
+Memory: 2.4471054077148438 GB (350.5390625 MB free)
+Uptime: 1724.0 sec
+Load Avg:  0.96728515625  0.94775390625  0.7158203125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3496 MHz     844221 s         56 s     107786 s    2614890 s        155 s
-#2  3496 MHz     620820 s         99 s      94352 s    2970521 s          3 s
+#1  3500 MHz      28019 s         60 s       4753 s     129644 s          2 s
+#2  3500 MHz      63144 s         92 s       3998 s      94847 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas
@@ -38,15 +84,14 @@ Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz:
 Environment:
   TERM = vt100
   LD_LIBRARY_PATH = :/usr/local/lib/
-  PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/vagrant/julia/bin/:/home/vagrant/julia/bin/
+  PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/vagrant/julia/bin/
   JAVA_HOME = /usr/lib/jvm/java-7-oracle
   HOME = /home/vagrant
 
 Package Directory: /home/vagrant/.julia/v0.3
-3 required packages:
+2 required packages:
  - JSON                          0.6.1
  - MAT                           0.2.14
- - ProgressMeter                 0.2.3
 9 additional packages:
  - BinDeps                       0.3.21
  - Blosc                         0.1.7
