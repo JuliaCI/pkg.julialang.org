@@ -1,0 +1,452 @@
+>>> 'Pkg.add("XGBoost")' log
+INFO: Cloning cache of XGBoost from https://github.com/dmlc/XGBoost.jl.git
+INFO: Installing BinDeps v0.4.5
+INFO: Installing SHA v0.2.1
+INFO: Installing URIParser v0.1.6
+INFO: Installing XGBoost v0.2.0
+INFO: Building XGBoost
+Cloning into 'xgboost'...
+Submodule 'dmlc-core' (https://github.com/dmlc/dmlc-core) registered for path 'dmlc-core'
+Submodule 'rabit' (https://github.com/dmlc/rabit) registered for path 'rabit'
+Cloning into 'dmlc-core'...
+Submodule path 'dmlc-core': checked out 'c5c33124d2cc4a30ce8409d881c945c5bb04d06e'
+Cloning into 'rabit'...
+Submodule path 'rabit': checked out 'a9a2a69dc1144180a43f7d2d1097264482be7817'
+INFO: Attempting to Create directory /home/vagrant/.julia/v0.6/XGBoost/deps/usr
+INFO: Attempting to Create directory /home/vagrant/.julia/v0.6/XGBoost/deps/usr/lib
+INFO: Changing Directory to xgboost
+warning: unable to rmdir dmlc-core: Directory not empty
+warning: unable to rmdir rabit: Directory not empty
+Note: checking out '0.47'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -b with the checkout command again. Example:
+
+  git checkout -b new_branch_name
+
+HEAD is now at 0dc68b1... Update CHANGES.md
+g++ -c -Wall -O3 -msse2  -Wno-unknown-pragmas -funroll-loops -fopenmp -fPIC -o updater.o src/tree/updater.cpp
+g++ -c -Wall -O3 -msse2  -Wno-unknown-pragmas -funroll-loops -fopenmp -fPIC -o gbm.o src/gbm/gbm.cpp
+g++ -c -Wall -O3 -msse2  -Wno-unknown-pragmas -funroll-loops -fopenmp -fPIC -o io.o src/io/io.cpp
+g++ -c -Wall -O3 -msse2  -Wno-unknown-pragmas -funroll-loops -fopenmp -fPIC -o main.o src/xgboost_main.cpp
+cd subtree/rabit;make lib/librabit.a; cd ../..
+make[1]: Entering directory `/home/vagrant/.julia/v0.6/XGBoost/deps/xgboost/subtree/rabit'
+g++ -c -O3 -msse2 -Wall -Wextra -Wno-unused-parameter -Wno-unknown-pragmas -std=c++0x -fPIC -o allreduce_base.o src/allreduce_base.cc
+g++ -c -O3 -msse2 -Wall -Wextra -Wno-unused-parameter -Wno-unknown-pragmas -std=c++0x -fPIC -o allreduce_robust.o src/allreduce_robust.cc
+g++ -c -O3 -msse2 -Wall -Wextra -Wno-unused-parameter -Wno-unknown-pragmas -std=c++0x -fPIC -o engine.o src/engine.cc
+ar cr lib/librabit.a allreduce_base.o allreduce_robust.o engine.o
+make[1]: Leaving directory `/home/vagrant/.julia/v0.6/XGBoost/deps/xgboost/subtree/rabit'
+g++ -c -Wall -O3 -msse2  -Wno-unknown-pragmas -funroll-loops -fopenmp -fPIC -o dmlc_simple.o src/io/dmlc_simple.cpp
+g++ -Wall -O3 -msse2  -Wno-unknown-pragmas -funroll-loops -fopenmp -fPIC -fPIC -o xgboost updater.o gbm.o io.o main.o subtree/rabit/lib/librabit.a dmlc_simple.o -pthread -lm -lrt
+g++ -Wall -O3 -msse2  -Wno-unknown-pragmas -funroll-loops -fopenmp -fPIC -fPIC -shared -o wrapper/libxgboostwrapper.so wrapper/xgboost_wrapper.cpp updater.o gbm.o io.o subtree/rabit/lib/librabit.a dmlc_simple.o -pthread -lm -lrt 
+Successfully build multi-thread xgboost
+INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of XGBoost
+INFO: Use `Pkg.update()` to get the latest versions of your packages
+
+>>> 'Pkg.test("XGBoost")' log
+Julia Version 0.6.0-dev.718
+Commit 9f50a2c (2016-09-20 15:35 UTC)
+Platform Info:
+  System: Linux (x86_64-pc-linux-gnu)
+  CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
+  WORD_SIZE: 64
+           Ubuntu 14.04.5 LTS
+  uname: Linux 3.13.0-96-generic #143-Ubuntu SMP Mon Aug 29 20:15:20 UTC 2016 x86_64 x86_64
+Memory: 2.4471054077148438 GB (1768.65625 MB free)
+Uptime: 28495.0 sec
+Load Avg:  1.1259765625  1.0419921875  0.88818359375
+Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
+       speed         user         nice          sys         idle          irq
+#1  3510 MHz    1624804 s        109 s     164030 s     744648 s         95 s
+#2  3510 MHz     561434 s       7292 s      87884 s    2097423 s          4 s
+
+  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
+  LAPACK: libopenblas64_
+  LIBM: libopenlibm
+  LLVM: libLLVM-3.7.1 (ORCJIT, haswell)
+Environment:
+  TERM = vt100
+  LD_LIBRARY_PATH = :/usr/local/lib/
+  PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/vagrant/julia/bin/
+  JAVA_HOME = /usr/lib/jvm/java-7-oracle
+  HOME = /home/vagrant
+
+Package Directory: /home/vagrant/.julia/v0.6
+2 required packages:
+ - JSON                          0.7.0
+ - XGBoost                       0.2.0
+4 additional packages:
+ - BinDeps                       0.4.5
+ - Compat                        0.9.2
+ - SHA                           0.2.1
+ - URIParser                     0.1.6
+INFO: Computing test dependencies for XGBoost...
+INFO: Installing FactCheck v0.4.3
+INFO: Testing XGBoost
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_wrapper_h.jl:17
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_wrapper_h.jl:89
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_wrapper_h.jl:97
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_wrapper_h.jl:106
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_wrapper_h.jl:123
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_wrapper_h.jl:133
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_wrapper_h.jl:153
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_wrapper_h.jl:159
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_wrapper_h.jl:183
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_wrapper_h.jl:183
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_wrapper_h.jl:210
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_wrapper_h.jl:235
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_wrapper_h.jl:243
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_wrapper_h.jl:252
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:7
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:7
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:7
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:7
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:64
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:68
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:72
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:72
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:72
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:83
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:101
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:106
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:106
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:106
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:106
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:193
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:193
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:193
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:232
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:320
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:320
+WARNING: Base.writemime is deprecated.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:339
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:341
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:386
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/utils.jl:1
+Sparse matrices
+0 facts verified.
+DMatrix loading
+WARNING: pointer_to_array{T}(p::Ptr{T},d::Union{Integer,Tuple{Vararg{Integer}}},own::Bool=false) is deprecated, use unsafe_wrap(Array,p,d,own) instead.
+ in depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ in pointer_to_array(::Ptr{Float32}, ::UInt64, ::Bool) at ./deprecated.jl:50 (repeats 2 times)
+ in get_info(::XGBoost.DMatrix, ::String) at /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:65
+ in (::##3#8)() at /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:25
+ in facts(::##3#8, ::String) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:449
+ in include_from_node1(::String) at ./loading.jl:541
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:326
+while loading /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl, in expression starting on line 20
+2 facts verified.
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:31
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:31
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:31
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:31
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:31
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:31
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:31
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:31
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:31
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:31
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:31
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:31
+Agaricus training
+3 facts verified.
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:49
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:49
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:49
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:49
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:49
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:49
+Cross validation
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:49
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:49
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:49
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:49
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:49
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:49
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:49
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:49
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:49
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:49
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:49
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:49
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:49
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:49
+WARNING: bytestring(p::Union{Ptr{Int8},Ptr{UInt8}}) is deprecated, use unsafe_string(p) instead.
+ in depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ in bytestring(::Ptr{UInt8}) at ./deprecated.jl:50
+ in XGBoosterEvalOneIter(::Ptr{Void}, ::Int32, ::Array{Ptr{Void},1}, ::Array{String,1}, ::UInt64) at /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_wrapper_h.jl:219
+ in #eval_set#18(::Type{T}, ::Function, ::XGBoost.Booster, ::Array{Tuple{XGBoost.DMatrix,String},1}, ::Int64) at /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:212
+ in (::XGBoost.#kw##eval_set)(::Array{Any,1}, ::XGBoost.#eval_set, ::XGBoost.Booster, ::Array{Tuple{XGBoost.DMatrix,String},1}, ::Int64) at ./<missing>:0
+ in collect(::Base.Generator{Array{XGBoost.CVPack,1},XGBoost.##37#38{Union}}) at ./array.jl:345
+ in #nfold_cv#36(::Type{T}, ::Array{Any,1}, ::Array{Any,1}, ::Type{T}, ::Type{T}, ::Type{T}, ::Bool, ::Int64, ::Array{Any,1}, ::XGBoost.#nfold_cv, ::XGBoost.DMatrix, ::Int64, ::Int64) at /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:313
+ in (::XGBoost.#kw##nfold_cv)(::Array{Any,1}, ::XGBoost.#nfold_cv, ::XGBoost.DMatrix, ::Int64, ::Int64) at ./<missing>:0
+ in (::##27#28)() at /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:54
+ in facts(::##27#28, ::String) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:449
+ in include_from_node1(::String) at ./loading.jl:541
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:326
+while loading /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl, in expression starting on line 49
+[1]	cv-test-error:0.046522+0.002437	cv-train-error:0.046522+0.001219
+[2]	cv-test-error:0.022263+0.000704	cv-train-error:0.022263+0.000352
+[3]	cv-test-error:0.010287+0.004705	cv-train-error:0.009520+0.004733
+[4]	cv-test-error:0.015200+0.000461	cv-train-error:0.015200+0.000231
+[5]	cv-test-error:0.005834+0.003135	cv-train-error:0.004760+0.003541
+0 facts verified.
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:62
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:62
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:62
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:62
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:62
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:62
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:62
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:62
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:62
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:62
+Feature importance
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:62
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:62
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:62
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:62
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:62
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:62
+WARNING: pointer_to_array{T}(p::Ptr{T},d::Union{Integer,Tuple{Vararg{Integer}}},own::Bool=false) is deprecated, use unsafe_wrap(Array,p,d,own) instead.
+ in depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ in pointer_to_array(::Ptr{Ptr{UInt8}}, ::UInt64, ::Bool) at ./deprecated.jl:50 (repeats 2 times)
+ in XGBoosterDumpModel(::Ptr{Void}, ::String, ::Int64) at /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_wrapper_h.jl:260
+ in #importance#40(::String, ::Function, ::XGBoost.Booster) at /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:342
+ in importance(::XGBoost.Booster) at /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:342
+ in (::##29#32)() at /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:68
+ in facts(::##29#32, ::String) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:449
+ in include_from_node1(::String) at ./loading.jl:541
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:326
+while loading /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl, in expression starting on line 62
+WARNING: bytestring(p::Union{Ptr{Int8},Ptr{UInt8}}) is deprecated, use unsafe_string(p) instead.
+ in depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ in bytestring(::Ptr{UInt8}) at ./deprecated.jl:50
+ in #importance#40(::String, ::Function, ::XGBoost.Booster) at /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:354
+ in importance(::XGBoost.Booster) at /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:342
+ in (::##29#32)() at /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl:68
+ in facts(::##29#32, ::String) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:449
+ in include_from_node1(::String) at ./loading.jl:541
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:326
+while loading /home/vagrant/.julia/v0.6/XGBoost/test/runtests.jl, in expression starting on line 62
+Out of 2 total facts:
+  Verified: 1
+  Pending:  1
+Example is running
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/utils.jl:1
+WARNING: Method definition readlibsvm(String, Any) in module Main at /home/vagrant/.julia/v0.6/XGBoost/test/utils.jl:2 overwritten at /home/vagrant/.julia/v0.6/XGBoost/test/utils.jl:2.
+training xgboost with dense matrix
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:21
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:21
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:21
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:21
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:21
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:21
+[1]	train-error:0.046522
+[2]	train-error:0.022263
+training xgboost with sparse matrix
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:28
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:28
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:28
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:28
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:28
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:28
+[1]	train-error:0.046522
+[2]	train-error:0.022263
+training xgboost with DMatrix[1]	train-error:0.000614
+[2]	train-error:0.000000
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:37
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:37
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:37
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:37
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:37
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:37
+[1]	train-error:0.046522
+[2]	train-error:0.022263
+test-error=0.48168839230291743
+WARNING: abs{T <: Number}(x::AbstractArray{T}) is deprecated, use abs.(x) instead.
+ in depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ in abs(::Array{Float32,1}) at ./deprecated.jl:50
+ in include_from_node1(::String) at ./loading.jl:541
+ in facts(::##35#36, ::String) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:449
+ in include_from_node1(::String) at ./loading.jl:541
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:326
+while loading /home/vagrant/.julia/v0.6/XGBoost/test/example.jl, in expression starting on line 51
+sum(abs(pred2-pred))=0.0
+[1]	eval-logloss:0.226687	eval-error:0.042831	train-logloss:0.233366	train-error:0.046522
+[2]	eval-logloss:0.137875	eval-error:0.021726	train-logloss:0.136656	train-error:0.022263
+test-error=0.48168839230291743
+WARNING: bytestring(p::Union{Ptr{Int8},Ptr{UInt8}}) is deprecated, use unsafe_string(p) instead.
+ in depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ in bytestring(::Ptr{UInt8}) at ./deprecated.jl:50
+ in #dump_model#15(::String, ::Bool, ::Function, ::XGBoost.Booster, ::String) at /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:111
+ in dump_model(::XGBoost.Booster, ::String) at /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl:107
+ in include_from_node1(::String) at ./loading.jl:541
+ in facts(::##35#36, ::String) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:449
+ in include_from_node1(::String) at ./loading.jl:541
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:326
+while loading /home/vagrant/.julia/v0.6/XGBoost/test/example.jl, in expression starting on line 80
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:82
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:82
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:82
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:85
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:85
+WARNING: Base.ASCIIString is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/XGBoost/test/example.jl:85
+Array{XGBoost.FeatureImportance}((4,))
+  1: XGBoost.FeatureImportance
+    fname: String "odor=none"
+    gain: Float64 0.6761548435432443
+    cover: Float64 0.49787462643407143
+    freq: Float64 0.4
+  2: XGBoost.FeatureImportance
+    fname: String "stalk-root=club"
+    gain: Float64 0.17135352433074763
+    cover: Float64 0.19205433112119427
+    freq: Float64 0.2
+  3: XGBoost.FeatureImportance
+    fname: String "stalk-root=rooted"
+    gain: Float64 0.12317241252790277
+    cover: Float64 0.1638750061802232
+    freq: Float64 0.2
+  4: XGBoost.FeatureImportance
+    fname: String "spore-print-color=green"
+    gain: Float64 0.029319219598105333
+    cover: Float64 0.14619603626451105
+    freq: Float64 0.2
+0 facts verified.
+6513x126 matrix with 143286 entries is loaded from ../data/agaricus.txt.train
+6513x126 matrix with 143286 entries is loaded from ../data/agaricus.txt.train
+1611x126 matrix with 35442 entries is loaded from ../data/agaricus.txt.test
+6513x126 matrix with 143286 entries is loaded from ../data/agaricus.txt.train
+1611x126 matrix with 35442 entries is loaded from ../data/agaricus.txt.test
+6513x126 matrix with 143286 entries is loaded from ../data/agaricus.txt.train
+1611x126 matrix with 35442 entries is loaded from ../data/agaricus.txt.test
+6513x126 matrix with 143286 entries is loaded from ../data/agaricus.txt.train
+6513x126 matrix with 820638 entries is loaded from dtrain.buffer
+1611x126 matrix with 202986 entries is loaded from dtest.buffer
+INFO: XGBoost tests passed
+INFO: Removing FactCheck v0.4.3
+
+>>> End of log
