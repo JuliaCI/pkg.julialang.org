@@ -1,0 +1,134 @@
+>>> 'Pkg.add("TestRunner")' log
+INFO: Cloning cache of TestRunner from https://github.com/gdziadkiewicz/TestRunner.jl.git
+INFO: Installing FactCheck v0.4.3
+INFO: Installing TestRunner v0.0.3
+INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of TestRunner
+INFO: Use `Pkg.update()` to get the latest versions of your packages
+
+>>> 'Pkg.test("TestRunner")' log
+Julia Version 0.6.0-dev.739
+Commit 361161b (2016-09-22 21:53 UTC)
+Platform Info:
+  System: Linux (x86_64-pc-linux-gnu)
+  CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
+  WORD_SIZE: 64
+           Ubuntu 14.04.5 LTS
+  uname: Linux 3.13.0-96-generic #143-Ubuntu SMP Mon Aug 29 20:15:20 UTC 2016 x86_64 x86_64
+Memory: 2.4471054077148438 GB (486.8046875 MB free)
+Uptime: 24230.0 sec
+Load Avg:  0.9921875  1.01708984375  1.0390625
+Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
+       speed         user         nice          sys         idle          irq
+#1  3499 MHz    1279000 s        410 s     183043 s     629065 s        174 s
+#2  3499 MHz     420689 s       6682 s      98964 s    1783864 s          2 s
+
+  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
+  LAPACK: libopenblas64_
+  LIBM: libopenlibm
+  LLVM: libLLVM-3.7.1 (ORCJIT, haswell)
+Environment:
+  TERM = vt100
+  LD_LIBRARY_PATH = :/usr/local/lib/
+  PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/vagrant/julia/bin/
+  JAVA_HOME = /usr/lib/jvm/java-7-oracle
+  HOME = /home/vagrant
+
+Package Directory: /home/vagrant/.julia/v0.6
+2 required packages:
+ - JSON                          0.7.0
+ - TestRunner                    0.0.3
+2 additional packages:
+ - Compat                        0.9.2
+ - FactCheck                     0.4.3
+INFO: Testing TestRunner
+Test handling tests
+  > File loading
+    Failure :: (line:272) :: File loading :: fact was false
+      Expression: TestRunner._get_file_content(sampleTestsFilePath) --> sampleTests
+        Expected: quote  # /home/vagrant/.julia/v0.6/TestRunner/test/runtests.jl, line 4:
+    using FactCheck # /home/vagrant/.julia/v0.6/TestRunner/test/runtests.jl, line 6:
+    facts((()->begin  # /home/vagrant/.julia/v0.6/TestRunner/test/runtests.jl, line 7:
+                @fact $(Expr(:-->, 1, 1)) "First group first test" # /home/vagrant/.julia/v0.6/TestRunner/test/runtests.jl, line 8:
+                @fact $(Expr(:-->, 2, 1)) "First group second failing test"
+            end),"First facts group") # /home/vagrant/.julia/v0.6/TestRunner/test/runtests.jl, line 11:
+    facts((()->begin  # /home/vagrant/.julia/v0.6/TestRunner/test/runtests.jl, line 12:
+                @fact $(Expr(:-->, 1, 1)) "Second group first test" # /home/vagrant/.julia/v0.6/TestRunner/test/runtests.jl, line 13:
+                @fact $(Expr(:-->, 2, 2))
+            end),"Second facts group") # /home/vagrant/.julia/v0.6/TestRunner/test/runtests.jl, line 16:
+    facts((()->begin  # /home/vagrant/.julia/v0.6/TestRunner/test/runtests.jl, line 17:
+                @fact $(Expr(:-->, 1, 1)) # /home/vagrant/.julia/v0.6/TestRunner/test/runtests.jl, line 18:
+                @fact $(Expr(:-->, 2, 1))
+            end)) # /home/vagrant/.julia/v0.6/TestRunner/test/runtests.jl, line 20:
+    facts((()->begin  # /home/vagrant/.julia/v0.6/TestRunner/test/runtests.jl, line 21:
+            end))
+end
+        Occurred: quote  # none, line 5:
+    using FactCheck # none, line 7:
+    facts((()->begin  # none, line 8:
+                @fact $(Expr(:-->, 1, 1)) "First group first test" # none, line 9:
+                @fact $(Expr(:-->, 2, 1)) "First group second failing test"
+            end),"First facts group") # none, line 12:
+    facts((()->begin  # none, line 13:
+                @fact $(Expr(:-->, 1, 1)) "Second group first test" # none, line 14:
+                @fact $(Expr(:-->, 2, 2))
+            end),"Second facts group") # none, line 17:
+    facts((()->begin  # none, line 18:
+                @fact $(Expr(:-->, 1, 1)) # none, line 19:
+                @fact $(Expr(:-->, 2, 1))
+            end)) # none, line 21:
+    facts((()->begin  # none, line 22:
+            end))
+end
+  > Structure parsing
+    Failure :: (line:272) :: Structure parsing :: fact was false
+      Expression: TestRunner._get_tests_structure(sampleTests) --> Vector{TestStructureNode}([FactsCollectionNode(6,"First facts group",[FactNode(7,"First group first test"),FactNode(8,"First group second failing test")]),FactsCollectionNode(11,"Second facts group",[FactNode(12,"Second group first test"),FactNode(13,"")]),FactsCollectionNode(16,"",[FactNode(17,""),FactNode(18,"")]),FactsCollectionNode(20,"",[])])
+        Expected: TestRunner.TestStructureNode[TestRunner.FactsCollectionNode(6,"First facts group",TestRunner.TestStructureNode[TestRunner.FactNode(7,"First group first test",test_not_run,"",""),TestRunner.FactNode(8,"First group second failing test",test_not_run,"","")]),TestRunner.FactsCollectionNode(11,"Second facts group",TestRunner.TestStructureNode[TestRunner.FactNode(12,"Second group first test",test_not_run,"",""),TestRunner.FactNode(13,"",test_not_run,"","")]),TestRunner.FactsCollectionNode(16,"",TestRunner.TestStructureNode[TestRunner.FactNode(17,"",test_not_run,"",""),TestRunner.FactNode(18,"",test_not_run,"","")]),TestRunner.FactsCollectionNode(20,"",TestRunner.TestStructureNode[])]
+        Occurred: TestRunner.TestStructureNode[TestRunner.FactsCollectionNode(0,"First facts group",TestRunner.TestStructureNode[TestRunner.FactNode(0,"First group first test",test_not_run,"",""),TestRunner.FactNode(0,"First group second failing test",test_not_run,"","")]),TestRunner.FactsCollectionNode(0,"Second facts group",TestRunner.TestStructureNode[TestRunner.FactNode(0,"Second group first test",test_not_run,"",""),TestRunner.FactNode(0,"",test_not_run,"","")]),TestRunner.FactsCollectionNode(0,"",TestRunner.TestStructureNode[TestRunner.FactNode(0,"",test_not_run,"",""),TestRunner.FactNode(0,"",test_not_run,"","")]),TestRunner.FactsCollectionNode(0,"",TestRunner.TestStructureNode[])]
+    Failure :: (line:272) :: Structure parsing :: File structure parsing :: fact was false
+      Expression: get_tests_structure(sampleTestsFilePath) --> RootNode(Vector{TestStructureNode}([FactsCollectionNode(6,"First facts group",[FactNode(7,"First group first test"),FactNode(8,"First group second failing test")]),FactsCollectionNode(11,"Second facts group",[FactNode(12,"Second group first test"),FactNode(13,"")]),FactsCollectionNode(16,"",[FactNode(17,""),FactNode(18,"")]),FactsCollectionNode(20,"",[])]))
+        Expected: TestRunner.RootNode(TestRunner.TestStructureNode[TestRunner.FactsCollectionNode(6,"First facts group",TestRunner.TestStructureNode[TestRunner.FactNode(7,"First group first test",test_not_run,"",""),TestRunner.FactNode(8,"First group second failing test",test_not_run,"","")]),TestRunner.FactsCollectionNode(11,"Second facts group",TestRunner.TestStructureNode[TestRunner.FactNode(12,"Second group first test",test_not_run,"",""),TestRunner.FactNode(13,"",test_not_run,"","")]),TestRunner.FactsCollectionNode(16,"",TestRunner.TestStructureNode[TestRunner.FactNode(17,"",test_not_run,"",""),TestRunner.FactNode(18,"",test_not_run,"","")]),TestRunner.FactsCollectionNode(20,"",TestRunner.TestStructureNode[])])
+        Occurred: TestRunner.RootNode(TestRunner.TestStructureNode[TestRunner.FactsCollectionNode(0,"First facts group",TestRunner.TestStructureNode[TestRunner.FactNode(0,"First group first test",test_not_run,"",""),TestRunner.FactNode(0,"First group second failing test",test_not_run,"","")]),TestRunner.FactsCollectionNode(0,"Second facts group",TestRunner.TestStructureNode[TestRunner.FactNode(0,"Second group first test",test_not_run,"",""),TestRunner.FactNode(0,"",test_not_run,"","")]),TestRunner.FactsCollectionNode(0,"",TestRunner.TestStructureNode[TestRunner.FactNode(0,"",test_not_run,"",""),TestRunner.FactNode(0,"",test_not_run,"","")]),TestRunner.FactsCollectionNode(0,"",TestRunner.TestStructureNode[])])
+  > Tests running
+    Failure :: (line:272) :: Tests running :: Tests running :: fact was false
+      Expression: run_all_tests(sampleTestsFilePath) --> RootNode(Vector{TestStructureNode}([FactsCollectionNode(6,"First facts group",[FactNode(7,"First group first test",test_success,"    Success :: (line:7) :: Tests running :: First group first test :: fact was true\n      Expression: 1 --> 1\n        Expected: 1\n        Occurred: 1"),FactNode(8,"First group second failing test",test_failure,"    Failure :: (line:8) :: Tests running :: First group second failing test :: fact was false\n      Expression: 2 --> 1\n        Expected: 1\n        Occurred: 2")]),FactsCollectionNode(11,"Second facts group",[FactNode(12,"Second group first test",test_success,"    Success :: (line:12) :: Tests running :: Second group first test :: fact was true\n      Expression: 1 --> 1\n        Expected: 1\n        Occurred: 1"),FactNode(13,"",test_success,"    Success :: (line:13) :: Tests running :: fact was true\n      Expression: 2 --> 2\n        Expected: 2\n        Occurred: 2")]),FactsCollectionNode(16,"",[FactNode(17,"",test_success,"    Success :: (line:17) :: Tests running :: fact was true\n      Expression: 1 --> 1\n        Expected: 1\n        Occurred: 1"),FactNode(18,"",test_failure,"    Failure :: (line:18) :: Tests running :: fact was false\n      Expression: 2 --> 1\n        Expected: 1\n        Occurred: 2")]),FactsCollectionNode(20,"",[])]))
+        Expected: TestRunner.RootNode(TestRunner.TestStructureNode[TestRunner.FactsCollectionNode(6,"First facts group",TestRunner.TestStructureNode[TestRunner.FactNode(7,"First group first test",test_success,"    Success :: (line:7) :: Tests running :: First group first test :: fact was true\n      Expression: 1 --> 1\n        Expected: 1\n        Occurred: 1",""),TestRunner.FactNode(8,"First group second failing test",test_failure,"    Failure :: (line:8) :: Tests running :: First group second failing test :: fact was false\n      Expression: 2 --> 1\n        Expected: 1\n        Occurred: 2","")]),TestRunner.FactsCollectionNode(11,"Second facts group",TestRunner.TestStructureNode[TestRunner.FactNode(12,"Second group first test",test_success,"    Success :: (line:12) :: Tests running :: Second group first test :: fact was true\n      Expression: 1 --> 1\n        Expected: 1\n        Occurred: 1",""),TestRunner.FactNode(13,"",test_success,"    Success :: (line:13) :: Tests running :: fact was true\n      Expression: 2 --> 2\n        Expected: 2\n        Occurred: 2","")]),TestRunner.FactsCollectionNode(16,"",TestRunner.TestStructureNode[TestRunner.FactNode(17,"",test_success,"    Success :: (line:17) :: Tests running :: fact was true\n      Expression: 1 --> 1\n        Expected: 1\n        Occurred: 1",""),TestRunner.FactNode(18,"",test_failure,"    Failure :: (line:18) :: Tests running :: fact was false\n      Expression: 2 --> 1\n        Expected: 1\n        Occurred: 2","")]),TestRunner.FactsCollectionNode(20,"",TestRunner.TestStructureNode[])])
+        Occurred: TestRunner.RootNode(TestRunner.TestStructureNode[TestRunner.FactsCollectionNode(0,"First facts group",TestRunner.TestStructureNode[TestRunner.FactNode(0,"First group first test",test_success,"    Success :: (line:0) :: Tests running :: First group first test :: fact was true\n      Expression: 1 --> 1\n        Expected: 1\n        Occurred: 1",""),TestRunner.FactNode(0,"First group second failing test",test_failure,"    Failure :: (line:0) :: Tests running :: First group second failing test :: fact was false\n      Expression: 2 --> 1\n        Expected: 1\n        Occurred: 2","")]),TestRunner.FactsCollectionNode(0,"Second facts group",TestRunner.TestStructureNode[TestRunner.FactNode(0,"Second group first test",test_success,"    Success :: (line:0) :: Tests running :: Second group first test :: fact was true\n      Expression: 1 --> 1\n        Expected: 1\n        Occurred: 1",""),TestRunner.FactNode(0,"",test_success,"    Success :: (line:0) :: Tests running :: fact was true\n      Expression: 2 --> 2\n        Expected: 2\n        Occurred: 2","")]),TestRunner.FactsCollectionNode(0,"",TestRunner.TestStructureNode[TestRunner.FactNode(0,"",test_success,"    Success :: (line:0) :: Tests running :: fact was true\n      Expression: 1 --> 1\n        Expected: 1\n        Occurred: 1",""),TestRunner.FactNode(0,"",test_failure,"    Failure :: (line:0) :: Tests running :: fact was false\n      Expression: 2 --> 1\n        Expected: 1\n        Occurred: 2","")]),TestRunner.FactsCollectionNode(0,"",TestRunner.TestStructureNode[])])
+  > Exception handling
+  > Children acquiring
+Out of 7 total facts:
+  Verified: 2
+  Failed:   4
+  Pending:  1
+JSON parsing tests
+  > FactNode parsing
+  > FactsCollectionNode parsing
+  > ContextNode parsing
+  > Tree to JSON parsing
+10 facts verified.
+ERROR: LoadError: FactCheck finished with 4 non-successful tests.
+ in exitstatus() at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:568
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in process_options(::Base.JLOptions) at ./client.jl:268
+ in _start() at ./client.jl:332
+while loading /home/vagrant/.julia/v0.6/TestRunner/test/runtests.jl, in expression starting on line 108
+=============================[ ERROR: TestRunner ]==============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/TestRunner/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: TestRunner had test errors
+ in #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:749
+ in (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
+ in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:69
+ in #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
+ in (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
+ in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in eval(::Module, ::Any) at ./boot.jl:238
+ in process_options(::Base.JLOptions) at ./client.jl:245
+ in _start() at ./client.jl:332
+
+>>> End of log
