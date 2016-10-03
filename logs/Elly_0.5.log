@@ -8,6 +8,8 @@ INFO: Installing ProtoBuf v0.2.0
 INFO: Installing TextWrap v0.1.6
 INFO: Installing URIParser v0.1.6
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of Elly
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Elly")' log
 Julia Version 0.5.0
@@ -18,13 +20,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-96-generic #143-Ubuntu SMP Mon Aug 29 20:15:20 UTC 2016 x86_64 x86_64
-Memory: 2.9392929077148438 GB (430.03125 MB free)
-Uptime: 20247.0 sec
-Load Avg:  1.05322265625  1.0986328125  1.14111328125
+Memory: 2.9392929077148438 GB (957.140625 MB free)
+Uptime: 22294.0 sec
+Load Avg:  1.0029296875  1.0263671875  1.04541015625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    1306781 s       5772 s      99905 s     505051 s         34 s
-#2  3500 MHz     345512 s        347 s      62561 s    1556027 s          2 s
+#1  3499 MHz    1407410 s       1308 s     112440 s     462708 s         46 s
+#2  3499 MHz     623148 s       5504 s      71514 s    1451332 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -49,72 +51,41 @@ Package Directory: /home/vagrant/.julia/v0.5
  - TextWrap                      0.1.6
  - URIParser                     0.1.6
 INFO: Testing Elly
-listing files in root folder...
-AbstractString["tmp"]
-getting server defaults...
-	fileBufferSize => 4096
-	trashInterval => 0
-	checksumType => 2
-	writePacketSize => 65536
-	encryptDataTransfer => false
-	blockSize => 134217728
-	bytesPerChecksum => 512
-	replication => 3
-getting file system status...
-	corrupt_blocks => 0
-	used => 28672
-	under_replicated => 0
-	missing_blocks => 0
-	capacity => 42241163264
-	missing_repl_one_blocks => 0
-	remaining => 29316939776
-/tmp should be a directory
-du should be >= 0
-stat /tmp
-HDFSFileInfo: /tmp
-    type: folder
-    owner: vagrant
-    group: supergroup
+ERROR: LoadError: connect: connection refused (ECONNREFUSED)
+ in yieldto(::Task, ::ANY) at ./event.jl:136
+ in wait() at ./event.jl:169
+ in wait(::Condition) at ./event.jl:27
+ in stream_wait(::TCPSocket, ::Condition, ::Vararg{Condition,N}) at ./stream.jl:44
+ in wait_connected(::TCPSocket) at ./stream.jl:265
+ in connect at ./stream.jl:960 [inlined]
+ in connect(::String, ::Int64) at ./socket.jl:676
+ in connect(::Elly.HadoopRpcChannel) at /home/vagrant/.julia/v0.5/Elly/src/rpc.jl:200
+ in send_rpc_message(::Elly.HadoopRpcChannel, ::Elly.HadoopRpcController, ::ProtoBuf.MethodDescriptor, ::Elly.hadoop.hdfs.GetFileInfoRequestProto) at /home/vagrant/.julia/v0.5/Elly/src/rpc.jl:239
+ in call_method(::Elly.HadoopRpcChannel, ::ProtoBuf.MethodDescriptor, ::Elly.HadoopRpcController, ::Elly.hadoop.hdfs.GetFileInfoRequestProto) at /home/vagrant/.julia/v0.5/Elly/src/rpc.jl:290
+ in _get_file_info(::Elly.HDFSClient, ::String) at /home/vagrant/.julia/v0.5/Elly/src/api_hdfs_base.jl:165
+ in exists at /home/vagrant/.julia/v0.5/Elly/src/api_hdfs_base.jl:218 [inlined]
+ in test_hdfs(::String, ::Int64) at /home/vagrant/.julia/v0.5/Elly/test/hdfstests.jl:7
+ in test_hdfs() at /home/vagrant/.julia/v0.5/Elly/test/hdfstests.jl:5
+ in include_from_node1(::String) at ./loading.jl:488
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/Elly/test/runtests.jl, in expression starting on line 4
+================================[ ERROR: Elly ]=================================
 
-create a temporary dir...
-create a temporary file...
-elapsed time: 5.097100443 seconds
-...done in 5.097100443 secs
-verify file size to be 12000...
-delete file...
-create a large file...
-elapsed time: 0.395626498 seconds
-...block written in 0.395626498 secs
-elapsed time: 2.214906463 seconds
-...block written in 2.214906463 secs
-elapsed time: 1.815302685 seconds
-...block written in 1.815302685 secs
-elapsed time: 1.697740558 seconds
-...block written in 1.697740558 secs
-elapsed time: 1.66228546 seconds
-...block written in 1.66228546 secs
-verify file size to be 640000000...
-read and verify...
-elapsed time: 1.671164642 seconds
-...block read in 1.671164642 secs
-elapsed time: 0.368290039 seconds
-...block read in 0.368290039 secs
-elapsed time: 0.315070418 seconds
-...block read in 0.315070418 secs
-elapsed time: 0.303245699 seconds
-...block read in 0.303245699 secs
-elapsed time: 0.407605491 seconds
-...block read in 0.407605491 secs
-blocks for HDFSFile: hdfs://vagrant@localhost:9000/tmp/foo/bar
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.5/Elly/test/runtests.jl`, ProcessExited(1)) [1]
 
-Tuple{UInt64,Array}[(0x0000000000000000,AbstractString["127.0.0.1"]),(0x0000000008000000,AbstractString["127.0.0.1"]),(0x0000000010000000,AbstractString["127.0.0.1"]),(0x0000000018000000,AbstractString["127.0.0.1"]),(0x0000000020000000,AbstractString["127.0.0.1"])]
-setting replication factor for HDFSFile: hdfs://vagrant@localhost:9000/tmp/foo/bar
-
-create many (1000) files...
-delete many (1000) files...
-number of yarn nodes: 1
-YarnNodes: 1 (connected to 0)
-YarnNode: /default-rack/vagrant-ubuntu-trusty-64:53039 running, Used mem: 0/8192, cores: 0/8
-INFO: Elly tests passed
+================================================================================
+ERROR: Elly had test errors
+ in #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:740
+ in (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
+ in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:59
+ in #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
+ in (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
+ in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in eval(::Module, ::Any) at ./boot.jl:234
+ in process_options(::Base.JLOptions) at ./client.jl:239
+ in _start() at ./client.jl:318
 
 >>> End of log
