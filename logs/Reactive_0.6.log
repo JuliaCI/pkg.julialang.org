@@ -1,8 +1,6 @@
 >>> 'Pkg.add("Reactive")' log
 INFO: Installing Reactive v0.3.5
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of Reactive
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Reactive")' log
 Julia Version 0.6.0-dev.787
@@ -13,13 +11,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-96-generic #143-Ubuntu SMP Mon Aug 29 20:15:20 UTC 2016 x86_64 x86_64
-Memory: 2.9392929077148438 GB (595.5703125 MB free)
-Uptime: 15176.0 sec
-Load Avg:  1.240234375  1.08056640625  1.05615234375
+Memory: 2.9392929077148438 GB (590.125 MB free)
+Uptime: 16137.0 sec
+Load Avg:  0.9072265625  0.95703125  0.9599609375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3505 MHz     838637 s         57 s      93160 s     423493 s         39 s
-#2  3505 MHz     221765 s         99 s      43632 s    1217449 s          0 s
+#1  3497 MHz     874576 s       1032 s     114725 s     453172 s         74 s
+#2  3497 MHz     280939 s       5658 s      56805 s    1221078 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -41,7 +39,7 @@ Package Directory: /home/vagrant/.julia/v0.6
 INFO: Computing test dependencies for Reactive...
 INFO: Installing FactCheck v0.4.3
 INFO: Testing Reactive
-Killing Task (runnable) @0x00007f9be7254280
+Killing Task (runnable) @0x00007f06a6d58280
 Basic checks
   > map
   > merge
@@ -65,6 +63,16 @@ Flatten
 Timing functions
   > fpswhen
   > fps
+    Failure :: (line:272) :: fps :: fact was false
+      Expression: sum(log) --> roughly(1.0,atol=0.05)
+        Expected: 1.1312267780303955 ≅ 1.0
+    Failure :: (line:272) :: fps :: fact was false
+      Expression: [1 / 10 for i = 1:10] --> roughly(log,atol=0.03)
+        Expected: [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1] ≅ [0.216404,0.10178,0.103633,0.101368,0.101352,0.101361,0.101365,0.101339,0.101322,0.101303]
+    Failure :: (line:272) :: fps :: fact was false
+      Expression: queue_size() --> 0
+        Expected: 0
+        Occurred: 1
   > every
   > throttle
     Failure :: (line:272) :: throttle :: fact was false
@@ -72,12 +80,12 @@ Timing functions
         Expected: 1
         Occurred: 2
 Out of 27 total facts:
-  Verified: 26
-  Failed:   1
+  Verified: 23
+  Failed:   4
 Async
   > async_map
 3 facts verified.
-ERROR: LoadError: FactCheck finished with 1 non-successful tests.
+ERROR: LoadError: FactCheck finished with 4 non-successful tests.
  in exitstatus() at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:568
  in include_from_node1(::String) at ./loading.jl:532
  in include(::String) at ./sysimg.jl:14
