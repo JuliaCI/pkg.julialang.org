@@ -3,13 +3,13 @@ INFO: Cloning cache of LibSndFile from https://github.com/JuliaAudio/LibSndFile.
 INFO: Installing BinDeps v0.4.5
 INFO: Installing DSP v0.1.1
 INFO: Installing FileIO v0.2.0
-INFO: Installing FixedPointNumbers v0.2.0
+INFO: Installing FixedPointNumbers v0.2.1
 INFO: Installing LibSndFile v0.4.0
 INFO: Installing Polynomials v0.1.0
 INFO: Installing Reexport v0.0.3
 INFO: Installing SHA v0.2.1
 INFO: Installing SIUnits v0.1.0
-INFO: Installing SampledSignals v0.2.1
+INFO: Installing SampledSignals v0.3.0
 INFO: Installing TexExtensions v0.0.3
 INFO: Installing URIParser v0.1.6
 INFO: Building LibSndFile
@@ -38,14 +38,14 @@ Platform Info:
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-96-generic #143-Ubuntu SMP Mon Aug 29 20:15:20 UTC 2016 x86_64 x86_64
-Memory: 2.9392929077148438 GB (687.484375 MB free)
-Uptime: 36718.0 sec
-Load Avg:  1.3642578125  1.935546875  1.4833984375
+  uname: Linux 3.13.0-98-generic #145-Ubuntu SMP Sat Oct 8 20:13:07 UTC 2016 x86_64 x86_64
+Memory: 2.939289093017578 GB (671.78125 MB free)
+Uptime: 35713.0 sec
+Load Avg:  1.23828125  1.82275390625  1.46044921875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    2252433 s        101 s     292367 s     714317 s        109 s
-#2  3500 MHz     829855 s       6414 s     147447 s    2536125 s          2 s
+#1  3507 MHz    2049752 s       5868 s     213774 s     894454 s        134 s
+#2  3507 MHz     832170 s        387 s     125631 s    2466991 s          5 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -67,12 +67,12 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Compat                        0.9.2
  - DSP                           0.1.1
  - FileIO                        0.2.0
- - FixedPointNumbers             0.2.0
+ - FixedPointNumbers             0.2.1
  - Polynomials                   0.1.0
  - Reexport                      0.0.3
  - SHA                           0.2.1
  - SIUnits                       0.1.0
- - SampledSignals                0.2.1
+ - SampledSignals                0.3.0
  - TexExtensions                 0.0.3
  - URIParser                     0.1.6
 INFO: Computing test dependencies for LibSndFile...
@@ -90,9 +90,257 @@ WARNING: sin{T <: Number}(x::AbstractArray{T}) is deprecated, use sin.(x) instea
  in process_options(::Base.JLOptions) at ./client.jl:268
  in _start() at ./client.jl:332
 while loading /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl, in expression starting on line 24
-Test Summary:    | Pass  Total
-  LibSndFile Tests |   61     61
-INFO: LibSndFile tests passed
+WARNING: Samplerates with units are deprecated. Switch to plain floats
+ in warn_if_unitful(::SIUnits.SIQuantity{Int64,0,0,-1,0,0,0,0,0,0}) at deprecated.jl:81
+ in read(::LibSndFile.SndFileSource{FixedPointNumbers.Fixed{Int16,15}}, ::Int64) at SampleStream.jl:63
+ in readall(::LibSndFile.SndFileSource{FixedPointNumbers.Fixed{Int16,15}}) at LibSndFile.jl:200
+ in load(::FileIO.File{FileIO.DataFormat{:WAV}}) at LibSndFile.jl:206
+ in #load#13(::Array{Any,1}, ::Function, ::String) at loadsave.jl:45
+ in macro expansion; at runtests.jl:50 [inlined]
+ in macro expansion; at test.jl:672 [inlined]
+ in macro expansion; at runtests.jl:35 [inlined]
+ in macro expansion; at test.jl:672 [inlined]
+ in macro expansion; at runtests.jl:25 [inlined]
+ in anonymous at <missing>:?
+ in include_from_node1(::String) at loading.jl:532
+ in include(::String) at sysimg.jl:14
+ in process_options(::Base.JLOptions) at client.jl:268
+ in _start() at client.jl:332
+WAV file reading: Test Failed
+  Expression: samplerate(buf) == srate
+   Evaluated: 44100.0 == 44100 s⁻¹
+ in record(::Base.Test.DefaultTestSet, ::Base.Test.Fail) at ./test.jl:428
+ in do_test(::Base.Test.Returned, ::Expr) at ./test.jl:281
+ in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:51 [inlined]
+ in macro expansion; at ./test.jl:672 [inlined]
+ in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:35 [inlined]
+ in macro expansion; at ./test.jl:672 [inlined]
+ in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:25 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in process_options(::Base.JLOptions) at ./client.jl:268
+ in _start() at ./client.jl:332
+WAV file reading: Error During Test
+  Test threw an exception of type MethodError
+  Expression: isapprox(Float64[x / s for x = domain(buf)],collect(0:99) / (srate / Hz))
+  MethodError: Cannot `convert` an object of type SIUnits.SIQuantity{Float64,0,0,-1,0,0,0,0,0,0} to an object of type Float64
+  This may have arisen from a call to the constructor Float64(...),
+  since type constructors fall back to convert methods.
+   in copy!(::Array{Float64,1}, ::Base.Generator{LinSpace{Float64},##3#13}) at ./abstractarray.jl:495
+   in _collect(::Type{Float64}, ::Base.Generator{LinSpace{Float64},##3#13}, ::Base.HasShape) at ./array.jl:277
+   in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:54 [inlined]
+   in macro expansion; at ./test.jl:672 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:35 [inlined]
+   in macro expansion; at ./test.jl:672 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:25 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:532
+   in include(::String) at ./sysimg.jl:14
+   in process_options(::Base.JLOptions) at ./client.jl:268
+   in _start() at ./client.jl:332
+FLAC file reading: Test Failed
+  Expression: samplerate(buf) == srate
+   Evaluated: 44100.0 == 44100 s⁻¹
+ in record(::Base.Test.DefaultTestSet, ::Base.Test.Fail) at ./test.jl:428
+ in do_test(::Base.Test.Returned, ::Expr) at ./test.jl:281
+ in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:77 [inlined]
+ in macro expansion; at ./test.jl:672 [inlined]
+ in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:35 [inlined]
+ in macro expansion; at ./test.jl:672 [inlined]
+ in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:25 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in process_options(::Base.JLOptions) at ./client.jl:268
+ in _start() at ./client.jl:332
+FLAC file reading: Error During Test
+  Test threw an exception of type MethodError
+  Expression: isapprox(Float64[x / s for x = domain(buf)],collect(0:99) / (srate / Hz))
+  MethodError: Cannot `convert` an object of type SIUnits.SIQuantity{Float64,0,0,-1,0,0,0,0,0,0} to an object of type Float64
+  This may have arisen from a call to the constructor Float64(...),
+  since type constructors fall back to convert methods.
+   in copy!(::Array{Float64,1}, ::Base.Generator{LinSpace{Float64},##4#14}) at ./abstractarray.jl:495
+   in _collect(::Type{Float64}, ::Base.Generator{LinSpace{Float64},##4#14}, ::Base.HasShape) at ./array.jl:277
+   in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:80 [inlined]
+   in macro expansion; at ./test.jl:672 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:35 [inlined]
+   in macro expansion; at ./test.jl:672 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:25 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:532
+   in include(::String) at ./sysimg.jl:14
+   in process_options(::Base.JLOptions) at ./client.jl:268
+   in _start() at ./client.jl:332
+OGG file reading: Test Failed
+  Expression: samplerate(buf) == srate
+   Evaluated: 44100.0 == 44100 s⁻¹
+ in record(::Base.Test.DefaultTestSet, ::Base.Test.Fail) at ./test.jl:428
+ in do_test(::Base.Test.Returned, ::Expr) at ./test.jl:281
+ in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:86 [inlined]
+ in macro expansion; at ./test.jl:672 [inlined]
+ in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:35 [inlined]
+ in macro expansion; at ./test.jl:672 [inlined]
+ in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:25 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in process_options(::Base.JLOptions) at ./client.jl:268
+ in _start() at ./client.jl:332
+OGG file reading: Error During Test
+  Test threw an exception of type MethodError
+  Expression: isapprox(Float64[x / s for x = domain(buf)],collect(0:99) / (srate / Hz))
+  MethodError: Cannot `convert` an object of type SIUnits.SIQuantity{Float64,0,0,-1,0,0,0,0,0,0} to an object of type Float64
+  This may have arisen from a call to the constructor Float64(...),
+  since type constructors fall back to convert methods.
+   in copy!(::Array{Float64,1}, ::Base.Generator{LinSpace{Float64},##5#15}) at ./abstractarray.jl:495
+   in _collect(::Type{Float64}, ::Base.Generator{LinSpace{Float64},##5#15}, ::Base.HasShape) at ./array.jl:277
+   in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:89 [inlined]
+   in macro expansion; at ./test.jl:672 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:35 [inlined]
+   in macro expansion; at ./test.jl:672 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:25 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:532
+   in include(::String) at ./sysimg.jl:14
+   in process_options(::Base.JLOptions) at ./client.jl:268
+   in _start() at ./client.jl:332
+WAV file writing: Test Failed
+  Expression: samplerate(buf) == srate
+   Evaluated: 44100.0 == 44100 s⁻¹
+ in record(::Base.Test.DefaultTestSet, ::Base.Test.Fail) at ./test.jl:428
+ in do_test(::Base.Test.Returned, ::Expr) at ./test.jl:281
+ in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:112 [inlined]
+ in macro expansion; at ./test.jl:672 [inlined]
+ in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:35 [inlined]
+ in macro expansion; at ./test.jl:672 [inlined]
+ in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:25 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in process_options(::Base.JLOptions) at ./client.jl:268
+ in _start() at ./client.jl:332
+WAV file writing: Error During Test
+  Test threw an exception of type MethodError
+  Expression: isapprox(Float64[x / s for x = domain(buf)],collect(0:99) / (srate / Hz))
+  MethodError: Cannot `convert` an object of type SIUnits.SIQuantity{Float64,0,0,-1,0,0,0,0,0,0} to an object of type Float64
+  This may have arisen from a call to the constructor Float64(...),
+  since type constructors fall back to convert methods.
+   in copy!(::Array{Float64,1}, ::Base.Generator{LinSpace{Float64},##7#17}) at ./abstractarray.jl:495
+   in _collect(::Type{Float64}, ::Base.Generator{LinSpace{Float64},##7#17}, ::Base.HasShape) at ./array.jl:277
+   in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:116 [inlined]
+   in macro expansion; at ./test.jl:672 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:35 [inlined]
+   in macro expansion; at ./test.jl:672 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:25 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:532
+   in include(::String) at ./sysimg.jl:14
+   in process_options(::Base.JLOptions) at ./client.jl:268
+   in _start() at ./client.jl:332
+OGG file writing: Test Failed
+  Expression: samplerate(buf) == srate
+   Evaluated: 44100.0 == 44100 s⁻¹
+ in record(::Base.Test.DefaultTestSet, ::Base.Test.Fail) at ./test.jl:428
+ in do_test(::Base.Test.Returned, ::Expr) at ./test.jl:281
+ in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:125 [inlined]
+ in macro expansion; at ./test.jl:672 [inlined]
+ in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:35 [inlined]
+ in macro expansion; at ./test.jl:672 [inlined]
+ in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:25 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in process_options(::Base.JLOptions) at ./client.jl:268
+ in _start() at ./client.jl:332
+OGG file writing: Error During Test
+  Test threw an exception of type MethodError
+  Expression: isapprox(Float64[x / s for x = domain(buf)],collect(0:99) / (srate / Hz))
+  MethodError: Cannot `convert` an object of type SIUnits.SIQuantity{Float64,0,0,-1,0,0,0,0,0,0} to an object of type Float64
+  This may have arisen from a call to the constructor Float64(...),
+  since type constructors fall back to convert methods.
+   in copy!(::Array{Float64,1}, ::Base.Generator{LinSpace{Float64},##8#18}) at ./abstractarray.jl:495
+   in _collect(::Type{Float64}, ::Base.Generator{LinSpace{Float64},##8#18}, ::Base.HasShape) at ./array.jl:277
+   in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:129 [inlined]
+   in macro expansion; at ./test.jl:672 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:35 [inlined]
+   in macro expansion; at ./test.jl:672 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:25 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:532
+   in include(::String) at ./sysimg.jl:14
+   in process_options(::Base.JLOptions) at ./client.jl:268
+   in _start() at ./client.jl:332
+FLAC file writing: Test Failed
+  Expression: samplerate(buf) == srate
+   Evaluated: 44100.0 == 44100 s⁻¹
+ in record(::Base.Test.DefaultTestSet, ::Base.Test.Fail) at ./test.jl:428
+ in do_test(::Base.Test.Returned, ::Expr) at ./test.jl:281
+ in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:141 [inlined]
+ in macro expansion; at ./test.jl:672 [inlined]
+ in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:35 [inlined]
+ in macro expansion; at ./test.jl:672 [inlined]
+ in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:25 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in process_options(::Base.JLOptions) at ./client.jl:268
+ in _start() at ./client.jl:332
+FLAC file writing: Error During Test
+  Test threw an exception of type MethodError
+  Expression: isapprox(Float64[x / s for x = domain(buf)],collect(0:99) / (srate / Hz))
+  MethodError: Cannot `convert` an object of type SIUnits.SIQuantity{Float64,0,0,-1,0,0,0,0,0,0} to an object of type Float64
+  This may have arisen from a call to the constructor Float64(...),
+  since type constructors fall back to convert methods.
+   in copy!(::Array{Float64,1}, ::Base.Generator{LinSpace{Float64},##9#19}) at ./abstractarray.jl:495
+   in _collect(::Type{Float64}, ::Base.Generator{LinSpace{Float64},##9#19}, ::Base.HasShape) at ./array.jl:277
+   in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:145 [inlined]
+   in macro expansion; at ./test.jl:672 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:35 [inlined]
+   in macro expansion; at ./test.jl:672 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl:25 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:532
+   in include(::String) at ./sysimg.jl:14
+   in process_options(::Base.JLOptions) at ./client.jl:268
+   in _start() at ./client.jl:332
+Test Summary:                                    | Pass  Fail  Error  Total
+  LibSndFile Tests                               |   49     6      6     61
+  Read errors                                    |    1                   1
+  WAV file detection                             |    2                   2
+  WAV file reading                               |    3     1      1      5
+  Reading different sample types                 |    7                   7
+  FLAC file reading                              |    3     1      1      5
+  OGG file reading                               |    3     1      1      5
+  Streaming reading                              |    5                   5
+  WAV file writing                               |    3     1      1      5
+  OGG file writing                               |    3     1      1      5
+  FLAC file writing                              |    3     1      1      5
+  Writing FixedPointNumbers.Fixed{Int16,15} data |    2                   2
+  Writing FixedPointNumbers.Fixed{Int32,31} data |    2                   2
+  Writing Float32 data                           |    2                   2
+  Writing Float64 data                           |    2                   2
+  Write errors                                   |    2                   2
+  Streaming writing                              |    2                   2
+  Sink Display                                   |    2                   2
+  Source Display                                 |    2                   2
+=============================[ ERROR: LibSndFile ]==============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/LibSndFile/test/runtests.jl`, ProcessExited(255)) [255]
+
+================================================================================
 INFO: Removing BaseTestNext v0.2.2
+ERROR: LibSndFile had test errors
+ in #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:749
+ in (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
+ in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:69
+ in #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
+ in (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
+ in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in eval(::Module, ::Any) at ./boot.jl:238
+ in process_options(::Base.JLOptions) at ./client.jl:245
+ in _start() at ./client.jl:332
 
 >>> End of log
