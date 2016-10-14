@@ -14,13 +14,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-98-generic #145-Ubuntu SMP Sat Oct 8 20:13:07 UTC 2016 x86_64 x86_64
-Memory: 2.939289093017578 GB (592.3359375 MB free)
-Uptime: 16830.0 sec
-Load Avg:  0.923828125  1.01611328125  1.0400390625
+Memory: 2.939289093017578 GB (607.5625 MB free)
+Uptime: 16281.0 sec
+Load Avg:  1.0546875  1.04736328125  1.04638671875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3507 MHz     874689 s       4413 s     100764 s     520363 s        118 s
-#2  3507 MHz     372588 s       3859 s      59534 s    1179739 s          0 s
+#1  3504 MHz     901864 s       7434 s      99451 s     454633 s         71 s
+#2  3504 MHz     316152 s         96 s      54697 s    1204022 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -42,7 +42,7 @@ Package Directory: /home/vagrant/.julia/v0.6
 INFO: Computing test dependencies for Reactive...
 INFO: Installing FactCheck v0.4.3
 INFO: Testing Reactive
-Killing Task (runnable) @0x00007fbd442e8280
+Killing Task (runnable) @0x00007fdf97bf8280
 Basic checks
   > map
   > merge
@@ -67,8 +67,18 @@ Timing functions
   > fpswhen
     Failure :: (line:272) :: fpswhen :: fact was false
       Expression: dt --> roughly(1,atol=0.2)
-        Expected: 1.496186637 ≅ 1
+        Expected: 1.255098332 ≅ 1
   > fps
+    Failure :: (line:272) :: fps :: fact was false
+      Expression: sum(log) --> roughly(1.0,atol=0.05)
+        Expected: 1.1194779872894287 ≅ 1.0
+    Failure :: (line:272) :: fps :: fact was false
+      Expression: [1 / 10 for i = 1:10] --> roughly(log,atol=0.03)
+        Expected: [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1] ≅ [0.199591,0.101908,0.102258,0.102458,0.102209,0.102569,0.101727,0.102192,0.102307,0.102259]
+    Failure :: (line:272) :: fps :: fact was false
+      Expression: queue_size() --> 0
+        Expected: 0
+        Occurred: 1
   > every
   > throttle
     Failure :: (line:272) :: throttle :: fact was false
@@ -76,12 +86,12 @@ Timing functions
         Expected: 1
         Occurred: 2
 Out of 27 total facts:
-  Verified: 25
-  Failed:   2
+  Verified: 22
+  Failed:   5
 Async
   > async_map
 3 facts verified.
-ERROR: LoadError: FactCheck finished with 2 non-successful tests.
+ERROR: LoadError: FactCheck finished with 5 non-successful tests.
  in exitstatus() at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:568
  in include_from_node1(::String) at ./loading.jl:532
  in include(::String) at ./sysimg.jl:14
