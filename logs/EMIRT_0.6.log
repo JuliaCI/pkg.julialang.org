@@ -2,7 +2,7 @@
 INFO: Cloning cache of EMIRT from https://github.com/seung-lab/EMIRT.jl.git
 INFO: Installing BinDeps v0.4.5
 INFO: Installing Blosc v0.1.7
-INFO: Installing ColorTypes v0.2.11
+INFO: Installing ColorTypes v0.2.12
 INFO: Installing Colors v0.6.9
 INFO: Installing Compose v0.4.4
 INFO: Installing Conda v0.3.2
@@ -20,6 +20,28 @@ INFO: Installing Reexport v0.0.3
 INFO: Installing SHA v0.2.1
 INFO: Installing URIParser v0.1.6
 INFO: Building Blosc
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (60) SSL certificate problem: unable to get local issuer certificate
+More details here: http://curl.haxx.se/docs/sslcerts.html
+
+curl performs SSL certificate verification by default, using a "bundle"
+ of Certificate Authority (CA) public keys (CA certs). If the default
+ bundle file isn't adequate, you can specify an alternate file
+ using the --cacert option.
+If this HTTPS server uses a certificate signed by a CA represented in
+ the bundle, the certificate verification probably failed due to a
+ problem with the certificate (it might be expired, or the name might
+ not match the domain name in the URL).
+If you'd like to turn off curl's verification of the certificate, use
+ the -k (or --insecure) option.
+================================[ ERROR: Blosc ]================================
+
+LoadError: failed process: Process(`curl -f -o c-blosc-1.8.1.tar.gz -L https://github.com/Blosc/c-blosc/archive/v1.8.1.tar.gz`, ProcessExited(60)) [60]
+while loading /home/vagrant/.julia/v0.6/Blosc/deps/build.jl, in expression starting on line 18
+
+================================================================================
 INFO: Building HDF5
 INFO: Building PyCall
 INFO: No system-wide Python was found; got the following error:
@@ -33,26 +55,36 @@ Solving package specifications: ..........
 #
 numpy                     1.11.2                   py27_0  
 INFO: PyCall is using /home/vagrant/.julia/v0.6/Conda/deps/usr/bin/python (Python 2.7.12) at /home/vagrant/.julia/v0.6/Conda/deps/usr/bin/python, libpython = /home/vagrant/.julia/v0.6/Conda/deps/usr/lib/libpython2.7
+
+================================[ BUILD ERRORS ]================================
+
+WARNING: Blosc had build errors.
+
+ - packages with build errors remain installed in /home/vagrant/.julia/v0.6
+ - build the package(s) and all dependencies with `Pkg.build("Blosc")`
+ - build a single package by running its `deps/build.jl` script
+
+================================================================================
 INFO: Package database updated
 INFO: METADATA is out-of-date — you may not have the latest version of EMIRT
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("EMIRT")' log
-Julia Version 0.6.0-dev.787
-Commit c71f205 (2016-09-26 16:28 UTC)
+Julia Version 0.6.0-dev.993
+Commit d6d3069 (2016-10-16 23:37 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-98-generic #145-Ubuntu SMP Sat Oct 8 20:13:07 UTC 2016 x86_64 x86_64
-Memory: 2.939289093017578 GB (862.61328125 MB free)
-Uptime: 21235.0 sec
-Load Avg:  1.0029296875  1.0146484375  1.04541015625
+Memory: 2.939289093017578 GB (1039.3515625 MB free)
+Uptime: 32214.0 sec
+Load Avg:  0.96923828125  0.49462890625  0.36083984375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3503 MHz    1266806 s        698 s     152400 s     486389 s         55 s
-#2  3503 MHz     635898 s       7339 s      84621 s    1304944 s          2 s
+#1  3500 MHz    1033179 s       3342 s     133681 s    1889976 s         46 s
+#2  3500 MHz     479940 s       1692 s      70600 s    2602707 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -72,7 +104,7 @@ Package Directory: /home/vagrant/.julia/v0.6
 19 additional packages:
  - BinDeps                       0.4.5
  - Blosc                         0.1.7
- - ColorTypes                    0.2.11
+ - ColorTypes                    0.2.12
  - Colors                        0.6.9
  - Compat                        0.9.2
  - Compose                       0.4.4
@@ -160,30 +192,51 @@ WARNING: Method definition seg_overlay_img!(Any, Any) in module EMIRT at /home/v
 WARNING: Method definition seg_overlay_img!(Any, Any, Any) in module EMIRT at /home/vagrant/.julia/v0.6/EMIRT/src/label.jl:325 overwritten at /home/vagrant/.julia/v0.6/EMIRT/src/label.jl:325.
 WARNING: Method definition seg_overlay_img!(Any, Any, Any, Any) in module EMIRT at /home/vagrant/.julia/v0.6/EMIRT/src/label.jl:325 overwritten at /home/vagrant/.julia/v0.6/EMIRT/src/label.jl:325.
 WARNING: replacing docs for 'EMIRT.seg_overlay_img! :: Union{NTuple{4,Any},Tuple{Any,Any,Any},Tuple{Any,Any}}' in module 'EMIRT'.
-ERROR: LoadError: LoadError: ArgumentError: Module Cairo not found in current path.
-Run `Pkg.add("Cairo")` to install the Cairo package.
- in require(::Symbol) at ./loading.jl:396
- in _require_from_serialized(::Int64, ::Symbol, ::String, ::Bool) at ./loading.jl:166
- in _require_search_from_serialized(::Int64, ::Symbol, ::String, ::Bool) at ./loading.jl:217
- in require(::Symbol) at ./loading.jl:402
+ERROR: LoadError: error compiling __init__: could not load library "/home/vagrant/.julia/v0.6/Blosc/src/../deps/libblosc"
+/home/vagrant/.julia/v0.6/Blosc/src/../deps/libblosc.so: cannot open shared object file: No such file or directory
  in include_from_node1(::String) at ./loading.jl:532
  in include(::String) at ./sysimg.jl:14
- in include_from_node1(::String) at ./loading.jl:532
- in include(::String) at ./sysimg.jl:14
- in macro expansion; at ./none:2 [inlined]
- in anonymous at ./<missing>:?
+ in anonymous at ./<missing>:2
  in eval(::Module, ::Any) at ./boot.jl:238
- in process_options(::Base.JLOptions) at ./client.jl:245
- in _start() at ./client.jl:332
-while loading /home/vagrant/.julia/v0.6/EMIRT/src/emio.jl, in expression starting on line 3
+ in process_options(::Base.JLOptions) at ./client.jl:248
+ in _start() at ./client.jl:335
+while loading /home/vagrant/.julia/v0.6/Blosc/src/Blosc.jl, in expression starting on line 217
+ERROR: LoadError: LoadError: LoadError: Failed to precompile Blosc to /home/vagrant/.julia/lib/v0.6/Blosc.ji.
+ in compilecache(::String) at ./loading.jl:672
+ in require(::Symbol) at ./loading.jl:424
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in anonymous at ./<missing>:2
+ in eval(::Module, ::Any) at ./boot.jl:238
+ in process_options(::Base.JLOptions) at ./client.jl:248
+ in _start() at ./client.jl:335
+while loading /home/vagrant/.julia/v0.6/HDF5/src/blosc_filter.jl, in expression starting on line 1
+while loading /home/vagrant/.julia/v0.6/HDF5/src/plain.jl, in expression starting on line 522
+while loading /home/vagrant/.julia/v0.6/HDF5/src/HDF5.jl, in expression starting on line 3
+ERROR: LoadError: LoadError: Failed to precompile HDF5 to /home/vagrant/.julia/lib/v0.6/HDF5.ji.
+ in compilecache(::String) at ./loading.jl:672
+ in require(::Symbol) at ./loading.jl:424
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in anonymous at ./<missing>:2
+ in eval(::Module, ::Any) at ./boot.jl:238
+ in process_options(::Base.JLOptions) at ./client.jl:248
+ in _start() at ./client.jl:335
+while loading /home/vagrant/.julia/v0.6/EMIRT/src/emio.jl, in expression starting on line 1
 while loading /home/vagrant/.julia/v0.6/EMIRT/src/EMIRT.jl, in expression starting on line 14
 ERROR: LoadError: Failed to precompile EMIRT to /home/vagrant/.julia/lib/v0.6/EMIRT.ji.
  in compilecache(::String) at ./loading.jl:672
  in require(::Symbol) at ./loading.jl:453
  in include_from_node1(::String) at ./loading.jl:532
  in include(::String) at ./sysimg.jl:14
- in process_options(::Base.JLOptions) at ./client.jl:268
- in _start() at ./client.jl:332
+ in process_options(::Base.JLOptions) at ./client.jl:271
+ in _start() at ./client.jl:335
 while loading /home/vagrant/.julia/v0.6/EMIRT/test/runtests.jl, in expression starting on line 2
 ================================[ ERROR: EMIRT ]================================
 
@@ -200,7 +253,7 @@ ERROR: EMIRT had test errors
  in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
  in test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
  in eval(::Module, ::Any) at ./boot.jl:238
- in process_options(::Base.JLOptions) at ./client.jl:245
- in _start() at ./client.jl:332
+ in process_options(::Base.JLOptions) at ./client.jl:248
+ in _start() at ./client.jl:335
 
 >>> End of log
