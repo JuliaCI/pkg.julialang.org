@@ -3,9 +3,9 @@ INFO: Cloning cache of GeoIP from https://github.com/JuliaWeb/GeoIP.jl.git
 INFO: Cloning cache of IPNets from https://github.com/JuliaWeb/IPNets.jl.git
 INFO: Installing BinDeps v0.4.5
 INFO: Installing BufferedStreams v0.2.0
+INFO: Installing CategoricalArrays v0.0.6
 INFO: Installing Codecs v0.2.0
-INFO: Installing DataArrays v0.3.9
-INFO: Installing DataFrames v0.8.4
+INFO: Installing DataFrames v0.9.0
 INFO: Installing FileIO v0.2.0
 INFO: Installing GZip v0.2.20
 INFO: Installing GeoIP v0.2.2
@@ -14,6 +14,7 @@ INFO: Installing HttpParser v0.2.0
 INFO: Installing IPNets v0.2.0
 INFO: Installing Libz v0.2.0
 INFO: Installing MbedTLS v0.3.0
+INFO: Installing NullableArrays v0.0.10
 INFO: Installing Reexport v0.0.3
 INFO: Installing Requests v0.3.11
 INFO: Installing SHA v0.2.1
@@ -25,8 +26,6 @@ INFO: Installing Zlib v0.1.12
 INFO: Building HttpParser
 INFO: Building MbedTLS
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of GeoIP
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("GeoIP")' log
 Julia Version 0.5.0
@@ -37,13 +36,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-98-generic #145-Ubuntu SMP Sat Oct 8 20:13:07 UTC 2016 x86_64 x86_64
-Memory: 2.939289093017578 GB (1422.40625 MB free)
-Uptime: 22767.0 sec
-Load Avg:  1.05078125  1.0693359375  1.0576171875
+Memory: 2.939289093017578 GB (1485.8984375 MB free)
+Uptime: 22647.0 sec
+Load Avg:  1.04443359375  1.02978515625  1.04052734375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    1351808 s       6581 s     128942 s     496488 s         26 s
-#2  3500 MHz     513555 s         44 s      67290 s    1630781 s          0 s
+#1  3500 MHz    1411723 s         72 s     125338 s     470204 s         10 s
+#2  3500 MHz     563632 s        102 s      65386 s    1563497 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -60,13 +59,13 @@ Package Directory: /home/vagrant/.julia/v0.5
 2 required packages:
  - GeoIP                         0.2.2
  - JSON                          0.8.0
-21 additional packages:
+22 additional packages:
  - BinDeps                       0.4.5
  - BufferedStreams               0.2.0
+ - CategoricalArrays             0.0.6
  - Codecs                        0.2.0
  - Compat                        0.9.2
- - DataArrays                    0.3.9
- - DataFrames                    0.8.4
+ - DataFrames                    0.9.0
  - FileIO                        0.2.0
  - GZip                          0.2.20
  - HttpCommon                    0.2.6
@@ -74,6 +73,7 @@ Package Directory: /home/vagrant/.julia/v0.5
  - IPNets                        0.2.0
  - Libz                          0.2.0
  - MbedTLS                       0.3.0
+ - NullableArrays                0.0.10
  - Reexport                      0.0.3
  - Requests                      0.3.11
  - SHA                           0.2.1
@@ -197,10 +197,14 @@ WARNING: readall is deprecated, use readstring instead.
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/GeoIP/test/runtests.jl, in expression starting on line 6
 INFO: Geolocation data not in memory. Loading...
-ERROR: LoadError: MethodError: no method matching Union(::Type{Integer}, ::Type{GeoIP.Location}, ::Type{DataArrays.NAtype}, ::Type{IPNets.IPv4Net}, ::Type{AbstractString})
-Closest candidates are:
-  Union{T}(::Any) at sysimg.jl:53
- in #geolocate#5(::Bool, ::Function, ::IPv4) at /home/vagrant/.julia/v0.5/GeoIP/src/geoip-module.jl:149
+ERROR: LoadError: MethodError: Cannot `convert` an object of type Nullable{String} to an object of type IPNets.IPv4Net
+This may have arisen from a call to the constructor IPNets.IPv4Net(...),
+since type constructors fall back to convert methods.
+ in _collect(::NullableArrays.NullableArray{String,1}, ::Base.Generator{NullableArrays.NullableArray{String,1},GeoIP.##1#2}, ::Base.EltypeUnknown, ::Base.HasShape) at ./array.jl:320
+ in #map#15 at /home/vagrant/.julia/v0.5/NullableArrays/src/map.jl:113 [inlined]
+ in map(::Function, ::NullableArrays.NullableArray{String,1}) at /home/vagrant/.julia/v0.5/NullableArrays/src/map.jl:113
+ in load() at /home/vagrant/.julia/v0.5/GeoIP/src/geoip-module.jl:112
+ in #geolocate#5(::Bool, ::Function, ::IPv4) at /home/vagrant/.julia/v0.5/GeoIP/src/geoip-module.jl:137
  in (::GeoIP.#kw##geolocate)(::Array{Any,1}, ::GeoIP.#geolocate, ::IPv4) at ./<missing>:0
  in include_from_node1(::String) at ./loading.jl:488
  in process_options(::Base.JLOptions) at ./client.jl:262
