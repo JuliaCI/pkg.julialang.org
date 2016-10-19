@@ -18,26 +18,23 @@ INFO: Installing URIParser v0.1.6
 INFO: Building Blosc
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-curl: (60) SSL certificate problem: unable to get local issuer certificate
-More details here: http://curl.haxx.se/docs/sslcerts.html
-
-curl performs SSL certificate verification by default, using a "bundle"
- of Certificate Authority (CA) public keys (CA certs). If the default
- bundle file isn't adequate, you can specify an alternate file
- using the --cacert option.
-If this HTTPS server uses a certificate signed by a CA represented in
- the bundle, the certificate verification probably failed due to a
- problem with the certificate (it might be expired, or the name might
- not match the domain name in the URL).
-If you'd like to turn off curl's verification of the certificate, use
- the -k (or --insecure) option.
-================================[ ERROR: Blosc ]================================
-
-LoadError: failed process: Process(`curl -f -o c-blosc-1.8.1.tar.gz -L https://github.com/Blosc/c-blosc/archive/v1.8.1.tar.gz`, ProcessExited(60)) [60]
-while loading /home/vagrant/.julia/v0.6/Blosc/deps/build.jl, in expression starting on line 18
-
-================================================================================
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   121    0   121    0     0   1415      0 --:--:-- --:--:-- --:--:--  1423
+100  261k  100  261k    0     0  1110k      0 --:--:-- --:--:-- --:--:-- 1110k
+Compiling libblosc...
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o bitshuffle-generic.o bitshuffle-generic.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o shuffle-generic.o shuffle-generic.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o shuffle.o shuffle.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o blosclz.o blosclz.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o blosc.o blosc.c
+echo "building with AVX2"
+building with AVX2
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -mavx2 -c -o bitshuffle-avx2.o bitshuffle-avx2.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -mavx2 -c -o shuffle-avx2.o shuffle-avx2.c
+echo "building without AVX2"
+building without AVX2
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -msse2 -c -o bitshuffle-sse2.o bitshuffle-sse2.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -msse2 -c -o shuffle-sse2.o shuffle-sse2.c
+gcc -fPIC -O3 -pthread -shared bitshuffle-generic.o shuffle-generic.o shuffle.o blosclz.o blosc.o bitshuffle-avx2.o shuffle-avx2.o bitshuffle-sse2.o shuffle-sse2.o -o ../../libblosc.so
 INFO: Building HDF5
 Installing dependency hdf5-tools via `sudo apt-get install hdf5-tools`:
 Reading package lists...
@@ -53,7 +50,7 @@ After this operation, 5,841 kB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu/ trusty/universe libhdf5-7 amd64 1.8.11-5ubuntu7 [1,205 kB]
 Get:2 http://archive.ubuntu.com/ubuntu/ trusty/universe hdf5-tools amd64 1.8.11-5ubuntu7 [342 kB]
 dpkg-preconfigure: unable to re-open stdin: No such file or directory
-Fetched 1,547 kB in 0s (2,283 kB/s)
+Fetched 1,547 kB in 0s (2,205 kB/s)
 Selecting previously unselected package libhdf5-7:amd64.
 (Reading database ... 71169 files and directories currently installed.)
 Preparing to unpack .../libhdf5-7_1.8.11-5ubuntu7_amd64.deb ...
@@ -65,34 +62,24 @@ Processing triggers for man-db (2.6.7.1-1ubuntu1) ...
 Setting up libhdf5-7:amd64 (1.8.11-5ubuntu7) ...
 Setting up hdf5-tools (1.8.11-5ubuntu7) ...
 Processing triggers for libc-bin (2.19-0ubuntu6.9) ...
-
-================================[ BUILD ERRORS ]================================
-
-WARNING: Blosc had build errors.
-
- - packages with build errors remain installed in /home/vagrant/.julia/v0.6
- - build the package(s) and all dependencies with `Pkg.build("Blosc")`
- - build a single package by running its `deps/build.jl` script
-
-================================================================================
 INFO: Package database updated
 
 >>> 'Pkg.test("Maker")' log
-Julia Version 0.6.0-dev.999
-Commit 6a76dc7 (2016-10-17 21:39 UTC)
+Julia Version 0.6.0-dev.1031
+Commit 90a3740 (2016-10-19 02:14 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-98-generic #145-Ubuntu SMP Sat Oct 8 20:13:07 UTC 2016 x86_64 x86_64
-Memory: 2.939289093017578 GB (1049.23046875 MB free)
-Uptime: 1126.0 sec
-Load Avg:  0.32958984375  0.20361328125  0.1513671875
+Memory: 2.939289093017578 GB (1025.64453125 MB free)
+Uptime: 1648.0 sec
+Load Avg:  0.47705078125  0.20654296875  0.14794921875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3507 MHz       9915 s        113 s       2802 s      95176 s          0 s
-#2  3507 MHz       2462 s         38 s       1670 s     107048 s          0 s
+#1  3496 MHz       9906 s         69 s       2448 s     148902 s          0 s
+#2  3496 MHz       2183 s         77 s       1482 s     159696 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -112,7 +99,7 @@ Package Directory: /home/vagrant/.julia/v0.6
 9 additional packages:
  - BinDeps                       0.4.5
  - Blosc                         0.1.7
- - Compat                        0.9.2
+ - Compat                        0.9.3
  - FileIO                        0.2.0
  - HDF5                          0.6.6
  - JLD                           0.6.4
@@ -123,53 +110,240 @@ INFO: Computing test dependencies for Maker...
 INFO: Cloning cache of Glob from https://github.com/vtjnash/Glob.jl.git
 INFO: Installing Glob v1.0.2
 INFO: Testing Maker
-ERROR: LoadError: error compiling __init__: could not load library "/home/vagrant/.julia/v0.6/Blosc/src/../deps/libblosc"
-/home/vagrant/.julia/v0.6/Blosc/src/../deps/libblosc.so: cannot open shared object file: No such file or directory
+WARNING: could not import Base.lastidx into LegacyStrings
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/targets.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/targets.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/targets.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/targets.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/targets.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/targets.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/targets.jl:28
+WARNING: Base.writemime is deprecated.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/targets.jl:113
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/task.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/task.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/task.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/task.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/task.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/task.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/phony.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/phony.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/phony.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/phony.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/phony.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/phony.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/directory.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/directory.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/directory.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/directory.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/directory.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/directory.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/file.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/file.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/file.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/file.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/file.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/file.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/variable.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/variable.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/variable.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/variable.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/variable.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/src/variable.jl:480
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:9
+in target at /home/vagrant/.julia/v0.6/Maker/src/abstracttarget.jl
+WARNING: utf8(s::AbstractString) is deprecated, use String(s) instead.
+ in depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ in utf8(::String) at ./deprecated.jl:50
+ in target(::Type{Maker.FileTarget}, ::String, ::Function, ::Array{String,1}) at /home/vagrant/.julia/v0.6/Maker/src/abstracttarget.jl:190
+ in file(::Function, ::String, ::Array{String,1}) at /home/vagrant/.julia/v0.6/Maker/src/file.jl:87
  in include_from_node1(::String) at ./loading.jl:532
  in include(::String) at ./sysimg.jl:14
- in anonymous at ./<missing>:2
- in eval(::Module, ::Any) at ./boot.jl:238
- in process_options(::Base.JLOptions) at ./client.jl:248
- in _start() at ./client.jl:335
-while loading /home/vagrant/.julia/v0.6/Blosc/src/Blosc.jl, in expression starting on line 217
-ERROR: LoadError: LoadError: LoadError: Failed to precompile Blosc to /home/vagrant/.julia/lib/v0.6/Blosc.ji.
- in compilecache(::String) at ./loading.jl:672
- in require(::Symbol) at ./loading.jl:424
- in include_from_node1(::String) at ./loading.jl:532
- in include(::String) at ./sysimg.jl:14
- in include_from_node1(::String) at ./loading.jl:532
- in include(::String) at ./sysimg.jl:14
- in include_from_node1(::String) at ./loading.jl:532
- in include(::String) at ./sysimg.jl:14
- in anonymous at ./<missing>:2
- in eval(::Module, ::Any) at ./boot.jl:238
- in process_options(::Base.JLOptions) at ./client.jl:248
- in _start() at ./client.jl:335
-while loading /home/vagrant/.julia/v0.6/HDF5/src/blosc_filter.jl, in expression starting on line 1
-while loading /home/vagrant/.julia/v0.6/HDF5/src/plain.jl, in expression starting on line 522
-while loading /home/vagrant/.julia/v0.6/HDF5/src/HDF5.jl, in expression starting on line 3
-ERROR: LoadError: Failed to precompile HDF5 to /home/vagrant/.julia/lib/v0.6/HDF5.ji.
- in compilecache(::String) at ./loading.jl:672
- in require(::Symbol) at ./loading.jl:424
- in include_from_node1(::String) at ./loading.jl:532
- in include(::String) at ./sysimg.jl:14
- in anonymous at ./<missing>:2
- in eval(::Module, ::Any) at ./boot.jl:238
- in process_options(::Base.JLOptions) at ./client.jl:248
- in _start() at ./client.jl:335
-while loading /home/vagrant/.julia/v0.6/JLD/src/JLD.jl, in expression starting on line 8
-ERROR: LoadError: LoadError: Failed to precompile JLD to /home/vagrant/.julia/lib/v0.6/JLD.ji.
- in compilecache(::String) at ./loading.jl:672
- in require(::Symbol) at ./loading.jl:453
- in include_from_node1(::String) at ./loading.jl:532
- in eval(::Module, ::Any) at ./boot.jl:238
- in require(::Symbol) at ./loading.jl:446
  in include_from_node1(::String) at ./loading.jl:532
  in include(::String) at ./sysimg.jl:14
  in process_options(::Base.JLOptions) at ./client.jl:271
  in _start() at ./client.jl:335
-while loading /home/vagrant/.julia/v0.6/Maker/src/Maker.jl, in expression starting on line 3
-while loading /home/vagrant/.julia/v0.6/Maker/test/runtests.jl, in expression starting on line 1
+while loading /home/vagrant/.julia/v0.6/Maker/test/example.jl, in expression starting on line 9
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:17
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:17
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:17
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:17
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:17
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:17
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:17
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:17
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:17
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:17
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:17
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:17
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:17
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:17
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:17
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:17
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:17
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:17
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:17
+WARNING: utf8(s::AbstractString) is deprecated, use String(s) instead.
+ in depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ in utf8(::String) at ./deprecated.jl:50
+ in variable(::Function, ::String, ::String) at /home/vagrant/.julia/v0.6/Maker/src/variable.jl:126
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in process_options(::Base.JLOptions) at ./client.jl:271
+ in _start() at ./client.jl:335
+while loading /home/vagrant/.julia/v0.6/Maker/test/example.jl, in expression starting on line 17
+WARNING: Base.UTF8String is deprecated, use String instead.
+  likely near /home/vagrant/.julia/v0.6/Maker/test/example.jl:17
+in variable at /home/vagrant/.julia/v0.6/Maker/src/variable.jl
+WARNING: utf8(s::AbstractString) is deprecated, use String(s) instead.
+ in depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ in utf8(::String) at ./deprecated.jl:50
+ in variable(::Function, ::String, ::Array{String,1}) at /home/vagrant/.julia/v0.6/Maker/src/variable.jl:100
+ in variable(::Function, ::String, ::String) at /home/vagrant/.julia/v0.6/Maker/src/variable.jl:126
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in process_options(::Base.JLOptions) at ./client.jl:271
+ in _start() at ./client.jl:335
+while loading /home/vagrant/.julia/v0.6/Maker/test/example.jl, in expression starting on line 17
+ERROR: LoadError: LoadError: UndefRefError: access to undefined reference
+ in datatype_pointerfree(::DataType) at ./reflection.jl:189
+ in _gen_jlconvert_immutable(::JLD.JldTypeInfo, ::Any) at /home/vagrant/.julia/v0.6/JLD/src/jld_types.jl:493
+ in gen_jlconvert(::JLD.JldTypeInfo, ::Any) at /home/vagrant/.julia/v0.6/JLD/src/jld_types.jl:553
+ in jldatatype(::JLD.JldFile, ::HDF5.HDF5Datatype) at /home/vagrant/.julia/v0.6/JLD/src/jld_types.jl:696
+ in read(::JLD.JldDataset) at /home/vagrant/.julia/v0.6/JLD/src/JLD.jl:390
+ in read_ref(::JLD.JldFile, ::HDF5.HDF5ReferenceObj) at /home/vagrant/.julia/v0.6/JLD/src/JLD.jl:518
+ in jlconvert(::Type{Maker.CacheInfo}, ::JLD.JldFile, ::Ptr{UInt8}) at /home/vagrant/.julia/v0.6/JLD/src/jld_types.jl:510
+ in read_scalar(::JLD.JldDataset, ::HDF5.HDF5Datatype, ::Type{T}) at /home/vagrant/.julia/v0.6/JLD/src/JLD.jl:418
+ in read(::JLD.JldDataset) at /home/vagrant/.julia/v0.6/JLD/src/JLD.jl:390
+ in read(::JLD.JldFile, ::String) at /home/vagrant/.julia/v0.6/JLD/src/JLD.jl:366
+ in getjld(::Maker.##23#24{String,UInt64}) at /home/vagrant/.julia/v0.6/Maker/src/abstracttarget.jl:47
+ in variable(::Function, ::String, ::Array{String,1}) at /home/vagrant/.julia/v0.6/Maker/src/variable.jl:107
+ in variable(::Function, ::String, ::String) at /home/vagrant/.julia/v0.6/Maker/src/variable.jl:126
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in process_options(::Base.JLOptions) at ./client.jl:271
+ in _start() at ./client.jl:335
+while loading /home/vagrant/.julia/v0.6/Maker/test/example.jl, in expression starting on line 17
+while loading /home/vagrant/.julia/v0.6/Maker/test/runtests.jl, in expression starting on line 6
 ================================[ ERROR: Maker ]================================
 
 failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Maker/test/runtests.jl`, ProcessExited(1)) [1]
@@ -185,7 +359,7 @@ ERROR: Maker had test errors
  in (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
  in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
  in test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
- in eval(::Module, ::Any) at ./boot.jl:238
+ in eval(::Module, ::Any) at ./boot.jl:236
  in process_options(::Base.JLOptions) at ./client.jl:248
  in _start() at ./client.jl:335
 

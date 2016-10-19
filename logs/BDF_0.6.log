@@ -10,26 +10,23 @@ INFO: Installing URIParser v0.1.6
 INFO: Building Blosc
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-curl: (60) SSL certificate problem: unable to get local issuer certificate
-More details here: http://curl.haxx.se/docs/sslcerts.html
-
-curl performs SSL certificate verification by default, using a "bundle"
- of Certificate Authority (CA) public keys (CA certs). If the default
- bundle file isn't adequate, you can specify an alternate file
- using the --cacert option.
-If this HTTPS server uses a certificate signed by a CA represented in
- the bundle, the certificate verification probably failed due to a
- problem with the certificate (it might be expired, or the name might
- not match the domain name in the URL).
-If you'd like to turn off curl's verification of the certificate, use
- the -k (or --insecure) option.
-================================[ ERROR: Blosc ]================================
-
-LoadError: failed process: Process(`curl -f -o c-blosc-1.8.1.tar.gz -L https://github.com/Blosc/c-blosc/archive/v1.8.1.tar.gz`, ProcessExited(60)) [60]
-while loading /home/vagrant/.julia/v0.6/Blosc/deps/build.jl, in expression starting on line 18
-
-================================================================================
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   121    0   121    0     0   1223      0 --:--:-- --:--:-- --:--:--  1234
+100  261k  100  261k    0     0  1066k      0 --:--:-- --:--:-- --:--:-- 1066k
+Compiling libblosc...
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o bitshuffle-generic.o bitshuffle-generic.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o shuffle-generic.o shuffle-generic.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o shuffle.o shuffle.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o blosclz.o blosclz.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -c -o blosc.o blosc.c
+echo "building with AVX2"
+building with AVX2
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -mavx2 -c -o bitshuffle-avx2.o bitshuffle-avx2.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -mavx2 -c -o shuffle-avx2.o shuffle-avx2.c
+echo "building without AVX2"
+building without AVX2
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -msse2 -c -o bitshuffle-sse2.o bitshuffle-sse2.c
+gcc -I. -DBLOSC_SHARED_LIBRARY -DSHUFFLE_AVX2_ENABLED -DSHUFFLE_SSE2_ENABLED -fPIC -O3 -pthread -msse2 -c -o shuffle-sse2.o shuffle-sse2.c
+gcc -fPIC -O3 -pthread -shared bitshuffle-generic.o shuffle-generic.o shuffle.o blosclz.o blosc.o bitshuffle-avx2.o shuffle-avx2.o bitshuffle-sse2.o shuffle-sse2.o -o ../../libblosc.so
 INFO: Building HDF5
 Installing dependency hdf5-tools via `sudo apt-get install hdf5-tools`:
 Reading package lists...
@@ -45,7 +42,7 @@ After this operation, 5,841 kB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu/ trusty/universe libhdf5-7 amd64 1.8.11-5ubuntu7 [1,205 kB]
 Get:2 http://archive.ubuntu.com/ubuntu/ trusty/universe hdf5-tools amd64 1.8.11-5ubuntu7 [342 kB]
 dpkg-preconfigure: unable to re-open stdin: No such file or directory
-Fetched 1,547 kB in 0s (2,058 kB/s)
+Fetched 1,547 kB in 1s (830 kB/s)
 Selecting previously unselected package libhdf5-7:amd64.
 (Reading database ... 71169 files and directories currently installed.)
 Preparing to unpack .../libhdf5-7_1.8.11-5ubuntu7_amd64.deb ...
@@ -57,34 +54,24 @@ Processing triggers for man-db (2.6.7.1-1ubuntu1) ...
 Setting up libhdf5-7:amd64 (1.8.11-5ubuntu7) ...
 Setting up hdf5-tools (1.8.11-5ubuntu7) ...
 Processing triggers for libc-bin (2.19-0ubuntu6.9) ...
-
-================================[ BUILD ERRORS ]================================
-
-WARNING: Blosc had build errors.
-
- - packages with build errors remain installed in /home/vagrant/.julia/v0.6
- - build the package(s) and all dependencies with `Pkg.build("Blosc")`
- - build a single package by running its `deps/build.jl` script
-
-================================================================================
 INFO: Package database updated
 
 >>> 'Pkg.test("BDF")' log
-Julia Version 0.6.0-dev.999
-Commit 6a76dc7 (2016-10-17 21:39 UTC)
+Julia Version 0.6.0-dev.1031
+Commit 90a3740 (2016-10-19 02:14 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-98-generic #145-Ubuntu SMP Sat Oct 8 20:13:07 UTC 2016 x86_64 x86_64
-Memory: 2.939289093017578 GB (662.02734375 MB free)
-Uptime: 5550.0 sec
-Load Avg:  0.26904296875  0.1728515625  0.333984375
+Memory: 2.939289093017578 GB (766.296875 MB free)
+Uptime: 5626.0 sec
+Load Avg:  0.34521484375  0.19482421875  0.36767578125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz     117323 s         64 s      16790 s     397698 s          4 s
-#2  3499 MHz      38699 s         76 s       6732 s     505101 s          0 s
+#1  3501 MHz     142024 s        112 s      24785 s     370309 s          3 s
+#2  3501 MHz      18963 s         41 s       6784 s     532289 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -104,64 +91,12 @@ Package Directory: /home/vagrant/.julia/v0.6
 7 additional packages:
  - BinDeps                       0.4.5
  - Blosc                         0.1.7
- - Compat                        0.9.2
+ - Compat                        0.9.3
  - Docile                        0.5.23
  - HDF5                          0.6.6
  - SHA                           0.2.1
  - URIParser                     0.1.6
 INFO: Testing BDF
-ERROR: LoadError: error compiling __init__: could not load library "/home/vagrant/.julia/v0.6/Blosc/src/../deps/libblosc"
-/home/vagrant/.julia/v0.6/Blosc/src/../deps/libblosc.so: cannot open shared object file: No such file or directory
- in include_from_node1(::String) at ./loading.jl:532
- in include(::String) at ./sysimg.jl:14
- in anonymous at ./<missing>:2
- in eval(::Module, ::Any) at ./boot.jl:238
- in process_options(::Base.JLOptions) at ./client.jl:248
- in _start() at ./client.jl:335
-while loading /home/vagrant/.julia/v0.6/Blosc/src/Blosc.jl, in expression starting on line 217
-ERROR: LoadError: LoadError: LoadError: Failed to precompile Blosc to /home/vagrant/.julia/lib/v0.6/Blosc.ji.
- in compilecache(::String) at ./loading.jl:672
- in require(::Symbol) at ./loading.jl:424
- in include_from_node1(::String) at ./loading.jl:532
- in include(::String) at ./sysimg.jl:14
- in include_from_node1(::String) at ./loading.jl:532
- in include(::String) at ./sysimg.jl:14
- in include_from_node1(::String) at ./loading.jl:532
- in include(::String) at ./sysimg.jl:14
- in anonymous at ./<missing>:2
- in eval(::Module, ::Any) at ./boot.jl:238
- in process_options(::Base.JLOptions) at ./client.jl:248
- in _start() at ./client.jl:335
-while loading /home/vagrant/.julia/v0.6/HDF5/src/blosc_filter.jl, in expression starting on line 1
-while loading /home/vagrant/.julia/v0.6/HDF5/src/plain.jl, in expression starting on line 522
-while loading /home/vagrant/.julia/v0.6/HDF5/src/HDF5.jl, in expression starting on line 3
-ERROR: LoadError: LoadError: Failed to precompile HDF5 to /home/vagrant/.julia/lib/v0.6/HDF5.ji.
- in compilecache(::String) at ./loading.jl:672
- in require(::Symbol) at ./loading.jl:453
- in include_from_node1(::String) at ./loading.jl:532
- in include(::String) at ./sysimg.jl:14
- in include_from_node1(::String) at ./loading.jl:532
- in include(::String) at ./sysimg.jl:14
- in process_options(::Base.JLOptions) at ./client.jl:271
- in _start() at ./client.jl:335
-while loading /home/vagrant/.julia/v0.6/BDF/test/test_eq.jl, in expression starting on line 1
-while loading /home/vagrant/.julia/v0.6/BDF/test/runtests.jl, in expression starting on line 5
-=================================[ ERROR: BDF ]=================================
-
-failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/BDF/test/runtests.jl`, ProcessExited(1)) [1]
-
-================================================================================
-ERROR: BDF had test errors
- in #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:749
- in (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
- in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
- in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:69
- in #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
- in (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
- in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
- in test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
- in eval(::Module, ::Any) at ./boot.jl:238
- in process_options(::Base.JLOptions) at ./client.jl:248
- in _start() at ./client.jl:335
+INFO: BDF tests passed
 
 >>> End of log
