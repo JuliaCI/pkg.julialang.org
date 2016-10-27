@@ -1,9 +1,11 @@
 >>> 'Pkg.add("ParallelAccelerator")' log
 INFO: Cloning cache of CompilerTools from https://github.com/IntelLabs/CompilerTools.jl.git
+INFO: Cloning cache of DocOpt from https://github.com/docopt/DocOpt.jl.git
 INFO: Cloning cache of ParallelAccelerator from https://github.com/IntelLabs/ParallelAccelerator.jl.git
-INFO: Installing CompilerTools v0.1.7
+INFO: Installing CompilerTools v0.2.0
 INFO: Installing DataStructures v0.4.6
-INFO: Installing ParallelAccelerator v0.1.9
+INFO: Installing DocOpt v0.2.0
+INFO: Installing ParallelAccelerator v0.2.0
 INFO: Building ParallelAccelerator
 ParallelAccelerator: build.jl begin.
 ParallelAccelerator: Building j2c-array shared library
@@ -11,6 +13,8 @@ System installed BLAS found
 Using g++ to build ParallelAccelerator array runtime.
 ParallelAccelerator: build.jl done.
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of ParallelAccelerator
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("ParallelAccelerator")' log
 Julia Version 0.5.0
@@ -21,13 +25,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-100-generic #147-Ubuntu SMP Tue Oct 18 16:48:51 UTC 2016 x86_64 x86_64
-Memory: 2.939289093017578 GB (800.84765625 MB free)
-Uptime: 11366.0 sec
-Load Avg:  1.09033203125  1.029296875  1.048828125
+Memory: 2.939289093017578 GB (659.1171875 MB free)
+Uptime: 12146.0 sec
+Load Avg:  0.8720703125  0.9560546875  0.95263671875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz     655565 s       4696 s      88007 s     269014 s         14 s
-#2  3499 MHz     186295 s       1900 s      37614 s     887191 s          0 s
+#1  3499 MHz     701900 s       4811 s      69033 s     293883 s         18 s
+#2  3499 MHz     210044 s       3670 s      35991 s     938491 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -43,13 +47,13 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.5
 2 required packages:
  - JSON                          0.8.0
- - ParallelAccelerator           0.1.9
-3 additional packages:
+ - ParallelAccelerator           0.2.0
+4 additional packages:
  - Compat                        0.9.3
- - CompilerTools                 0.1.7
+ - CompilerTools                 0.2.0
  - DataStructures                0.4.6
+ - DocOpt                        0.2.0
 INFO: Computing test dependencies for ParallelAccelerator...
-INFO: Cloning cache of DocOpt from https://github.com/docopt/DocOpt.jl.git
 INFO: Cloning cache of ImageMagick from https://github.com/JuliaIO/ImageMagick.jl.git
 INFO: Installing BinDeps v0.4.5
 INFO: Installing Cairo v0.2.35
@@ -57,7 +61,6 @@ INFO: Installing ColorTypes v0.2.12
 INFO: Installing ColorVectorSpace v0.1.11
 INFO: Installing Colors v0.6.9
 INFO: Installing Dates v0.4.4
-INFO: Installing DocOpt v0.2.0
 INFO: Installing FileIO v0.2.0
 INFO: Installing FixedPointNumbers v0.2.1
 INFO: Installing Graphics v0.1.3
@@ -109,7 +112,7 @@ Get:11 http://archive.ubuntu.com/ubuntu/ trusty-updates/main libgs9-common all 9
 Get:12 http://archive.ubuntu.com/ubuntu/ trusty-updates/main libgs9 amd64 9.10~dfsg-0ubuntu10.4 [1,943 kB]
 Get:13 http://archive.ubuntu.com/ubuntu/ trusty-updates/main ghostscript amd64 9.10~dfsg-0ubuntu10.4 [40.8 kB]
 dpkg-preconfigure: unable to re-open stdin: No such file or directory
-Fetched 8,186 kB in 18s (448 kB/s)
+Fetched 8,186 kB in 2s (3,884 kB/s)
 Selecting previously unselected package imagemagick-common.
 (Reading database ... 71275 files and directories currently installed.)
 Preparing to unpack .../imagemagick-common_8%3a6.7.7.10-6ubuntu3.1_all.deb ...
@@ -198,6 +201,10 @@ Testing sequential code...
 Done testing sequential code.
 Testing cat...
 Done testing cat.
+Testing hcat...
+Done testing hcat.
+Testing vcat...
+Done testing vcat.
 Testing ranges...
 Done testing ranges.
 Testing miscellaneous features...
@@ -209,36 +216,32 @@ Done testing complex number support.
 Testing println()...
 Done testing println().
 Testing strings...
-/tmp/tmpku2o8D/cgen_output64.cpp:18:254: warning: integer constant is so large that it is unsigned [enabled by default]
- static uint64_t _Base_powers_of_ten_[20] = {1,10,100,1000,10000,100000,1000000,10000000,100000000,1000000000,10000000000,100000000000,1000000000000,10000000000000,100000000000000,1000000000000000,10000000000000000,100000000000000000,1000000000000000000,10000000000000000000};
-                                                                                                                                                                                                                                                              ^
 Done testing strings...
 Testing logistic regression...
 Done testing logistic regression...
 Testing kmeans...
-OptFramework failed to optimize function TestKmeans.##kmeans#1113 in optimization pass ParallelAccelerator.Driver.toCGen with error Could determine type for arg 2 to call .Base.isa with name Base.SizeUnknown
 Done testing kmeans...
 testing gemv...
-/tmp/tmpku2o8D/cgen_output67.cpp: In function ‘void ppgemv_t2p1148(j2c_array<double>&, j2c_array<double>&, j2c_array<double>*)’:
-/tmp/tmpku2o8D/cgen_output67.cpp:28:68: error: ‘cblas_domatcopy’ was not declared in this scope
-              A.data, A.ARRAYSIZE(1), SSAValue0.data, A.ARRAYSIZE(2)), SSAValue0);
+/tmp/tmpjMV2ew/cgen_output70.cpp: In function ‘void ppgemv_t2p1187(j2c_array<double>&, j2c_array<double>&, j2c_array<double>*)’:
+/tmp/tmpjMV2ew/cgen_output70.cpp:29:68: error: ‘cblas_domatcopy’ was not declared in this scope
+              A.data, A.ARRAYSIZE(1), SSAValue0.data, A.ARRAYSIZE(2));
                                                                     ^
-/tmp/tmpku2o8D/cgen_output67.cpp: In function ‘void ppgemv_t2p1148_unaliased(j2c_array<double>&, j2c_array<double>&, j2c_array<double>*)’:
-/tmp/tmpku2o8D/cgen_output67.cpp:46:68: error: ‘cblas_domatcopy’ was not declared in this scope
-              A.data, A.ARRAYSIZE(1), SSAValue0.data, A.ARRAYSIZE(2)), SSAValue0);
+/tmp/tmpjMV2ew/cgen_output70.cpp: In function ‘void ppgemv_t2p1187_unaliased(j2c_array<double>&, j2c_array<double>&, j2c_array<double>*)’:
+/tmp/tmpjMV2ew/cgen_output70.cpp:48:68: error: ‘cblas_domatcopy’ was not declared in this scope
+              A.data, A.ARRAYSIZE(1), SSAValue0.data, A.ARRAYSIZE(2));
                                                                     ^
-OptFramework failed to optimize function TestGemv.##gemv_t2#1148 in optimization pass ParallelAccelerator.Driver.toCGen with error ErrorException("failed process: Process(`g++ -O3 -fopenmp -std=c++11 -g -fpic -c -o /tmp/tmpku2o8D/cgen_output67.o /tmp/tmpku2o8D/cgen_output67.cpp`, ProcessExited(1)) [1]")
+OptFramework failed to optimize function TestGemv.##gemv_t2#1187 in optimization pass ParallelAccelerator.Driver.toCGen with error ErrorException("failed process: Process(`g++ -O3 -fopenmp -std=c++11 -g -fpic -c -o /tmp/tmpjMV2ew/cgen_output70.o /tmp/tmpjMV2ew/cgen_output70.cpp`, ProcessExited(1)) [1]")
 Done testing gemv.
 testing transpose...
-/tmp/tmpku2o8D/cgen_output68.cpp: In function ‘void pptranspose_tp1160(j2c_array<double>&, j2c_array<double>*)’:
-/tmp/tmpku2o8D/cgen_output68.cpp:25:68: error: ‘cblas_domatcopy’ was not declared in this scope
-              A.data, A.ARRAYSIZE(1), SSAValue0.data, A.ARRAYSIZE(2)), SSAValue0);
+/tmp/tmpjMV2ew/cgen_output71.cpp: In function ‘void pptranspose_tp1199(j2c_array<double>&, j2c_array<double>*)’:
+/tmp/tmpjMV2ew/cgen_output71.cpp:26:68: error: ‘cblas_domatcopy’ was not declared in this scope
+              A.data, A.ARRAYSIZE(1), SSAValue0.data, A.ARRAYSIZE(2));
                                                                     ^
-/tmp/tmpku2o8D/cgen_output68.cpp: In function ‘void pptranspose_tp1160_unaliased(j2c_array<double>&, j2c_array<double>*)’:
-/tmp/tmpku2o8D/cgen_output68.cpp:35:68: error: ‘cblas_domatcopy’ was not declared in this scope
-              A.data, A.ARRAYSIZE(1), SSAValue0.data, A.ARRAYSIZE(2)), SSAValue0);
+/tmp/tmpjMV2ew/cgen_output71.cpp: In function ‘void pptranspose_tp1199_unaliased(j2c_array<double>&, j2c_array<double>*)’:
+/tmp/tmpjMV2ew/cgen_output71.cpp:37:68: error: ‘cblas_domatcopy’ was not declared in this scope
+              A.data, A.ARRAYSIZE(1), SSAValue0.data, A.ARRAYSIZE(2));
                                                                     ^
-OptFramework failed to optimize function TestTranspose.##transpose_t#1160 in optimization pass ParallelAccelerator.Driver.toCGen with error ErrorException("failed process: Process(`g++ -O3 -fopenmp -std=c++11 -g -fpic -c -o /tmp/tmpku2o8D/cgen_output68.o /tmp/tmpku2o8D/cgen_output68.cpp`, ProcessExited(1)) [1]")
+OptFramework failed to optimize function TestTranspose.##transpose_t#1199 in optimization pass ParallelAccelerator.Driver.toCGen with error ErrorException("failed process: Process(`g++ -O3 -fopenmp -std=c++11 -g -fpic -c -o /tmp/tmpjMV2ew/cgen_output71.o /tmp/tmpjMV2ew/cgen_output71.cpp`, ProcessExited(1)) [1]")
 Done testing transpose.
 testing vecnorm...
 Done testing vecnorm.
@@ -246,33 +249,33 @@ Testing broadcast...
 test3 C = [1 2 3; 8 10 12]
 Done testing broadcast.
 iterations = 10000000
-SELFPRIMED 3.503843019
+SELFPRIMED 2.811372082
 checksum: 2.0954821257116845e8
-rate = 7.863518174171854e6 opts/sec
-SELFTIMED 1.271695414
+rate = 8.2148779761820035e6 opts/sec
+SELFTIMED 1.217303535
 points= 10000000
-SELFPRIMED 1.787911497
-pi = 3.1415416
-SELFTIMED 0.345778573
+SELFPRIMED 1.270306078
+pi = 3.1417504
+SELFTIMED 0.282117235
 nframes = 2
 filenames = String["small_001.dat","small_002.dat"]
 checksums = Float32[80751.4,80818.0]
 Image size: 584x388
-SELFPRIMED 15.542135794
-checksum: -286095.5 -210069.86
-SELFTIMED 8.957044483
+SELFPRIMED 11.167895928
+checksum: -286138.94 -210112.47
+SELFTIMED 16.457050306
 iterations = 30
 centers= 5
 number of points = 50000
-SELFPRIMED 3.013975151
-result = [0.550518 0.491559 0.512401 0.416729 0.516948; 0.443144 0.54598 0.443372 0.474382 0.599143; 0.523589 0.510541 0.432709 0.420552 0.609898; 0.27878 0.251388 0.697521 0.603299 0.709105; 0.505151 0.487926 0.53207 0.576389 0.39696; 0.529517 0.457002 0.588895 0.509114 0.430231; 0.474926 0.528931 0.469865 0.550525 0.471435; 0.416619 0.597571 0.414441 0.549895 0.527644; 0.437241 0.537206 0.471848 0.632742 0.415957; 0.541273 0.471004 0.531447 0.384136 0.562982; 0.65559 0.417251 0.644148 0.41706 0.354191; 0.444649 0.531469 0.50549 0.60174 0.415748; 0.283736 0.732028 0.741101 0.289325 0.414518; 0.489723 0.508671 0.499944 0.504859 0.501324; 0.474143 0.490726 0.519394 0.597505 0.416617; 0.493119 0.528369 0.442351 0.409039 0.618865; 0.504821 0.492638 0.532319 0.530064 0.436993; 0.527939 0.506885 0.48785 0.47497 0.509441; 0.557578 0.456598 0.53927 0.403592 0.537608; 0.532761 0.503972 0.497483 0.469805 0.501837]
-rate = 16.466977096959244 iterations/sec
-SELFTIMED 1.821828003
+SELFPRIMED 2.880744099
+result = [0.605697 0.455677 0.440852 0.324435 0.672062; 0.547413 0.482514 0.430187 0.46956 0.57704; 0.412035 0.568482 0.504717 0.479299 0.5273; 0.525172 0.453118 0.510891 0.566618 0.451219; 0.606096 0.412967 0.499202 0.506867 0.478402; 0.625856 0.376971 0.460525 0.476284 0.587037; 0.517913 0.56792 0.77073 0.222456 0.40357; 0.404097 0.623032 0.480428 0.472538 0.521233; 0.732793 0.767169 0.27975 0.402618 0.295401; 0.41779 0.574607 0.436149 0.477119 0.587563; 0.52169 0.475611 0.488244 0.49591 0.521844; 0.624784 0.411734 0.513359 0.472185 0.481009; 0.474353 0.528518 0.442928 0.461882 0.596003; 0.426897 0.542008 0.527312 0.477062 0.530116; 0.525149 0.45936 0.567875 0.587685 0.354184; 0.425731 0.545223 0.49886 0.4921 0.52704; 0.490623 0.536754 0.474318 0.446069 0.551693; 0.540049 0.481761 0.460913 0.461328 0.567535; 0.453817 0.511303 0.487871 0.558704 0.484339; 0.477912 0.533602 0.498334 0.415127 0.583615]
+rate = 12.540673568932728 iterations/sec
+SELFTIMED 2.392216003
 iterations = 50
-SELFPRIMED 3.023435881
-result = [1100.28 1042.01 1049.67 1110.67 1035.11 1130.78 1159.99 1108.24 1105.95 1104.31]
-rate = 1300.2677667417406 iterations/sec
-SELFTIMED 0.038453618
+SELFPRIMED 2.542174852
+result = [814.499 786.251 852.051 846.481 776.273 836.677 766.09 757.454 788.041 804.38]
+rate = 1180.5960909943965 iterations/sec
+SELFTIMED 0.042351487
 in -3
 Hello world!
 INFO: ParallelAccelerator tests passed
@@ -282,7 +285,6 @@ INFO: Removing ColorTypes v0.2.12
 INFO: Removing ColorVectorSpace v0.1.11
 INFO: Removing Colors v0.6.9
 INFO: Removing Dates v0.4.4
-INFO: Removing DocOpt v0.2.0
 INFO: Removing FileIO v0.2.0
 INFO: Removing FixedPointNumbers v0.2.1
 INFO: Removing Graphics v0.1.3
