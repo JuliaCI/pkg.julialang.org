@@ -33,7 +33,7 @@ INFO: Building Plots
 INFO: Cannot find deps/plotly-latest.min.js... downloading latest version.
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 1767k  100 1767k    0     0  2449k      0 --:--:-- --:--:-- --:--:-- 2451k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 1767k  100 1767k    0     0  9662k      0 --:--:-- --:--:-- --:--:-- 9710k
 INFO: Package database updated
 
 >>> 'Pkg.test("ApproxFun")' log
@@ -45,13 +45,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-100-generic #147-Ubuntu SMP Tue Oct 18 16:48:51 UTC 2016 x86_64 x86_64
-Memory: 2.939289093017578 GB (521.87109375 MB free)
-Uptime: 2689.0 sec
-Load Avg:  0.92041015625  0.90869140625  0.82275390625
+Memory: 2.939289093017578 GB (513.81640625 MB free)
+Uptime: 2801.0 sec
+Load Avg:  0.92431640625  0.99609375  0.8935546875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz      98613 s         52 s      22428 s     124206 s          6 s
-#2  3500 MHz      58576 s         94 s      17293 s     181275 s          0 s
+#1  3499 MHz      96767 s         98 s      20540 s     139151 s          4 s
+#2  3499 MHz      52272 s         42 s      14743 s     206484 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -130,6 +130,10 @@ WARNING: could not attach metadata for @simd loop.
 WARNING: could not attach metadata for @simd loop.
 Extras tests
 Multivariate tests
+    Calculus tests
+PDE tests
+    Poisson tests
+    Kron tests
 
 signal (15): Terminated
 while loading no file, in expression starting on line 0
@@ -140,10 +144,13 @@ uv_run at /home/centos/buildbot/slave/package_tarball64/build/deps/srccache/libu
 process_events at ./libuv.jl:82
 wait at ./event.jl:147
 wait at ./event.jl:27
-unknown function (ip: 0x7fd875be3e3b)
+unknown function (ip: 0x7f3a5bf09e3b)
 jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:189 [inlined]
 jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1942
 jl_apply_2va at /home/centos/buildbot/slave/package_tarball64/build/src/builtins.c:430
+
+signal (15): Terminated
+while loading /home/vagrant/.julia/v0.5/ApproxFun/test/PDETest.jl, in expression starting on line 155
 stream_wait at ./stream.jl:44
 wait at ./process.jl:716 [inlined]
 success at ./process.jl:606
@@ -151,17 +158,17 @@ run at ./process.jl:592 [inlined]
 #59 at ./pkg/entry.jl:709
 cd at ./file.jl:59
 #test!#58 at ./pkg/entry.jl:703
-unknown function (ip: 0x7fd6685ee1cd)
+unknown function (ip: 0x7f384e9141cd)
 #test! at ./<missing>:0
-unknown function (ip: 0x7fd6685ed8a6)
+unknown function (ip: 0x7f384e9138a6)
 jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:189 [inlined]
 jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1942
 #test#61 at ./pkg/entry.jl:725
-unknown function (ip: 0x7fd6685ed280)
+unknown function (ip: 0x7f384e913280)
 #test at ./<missing>:0
 #2 at ./pkg/dir.jl:31
 cd at ./file.jl:59
-unknown function (ip: 0x7fd6685ec2a6)
+unknown function (ip: 0x7f384e9122a6)
 jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:189 [inlined]
 jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1942
 #cd#1 at ./pkg/dir.jl:31
@@ -185,12 +192,12 @@ jl_toplevel_eval_flex at /home/centos/buildbot/slave/package_tarball64/build/src
 jl_toplevel_eval at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:580
 jl_toplevel_eval_in_warn at /home/centos/buildbot/slave/package_tarball64/build/src/builtins.c:590
 eval at ./boot.jl:234
-unknown function (ip: 0x7fd875bd04df)
+unknown function (ip: 0x7f3a5bef64df)
 jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:189 [inlined]
 jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1942
 process_options at ./client.jl:239
 _start at ./client.jl:318
-unknown function (ip: 0x7fd875c0a2e8)
+unknown function (ip: 0x7f3a5bf302e8)
 jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:189 [inlined]
 jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1942
 unknown function (ip: 0x4018ed)
@@ -198,35 +205,81 @@ unknown function (ip: 0x4013b6)
 __libc_start_main at /lib/x86_64-linux-gnu/libc.so.6 (unknown line)
 unknown function (ip: 0x4013fc)
 unknown function (ip: 0xffffffffffffffff)
-Allocations: 6100635 (Pool: 6099577; Big: 1058); GC: 9
+Allocations: 6095809 (Pool: 6094751; Big: 1058); GC: 9
 
 signal (11): Segmentation fault
 while loading no file, in expression starting on line 0
-
-signal (15): Terminated
-while loading /home/vagrant/.julia/v0.5/ApproxFun/test/MultivariateTest.jl, in expression starting on line 40
-unknown function (ip: 0x7f6c084b12af)
-_ZN4llvm12ConstantExpr16getGetElementPtrEPNS_4TypeEPNS_8ConstantENS_8ArrayRefIPNS_5ValueEEEbS2_ at /home/vagrant/julia/bin/../lib/julia/libLLVM-3.7.1.so (unknown line)
-getGetElementPtr at /home/centos/buildbot/slave/package_tarball64/build/usr/include/llvm/IR/Constants.h:1106 [inlined]
-CreateGetElementPtr at /home/centos/buildbot/slave/package_tarball64/build/usr/include/llvm/IR/ConstantFolder.h:129 [inlined]
-CreateGEP at /home/centos/buildbot/slave/package_tarball64/build/usr/include/llvm/IR/IRBuilder.h:1073
-CreateGEP at /home/centos/buildbot/slave/package_tarball64/build/usr/include/llvm/IR/IRBuilder.h:1068 [inlined]
-julia_binding_gv at /home/centos/buildbot/slave/package_tarball64/build/src/cgutils.cpp:295 [inlined]
-julia_binding_gv at /home/centos/buildbot/slave/package_tarball64/build/src/cgutils.cpp:305 [inlined]
-global_binding_pointer at /home/centos/buildbot/slave/package_tarball64/build/src/codegen.cpp:2832
-emit_getfield at /home/centos/buildbot/slave/package_tarball64/build/src/codegen.cpp:1875
-emit_expr at /home/centos/buildbot/slave/package_tarball64/build/src/codegen.cpp:3113
-generic_box at /home/centos/buildbot/slave/package_tarball64/build/src/intrinsics.cpp:426
-emit_intrinsic at /home/centos/buildbot/slave/package_tarball64/build/src/intrinsics.cpp:979
-emit_call at /home/centos/buildbot/slave/package_tarball64/build/src/codegen.cpp:2719
-emit_expr at /home/centos/buildbot/slave/package_tarball64/build/src/codegen.cpp:3172
-emit_assignment at /home/centos/buildbot/slave/package_tarball64/build/src/codegen.cpp:2923 [inlined]
-emit_expr at /home/centos/buildbot/slave/package_tarball64/build/src/codegen.cpp:3185
-emit_stmtpos at /home/centos/buildbot/slave/package_tarball64/build/src/codegen.cpp:3064
-emit_function at /home/centos/buildbot/slave/package_tarball64/build/src/codegen.cpp:4727
-jl_compile_linfo at /home/centos/buildbot/slave/package_tarball64/build/src/codegen.cpp:809
-jl_compile_for_dispatch at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1310
+jl_typemap_entry_assoc_exact at /home/centos/buildbot/slave/package_tarball64/build/src/typemap.c:817
+jl_typemap_assoc_exact at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:723 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1901
+abstract_eval_global at ./inference.jl:1212
+unknown function (ip: 0x7f005859c67f)
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:189 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1942
+exprtype at ./inference.jl:2218
+unknown function (ip: 0x7f00585aa6df)
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:189 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1942
+is_known_call at ./inference.jl:3077
+occurs_outside_getfield at ./inference.jl:3189
+unknown function (ip: 0x7f00585c3c61)
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:189 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1942
+occurs_outside_getfield at ./inference.jl:3213
+unknown function (ip: 0x7f00585c3c61)
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:189 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1942
+alloc_elim_pass! at ./inference.jl:3373
+finish at ./inference.jl:1936
+unknown function (ip: 0x7f0058597beb)
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:189 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1942
+typeinf_loop at ./inference.jl:1686
+unknown function (ip: 0x7f005859a60b)
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:189 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1942
+typeinf_edge at ./inference.jl:1592
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:189 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1942
+typeinf_ext at ./inference.jl:1616
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:189 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1942
+jl_apply at /home/centos/buildbot/slave/package_tarball64/build/src/julia.h:1392 [inlined]
+jl_type_infer at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:210
+jl_compile_for_dispatch at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1295
 jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:184 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1942
+* at /home/vagrant/.julia/v0.5/ApproxFun/src/Operators/general/algebra.jl:574
+cont_reduce_dofs! at /home/vagrant/.julia/v0.5/ApproxFun/src/PDE/cont_lyap.jl:20
+cont_reduce_dofs! at /home/vagrant/.julia/v0.5/ApproxFun/src/PDE/cont_lyap.jl:65
+unknown function (ip: 0x7efe484243d6)
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:189 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1942
+#cont_constrained_lyap#595 at /home/vagrant/.julia/v0.5/ApproxFun/src/PDE/cont_lyap.jl:324
+unknown function (ip: 0x7efe48622daa)
+#cont_constrained_lyap at ./<missing>:0
+#cont_constrained_lyap#594 at /home/vagrant/.julia/v0.5/ApproxFun/src/PDE/cont_lyap.jl:313
+unknown function (ip: 0x7efe48620eba)
+#cont_constrained_lyap at ./<missing>:0
+unknown function (ip: 0x7efe486209c6)
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:189 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1942
+#pdesolve#603 at /home/vagrant/.julia/v0.5/ApproxFun/src/PDE/pdesolve.jl:145
+unknown function (ip: 0x7efe4861de22)
+#pdesolve at ./<missing>:0
+unknown function (ip: 0x7efe4861d89d)
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:189 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1942
+#pdesolve#606 at /home/vagrant/.julia/v0.5/ApproxFun/src/PDE/pdesolve.jl:161
+#pdesolve at ./<missing>:0
+#pdesolve#600 at /home/vagrant/.julia/v0.5/ApproxFun/src/PDE/pdesolve.jl:135
+unknown function (ip: 0x7efe4861504a)
+#pdesolve#607 at /home/vagrant/.julia/v0.5/ApproxFun/src/PDE/pdesolve.jl:162
+#linsolve#146 at /home/vagrant/.julia/v0.5/ApproxFun/src/Operators/linsolve.jl:20
+unknown function (ip: 0x7efe48612fc2)
+\ at /home/vagrant/.julia/v0.5/ApproxFun/src/Operators/linsolve.jl:28
+unknown function (ip: 0x7efe48612666)
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:189 [inlined]
 jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1942
 do_call at /home/centos/buildbot/slave/package_tarball64/build/src/interpreter.c:66
 eval at /home/centos/buildbot/slave/package_tarball64/build/src/interpreter.c:190
@@ -237,7 +290,7 @@ jl_parse_eval_all at /home/centos/buildbot/slave/package_tarball64/build/src/ast
 jl_load at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:596
 jl_load_ at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:605
 include_from_node1 at ./loading.jl:488
-unknown function (ip: 0x7f6c0516ed0b)
+unknown function (ip: 0x7f00586c5d0b)
 jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:189 [inlined]
 jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1942
 do_call at /home/centos/buildbot/slave/package_tarball64/build/src/interpreter.c:66
@@ -247,12 +300,12 @@ jl_parse_eval_all at /home/centos/buildbot/slave/package_tarball64/build/src/ast
 jl_load at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:596
 jl_load_ at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:605
 include_from_node1 at ./loading.jl:488
-unknown function (ip: 0x7f6c0516ed0b)
+unknown function (ip: 0x7f00586c5d0b)
 jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:189 [inlined]
 jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1942
 process_options at ./client.jl:262
 _start at ./client.jl:318
-unknown function (ip: 0x7f6c051942e8)
+unknown function (ip: 0x7f00586eb2e8)
 jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:189 [inlined]
 jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:1942
 jl_apply at /home/centos/buildbot/slave/package_tarball64/build/ui/../src/julia.h:1392 [inlined]
@@ -261,10 +314,10 @@ main at /home/centos/buildbot/slave/package_tarball64/build/ui/repl.c:232
 __libc_start_main at /lib/x86_64-linux-gnu/libc.so.6 (unknown line)
 unknown function (ip: 0x4013fc)
 unknown function (ip: 0xffffffffffffffff)
-Allocations: 686913074 (Pool: 686619369; Big: 293705); GC: 1328
+Allocations: 768559552 (Pool: 768263085; Big: 296467); GC: 1479
 
 signal (11): Segmentation fault
-while loading /home/vagrant/.julia/v0.5/ApproxFun/test/MultivariateTest.jl, in expression starting on line 40
+while loading /home/vagrant/.julia/v0.5/ApproxFun/test/PDETest.jl, in expression starting on line 155
 timeout: the monitored command dumped core
 
 >>> End of log
