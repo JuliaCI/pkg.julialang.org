@@ -2,23 +2,25 @@
 INFO: Installing AutoHashEquals v0.0.10
 INFO: Installing ParserCombinator v1.7.11
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of ParserCombinator
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("ParserCombinator")' log
-Julia Version 0.6.0-dev.1181
-Commit e90a2e4 (2016-11-04 01:59 UTC)
+Julia Version 0.6.0-dev.1185
+Commit ca2046e (2016-11-04 08:41 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-100-generic #147-Ubuntu SMP Tue Oct 18 16:48:51 UTC 2016 x86_64 x86_64
-Memory: 2.939289093017578 GB (821.85546875 MB free)
-Uptime: 11468.0 sec
-Load Avg:  1.15869140625  1.0732421875  0.99462890625
+Memory: 2.939289093017578 GB (813.671875 MB free)
+Uptime: 11820.0 sec
+Load Avg:  0.9833984375  0.9619140625  0.9599609375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3507 MHz     658210 s       5694 s      62886 s     283237 s         14 s
-#2  3507 MHz     191530 s        105 s      33284 s     900494 s          0 s
+#1  3500 MHz     648987 s       2360 s      71451 s     332468 s         23 s
+#2  3500 MHz     221148 s       4986 s      38342 s     890203 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -64,38 +66,38 @@ Transform
 `-f
 print ok
 names ok
-1 2  r"a{1,2}"
-2 2 aaaa r"a{2,2}?"
-3 3 a r"a{3,3}"
-3 3  r"a{3,3}?"
-0 1 aaa r"a{0,1}"
-0 2  r"a{0,2}?"
-3 3  r"a{3,3}"
-0 0 aaa r"a{0,0}?"
-1 3 aaa r"a{1,3}"
-1 1 aaaa r"a{1,1}?"
-3 5 aa r"a{3,5}"
-2 4 aaa r"a{2,4}?"
-1 1  r"a{1,1}"
+0 1 aaaa r"a{0,1}"
+2 3 aa r"a{2,3}?"
+1 3 aa r"a{1,3}"
+0 1 a r"a{0,1}?"
+0 2  r"a{0,2}"
 1 1 aa r"a{1,1}?"
-0 1  r"a{0,1}"
-0 0 aaa r"a{0,0}?"
-2 4  r"a{2,4}"
-3 3 aa r"a{3,3}?"
-2 4 aa r"a{2,4}"
-0 0 aaaa r"a{0,0}?"
+2 4 aaaa r"a{2,4}"
+0 1 a r"a{0,1}?"
+3 3 aaaa r"a{3,3}"
+2 4  r"a{2,4}?"
+1 3 a r"a{1,3}"
+2 3 aa r"a{2,3}?"
+0 0 a r"a{0,0}"
+3 5 aa r"a{3,5}?"
+3 4  r"a{3,4}"
+2 2 a r"a{2,2}?"
+3 3 aa r"a{3,3}"
+0 0  r"a{0,0}?"
+0 2 aaa r"a{0,2}"
+2 2  r"a{2,2}?"
 tests ok
 greedy true
 ParserCombinator.NoCache{S,I}
-  0.060645 seconds (25.47 k allocations: 1.113 MB)
-  0.023135 seconds (16.33 k allocations: 746.906 KB)
+  0.034650 seconds (25.47 k allocations: 1.113 MB)
+  0.012844 seconds (16.33 k allocations: 746.906 KB)
 n results: 35
 max depth: 5
 max iter: 4
 n calls: 323
 ParserCombinator.Cache{S,I}
-  0.121531 seconds (60.16 k allocations: 2.057 MB)
-  0.022183 seconds (35.55 k allocations: 907.781 KB)
+  0.075788 seconds (57.91 k allocations: 1.948 MB)
+  0.011600 seconds (35.56 k allocations: 908.188 KB)
 n results: 35
 max depth: 4
 max iter: 4
@@ -112,7 +114,29 @@ all
 |   +-Seq
 |   | +-[1]:prd
 |   | | +-Seq
-|   | | | +-[1]:neg...
+|   | | | +-[1]:neg
+|   | | | | `-Alt
+|   | | | |   +-[1]:Seq
+|   | | | |   | +-[1]:Drop
+|   | | | |   | | `-Equal
+|   | | | |   | |   `-"("
+|   | | | |   | +-[2]:sum...
+|   | | | |   | `-[3]:Drop
+|   | | | |   |   `-Equal
+|   | | | |   |     `-")"
+|   | | | |   +-[2]:Transform
+|   | | | |   | +-Pattern
+|   | | | |   | | +-text="-?(\d*\.?\d+|\d+\.\d*)([eE]\d+)?"
+|   | | | |   | | +-regex=r"^(?:-?(\d*\.?\d+|\d+\.\d*)([eE]\d+)?)(.??)"
+|   | | | |   | | `-groups
+|   | | | |   | `-f
+|   | | | |   `-[3]:Transform
+|   | | | |     +-Seq
+|   | | | |     | +-[1]:Drop
+|   | | | |     | | `-Equal
+|   | | | |     | |   `-"-"
+|   | | | |     | `-[2]:neg...
+|   | | | |     `-f
 |   | | | `-[2]:Depth
 |   | | |   +-Alt
 |   | | |   | +-[1]:mul
@@ -125,29 +149,7 @@ all
 |   | | |   |   | +-[1]:Drop
 |   | | |   |   | | `-Equal
 |   | | |   |   | |   `-"/"
-|   | | |   |   | `-[2]:neg
-|   | | |   |   |   `-Alt
-|   | | |   |   |     +-[1]:Seq
-|   | | |   |   |     | +-[1]:Drop
-|   | | |   |   |     | | `-Equal
-|   | | |   |   |     | |   `-"("
-|   | | |   |   |     | +-[2]:sum...
-|   | | |   |   |     | `-[3]:Drop
-|   | | |   |   |     |   `-Equal
-|   | | |   |   |     |     `-")"
-|   | | |   |   |     +-[2]:Transform
-|   | | |   |   |     | +-Pattern
-|   | | |   |   |     | | +-text="-?(\d*\.?\d+|\d+\.\d*)([eE]\d+)?"
-|   | | |   |   |     | | +-regex=r"^(?:-?(\d*\.?\d+|\d+\.\d*)([eE]\d+)?)(.??)"
-|   | | |   |   |     | | `-groups
-|   | | |   |   |     | `-f
-|   | | |   |   |     `-[3]:Transform
-|   | | |   |   |       +-Seq
-|   | | |   |   |       | +-[1]:Drop
-|   | | |   |   |       | | `-Equal
-|   | | |   |   |       | |   `-"-"
-|   | | |   |   |       | `-[2]:neg...
-|   | | |   |   |       `-f
+|   | | |   |   | `-[2]:neg...
 |   | | |   |   `-f
 |   | | |   +-lo=0
 |   | | |   +-hi=9223372036854775807
@@ -338,46 +340,46 @@ CoreTest.Inv(CoreTest.Prd(Any[CoreTest.Neg(CoreTest.Sum(Any[CoreTest.Prd(Any[0.0
 CoreTest.Inv(CoreTest.Sum(Any[CoreTest.Prd(Any[CoreTest.Neg(CoreTest.Sum(Any[CoreTest.Prd(Any[0.0])]))])])) -Inf
 CoreTest.Neg(CoreTest.Prd(Any[7.0,CoreTest.Inv(0.0),CoreTest.Inv(2.0),CoreTest.Inv(CoreTest.Sum(Any[CoreTest.Prd(Any[CoreTest.Neg(CoreTest.Sum(Any[CoreTest.Prd(Any[0.0])]))])])),3.0])) Inf Inf
 Inf CoreTest.Sum(Any[CoreTest.Prd(Any[-9.0]),CoreTest.Neg(CoreTest.Prd(Any[7.0,CoreTest.Inv(0.0),CoreTest.Inv(2.0),CoreTest.Inv(CoreTest.Sum(Any[CoreTest.Prd(Any[CoreTest.Neg(CoreTest.Sum(Any[CoreTest.Prd(Any[0.0])]))])])),3.0])),CoreTest.Neg(CoreTest.Prd(Any[7.0,CoreTest.Inv(CoreTest.Neg(CoreTest.Sum(Any[CoreTest.Prd(Any[9.0]),CoreTest.Prd(Any[5.0])])))])),CoreTest.Prd(Any[5.0]),CoreTest.Neg(CoreTest.Prd(Any[7.0]))]) Inf
-expr (-8.0-2.0)-5.0/(4.0)*-8.0+3.0-8.0-7.0/(8.0)+0.0/3.0
--5.875 -5.875
-expr (-8.0)+0.0+1.0
--7.0 -7.0
-expr ((4.0-5.0)/5.0+4.0)+4.0/7.0+2.0-4.0/4.0-7.0+2.0/-8.0*4.0*6.0/2.0
--4.628571428571429 -4.628571428571429
-expr (3.0-4.0)+7.0*0.0-0.0*-(-(6.0))-1.0*4.0*3.0
--13.0 -13.0
-expr -(7.0)+7.0/(1.0)/-((1.0+0.0))-3.0
--17.0 -17.0
-expr -4.0*0.0/5.0-6.0*8.0-7.0+1.0+8.0+3.0+9.0-(9.0)+2.0/(-5.0-0.0*2.0)
--43.4 -43.4
-expr -((5.0-9.0)-0.0)+-9.0-4.0/7.0
--5.571428571428571 -5.571428571428571
-expr (6.0)+9.0-3.0/7.0+0.0*1.0*9.0-7.0+1.0/7.0/0.0-(9.0/4.0)+5.0/2.0
+expr -8.0*4.0+-(6.0)/0.0+(4.0)/-9.0*7.0-8.0/8.0-4.0/7.0*4.0
+-Inf -Inf
+expr (((2.0)/4.0)*3.0)-5.0-8.0-1.0+-0.0/3.0*9.0+0.0*0.0-(3.0)-0.0
+-15.5 -15.5
+expr -3.0/2.0-7.0-6.0-(0.0+3.0)
+-17.5 -17.5
+expr -8.0*0.0+5.0
+5.0 5.0
+expr -4.0-6.0/3.0+(8.0)/9.0-7.0/5.0+(-0.0*3.0)-8.0
+-14.511111111111111 -14.511111111111111
+expr 0.0*8.0/8.0/9.0*1.0/-7.0/5.0/2.0*1.0*0.0-4.0-8.0-8.0+9.0
+-11.0 -11.0
+expr 3.0+1.0-(-4.0)-7.0+3.0*6.0+1.0/8.0-7.0+((4.0-9.0))*4.0
+-7.875 -7.875
+expr -8.0-9.0*8.0/3.0*7.0/5.0
+-41.6 -41.6
+expr -6.0+3.0-3.0-0.0
+-6.0 -6.0
+expr 4.0*9.0+-(5.0)+2.0*2.0-((4.0*2.0)+4.0)-6.0*0.0-2.0
+21.0 21.0
+expr (-5.0)+((3.0))*2.0+2.0/0.0-9.0-9.0-5.0*3.0-9.0*0.0*8.0+7.0/-4.0-3.0
 Inf Inf
-expr (7.0)+7.0-7.0-1.0*2.0+0.0+0.0/-3.0*((5.0+2.0))/4.0+(6.0*0.0/0.0-4.0)
+expr 8.0+2.0+1.0-5.0/7.0-2.0*6.0+0.0/6.0*4.0+6.0-0.0-(0.0*1.0)*(2.0/0.0)
 NaN NaN
-expr 9.0/3.0/-5.0+9.0/4.0-8.0
--6.35 -6.35
-expr 7.0*3.0*8.0-7.0/(4.0-5.0*3.0)+1.0-4.0
-165.63636363636363 165.63636363636363
-expr -4.0-1.0-5.0*5.0/3.0/7.0*8.0
--14.523809523809524 -14.523809523809522
-expr -(-5.0)-6.0+6.0*6.0*5.0*5.0/(8.0+6.0)-2.0+3.0+8.0/7.0+0.0
-65.42857142857143 65.42857142857142
-expr (-9.0*0.0-1.0)/-(-9.0-7.0)*1.0+3.0-2.0*9.0/6.0+0.0
--0.0625 -0.0625
-expr (5.0)/(-(5.0))-8.0*0.0/1.0-2.0-1.0
--4.0 -4.0
-expr -(0.0)*0.0+2.0-8.0-8.0+8.0-1.0-9.0/(((1.0-9.0))*2.0)-7.0+2.0
--11.4375 -11.4375
-expr -1.0/-7.0/3.0-9.0*9.0*5.0/5.0+7.0
--73.95238095238095 -73.95238095238095
-expr -2.0*2.0/1.0/(8.0*1.0/2.0)-(2.0+3.0)-8.0-2.0+-2.0*8.0
--32.0 -32.0
-expr (1.0/0.0)+5.0
+expr ((1.0-9.0-3.0))*-7.0+8.0-2.0*5.0+4.0*(7.0*5.0)*2.0
+355.0 355.0
+expr 7.0*6.0*1.0*5.0-(-5.0*2.0/3.0)+-(4.0)
+209.33333333333334 209.33333333333334
+expr -4.0/8.0*9.0+6.0/-1.0/2.0-1.0*8.0+7.0-7.0-1.0+5.0
+-11.5 -11.5
+expr 7.0/5.0+5.0/5.0-7.0-7.0*6.0*8.0*2.0+6.0/-5.0-6.0-4.0*7.0/1.0/(2.0)-9.0+8.0+4.0
+-694.8000000000001 -694.8000000000001
+expr ((1.0))+2.0+(9.0)*7.0
+66.0 66.0
+expr 4.0+9.0*9.0*7.0-6.0*(9.0*9.0)+8.0/0.0-(3.0)+3.0
 Inf Inf
-expr (-0.0*8.0/9.0)-((6.0)-1.0*1.0+9.0)
--14.0 -14.0
+expr -5.0*3.0/((9.0)*0.0+2.0*4.0)*-6.0*1.0-3.0
+8.25 8.25
+expr 2.0*0.0+0.0*-1.0-6.0+4.0*4.0-(-((5.0)))
+15.0 15.0
 calc ok
 one level
   1:ab         00 Trace->Dot
@@ -867,9 +869,9 @@ edge 1 - 3
 edge 1 - 2
 fragments ok
 subgraphs ok
- 20.318151 seconds (10.06 M allocations: 334.625 MB, 0.63% gc time)
-  0.569391 seconds (203.17 k allocations: 111.947 MB, 17.74% gc time)
-  0.876811 seconds (217.31 k allocations: 109.339 MB, 36.09% gc time)
+ 20.497672 seconds (10.06 M allocations: 334.625 MB, 0.52% gc time)
+  0.409958 seconds (203.17 k allocations: 111.947 MB, 20.96% gc time)
+  0.635138 seconds (217.30 k allocations: 109.337 MB, 37.75% gc time)
 examples ok
 INFO: ParserCombinator tests passed
 INFO: Removing ZipFile v0.3.0

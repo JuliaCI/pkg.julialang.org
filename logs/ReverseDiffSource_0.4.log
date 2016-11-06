@@ -1,6 +1,8 @@
 >>> 'Pkg.add("ReverseDiffSource")' log
 INFO: Installing ReverseDiffSource v0.2.3
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of ReverseDiffSource
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("ReverseDiffSource")' log
 Julia Version 0.4.7
@@ -11,13 +13,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-100-generic #147-Ubuntu SMP Tue Oct 18 16:48:51 UTC 2016 x86_64 x86_64
-Memory: 2.939289093017578 GB (417.5625 MB free)
-Uptime: 20870.0 sec
-Load Avg:  1.03271484375  1.01123046875  0.998046875
+Memory: 2.939289093017578 GB (603.1953125 MB free)
+Uptime: 20609.0 sec
+Load Avg:  1.015625  0.9521484375  1.00244140625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3496 MHz     977915 s        403 s      91971 s     804598 s         92 s
-#2  3496 MHz     618078 s       6822 s      82726 s    1295729 s          1 s
+#1  3499 MHz     976779 s       6609 s      82244 s     788278 s         83 s
+#2  3499 MHz     617503 s        130 s      70980 s    1285810 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -39,36 +41,51 @@ Package Directory: /home/vagrant/.julia/v0.4
 INFO: Testing ReverseDiffSource
 Running tests:
   * unit_tests.jl *
-  * parsing.jl *
-  * syntax.jl *
-  * firstorder.jl *
-  * indexing.jl *
-  * types.jl *
-  * loops.jl *
-  * functions.jl *
-  * more.jl *
-[call] :call (NaN), from = colon / 1 / 10
-node | symbol     | ext ? | type       | parents | precedence | main  | value         | 
----- | ---------- | ----- | ---------- | ------- | ---------- | ----- | ------------- | 
-1    |            |       | [constant] |         |            | 0.0   | (Float64) NaN | 
-2    |            |       | [constant] |         |            | 1     | (Float64) NaN | 
-3    |            |       | [constant] |         |            | 10    | (Float64) NaN | 
-4    |            |       | [call]     | 7, 2, 3 |            | :call | (Float64) NaN | 
-5    |            |       | [for]      | 4, 1    |            | :i    | (Float64) NaN | 
-6    | nothing << |       | [within]   | 5       |            | :a    | (Float64) NaN | 
-7    |            |       | [constant] |         |            | colon | (Float64) NaN | 
+ERROR: LoadError: LoadError: test failed: begin 
+        _tmp1 = cell(3)
+        _tmp1[1] = 0.0
+        _tmp1[2] = 0.0
+        _tmp1[3] = zeros(size(tv.c))
+    end == begin 
+        _tmp1 = cell(3)
+        _tmp1[1] = 0.0
+        _tmp1[2] = 0.0
+        _tmp1[3] = zeros(size(tv.c))
+        _tmp1
+    end
+ in expression: zerocode(Abcd(2.0,3.0,[1,2])) == striplinenumbers($(Expr(:quote, quote  # /home/vagrant/.julia/v0.4/ReverseDiffSource/test/unit_tests.jl, line 63:
+    _tmp1 = cell(3) # /home/vagrant/.julia/v0.4/ReverseDiffSource/test/unit_tests.jl, line 64:
+    _tmp1[1] = 0.0 # /home/vagrant/.julia/v0.4/ReverseDiffSource/test/unit_tests.jl, line 65:
+    _tmp1[2] = 0.0 # /home/vagrant/.julia/v0.4/ReverseDiffSource/test/unit_tests.jl, line 66:
+    _tmp1[3] = zeros(size(tv.c)) # /home/vagrant/.julia/v0.4/ReverseDiffSource/test/unit_tests.jl, line 67:
+    _tmp1
+end)))
+ in error at ./error.jl:21
+ in default_handler at test.jl:28
+ in do_test at test.jl:53
+ in include at ./boot.jl:261
+ in include_from_node1 at ./loading.jl:333
+ [inlined code] from /home/vagrant/.julia/v0.4/ReverseDiffSource/test/runtests.jl:19
+ in anonymous at no file:0
+ in include at ./boot.jl:261
+ in include_from_node1 at ./loading.jl:333
+ in process_options at ./client.jl:280
+ in _start at ./client.jl:378
+while loading /home/vagrant/.julia/v0.4/ReverseDiffSource/test/unit_tests.jl, in expression starting on line 62
+while loading /home/vagrant/.julia/v0.4/ReverseDiffSource/test/runtests.jl, in expression starting on line 17
+==========================[ ERROR: ReverseDiffSource ]==========================
 
-[calc!] can't evaluate abcd in 
- node | symbol     | ext ? | type       | parents | precedence | main  | value         | 
----- | ---------- | ----- | ---------- | ------- | ---------- | ----- | ------------- | 
-1    |            |       | [constant] |         |            | *     | (Function) *  | 
-2    | x >>       |       | [external] |         |            | :x    | (Float64) 1.0 | 
-3    | abcd >>    |       | [external] |         |            | :abcd | (Float64) NaN | 
-4    | nothing << |       | [call]     | 1, 2, 3 |            | :call | (Float64) NaN | 
- 
- with
-Dict{Symbol,Any} with 1 entry:
-  :x => 1.0Finished
-INFO: ReverseDiffSource tests passed
+failed process: Process(`/home/vagrant/julia/bin/julia --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.4/ReverseDiffSource/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: ReverseDiffSource had test errors
+ in error at ./error.jl:21
+ in test at pkg/entry.jl:803
+ in anonymous at pkg/dir.jl:31
+ in cd at file.jl:22
+ in cd at pkg/dir.jl:31
+ in test at pkg.jl:71
+ in process_options at ./client.jl:257
+ in _start at ./client.jl:378
 
 >>> End of log
