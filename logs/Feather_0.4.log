@@ -31,13 +31,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-101-generic #148-Ubuntu SMP Thu Oct 20 22:08:32 UTC 2016 x86_64 x86_64
-Memory: 2.939281463623047 GB (540.78515625 MB free)
-Uptime: 23226.0 sec
-Load Avg:  1.00927734375  0.994140625  1.03466796875
+Memory: 2.939281463623047 GB (531.56640625 MB free)
+Uptime: 22943.0 sec
+Load Avg:  0.89697265625  1.03955078125  1.08203125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1105806 s       3501 s     102994 s     854753 s        126 s
-#2  3499 MHz     700418 s      10576 s      92310 s    1425035 s          4 s
+#1  3500 MHz    1075149 s       4694 s      99982 s     868744 s        106 s
+#2  3500 MHz     701610 s       1862 s      90117 s    1390801 s          2 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -75,6 +75,13 @@ Package Directory: /home/vagrant/.julia/v0.4
  - StatsBase                     0.11.1
  - WeakRefStrings                0.1.4
 INFO: Testing Feather
+WARNING: New definition 
+    promote_op(Type{#T<:Any}, Any) at /home/vagrant/.julia/v0.4/NullableArrays/src/operators.jl:16
+is ambiguous with: 
+    promote_op(Any, Type{#R<:Number}) at /home/vagrant/.julia/v0.4/NullableArrays/src/operators.jl:18.
+To fix, define 
+    promote_op(Type{#T<:Any}, Type{#R<:Number})
+before the new definition.
 WARNING: Method definition convert(Type{Array{#T<:Any, #n<:Any}}, AbstractArray{#S<:Any, #n<:Any}) in module Base at array.jl:241 overwritten in module CategoricalArrays at /home/vagrant/.julia/v0.4/CategoricalArrays/src/CategoricalArrays.jl:19.
 WARNING: Method definition convert(Type{Array{#T<:Any, N<:Any}}, AbstractArray{#S<:Any, #n<:Any}) in module Base at array.jl:240 overwritten in module CategoricalArrays at /home/vagrant/.julia/v0.4/CategoricalArrays/src/CategoricalArrays.jl:18.
 WARNING: Method definition convert(Type{Base.Nullable{T<:Any}}, #T<:Any) in module Base at nullable.jl:19 overwritten in module CategoricalArrays at /home/vagrant/.julia/v0.4/CategoricalArrays/src/CategoricalArrays.jl:21.
@@ -128,20 +135,6 @@ To fix, define
     convert(Type{CategoricalArrays.NullableOrdinalArray{#T<:Any, #N<:Any, #R<:Any}}, CategoricalArrays.NullableOrdinalArray{#T<:Any, #N<:Any, _<:Integer})
 before the new definition.
 WARNING: New definition 
-    isequal(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:507
-is ambiguous with: 
-    isequal(Any, CategoricalArrays.CategoricalValue) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:69.
-To fix, define 
-    isequal(DataArrays.NAtype, CategoricalArrays.CategoricalValue)
-before the new definition.
-WARNING: New definition 
-    isequal(Any, DataArrays.NAtype) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:508
-is ambiguous with: 
-    isequal(CategoricalArrays.CategoricalValue, Any) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:68.
-To fix, define 
-    isequal(CategoricalArrays.CategoricalValue, DataArrays.NAtype)
-before the new definition.
-WARNING: New definition 
     promote_rule(Type{#T<:Any}, Type{DataArrays.NAtype}) at /home/vagrant/.julia/v0.4/DataArrays/src/natype.jl:37
 is ambiguous with: 
     promote_rule(Type{CategoricalArrays.NominalValue{#S<:Any, R<:Integer}}, Type{#T<:Any}) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:12.
@@ -184,6 +177,13 @@ To fix, define
     promote_rule(Type{CategoricalArrays.OrdinalValue{#S<:Any, #R<:Any}}, Type{DataArrays.NAtype})
 before the new definition.
 WARNING: New definition 
+    broadcast(Function, DataArrays.PooledDataArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:323
+is ambiguous with: 
+    broadcast(Any, NullableArrays.NullableArray...).
+To fix, define 
+    broadcast(Function)
+before the new definition.
+WARNING: New definition 
     ==(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:610
 is ambiguous with: 
     ==(Any, CategoricalArrays.CategoricalValue) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:64.
@@ -198,32 +198,18 @@ To fix, define
     ==(CategoricalArrays.CategoricalValue, DataArrays.NAtype)
 before the new definition.
 WARNING: New definition 
-    broadcast(Any, NullableArrays.NullableArray...)
+    isequal(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:507
 is ambiguous with: 
-    broadcast(Function, DataArrays.PooledDataArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:323.
+    isequal(Any, CategoricalArrays.CategoricalValue) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:69.
 To fix, define 
-    broadcast(Function)
+    isequal(DataArrays.NAtype, CategoricalArrays.CategoricalValue)
 before the new definition.
 WARNING: New definition 
-    map(Any, NullableArrays.NullableArray...) at /home/vagrant/.julia/v0.4/NullableArrays/src/map.jl:109
+    isequal(Any, DataArrays.NAtype) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:508
 is ambiguous with: 
-    map(Function, Lazy.List...) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:104.
+    isequal(CategoricalArrays.CategoricalValue, Any) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:68.
 To fix, define 
-    map(Function)
-before the new definition.
-WARNING: New definition 
-    map(Any, NullableArrays.NullableArray...) at /home/vagrant/.julia/v0.4/NullableArrays/src/map.jl:109
-is ambiguous with: 
-    map(DataType, Lazy.List...) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:105.
-To fix, define 
-    map(DataType)
-before the new definition.
-WARNING: New definition 
-    promote_op(Type{#T<:Any}, Any) at /home/vagrant/.julia/v0.4/NullableArrays/src/operators.jl:16
-is ambiguous with: 
-    promote_op(Any, Type{#R<:Number}) at /home/vagrant/.julia/v0.4/NullableArrays/src/operators.jl:18.
-To fix, define 
-    promote_op(Type{#T<:Any}, Type{#R<:Number})
+    isequal(CategoricalArrays.CategoricalValue, DataArrays.NAtype)
 before the new definition.
 WARNING: This Feather file is old and will not be readable beyond the 0.3.0 release
 WARNING: This Feather file is old and will not be readable beyond the 0.3.0 release
