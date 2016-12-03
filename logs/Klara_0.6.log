@@ -1,9 +1,10 @@
 >>> 'Pkg.add("Klara")' log
 INFO: Installing BinDeps v0.4.5
 INFO: Installing Calculus v0.1.15
+INFO: Installing DiffBase v0.0.1
 INFO: Installing Distributions v0.11.0
 INFO: Installing Formatting v0.2.0
-INFO: Installing ForwardDiff v0.2.5
+INFO: Installing ForwardDiff v0.3.0
 INFO: Installing Klara v0.7.0
 INFO: Installing NaNMath v0.2.2
 INFO: Installing PDMats v0.5.1
@@ -32,21 +33,21 @@ while loading /home/vagrant/.julia/v0.6/Rmath/deps/build.jl, in expression start
 INFO: Package database updated
 
 >>> 'Pkg.test("Klara")' log
-Julia Version 0.6.0-dev.1321
-Commit a4612cc (2016-11-27 23:20 UTC)
+Julia Version 0.6.0-dev.1367
+Commit 3ae5636 (2016-12-03 01:50 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-101-generic #148-Ubuntu SMP Thu Oct 20 22:08:32 UTC 2016 x86_64 x86_64
-Memory: 2.939281463623047 GB (1449.37109375 MB free)
-Uptime: 39614.0 sec
-Load Avg:  0.8359375  0.931640625  0.94482421875
+  uname: Linux 3.13.0-103-generic #150-Ubuntu SMP Thu Nov 24 10:34:17 UTC 2016 x86_64 x86_64
+Memory: 2.9392738342285156 GB (1453.59765625 MB free)
+Uptime: 39145.0 sec
+Load Avg:  0.9970703125  0.98388671875  0.982421875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3511 MHz    2290561 s       4568 s     224198 s    1026953 s         74 s
-#2  3511 MHz    1156855 s       1823 s     126928 s    2543899 s          1 s
+#1  3504 MHz    2052176 s       2588 s     222440 s    1275289 s         83 s
+#2  3504 MHz     952622 s       4279 s     121867 s    2720486 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -63,13 +64,14 @@ Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - JSON                          0.8.0
  - Klara                         0.7.0
-14 additional packages:
+15 additional packages:
  - BinDeps                       0.4.5
  - Calculus                      0.1.15
- - Compat                        0.9.4
+ - Compat                        0.9.5
+ - DiffBase                      0.0.1
  - Distributions                 0.11.0
  - Formatting                    0.2.0
- - ForwardDiff                   0.2.5
+ - ForwardDiff                   0.3.0
  - NaNMath                       0.2.2
  - PDMats                        0.5.1
  - ReverseDiffSource             0.3.0
@@ -181,8 +183,44 @@ WARNING: Method definition glpf(Any, Any) in module Main at /home/vagrant/.julia
     Testing GenericModel constructors...
       Initialization without input arguments...
       Initialization via matrix-based specification of dependencies...
-  * generators.jl *
-    Testing likelihood_model generator...
-INFO: Klara tests passed
+ERROR: LoadError: LoadError: MethodError: Cannot `convert` an object of type Data to an object of type Klara.Sampleability
+This may have arisen from a call to the constructor Klara.Sampleability(...),
+since type constructors fall back to convert methods.
+ in macro expansion at ./multidimensional.jl:454 [inlined]
+ in macro expansion at ./cartesian.jl:62 [inlined]
+ in macro expansion at ./multidimensional.jl:451 [inlined]
+ in _unsafe_batchsetindex!(::Array{Klara.Sampleability,2}, ::Base.Iterators.Repeated{Data}, ::UnitRange{Int64}, ::UnitRange{Int64}) at ./multidimensional.jl:444
+ in setindex!(::Array{Klara.Sampleability,2}, ::Data, ::UnitRange{Int64}, ::UnitRange{Int64}) at ./abstractarray.jl:875
+ in _cat(::Array{Klara.Sampleability,2}, ::Tuple{Int64,Int64}, ::Tuple{Bool,Bool}, ::Data, ::Vararg{Any,N}) at ./abstractarray.jl:1165
+ in cat_t(::Type{T}, ::Type{T}, ::Data, ::Vararg{Any,N}) at ./abstractarray.jl:1148
+ in hcat(::Data, ::BasicContUnvParameter) at ./abstractarray.jl:1244
+ in hvcat(::Tuple{Int64,Int64}, ::Data, ::Vararg{Any,N}) at ./abstractarray.jl:1420
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in macro expansion; at /home/vagrant/.julia/v0.6/Klara/test/runtests.jl:24 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in process_options(::Base.JLOptions) at ./client.jl:271
+ in _start() at ./client.jl:335
+while loading /home/vagrant/.julia/v0.6/Klara/test/GenericModel.jl, in expression starting on line 22
+while loading /home/vagrant/.julia/v0.6/Klara/test/runtests.jl, in expression starting on line 21
+================================[ ERROR: Klara ]================================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Klara/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: Klara had test errors
+ in #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:749
+ in (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
+ in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:69
+ in #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
+ in (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
+ in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in eval(::Module, ::Any) at ./boot.jl:236
+ in process_options(::Base.JLOptions) at ./client.jl:248
+ in _start() at ./client.jl:335
 
 >>> End of log
