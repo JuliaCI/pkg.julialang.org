@@ -14,13 +14,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-103-generic #150-Ubuntu SMP Thu Nov 24 10:34:17 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (557.48828125 MB free)
-Uptime: 24495.0 sec
-Load Avg:  1.13232421875  1.0478515625  1.05078125
+Memory: 2.9392738342285156 GB (550.45703125 MB free)
+Uptime: 24298.0 sec
+Load Avg:  0.9970703125  1.0380859375  1.04541015625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3504 MHz    1173662 s      11225 s     110166 s     906924 s         64 s
-#2  3504 MHz     753784 s       3348 s      99797 s    1500531 s          0 s
+#1  3499 MHz    1139046 s       4265 s     100955 s     945416 s         91 s
+#2  3499 MHz     808432 s       3074 s      88414 s    1435795 s          2 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -114,6 +114,13 @@ To fix, define
     chunksize(Tuple{})
 before the new definition.
 WARNING: New definition 
+    write(Base.IO, ForwardDiff.Partials) at /home/vagrant/.julia/v0.4/ForwardDiff/src/partials.jl:57
+is ambiguous with: 
+    write(Base.Base64.Base64EncodePipe, AbstractArray{UInt8, 1}) at base64.jl:89.
+To fix, define 
+    write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
+before the new definition.
+WARNING: New definition 
     hypot(Real, ForwardDiff.Dual{#N<:Any, T<:Real}, ForwardDiff.Dual{#N<:Any, T<:Real}) at /home/vagrant/.julia/v0.4/ForwardDiff/src/dual.jl:343
 is ambiguous with: 
     hypot(ForwardDiff.Dual{#N<:Any, T<:Real}, Real, Real) at /home/vagrant/.julia/v0.4/ForwardDiff/src/dual.jl:343.
@@ -155,13 +162,6 @@ is ambiguous with:
 To fix, define 
     hypot(Real, ForwardDiff.Dual{#N<:Any, T<:Real}, ForwardDiff.Dual{#N<:Any, T<:Real})
 before the new definition.
-WARNING: New definition 
-    write(Base.IO, ForwardDiff.Partials) at /home/vagrant/.julia/v0.4/ForwardDiff/src/partials.jl:57
-is ambiguous with: 
-    write(Base.Base64.Base64EncodePipe, AbstractArray{UInt8, 1}) at base64.jl:89.
-To fix, define 
-    write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
-before the new definition.
 Testing Partials...
   ...testing Partials{0,Int64}
   ...testing Partials{0,Float32}
@@ -169,7 +169,7 @@ Testing Partials...
   ...testing Partials{3,Int64}
   ...testing Partials{3,Float32}
   ...testing Partials{3,Float64}
-done (took 1.461006844 seconds).
+done (took 1.186283857 seconds).
 Testing Dual...
   ...testing Dual{0,Int64} and Dual{0,Dual{0,Int64}}
   ...testing Dual{0,Float32} and Dual{0,Dual{0,Float32}}
@@ -179,7 +179,7 @@ Testing Dual...
   ...testing Dual{3,Float32} and Dual{3,Dual{0,Float32}}
   ...testing Dual{3,Int64} and Dual{3,Dual{4,Int64}}
   ...testing Dual{3,Float32} and Dual{3,Dual{4,Float32}}
-done (took 11.958210832 seconds).
+done (took 12.566287745 seconds).
 Testing derivative functionality...
   ...testing DiffBase.num2num_1
   ...testing DiffBase.num2num_2
@@ -188,7 +188,7 @@ Testing derivative functionality...
   ...testing DiffBase.num2num_5
   ...testing DiffBase.num2num_6
   ...testing DiffBase.num2arr_1
-done (took 0.652138139 seconds).
+done (took 0.749997463 seconds).
 Testing gradient functionality...
   ...running hardcoded test with chunk size = 1
   ...running hardcoded test with chunk size = 2
@@ -243,7 +243,7 @@ Testing gradient functionality...
   ...testing DiffBase.self_weighted_logit with chunk size = 5
   ...testing DiffBase.self_weighted_logit with chunk size = 10
   ...testing DiffBase.self_weighted_logit with chunk size = 11
-done (took 8.212280464 seconds).
+done (took 8.63016563 seconds).
 Testing jacobian functionality...
   ...running hardcoded tests with chunk size 1
   ...running hardcoded tests with chunk size 2
@@ -308,7 +308,7 @@ Testing jacobian functionality...
   ...testing DiffBase.mutation_test_2! with chunk size = 5
   ...testing DiffBase.mutation_test_2! with chunk size = 10
   ...testing DiffBase.mutation_test_2! with chunk size = 11
-done (took 3.771059418 seconds).
+done (took 4.031975741 seconds).
 Testing hessian functionality...
   ...running hardcoded test with chunk size = 1
   ...running hardcoded test with chunk size = 2
@@ -363,9 +363,9 @@ Testing hessian functionality...
   ...testing DiffBase.self_weighted_logit with chunk size = 5
   ...testing DiffBase.self_weighted_logit with chunk size = 10
   ...testing DiffBase.self_weighted_logit with chunk size = 11
-done (took 105.926699271 seconds).
+done (took 105.306891128 seconds).
 Testing miscellaneous functionality...
-done (took 5.344156867 seconds).
+done (took 5.402708151 seconds).
 Testing deprecations...
 INFO: The following tests print lots of deprecation warnings on purpose.
 WARNING: DerivativeResult(x,y) is deprecated, use DiffBase.DiffResult(x,y) instead.
@@ -699,7 +699,7 @@ WARNING: ForwardDiff.hessian!(out::DiffBase.DiffResult, f, x, ::Chunk{N}) is dep
  in _start at ./client.jl:378
 while loading /home/vagrant/.julia/v0.4/ForwardDiff/test/DeprecatedTest.jl, in expression starting on line 148
 INFO: Deprecation testing is now complete, so any further deprecation warnings are real.
-done (took 1.457270386 seconds).
+done (took 1.69151992 seconds).
 INFO: ForwardDiff tests passed
 
 >>> End of log
