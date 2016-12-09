@@ -1,8 +1,10 @@
 >>> 'Pkg.add("Optim")' log
 INFO: Installing Calculus v0.1.15
-INFO: Installing ForwardDiff v0.2.5
+INFO: Installing DiffBase v0.0.2
+INFO: Installing ForwardDiff v0.3.3
+INFO: Installing LineSearches v0.1.1
 INFO: Installing NaNMath v0.2.2
-INFO: Installing Optim v0.6.1
+INFO: Installing Optim v0.7.0
 INFO: Installing PositiveFactorizations v0.0.3
 INFO: Package database updated
 
@@ -15,13 +17,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-105-generic #152-Ubuntu SMP Fri Dec 2 15:37:11 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1208.25 MB free)
-Uptime: 9612.0 sec
-Load Avg:  0.98779296875  0.99658203125  1.029296875
+Memory: 2.9392738342285156 GB (1152.8828125 MB free)
+Uptime: 10200.0 sec
+Load Avg:  1.0068359375  0.96240234375  0.95654296875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz     589792 s        120 s      66293 s     197215 s         16 s
-#2  3500 MHz     147136 s       6191 s      29064 s     758699 s          0 s
+#1  3501 MHz     564844 s       2970 s      69598 s     286544 s         16 s
+#2  3501 MHz     162384 s       3705 s      30392 s     804631 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -37,11 +39,13 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.5
 2 required packages:
  - JSON                          0.8.0
- - Optim                         0.6.1
-5 additional packages:
+ - Optim                         0.7.0
+7 additional packages:
  - Calculus                      0.1.15
  - Compat                        0.9.5
- - ForwardDiff                   0.2.5
+ - DiffBase                      0.0.2
+ - ForwardDiff                   0.3.3
+ - LineSearches                  0.1.1
  - NaNMath                       0.2.2
  - PositiveFactorizations        0.0.3
 INFO: Testing Optim
@@ -49,6 +53,10 @@ Running tests:
  * types.jl
  * bfgs.jl
  * gradient_descent.jl
+ * accelerated_gradient_descent.jl
+Iter     Function value   Gradient norm 
+     0     1.000000e+00     4.000000e+00
+     1     5.397751e-01     2.518950e+00
  * momentum_gradient_descent.jl
  * grid_search.jl
  * l_bfgs.jl
@@ -164,22 +172,10 @@ WARNING: Problem solving for delta_x: predicted residual increase.
 WARNING: NelderMead(a::Real,g::Real,b::Real) is deprecated, use NelderMead(initial_simplex=AffineSimplexer(),parameters=FixedParameters(a,g,b,0.5)) instead.
  in depwarn(::String, ::Symbol) at ./deprecated.jl:64
  in Optim.NelderMead{Ts<:Optim.Simplexer,Tp<:Optim.NMParameters}(::Float64, ::Float64, ::Float64) at ./deprecated.jl:50
- in #NelderMead#69(::Array{Any,1}, ::Type{T}) at /home/vagrant/.julia/v0.5/Optim/src/nelder_mead.jl:54
+ in #NelderMead#69(::Array{Any,1}, ::Type{T}) at /home/vagrant/.julia/v0.5/Optim/src/nelder_mead.jl:53
  in (::Core.#kw#Type)(::Array{Any,1}, ::Type{Optim.NelderMead}) at ./<missing>:0
  in include_from_node1(::String) at ./loading.jl:488
- in macro expansion; at /home/vagrant/.julia/v0.5/Optim/test/runtests.jl:40 [inlined]
- in anonymous at ./<missing>:?
- in include_from_node1(::String) at ./loading.jl:488
- in process_options(::Base.JLOptions) at ./client.jl:262
- in _start() at ./client.jl:318
-while loading /home/vagrant/.julia/v0.5/Optim/test/nelder_mead.jl, in expression starting on line 19
-WARNING: NelderMead(a::Real,g::Real,b::Real) is deprecated, use NelderMead(initial_simplex=AffineSimplexer(),parameters=FixedParameters(a,g,b,0.5)) instead.
- in depwarn(::String, ::Symbol) at ./deprecated.jl:64
- in Optim.NelderMead{Ts<:Optim.Simplexer,Tp<:Optim.NMParameters}(::Float64, ::Float64, ::Float64) at ./deprecated.jl:50
- in #NelderMead#69(::Array{Any,1}, ::Type{T}) at /home/vagrant/.julia/v0.5/Optim/src/nelder_mead.jl:54
- in (::Core.#kw#Type)(::Array{Any,1}, ::Type{Optim.NelderMead}) at ./<missing>:0
- in include_from_node1(::String) at ./loading.jl:488
- in macro expansion; at /home/vagrant/.julia/v0.5/Optim/test/runtests.jl:40 [inlined]
+ in macro expansion; at /home/vagrant/.julia/v0.5/Optim/test/runtests.jl:41 [inlined]
  in anonymous at ./<missing>:?
  in include_from_node1(::String) at ./loading.jl:488
  in process_options(::Base.JLOptions) at ./client.jl:262
@@ -188,153 +184,197 @@ while loading /home/vagrant/.julia/v0.5/Optim/test/nelder_mead.jl, in expression
 WARNING: NelderMead(a::Real,g::Real,b::Real) is deprecated, use NelderMead(initial_simplex=AffineSimplexer(),parameters=FixedParameters(a,g,b,0.5)) instead.
  in depwarn(::String, ::Symbol) at ./deprecated.jl:64
  in Optim.NelderMead{Ts<:Optim.Simplexer,Tp<:Optim.NMParameters}(::Float64, ::Float64, ::Float64) at ./deprecated.jl:50
- in #NelderMead#69(::Array{Any,1}, ::Type{T}) at /home/vagrant/.julia/v0.5/Optim/src/nelder_mead.jl:54
+ in #NelderMead#69(::Array{Any,1}, ::Type{T}) at /home/vagrant/.julia/v0.5/Optim/src/nelder_mead.jl:53
  in (::Core.#kw#Type)(::Array{Any,1}, ::Type{Optim.NelderMead}) at ./<missing>:0
  in include_from_node1(::String) at ./loading.jl:488
- in macro expansion; at /home/vagrant/.julia/v0.5/Optim/test/runtests.jl:40 [inlined]
+ in macro expansion; at /home/vagrant/.julia/v0.5/Optim/test/runtests.jl:41 [inlined]
  in anonymous at ./<missing>:?
  in include_from_node1(::String) at ./loading.jl:488
  in process_options(::Base.JLOptions) at ./client.jl:262
  in _start() at ./client.jl:318
 while loading /home/vagrant/.julia/v0.5/Optim/test/nelder_mead.jl, in expression starting on line 21
+WARNING: NelderMead(a::Real,g::Real,b::Real) is deprecated, use NelderMead(initial_simplex=AffineSimplexer(),parameters=FixedParameters(a,g,b,0.5)) instead.
+ in depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ in Optim.NelderMead{Ts<:Optim.Simplexer,Tp<:Optim.NMParameters}(::Float64, ::Float64, ::Float64) at ./deprecated.jl:50
+ in #NelderMead#69(::Array{Any,1}, ::Type{T}) at /home/vagrant/.julia/v0.5/Optim/src/nelder_mead.jl:53
+ in (::Core.#kw#Type)(::Array{Any,1}, ::Type{Optim.NelderMead}) at ./<missing>:0
+ in include_from_node1(::String) at ./loading.jl:488
+ in macro expansion; at /home/vagrant/.julia/v0.5/Optim/test/runtests.jl:41 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:488
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/Optim/test/nelder_mead.jl, in expression starting on line 22
  * optimize.jl
  * simulated_annealing.jl
  * particle_swarm.jl
- * interpolating_line_search.jl
  * api.jl
 Iter     Function value   Gradient norm 
      0     1.000000e+00     2.000000e+00
+ * Current step size: 1.0
  * g(x): [-2.0,0.0]
  * ~inv(H): [1.0 0.0; 0.0 1.0]
  * x: [0.0,0.0]
      1     8.415971e-01     1.578600e+00
+ * Current step size: 0.042768077654337065
  * g(x): [-1.5786,-1.46329]
  * ~inv(H): [12.2608 3.47244; 3.47244 1.0]
  * x: [0.0855362,0.0]
      2     6.928766e-01     1.076526e+01
+ * Current step size: 0.01143894820261991
  * g(x): [6.59004,-10.7653]
  * ~inv(H): [0.0975543 0.0556186; 0.0556186 0.0403018]
  * x: [0.365059,0.0794421]
      3     4.336347e-01     1.082559e+00
+ * Current step size: 0.5289383775238637
  * g(x): [-1.08256,-0.342414]
  * ~inv(H): [0.086429 0.0613833; 0.0613833 0.0486031]
  * x: [0.341713,0.115056]
      4     3.268654e-01     1.203708e+00
+ * Current step size: 0.7832069592846927
  * g(x): [-0.0983968,-1.20371]
  * ~inv(H): [0.278428 0.213952; 0.213952 0.168913]
  * x: [0.431455,0.180135]
      5     2.989460e-01     1.820631e+00
+ * Current step size: 0.10324029716686389
  * g(x): [0.599899,-1.82063]
  * ~inv(H): [0.177273 0.152973; 0.152973 0.135601]
  * x: [0.460872,0.2033]
      6     2.380606e-01     3.824597e+00
+ * Current step size: 0.5242180516622564
  * g(x): [3.31788,-3.8246]
  * ~inv(H): [0.117499 0.114329; 0.114329 0.114488]
  * x: [0.551122,0.284612]
      7     1.377832e-01     4.305388e+00
+ * Current step size: 2.654333836482214
  * g(x): [4.30539,-3.65706]
  * ~inv(H): [0.105591 0.128794; 0.128794 0.168365]
  * x: [0.676971,0.440004]
      8     9.932907e-02     1.240226e+00
+ * Current step size: 0.5277472177097148
  * g(x): [-1.24023,0.445925]
  * ~inv(H): [0.120479 0.164949; 0.164949 0.23082]
  * x: [0.685625,0.472311]
      9     6.543213e-02     6.765640e-01
+ * Current step size: 0.8017424505942204
  * g(x): [0.502941,-0.676564]
  * ~inv(H): [0.366262 0.514598; 0.514598 0.726543]
  * x: [0.74645,0.553804]
     10     5.511958e-02     1.419213e+00
+ * Current step size: 0.16297281487330761
  * g(x): [1.41921,-1.21117]
  * ~inv(H): [0.211473 0.312469; 0.312469 0.464599]
  * x: [0.773169,0.591735]
 Iter     Function value   Gradient norm 
      0     1.000000e+00     2.000000e+00
+ * Current step size: 1.0
  * g(x): [-2.0,0.0]
  * ~inv(H): [1.0 0.0; 0.0 1.0]
  * x: [0.0,0.0]
      1     8.415971e-01     1.578600e+00
+ * Current step size: 0.042768077654337065
  * g(x): [-1.5786,-1.46329]
  * ~inv(H): [12.2608 3.47244; 3.47244 1.0]
  * x: [0.0855362,0.0]
      2     6.928766e-01     1.076526e+01
+ * Current step size: 0.01143894820261991
  * g(x): [6.59004,-10.7653]
  * ~inv(H): [0.0975543 0.0556186; 0.0556186 0.0403018]
  * x: [0.365059,0.0794421]
      3     4.336347e-01     1.082559e+00
+ * Current step size: 0.5289383775238637
  * g(x): [-1.08256,-0.342414]
  * ~inv(H): [0.086429 0.0613833; 0.0613833 0.0486031]
  * x: [0.341713,0.115056]
      4     3.268654e-01     1.203708e+00
+ * Current step size: 0.7832069592846927
  * g(x): [-0.0983968,-1.20371]
  * ~inv(H): [0.278428 0.213952; 0.213952 0.168913]
  * x: [0.431455,0.180135]
      5     2.989460e-01     1.820631e+00
+ * Current step size: 0.10324029716686389
  * g(x): [0.599899,-1.82063]
  * ~inv(H): [0.177273 0.152973; 0.152973 0.135601]
  * x: [0.460872,0.2033]
      6     2.380606e-01     3.824597e+00
+ * Current step size: 0.5242180516622564
  * g(x): [3.31788,-3.8246]
  * ~inv(H): [0.117499 0.114329; 0.114329 0.114488]
  * x: [0.551122,0.284612]
      7     1.377832e-01     4.305388e+00
+ * Current step size: 2.654333836482214
  * g(x): [4.30539,-3.65706]
  * ~inv(H): [0.105591 0.128794; 0.128794 0.168365]
  * x: [0.676971,0.440004]
      8     9.932907e-02     1.240226e+00
+ * Current step size: 0.5277472177097148
  * g(x): [-1.24023,0.445925]
  * ~inv(H): [0.120479 0.164949; 0.164949 0.23082]
  * x: [0.685625,0.472311]
      9     6.543213e-02     6.765640e-01
+ * Current step size: 0.8017424505942204
  * g(x): [0.502941,-0.676564]
  * ~inv(H): [0.366262 0.514598; 0.514598 0.726543]
  * x: [0.74645,0.553804]
     10     5.511958e-02     1.419213e+00
+ * Current step size: 0.16297281487330761
  * g(x): [1.41921,-1.21117]
  * ~inv(H): [0.211473 0.312469; 0.312469 0.464599]
  * x: [0.773169,0.591735]
     11     4.013082e-02     3.376464e+00
+ * Current step size: 0.7692406779958673
  * g(x): [3.37646,-2.22554]
  * ~inv(H): [0.16596 0.260826; 0.260826 0.41284]
  * x: [0.833422,0.683464]
     12     6.980795e-03     5.135785e-01
+ * Current step size: 4.153824060425805
  * g(x): [-0.513578,0.189509]
  * ~inv(H): [0.372794 0.635081; 0.635081 1.08853]
  * x: [0.916988,0.841814]
     13     4.822164e-03     1.639696e+00
+ * Current step size: 0.43568592755685387
  * g(x): [1.6397,-0.919736]
  * ~inv(H): [0.21278 0.385121; 0.385121 0.700513]
  * x: [0.947968,0.894044]
     14     1.768810e-03     4.107685e-01
+ * Current step size: 2.042291166259496
  * g(x): [-0.410769,0.17126]
  * ~inv(H): [0.303376 0.580128; 0.580128 1.11429]
  * x: [0.958824,0.920199]
     15     4.218795e-04     1.186910e-01
+ * Current step size: 0.8328229696007655
  * g(x): [0.118691,-0.0811141]
  * ~inv(H): [0.490374 0.945393; 0.945393 1.82672]
  * x: [0.979865,0.959729]
     16     9.522312e-05     3.374010e-01
+ * Current step size: 0.8498104659755683
  * g(x): [0.337401,-0.1739]
  * ~inv(H): [0.436789 0.860303; 0.860303 1.69847]
  * x: [0.995571,0.990291]
     17     1.824025e-06     2.888770e-02
+ * Current step size: 1.456401071694573
  * g(x): [-0.0288877,0.0132835]
  * ~inv(H): [0.494558 0.985152; 0.985152 1.96745]
  * x: [0.998824,0.997716]
     18     3.847551e-09     1.733584e-03
+ * Current step size: 0.9445083346822327
  * g(x): [0.00173358,-0.00090904]
  * ~inv(H): [0.495163 0.988462; 0.988462 1.978]
  * x: [0.999958,0.999911]
     19     6.629175e-13     2.322282e-05
+ * Current step size: 1.0664072842242067
  * g(x): [2.32228e-5,-1.10116e-5]
  * ~inv(H): [0.503249 1.00615; 1.00615 2.01662]
  * x: [1.0,1.0]
     20     1.745741e-19     1.175798e-08
+ * Current step size: 0.986714750685407
  * g(x): [-1.1758e-8,6.16125e-9]
  * ~inv(H): [0.499855 0.999694; 0.999694 2.00436]
  * x: [1.0,1.0]
     21     5.374115e-30     9.015011e-14
+ * Current step size: 1.0006216777739572
  * g(x): [9.01501e-14,-4.44089e-14]
- * ~inv(H): [0.499998 0.999996; 0.999996 2.00499]
+ * ~inv(H): [0.499855 0.999694; 0.999694 2.00436]
  * x: [1.0,1.0]
 Iter     Function value    √(Σ(yᵢ-ȳ)²)/n 
 ------   --------------    --------------
@@ -347,337 +387,379 @@ Iter     Function value    √(Σ(yᵢ-ȳ)²)/n
      2     9.506641e-01     2.172172e-02
  * step_type: expansion
  * centroid: [0.021875,-0.00625]
-     3     9.262175e-01     5.243757e-02
+     3     9.506641e-01     5.243757e-02
  * step_type: expansion
  * centroid: [0.0453125,-0.009375]
-     4     8.292372e-01     4.259749e-02
+     4     9.506641e-01     4.259749e-02
  * step_type: reflection
  * centroid: [0.0820313,-0.0109375]
-     5     8.292372e-01     4.265507e-02
+     5     9.506641e-01     4.265507e-02
  * step_type: reflection
  * centroid: [0.11875,-0.0125]
-     6     8.138907e-01     3.109209e-02
+     6     9.506641e-01     3.109209e-02
  * step_type: reflection
  * centroid: [0.135156,-0.0046875]
-     7     7.569606e-01     3.215435e-02
+     7     9.506641e-01     3.215435e-02
  * step_type: reflection
  * centroid: [0.151562,0.003125]
-     8     7.382898e-01     2.418419e-02
+     8     9.506641e-01     2.418419e-02
  * step_type: reflection
  * centroid: [0.167969,0.0109375]
-     9     6.989376e-01     2.426367e-02
+     9     9.506641e-01     2.426367e-02
  * step_type: reflection
  * centroid: [0.184375,0.01875]
-    10     6.800415e-01     2.124416e-02
+    10     9.506641e-01     2.124416e-02
  * step_type: reflection
  * centroid: [0.200781,0.0265625]
-    11     6.475000e-01     1.809652e-02
+    11     9.506641e-01     1.809652e-02
  * step_type: reflection
  * centroid: [0.217187,0.034375]
-    12     6.377042e-01     2.151280e-02
+    12     9.506641e-01     2.151280e-02
  * step_type: reflection
  * centroid: [0.233594,0.0421875]
-    13     5.977620e-01     1.648361e-02
+    13     9.506641e-01     1.648361e-02
  * step_type: reflection
  * centroid: [0.25,0.05]
-    14     5.977620e-01     2.780850e-02
+    14     9.506641e-01     2.780850e-02
  * step_type: reflection
  * centroid: [0.266406,0.0578125]
-    15     5.476196e-01     2.429423e-02
+    15     9.506641e-01     2.340189e-02
  * step_type: inside contraction
  * centroid: [0.246094,0.0671875]
-    16     5.449374e-01     1.754792e-02
+    16     9.506641e-01     1.487609e-02
  * step_type: reflection
- * centroid: [0.268555,0.0683594]
-    17     5.091263e-01     1.465262e-02
+ * centroid: [0.270757,0.0679371]
+    17     9.506641e-01     2.056105e-02
+ * step_type: reflection
+ * centroid: [0.287163,0.0757496]
+    18     9.506641e-01     8.300336e-03
+ * step_type: reflection
+ * centroid: [0.303569,0.0835621]
+    19     9.506641e-01     2.460350e-02
+ * step_type: expansion
+ * centroid: [0.319975,0.0913746]
+    20     9.506641e-01     2.134752e-02
  * step_type: inside contraction
- * centroid: [0.291016,0.0695313]
-    18     5.091263e-01     2.928711e-02
+ * centroid: [0.315794,0.105875]
+    21     9.506641e-01     2.758615e-02
  * step_type: expansion
- * centroid: [0.29209,0.0748047]
-    19     4.564435e-01     2.393325e-02
- * step_type: reflection
- * centroid: [0.317236,0.0891602]
-    20     4.564435e-01     4.392438e-02
+ * centroid: [0.334359,0.109532]
+    22     9.506641e-01     6.347518e-02
  * step_type: expansion
- * centroid: [0.342383,0.103516]
-    21     3.653678e-01     3.913535e-02
- * step_type: reflection
- * centroid: [0.369678,0.128418]
-    22     3.653678e-01     3.661549e-02
- * step_type: reflection
- * centroid: [0.396973,0.15332]
-    23     2.993956e-01     2.794297e-02
+ * centroid: [0.374363,0.134235]
+    23     9.506641e-01     4.615543e-02
  * step_type: inside contraction
- * centroid: [0.4396,0.180762]
-    24     2.993956e-01     3.615204e-02
- * step_type: expansion
- * centroid: [0.438757,0.185718]
-    25     2.597777e-01     2.976324e-02
- * step_type: reflection
- * centroid: [0.479279,0.225549]
-    26     2.265853e-01     4.845727e-02
- * step_type: expansion
- * centroid: [0.5198,0.265381]
-    27     1.444892e-01     3.581898e-02
- * step_type: inside contraction
- * centroid: [0.586774,0.335071]
-    28     1.444892e-01     2.978437e-02
- * step_type: reflection
- * centroid: [0.582414,0.337534]
-    29     1.444892e-01     2.452313e-02
- * step_type: reflection
- * centroid: [0.621251,0.387277]
-    30     9.866233e-02     1.906929e-02
- * step_type: inside contraction
- * centroid: [0.664447,0.434558]
-    31     9.866233e-02     2.637123e-02
- * step_type: expansion
- * centroid: [0.671976,0.448225]
-    32     6.483338e-02     1.579108e-02
- * step_type: inside contraction
- * centroid: [0.733996,0.529675]
-    33     6.483338e-02     1.844031e-02
- * step_type: expansion
- * centroid: [0.726021,0.52298]
-    34     5.484730e-02     6.612510e-03
- * step_type: reflection
- * centroid: [0.768102,0.587691]
-    35     4.879623e-02     1.884123e-02
- * step_type: expansion
- * centroid: [0.810183,0.652403]
-    36     1.219851e-02     1.494519e-02
- * step_type: inside contraction
- * centroid: [0.875001,0.755792]
-    37     1.219851e-02     7.778578e-03
+ * centroid: [0.435328,0.177087]
+    24     9.506641e-01     3.809765e-02
  * step_type: outside contraction
- * centroid: [0.862189,0.742589]
-    38     1.219851e-02     6.490233e-03
- * step_type: reflection
- * centroid: [0.88499,0.784381]
-    39     5.976421e-03     2.702671e-03
- * step_type: inside contraction
- * centroid: [0.923931,0.848906]
-    40     5.976421e-03     3.461744e-03
+ * centroid: [0.418178,0.175807]
+    25     9.506641e-01     6.120849e-02
  * step_type: expansion
- * centroid: [0.921561,0.847988]
-    41     2.624191e-03     1.520029e-03
- * step_type: inside contraction
- * centroid: [0.954576,0.910217]
-    42     2.624191e-03     1.337027e-03
- * step_type: inside contraction
- * centroid: [0.943952,0.893741]
-    43     2.624191e-03     1.226069e-03
- * step_type: reflection
- * centroid: [0.953881,0.910977]
-    44     3.582590e-04     9.655910e-04
- * step_type: reflection
- * centroid: [0.97235,0.946971]
-    45     3.582590e-04     3.537509e-04
+ * centroid: [0.439622,0.198434]
+    26     9.506641e-01     3.814177e-02
  * step_type: outside contraction
- * centroid: [0.990819,0.982965]
-    46     4.826749e-05     1.270919e-04
+ * centroid: [0.510383,0.256281]
+    27     9.506641e-01     2.033749e-02
  * step_type: inside contraction
- * centroid: [0.993649,0.986894]
-    47     4.826749e-05     5.661519e-05
- * step_type: inside contraction
- * centroid: [1.00076,1.00194]
-    48     4.826749e-05     1.499616e-05
- * step_type: inside contraction
- * centroid: [0.998269,0.996328]
-    49     3.589907e-05     1.447031e-05
- * step_type: inside contraction
- * centroid: [1.0012,1.00245]
-    50     1.331661e-05     1.424732e-05
- * step_type: inside contraction
- * centroid: [0.996874,0.994041]
-    51     1.565213e-06     4.917747e-06
+ * centroid: [0.558807,0.297567]
+    28     9.506641e-01     1.224326e-02
  * step_type: outside contraction
- * centroid: [0.998653,0.997287]
-    52     1.565213e-06     3.456266e-06
- * step_type: inside contraction
- * centroid: [1.00012,1.00004]
-    53     1.565213e-06     9.104041e-07
+ * centroid: [0.558807,0.297567]
+    29     9.506641e-01     2.171812e-02
+ * step_type: expansion
+ * centroid: [0.575202,0.314743]
+    30     9.506641e-01     1.698053e-02
  * step_type: reflection
- * centroid: [0.999592,0.999106]
-    54     1.565213e-06     6.870496e-07
+ * centroid: [0.589031,0.335579]
+    31     9.506641e-01     2.736366e-02
+ * step_type: expansion
+ * centroid: [0.602859,0.356415]
+    32     9.506641e-01     2.469437e-02
+ * step_type: reflection
+ * centroid: [0.649477,0.411603]
+    33     9.506641e-01     1.937227e-02
  * step_type: inside contraction
- * centroid: [1.00042,1.00088]
-    55     4.966342e-07     5.777837e-07
+ * centroid: [0.696095,0.466792]
+    34     9.506641e-01     1.528363e-02
+ * step_type: reflection
+ * centroid: [0.666515,0.433031]
+    35     9.506641e-01     1.330356e-02
+ * step_type: reflection
+ * centroid: [0.653874,0.42402]
+    36     9.506641e-01     1.491784e-02
+ * step_type: reflection
+ * centroid: [0.670815,0.448769]
+    37     9.506641e-01     1.037548e-02
  * step_type: inside contraction
- * centroid: [1.00014,1.00022]
-    56     2.272707e-07     1.307209e-07
+ * centroid: [0.700395,0.48253]
+    38     9.506641e-01     9.321927e-03
+ * step_type: reflection
+ * centroid: [0.69668,0.48256]
+    39     9.506641e-01     8.326755e-03
+ * step_type: reflection
+ * centroid: [0.71362,0.507309]
+    40     9.506641e-01     7.254579e-03
  * step_type: inside contraction
- * centroid: [0.999674,0.999361]
-    57     2.120249e-07     7.108936e-08
+ * centroid: [0.734276,0.532028]
+    41     9.506641e-01     1.090885e-02
+ * step_type: expansion
+ * centroid: [0.735712,0.537277]
+    42     9.506641e-01     8.711934e-03
+ * step_type: reflection
+ * centroid: [0.761841,0.577026]
+    43     9.506641e-01     1.307535e-02
+ * step_type: expansion
+ * centroid: [0.78797,0.616775]
+    44     9.506641e-01     1.072049e-02
  * step_type: inside contraction
- * centroid: [1.00016,1.00033]
-    58     6.942358e-08     8.182068e-08
+ * centroid: [0.832475,0.686522]
+    45     9.506641e-01     9.769055e-03
+ * step_type: expansion
+ * centroid: [0.829657,0.685888]
+    46     9.506641e-01     5.845739e-03
+ * step_type: reflection
+ * centroid: [0.871751,0.760942]
+    47     9.506641e-01     7.291009e-03
+ * step_type: expansion
+ * centroid: [0.913845,0.835996]
+    48     9.506641e-01     3.308060e-03
  * step_type: inside contraction
- * centroid: [1.00003,1.00004]
-    59     1.876334e-08     2.129210e-08
+ * centroid: [0.982122,0.960663]
+    49     9.506641e-01     2.966401e-03
  * step_type: inside contraction
- * centroid: [0.999885,0.999773]
-    60     1.876334e-08     9.270314e-09
+ * centroid: [0.971462,0.946891]
+    50     9.506641e-01     8.392380e-04
  * step_type: inside contraction
- * centroid: [1.00006,1.00012]
+ * centroid: [0.987575,0.97335]
+    51     9.506641e-01     6.520787e-04
+ * step_type: inside contraction
+ * centroid: [0.987575,0.97335]
+    52     9.506641e-01     2.138461e-04
+ * step_type: reflection
+ * centroid: [0.992544,0.984906]
+    53     9.506641e-01     4.377739e-04
+ * step_type: inside contraction
+ * centroid: [0.997512,0.996462]
+    54     9.506641e-01     2.795646e-04
+ * step_type: inside contraction
+ * centroid: [1.01909,1.03798]
+    55     9.506641e-01     2.601891e-05
+ * step_type: inside contraction
+ * centroid: [0.999206,0.998567]
+    56     9.506641e-01     7.183578e-05
+ * step_type: inside contraction
+ * centroid: [0.999206,0.998567]
+    57     9.506641e-01     6.903285e-05
+ * step_type: inside contraction
+ * centroid: [1.00932,1.01831]
+    58     9.506641e-01     1.812548e-05
+ * step_type: inside contraction
+ * centroid: [1.00321,1.00685]
+    59     9.506641e-01     1.793986e-05
+ * step_type: reflection
+ * centroid: [1.00219,1.00449]
+    60     9.506641e-01     1.342990e-05
+ * step_type: inside contraction
+ * centroid: [0.996426,0.993114]
+    61     9.506641e-01     5.930672e-06
+ * step_type: inside contraction
+ * centroid: [0.998952,0.997822]
+    62     9.506641e-01     2.776279e-06
+ * step_type: inside contraction
+ * centroid: [1.00029,1.00068]
+    63     9.506641e-01     1.589405e-06
+ * step_type: inside contraction
+ * centroid: [0.999983,0.999918]
+    64     9.506641e-01     2.403931e-06
+ * step_type: inside contraction
+ * centroid: [0.998178,0.996438]
+    65     9.506641e-01     1.282629e-06
+ * step_type: outside contraction
+ * centroid: [0.999777,0.99962]
+    66     9.506641e-01     5.065110e-07
+ * step_type: inside contraction
+ * centroid: [1.0008,1.00163]
+    67     9.506641e-01     3.665532e-07
+ * step_type: reflection
+ * centroid: [1.00018,1.0004]
+    68     9.506641e-01     9.090210e-08
+ * step_type: inside contraction
+ * centroid: [1.00005,1.00008]
+    69     9.506641e-01     1.245959e-07
+ * step_type: inside contraction
+ * centroid: [0.999639,0.999298]
+    70     9.506641e-01     1.049977e-07
+ * step_type: inside contraction
+ * centroid: [1.00004,1.0001]
+    71     9.506641e-01     1.805558e-08
+ * step_type: inside contraction
+ * centroid: [0.999962,0.999922]
+    72     9.506641e-01     2.664886e-08
+ * step_type: inside contraction
+ * centroid: [0.999962,0.999922]
+    73     9.506641e-01     1.532154e-08
+ * step_type: inside contraction
+ * centroid: [1.00008,1.00016]
+    74     9.506641e-01     9.739938e-09
+ * step_type: inside contraction
+ * centroid: [0.999889,0.999787]
 Iter     Function value   Gradient norm 
      0    -1.033256e-01              NaN
- * x_minimum: -0.8541019662496847
  * x_lower: -2.0
  * x_upper: 1.0
+ * minimizer: -0.8541019662496847
      1    -1.033256e-01              NaN
- * x_minimum: -0.8541019662496847
  * x_lower: -2.0
  * x_upper: -0.14589803375031563
+ * minimizer: -0.8541019662496847
      2    -1.033256e-01              NaN
- * x_minimum: -0.8541019662496847
  * x_lower: -1.291796067500631
  * x_upper: -0.14589803375031563
+ * minimizer: -0.8541019662496847
      3    -1.033256e-01              NaN
- * x_minimum: -0.8541019662496847
  * x_lower: -1.291796067500631
  * x_upper: -0.5835921350012621
+ * minimizer: -0.8541019662496847
      4    -1.033256e-01              NaN
- * x_minimum: -0.8541019662496847
  * x_lower: -1.0212862362522084
  * x_upper: -0.5835921350012621
+ * minimizer: -0.8541019662496847
      5    -1.249988e-01              NaN
- * x_minimum: -0.7507764050037857
  * x_lower: -0.8541019662496847
  * x_upper: -0.5835921350012621
+ * minimizer: -0.7507764050037857
      6    -1.249988e-01              NaN
- * x_minimum: -0.7507764050037857
  * x_lower: -0.8541019662496847
  * x_upper: -0.6869176962471611
+ * minimizer: -0.7507764050037857
      7    -1.249988e-01              NaN
- * x_minimum: -0.7507764050037857
  * x_lower: -0.7902432574930602
  * x_upper: -0.6869176962471611
+ * minimizer: -0.7507764050037857
      8    -1.249988e-01              NaN
- * x_minimum: -0.7507764050037857
  * x_lower: -0.7902432574930602
  * x_upper: -0.7263845487364357
+ * minimizer: -0.7507764050037857
      9    -1.249988e-01              NaN
- * x_minimum: -0.7507764050037857
  * x_lower: -0.7658514012257102
  * x_upper: -0.7263845487364357
+ * minimizer: -0.7507764050037857
     10    -1.249988e-01              NaN
- * x_minimum: -0.7507764050037857
  * x_lower: -0.7658514012257102
  * x_upper: -0.7414595449583602
+ * minimizer: -0.7507764050037857
     11    -1.249988e-01              NaN
- * x_minimum: -0.7507764050037857
  * x_lower: -0.7565345411802846
  * x_upper: -0.7414595449583602
+ * minimizer: -0.7507764050037857
     12    -1.249988e-01              NaN
- * x_minimum: -0.7507764050037857
  * x_lower: -0.7565345411802846
  * x_upper: -0.7472176811348591
+ * minimizer: -0.7507764050037857
     13    -1.249988e-01              NaN
- * x_minimum: -0.7507764050037857
  * x_lower: -0.752975817311358
  * x_upper: -0.7472176811348591
+ * minimizer: -0.7507764050037857
     14    -1.249993e-01              NaN
- * x_minimum: -0.7494170934424312
  * x_lower: -0.7507764050037857
  * x_upper: -0.7472176811348591
+ * minimizer: -0.7494170934424312
     15    -1.249993e-01              NaN
- * x_minimum: -0.7494170934424312
  * x_lower: -0.7507764050037857
  * x_upper: -0.7485769926962135
+ * minimizer: -0.7494170934424312
     16    -1.250000e-01              NaN
- * x_minimum: -0.749936304257568
  * x_lower: -0.7507764050037857
  * x_upper: -0.7494170934424312
+ * minimizer: -0.749936304257568
     17    -1.250000e-01              NaN
- * x_minimum: -0.749936304257568
  * x_lower: -0.750257194188649
  * x_upper: -0.7494170934424312
+ * minimizer: -0.749936304257568
     18    -1.250000e-01              NaN
- * x_minimum: -0.749936304257568
  * x_lower: -0.750257194188649
  * x_upper: -0.7497379833735123
+ * minimizer: -0.749936304257568
     19    -1.250000e-01              NaN
- * x_minimum: -0.7500588733045933
  * x_lower: -0.750257194188649
  * x_upper: -0.749936304257568
+ * minimizer: -0.7500588733045933
     20    -1.250000e-01              NaN
- * x_minimum: -0.7500588733045933
  * x_lower: -0.7501346251416237
  * x_upper: -0.749936304257568
+ * minimizer: -0.7500588733045933
     21    -1.250000e-01              NaN
- * x_minimum: -0.7500120560945983
  * x_lower: -0.7500588733045933
  * x_upper: -0.749936304257568
+ * minimizer: -0.7500120560945983
     22    -1.250000e-01              NaN
- * x_minimum: -0.7500120560945983
  * x_lower: -0.7500588733045933
  * x_upper: -0.749983121467563
+ * minimizer: -0.7500120560945983
     23    -1.250000e-01              NaN
- * x_minimum: -0.7500120560945983
  * x_lower: -0.750029938677558
  * x_upper: -0.749983121467563
+ * minimizer: -0.7500120560945983
     24    -1.250000e-01              NaN
- * x_minimum: -0.7500010040505226
  * x_lower: -0.7500120560945983
  * x_upper: -0.749983121467563
+ * minimizer: -0.7500010040505226
     25    -1.250000e-01              NaN
- * x_minimum: -0.7500010040505226
  * x_lower: -0.7500120560945983
  * x_upper: -0.7499941735116387
+ * minimizer: -0.7500010040505226
     26    -1.250000e-01              NaN
- * x_minimum: -0.7500010040505226
  * x_lower: -0.7500052255557144
  * x_upper: -0.7499941735116387
+ * minimizer: -0.7500010040505226
     27    -1.250000e-01              NaN
- * x_minimum: -0.7500010040505226
  * x_lower: -0.7500052255557144
  * x_upper: -0.7499983950168304
+ * minimizer: -0.7500010040505226
     28    -1.250000e-01              NaN
- * x_minimum: -0.7500010040505226
  * x_lower: -0.7500026165220222
  * x_upper: -0.7499983950168304
+ * minimizer: -0.7500010040505226
     29    -1.250000e-01              NaN
- * x_minimum: -0.75000000748833
  * x_lower: -0.7500010040505226
  * x_upper: -0.7499983950168304
+ * minimizer: -0.75000000748833
     30    -1.250000e-01              NaN
- * x_minimum: -0.75000000748833
  * x_lower: -0.7500010040505226
  * x_upper: -0.7499993915790231
+ * minimizer: -0.75000000748833
     31    -1.250000e-01              NaN
- * x_minimum: -0.75000000748833
  * x_lower: -0.7500003881412156
  * x_upper: -0.7499993915790231
+ * minimizer: -0.75000000748833
     32    -1.250000e-01              NaN
- * x_minimum: -0.75000000748833
  * x_lower: -0.7500003881412156
  * x_upper: -0.7499997722319087
+ * minimizer: -0.75000000748833
     33    -1.250000e-01              NaN
- * x_minimum: -0.75000000748833
  * x_lower: -0.7500001528847944
  * x_upper: -0.7499997722319087
+ * minimizer: -0.75000000748833
     34    -1.250000e-01              NaN
- * x_minimum: -0.75000000748833
  * x_lower: -0.7500001528847944
  * x_upper: -0.7499999176283731
+ * minimizer: -0.75000000748833
     35    -1.250000e-01              NaN
- * x_minimum: -0.75000000748833
  * x_lower: -0.7500000630248376
  * x_upper: -0.7499999176283731
+ * minimizer: -0.75000000748833
     36    -1.250000e-01              NaN
- * x_minimum: -0.75000000748833
  * x_lower: -0.7500000630248376
  * x_upper: -0.7499999731648807
+ * minimizer: -0.75000000748833
     37    -1.250000e-01              NaN
- * x_minimum: -0.75000000748833
  * x_lower: -0.7500000287013883
  * x_upper: -0.7499999731648807
+ * minimizer: -0.75000000748833
     38    -1.250000e-01              NaN
- * x_minimum: -0.749999994377939
  * x_lower: -0.75000000748833
  * x_upper: -0.7499999731648807
+ * minimizer: -0.749999994377939
  * golden_section.jl
  * brent.jl
  * type_stability.jl
@@ -711,6 +793,19 @@ Optim.ConjugateGradient{T} WITH preconditioning : g_calls = 5, f_calls = 7
 Optim.LBFGS{T} WITHOUT preconditioning : g_calls = 1283, f_calls = 1283
 Optim.LBFGS{T} WITH preconditioning : g_calls = 12, f_calls = 12
  * initial_convergence.jl
+ * extrapolate.jl
+--------------------
+Rosenbrock Example: 
+--------------------
+LBFGS Default Options: g_calls = 157, f_calls = 157
+CG Default Options: g_calls = 65, f_calls = 86
+LBFGS + Backtracking + Extrapolation: g_calls = 23, f_calls = 52
+--------------------------------------
+p-Laplacian Example (preconditioned): 
+--------------------------------------
+LBFGS Default Options: g_calls = 15, f_calls = 15
+CG Default Options: g_calls = 10, f_calls = 13
+LBFGS + Backtracking + Extrapolation: g_calls = 9, f_calls = 18
 INFO: Optim tests passed
 
 >>> End of log

@@ -1,7 +1,7 @@
 >>> 'Pkg.add("ContMechTensors")' log
 INFO: Cloning cache of ContMechTensors from https://github.com/KristofferC/ContMechTensors.jl.git
 INFO: Installing ContMechTensors v0.2.0
-INFO: Installing StaticArrays v0.1.0
+INFO: Installing StaticArrays v0.1.1
 INFO: Package database updated
 
 >>> 'Pkg.test("ContMechTensors")' log
@@ -13,13 +13,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-105-generic #152-Ubuntu SMP Fri Dec 2 15:37:11 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (737.8125 MB free)
-Uptime: 14333.0 sec
-Load Avg:  0.9736328125  0.98828125  1.0400390625
+Memory: 2.9392738342285156 GB (740.05078125 MB free)
+Uptime: 14140.0 sec
+Load Avg:  0.875  0.9306640625  1.0185546875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3498 MHz     771383 s         98 s      80531 s     421112 s         29 s
-#2  3498 MHz     313697 s       7004 s      44763 s    1022462 s          2 s
+#1  3500 MHz     772736 s       3817 s      77946 s     397818 s         32 s
+#2  3500 MHz     325455 s       3442 s      44126 s    1003315 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -38,13 +38,13 @@ Package Directory: /home/vagrant/.julia/v0.5
  - JSON                          0.8.0
 2 additional packages:
  - Compat                        0.9.5
- - StaticArrays                  0.1.0
+ - StaticArrays                  0.1.1
 INFO: Computing test dependencies for ContMechTensors...
 INFO: Installing Calculus v0.1.15
 INFO: Installing DiffBase v0.0.2
 INFO: Installing DocStringExtensions v0.3.0
-INFO: Installing Documenter v0.8.1
-INFO: Installing ForwardDiff v0.3.2
+INFO: Installing Documenter v0.8.2
+INFO: Installing ForwardDiff v0.3.3
 INFO: Installing NaNMath v0.2.2
 INFO: Testing ContMechTensors
 Documenter: setting up build directory.
@@ -53,38 +53,87 @@ Documenter: building cross-references.
 Documenter: running document checks.
  > checking for missing docstrings.
  > running doctests.
+ !! Test error in the following code block in '/home/vagrant/.julia/v0.5/ContMechTensors/src/math_ops.jl':
+
+        julia> A = rand(SymmetricTensor{2,3})
+        3×3 ContMechTensors.SymmetricTensor{2,3,Float64,6}:
+         0.590845  0.766797  0.566237
+         0.766797  0.460085  0.794026
+         0.566237  0.794026  0.854147
+        
+        julia> Λ, Φ = eig(A);
+        
+        julia> Λ
+        3-element ContMechTensors.Tensor{1,3,Float64,3}:
+         -0.312033
+          0.15636
+          2.06075
+        
+        julia> Φ
+        3×3 ContMechTensors.Tensor{2,3,Float64,9}:
+          0.492843   0.684993  0.536554
+         -0.811724   0.139855  0.567049
+          0.313385  -0.715     0.624952
+        
+        julia> Φ ⋅ diagm(Tensor{2,3}, Λ) ⋅ inv(Φ) # Same as A
+        3×3 ContMechTensors.Tensor{2,3,Float64,9}:
+         0.590845  0.766797  0.566237
+         0.766797  0.460085  0.794026
+         0.566237  0.794026  0.854147
+
+    in expression:
+
+        Φ
+
+    expected:
+
+        3×3 ContMechTensors.Tensor{2,3,Float64,9}:
+          0.492843   0.684993  0.536554
+         -0.811724   0.139855  0.567049
+          0.313385  -0.715     0.624952
+
+    returned:
+
+        3×3 ContMechTensors.Tensor{2,3,Float64,9}:
+          0.492843  -0.684993  0.536554
+         -0.811724  -0.139855  0.567049
+          0.313385   0.715     0.624952
+
  > checking footnote links.
 Documenter: populating indices.
-Documenter: rendering document.
-Documenter: skipping docs deployment.
-Test Summary:                        | Pass  Total
-  basic constructors: rand, zero, ones |  492    492
-Test Summary: | Pass  Total
-  diagm, one  |  532    532
-Test Summary: | Pass  Total
-  simple math |  600    600
-Test Summary:          | Pass  Total
-  create with a function |  396    396
-Test Summary:     | Pass  Total
-  create from Array |  168    168
-Test Summary: | Pass  Total
-  indexing    | 1806   1806
-Test Summary:              | Pass  Total
-  norm, trace, det, inv, eig |  174    174
-Test Summary:     | Pass  Total
-  tensor identities |  192    192
-Test Summary:        | Pass  Total
-  promotion/conversion |  256    256
-Test Summary: | Pass  Total
-  exceptions  |    3      3
-Test Summary:     | Pass  Total
-  tensor operations |  902    902
-INFO: ContMechTensors tests passed
+ERROR: LoadError: LoadError: `makedocs` encountered an error. Terminating build
+ in runner(::Type{Documenter.Builder.RenderDocument}, ::Documenter.Documents.Document) at /home/vagrant/.julia/v0.5/Documenter/src/Builder.jl:202
+ in dispatch(::Type{Documenter.Builder.DocumentPipeline}, ::Documenter.Documents.Document) at /home/vagrant/.julia/v0.5/Documenter/src/Selectors.jl:164
+ in cd(::Documenter.##2#3{Documenter.Documents.Document}, ::String) at ./file.jl:59
+ in #makedocs#1(::Bool, ::Array{Any,1}, ::Function) at /home/vagrant/.julia/v0.5/Documenter/src/Documenter.jl:159
+ in (::Documenter.#kw##makedocs)(::Array{Any,1}, ::Documenter.#makedocs) at ./<missing>:0
+ in include_from_node1(::String) at ./loading.jl:488 (repeats 2 times)
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/ContMechTensors/test/../docs/make.jl, in expression starting on line 3
+while loading /home/vagrant/.julia/v0.5/ContMechTensors/test/runtests.jl, in expression starting on line 2
+===========================[ ERROR: ContMechTensors ]===========================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.5/ContMechTensors/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing Calculus v0.1.15
 INFO: Removing DiffBase v0.0.2
 INFO: Removing DocStringExtensions v0.3.0
-INFO: Removing Documenter v0.8.1
-INFO: Removing ForwardDiff v0.3.2
+INFO: Removing Documenter v0.8.2
+INFO: Removing ForwardDiff v0.3.3
 INFO: Removing NaNMath v0.2.2
+ERROR: ContMechTensors had test errors
+ in #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:740
+ in (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
+ in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:59
+ in #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
+ in (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
+ in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in eval(::Module, ::Any) at ./boot.jl:234
+ in process_options(::Base.JLOptions) at ./client.jl:239
+ in _start() at ./client.jl:318
 
 >>> End of log

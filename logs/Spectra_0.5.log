@@ -24,7 +24,7 @@ INFO: Installing Lazy v0.11.4
 INFO: Installing LegacyStrings v0.1.1
 INFO: Installing LsqFit v0.0.2
 INFO: Installing MacroTools v0.3.2
-INFO: Installing MathProgBase v0.5.7
+INFO: Installing MathProgBase v0.5.8
 INFO: Installing NaNMath v0.2.2
 INFO: Installing Nettle v0.2.4
 INFO: Installing Optim v0.6.1
@@ -36,7 +36,7 @@ INFO: Installing Reexport v0.0.3
 INFO: Installing ReverseDiffSparse v0.5.8
 INFO: Installing Rmath v0.1.4
 INFO: Installing SHA v0.3.0
-INFO: Installing Spectra v0.3.0
+INFO: Installing Spectra v0.3.1
 INFO: Installing StatsBase v0.11.1
 INFO: Installing StatsFuns v0.3.1
 INFO: Installing URIParser v0.1.6
@@ -165,24 +165,11 @@ Solving package specifications: ..........
 numpy                     1.10.4                   py27_2  
 INFO: PyCall is using /home/vagrant/.julia/v0.5/Conda/deps/usr/bin/python (Python 2.7.12) at /home/vagrant/.julia/v0.5/Conda/deps/usr/bin/python, libpython = /home/vagrant/.julia/v0.5/Conda/deps/usr/lib/libpython2.7
 INFO: Building Spectra
-===============================[ ERROR: Spectra ]===============================
-
-LoadError: MethodError: no method matching @static(::Expr, ::Expr)
-Closest candidates are:
-  @static(::ANY) at osutils.jl:61
-while loading /home/vagrant/.julia/v0.5/Spectra/deps/build.jl, in expression starting on line 1
-
-================================================================================
-
-================================[ BUILD ERRORS ]================================
-
-WARNING: Spectra had build errors.
-
- - packages with build errors remain installed in /home/vagrant/.julia/v0.5
- - build the package(s) and all dependencies with `Pkg.build("Spectra")`
- - build a single package by running its `deps/build.jl` script
-
-================================================================================
+ifort -c -fPIC -O3  gcvspl.f -o gcvspl.o
+make: ifort: Command not found
+make: *** [gcvspl.o] Error 127
+gfortran -c -fPIC -O3  gcvspl.f -o gcvspl.o
+gfortran -o libgcvspl.so -shared gcvspl.o
 INFO: Package database updated
 
 >>> 'Pkg.test("Spectra")' log
@@ -194,13 +181,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-105-generic #152-Ubuntu SMP Fri Dec 2 15:37:11 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1234.71875 MB free)
-Uptime: 25973.0 sec
-Load Avg:  0.88916015625  0.97265625  1.013671875
+Memory: 2.9392738342285156 GB (1242.24609375 MB free)
+Uptime: 26956.0 sec
+Load Avg:  0.91552734375  0.96728515625  1.0185546875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    1551295 s        123 s     161690 s     575525 s         76 s
-#2  3500 MHz     447708 s       6191 s      79187 s    1993312 s          2 s
+#1  3501 MHz    1571724 s       2976 s     176414 s     664612 s         95 s
+#2  3501 MHz     473401 s       3714 s      83274 s    2063596 s          2 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -216,7 +203,7 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.5
 2 required packages:
  - JSON                          0.8.0
- - Spectra                       0.3.0
+ - Spectra                       0.3.1
 39 additional packages:
  - BinDeps                       0.4.5
  - Blosc                         0.1.7
@@ -241,7 +228,7 @@ Package Directory: /home/vagrant/.julia/v0.5
  - LegacyStrings                 0.1.1
  - LsqFit                        0.0.2
  - MacroTools                    0.3.2
- - MathProgBase                  0.5.7
+ - MathProgBase                  0.5.8
  - NaNMath                       0.2.2
  - Nettle                        0.2.4
  - Optim                         0.6.1
@@ -260,8 +247,23 @@ Package Directory: /home/vagrant/.julia/v0.5
 INFO: Testing Spectra
 WARNING: No working GUI backend found for matplotlib.
 WARNING: No working GUI backend found for matplotlib.
-ERROR: LoadError: InitError: GCVSPL not properly installed. Run Pkg.build("Spectra"). Windows auto-build is not setup, you might want to build the library manually.
- in __init__() at /home/vagrant/.julia/v0.5/Spectra/src/Spectra.jl:45
+INFO: Installing sklearn.model_selection via the Conda scikit-learn package...
+Fetching package metadata .........
+Solving package specifications: ..........
+
+# All requested packages already installed.
+# packages in environment at /home/vagrant/.julia/v0.5/Conda/deps/usr:
+#
+scikit-learn              0.17.1              np110py27_2  
+ERROR: LoadError: InitError: PyError (:PyImport_ImportModule) <type 'exceptions.ImportError'>
+ImportError('No module named model_selection',)
+
+ in pyerr_check at /home/vagrant/.julia/v0.5/PyCall/src/exception.jl:56 [inlined]
+ in pyerr_check at /home/vagrant/.julia/v0.5/PyCall/src/exception.jl:61 [inlined]
+ in macro expansion at /home/vagrant/.julia/v0.5/PyCall/src/exception.jl:81 [inlined]
+ in pyimport(::String) at /home/vagrant/.julia/v0.5/PyCall/src/PyCall.jl:387
+ in pyimport_conda(::String, ::String, ::String) at /home/vagrant/.julia/v0.5/PyCall/src/PyCall.jl:480
+ in __init__() at /home/vagrant/.julia/v0.5/Spectra/src/Spectra.jl:49
  in _include_from_serialized(::String) at ./loading.jl:150
  in _require_from_serialized(::Int64, ::Symbol, ::String, ::Bool) at ./loading.jl:187
  in require(::Symbol) at ./loading.jl:423
