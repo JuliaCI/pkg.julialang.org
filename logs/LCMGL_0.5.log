@@ -21,8 +21,8 @@ INFO: Attempting to Create directory /home/vagrant/.julia/v0.5/LCMGL/deps/downlo
 INFO: Downloading file https://github.com/lcm-proj/lcm/releases/download/v1.3.1/lcm-1.3.1.zip
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   590    0   590    0     0   6456      0 --:--:-- --:--:-- --:--:--  6413
-100 7164k  100 7164k    0     0  7312k      0 --:--:-- --:--:-- --:--:-- 7312k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   590    0   590    0     0   6305      0 --:--:-- --:--:-- --:--:--  6344
+100 7164k  100 7164k    0     0  10.2M      0 --:--:-- --:--:-- --:--:-- 10.2M
 INFO: Done downloading file https://github.com/lcm-proj/lcm/releases/download/v1.3.1/lcm-1.3.1.zip
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.5/LCMGL/deps/src
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.5/LCMGL/deps
@@ -1304,6 +1304,10 @@ make[1]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/
   CC       lcm_tcpq.lo
   CC       ringbuffer.lo
   CC       udpm_util.lo
+lcm_file.c: In function 'lcm_logprov_create':
+lcm_file.c:230:9: warning: 'g_thread_create' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:100): Use 'g_thread_new' instead [-Wdeprecated-declarations]
+         lr->timer_thread = g_thread_create (timer_thread, lr, TRUE, NULL);
+         ^
 lcm.c: In function 'lcm_create':
 lcm.c:61:5: warning: 'g_thread_init' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:261) [-Wdeprecated-declarations]
      if (!g_thread_supported ()) g_thread_init (NULL);
@@ -1367,7 +1371,6 @@ lcm.c:429:5: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/
 lcm.c:449:13: warning: 'g_static_rec_mutex_unlock_full' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:188) [-Wdeprecated-declarations]
              int depth = g_static_rec_mutex_unlock_full (&lcm->mutex);
              ^
-lcm_udpm.c: In function 'lcm_udpm_destroy':
 lcm.c:451:13: warning: 'g_static_rec_mutex_lock_full' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:184) [-Wdeprecated-declarations]
              g_static_rec_mutex_lock_full (&lcm->mutex, depth);
              ^
@@ -1381,6 +1384,7 @@ lcm.c:526:5: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/
 lcm.c:528:5: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
      g_static_rec_mutex_unlock(&subs->lcm->mutex);
      ^
+lcm_udpm.c: In function 'lcm_udpm_destroy':
 lcm_udpm.c:178:5: warning: 'g_static_rec_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:191): Use 'g_rec_mutex_free' instead [-Wdeprecated-declarations]
      g_static_rec_mutex_free (&lcm->mutex);
      ^
@@ -1395,6 +1399,9 @@ lcm_udpm.c:182:9: warning: 'g_cond_free' is deprecated (declared at /usr/include
          ^
 lcm_udpm.c: In function '_recv_message_fragment':
 lcm_memq.c: In function 'lcm_memq_destroy':
+lcm_memq.c:61:5: warning: 'g_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:275) [-Wdeprecated-declarations]
+     g_mutex_free(self->mutex);
+     ^
 lcm_udpm.c:341:9: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
          g_static_rec_mutex_lock (&lcm->mutex);
          ^
@@ -1408,11 +1415,6 @@ lcm_udpm.c:470:13: warning: 'g_static_rec_mutex_lock' is deprecated (declared at
 lcm_udpm.c:472:13: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
              g_static_rec_mutex_unlock (&lcm->mutex);
              ^
-lcm_file.c: In function 'lcm_logprov_create':
-lcm_memq.c:61:5: warning: 'g_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:275) [-Wdeprecated-declarations]
-     g_mutex_free(self->mutex);
-     ^
-lcm_memq.c: In function 'lcm_memq_create':
 lcm_udpm.c:545:9: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
          g_static_rec_mutex_lock (&lcm->mutex);
          ^
@@ -1420,9 +1422,6 @@ lcm_udpm.c:547:9: warning: 'g_static_rec_mutex_unlock' is deprecated (declared a
          g_static_rec_mutex_unlock (&lcm->mutex);
          ^
 lcm_udpm.c: In function 'recv_thread':
-lcm_memq.c:80:5: warning: 'g_mutex_new' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:273) [-Wdeprecated-declarations]
-     self->mutex = g_mutex_new();
-     ^
 lcm_udpm.c:576:9: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
          g_static_rec_mutex_lock (&lcm->mutex);
          ^
@@ -1433,6 +1432,10 @@ lcm_udpm.c: In function 'lcm_udpm_publish':
 lcm_udpm.c:621:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_lock (&lcm->transmit_lock);
          ^
+lcm_memq.c: In function 'lcm_memq_create':
+lcm_memq.c:80:5: warning: 'g_mutex_new' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:273) [-Wdeprecated-declarations]
+     self->mutex = g_mutex_new();
+     ^
 lcm_udpm.c:652:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_unlock (&lcm->transmit_lock);
          ^
@@ -1441,9 +1444,6 @@ lcm_udpm.c:671:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declar
          ^
 lcm_udpm.c:741:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_unlock (&lcm->transmit_lock);
-         ^
-lcm_file.c:230:9: warning: 'g_thread_create' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:100): Use 'g_thread_new' instead [-Wdeprecated-declarations]
-         lr->timer_thread = g_thread_create (timer_thread, lr, TRUE, NULL);
          ^
 lcm_udpm.c: In function 'lcm_udpm_handle':
 lcm_udpm.c:768:5: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
@@ -1749,24 +1749,24 @@ make[1]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/
   CC       lcm-logfilter.o
   CC       buftest-receiver.o
   CC       buftest-sender.o
-  CCLD     lcm-source
-  CCLD     lcm-buftest-receiver
-  CCLD     lcm-sink
   CCLD     lcm-example
+  CCLD     lcm-sink
+  CCLD     lcm-buftest-receiver
   CCLD     lcm-buftest-sender
+  CCLD     lcm-source
   CCLD     lcm-logfilter
   CCLD     lcm-tester
 make[1]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/liblcm-test'
 Making all in lcmgen
 make[1]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/lcmgen'
-  CC       main.o
   CC       lcmgen.o
+  CC       main.o
+  CC       getopt.o
   CC       tokenize.o
   CC       emit_c.o
   CC       emit_cpp.o
   CC       emit_java.o
   CC       emit_csharp.o
-  CC       getopt.o
 emit_cpp.c: In function ‘emit_header_start’:
 emit_cpp.c:306:19: warning: implicit declaration of function ‘_exit’ [-Wimplicit-function-declaration]
                    _exit(1);
@@ -1778,27 +1778,9 @@ emit_cpp.c:306:19: warning: incompatible implicit declaration of built-in functi
 make[1]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/lcmgen'
 Making all in lcm-logger
 make[1]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/lcm-logger'
-  CC       glib_util.o
   CC       lcm_logger.o
+  CC       glib_util.o
   CC       lcm_logplayer.o
-  CCLD     lcm-logplayer
-lcm_logger.c: In function ‘write_thread’:
-lcm_logger.c:261:13: warning: implicit declaration of function ‘fdatasync’ [-Wimplicit-function-declaration]
-             fdatasync(fileno(logger->log->f));
-             ^
-lcm_logger.c: In function ‘main’:
-lcm_logger.c:546:5: warning: ‘g_thread_init’ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:261) [-Wdeprecated-declarations]
-     g_thread_init(NULL);
-     ^
-lcm_logger.c:556:5: warning: ‘g_mutex_new’ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:273) [-Wdeprecated-declarations]
-     logger.mutex = g_mutex_new();
-     ^
-lcm_logger.c:559:5: warning: ‘g_thread_create’ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:100): Use 'g_thread_new' instead [-Wdeprecated-declarations]
-     logger.write_thread = g_thread_create(write_thread, &logger, TRUE, NULL);
-     ^
-lcm_logger.c:608:5: warning: ‘g_mutex_free’ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:275) [-Wdeprecated-declarations]
-     g_mutex_free(logger.mutex);
-     ^
 glib_util.c: In function ‘glib_mainloop_attach_lcm’:
 glib_util.c:181:5: warning: ‘g_static_mutex_get_mutex_impl’ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
      g_static_mutex_lock (&lcm_glib_sources_mutex);
@@ -1821,6 +1803,24 @@ glib_util.c:219:9: warning: ‘g_static_mutex_get_mutex_impl’ is deprecated (d
          ^
 glib_util.c:234:5: warning: ‘g_static_mutex_get_mutex_impl’ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
      g_static_mutex_unlock (&lcm_glib_sources_mutex);
+     ^
+  CCLD     lcm-logplayer
+lcm_logger.c: In function ‘write_thread’:
+lcm_logger.c:261:13: warning: implicit declaration of function ‘fdatasync’ [-Wimplicit-function-declaration]
+             fdatasync(fileno(logger->log->f));
+             ^
+lcm_logger.c: In function ‘main’:
+lcm_logger.c:546:5: warning: ‘g_thread_init’ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:261) [-Wdeprecated-declarations]
+     g_thread_init(NULL);
+     ^
+lcm_logger.c:556:5: warning: ‘g_mutex_new’ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:273) [-Wdeprecated-declarations]
+     logger.mutex = g_mutex_new();
+     ^
+lcm_logger.c:559:5: warning: ‘g_thread_create’ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:100): Use 'g_thread_new' instead [-Wdeprecated-declarations]
+     logger.write_thread = g_thread_create(write_thread, &logger, TRUE, NULL);
+     ^
+lcm_logger.c:608:5: warning: ‘g_mutex_free’ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:275) [-Wdeprecated-declarations]
+     g_mutex_free(logger.mutex);
      ^
   CCLD     lcm-logger
 make[1]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/lcm-logger'
@@ -1850,9 +1850,9 @@ make[1]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/
 make[2]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/lcm'
  /bin/mkdir -p '/home/vagrant/.julia/v0.5/LCMGL/deps/usr/lib'
  /bin/mkdir -p '/home/vagrant/.julia/v0.5/LCMGL/deps/usr/include/lcm'
+ /bin/bash ../libtool   --mode=install /usr/bin/install -c   liblcm.la '/home/vagrant/.julia/v0.5/LCMGL/deps/usr/lib'
  /bin/mkdir -p '/home/vagrant/.julia/v0.5/LCMGL/deps/usr/lib/pkgconfig'
  /usr/bin/install -c -m 644 eventlog.h lcm.h lcm_coretypes.h lcm-cpp.hpp lcm-cpp-impl.hpp '/home/vagrant/.julia/v0.5/LCMGL/deps/usr/include/lcm'
- /bin/bash ../libtool   --mode=install /usr/bin/install -c   liblcm.la '/home/vagrant/.julia/v0.5/LCMGL/deps/usr/lib'
  /usr/bin/install -c -m 644 lcm.pc '/home/vagrant/.julia/v0.5/LCMGL/deps/usr/lib/pkgconfig'
 libtool: install: /usr/bin/install -c .libs/liblcm.so.1.3.4 /home/vagrant/.julia/v0.5/LCMGL/deps/usr/lib/liblcm.so.1.3.4
 libtool: install: (cd /home/vagrant/.julia/v0.5/LCMGL/deps/usr/lib && { ln -s -f liblcm.so.1.3.4 liblcm.so.1 || { rm -f liblcm.so.1 && ln -s liblcm.so.1.3.4 liblcm.so.1; }; })
@@ -1934,8 +1934,8 @@ INFO: Directory /home/vagrant/.julia/v0.5/LCMGL/deps/downloads already created
 INFO: Downloading file https://github.com/RobotLocomotion/libbot/archive/cc8d228b50847c4c55e6963b8ee95c237287547f.zip
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   161    0   161    0     0   1865      0 --:--:-- --:--:-- --:--:--  1850
-  0     0    0  127k    0     0  91981      0 --:--:--  0:00:01 --:--:-- 91981  0     0    0  881k    0     0   574k      0 --:--:--  0:00:01 --:--:-- 6853k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   161    0   161    0     0   1758      0 --:--:-- --:--:-- --:--:--  1769
+  0     0    0  559k    0     0   414k      0 --:--:--  0:00:01 --:--:--  414k  0     0    0  881k    0     0   648k      0 --:--:--  0:00:01 --:--:-- 31.4M
 INFO: Done downloading file https://github.com/RobotLocomotion/libbot/archive/cc8d228b50847c4c55e6963b8ee95c237287547f.zip
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.5/LCMGL/deps/src
 INFO: Directory /home/vagrant/.julia/v0.5/LCMGL/deps/src already created
@@ -3391,13 +3391,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-105-generic #152-Ubuntu SMP Fri Dec 2 15:37:11 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (569.7421875 MB free)
-Uptime: 44348.0 sec
-Load Avg:  1.509765625  1.169921875  1.09619140625
+Memory: 2.9392738342285156 GB (535.90625 MB free)
+Uptime: 44344.0 sec
+Load Avg:  1.39892578125  1.11279296875  1.05322265625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3504 MHz    2402053 s         76 s     264461 s    1250358 s        176 s
-#2  3504 MHz     961709 s        159 s     139329 s    3186514 s          8 s
+#1  3499 MHz    2595379 s       6840 s     227889 s    1051395 s        177 s
+#2  3499 MHz     834974 s       1313 s     127726 s    3325065 s          4 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -3414,9 +3414,13 @@ Package Directory: /home/vagrant/.julia/v0.5
 2 required packages:
  - JSON                          0.8.0
  - LCMGL                         0.0.2
-4 additional packages:
+8 additional packages:
  - BinDeps                       0.4.5
  - Compat                        0.9.5
+ - CompilerTools                 0.2.1
+ - DataStructures                0.4.6
+ - DocOpt                        0.2.0
+ - ParallelAccelerator           0.2.2              6da2e374 (dirty)
  - SHA                           0.3.0
  - URIParser                     0.1.6
 INFO: Testing LCMGL
