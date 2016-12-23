@@ -1,0 +1,136 @@
+>>> 'Pkg.add("Gasp")' log
+INFO: Cloning cache of Gasp from https://github.com/kpamnany/Gasp.jl.git
+INFO: Installing Gasp v0.0.1
+INFO: Building Gasp
+Compiling libgasp...
+make: Entering directory `/home/vagrant/.julia/v0.5/Gasp/deps/gasp'
+mpicc -Wall -std=c11 -D_GNU_SOURCE -fpic -I./include -I./src -O2 -c src/gasp.c -o src/gasp.o
+src/gasp.c: In function ‘gasp_init’:
+src/gasp.c:32:19: warning: ignoring return value of ‘posix_memalign’, declared with attribute warn_unused_result [-Wunused-result]
+     posix_memalign((void **)&g, 64, sizeof(gasp_t));
+                   ^
+mpicc -Wall -std=c11 -D_GNU_SOURCE -fpic -I./include -I./src -O2 -c src/garray.c -o src/garray.o
+src/garray.c: In function ‘garray_create’:
+src/garray.c:54:5: warning: implicit declaration of function ‘MPI_Win_allocate’ [-Wimplicit-function-declaration]
+     MPI_Win_allocate(ga->nlocal_elems*elem_size, 1, MPI_INFO_NULL,
+     ^
+src/garray.c:56:5: warning: implicit declaration of function ‘MPI_Win_lock_all’ [-Wimplicit-function-declaration]
+     MPI_Win_lock_all(MPI_MODE_NOCHECK, ga->win);
+     ^
+src/garray.c: In function ‘garray_destroy’:
+src/garray.c:74:5: warning: implicit declaration of function ‘MPI_Win_unlock_all’ [-Wimplicit-function-declaration]
+     MPI_Win_unlock_all(ga->win);
+     ^
+src/garray.c: In function ‘garray_get’:
+src/garray.c:194:9: warning: implicit declaration of function ‘MPI_Win_flush_local’ [-Wimplicit-function-declaration]
+         MPI_Win_flush_local(tlonid, ga->win);
+         ^
+src/garray.c:241:5: warning: implicit declaration of function ‘MPI_Win_flush_local_all’ [-Wimplicit-function-declaration]
+     MPI_Win_flush_local_all(ga->win);
+     ^
+src/garray.c: In function ‘garray_put’:
+src/garray.c:268:9: warning: implicit declaration of function ‘MPI_Win_flush’ [-Wimplicit-function-declaration]
+         MPI_Win_flush(tlonid, ga->win);
+         ^
+src/garray.c:315:5: warning: implicit declaration of function ‘MPI_Win_flush_all’ [-Wimplicit-function-declaration]
+     MPI_Win_flush_all(ga->win);
+     ^
+src/garray.c: In function ‘garray_create’:
+src/garray.c:35:19: warning: ignoring return value of ‘posix_memalign’, declared with attribute warn_unused_result [-Wunused-result]
+     posix_memalign((void **)&ga, 64, sizeof(garray_t));
+                   ^
+mpicc -Wall -std=c11 -D_GNU_SOURCE -fpic -I./include -I./src -O2 -c src/dtree.c -o src/dtree.o
+mpicc -Wall -std=c11 -D_GNU_SOURCE -fpic -I./include -I./src -O2 -c src/log.c -o src/log.o
+mpicc -Wall -std=c11 -D_GNU_SOURCE -fpic -I./include -I./src -O2 -shared -o libgasp.so   src/gasp.o src/garray.o src/dtree.o src/log.o
+make: Leaving directory `/home/vagrant/.julia/v0.5/Gasp/deps/gasp'
+INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of Gasp
+INFO: Use `Pkg.update()` to get the latest versions of your packages
+
+>>> 'Pkg.test("Gasp")' log
+Julia Version 0.5.0
+Commit 3c9d753 (2016-09-19 18:14 UTC)
+Platform Info:
+  System: Linux (x86_64-pc-linux-gnu)
+  CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
+  WORD_SIZE: 64
+           Ubuntu 14.04.5 LTS
+  uname: Linux 3.13.0-105-generic #152-Ubuntu SMP Fri Dec 2 15:37:11 UTC 2016 x86_64 x86_64
+Memory: 2.9392738342285156 GB (717.12890625 MB free)
+Uptime: 31835.0 sec
+Load Avg:  1.025390625  1.0244140625  1.0009765625
+Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
+       speed         user         nice          sys         idle          irq
+#1  3504 MHz    1612245 s         67 s     181932 s    1026057 s        127 s
+#2  3504 MHz     725682 s        157 s      98103 s    2254006 s          7 s
+
+  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
+  LAPACK: libopenblas64_
+  LIBM: libopenlibm
+  LLVM: libLLVM-3.7.1 (ORCJIT, haswell)
+Environment:
+  TERM = vt100
+  LD_LIBRARY_PATH = :/usr/local/lib/
+  PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/vagrant/julia/bin/
+  JAVA_HOME = /usr/lib/jvm/java-7-oracle
+  HOME = /home/vagrant
+
+Package Directory: /home/vagrant/.julia/v0.5
+2 required packages:
+ - Gasp                          0.0.1
+ - JSON                          0.8.0
+1 additional packages:
+ - Compat                        0.9.5
+INFO: Testing Gasp
+[vagrant-ubuntu-trusty-64:23416] mca: base: component_find: unable to open /usr/lib/openmpi/lib/openmpi/mca_paffinity_hwloc: perhaps a missing symbol, or compiled for a different version of Open MPI? (ignored)
+[vagrant-ubuntu-trusty-64:23416] mca: base: component_find: unable to open /usr/lib/openmpi/lib/openmpi/mca_carto_auto_detect: perhaps a missing symbol, or compiled for a different version of Open MPI? (ignored)
+[vagrant-ubuntu-trusty-64:23416] mca: base: component_find: unable to open /usr/lib/openmpi/lib/openmpi/mca_carto_file: perhaps a missing symbol, or compiled for a different version of Open MPI? (ignored)
+[vagrant-ubuntu-trusty-64:23416] mca: base: component_find: unable to open /usr/lib/openmpi/lib/openmpi/mca_shmem_mmap: perhaps a missing symbol, or compiled for a different version of Open MPI? (ignored)
+[vagrant-ubuntu-trusty-64:23416] mca: base: component_find: unable to open /usr/lib/openmpi/lib/openmpi/mca_shmem_posix: perhaps a missing symbol, or compiled for a different version of Open MPI? (ignored)
+[vagrant-ubuntu-trusty-64:23416] mca: base: component_find: unable to open /usr/lib/openmpi/lib/openmpi/mca_shmem_sysv: perhaps a missing symbol, or compiled for a different version of Open MPI? (ignored)
+--------------------------------------------------------------------------
+It looks like opal_init failed for some reason; your parallel process is
+likely to abort.  There are many reasons that a parallel process can
+fail during opal_init; some of which are due to configuration or
+environment problems.  This failure appears to be an internal failure;
+here's some additional information (which may only be relevant to an
+Open MPI developer):
+
+  opal_shmem_base_select failed
+  --> Returned value -1 instead of OPAL_SUCCESS
+--------------------------------------------------------------------------
+[vagrant-ubuntu-trusty-64:23416] [[INVALID],INVALID] ORTE_ERROR_LOG: Error in file runtime/orte_init.c at line 79
+--------------------------------------------------------------------------
+It looks like MPI_INIT failed for some reason; your parallel process is
+likely to abort.  There are many reasons that a parallel process can
+fail during MPI_INIT; some of which are due to configuration or environment
+problems.  This failure appears to be an internal failure; here's some
+additional information (which may only be relevant to an Open MPI
+developer):
+
+  ompi_mpi_init: orte_init failed
+  --> Returned "Error" (-1) instead of "Success" (0)
+--------------------------------------------------------------------------
+*** An error occurred in MPI_Init_thread
+*** on a NULL communicator
+*** MPI_ERRORS_ARE_FATAL: your MPI job will now abort
+[vagrant-ubuntu-trusty-64:23416] Local abort before MPI_INIT completed successfully; not able to aggregate error messages, and not able to guarantee that all other processes were killed!
+================================[ ERROR: Gasp ]=================================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.5/Gasp/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: Gasp had test errors
+ in #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:740
+ in (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
+ in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:59
+ in #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
+ in (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
+ in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in eval(::Module, ::Any) at ./boot.jl:234
+ in process_options(::Base.JLOptions) at ./client.jl:239
+ in _start() at ./client.jl:318
+
+>>> End of log

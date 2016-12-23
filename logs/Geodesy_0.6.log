@@ -9,21 +9,21 @@ INFO: METADATA is out-of-date — you may not have the latest version of Geodesy
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Geodesy")' log
-Julia Version 0.6.0-dev.1591
-Commit 56c009e (2016-12-17 00:02 UTC)
+Julia Version 0.6.0-dev.1653
+Commit 66ab171 (2016-12-22 07:36 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-105-generic #152-Ubuntu SMP Fri Dec 2 15:37:11 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1797.08203125 MB free)
-Uptime: 24557.0 sec
-Load Avg:  1.02685546875  1.05517578125  1.04541015625
+Memory: 2.9392738342285156 GB (1733.8125 MB free)
+Uptime: 30497.0 sec
+Load Avg:  1.02978515625  1.04345703125  0.98974609375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3506 MHz    1391036 s       6060 s     184550 s     621795 s         58 s
-#2  3506 MHz     509596 s         92 s     107536 s    1763672 s          0 s
+#1  3504 MHz    1416626 s        112 s     178836 s    1200034 s         81 s
+#2  3504 MHz     509082 s         51 s     119530 s    2319200 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -46,6 +46,54 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Rotations                     0.3.3
  - StaticArrays                  0.1.2
 INFO: Testing Geodesy
-INFO: Geodesy tests passed
+Basic example: Error During Test
+  Test threw an exception of type StackOverflowError
+  Expression: norm(x_GDA94 - (Geodesy.GDA94_from_ITRF_Dawson2010(2005,Date(2010,6,16)))(x_ITRF)) < 0.0002
+  StackOverflowError:
+   in broadcast(::Base.#*, ::Float64, ::StaticArrays.SMatrix{3,3,Float64,9}) at /home/vagrant/.julia/v0.6/StaticArrays/src/arraymath.jl:43 (repeats 80000 times)
+Basic example: Error During Test
+  Got an exception of type StackOverflowError outside of a @test
+  StackOverflowError:
+   in broadcast(::Base.#*, ::Float64, ::StaticArrays.SMatrix{3,3,Float64,9}) at /home/vagrant/.julia/v0.6/StaticArrays/src/arraymath.jl:43 (repeats 80000 times)
+ITRS realizations: Error During Test
+  Test threw an exception of type StackOverflowError
+  Expression: (datum_shift_ECEF(GDA94(),ITRF{2008}(epoch)))(x_GDA94) == (Geodesy.GDA94_from_ITRF_Dawson2010(2008,epoch))(x_GDA94)
+  StackOverflowError:
+   in broadcast(::Base.#*, ::Float64, ::StaticArrays.SMatrix{3,3,Float64,9}) at /home/vagrant/.julia/v0.6/StaticArrays/src/arraymath.jl:43 (repeats 80000 times)
+ITRS realizations: Error During Test
+  Test threw an exception of type StackOverflowError
+  Expression: (datum_shift_ECEF(GDA94(),ITRF{1996}(epoch)))(x_GDA94) == (Geodesy.GDA94_from_ITRF_Dawson2010(1996,epoch))(x_GDA94)
+  StackOverflowError:
+   in broadcast(::Base.#*, ::Float64, ::StaticArrays.SMatrix{3,3,Float64,9}) at /home/vagrant/.julia/v0.6/StaticArrays/src/arraymath.jl:43 (repeats 80000 times)
+GDA94 from ITRF: Error During Test
+  Got an exception of type StackOverflowError outside of a @test
+  StackOverflowError:
+   in broadcast(::Base.#*, ::Float64, ::StaticArrays.SMatrix{3,3,Float64,9}) at /home/vagrant/.julia/v0.6/StaticArrays/src/arraymath.jl:43 (repeats 80000 times)
+ERROR: LoadError: Some tests did not pass: 30252 passed, 0 failed, 5 errored, 0 broken.
+ in finish(::Base.Test.DefaultTestSet) at ./test.jl:524
+ in macro expansion; at ./test.jl:721 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in process_options(::Base.JLOptions) at ./client.jl:292
+ in _start() at ./client.jl:356
+while loading /home/vagrant/.julia/v0.6/Geodesy/test/runtests.jl, in expression starting on line 11
+===============================[ ERROR: Geodesy ]===============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Geodesy/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: Geodesy had test errors
+ in #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:749
+ in (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
+ in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:69
+ in #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
+ in (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
+ in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:259
+ in test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:259
+ in eval(::Module, ::Any) at ./boot.jl:236
+ in process_options(::Base.JLOptions) at ./client.jl:269
+ in _start() at ./client.jl:356
 
 >>> End of log

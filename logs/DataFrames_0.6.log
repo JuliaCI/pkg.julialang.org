@@ -3,32 +3,33 @@ INFO: Installing DataArrays v0.3.10
 INFO: Installing DataFrames v0.8.5
 INFO: Installing FileIO v0.2.0
 INFO: Installing GZip v0.2.20
-INFO: Installing Hiccup v0.0.3
+INFO: Installing Hiccup v0.1.1
 INFO: Installing Juno v0.2.5
-INFO: Installing Lazy v0.11.4
-INFO: Installing MacroTools v0.3.2
+INFO: Installing MacroTools v0.3.4
 INFO: Installing Media v0.2.4
 INFO: Installing Reexport v0.0.3
 INFO: Installing SortingAlgorithms v0.1.0
 INFO: Installing StatsBase v0.11.1
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of DataFrames
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("DataFrames")' log
-Julia Version 0.6.0-dev.1591
-Commit 56c009e (2016-12-17 00:02 UTC)
+Julia Version 0.6.0-dev.1653
+Commit 66ab171 (2016-12-22 07:36 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-105-generic #152-Ubuntu SMP Fri Dec 2 15:37:11 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1014.82421875 MB free)
-Uptime: 15027.0 sec
-Load Avg:  0.9462890625  0.98291015625  0.9521484375
+Memory: 2.9392738342285156 GB (1035.46875 MB free)
+Uptime: 14099.0 sec
+Load Avg:  1.16357421875  1.14111328125  1.0927734375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3506 MHz     788291 s       6058 s     113363 s     446219 s         43 s
-#2  3506 MHz     337157 s         92 s      60409 s    1054520 s          0 s
+#1  3504 MHz     763836 s        112 s      96432 s     417328 s         32 s
+#2  3504 MHz     275712 s         51 s      53560 s    1037570 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -45,15 +46,14 @@ Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - DataFrames                    0.8.5
  - JSON                          0.8.0
-12 additional packages:
+11 additional packages:
  - Compat                        0.9.5
  - DataArrays                    0.3.10
  - FileIO                        0.2.0
  - GZip                          0.2.20
- - Hiccup                        0.0.3
+ - Hiccup                        0.1.1
  - Juno                          0.2.5
- - Lazy                          0.11.4
- - MacroTools                    0.3.2
+ - MacroTools                    0.3.4
  - Media                         0.2.4
  - Reexport                      0.0.3
  - SortingAlgorithms             0.1.0
@@ -81,8 +81,9 @@ INFO: Installing HttpParser v0.2.0
 INFO: Installing HttpServer v0.1.7
 INFO: Installing JuliaParser v0.7.4
 INFO: Installing LNR v0.0.2
+INFO: Installing Lazy v0.11.4
 INFO: Installing MachO v0.0.4
-INFO: Installing MbedTLS v0.3.0
+INFO: Installing MbedTLS v0.4.2
 INFO: Installing Mustache v0.1.2
 INFO: Installing Mux v0.2.2
 INFO: Installing ObjFileBase v0.0.4
@@ -113,6 +114,7 @@ WARNING: takebuf_string(b) is deprecated, use String(take!(b)) instead.
  in _start() at ./client.jl:356
 while loading /home/vagrant/.julia/v0.6/HttpParser/deps/build.jl, in expression starting on line 71
 INFO: Building MbedTLS
+Using system libraries...
 INFO: Testing DataFrames
 Running tests:
 WARNING: takebuf_string(b) is deprecated, use String(take!(b)) instead.
@@ -132,12 +134,71 @@ while loading /home/vagrant/.julia/v0.6/DataFrames/test/utils.jl, in expression 
 WARNING: Unable to validate reserved words against parser. Expected if Julia was not built from source.
 	[1m[32mPASSED[0m: utils.jl
 	[1m[32mPASSED[0m: cat.jl
-	[1m[32mPASSED[0m: data.jl
+Error During Test
+  Test threw an exception of type MethodError
+  Expression: sum((gd[2])[:d3]) == sum((df7[:d3])[dropna(df7[:d1] .== 2)])
+  MethodError: no method matching size(::Type{DataArrays.DataArray})
+  Closest candidates are:
+    size{N}(::Any, !Matched::Integer, !Matched::Integer, !Matched::Integer...) at abstractarray.jl:23
+    size(!Matched::BitArray{1}) at bitarray.jl:49
+    size(!Matched::BitArray{1}, !Matched::Any) at bitarray.jl:53
+    ...
+   in broadcast_indices(::Type{Array}, ::Type{T}) at ./broadcast.jl:50
+   in broadcast_c at ./broadcast.jl:288 [inlined]
+   in broadcast at ./broadcast.jl:377 [inlined]
+   in gen_broadcast_dataarray(::Int64, ::Tuple{DataType}, ::Type{T}, ::Function) at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:91
+   in get!(::DataArrays.##179#185{TestData.##1#2,Tuple{DataArrays.PooledDataArray{Int64,UInt32,1}},Int64}, ::Dict{Int64,Function}, ::Int64) at ./dict.jl:432
+   in broadcast!(::Function, ::DataArrays.PooledDataArray{Int64,UInt32,1}, ::DataArrays.PooledDataArray{Int64,UInt32,1}) at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:226
+   in pdabroadcast(::Function, ::DataArrays.PooledDataArray{Int64,UInt32,1}, ::Vararg{DataArrays.PooledDataArray{Int64,UInt32,1},N}) at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:236
+   in broadcast(::Function, ::DataArrays.PooledDataArray{Int64,UInt32,1}) at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:323
+   in include_from_node1(::String) at ./loading.jl:532
+   in include(::String) at ./sysimg.jl:14
+   in macro expansion; at /home/vagrant/.julia/v0.6/DataFrames/test/runtests.jl:35 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:532
+   in include(::String) at ./sysimg.jl:14
+   in process_options(::Base.JLOptions) at ./client.jl:292
+   in _start() at ./client.jl:356
+	[1m[31mFAILED[0m: data.jl
+LoadError: There was an error during testing
+ in macro expansion; at /home/vagrant/.julia/v0.6/DataFrames/test/runtests.jl:43 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in process_options(::Base.JLOptions) at ./client.jl:292
+ in _start() at ./client.jl:356
+while loading /home/vagrant/.julia/v0.6/DataFrames/test/data.jl, in expression starting on line 90
 	[1m[32mPASSED[0m: index.jl
-	[1m[32mPASSED[0m: dataframe.jl
+	[1m[31mFAILED[0m: dataframe.jl
+LoadError: MethodError: no method matching size(::Type{DataArrays.DataArray})
+Closest candidates are:
+  size{N}(::Any, !Matched::Integer, !Matched::Integer, !Matched::Integer...) at abstractarray.jl:23
+  size(!Matched::BitArray{1}) at bitarray.jl:49
+  size(!Matched::BitArray{1}, !Matched::Any) at bitarray.jl:53
+  ...
+ in macro expansion; at /home/vagrant/.julia/v0.6/DataFrames/test/runtests.jl:43 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in process_options(::Base.JLOptions) at ./client.jl:292
+ in _start() at ./client.jl:356
+while loading /home/vagrant/.julia/v0.6/DataFrames/test/dataframe.jl, in expression starting on line 192
 	[1m[32mPASSED[0m: dataframerow.jl
 	[1m[32mPASSED[0m: io.jl
-	[1m[32mPASSED[0m: formula.jl
+	[1m[31mFAILED[0m: formula.jl
+LoadError: MethodError: no method matching !(::Array{Any,1})
+Closest candidates are:
+  !(!Matched::DataArrays.NAtype) at /home/vagrant/.julia/v0.6/DataArrays/src/operators.jl:322
+  !(!Matched::Bool) at bool.jl:19
+  !(!Matched::BitArray{N}) at bitarray.jl:1212
+  ...
+ in macro expansion; at /home/vagrant/.julia/v0.6/DataFrames/test/runtests.jl:43 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in process_options(::Base.JLOptions) at ./client.jl:292
+ in _start() at ./client.jl:356
+while loading /home/vagrant/.julia/v0.6/DataFrames/test/formula.jl, in expression starting on line 33
 	[1m[32mPASSED[0m: constructors.jl
 	[1m[32mPASSED[0m: conversions.jl
 	[1m[32mPASSED[0m: sort.jl
@@ -148,11 +209,11 @@ WARNING: Unable to validate reserved words against parser. Expected if Julia was
 WARNING: the no-op `transpose` for non-numeric arrays is deprecated, and no specific `transpose` method for Symbol exists. Use `permutedims(x, (2, 1))` for matrices and `reshape(x, 1, length(x))` for vectors, or write a specific `transpose(x::Symbol)` method if appropriate.
  in depwarn(::String, ::Symbol) at ./deprecated.jl:64
  in transpose(::Symbol) at ./deprecated.jl:770
- in ctranspose at ./operators.jl:549 [inlined]
- in (::Base.##211#212)(::Tuple{Int64,Symbol}) at ./<missing>:0
- in copy!(::Array{Symbol,2}, ::Base.Generator{Base.Iterators.Prod2{Base.OneTo{Int64},Array{Symbol,1}},Base.##211#212}) at ./abstractarray.jl:466
- in _collect(::Type{Symbol}, ::Base.Generator{Base.Iterators.Prod2{Base.OneTo{Int64},Array{Symbol,1}},Base.##211#212}, ::Base.HasShape) at ./array.jl:298
- in ctranspose(::Array{Symbol,1}) at ./arraymath.jl:506
+ in ctranspose at ./operators.jl:498 [inlined]
+ in (::Base.##183#184)(::Tuple{Int64,Symbol}) at ./<missing>:0
+ in copy!(::Array{Symbol,2}, ::Base.Generator{Base.Iterators.Prod2{Base.OneTo{Int64},Array{Symbol,1}},Base.##183#184}) at ./abstractarray.jl:466
+ in _collect(::Type{Symbol}, ::Base.Generator{Base.Iterators.Prod2{Base.OneTo{Int64},Array{Symbol,1}},Base.##183#184}, ::Base.HasShape) at ./array.jl:304
+ in ctranspose(::Array{Symbol,1}) at ./arraymath.jl:498
  in _render(::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/DataFrames/src/abstractdataframe/show.jl:599
  in include_from_node1(::String) at ./loading.jl:532
  in include(::String) at ./sysimg.jl:14
@@ -164,9 +225,51 @@ WARNING: the no-op `transpose` for non-numeric arrays is deprecated, and no spec
  in _start() at ./client.jl:356
 while loading /home/vagrant/.julia/v0.6/DataFrames/test/show.jl, in expression starting on line 21
 	[1m[32mPASSED[0m: show.jl
-	[1m[32mPASSED[0m: statsmodel.jl
+Error During Test
+  Test threw an exception of type MethodError
+  Expression: predict(m) == [ones(size(d,1)) d[:x1] d[:x2] d[:x1] .* d[:x2]] * collect(1:4)
+  MethodError: no method matching size(::Type{DataArrays.DataArray})
+  Closest candidates are:
+    size{N}(::Any, !Matched::Integer, !Matched::Integer, !Matched::Integer...) at abstractarray.jl:23
+    size(!Matched::BitArray{1}) at bitarray.jl:49
+    size(!Matched::BitArray{1}, !Matched::Any) at bitarray.jl:53
+    ...
+   in broadcast_indices(::Type{Array}, ::Type{T}) at ./broadcast.jl:50
+   in broadcast_c at ./broadcast.jl:288 [inlined]
+   in broadcast at ./broadcast.jl:377 [inlined]
+   in gen_broadcast_dataarray(::Int64, ::Tuple{DataType,DataType}, ::Type{T}, ::Function) at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:91
+   in get!(::DataArrays.##131#137{Base.#*,Tuple{DataArrays.DataArray{Int64,1},DataArrays.DataArray{Int64,1}},Int64}, ::Dict{Int64,Function}, ::Int64) at ./dict.jl:432
+   in broadcast!(::Function, ::DataArrays.DataArray{Int64,1}, ::DataArrays.DataArray{Int64,1}, ::DataArrays.DataArray{Int64,1}) at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:226
+   in broadcast(::Base.#*, ::DataArrays.DataArray{Int64,1}, ::DataArrays.DataArray{Int64,1}) at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:301
+   in include_from_node1(::String) at ./loading.jl:532
+   in include(::String) at ./sysimg.jl:14
+   in macro expansion; at /home/vagrant/.julia/v0.6/DataFrames/test/runtests.jl:35 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:532
+   in include(::String) at ./sysimg.jl:14
+   in process_options(::Base.JLOptions) at ./client.jl:292
+   in _start() at ./client.jl:356
+	[1m[31mFAILED[0m: statsmodel.jl
+LoadError: There was an error during testing
+ in macro expansion; at /home/vagrant/.julia/v0.6/DataFrames/test/runtests.jl:43 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in process_options(::Base.JLOptions) at ./client.jl:292
+ in _start() at ./client.jl:356
+while loading /home/vagrant/.julia/v0.6/DataFrames/test/statsmodel.jl, in expression starting on line 41
 	[1m[32mPASSED[0m: contrasts.jl
-INFO: DataFrames tests passed
+ERROR: LoadError: "Tests failed"
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in process_options(::Base.JLOptions) at ./client.jl:292
+ in _start() at ./client.jl:356
+while loading /home/vagrant/.julia/v0.6/DataFrames/test/runtests.jl, in expression starting on line 50
+=============================[ ERROR: DataFrames ]==============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/DataFrames/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing ASTInterpreter v0.0.4
 INFO: Removing AbstractTrees v0.0.4
 INFO: Removing ArgParse v0.4.0
@@ -189,8 +292,9 @@ INFO: Removing HttpParser v0.2.0
 INFO: Removing HttpServer v0.1.7
 INFO: Removing JuliaParser v0.7.4
 INFO: Removing LNR v0.0.2
+INFO: Removing Lazy v0.11.4
 INFO: Removing MachO v0.0.4
-INFO: Removing MbedTLS v0.3.0
+INFO: Removing MbedTLS v0.4.2
 INFO: Removing Mustache v0.1.2
 INFO: Removing Mux v0.2.2
 INFO: Removing ObjFileBase v0.0.4
@@ -204,5 +308,17 @@ INFO: Removing TextWrap v0.1.6
 INFO: Removing URIParser v0.1.6
 INFO: Removing VT100 v0.0.2
 INFO: Removing WebSockets v0.2.1
+ERROR: DataFrames had test errors
+ in #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:749
+ in (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
+ in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:69
+ in #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
+ in (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
+ in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:259
+ in test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:259
+ in eval(::Module, ::Any) at ./boot.jl:236
+ in process_options(::Base.JLOptions) at ./client.jl:269
+ in _start() at ./client.jl:356
 
 >>> End of log
