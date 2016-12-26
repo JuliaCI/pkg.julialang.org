@@ -7,21 +7,21 @@ INFO: METADATA is out-of-date — you may not have the latest version of TypedTa
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("TypedTables")' log
-Julia Version 0.6.0-dev.1662
-Commit f27c6f3 (2016-12-23 02:28 UTC)
+Julia Version 0.6.0-dev.1701
+Commit d8a5718 (2016-12-26 06:25 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-105-generic #152-Ubuntu SMP Fri Dec 2 15:37:11 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (365.53515625 MB free)
-Uptime: 29510.0 sec
-Load Avg:  1.09033203125  1.0185546875  1.00146484375
+Memory: 2.9392738342285156 GB (769.42578125 MB free)
+Uptime: 31146.0 sec
+Load Avg:  0.91552734375  1.001953125  1.03466796875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1643555 s        124 s     166842 s     802946 s        138 s
-#2  3499 MHz     529951 s         50 s      85960 s    2242025 s          3 s
+#1  3500 MHz    1716947 s         28 s     200428 s     839946 s        105 s
+#2  3500 MHz     502277 s        156 s      93870 s    2424698 s          2 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -65,6 +65,81 @@ Row │ A │
  ╟───┼────────╢
  ║ 1 │ 2.0000 ║
  ╙───┴────────╜
+Introspection: Error During Test
+  Test threw an exception of type MethodError
+  Expression: names(@inferred(rename(r,Val{:A},Val{:A_new}))) == (:A_new,:B)
+  MethodError: no method matching columnindex(::Tuple{Symbol,Symbol}, ::Symbol)
+  The applicable method may be too new: running in world age 20510, while current world is 20786.
+  Closest candidates are:
+    columnindex{N}(::Tuple{Vararg{Symbol,N}}, ::Symbol) at /home/vagrant/.julia/v0.6/TypedTables/src/Row.jl:93 (method too new to be called from this world context.)
+    columnindex{N}(::Tuple{Vararg{Symbol,N}}, ::Any) at /home/vagrant/.julia/v0.6/TypedTables/src/Row.jl:91 (method too new to be called from this world context.)
+    columnindex{N,M}(::Tuple{Vararg{Symbol,N}}, !Matched::Tuple{Vararg{Symbol,M}}) at /home/vagrant/.julia/v0.6/TypedTables/src/Row.jl:101 (method too new to be called from this world context.)
+   in rename(...) at /home/vagrant/.julia/v0.6/TypedTables/src/Row.jl:82
+   in macro expansion; at /home/vagrant/.julia/v0.6/TypedTables/test/test_row.jl:29 [inlined]
+   in macro expansion; at ./test.jl:714 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.6/TypedTables/test/test_row.jl:0 [inlined]
+   in macro expansion; at ./test.jl:714 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:532
+   in include(::String) at ./sysimg.jl:14
+   in macro expansion; at /home/vagrant/.julia/v0.6/TypedTables/test/runtests.jl:15 [inlined]
+   in macro expansion; at ./test.jl:714 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:532
+   in include(::String) at ./sysimg.jl:14
+   in process_options(::Base.JLOptions) at ./client.jl:293
+   in _start() at ./client.jl:357
+Introspection: Test Failed
+  Expression: @Row(A::Int64=1,B::Float64=2.0) == @Row(B::Float64=2.0,A::Int64=1)
+   Evaluated: 2-column Row:
+ ╓───┬────────╖
+ ║ A │ B      ║
+ ╟───┼────────╢
+ ║ 1 │ 2.0000 ║
+ ╙───┴────────╜ == 2-column Row:
+ ╓────────┬───╖
+ ║ B      │ A ║
+ ╟────────┼───╢
+ ║ 2.0000 │ 1 ║
+ ╙────────┴───╜
+ in record(::Base.Test.DefaultTestSet, ::Base.Test.Fail) at ./test.jl:433
+ in do_test(::Base.Test.Returned, ::Expr) at ./test.jl:284
+ in macro expansion; at /home/vagrant/.julia/v0.6/TypedTables/test/test_row.jl:32 [inlined]
+ in macro expansion; at ./test.jl:714 [inlined]
+ in macro expansion; at /home/vagrant/.julia/v0.6/TypedTables/test/test_row.jl:0 [inlined]
+ in macro expansion; at ./test.jl:714 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in macro expansion; at /home/vagrant/.julia/v0.6/TypedTables/test/runtests.jl:15 [inlined]
+ in macro expansion; at ./test.jl:714 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in process_options(::Base.JLOptions) at ./client.jl:293
+ in _start() at ./client.jl:357
+Accessing and iterating: Error During Test
+  Test threw an exception of type MethodError
+  Expression: permutecols(r,Val{(:B,:A)}) == Row{(:B,:A)}((2.0,1))
+  MethodError: no method matching permutator(::Tuple{Symbol,Symbol}, ::Tuple{Symbol,Symbol})
+  The applicable method may be too new: running in world age 20535, while current world is 20786.
+  Closest candidates are:
+    permutator{N}(::Tuple{Vararg{Symbol,N}}, ::Tuple{Vararg{Symbol,N}}) at /home/vagrant/.julia/v0.6/TypedTables/src/Row.jl:168 (method too new to be called from this world context.)
+   in permutecols(...) at /home/vagrant/.julia/v0.6/TypedTables/src/Row.jl:160
+   in macro expansion; at /home/vagrant/.julia/v0.6/TypedTables/test/test_row.jl:48 [inlined]
+   in macro expansion; at ./test.jl:714 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.6/TypedTables/test/test_row.jl:0 [inlined]
+   in macro expansion; at ./test.jl:714 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:532
+   in include(::String) at ./sysimg.jl:14
+   in macro expansion; at /home/vagrant/.julia/v0.6/TypedTables/test/runtests.jl:15 [inlined]
+   in macro expansion; at ./test.jl:714 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:532
+   in include(::String) at ./sysimg.jl:14
+   in process_options(::Base.JLOptions) at ./client.jl:293
+   in _start() at ./client.jl:357
 3-row × 2-column Table:
     ╔═══╤════════╗
 Row ║ A │ B      ║
@@ -73,7 +148,32 @@ Row ║ A │ B      ║
   2 ║ 2 │ 4.0000 ║
   3 ║ 3 │ 6.0000 ║
     ╚═══╧════════╝
-INFO: TypedTables tests passed
+ERROR: LoadError: Some tests did not pass: 186 passed, 1 failed, 2 errored, 0 broken.
+ in finish(::Base.Test.DefaultTestSet) at ./test.jl:524
+ in macro expansion; at ./test.jl:721 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:532
+ in include(::String) at ./sysimg.jl:14
+ in process_options(::Base.JLOptions) at ./client.jl:293
+ in _start() at ./client.jl:357
+while loading /home/vagrant/.julia/v0.6/TypedTables/test/runtests.jl, in expression starting on line 11
+=============================[ ERROR: TypedTables ]=============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/TypedTables/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing BaseTestNext v0.2.2
+ERROR: TypedTables had test errors
+ in #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:749
+ in (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
+ in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:69
+ in #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
+ in (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
+ in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:259
+ in test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:259
+ in eval(::Module, ::Any) at ./boot.jl:236
+ in process_options(::Base.JLOptions) at ./client.jl:270
+ in _start() at ./client.jl:357
 
 >>> End of log
