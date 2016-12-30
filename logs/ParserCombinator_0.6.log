@@ -2,30 +2,28 @@
 INFO: Installing AutoHashEquals v0.0.10
 INFO: Installing ParserCombinator v1.7.11
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of ParserCombinator
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("ParserCombinator")' log
-Julia Version 0.6.0-dev.1701
-Commit d8a5718 (2016-12-26 06:25 UTC)
+Julia Version 0.6.0-dev.1768
+Commit d7b6ac3 (2016-12-29 23:08 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-105-generic #152-Ubuntu SMP Fri Dec 2 15:37:11 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (898.109375 MB free)
-Uptime: 10629.0 sec
-Load Avg:  1.01806640625  1.013671875  0.98681640625
+Memory: 2.9392738342285156 GB (908.58984375 MB free)
+Uptime: 10987.0 sec
+Load Avg:  1.0244140625  0.9697265625  0.95556640625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz     594182 s         24 s      80891 s     273764 s         13 s
-#2  3500 MHz     184312 s        150 s      37443 s     816750 s          0 s
+#1  3498 MHz     616720 s       6287 s      79738 s     277403 s         21 s
+#2  3498 MHz     193516 s        666 s      37292 s     843140 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
   LIBM: libopenlibm
-  LLVM: libLLVM-3.7.1 (ORCJIT, haswell)
+  LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
 Environment:
   TERM = vt100
   LD_LIBRARY_PATH = :/usr/local/lib/
@@ -39,7 +37,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - ParserCombinator              1.7.11
 2 additional packages:
  - AutoHashEquals                0.0.10
- - Compat                        0.9.5
+ - Compat                        0.10.0
 INFO: Computing test dependencies for ParserCombinator...
 INFO: Installing ZipFile v0.3.0
 INFO: Testing ParserCombinator
@@ -66,38 +64,38 @@ Transform
 `-f
 print ok
 names ok
-0 0 aaa r"a{0,0}"
+3 3 aaa r"a{3,3}"
 0 2 aa r"a{0,2}?"
-3 4 aaaa r"a{3,4}"
-1 3 aaa r"a{1,3}?"
-1 2  r"a{1,2}"
-0 1 aa r"a{0,1}?"
-3 5 aa r"a{3,5}"
-1 1 a r"a{1,1}?"
-0 0 aa r"a{0,0}"
-1 1 aaaa r"a{1,1}?"
+1 1 aaa r"a{1,1}"
+0 0 aa r"a{0,0}?"
+0 2 aaa r"a{0,2}"
+0 2 a r"a{0,2}?"
+3 5  r"a{3,5}"
+3 3  r"a{3,3}?"
 2 2  r"a{2,2}"
-3 4  r"a{3,4}?"
-1 3 aaaa r"a{1,3}"
-1 3  r"a{1,3}?"
-0 1  r"a{0,1}"
-0 2 aaaa r"a{0,2}?"
-1 3  r"a{1,3}"
-3 3 aa r"a{3,3}?"
+1 1 aaa r"a{1,1}?"
+2 4  r"a{2,4}"
+2 4 aa r"a{2,4}?"
+3 4 aaaa r"a{3,4}"
+3 3  r"a{3,3}?"
 0 0 aa r"a{0,0}"
-3 5  r"a{3,5}?"
+0 1  r"a{0,1}?"
+1 3 a r"a{1,3}"
+0 2 aaa r"a{0,2}?"
+1 1 aa r"a{1,1}"
+1 3 aaaa r"a{1,3}?"
 tests ok
 greedy true
 ParserCombinator.NoCache{S,I}
-  0.043112 seconds (22.84 k allocations: 902.332 KB)
-  0.012017 seconds (13.56 k allocations: 498.266 KB)
+  0.042275 seconds (22.84 k allocations: 902.332 KB)
+  0.011867 seconds (13.56 k allocations: 498.266 KB)
 n results: 35
 max depth: 5
 max iter: 4
 n calls: 323
 ParserCombinator.Cache{S,I}
-  0.130834 seconds (67.18 k allocations: 2.352 MB)
-  0.011262 seconds (33.54 k allocations: 732.516 KB)
+  0.064638 seconds (50.80 k allocations: 1.545 MB)
+  0.007473 seconds (33.59 k allocations: 734.141 KB)
 n results: 35
 max depth: 4
 max iter: 4
@@ -114,7 +112,29 @@ all
 |   +-Seq
 |   | +-[1]:prd
 |   | | +-Seq
-|   | | | +-[1]:neg...
+|   | | | +-[1]:neg
+|   | | | | `-Alt
+|   | | | |   +-[1]:Seq
+|   | | | |   | +-[1]:Drop
+|   | | | |   | | `-Equal
+|   | | | |   | |   `-"("
+|   | | | |   | +-[2]:sum...
+|   | | | |   | `-[3]:Drop
+|   | | | |   |   `-Equal
+|   | | | |   |     `-")"
+|   | | | |   +-[2]:Transform
+|   | | | |   | +-Pattern
+|   | | | |   | | +-text="-?(\d*\.?\d+|\d+\.\d*)([eE]\d+)?"
+|   | | | |   | | +-regex=r"^(?:-?(\d*\.?\d+|\d+\.\d*)([eE]\d+)?)(.??)"
+|   | | | |   | | `-groups
+|   | | | |   | `-f
+|   | | | |   `-[3]:Transform
+|   | | | |     +-Seq
+|   | | | |     | +-[1]:Drop
+|   | | | |     | | `-Equal
+|   | | | |     | |   `-"-"
+|   | | | |     | `-[2]:neg...
+|   | | | |     `-f
 |   | | | `-[2]:Depth
 |   | | |   +-Alt
 |   | | |   | +-[1]:mul
@@ -318,46 +338,46 @@ CoreTest.Inv(CoreTest.Prd(Any[CoreTest.Neg(CoreTest.Sum(Any[CoreTest.Prd(Any[0.0
 CoreTest.Inv(CoreTest.Sum(Any[CoreTest.Prd(Any[CoreTest.Neg(CoreTest.Sum(Any[CoreTest.Prd(Any[0.0])]))])])) -Inf
 CoreTest.Neg(CoreTest.Prd(Any[7.0,CoreTest.Inv(0.0),CoreTest.Inv(2.0),CoreTest.Inv(CoreTest.Sum(Any[CoreTest.Prd(Any[CoreTest.Neg(CoreTest.Sum(Any[CoreTest.Prd(Any[0.0])]))])])),3.0])) Inf Inf
 Inf CoreTest.Sum(Any[CoreTest.Prd(Any[-9.0]),CoreTest.Neg(CoreTest.Prd(Any[7.0,CoreTest.Inv(0.0),CoreTest.Inv(2.0),CoreTest.Inv(CoreTest.Sum(Any[CoreTest.Prd(Any[CoreTest.Neg(CoreTest.Sum(Any[CoreTest.Prd(Any[0.0])]))])])),3.0])),CoreTest.Neg(CoreTest.Prd(Any[7.0,CoreTest.Inv(CoreTest.Neg(CoreTest.Sum(Any[CoreTest.Prd(Any[9.0]),CoreTest.Prd(Any[5.0])])))])),CoreTest.Prd(Any[5.0]),CoreTest.Neg(CoreTest.Prd(Any[7.0]))]) Inf
-expr -(6.0*6.0)/7.0*5.0/8.0*9.0/(6.0/2.0)-1.0*5.0-5.0-3.0*(5.0/8.0)
--21.517857142857146 -21.517857142857142
-expr -4.0-8.0/(5.0)/4.0+3.0+-3.0/0.0-8.0
--Inf -Inf
-expr -5.0*6.0+3.0-1.0
--28.0 -28.0
-expr (2.0/2.0*5.0/4.0)+3.0+-1.0*9.0/3.0-8.0-1.0
--7.75 -7.75
-expr (5.0)/7.0*5.0/5.0/2.0-(5.0/0.0*3.0)/2.0/9.0+(4.0/9.0-0.0)
--Inf -Inf
-expr 7.0+9.0-1.0
-15.0 15.0
-expr 7.0+5.0-2.0*6.0+-9.0+4.0+2.0/5.0/-4.0/7.0+7.0+1.0
-2.9857142857142858 2.9857142857142858
-expr -(0.0)/2.0*2.0/9.0+8.0-8.0-8.0/(6.0*3.0*2.0*0.0+0.0)
--Inf -Inf
-expr -7.0/2.0+-3.0+0.0*8.0-4.0+3.0/2.0+2.0*4.0
--1.0 -1.0
-expr -6.0+((-(3.0))-5.0)-8.0/7.0-3.0+1.0*(-(1.0)+9.0*0.0)+5.0-9.0*1.0-4.0
--27.142857142857142 -27.142857142857142
-expr -2.0*9.0+1.0-8.0*1.0/0.0+1.0-6.0-0.0*9.0-7.0-(1.0*4.0)
--Inf -Inf
-expr -8.0-6.0*5.0-4.0
--42.0 -42.0
-expr 4.0-4.0/(8.0*1.0)-7.0-2.0/0.0/(0.0)/3.0-1.0
--Inf -Inf
-expr 1.0*8.0*6.0/1.0+3.0
-51.0 51.0
-expr -2.0-0.0/3.0-7.0*0.0+6.0
-4.0 4.0
-expr -4.0*4.0-(-0.0)-8.0*7.0/-7.0*4.0/9.0/6.0/(7.0)+9.0*0.0+2.0
--13.915343915343914 -13.915343915343914
-expr 1.0-9.0/(-1.0*0.0/4.0)+8.0*(3.0)+1.0
-Inf Inf
-expr -(4.0)/6.0-4.0/2.0-5.0/8.0*6.0/9.0+(-4.0)*3.0*5.0-2.0
--65.08333333333334 -65.08333333333334
-expr -6.0+4.0+2.0*0.0*7.0*0.0-8.0+7.0+-2.0-0.0
--5.0 -5.0
-expr -(1.0-8.0)+(-7.0+6.0)*-8.0+2.0+1.0*8.0
-25.0 25.0
+expr ((4.0/2.0))+(9.0+0.0+6.0*1.0)*(1.0)+4.0-7.0/8.0
+20.125 20.125
+expr -2.0+5.0-0.0/8.0
+3.0 3.0
+expr -(3.0)+-(8.0)-3.0/6.0
+-11.5 -11.5
+expr (-3.0*2.0*4.0+8.0)/8.0*5.0*4.0+8.0*7.0+0.0
+16.0 16.0
+expr (-0.0+6.0)*8.0
+48.0 48.0
+expr 4.0+5.0+4.0
+13.0 13.0
+expr (-9.0+9.0-4.0)
+-4.0 -4.0
+expr (-2.0)-7.0/2.0+2.0*0.0+8.0-7.0-(4.0)-0.0+0.0+1.0-(8.0/9.0-8.0)
+-0.3888888888888893 -0.3888888888888893
+expr 0.0/6.0*-7.0/9.0+7.0*1.0-0.0
+7.0 7.0
+expr 1.0+4.0-0.0+7.0*1.0-2.0*2.0*9.0+8.0-6.0
+-22.0 -22.0
+expr -0.0/4.0
+-0.0 -0.0
+expr (7.0)
+7.0 7.0
+expr 1.0/5.0-7.0*((7.0+8.0*5.0))/7.0+(8.0)-2.0-9.0*-(-5.0)+0.0
+-85.8 -85.8
+expr 9.0-8.0
+1.0 1.0
+expr (-5.0*0.0-1.0)/2.0-(6.0+8.0-2.0)*-1.0-6.0-7.0*(0.0/8.0)+(9.0)*4.0
+41.5 41.5
+expr -9.0*-7.0*7.0/8.0*1.0-(-4.0)
+59.125 59.125
+expr -5.0+6.0+7.0-9.0-(2.0*9.0*5.0)*(8.0)-3.0*((8.0/9.0)/5.0-8.0)*((2.0)/4.0)+9.0
+-700.2666666666667 -700.2666666666667
+expr -(8.0/6.0)
+-1.3333333333333333 -1.3333333333333333
+expr 6.0-7.0+(3.0-5.0)*0.0*8.0-8.0-5.0-8.0-7.0-5.0*7.0-0.0+-((7.0))-9.0/8.0
+-72.125 -72.125
+expr (1.0*0.0)/5.0+2.0
+2.0 2.0
 calc ok
 one level
   1:ab         00 Trace->Dot
@@ -847,9 +867,9 @@ edge 1 - 3
 edge 1 - 2
 fragments ok
 subgraphs ok
- 20.981841 seconds (10.06 M allocations: 334.638 MB, 0.59% gc time)
-  0.522182 seconds (207.51 k allocations: 112.213 MB, 37.69% gc time)
-  0.703566 seconds (218.53 k allocations: 109.532 MB, 31.00% gc time)
+ 23.073672 seconds (10.06 M allocations: 334.639 MB, 0.56% gc time)
+  0.435006 seconds (207.47 k allocations: 112.128 MB, 18.70% gc time)
+  0.533772 seconds (218.56 k allocations: 109.516 MB, 39.35% gc time)
 examples ok
 INFO: ParserCombinator tests passed
 INFO: Removing ZipFile v0.3.0

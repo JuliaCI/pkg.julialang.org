@@ -1,9 +1,7 @@
 >>> 'Pkg.add("Documenter")' log
 INFO: Installing DocStringExtensions v0.3.1
-INFO: Installing Documenter v0.8.5
+INFO: Installing Documenter v0.8.7
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of Documenter
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Documenter")' log
 Julia Version 0.5.0
@@ -14,13 +12,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-105-generic #152-Ubuntu SMP Fri Dec 2 15:37:11 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1458.5234375 MB free)
-Uptime: 22143.0 sec
-Load Avg:  1.03857421875  1.208984375  1.15771484375
+Memory: 2.9392738342285156 GB (1474.87109375 MB free)
+Uptime: 23295.0 sec
+Load Avg:  1.06103515625  1.1572265625  1.12646484375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1231949 s        110 s     100610 s     618474 s         22 s
-#2  3499 MHz     452507 s         54 s      55383 s    1648257 s          0 s
+#1  3504 MHz    1363848 s       6718 s     116572 s     557173 s         40 s
+#2  3504 MHz     384971 s         47 s      58770 s    1826552 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -35,10 +33,10 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.5
 2 required packages:
- - Documenter                    0.8.5
+ - Documenter                    0.8.7
  - JSON                          0.8.0
 2 additional packages:
- - Compat                        0.9.5
+ - Compat                        0.10.0
  - DocStringExtensions           0.3.1
 INFO: Computing test dependencies for Documenter...
 INFO: Installing BaseTestNext v0.2.2
@@ -76,6 +74,7 @@ Documenter: running document checks.
 
       200 https://bicycle1885.github.io/EzXML.jl/latest/
       200 https://juliadocs.github.io/Highlights.jl/latest/
+      200 http://dpsanders.github.io/IntervalConstraintProgramming.jl/latest/
       301 https://cormullion.github.io/Luxor.jl
        -> https://cormullion.github.io/Luxor.jl/
 
@@ -236,102 +235,114 @@ expression '$(Expr(:incomplete, "incomplete: premature end of input"))' in modul
 Documenter: running document checks.
  > checking for missing docstrings.
  > running doctests.
- !! Test error in the following code block in '/home/vagrant/.julia/v0.5/Documenter/test/errors/make.jl':
+=====[Test Error]==============================
 
-        julia> a = 1
-        2
-        
+> File: /home/vagrant/.julia/v0.5/Documenter/test/errors/make.jl
 
-    in expression:
+> Code block:
 
-        a = 1
+```jldoctest
+julia> a = 1
+2
 
-    expected:
+```
 
-        2
+> Subexpression:
 
-    returned:
+    a = 1
 
-        1
+> Output Diff (REQUIRES COLOR):
 
+21
+
+=====[End Error]===============================
  !! Invalid doctest block. Requires `julia> ` or `# output` in '/home/vagrant/.julia/v0.5/Documenter/test/errors/make.jl'
 
 ```jldoctest
 
 ```
 
- !! Test error in the following code block in 'src/index.md':
+=====[Test Error]==============================
 
-        julia> b = 1
-        2
-        
-        julia> x
-        
-        julia> x
-        ERROR: UndefVarError: x not defined
-        
-        julia> x
+> File: src/index.md
 
-    in expression:
+> Code block:
 
-        b = 1
+```jldoctest
+julia> b = 1
+2
 
-    expected:
+julia> x
 
-        2
+julia> x
+ERROR: UndefVarError: x not defined
 
-    returned:
+julia> x
+```
 
-        1
+> Subexpression:
 
- !! Test error in the following code block in 'src/index.md':
+    b = 1
 
-        julia> b = 1
-        2
-        
-        julia> x
-        
-        julia> x
-        ERROR: UndefVarError: x not defined
-        
-        julia> x
+> Output Diff (REQUIRES COLOR):
 
-    in expression:
+21
 
-        x
+=====[End Error]===============================
+=====[Test Error]==============================
 
-    expected:
+> File: src/index.md
 
-        
+> Code block:
 
-    returned:
+```jldoctest
+julia> b = 1
+2
 
-        ERROR: UndefVarError: x not defined
+julia> x
 
- !! Test error in the following code block in 'src/index.md':
+julia> x
+ERROR: UndefVarError: x not defined
 
-        julia> b = 1
-        2
-        
-        julia> x
-        
-        julia> x
-        ERROR: UndefVarError: x not defined
-        
-        julia> x
+julia> x
+```
 
-    in expression:
+> Subexpression:
 
-        x
+    x
 
-    expected:
+> Output Diff (REQUIRES COLOR):
 
-        
+ERROR: UndefVarError: x not defined
 
-    returned:
+=====[End Error]===============================
+=====[Test Error]==============================
 
-        ERROR: UndefVarError: x not defined
+> File: src/index.md
 
+> Code block:
+
+```jldoctest
+julia> b = 1
+2
+
+julia> x
+
+julia> x
+ERROR: UndefVarError: x not defined
+
+julia> x
+```
+
+> Subexpression:
+
+    x
+
+> Output Diff (REQUIRES COLOR):
+
+ERROR: UndefVarError: x not defined
+
+=====[End Error]===============================
  > checking footnote links.
  !! No footnotes found for 'another'. [src/index.md]
  !! No footnotes found for '2'. [src/index.md]
@@ -410,78 +421,87 @@ Documenter: running document checks.
 
 ```
 
- !! Test error in the following code block in 'src/index.md':
+=====[Test Error]==============================
 
-        julia> b = 1
-        2
-        
-        julia> x
-        
-        julia> x
-        ERROR: UndefVarError: x not defined
-        
-        julia> x
+> File: src/index.md
 
-    in expression:
+> Code block:
 
-        b = 1
+```jldoctest
+julia> b = 1
+2
 
-    expected:
+julia> x
 
-        2
+julia> x
+ERROR: UndefVarError: x not defined
 
-    returned:
+julia> x
+```
 
-        1
+> Subexpression:
 
- !! Test error in the following code block in 'src/index.md':
+    b = 1
 
-        julia> b = 1
-        2
-        
-        julia> x
-        
-        julia> x
-        ERROR: UndefVarError: x not defined
-        
-        julia> x
+> Output Diff (REQUIRES COLOR):
 
-    in expression:
+21
 
-        x
+=====[End Error]===============================
+=====[Test Error]==============================
 
-    expected:
+> File: src/index.md
 
-        
+> Code block:
 
-    returned:
+```jldoctest
+julia> b = 1
+2
 
-        ERROR: UndefVarError: x not defined
+julia> x
 
- !! Test error in the following code block in 'src/index.md':
+julia> x
+ERROR: UndefVarError: x not defined
 
-        julia> b = 1
-        2
-        
-        julia> x
-        
-        julia> x
-        ERROR: UndefVarError: x not defined
-        
-        julia> x
+julia> x
+```
 
-    in expression:
+> Subexpression:
 
-        x
+    x
 
-    expected:
+> Output Diff (REQUIRES COLOR):
 
-        
+ERROR: UndefVarError: x not defined
 
-    returned:
+=====[End Error]===============================
+=====[Test Error]==============================
 
-        ERROR: UndefVarError: x not defined
+> File: src/index.md
 
+> Code block:
+
+```jldoctest
+julia> b = 1
+2
+
+julia> x
+
+julia> x
+ERROR: UndefVarError: x not defined
+
+julia> x
+```
+
+> Subexpression:
+
+    x
+
+> Output Diff (REQUIRES COLOR):
+
+ERROR: UndefVarError: x not defined
+
+=====[End Error]===============================
  > checking footnote links.
  !! No footnotes found for 'another'. [src/index.md]
  !! No footnotes found for '2'. [src/index.md]
@@ -501,11 +521,11 @@ Documenter: running document checks.
 Documenter: populating indices.
 Documenter: rendering document.
 Documenter: copying assets to build directory.
-INFO: Deploying documentation to /tmp/tmpIcCUfq/docs
-INFO: Generating .gitignore at /tmp/tmpIcCUfq/docs/.gitignore
-INFO: Generating make.jl at /tmp/tmpIcCUfq/docs/make.jl
-INFO: Generating mkdocs.yml at /tmp/tmpIcCUfq/docs/mkdocs.yml
-INFO: Generating src/index.md at /tmp/tmpIcCUfq/docs/src/index.md
+INFO: Deploying documentation to /tmp/tmpw1rc7K/docs
+INFO: Generating .gitignore at /tmp/tmpw1rc7K/docs/.gitignore
+INFO: Generating make.jl at /tmp/tmpw1rc7K/docs/make.jl
+INFO: Generating mkdocs.yml at /tmp/tmpw1rc7K/docs/mkdocs.yml
+INFO: Generating src/index.md at /tmp/tmpw1rc7K/docs/src/index.md
 INFO: Building Documenter's docs with LaTeX.
 Documenter: setting up build directory.
 Documenter: expanding markdown templates.

@@ -5,30 +5,28 @@ INFO: Installing SHA v0.3.0
 INFO: Installing URIParser v0.1.6
 INFO: Building DecFP
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of DecFP
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("DecFP")' log
-Julia Version 0.6.0-dev.1701
-Commit d8a5718 (2016-12-26 06:25 UTC)
+Julia Version 0.6.0-dev.1768
+Commit d7b6ac3 (2016-12-29 23:08 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-105-generic #152-Ubuntu SMP Fri Dec 2 15:37:11 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (469.14453125 MB free)
-Uptime: 15948.0 sec
-Load Avg:  0.9970703125  1.0078125  1.0400390625
+Memory: 2.9392738342285156 GB (467.63671875 MB free)
+Uptime: 16064.0 sec
+Load Avg:  0.9970703125  0.982421875  1.0185546875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz     792724 s         97 s      83267 s     576209 s         21 s
-#2  3500 MHz     274580 s         46 s      46418 s    1233191 s          0 s
+#1  3499 MHz     832802 s        546 s     106070 s     501773 s         25 s
+#2  3499 MHz     299303 s       5918 s      50560 s    1204531 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
   LIBM: libopenlibm
-  LLVM: libLLVM-3.7.1 (ORCJIT, haswell)
+  LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
 Environment:
   TERM = vt100
   LD_LIBRARY_PATH = :/usr/local/lib/
@@ -42,13 +40,63 @@ Package Directory: /home/vagrant/.julia/v0.6
  - JSON                          0.8.0
 4 additional packages:
  - BinDeps                       0.4.5
- - Compat                        0.9.5
+ - Compat                        0.10.0
  - SHA                           0.3.0
  - URIParser                     0.1.6
 INFO: Testing DecFP
 TESTING DecFP.Dec32 ...
 TESTING DecFP.Dec64 ...
 TESTING DecFP.Dec128 ...
-INFO: DecFP tests passed
+
+signal (11): Segmentation fault
+while loading /home/vagrant/.julia/v0.6/DecFP/test/runtests.jl, in expression starting on line 9
+reinterpret at ./essentials.jl:0
+unknown function (ip: 0x7f1067052185)
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:246 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:2196
+macro expansion; at /home/vagrant/.julia/v0.6/DecFP/test/runtests.jl:96 [inlined]
+anonymous at ./<missing> (unknown line)
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:246 [inlined]
+jl_toplevel_eval_flex at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:648
+jl_parse_eval_all at /home/centos/buildbot/slave/package_tarball64/build/src/ast.c:757
+jl_load at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:675
+jl_load_ at /home/centos/buildbot/slave/package_tarball64/build/src/toplevel.c:684
+include_from_node1 at ./loading.jl:532
+unknown function (ip: 0x7f127369f88b)
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:246 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:2196
+include at ./sysimg.jl:14
+unknown function (ip: 0x7f127357078b)
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:246 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:2196
+process_options at ./client.jl:298
+_start at ./client.jl:363
+unknown function (ip: 0x7f12736ca1e8)
+jl_call_method_internal at /home/centos/buildbot/slave/package_tarball64/build/src/julia_internal.h:246 [inlined]
+jl_apply_generic at /home/centos/buildbot/slave/package_tarball64/build/src/gf.c:2196
+jl_apply at /home/centos/buildbot/slave/package_tarball64/build/ui/../src/julia.h:1388 [inlined]
+true_main at /home/centos/buildbot/slave/package_tarball64/build/ui/repl.c:126
+main at /home/centos/buildbot/slave/package_tarball64/build/ui/repl.c:256
+__libc_start_main at /lib/x86_64-linux-gnu/libc.so.6 (unknown line)
+unknown function (ip: 0x4015dc)
+Allocations: 4466808 (Pool: 4465355; Big: 1453); GC: 6
+================================[ ERROR: DecFP ]================================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/DecFP/test/runtests.jl`, ProcessSignaled(11)) [0]
+
+================================================================================
+ERROR: DecFP had test errors
+Stacktrace:
+ [1] #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:754
+ [2] (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
+ [3] (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ [4] cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:69
+ [5] #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
+ [6] (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
+ [7] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:259
+ [8] test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:259
+ [9] eval(::Module, ::Any) at ./boot.jl:236
+ [10] process_options(::Base.JLOptions) at ./client.jl:275
+ [11] _start() at ./client.jl:363
 
 >>> End of log

@@ -16,30 +16,28 @@ Making all in scs_lib
 Making all in .
 Making all in tests
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of ValidatedNumerics
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("ValidatedNumerics")' log
-Julia Version 0.6.0-dev.1701
-Commit d8a5718 (2016-12-26 06:25 UTC)
+Julia Version 0.6.0-dev.1768
+Commit d7b6ac3 (2016-12-29 23:08 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-105-generic #152-Ubuntu SMP Fri Dec 2 15:37:11 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (725.12109375 MB free)
-Uptime: 31714.0 sec
-Load Avg:  1.0810546875  1.09814453125  1.0712890625
+Memory: 2.9392738342285156 GB (621.89453125 MB free)
+Uptime: 29543.0 sec
+Load Avg:  1.0029296875  0.962890625  0.95458984375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    1748337 s         28 s     204351 s     853288 s        121 s
-#2  3500 MHz     513470 s        156 s      96674 s    2461316 s          2 s
+#1  3498 MHz    1706330 s       6292 s     210288 s     701604 s         84 s
+#2  3498 MHz     552776 s        668 s      92876 s    2229989 s          2 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
   LIBM: libopenlibm
-  LLVM: libLLVM-3.7.1 (ORCJIT, haswell)
+  LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
 Environment:
   TERM = vt100
   LD_LIBRARY_PATH = :/usr/local/lib/
@@ -54,7 +52,7 @@ Package Directory: /home/vagrant/.julia/v0.6
 8 additional packages:
  - CRlibm                        0.3.1
  - Calculus                      0.1.15
- - Compat                        0.9.5
+ - Compat                        0.10.0
  - DiffBase                      0.0.2
  - FixedSizeArrays               0.2.5
  - ForwardDiff                   0.3.3
@@ -64,28 +62,81 @@ INFO: Computing test dependencies for ValidatedNumerics...
 INFO: Installing FactCheck v0.4.3
 INFO: Installing Polynomials v0.1.1
 INFO: Testing ValidatedNumerics
-
-WARNING: deprecated syntax "function ..(...)".
-Use "function Base.broadcast(::typeof(.), ...)" instead.
-ERROR: LoadError: LoadError: UndefVarError: . not defined
- in include_from_node1(::String) at ./loading.jl:532
- in include(::String) at ./sysimg.jl:14
- in include_from_node1(::String) at ./loading.jl:532
- in include(::String) at ./sysimg.jl:14
- in anonymous at ./<missing>:2
- in eval(::Module, ::Any) at ./boot.jl:236
- in process_options(::Base.JLOptions) at ./client.jl:270
- in _start() at ./client.jl:357
-while loading /home/vagrant/.julia/v0.6/ValidatedNumerics/src/intervals/intervals.jl, in expression starting on line 56
-while loading /home/vagrant/.julia/v0.6/ValidatedNumerics/src/ValidatedNumerics.jl, in expression starting on line 86
-ERROR: LoadError: Failed to precompile ValidatedNumerics to /home/vagrant/.julia/lib/v0.6/ValidatedNumerics.ji.
- in compilecache(::String) at ./loading.jl:672
- in require(::Symbol) at ./loading.jl:453
- in include_from_node1(::String) at ./loading.jl:532
- in include(::String) at ./sysimg.jl:14
- in process_options(::Base.JLOptions) at ./client.jl:293
- in _start() at ./client.jl:357
-while loading /home/vagrant/.julia/v0.6/ValidatedNumerics/test/runtests.jl, in expression starting on line 3
+WARNING: is is deprecated, use === instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] is(::Symbol, ::Vararg{Any,N}) at ./deprecated.jl:30
+ [3] @fact_throws(::Vararg{Any,N}) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:307
+ [4] include_from_node1(::String) at ./loading.jl:532
+ [5] include(::String) at ./sysimg.jl:14
+ [6] include_from_node1(::String) at ./loading.jl:532
+ [7] include(::String) at ./sysimg.jl:14
+ [8] include_from_node1(::String) at ./loading.jl:532
+ [9] include(::String) at ./sysimg.jl:14
+ [10] process_options(::Base.JLOptions) at ./client.jl:298
+ [11] _start() at ./client.jl:363
+while loading /home/vagrant/.julia/v0.6/ValidatedNumerics/test/interval_tests/construction.jl, in expression starting on line 6
+Constructing intervals
+  Failure :: (line:308) :: wrong exception was thrown
+    Expression: @interval big(1) 1 // 10
+      Expected: ArgumentError
+      Occurred: UndefVarError
+  Error :: (line:272)
+    Expression: a --> @biginterval "0.1"
+    UndefVarError: T not defined
+    Stacktrace:
+     [1] macro expansion at /home/vagrant/.julia/v0.6/ValidatedNumerics/src/intervals/macros.jl:38 [inlined]
+     [2] split_interval_string(::Type{T}, ::String) at /home/vagrant/.julia/v0.6/ValidatedNumerics/src/intervals/conversion.jl:32
+     [3] (::##56#172)(::ValidatedNumerics.Interval{BigFloat}) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:260
+     [4] do_fact(::##57#173, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:334
+     [5] macro expansion at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:272 [inlined]
+     [6] (::##3#119)() at /home/vagrant/.julia/v0.6/ValidatedNumerics/test/interval_tests/construction.jl:76
+     [7] facts(::##3#119, ::String) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:449
+     [8] include_from_node1(::String) at ./loading.jl:532
+     [9] include(::String) at ./sysimg.jl:14
+     [10] include_from_node1(::String) at ./loading.jl:532
+     [11] include(::String) at ./sysimg.jl:14
+     [12] include_from_node1(::String) at ./loading.jl:532
+     [13] include(::String) at ./sysimg.jl:14
+     [14] process_options(::Base.JLOptions) at ./client.jl:298
+     [15] _start() at ./client.jl:363
+  Error :: (line:272)
+    Expression: a --> @floatinterval "0.1"
+    UndefVarError: T not defined
+    Stacktrace:
+     [1] macro expansion at /home/vagrant/.julia/v0.6/ValidatedNumerics/src/intervals/macros.jl:38 [inlined]
+     [2] split_interval_string(::Type{T}, ::String) at /home/vagrant/.julia/v0.6/ValidatedNumerics/src/intervals/conversion.jl:32
+     [3] (::##70#186)(::ValidatedNumerics.Interval{Float64}) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:260
+     [4] do_fact(::##71#187, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:334
+     [5] macro expansion at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:272 [inlined]
+     [6] (::##3#119)() at /home/vagrant/.julia/v0.6/ValidatedNumerics/test/interval_tests/construction.jl:96
+     [7] facts(::##3#119, ::String) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:449
+     [8] include_from_node1(::String) at ./loading.jl:532
+     [9] include(::String) at ./sysimg.jl:14
+     [10] include_from_node1(::String) at ./loading.jl:532
+     [11] include(::String) at ./sysimg.jl:14
+     [12] include_from_node1(::String) at ./loading.jl:532
+     [13] include(::String) at ./sysimg.jl:14
+     [14] process_options(::Base.JLOptions) at ./client.jl:298
+     [15] _start() at ./client.jl:363
+ERROR: LoadError: LoadError: LoadError: UndefVarError: T not defined
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/ValidatedNumerics/src/intervals/macros.jl:38 [inlined]
+ [2] split_interval_string(::Type{T}, ::String) at /home/vagrant/.julia/v0.6/ValidatedNumerics/src/intervals/conversion.jl:41
+ [3] convert(::Type{ValidatedNumerics.Interval{Float64}}, ::String) at /home/vagrant/.julia/v0.6/ValidatedNumerics/src/intervals/conversion.jl:47
+ [4] (::##3#119)() at /home/vagrant/.julia/v0.6/ValidatedNumerics/test/interval_tests/construction.jl:112
+ [5] facts(::##3#119, ::String) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:449
+ [6] include_from_node1(::String) at ./loading.jl:532
+ [7] include(::String) at ./sysimg.jl:14
+ [8] include_from_node1(::String) at ./loading.jl:532
+ [9] include(::String) at ./sysimg.jl:14
+ [10] include_from_node1(::String) at ./loading.jl:532
+ [11] include(::String) at ./sysimg.jl:14
+ [12] process_options(::Base.JLOptions) at ./client.jl:298
+ [13] _start() at ./client.jl:363
+while loading /home/vagrant/.julia/v0.6/ValidatedNumerics/test/interval_tests/construction.jl, in expression starting on line 6
+while loading /home/vagrant/.julia/v0.6/ValidatedNumerics/test/interval_tests/intervals.jl, in expression starting on line 3
+while loading /home/vagrant/.julia/v0.6/ValidatedNumerics/test/runtests.jl, in expression starting on line 13
 ==========================[ ERROR: ValidatedNumerics ]==========================
 
 failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/ValidatedNumerics/test/runtests.jl`, ProcessExited(1)) [1]
@@ -94,16 +145,17 @@ failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/
 INFO: Removing FactCheck v0.4.3
 INFO: Removing Polynomials v0.1.1
 ERROR: ValidatedNumerics had test errors
- in #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:749
- in (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
- in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
- in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:69
- in #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
- in (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
- in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:259
- in test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:259
- in eval(::Module, ::Any) at ./boot.jl:236
- in process_options(::Base.JLOptions) at ./client.jl:270
- in _start() at ./client.jl:357
+Stacktrace:
+ [1] #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:754
+ [2] (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
+ [3] (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ [4] cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:69
+ [5] #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
+ [6] (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
+ [7] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:259
+ [8] test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:259
+ [9] eval(::Module, ::Any) at ./boot.jl:236
+ [10] process_options(::Base.JLOptions) at ./client.jl:275
+ [11] _start() at ./client.jl:363
 
 >>> End of log
