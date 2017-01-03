@@ -1,25 +1,25 @@
 >>> 'Pkg.add("Jacobi")' log
 INFO: Cloning cache of Jacobi from https://github.com/pjabardo/Jacobi.jl.git
 INFO: Installing Jacobi v0.3.0
-INFO: Installing Polynomials v0.1.1
+INFO: Installing Polynomials v0.1.2
 INFO: Package database updated
 
 >>> 'Pkg.test("Jacobi")' log
-Julia Version 0.6.0-dev.1836
-Commit 1539061 (2017-01-01 02:10 UTC)
+Julia Version 0.6.0-dev.1843
+Commit c38a5a3 (2017-01-01 14:09 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-105-generic #152-Ubuntu SMP Fri Dec 2 15:37:11 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1974.203125 MB free)
-Uptime: 36458.0 sec
-Load Avg:  0.98681640625  1.0126953125  1.04345703125
+Memory: 2.9392738342285156 GB (1968.7890625 MB free)
+Uptime: 36633.0 sec
+Load Avg:  1.0283203125  1.04296875  1.04541015625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    1949322 s       6556 s     223881 s    1087872 s        125 s
-#2  3500 MHz     796298 s       2270 s     141150 s    2595154 s          3 s
+#1  3500 MHz    1910794 s         59 s     245924 s    1103928 s        131 s
+#2  3500 MHz     695989 s         93 s     121780 s    2731494 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -42,19 +42,39 @@ Package Directory: /home/vagrant/.julia/v0.6
  - DataStructures                0.4.6
  - DocOpt                        0.2.0
  - ParallelAccelerator           0.2.2              6da2e374 (dirty)
- - Polynomials                   0.1.1
+ - Polynomials                   0.1.2
 INFO: Testing Jacobi
-WARNING: maxabs(x) is deprecated, use maximum(abs,x) instead.
+ERROR: LoadError: LoadError: MethodError: no method matching Polynomials.Poly{Int64}(::Array{Int64,1}, ::Symbol)
+Closest candidates are:
+  Polynomials.Poly{Int64}{T}(::Any) at sysimg.jl:24
 Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] maxabs(::Array{Float64,1}) at ./deprecated.jl:50
+ [1] poly_chebyshev(::Int64, ::Type{Int64}, ::Symbol) at /home/vagrant/.julia/v0.6/Jacobi/src/polynomials.jl:18
+ [2] poly_chebyshev(::Int64) at /home/vagrant/.julia/v0.6/Jacobi/src/polynomials.jl:12
  [3] include_from_node1(::String) at ./loading.jl:532
  [4] include(::String) at ./sysimg.jl:14
  [5] include_from_node1(::String) at ./loading.jl:532
  [6] include(::String) at ./sysimg.jl:14
  [7] process_options(::Base.JLOptions) at ./client.jl:298
  [8] _start() at ./client.jl:364
-while loading /home/vagrant/.julia/v0.6/Jacobi/test/testjacobi.jl, in expression starting on line 173
-INFO: Jacobi tests passed
+while loading /home/vagrant/.julia/v0.6/Jacobi/test/testjacobi.jl, in expression starting on line 154
+while loading /home/vagrant/.julia/v0.6/Jacobi/test/runtests.jl, in expression starting on line 3
+===============================[ ERROR: Jacobi ]================================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Jacobi/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: Jacobi had test errors
+Stacktrace:
+ [1] #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:754
+ [2] (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
+ [3] (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ [4] cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:69
+ [5] #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
+ [6] (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
+ [7] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:259
+ [8] test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:259
+ [9] eval(::Module, ::Any) at ./boot.jl:236
+ [10] process_options(::Base.JLOptions) at ./client.jl:275
+ [11] _start() at ./client.jl:364
 
 >>> End of log
