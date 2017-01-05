@@ -118,7 +118,7 @@ while loading /home/vagrant/.julia/v0.6/TimeZones/src/conversions.jl, in express
 INFO: Downloading latest tz database
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  313k  100  313k    0     0   240k      0  0:00:01  0:00:01 --:--:--  240k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  313k  100  313k    0     0   283k      0  0:00:01  0:00:01 --:--:--  283k
 INFO: Extracting tz database archive
 africa
 antarctica
@@ -130,23 +130,25 @@ southamerica
 INFO: Converting tz database into TimeZone data
 INFO: Successfully processed TimeZone data
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of DateParser
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("DateParser")' log
-Julia Version 0.6.0-dev.1847
-Commit 8f9036a (2017-01-02 23:39 UTC)
+Julia Version 0.6.0-dev.1897
+Commit 8563fc5 (2017-01-04 09:23 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-105-generic #152-Ubuntu SMP Fri Dec 2 15:37:11 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (775.4375 MB free)
-Uptime: 14091.0 sec
-Load Avg:  1.00341796875  1.0146484375  0.9599609375
+Memory: 2.9392738342285156 GB (758.54296875 MB free)
+Uptime: 15367.0 sec
+Load Avg:  1.0166015625  1.05810546875  1.0498046875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3508 MHz     654145 s       6404 s      65533 s     551716 s         10 s
-#2  3508 MHz     248962 s         90 s      30480 s    1102760 s          0 s
+#1  3500 MHz     801905 s         55 s      86968 s     496896 s         28 s
+#2  3500 MHz     337244 s         87 s      52174 s    1100245 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -560,9 +562,49 @@ Stacktrace:
  [9] process_options(::Base.JLOptions) at ./client.jl:298
  [10] _start() at ./client.jl:364
 while loading /home/vagrant/.julia/v0.6/DateParser/test/runtests.jl, in expression starting on line 71
-INFO: DateParser tests passed
+Error During Test
+  Test threw an exception of type ArgumentError
+  Expression: parse(DateTime,"dec 2 2015 24:00:00",overflow=true) == DateTime(2015,12,3)
+  ArgumentError: Hour: 24 out of range (0:23)
+  Stacktrace:
+   [1] DateTime(::Int64, ::Int64, ::Int64, ::Int64, ::Int64, ::Int64, ::Int64) at ./dates/types.jl:149
+   [2] #DateTime#14(::Bool, ::Type{T}, ::DateParser.DateParts, ::DateTime) at /home/vagrant/.julia/v0.6/DateParser/src/parser.jl:328
+   [3] (::Core.#kw#Type)(::Array{Any,1}, ::Type{DateTime}, ::DateParser.DateParts, ::DateTime) at ./<missing>:0
+   [4] #parse#29(::DateTime, ::Bool, ::Array{Any,1}, ::Function, ::Type{DateTime}, ::String) at /home/vagrant/.julia/v0.6/DateParser/src/DateParser.jl:36
+   [5] (::Base.#kw##parse)(::Array{Any,1}, ::Base.#parse, ::Type{DateTime}, ::String) at ./<missing>:0
+   [6] include_from_node1(::String) at ./loading.jl:532
+   [7] include(::String) at ./sysimg.jl:14
+   [8] process_options(::Base.JLOptions) at ./client.jl:298
+   [9] _start() at ./client.jl:364
+ERROR: LoadError: There was an error during testing
+Stacktrace:
+ [1] record(::Base.Test.FallbackTestSet, ::Base.Test.Error) at ./test.jl:425
+ [2] do_test(::Base.Test.Threw, ::Expr) at ./test.jl:308
+ [3] include_from_node1(::String) at ./loading.jl:532
+ [4] include(::String) at ./sysimg.jl:14
+ [5] process_options(::Base.JLOptions) at ./client.jl:298
+ [6] _start() at ./client.jl:364
+while loading /home/vagrant/.julia/v0.6/DateParser/test/runtests.jl, in expression starting on line 196
+=============================[ ERROR: DateParser ]==============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/DateParser/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing Combinatorics v0.3.2
 INFO: Removing Iterators v0.2.0
 INFO: Removing Polynomials v0.1.2
+ERROR: DateParser had test errors
+Stacktrace:
+ [1] #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:754
+ [2] (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
+ [3] (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ [4] cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:69
+ [5] #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
+ [6] (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
+ [7] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:261
+ [8] test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:261
+ [9] eval(::Module, ::Any) at ./boot.jl:236
+ [10] process_options(::Base.JLOptions) at ./client.jl:275
+ [11] _start() at ./client.jl:364
 
 >>> End of log
