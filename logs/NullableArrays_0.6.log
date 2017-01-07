@@ -4,21 +4,21 @@ INFO: Installing Reexport v0.0.3
 INFO: Package database updated
 
 >>> 'Pkg.test("NullableArrays")' log
-Julia Version 0.6.0-dev.1946
-Commit f550489 (2017-01-06 00:37 UTC)
+Julia Version 0.6.0-dev.1973
+Commit f4ed16b (2017-01-06 23:58 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-106-generic #153-Ubuntu SMP Tue Dec 6 15:44:32 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (684.1484375 MB free)
-Uptime: 7592.0 sec
-Load Avg:  0.9814453125  1.0341796875  1.3046875
+Memory: 2.9392738342285156 GB (703.9296875 MB free)
+Uptime: 7295.0 sec
+Load Avg:  1.03076171875  1.03076171875  1.2744140625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz     455454 s        522 s      46915 s     171876 s         20 s
-#2  3499 MHz     144096 s       6481 s      25231 s     565231 s          0 s
+#1  3500 MHz     455473 s       6625 s      46206 s     137717 s         14 s
+#2  3500 MHz     135712 s        270 s      24172 s     553597 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -79,7 +79,7 @@ while loading /home/vagrant/.julia/v0.6/NullableArrays/test/primitives.jl, in ex
 WARNING: map!{F}(f::F,A::AbstractArray) is deprecated, use map!(f,A,A) instead.
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] map!(::TestMap.#f, ::Array{Float64,4}) at ./deprecated.jl:50
+ [2] map!(::TestMap.#f, ::Array{Float64,2}) at ./deprecated.jl:50
  [3] macro expansion; at /home/vagrant/.julia/v0.6/NullableArrays/test/map.jl:38 [inlined]
  [4] anonymous at ./<missing>:?
  [5] include_from_node1(::String) at ./loading.jl:532
@@ -94,7 +94,7 @@ while loading /home/vagrant/.julia/v0.6/NullableArrays/test/map.jl, in expressio
 WARNING: map!{F}(f::F,A::AbstractArray) is deprecated, use map!(f,A,A) instead.
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] map!(::TestMap.#g, ::Array{Float64,4}) at ./deprecated.jl:50
+ [2] map!(::TestMap.#g, ::Array{Float64,2}) at ./deprecated.jl:50
  [3] macro expansion; at /home/vagrant/.julia/v0.6/NullableArrays/test/map.jl:42 [inlined]
  [4] anonymous at ./<missing>:?
  [5] include_from_node1(::String) at ./loading.jl:532
@@ -117,7 +117,7 @@ Stacktrace:
  [6] _start() at ./client.jl:374
 while loading /home/vagrant/.julia/v0.6/NullableArrays/test/map.jl, in expression starting on line 79
 	[1m[31mFAILED[0m: broadcast.jl
-LoadError: MethodError: no method matching check_broadcast_shape(::Tuple{Base.OneTo{Int64},Base.OneTo{Int64},Base.OneTo{Int64}}, ::NullableArrays.NullableArray{Float64,1}, ::NullableArrays.NullableArray{Float64,3})
+LoadError: MethodError: no method matching check_broadcast_shape(::NTuple{4,Base.OneTo{Int64}}, ::NullableArrays.NullableArray{Float64,1}, ::NullableArrays.NullableArray{Float64,4})
 Closest candidates are:
   check_broadcast_shape(!Matched::Tuple{Vararg{Int64,N}}, ::Union{AbstractArray{T,N},Number}...) at deprecated.jl:717
   check_broadcast_shape(::Any) at broadcast.jl:79
@@ -133,6 +133,19 @@ Stacktrace:
 while loading /home/vagrant/.julia/v0.6/NullableArrays/test/broadcast.jl, in expression starting on line 43
 	[1m[32mPASSED[0m: nullablevector.jl
 	[1m[32mPASSED[0m: nullablematrix.jl
+WARNING: @test_approx_eq is deprecated, use `@test v.value ≈ mapreduce(f,+,B)` instead
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] @test_approx_eq(::ANY, ::ANY) at ./test.jl:971
+ [3] include_from_node1(::String) at ./loading.jl:532
+ [4] include(::String) at ./sysimg.jl:14
+ [5] macro expansion; at /home/vagrant/.julia/v0.6/NullableArrays/test/runtests.jl:26 [inlined]
+ [6] anonymous at ./<missing>:?
+ [7] include_from_node1(::String) at ./loading.jl:532
+ [8] include(::String) at ./sysimg.jl:14
+ [9] process_options(::Base.JLOptions) at ./client.jl:308
+ [10] _start() at ./client.jl:374
+while loading /home/vagrant/.julia/v0.6/NullableArrays/test/reduce.jl, in expression starting on line 10
 WARNING: sumabs(x) is deprecated, use sum(abs,x) instead.
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -3120,14 +3133,5 @@ failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/
 
 ================================================================================
 ERROR: NullableArrays had test errors
-Stacktrace:
- [1] #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:754
- [2] (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
- [3] (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
- [4] cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:69
- [5] #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
- [6] (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
- [7] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:261
- [8] test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:261
 
 >>> End of log
