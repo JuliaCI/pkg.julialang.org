@@ -1,12 +1,12 @@
 >>> 'Pkg.add("Cuba")' log
 INFO: Cloning cache of Cuba from https://github.com/giordano/Cuba.jl.git
-INFO: Installing Cuba v0.2.0
+INFO: Installing Cuba v0.3.0
 INFO: Building Cuba
 INFO: Downloading Cuba source...
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   155    0   155    0     0   1569      0 --:--:-- --:--:-- --:--:--  1581
-  0     0    0  712k    0     0  1809k      0 --:--:-- --:--:-- --:--:-- 1809k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   155    0   155    0     0   1782      0 --:--:-- --:--:-- --:--:--  1802
+  0     0    0  712k    0     0  1556k      0 --:--:-- --:--:-- --:--:-- 1556k
 INFO: Building libcuba...
 checking for gcc... gcc
 checking whether the C compiler works... yes
@@ -58,7 +58,7 @@ checking for shmget... yes
 checking for getloadavg... yes
 checking for variable-size arrays... yes
 checking for MathLink... no
-checking for qmake... no
+checking for qmake... qmake
 configure: creating ./config.status
 config.status: creating makefile
 config.status: creating config.h
@@ -153,23 +153,25 @@ gcc -shared -o libcuba.so *.o -lm
 rm *.o
 INFO: libcuba successfully installed!
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of Cuba
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Cuba")' log
-Julia Version 0.6.0-dev.1973
-Commit f4ed16b (2017-01-06 23:58 UTC)
+Julia Version 0.6.0-dev.2511
+Commit e0ab6a8 (2017-02-01 19:43 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-106-generic #153-Ubuntu SMP Tue Dec 6 15:44:32 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (840.828125 MB free)
-Uptime: 14152.0 sec
-Load Avg:  0.98974609375  0.9716796875  1.0087890625
+  uname: Linux 3.13.0-107-generic #154-Ubuntu SMP Tue Dec 20 09:57:27 UTC 2016 x86_64 x86_64
+Memory: 2.9392738342285156 GB (1704.359375 MB free)
+Uptime: 20368.0 sec
+Load Avg:  0.970703125  1.01708984375  1.04052734375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz     777746 s       5508 s      75922 s     405808 s         30 s
-#2  3499 MHz     253839 s       1052 s      43982 s    1083573 s          0 s
+#1  3500 MHz     896545 s       3198 s     120486 s     741872 s        203 s
+#2  3500 MHz     367272 s       4053 s      95609 s    1418926 s          7 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -184,33 +186,84 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
- - Cuba                          0.2.0
- - JSON                          0.8.0
+ - Cuba                          0.3.0
+ - JSON                          0.8.2
 1 additional packages:
- - Compat                        0.10.0
+ - Compat                        0.14.0
 INFO: Testing Cuba
-INFO: Testing Vegas algorithm
-ERROR: LoadError: MethodError: no method matching integrand1(::Array{Float64,1}, ::Array{Float64,1})
-The applicable method may be too new: running in world age 20539, while current world is 20544.
-Closest candidates are:
-  integrand1(::Any, ::Any) at /home/vagrant/.julia/v0.6/Cuba/test/runtests.jl:30 (method too new to be called from this world context.)
+WARNING: @test_approx_eq_eps is deprecated, use `@test (result[1])[i] ≈ answer[i] atol=(result[2])[i]` instead
 Stacktrace:
- [1] generic_integrand!(::Int32, ::Ptr{Float64}, ::Int32, ::Ptr{Float64}, ::Ptr{Void}) at /home/vagrant/.julia/v0.6/Cuba/src/Cuba.jl:104
- [2] dointegrate(::Symbol, ::Ptr{Void}, ::Int64, ::Int64, ::Ptr{Void}, ::Int64, ::Float64, ::Float64, ::Int64, ::Int64, ::Int64, ::Int64, ::Int64, ::Int64, ::Int64, ::Int64, ::Int64, ::Int64, ::Float64, ::Int64, ::Int64, ::Int64, ::Int64, ::Float64, ::Float64, ::Float64, ::Int64, ::Int64, ::Int64, ::Int64, ::Ptr{Void}, ::Int64, ::String, ::Ptr{Void}) at /home/vagrant/.julia/v0.6/Cuba/src/Cuba.jl:169
- [3] #vegas#1(::Int64, ::Float64, ::Float64, ::Int64, ::Int64, ::Int64, ::Int64, ::Int64, ::Int64, ::Int64, ::Int64, ::String, ::Ptr{Void}, ::Cuba.#vegas, ::#integrand1, ::Int64, ::Int64) at /home/vagrant/.julia/v0.6/Cuba/src/Cuba.jl:295
- [4] (::Cuba.#kw##vegas)(::Array{Any,1}, ::Cuba.#vegas, ::Function, ::Int64, ::Int64) at ./<missing>:0
- [5] macro expansion; at /home/vagrant/.julia/v0.6/Cuba/test/runtests.jl:52 [inlined]
- [6] anonymous at ./<missing>:?
- [7] include_from_node1(::String) at ./loading.jl:532
- [8] include(::String) at ./sysimg.jl:14
- [9] process_options(::Base.JLOptions) at ./client.jl:308
- [10] _start() at ./client.jl:374
-while loading /home/vagrant/.julia/v0.6/Cuba/test/runtests.jl, in expression starting on line 49
-================================[ ERROR: Cuba ]=================================
-
-failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Cuba/test/runtests.jl`, ProcessExited(1)) [1]
-
-================================================================================
-ERROR: Cuba had test errors
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
+ [2] @test_approx_eq_eps(::ANY, ::ANY, ::ANY) at ./deprecated.jl:1720
+ [3] include_from_node1(::String) at ./loading.jl:539
+ [4] include(::String) at ./sysimg.jl:14
+ [5] process_options(::Base.JLOptions) at ./client.jl:304
+ [6] _start() at ./client.jl:370
+while loading /home/vagrant/.julia/v0.6/Cuba/test/runtests.jl, in expression starting on line 43
+INFO: Testing Vegas algorithm
+Component 1: 0.6646728607079877 ± 0.0003331038126414047
+Should be:   0.6646696797813771
+Component 2: 0.4165399869353588 ± 0.00023220325052737388
+Should be:   0.41653838588663805
+Component 3: 1.2020301217252063 ± 0.00040429511207564845
+Should be:   1.2020569031595951
+INFO: Testing Suave algorithm
+Component 1: 0.6646360755501243 ± 0.0007097614487779387
+Should be:   0.6646696797813771
+Component 2: 0.41646971300915686 ± 0.0005019981220506203
+Should be:   0.41653838588663805
+Component 3: 1.201347913891312 ± 0.0009577193210756455
+Should be:   1.2020569031595951
+INFO: Testing Divonne algorithm
+Component 1: 0.6646721201411021 ± 9.953162942656582e-5
+Should be:   0.6646696797813771
+Component 2: 0.4165390904479379 ± 6.13966682969986e-5
+Should be:   0.41653838588663805
+Component 3: 1.2020850188552912 ± 8.770517413506829e-5
+Should be:   1.2020569031595951
+INFO: Testing Cuhre algorithm
+Component 1: 0.6646696797813669 ± 2.6679213487944783e-13
+Should be:   0.6646696797813771
+Component 2: 0.41653838588418635 ± 7.03711285909963e-11
+Should be:   0.41653838588663805
+Component 3: 1.2020569033973707 ± 1.1601342374859732e-8
+Should be:   1.2020569031595951
+WARNING: @test_approx_eq_eps is deprecated, use `@test (result[1])[1] ≈ answer[1] atol=abstol` instead
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
+ [2] @test_approx_eq_eps(::ANY, ::ANY, ::ANY) at ./deprecated.jl:1720
+ [3] include_from_node1(::String) at ./loading.jl:539
+ [4] include(::String) at ./sysimg.jl:14
+ [5] process_options(::Base.JLOptions) at ./client.jl:304
+ [6] _start() at ./client.jl:370
+while loading /home/vagrant/.julia/v0.6/Cuba/test/runtests.jl, in expression starting on line 60
+WARNING: @test_approx_eq is deprecated, use `@test complex(result[1]...) ≈ answer` instead
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
+ [2] @test_approx_eq(::ANY, ::ANY) at ./deprecated.jl:1733
+ [3] include_from_node1(::String) at ./loading.jl:539
+ [4] include(::String) at ./sysimg.jl:14
+ [5] process_options(::Base.JLOptions) at ./client.jl:304
+ [6] _start() at ./client.jl:370
+while loading /home/vagrant/.julia/v0.6/Cuba/test/runtests.jl, in expression starting on line 72
+WARNING: @test_approx_eq_eps is deprecated, use `@test complex(result[1]...) ≈ answer atol=1.0e-8` instead
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
+ [2] @test_approx_eq_eps(::ANY, ::ANY, ::ANY) at ./deprecated.jl:1720
+ [3] include_from_node1(::String) at ./loading.jl:539
+ [4] include(::String) at ./sysimg.jl:14
+ [5] process_options(::Base.JLOptions) at ./client.jl:304
+ [6] _start() at ./client.jl:370
+while loading /home/vagrant/.julia/v0.6/Cuba/test/runtests.jl, in expression starting on line 74
+WARNING: @test_approx_eq_eps is deprecated, use `@test (result[1])[1] ≈ pi * log(2) atol=3.0e-12` instead
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
+ [2] @test_approx_eq_eps(::ANY, ::ANY, ::ANY) at ./deprecated.jl:1720
+ [3] include_from_node1(::String) at ./loading.jl:539
+ [4] include(::String) at ./sysimg.jl:14
+ [5] process_options(::Base.JLOptions) at ./client.jl:304
+ [6] _start() at ./client.jl:370
+while loading /home/vagrant/.julia/v0.6/Cuba/test/runtests.jl, in expression starting on line 80
+INFO: Cuba tests passed
 
 >>> End of log

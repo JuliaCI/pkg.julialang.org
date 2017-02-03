@@ -1,7 +1,9 @@
 >>> 'Pkg.add("TransformUtils")' log
 INFO: Cloning cache of TransformUtils from git://github.com/dehann/TransformUtils.jl.git
-INFO: Installing TransformUtils v0.0.4
+INFO: Installing TransformUtils v0.0.5
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of TransformUtils
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("TransformUtils")' log
 Julia Version 0.4.7
@@ -11,14 +13,14 @@ Platform Info:
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-106-generic #153-Ubuntu SMP Tue Dec 6 15:44:32 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (353.28125 MB free)
-Uptime: 33744.0 sec
-Load Avg:  0.83935546875  0.919921875  0.94091796875
+  uname: Linux 3.13.0-107-generic #154-Ubuntu SMP Tue Dec 20 09:57:27 UTC 2016 x86_64 x86_64
+Memory: 2.9392738342285156 GB (442.9765625 MB free)
+Uptime: 37599.0 sec
+Load Avg:  1.1240234375  1.06494140625  0.9921875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    1633458 s       2230 s     139704 s    1246508 s        143 s
-#2  3500 MHz    1106690 s       4090 s     124732 s    2013839 s          2 s
+#1  3500 MHz    1840500 s       2009 s     150474 s    1307269 s        222 s
+#2  3500 MHz    1176061 s       4874 s     130164 s    2266999 s          6 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -33,10 +35,10 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.4
 2 required packages:
- - JSON                          0.8.0
- - TransformUtils                0.0.4
+ - JSON                          0.8.2
+ - TransformUtils                0.0.5
 1 additional packages:
- - Compat                        0.10.0
+ - Compat                        0.14.0
 INFO: Testing TransformUtils
 WARNING: could not import Base.normalize into TransformUtils
 WARNING: could not import Base.normalize! into TransformUtils
@@ -46,21 +48,34 @@ WARNING: could not import Base.normalize! into TransformUtils
 [TEST] convert functions 
 WARNING: Need better coverage on convert function tests
 [TEST] compare SO3 and quaternion rotations... dAA = TransformUtils.AngleAxis(0.7853981633974483,[1.0,0.0,0.0])
-dAA = TransformUtils.so3([0.0 0.07697363393417805 -0.10741118006122126
- -0.07697363393417805 0.0 -0.19646516461274366
- 0.10741118006122126 0.19646516461274366 0.0])
-dAA = TransformUtils.so3([0.0 0.053035930191001945 0.22792481884276686
- -0.053035930191001945 0.0 0.26122217719681745
- -0.22792481884276686 -0.26122217719681745 0.0])
-dAA = TransformUtils.so3([0.0 -0.0061918978342913105 0.06861544273427247
- 0.0061918978342913105 0.0 -0.08575333042133686
- -0.06861544273427247 0.08575333042133686 0.0])
-dAA = TransformUtils.Quaternion(0.9988916747851803,[-0.02940488848948591,-0.020242536225260663,-0.03067595646345275])
-dAA = TransformUtils.SO3([0.9937909742225609 -0.0184790106168115 -0.10971793709506926
- 0.01765301557403304 0.9998080843766323 -0.008495025383842232
- 0.10985386017303513 0.0065054270999639185 0.9939264604704569])
+dAA = TransformUtils.so3([0.0 0.057780525666013195 -0.10223131838967203
+ -0.057780525666013195 0.0 -0.0012931329359185358
+ 0.10223131838967203 0.0012931329359185358 0.0])
+dAA = TransformUtils.so3([0.0 -0.10136154756148466 -0.035616962026867344
+ 0.10136154756148466 0.0 0.00461635306617462
+ 0.035616962026867344 -0.00461635306617462 0.0])
+dAA = TransformUtils.so3([0.0 0.1115037644024106 0.26632844338802547
+ -0.1115037644024106 0.0 0.11981693943378549
+ -0.26632844338802547 -0.11981693943378549 0.0])
+dAA = TransformUtils.Quaternion(0.995039226301943,[-0.013492942139021805,0.07172869550823942,0.0676008348583803])
+dAA = TransformUtils.SO3([0.9837711203488465 -0.12776173965437207 0.1259814297746472
+ 0.14385037327459024 0.9812633191233663 -0.12817709878038325
+ -0.10724482680454551 0.14421940376899195 0.983717088750714])
 [SUCCESS]
 [TEST] basic SE3 mechanics... [SUCCESS]
+[TEST] SE3 ⊕ and ⊖ mechanics... Compare operations on two different SE3 transforms
+xi = TransformUtils.SE3(TransformUtils.SO3([0.9273631795894541 0.302231812107831 -0.22057530435602837
+ -0.23777663676268138 0.9312065582144822 0.27625462339690565
+ 0.28889410542890226 -0.20374071190696041 0.935430338486025]),[1.201406932048581,0.20361799870485936,-2.7108495778484616])
+xj = TransformUtils.SE3(TransformUtils.SO3([0.9498442179291162 0.3127222595147995 -0.0008660661545335576
+ -0.28355192599161316 0.8624053292762535 0.4193511098141553
+ 0.13188732665829694 -0.3980726522129791 0.9078237145101753]),[-0.7563936656178697,0.31860197043238486,-0.05291338936893373])
+Dx = TransformUtils.SE3(TransformUtils.SO3([0.9863740486156279 -0.030053572566256626 0.1617498655134495
+ -0.003843091697742572 0.9786957191933445 0.20528010102984875
+ -0.16447330137082156 -0.20310458391830258 0.9652445602683063]),[-1.0750705918751802,-1.0261656050603973,2.94992146496862])
+[SUCCESS]
+[TEST] previous discovered issues
+TransformUtils.convert(Euler,q) = TransformUtils.Euler(0.7853981633974484,0.0,1.5707963267948963,TransformUtils.Quaternion(1.0,[0.0,0.0,0.0]))
 INFO: TransformUtils tests passed
 
 >>> End of log

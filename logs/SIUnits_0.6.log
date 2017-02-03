@@ -1,24 +1,41 @@
 >>> 'Pkg.add("SIUnits")' log
-INFO: Installing SIUnits v0.1.0
-INFO: Installing TexExtensions v0.0.3
-INFO: Package database updated
+ERROR: GitError(Code:ENOTFOUND, Class:Tree, the path 'REQUIRE' does not exist in the given tree)
+ in macro expansion at ./libgit2/error.jl:99 [inlined]
+ in Base.LibGit2.GitUnknownObject(::Base.LibGit2.GitRepo, ::String) at ./libgit2/repository.jl:100
+ in revparseid at ./libgit2/repository.jl:128 [inlined]
+ in isfixed(::String, ::Base.LibGit2.GitRepo, ::Dict{VersionNumber,Base.Pkg.Types.Available}) at ./pkg/read.jl:67
+ in #7 at ./pkg/read.jl:210 [inlined]
+ in with(::Base.Pkg.Read.##7#8{Dict{String,Tuple{VersionNumber,Bool}}}, ::Base.LibGit2.GitRepo) at ./libgit2/types.jl:577
+ in with(::Function, ::Type{Base.LibGit2.GitRepo}, ::String, ::Vararg{String,N} where N) at ./libgit2/types.jl:583
+ in installed(::Dict{String,Dict{VersionNumber,Base.Pkg.Types.Available}}) at ./pkg/read.jl:208
+ in resolve at ./pkg/entry.jl:480 [inlined]
+ in edit(::Function, ::String, ::Base.Pkg.Types.VersionSet, ::Vararg{Base.Pkg.Types.VersionSet,N} where N) at ./pkg/entry.jl:30
+ in (::Base.Pkg.Entry.##1#3{String,Base.Pkg.Types.VersionSet})() at ./task.jl:335
+Stacktrace:
+ [1] sync_end() at ./task.jl:287
+ [2] macro expansion at ./task.jl:303 [inlined]
+ [3] add(::String, ::Base.Pkg.Types.VersionSet) at ./pkg/entry.jl:50
+ [4] (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#add,Tuple{String}})() at ./pkg/dir.jl:31
+ [5] cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#add,Tuple{String}}, ::String) at ./file.jl:69
+ [6] #cd#1(::Array{Any,1}, ::Function, ::Function, ::String, ::Vararg{Any,N} where N) at ./pkg/dir.jl:31
+ [7] add(::String) at ./pkg/pkg.jl:102
 
 >>> 'Pkg.test("SIUnits")' log
-Julia Version 0.6.0-dev.1973
-Commit f4ed16b (2017-01-06 23:58 UTC)
+Julia Version 0.6.0-dev.2511
+Commit e0ab6a8 (2017-02-01 19:43 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-106-generic #153-Ubuntu SMP Tue Dec 6 15:44:32 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (619.05078125 MB free)
-Uptime: 21337.0 sec
-Load Avg:  0.8466796875  0.9677734375  1.0244140625
+  uname: Linux 3.13.0-107-generic #154-Ubuntu SMP Tue Dec 20 09:57:27 UTC 2016 x86_64 x86_64
+Memory: 2.9392738342285156 GB (259.15625 MB free)
+Uptime: 11665.0 sec
+Load Avg:  1.0283203125  1.0  1.01513671875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    1308014 s       6630 s     129378 s     437316 s         62 s
-#2  3500 MHz     386900 s        273 s      66014 s    1626817 s          1 s
+#1  3500 MHz     585704 s       6568 s      82138 s     322830 s        279 s
+#2  3500 MHz     252251 s         78 s      46615 s     747015 s         14 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -32,40 +49,21 @@ Environment:
   HOME = /home/vagrant
 
 Package Directory: /home/vagrant/.julia/v0.6
-2 required packages:
- - JSON                          0.8.0
- - SIUnits                       0.1.0
-19 additional packages:
- - BinDeps                       0.4.5
- - Calculus                      0.1.15
- - Compat                        0.10.0
- - Distributions                 0.11.1
- - GenerativeModels              0.0.0-             master (unregistered)
- - Iterators                     0.2.0
- - LaTeXStrings                  0.2.0
- - PDMats                        0.5.2
- - POMDPBounds                   0.0.0-             master (unregistered)
- - POMDPModels                   0.0.0-             master (unregistered)
- - POMDPToolbox                  0.0.0-             master (unregistered)
- - POMDPs                        0.4.0
- - Rmath                         0.1.6
- - SHA                           0.3.0
- - StatsBase                     0.12.0
- - StatsFuns                     0.3.1
- - TexExtensions                 0.0.3
- - TikzPictures                  0.3.5
- - URIParser                     0.1.6
-INFO: Testing SIUnits
-Test Failed
-  Expression: r1 - 1Hz == 0Hz:4Hz
-   Evaluated: SIUnits.SIQuantity{Int64,0,0,-1,0,0,0,0,0,0}[0 s⁻¹,1 s⁻¹,2 s⁻¹,3 s⁻¹,4 s⁻¹] == 0 s⁻¹:4 s⁻¹
-ERROR: LoadError: There was an error during testing
-while loading /home/vagrant/.julia/v0.6/SIUnits/test/runtests.jl, in expression starting on line 103
-===============================[ ERROR: SIUnits ]===============================
-
-failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/SIUnits/test/runtests.jl`, ProcessExited(1)) [1]
-
-================================================================================
-ERROR: SIUnits had test errors
+ERROR: GitError(Code:ENOTFOUND, Class:Tree, the path 'REQUIRE' does not exist in the given tree)
+Stacktrace:
+ [1] macro expansion at ./libgit2/error.jl:99 [inlined]
+ [2] Base.LibGit2.GitUnknownObject(::Base.LibGit2.GitRepo, ::String) at ./libgit2/repository.jl:100
+ [3] revparseid at ./libgit2/repository.jl:128 [inlined]
+ [4] isfixed(::String, ::Base.LibGit2.GitRepo, ::Dict{VersionNumber,Base.Pkg.Types.Available}) at ./pkg/read.jl:67
+ [5] #7 at ./pkg/read.jl:210 [inlined]
+ [6] with(::Base.Pkg.Read.##7#8{Dict{String,Tuple{VersionNumber,Bool}}}, ::Base.LibGit2.GitRepo) at ./libgit2/types.jl:577
+ [7] with(::Function, ::Type{Base.LibGit2.GitRepo}, ::String, ::Vararg{String,N} where N) at ./libgit2/types.jl:583
+ [8] installed(::Dict{String,Dict{VersionNumber,Base.Pkg.Types.Available}}) at ./pkg/read.jl:208
+ [9] #status#9(::String, ::Function, ::Base.PipeEndpoint) at ./pkg/entry.jl:130
+ [10] (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#status,Tuple{Base.PipeEndpoint}})() at ./pkg/dir.jl:31
+ [11] cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#status,Tuple{Base.PipeEndpoint}}, ::String) at ./file.jl:69
+ [12] #cd#1(::Array{Any,1}, ::Function, ::Function, ::Base.PipeEndpoint, ::Vararg{Base.PipeEndpoint,N} where N) at ./pkg/dir.jl:31
+ [13] versioninfo(::Base.PipeEndpoint, ::Bool) at ./interactiveutil.jl:302
+ [14] versioninfo(::Bool) at ./interactiveutil.jl:305
 
 >>> End of log

@@ -1,23 +1,25 @@
 >>> 'Pkg.add("FactCheck")' log
 INFO: Installing FactCheck v0.4.3
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of FactCheck
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("FactCheck")' log
-Julia Version 0.6.0-dev.1973
-Commit f4ed16b (2017-01-06 23:58 UTC)
+Julia Version 0.6.0-dev.2511
+Commit e0ab6a8 (2017-02-01 19:43 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-106-generic #153-Ubuntu SMP Tue Dec 6 15:44:32 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (732.41015625 MB free)
-Uptime: 20281.0 sec
-Load Avg:  0.974609375  0.99853515625  1.04443359375
+  uname: Linux 3.13.0-107-generic #154-Ubuntu SMP Tue Dec 20 09:57:27 UTC 2016 x86_64 x86_64
+Memory: 2.9392738342285156 GB (1681.80078125 MB free)
+Uptime: 68994.0 sec
+Load Avg:  0.9482421875  1.04150390625  1.0947265625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1174840 s       5510 s     113409 s     513255 s         46 s
-#2  3499 MHz     372667 s       1052 s      75163 s    1531585 s          0 s
+#1  3500 MHz    1277239 s       3200 s     157882 s    5109482 s        212 s
+#2  3500 MHz     450652 s       4058 s     122321 s    6143578 s          7 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -33,9 +35,9 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - FactCheck                     0.4.3
- - JSON                          0.8.0
+ - JSON                          0.8.2
 1 additional packages:
- - Compat                        0.10.0
+ - Compat                        0.14.0
 INFO: Testing FactCheck
 Testing Result counting and printing, not actual errors!
 Test error pathways
@@ -57,10 +59,10 @@ Test error pathways
      [2] do_fact(::TestFactCheck.##7#14, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:334
      [3] (::TestFactCheck.##1#8)() at /home/vagrant/.julia/v0.6/FactCheck/test/runtests.jl:24
      [4] facts(::TestFactCheck.##1#8, ::String) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:449
-     [5] include_from_node1(::String) at ./loading.jl:532
+     [5] include_from_node1(::String) at ./loading.jl:539
      [6] include(::String) at ./sysimg.jl:14
-     [7] process_options(::Base.JLOptions) at ./client.jl:308
-     [8] _start() at ./client.jl:374
+     [7] process_options(::Base.JLOptions) at ./client.jl:304
+     [8] _start() at ./client.jl:370
   Pending
 Out of 4 total facts:
   Verified: 1
@@ -70,16 +72,26 @@ Out of 4 total facts:
 Done, begin actual FactCheck tests
 WARNING: is is deprecated, use === instead.
 Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] is(::Void, ::Vararg{Void,N}) at ./deprecated.jl:30
- [3] @fact_throws(::Vararg{Any,N}) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:307
- [4] include_from_node1(::String) at ./loading.jl:532
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
+ [2] is(::Void, ::Vararg{Void,N} where N) at ./deprecated.jl:30
+ [3] @fact_throws(::Vararg{Any,N} where N) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:307
+ [4] include_from_node1(::String) at ./loading.jl:539
  [5] include(::String) at ./sysimg.jl:14
- [6] process_options(::Base.JLOptions) at ./client.jl:308
- [7] _start() at ./client.jl:374
+ [6] process_options(::Base.JLOptions) at ./client.jl:304
+ [7] _start() at ./client.jl:370
 while loading /home/vagrant/.julia/v0.6/FactCheck/test/runtests.jl, in expression starting on line 54
 Testing core functionality
 14 facts verified.
+WARNING: is is deprecated, use === instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
+ [2] is(::Symbol, ::Vararg{Any,N} where N) at ./deprecated.jl:30
+ [3] @fact_throws(::Vararg{Any,N} where N) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:307
+ [4] include_from_node1(::String) at ./loading.jl:539
+ [5] include(::String) at ./sysimg.jl:14
+ [6] process_options(::Base.JLOptions) at ./client.jl:304
+ [7] _start() at ./client.jl:370
+while loading /home/vagrant/.julia/v0.6/FactCheck/test/runtests.jl, in expression starting on line 78
 Testing invalid @fact_throws macro
 3 facts verified.
 Testing 'context'
@@ -92,14 +104,54 @@ Testing 'context'
   > will execute the function which is passed to the 'context'
     > Run f
   > indent by current LEVEL
-12 facts verified.
+      Error :: (line:272) :: intended
+        Expression: system_output --> if VERSION >= @v_str("0.4-dev")
+    expected_str.data
+else 
+    expected_str
+end
+        type String has no field data
+        Use `Vector{UInt8}(str)` instead.
+        Stacktrace:
+         [1] (::TestFactCheck.##100#136{String})(::Array{UInt8,1}) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:260
+         [2] do_fact(::TestFactCheck.##101#137{Array{UInt8,1},TestFactCheck.##100#136{String}}, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:334
+         [3] macro expansion at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:272 [inlined]
+         [4] (::TestFactCheck.##99#135{Base.PipeEndpoint,Base.PipeEndpoint})() at /home/vagrant/.julia/v0.6/FactCheck/test/runtests.jl:135
+         [5] context(::TestFactCheck.##99#135{Base.PipeEndpoint,Base.PipeEndpoint}, ::String) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:475
+         [6] (::TestFactCheck.##98#134)() at /home/vagrant/.julia/v0.6/FactCheck/test/runtests.jl:127
+         [7] context(::TestFactCheck.##98#134, ::String) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:475
+         [8] (::TestFactCheck.##67#102)() at /home/vagrant/.julia/v0.6/FactCheck/test/runtests.jl:123
+         [9] facts(::TestFactCheck.##67#102, ::String) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:449
+         [10] include_from_node1(::String) at ./loading.jl:539
+         [11] include(::String) at ./sysimg.jl:14
+         [12] process_options(::Base.JLOptions) at ./client.jl:304
+         [13] _start() at ./client.jl:370
+Out of 12 total facts:
+  Verified: 11
+  Errored:  1
 FactCheck assertion helper functions
   > `not` works for values and functions
   > `exactly` can be used to check object equality
 WARNING: is is deprecated, use === instead.
 Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] is(::Function, ::Vararg{Function,N}) at ./deprecated.jl:30
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
+ [2] is(::Function, ::Vararg{Function,N} where N) at ./deprecated.jl:30
+ [3] (::TestFactCheck.##156#221{TestFactCheck.##155#220})() at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:272
+ [4] do_fact(::TestFactCheck.##156#221{TestFactCheck.##155#220}, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:334
+ [5] macro expansion at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:272 [inlined]
+ [6] (::TestFactCheck.##154#219)() at /home/vagrant/.julia/v0.6/FactCheck/test/runtests.jl:157
+ [7] context(::TestFactCheck.##154#219, ::String) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:475
+ [8] (::TestFactCheck.##138#203)() at /home/vagrant/.julia/v0.6/FactCheck/test/runtests.jl:156
+ [9] facts(::TestFactCheck.##138#203, ::String) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:449
+ [10] include_from_node1(::String) at ./loading.jl:539
+ [11] include(::String) at ./sysimg.jl:14
+ [12] process_options(::Base.JLOptions) at ./client.jl:304
+ [13] _start() at ./client.jl:370
+while loading /home/vagrant/.julia/v0.6/FactCheck/test/runtests.jl, in expression starting on line 141
+WARNING: is is deprecated, use === instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
+ [2] is(::Function, ::Vararg{Function,N} where N) at ./deprecated.jl:30
  [3] (::TestFactCheck.##158#224{TestFactCheck.#x#222,TestFactCheck.##157#223})() at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:272
  [4] do_fact(::TestFactCheck.##158#224{TestFactCheck.#x#222,TestFactCheck.##157#223}, ::Expr, ::Symbol, ::FactCheck.ResultMetadata) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:334
  [5] macro expansion at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:272 [inlined]
@@ -107,10 +159,10 @@ Stacktrace:
  [7] context(::TestFactCheck.##154#219, ::String) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:475
  [8] (::TestFactCheck.##138#203)() at /home/vagrant/.julia/v0.6/FactCheck/test/runtests.jl:156
  [9] facts(::TestFactCheck.##138#203, ::String) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:449
- [10] include_from_node1(::String) at ./loading.jl:532
+ [10] include_from_node1(::String) at ./loading.jl:539
  [11] include(::String) at ./sysimg.jl:14
- [12] process_options(::Base.JLOptions) at ./client.jl:308
- [13] _start() at ./client.jl:374
+ [12] process_options(::Base.JLOptions) at ./client.jl:304
+ [13] _start() at ./client.jl:370
 while loading /home/vagrant/.julia/v0.6/FactCheck/test/runtests.jl, in expression starting on line 141
   > `roughly` compares numbers... roughly
   > `roughly` compares matrixes... roughly
@@ -121,6 +173,19 @@ while loading /home/vagrant/.julia/v0.6/FactCheck/test/runtests.jl, in expressio
   > greater_than
   > greater_than_or_equal
 27 facts verified.
-INFO: FactCheck tests passed
+ERROR: LoadError: FactCheck finished with 1 non-successful tests.
+Stacktrace:
+ [1] exitstatus() at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:568
+ [2] include_from_node1(::String) at ./loading.jl:539
+ [3] include(::String) at ./sysimg.jl:14
+ [4] process_options(::Base.JLOptions) at ./client.jl:304
+ [5] _start() at ./client.jl:370
+while loading /home/vagrant/.julia/v0.6/FactCheck/test/runtests.jl, in expression starting on line 212
+==============================[ ERROR: FactCheck ]==============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/FactCheck/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: FactCheck had test errors
 
 >>> End of log
