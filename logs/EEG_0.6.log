@@ -81,7 +81,7 @@ INFO: Installing StatsFuns v0.4.0
 INFO: Installing Synchrony v0.0.1
 INFO: Installing TexExtensions v0.0.3
 INFO: Installing TiledIteration v0.0.1
-INFO: Installing URIParser v0.1.8
+INFO: Installing URIParser v0.1.7
 INFO: Installing Zlib v0.1.12
 INFO: Building HttpParser
 WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T, 1}(m) instead.
@@ -140,12 +140,20 @@ INFO: Building MbedTLS
 Using system libraries...
 INFO: Building LightXML
 INFO: Building AWS
-=================================[ ERROR: AWS ]=================================
-
-LoadError: UndefVarError: @windows_only not defined
+WARNING: `@windows_only` is deprecated, use `@static if is_windows()` instead
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
+ [2] @windows_only(::ANY) at ./deprecated.jl:462
+ [3] include_from_node1(::String) at ./loading.jl:539
+ [4] include(::String) at ./sysimg.jl:14
+ [5] evalfile(::String, ::Array{String,1}) at ./loading.jl:573 (repeats 2 times)
+ [6] cd(::##2#4, ::String) at ./file.jl:69
+ [7] (::##1#3)(::IOStream) at ./none:12
+ [8] open(::##1#3, ::String, ::String) at ./iostream.jl:152
+ [9] eval(::Module, ::Any) at ./boot.jl:236
+ [10] process_options(::Base.JLOptions) at ./client.jl:281
+ [11] _start() at ./client.jl:370
 while loading /home/vagrant/.julia/v0.6/AWS/deps/build.jl, in expression starting on line 5
-
-================================================================================
 INFO: Building Blosc
 INFO: Building HDF5
 WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T, 1}(m) instead.
@@ -254,34 +262,26 @@ Stacktrace:
  [13] _start() at ./client.jl:370
 while loading /home/vagrant/.julia/v0.6/Rmath/deps/build.jl, in expression starting on line 43
 INFO: Building Plots
-
-================================[ BUILD ERRORS ]================================
-
-WARNING: AWS had build errors.
-
- - packages with build errors remain installed in /home/vagrant/.julia/v0.6
- - build the package(s) and all dependencies with `Pkg.build("AWS")`
- - build a single package by running its `deps/build.jl` script
-
-================================================================================
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of EEG
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("EEG")' log
-Julia Version 0.6.0-dev.2543
-Commit fc00ad1 (2017-02-03 02:53 UTC)
+Julia Version 0.6.0-dev.2511
+Commit e0ab6a8 (2017-02-01 19:43 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-107-generic #154-Ubuntu SMP Tue Dec 20 09:57:27 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (702.96875 MB free)
-Uptime: 55137.0 sec
-Load Avg:  1.0419921875  0.88916015625  0.53662109375
+Memory: 2.9392738342285156 GB (696.80859375 MB free)
+Uptime: 67956.0 sec
+Load Avg:  1.00732421875  1.03515625  1.08447265625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz     990629 s        753 s     138040 s    4158168 s         79 s
-#2  3500 MHz     392565 s       5612 s      89366 s    4956101 s          2 s
+#1  3500 MHz    1209714 s       3200 s     150221 s    5095715 s        211 s
+#2  3500 MHz     436950 s       4058 s     119036 s    6058835 s          7 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -378,7 +378,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Synchrony                     0.0.1
  - TexExtensions                 0.0.3
  - TiledIteration                0.0.1
- - URIParser                     0.1.8
+ - URIParser                     0.1.7
  - Zlib                          0.1.12
 INFO: Computing test dependencies for EEG...
 INFO: Installing FactCheck v0.4.3
@@ -386,8 +386,8 @@ INFO: Installing UnicodePlots v0.2.2
 INFO: Testing EEG
 WARNING: Method definition info(Any...) in module Base at util.jl:442 overwritten in module Logging at /home/vagrant/.julia/v0.6/Logging/src/Logging.jl:115.
 WARNING: Method definition warn(Any...) in module Base at util.jl:490 overwritten in module Logging at /home/vagrant/.julia/v0.6/Logging/src/Logging.jl:115.
-WARNING: Method definition warn(Any...) in module Base at util.jl:490 overwritten in module Logging at /home/vagrant/.julia/v0.6/Logging/src/Logging.jl:115.
 WARNING: Method definition info(Any...) in module Base at util.jl:442 overwritten in module Logging at /home/vagrant/.julia/v0.6/Logging/src/Logging.jl:115.
+WARNING: Method definition warn(Any...) in module Base at util.jl:490 overwritten in module Logging at /home/vagrant/.julia/v0.6/Logging/src/Logging.jl:115.
 
 WARNING: deprecated syntax "function .+(...)".
 Use "function Base.broadcast(::typeof(+), ...)" instead.
@@ -409,11 +409,10 @@ Use "function Base.broadcast(::typeof(*), ...)" instead.
 
 WARNING: deprecated syntax "function .*(...)".
 Use "function Base.broadcast(::typeof(*), ...)" instead.
-WARNING: could not import Base.writemime into TexExtensions
 WARNING: `@textmime "mime"` is deprecated; use `Base.Multimedia.istextmime(::MIME"mime") = true` instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] @textmime(::ANY) at ./deprecated.jl:360
+ [2] @textmime(::ANY) at ./deprecated.jl:1004
  [3] include_from_node1(::String) at ./loading.jl:539
  [4] include(::String) at ./sysimg.jl:14
  [5] anonymous at ./<missing>:2
@@ -421,6 +420,34 @@ Stacktrace:
  [7] process_options(::Base.JLOptions) at ./client.jl:281
  [8] _start() at ./client.jl:370
 while loading /home/vagrant/.julia/v0.6/TexExtensions/src/TexExtensions.jl, in expression starting on line 9
+WARNING: Base.writemime is deprecated.
+  likely near /home/vagrant/.julia/v0.6/TexExtensions/src/TexExtensions.jl:14
+WARNING: Base.writemime is deprecated.
+  likely near /home/vagrant/.julia/v0.6/TexExtensions/src/TexExtensions.jl:14
+WARNING: Base.writemime is deprecated.
+  likely near /home/vagrant/.julia/v0.6/TexExtensions/src/TexExtensions.jl:20
+WARNING: Base.writemime is deprecated.
+  likely near /home/vagrant/.julia/v0.6/TexExtensions/src/TexExtensions.jl:20
+WARNING: Base.writemime is deprecated.
+  likely near /home/vagrant/.julia/v0.6/TexExtensions/src/TexExtensions.jl:107
+WARNING: Base.writemime is deprecated.
+  likely near /home/vagrant/.julia/v0.6/TexExtensions/src/TexExtensions.jl:107
+WARNING: Base.writemime is deprecated.
+  likely near /home/vagrant/.julia/v0.6/TexExtensions/src/TexExtensions.jl:124
+WARNING: Base.writemime is deprecated.
+  likely near /home/vagrant/.julia/v0.6/TexExtensions/src/TexExtensions.jl:124
+WARNING: Base.writemime is deprecated.
+  likely near /home/vagrant/.julia/v0.6/TexExtensions/src/TexExtensions.jl:125
+WARNING: Base.writemime is deprecated.
+  likely near /home/vagrant/.julia/v0.6/TexExtensions/src/TexExtensions.jl:125
+WARNING: Base.writemime is deprecated.
+  likely near /home/vagrant/.julia/v0.6/TexExtensions/src/TexExtensions.jl:126
+WARNING: Base.writemime is deprecated.
+  likely near /home/vagrant/.julia/v0.6/TexExtensions/src/TexExtensions.jl:126
+WARNING: Base.writemime is deprecated.
+  likely near /home/vagrant/.julia/v0.6/TexExtensions/src/TexExtensions.jl:128
+WARNING: Base.writemime is deprecated.
+  likely near /home/vagrant/.julia/v0.6/TexExtensions/src/TexExtensions.jl:128
 =================================[ ERROR: EEG ]=================================
 
 failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/EEG/test/runtests.jl`, ProcessSignaled(9)) [0]

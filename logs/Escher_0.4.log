@@ -35,11 +35,13 @@ INFO: Installing SHA v0.3.0
 INFO: Installing SortingAlgorithms v0.1.0
 INFO: Installing StatsBase v0.12.0
 INFO: Installing TextWrap v0.1.6
-INFO: Installing URIParser v0.1.8
+INFO: Installing URIParser v0.1.7
 INFO: Installing WebSockets v0.2.1
 INFO: Building HttpParser
 INFO: Building MbedTLS
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of Escher
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Escher")' log
 Julia Version 0.4.7
@@ -50,13 +52,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-107-generic #154-Ubuntu SMP Tue Dec 20 09:57:27 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (683.44921875 MB free)
-Uptime: 25113.0 sec
-Load Avg:  1.36865234375  1.2529296875  1.12890625
+Memory: 2.9392738342285156 GB (694.3984375 MB free)
+Uptime: 25618.0 sec
+Load Avg:  1.41015625  1.37939453125  1.17431640625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3484 MHz    1191825 s       6808 s     106091 s     936749 s         81 s
-#2  3484 MHz     756019 s       1747 s      93066 s    1565464 s          0 s
+#1  3499 MHz    1149486 s       5928 s     110992 s     991057 s        208 s
+#2  3499 MHz     871520 s       1373 s     102310 s    1448199 s          9 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -108,7 +110,7 @@ Package Directory: /home/vagrant/.julia/v0.4
  - SortingAlgorithms             0.1.0
  - StatsBase                     0.12.0
  - TextWrap                      0.1.6
- - URIParser                     0.1.8
+ - URIParser                     0.1.7
  - WebSockets                    0.2.1
 INFO: Computing test dependencies for Escher...
 INFO: Installing AxisAlgorithms v0.1.5
@@ -117,7 +119,7 @@ INFO: Installing Compose v0.4.5
 INFO: Installing ComposeDiff v0.0.2
 INFO: Installing Contour v0.2.0
 INFO: Installing DataStructures v0.5.2
-INFO: Installing DiffBase v0.0.4
+INFO: Installing DiffBase v0.0.3
 INFO: Installing Distances v0.3.2
 INFO: Installing Distributions v0.11.1
 INFO: Installing FactCheck v0.4.3
@@ -252,6 +254,34 @@ To fix, define
     write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
 before the new definition.
 WARNING: New definition 
+    +(AbstractArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:138
+is ambiguous with: 
+    +(DataArrays.DataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:276.
+To fix, define 
+    +(DataArrays.DataArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury)
+before the new definition.
+WARNING: New definition 
+    +(AbstractArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:138
+is ambiguous with: 
+    +(DataArrays.AbstractDataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:300.
+To fix, define 
+    +(DataArrays.AbstractDataArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury)
+before the new definition.
+WARNING: New definition 
+    write(Base.IO, ForwardDiff.Partials) at /home/vagrant/.julia/v0.4/ForwardDiff/src/partials.jl:57
+is ambiguous with: 
+    write(Base.Base64.Base64EncodePipe, AbstractArray{UInt8, 1}) at base64.jl:89.
+To fix, define 
+    write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
+before the new definition.
+WARNING: New definition 
+    push!(DataStructures.Accumulator{#T<:Any, #V<:Number}, #T<:Any) at /home/vagrant/.julia/v0.4/DataStructures/src/accumulator.jl:54
+is ambiguous with: 
+    push!(Base.Associative, Base.Pair) at dict.jl:294.
+To fix, define 
+    push!(DataStructures.Accumulator{K<:Any, #V<:Number}, _<:Base.Pair)
+before the new definition.
+WARNING: New definition 
     any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
 is ambiguous with: 
     any(Base.Predicate, Any) at reduce.jl:362.
@@ -264,6 +294,13 @@ is ambiguous with:
     any(Base.IdFun, Any) at reduce.jl:363.
 To fix, define 
     any(Base.IdFun, Lazy.List)
+before the new definition.
+WARNING: New definition 
+    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
+is ambiguous with: 
+    any(DataArrays.DataArray, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/reducedim.jl:320.
+To fix, define 
+    any(DataArrays.DataArray, Lazy.List)
 before the new definition.
 WARNING: New definition 
     any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
@@ -289,37 +326,16 @@ before the new definition.
 WARNING: New definition 
     all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
 is ambiguous with: 
+    all(DataArrays.DataArray, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/reducedim.jl:320.
+To fix, define 
+    all(DataArrays.DataArray, Lazy.List)
+before the new definition.
+WARNING: New definition 
+    all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
+is ambiguous with: 
     all(AbstractArray, Any) at reducedim.jl:264.
 To fix, define 
     all(AbstractArray, Lazy.List)
-before the new definition.
-WARNING: New definition 
-    write(Base.IO, ForwardDiff.Partials) at /home/vagrant/.julia/v0.4/ForwardDiff/src/partials.jl:57
-is ambiguous with: 
-    write(Base.Base64.Base64EncodePipe, AbstractArray{UInt8, 1}) at base64.jl:89.
-To fix, define 
-    write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
-before the new definition.
-WARNING: New definition 
-    +(AbstractArray, DataArrays.DataArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:276
-is ambiguous with: 
-    +(WoodburyMatrices.SymWoodbury, AbstractArray{T<:Any, 2}) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:139.
-To fix, define 
-    +(WoodburyMatrices.SymWoodbury, DataArrays.DataArray{T<:Any, 2})
-before the new definition.
-WARNING: New definition 
-    +(AbstractArray, DataArrays.AbstractDataArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:300
-is ambiguous with: 
-    +(WoodburyMatrices.SymWoodbury, AbstractArray{T<:Any, 2}) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:139.
-To fix, define 
-    +(WoodburyMatrices.SymWoodbury, DataArrays.AbstractDataArray{T<:Any, 2})
-before the new definition.
-WARNING: New definition 
-    push!(DataStructures.Accumulator{#T<:Any, #V<:Number}, #T<:Any) at /home/vagrant/.julia/v0.4/DataStructures/src/accumulator.jl:54
-is ambiguous with: 
-    push!(Base.Associative, Base.Pair) at dict.jl:294.
-To fix, define 
-    push!(DataStructures.Accumulator{K<:Any, #V<:Number}, _<:Base.Pair)
 before the new definition.
 INFO: Escher tests passed
 INFO: Removing AxisAlgorithms v0.1.5
@@ -328,7 +344,7 @@ INFO: Removing Compose v0.4.5
 INFO: Removing ComposeDiff v0.0.2
 INFO: Removing Contour v0.2.0
 INFO: Removing DataStructures v0.5.2
-INFO: Removing DiffBase v0.0.4
+INFO: Removing DiffBase v0.0.3
 INFO: Removing Distances v0.3.2
 INFO: Removing Distributions v0.11.1
 INFO: Removing FactCheck v0.4.3

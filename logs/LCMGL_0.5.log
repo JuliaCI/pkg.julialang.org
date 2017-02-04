@@ -3,7 +3,7 @@ INFO: Cloning cache of LCMGL from https://github.com/rdeits/LCMGL.jl.git
 INFO: Installing BinDeps v0.4.5
 INFO: Installing LCMGL v0.0.2
 INFO: Installing SHA v0.3.0
-INFO: Installing URIParser v0.1.8
+INFO: Installing URIParser v0.1.7
 INFO: Building LCMGL
 WARNING: `@osx_only` is deprecated, use `@static if is_apple()` instead
  in depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -21,8 +21,8 @@ INFO: Attempting to Create directory /home/vagrant/.julia/v0.5/LCMGL/deps/downlo
 INFO: Downloading file https://github.com/lcm-proj/lcm/releases/download/v1.3.1/lcm-1.3.1.zip
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   590    0   590    0     0   5859      0 --:--:-- --:--:-- --:--:--  5900
- 72 7164k   72 5183k    0     0  5957k      0  0:00:01 --:--:--  0:00:01 5957k100 7164k  100 7164k    0     0  7869k      0 --:--:-- --:--:-- --:--:-- 48.3M
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   590    0   590    0     0   2113      0 --:--:-- --:--:-- --:--:--  2114
+  3 7164k    3  220k    0     0   269k      0  0:00:26 --:--:--  0:00:26  269k100 7164k  100 7164k    0     0  6389k      0  0:00:01  0:00:01 --:--:-- 22.3M
 INFO: Done downloading file https://github.com/lcm-proj/lcm/releases/download/v1.3.1/lcm-1.3.1.zip
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.5/LCMGL/deps/src
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.5/LCMGL/deps
@@ -1304,16 +1304,7 @@ make[1]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/
   CC       lcm_tcpq.lo
   CC       ringbuffer.lo
   CC       udpm_util.lo
-lcm_memq.c: In function 'lcm_memq_destroy':
-lcm_memq.c:61:5: warning: 'g_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:275) [-Wdeprecated-declarations]
-     g_mutex_free(self->mutex);
-     ^
-lcm_memq.c: In function 'lcm_memq_create':
-lcm_memq.c:80:5: warning: 'g_mutex_new' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:273) [-Wdeprecated-declarations]
-     self->mutex = g_mutex_new();
-     ^
 lcm.c: In function 'lcm_create':
-lcm_udpm.c: In function 'lcm_udpm_destroy':
 lcm.c:61:5: warning: 'g_thread_init' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:261) [-Wdeprecated-declarations]
      if (!g_thread_supported ()) g_thread_init (NULL);
      ^
@@ -1335,24 +1326,13 @@ lcm.c:218:9: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /us
          g_static_rec_mutex_unlock (&lcm->handle_mutex);
          ^
 lcm.c: In function 'lcm_subscribe':
-lcm_udpm.c:178:5: warning: 'g_static_rec_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:191): Use 'g_rec_mutex_free' instead [-Wdeprecated-declarations]
-     g_static_rec_mutex_free (&lcm->mutex);
-     ^
-lcm_udpm.c:179:5: warning: 'g_static_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:148): Use 'g_mutex_clear' instead [-Wdeprecated-declarations]
-     g_static_mutex_free (&lcm->transmit_lock);
-     ^
-lcm_udpm.c:181:9: warning: 'g_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:275) [-Wdeprecated-declarations]
-         g_mutex_free(lcm->create_read_thread_mutex);
-         ^
+lcm_file.c: In function 'lcm_logprov_create':
 lcm.c:334:5: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
      g_static_rec_mutex_lock (&lcm->mutex);
      ^
 lcm.c:337:5: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
      g_static_rec_mutex_unlock (&lcm->mutex);
      ^
-lcm_udpm.c:182:9: warning: 'g_cond_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:279) [-Wdeprecated-declarations]
-         g_cond_free(lcm->create_read_thread_cond);
-         ^
 lcm.c: In function 'lcm_unsubscribe':
 lcm.c:345:5: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
      g_static_rec_mutex_lock (&lcm->mutex);
@@ -1367,11 +1347,13 @@ lcm.c:373:5: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/
 lcm.c:392:5: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
      g_static_rec_mutex_unlock (&lcm->mutex);
      ^
+lcm_file.c:230:9: warning: 'g_thread_create' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:100): Use 'g_thread_new' instead [-Wdeprecated-declarations]
+         lr->timer_thread = g_thread_create (timer_thread, lr, TRUE, NULL);
+         ^
 lcm.c: In function 'lcm_try_enqueue_message':
 lcm.c:399:5: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
      g_static_rec_mutex_lock (&lcm->mutex);
      ^
-lcm_udpm.c: In function '_recv_message_fragment':
 lcm.c:410:5: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
      g_static_rec_mutex_unlock (&lcm->mutex);
      ^
@@ -1396,48 +1378,20 @@ lcm.c:471:5: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /us
      g_static_rec_mutex_unlock (&lcm->mutex);
      ^
 lcm.c: In function 'lcm_subscription_set_queue_capacity':
-lcm_udpm.c:341:9: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
-         g_static_rec_mutex_lock (&lcm->mutex);
-         ^
-lcm_udpm.c:343:9: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
-         g_static_rec_mutex_unlock (&lcm->mutex);
-         ^
-lcm_udpm.c: In function 'udp_read_packet':
 lcm.c:526:5: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
      g_static_rec_mutex_lock(&subs->lcm->mutex);
      ^
 lcm.c:528:5: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
      g_static_rec_mutex_unlock(&subs->lcm->mutex);
      ^
-lcm_udpm.c:470:13: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
-             g_static_rec_mutex_lock (&lcm->mutex);
-             ^
-lcm_udpm.c:472:13: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
-             g_static_rec_mutex_unlock (&lcm->mutex);
-             ^
-lcm_udpm.c:545:9: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
-         g_static_rec_mutex_lock (&lcm->mutex);
-         ^
-lcm_udpm.c:547:9: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
-         g_static_rec_mutex_unlock (&lcm->mutex);
-         ^
-lcm_udpm.c: In function 'recv_thread':
-lcm_udpm.c:576:9: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
-         g_static_rec_mutex_lock (&lcm->mutex);
-         ^
-lcm_udpm.c:585:9: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
-         g_static_rec_mutex_unlock (&lcm->mutex);
-         ^
-lcm_udpm.c: In function 'lcm_udpm_publish':
-lcm_udpm.c:621:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
-         g_static_mutex_lock (&lcm->transmit_lock);
-         ^
-lcm_udpm.c:652:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
-         g_static_mutex_unlock (&lcm->transmit_lock);
-         ^
-lcm_udpm.c:671:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
-         g_static_mutex_lock (&lcm->transmit_lock);
-         ^
+lcm_memq.c: In function 'lcm_memq_destroy':
+lcm_memq.c:61:5: warning: 'g_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:275) [-Wdeprecated-declarations]
+     g_mutex_free(self->mutex);
+     ^
+lcm_memq.c: In function 'lcm_memq_create':
+lcm_memq.c:80:5: warning: 'g_mutex_new' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:273) [-Wdeprecated-declarations]
+     self->mutex = g_mutex_new();
+     ^
 lcm_mpudpm.c: In function 'lcm_mpudpm_destroy':
 lcm_mpudpm.c:297:5: warning: 'g_static_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:148): Use 'g_mutex_clear' instead [-Wdeprecated-declarations]
      g_static_mutex_free (&lcm->receive_lock);
@@ -1448,26 +1402,10 @@ lcm_mpudpm.c:298:5: warning: 'g_static_mutex_free' is deprecated (declared at /u
 lcm_mpudpm.c:300:9: warning: 'g_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:275) [-Wdeprecated-declarations]
          g_mutex_free(lcm->create_read_thread_mutex);
          ^
-lcm_udpm.c:741:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
-         g_static_mutex_unlock (&lcm->transmit_lock);
-         ^
-  CC       eventlog.lo
-lcm_udpm.c: In function 'lcm_udpm_handle':
 lcm_mpudpm.c:301:9: warning: 'g_cond_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:279) [-Wdeprecated-declarations]
          g_cond_free(lcm->create_read_thread_cond);
          ^
-lcm_udpm.c:768:5: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
-     g_static_rec_mutex_lock (&lcm->mutex);
-     ^
-lcm_udpm.c:774:9: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
-         g_static_rec_mutex_unlock (&lcm->mutex);
-         ^
-lcm_udpm.c:783:5: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
-     g_static_rec_mutex_unlock (&lcm->mutex);
-     ^
-lcm_udpm.c:800:5: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
-     g_static_rec_mutex_lock (&lcm->mutex);
-     ^
+lcm_udpm.c: In function 'lcm_udpm_destroy':
 lcm_mpudpm.c: In function 'recv_message_fragment':
 lcm_mpudpm.c:507:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_lock(&lcm->receive_lock);
@@ -1475,26 +1413,26 @@ lcm_mpudpm.c:507:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (decl
 lcm_mpudpm.c:509:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_unlock(&lcm->receive_lock);
          ^
-lcm_udpm.c:803:5: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
-     g_static_rec_mutex_unlock (&lcm->mutex);
-     ^
-lcm_udpm.c: In function '_setup_recv_parts':
 lcm_mpudpm.c: In function 'dispatch_complete_message':
+lcm_udpm.c:178:5: warning: 'g_static_rec_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:191): Use 'g_rec_mutex_free' instead [-Wdeprecated-declarations]
+     g_static_rec_mutex_free (&lcm->mutex);
+     ^
+lcm_udpm.c:179:5: warning: 'g_static_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:148): Use 'g_mutex_clear' instead [-Wdeprecated-declarations]
+     g_static_mutex_free (&lcm->transmit_lock);
+     ^
+lcm_udpm.c:181:9: warning: 'g_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:275) [-Wdeprecated-declarations]
+         g_mutex_free(lcm->create_read_thread_mutex);
+         ^
+lcm_udpm.c:182:9: warning: 'g_cond_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:279) [-Wdeprecated-declarations]
+         g_cond_free(lcm->create_read_thread_cond);
+         ^
+lcm_udpm.c: In function '_recv_message_fragment':
 lcm_mpudpm.c:573:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_lock(&lcm->transmit_lock);
          ^
 lcm_mpudpm.c:575:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_unlock(&lcm->transmit_lock);
          ^
-lcm_udpm.c:876:5: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
-     g_static_rec_mutex_lock(&lcm->mutex);
-     ^
-lcm_udpm.c:884:9: warning: 'g_static_private_get' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:247): Use 'g_private_get' instead [-Wdeprecated-declarations]
-         if(g_static_private_get(&CREATE_READ_THREAD_PKEY)) {
-         ^
-lcm_udpm.c:885:13: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
-             g_static_rec_mutex_unlock(&lcm->mutex);
-             ^
 lcm_mpudpm.c:597:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_lock(&lcm->receive_lock);
          ^
@@ -1504,9 +1442,6 @@ lcm_mpudpm.c:600:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (decl
 lcm_mpudpm.c:603:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_lock(&lcm->receive_lock);
          ^
-lcm_udpm.c:891:9: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
-         g_static_rec_mutex_unlock(&lcm->mutex);
-         ^
 lcm_mpudpm.c:623:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_unlock(&lcm->receive_lock);
          ^
@@ -1514,66 +1449,78 @@ lcm_mpudpm.c: In function 'recv_thread':
 lcm_mpudpm.c:645:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_lock(&lcm->receive_lock);
          ^
-lcm_udpm.c:898:9: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
-         g_static_rec_mutex_lock(&lcm->mutex);
-         ^
-lcm_udpm.c:903:9: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
-         g_static_rec_mutex_unlock(&lcm->mutex);
-         ^
-lcm_udpm.c:906:9: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
-         g_static_rec_mutex_unlock(&lcm->mutex);
-         ^
-lcm_udpm.c:912:5: warning: 'g_mutex_new' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:273) [-Wdeprecated-declarations]
-     lcm->create_read_thread_mutex = g_mutex_new();
-     ^
 lcm_mpudpm.c:665:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_unlock(&lcm->receive_lock);
          ^
+lcm_udpm.c:341:9: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
+         g_static_rec_mutex_lock (&lcm->mutex);
+         ^
+lcm_udpm.c:343:9: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
+         g_static_rec_mutex_unlock (&lcm->mutex);
+         ^
+lcm_udpm.c: In function 'udp_read_packet':
 lcm_mpudpm.c:701:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_lock(&lcm->receive_lock);
          ^
 lcm_mpudpm.c:705:13: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
              g_static_mutex_unlock(&lcm->receive_lock);
              ^
-lcm_udpm.c:913:5: warning: 'g_cond_new' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:277) [-Wdeprecated-declarations]
-     lcm->create_read_thread_cond = g_cond_new();
-     ^
 lcm_mpudpm.c:735:17: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
                  g_static_mutex_unlock(&lcm->receive_lock);
                  ^
-lcm_udpm.c:915:5: warning: 'g_static_private_set' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:250): Use 'g_private_set' instead [-Wdeprecated-declarations]
-     g_static_private_set(&CREATE_READ_THREAD_PKEY, GINT_TO_POINTER(1), NULL);
-     ^
+lcm_udpm.c:470:13: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
+             g_static_rec_mutex_lock (&lcm->mutex);
+             ^
 lcm_mpudpm.c:827:17: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
                  g_static_mutex_lock(&lcm->receive_lock);
                  ^
-lcm_udpm.c:1046:5: warning: 'g_thread_create' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:100): Use 'g_thread_new' instead [-Wdeprecated-declarations]
-     lcm->read_thread = g_thread_create (recv_thread, lcm, TRUE, NULL);
-     ^
+lcm_udpm.c:472:13: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
+             g_static_rec_mutex_unlock (&lcm->mutex);
+             ^
+lcm_udpm.c:545:9: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
+         g_static_rec_mutex_lock (&lcm->mutex);
+         ^
+lcm_udpm.c:547:9: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
+         g_static_rec_mutex_unlock (&lcm->mutex);
+         ^
+lcm_udpm.c: In function 'recv_thread':
 lcm_mpudpm.c:833:13: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
              g_static_mutex_lock(&lcm->receive_lock);
              ^
 lcm_mpudpm.c:840:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_unlock(&lcm->receive_lock);
          ^
-lcm_udpm.c:1052:5: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
-     g_static_rec_mutex_unlock(&lcm->mutex);
-     ^
+lcm_udpm.c:576:9: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
+         g_static_rec_mutex_lock (&lcm->mutex);
+         ^
 lcm_mpudpm.c: In function 'lcm_mpudpm_subscribe':
+lcm_udpm.c:585:9: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
+         g_static_rec_mutex_unlock (&lcm->mutex);
+         ^
+lcm_udpm.c: In function 'lcm_udpm_publish':
+lcm_udpm.c:621:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
+         g_static_mutex_lock (&lcm->transmit_lock);
+         ^
+lcm_udpm.c:652:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
+         g_static_mutex_unlock (&lcm->transmit_lock);
+         ^
 lcm_mpudpm.c:889:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_lock(&lcm->transmit_lock);
          ^
 lcm_mpudpm.c:892:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_unlock(&lcm->transmit_lock);
          ^
-lcm_udpm.c:1057:5: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
-     g_static_rec_mutex_lock(&lcm->mutex);
-     ^
 lcm_mpudpm.c:896:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_lock(&lcm->transmit_lock);
          ^
+lcm_udpm.c:671:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
+         g_static_mutex_lock (&lcm->transmit_lock);
+         ^
 lcm_mpudpm.c:913:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_unlock(&lcm->transmit_lock);
+         ^
+lcm_udpm.c:741:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
+         g_static_mutex_unlock (&lcm->transmit_lock);
          ^
 lcm_mpudpm.c:915:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_lock(&lcm->receive_lock);
@@ -1587,12 +1534,103 @@ lcm_mpudpm.c:921:5: warning: 'g_static_mutex_get_mutex_impl' is deprecated (decl
 lcm_mpudpm.c:923:5: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
      g_static_mutex_unlock(&lcm->receive_lock);
      ^
+lcm_udpm.c: In function 'lcm_udpm_handle':
 lcm_mpudpm.c: In function 'lcm_mpudpm_unsubscribe':
-lcm_udpm.c:1073:5: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
-     g_static_rec_mutex_unlock(&lcm->mutex);
-     ^
 lcm_mpudpm.c:934:5: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
      g_static_mutex_lock(&lcm->receive_lock);
+     ^
+lcm_udpm.c:768:5: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
+     g_static_rec_mutex_lock (&lcm->mutex);
+     ^
+lcm_mpudpm.c:949:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
+         g_static_mutex_unlock(&lcm->receive_lock);
+         ^
+lcm_udpm.c:774:9: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
+         g_static_rec_mutex_unlock (&lcm->mutex);
+         ^
+lcm_udpm.c:783:5: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
+     g_static_rec_mutex_unlock (&lcm->mutex);
+     ^
+lcm_udpm.c:800:5: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
+     g_static_rec_mutex_lock (&lcm->mutex);
+     ^
+lcm_mpudpm.c:968:5: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
+     g_static_mutex_unlock(&lcm->receive_lock);
+     ^
+lcm_udpm.c:803:5: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
+     g_static_rec_mutex_unlock (&lcm->mutex);
+     ^
+lcm_mpudpm.c: In function 'channel_port_mapping_update_handler':
+lcm_udpm.c: In function '_setup_recv_parts':
+lcm_mpudpm.c:1034:5: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
+     g_static_mutex_lock(&lcm->transmit_lock);
+     ^
+lcm_udpm.c:876:5: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
+     g_static_rec_mutex_lock(&lcm->mutex);
+     ^
+lcm_mpudpm.c:1062:5: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
+     g_static_mutex_unlock(&lcm->transmit_lock);
+     ^
+lcm_udpm.c:884:9: warning: 'g_static_private_get' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:247): Use 'g_private_get' instead [-Wdeprecated-declarations]
+         if(g_static_private_get(&CREATE_READ_THREAD_PKEY)) {
+         ^
+lcm_udpm.c:885:13: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
+             g_static_rec_mutex_unlock(&lcm->mutex);
+             ^
+lcm_udpm.c:891:9: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
+         g_static_rec_mutex_unlock(&lcm->mutex);
+         ^
+lcm_udpm.c:898:9: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
+         g_static_rec_mutex_lock(&lcm->mutex);
+         ^
+lcm_mpudpm.c: In function 'update_subscription_ports':
+lcm_udpm.c:903:9: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
+         g_static_rec_mutex_unlock(&lcm->mutex);
+         ^
+lcm_udpm.c:906:9: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
+         g_static_rec_mutex_unlock(&lcm->mutex);
+         ^
+lcm_udpm.c:912:5: warning: 'g_mutex_new' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:273) [-Wdeprecated-declarations]
+     lcm->create_read_thread_mutex = g_mutex_new();
+     ^
+lcm_mpudpm.c:1103:5: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
+     g_static_mutex_lock(&lcm->receive_lock);
+     ^
+lcm_udpm.c:913:5: warning: 'g_cond_new' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:277) [-Wdeprecated-declarations]
+     lcm->create_read_thread_cond = g_cond_new();
+     ^
+lcm_udpm.c:915:5: warning: 'g_static_private_set' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:250): Use 'g_private_set' instead [-Wdeprecated-declarations]
+     g_static_private_set(&CREATE_READ_THREAD_PKEY, GINT_TO_POINTER(1), NULL);
+     ^
+lcm_mpudpm.c:1104:5: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
+     g_static_mutex_lock (&lcm->transmit_lock);
+     ^
+  CC       eventlog.lo
+lcm_udpm.c:1046:5: warning: 'g_thread_create' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:100): Use 'g_thread_new' instead [-Wdeprecated-declarations]
+     lcm->read_thread = g_thread_create (recv_thread, lcm, TRUE, NULL);
+     ^
+lcm_mpudpm.c:1136:5: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
+     g_static_mutex_unlock (&lcm->transmit_lock);
+     ^
+lcm_mpudpm.c:1137:5: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
+     g_static_mutex_unlock(&lcm->receive_lock);
+     ^
+lcm_mpudpm.c: In function 'publish_message_internal':
+lcm_udpm.c:1052:5: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
+     g_static_rec_mutex_unlock(&lcm->mutex);
+     ^
+lcm_mpudpm.c:1160:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
+         g_static_mutex_unlock(&lcm->transmit_lock);
+         ^
+lcm_mpudpm.c:1162:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
+         g_static_mutex_lock(&lcm->transmit_lock);
+         ^
+lcm_udpm.c:1057:5: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
+     g_static_rec_mutex_lock(&lcm->mutex);
+     ^
+lcm_mpudpm.c: In function 'lcm_mpudpm_publish':
+lcm_udpm.c:1073:5: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
+     g_static_rec_mutex_unlock(&lcm->mutex);
      ^
 lcm_udpm.c:1079:5: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
      g_static_rec_mutex_unlock(&lcm->mutex);
@@ -1604,40 +1642,6 @@ lcm_udpm.c:1122:5: warning: 'g_static_rec_mutex_init' is deprecated (declared at
 lcm_udpm.c:1123:5: warning: 'g_static_mutex_init' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:146): Use 'g_mutex_init' instead [-Wdeprecated-declarations]
      g_static_mutex_init (&lcm->transmit_lock);
      ^
-lcm_mpudpm.c:949:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
-         g_static_mutex_unlock(&lcm->receive_lock);
-         ^
-lcm_mpudpm.c:968:5: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
-     g_static_mutex_unlock(&lcm->receive_lock);
-     ^
-lcm_mpudpm.c: In function 'channel_port_mapping_update_handler':
-lcm_mpudpm.c:1034:5: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
-     g_static_mutex_lock(&lcm->transmit_lock);
-     ^
-lcm_mpudpm.c:1062:5: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
-     g_static_mutex_unlock(&lcm->transmit_lock);
-     ^
-lcm_mpudpm.c: In function 'update_subscription_ports':
-lcm_mpudpm.c:1103:5: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
-     g_static_mutex_lock(&lcm->receive_lock);
-     ^
-lcm_mpudpm.c:1104:5: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
-     g_static_mutex_lock (&lcm->transmit_lock);
-     ^
-lcm_mpudpm.c:1136:5: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
-     g_static_mutex_unlock (&lcm->transmit_lock);
-     ^
-lcm_mpudpm.c:1137:5: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
-     g_static_mutex_unlock(&lcm->receive_lock);
-     ^
-lcm_mpudpm.c: In function 'publish_message_internal':
-lcm_mpudpm.c:1160:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
-         g_static_mutex_unlock(&lcm->transmit_lock);
-         ^
-lcm_mpudpm.c:1162:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
-         g_static_mutex_lock(&lcm->transmit_lock);
-         ^
-lcm_mpudpm.c: In function 'lcm_mpudpm_publish':
 lcm_mpudpm.c:1313:5: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
      g_static_mutex_lock(&lcm->transmit_lock);
      ^
@@ -1695,13 +1699,9 @@ lcm_mpudpm.c:1616:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (dec
 lcm_mpudpm.c:1619:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_unlock(&lcm->receive_lock);
          ^
-lcm_file.c: In function 'lcm_logprov_create':
 lcm_mpudpm.c:1625:5: warning: 'g_mutex_new' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:273) [-Wdeprecated-declarations]
      lcm->create_read_thread_mutex = g_mutex_new();
      ^
-lcm_file.c:230:9: warning: 'g_thread_create' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:100): Use 'g_thread_new' instead [-Wdeprecated-declarations]
-         lr->timer_thread = g_thread_create (timer_thread, lr, TRUE, NULL);
-         ^
 lcm_mpudpm.c:1626:5: warning: 'g_cond_new' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:277) [-Wdeprecated-declarations]
      lcm->create_read_thread_cond = g_cond_new();
      ^
@@ -1742,20 +1742,20 @@ lcm_mpudpm.c:1756:5: warning: 'g_static_mutex_init' is deprecated (declared at /
 make[1]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/lcm'
 Making all in liblcm-test
 make[1]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/liblcm-test'
-  CC       lcm-sink.o
-  CC       lcm-source.o
   CC       lcm-tester.o
-  CC       lcm-example.o
+  CC       lcm-source.o
+  CC       lcm-sink.o
   CC       lcm-logfilter.o
   CC       buftest-receiver.o
+  CC       lcm-example.o
   CC       buftest-sender.o
   CCLD     lcm-sink
-  CCLD     lcm-source
-  CCLD     lcm-tester
   CCLD     lcm-example
-  CCLD     lcm-buftest-receiver
+  CCLD     lcm-source
   CCLD     lcm-buftest-sender
   CCLD     lcm-logfilter
+  CCLD     lcm-buftest-receiver
+  CCLD     lcm-tester
 make[1]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/liblcm-test'
 Making all in lcmgen
 make[1]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/lcmgen'
@@ -1853,8 +1853,8 @@ make[2]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/
  /bin/bash ../libtool   --mode=install /usr/bin/install -c   liblcm.la '/home/vagrant/.julia/v0.5/LCMGL/deps/usr/lib'
  /bin/mkdir -p '/home/vagrant/.julia/v0.5/LCMGL/deps/usr/lib/pkgconfig'
  /usr/bin/install -c -m 644 eventlog.h lcm.h lcm_coretypes.h lcm-cpp.hpp lcm-cpp-impl.hpp '/home/vagrant/.julia/v0.5/LCMGL/deps/usr/include/lcm'
-libtool: install: /usr/bin/install -c .libs/liblcm.so.1.3.4 /home/vagrant/.julia/v0.5/LCMGL/deps/usr/lib/liblcm.so.1.3.4
  /usr/bin/install -c -m 644 lcm.pc '/home/vagrant/.julia/v0.5/LCMGL/deps/usr/lib/pkgconfig'
+libtool: install: /usr/bin/install -c .libs/liblcm.so.1.3.4 /home/vagrant/.julia/v0.5/LCMGL/deps/usr/lib/liblcm.so.1.3.4
 libtool: install: (cd /home/vagrant/.julia/v0.5/LCMGL/deps/usr/lib && { ln -s -f liblcm.so.1.3.4 liblcm.so.1 || { rm -f liblcm.so.1 && ln -s liblcm.so.1.3.4 liblcm.so.1; }; })
 libtool: install: (cd /home/vagrant/.julia/v0.5/LCMGL/deps/usr/lib && { ln -s -f liblcm.so.1.3.4 liblcm.so || { rm -f liblcm.so && ln -s liblcm.so.1.3.4 liblcm.so; }; })
 libtool: install: /usr/bin/install -c .libs/liblcm.lai /home/vagrant/.julia/v0.5/LCMGL/deps/usr/lib/liblcm.la
@@ -1934,8 +1934,8 @@ INFO: Directory /home/vagrant/.julia/v0.5/LCMGL/deps/downloads already created
 INFO: Downloading file https://github.com/RobotLocomotion/libbot/archive/cc8d228b50847c4c55e6963b8ee95c237287547f.zip
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   161    0   161    0     0   1637      0 --:--:-- --:--:-- --:--:--  1626
-  0     0    0  881k    0     0  1640k      0 --:--:-- --:--:-- --:--:-- 1640k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   161    0   161    0     0   1612      0 --:--:-- --:--:-- --:--:--  1626
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0  881k    0     0  2305k      0 --:--:-- --:--:-- --:--:-- 3673k
 INFO: Done downloading file https://github.com/RobotLocomotion/libbot/archive/cc8d228b50847c4c55e6963b8ee95c237287547f.zip
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.5/LCMGL/deps/src
 INFO: Directory /home/vagrant/.julia/v0.5/LCMGL/deps/src already created
@@ -3379,6 +3379,8 @@ make[2]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d
 make[1]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/pod-build'
 make: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f'
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of LCMGL
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("LCMGL")' log
 Julia Version 0.5.0
@@ -3389,13 +3391,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-107-generic #154-Ubuntu SMP Tue Dec 20 09:57:27 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (921.0078125 MB free)
-Uptime: 46567.0 sec
-Load Avg:  1.29833984375  1.05859375  1.02001953125
+Memory: 2.9392738342285156 GB (924.4765625 MB free)
+Uptime: 45689.0 sec
+Load Avg:  1.25390625  1.1181640625  1.0859375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3505 MHz    2830471 s       2523 s     305458 s     910268 s         93 s
-#2  3505 MHz     825165 s       5801 s     135787 s    3563845 s          2 s
+#1  3500 MHz    2791764 s       5254 s     228528 s     910531 s        191 s
+#2  3500 MHz     894106 s       2076 s     130174 s    3378154 s          8 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -3420,7 +3422,7 @@ Package Directory: /home/vagrant/.julia/v0.5
  - DocOpt                        0.2.0
  - ParallelAccelerator           0.2.2              6da2e374 (dirty)
  - SHA                           0.3.0
- - URIParser                     0.1.8
+ - URIParser                     0.1.7
 INFO: Testing LCMGL
 INFO: LCMGL tests passed
 
