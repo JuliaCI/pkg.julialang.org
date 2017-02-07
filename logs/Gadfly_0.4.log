@@ -58,13 +58,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-108-generic #155-Ubuntu SMP Wed Jan 11 16:58:52 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (532.2578125 MB free)
-Uptime: 30345.0 sec
-Load Avg:  0.98193359375  1.01806640625  0.98681640625
+Memory: 2.9392738342285156 GB (534.140625 MB free)
+Uptime: 27555.0 sec
+Load Avg:  1.09228515625  1.0185546875  1.03466796875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1373678 s       4233 s     106514 s    1231357 s         90 s
-#2  3499 MHz     982237 s       3188 s      94987 s    1826201 s          1 s
+#1  3499 MHz    1341547 s       7351 s     108598 s     997651 s         76 s
+#2  3499 MHz     842353 s         58 s     100559 s    1720826 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -87,7 +87,7 @@ Package Directory: /home/vagrant/.julia/v0.4
  - Calculus                      0.2.0
  - ColorTypes                    0.2.12
  - Colors                        0.6.9
- - Compat                        0.14.0
+ - Compat                        0.15.0
  - Compose                       0.4.5
  - Contour                       0.2.0
  - DataArrays                    0.3.11
@@ -151,6 +151,13 @@ before the new definition.
 WARNING: New definition 
     all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
 is ambiguous with: 
+    all(DataArrays.DataArray, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/reducedim.jl:320.
+To fix, define 
+    all(DataArrays.DataArray, Lazy.List)
+before the new definition.
+WARNING: New definition 
+    all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
+is ambiguous with: 
     all(AbstractArray, Any) at reducedim.jl:264.
 To fix, define 
     all(AbstractArray, Lazy.List)
@@ -172,9 +179,37 @@ before the new definition.
 WARNING: New definition 
     any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
 is ambiguous with: 
+    any(DataArrays.DataArray, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/reducedim.jl:320.
+To fix, define 
+    any(DataArrays.DataArray, Lazy.List)
+before the new definition.
+WARNING: New definition 
+    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
+is ambiguous with: 
     any(AbstractArray, Any) at reducedim.jl:264.
 To fix, define 
     any(AbstractArray, Lazy.List)
+before the new definition.
+WARNING: New definition 
+    push!(DataStructures.Accumulator{#T<:Any, #V<:Number}, #T<:Any) at /home/vagrant/.julia/v0.4/DataStructures/src/accumulator.jl:54
+is ambiguous with: 
+    push!(Base.Associative, Base.Pair) at dict.jl:294.
+To fix, define 
+    push!(DataStructures.Accumulator{K<:Any, #V<:Number}, _<:Base.Pair)
+before the new definition.
+WARNING: New definition 
+    write(Base.IO, ForwardDiff.Partials) at /home/vagrant/.julia/v0.4/ForwardDiff/src/partials.jl:57
+is ambiguous with: 
+    write(Base.Base64.Base64EncodePipe, AbstractArray{UInt8, 1}) at base64.jl:89.
+To fix, define 
+    write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
+before the new definition.
+WARNING: New definition 
+    write(Base.IO, ForwardDiff.Partials) at /home/vagrant/.julia/v0.4/ForwardDiff/src/partials.jl:57
+is ambiguous with: 
+    write(Base.Base64.Base64EncodePipe, AbstractArray{UInt8, 1}) at base64.jl:89.
+To fix, define 
+    write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
 before the new definition.
 WARNING: New definition 
     write(Base.IO, ForwardDiff.Partials) at /home/vagrant/.julia/v0.4/ForwardDiff/src/partials.jl:57
@@ -196,20 +231,6 @@ is ambiguous with:
     +(DataArrays.AbstractDataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:300.
 To fix, define 
     +(DataArrays.AbstractDataArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury)
-before the new definition.
-WARNING: New definition 
-    write(Base.IO, ForwardDiff.Partials) at /home/vagrant/.julia/v0.4/ForwardDiff/src/partials.jl:57
-is ambiguous with: 
-    write(Base.Base64.Base64EncodePipe, AbstractArray{UInt8, 1}) at base64.jl:89.
-To fix, define 
-    write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
-before the new definition.
-WARNING: New definition 
-    write(Base.IO, ForwardDiff.Partials) at /home/vagrant/.julia/v0.4/ForwardDiff/src/partials.jl:57
-is ambiguous with: 
-    write(Base.Base64.Base64EncodePipe, AbstractArray{UInt8, 1}) at base64.jl:89.
-To fix, define 
-    write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
 before the new definition.
 WARNING: New definition 
     push!(DataStructures.Accumulator{#T<:Any, #V<:Number}, #T<:Any) at /home/vagrant/.julia/v0.4/DataStructures/src/accumulator.jl:54
@@ -313,19 +334,12 @@ is ambiguous with:
 To fix, define 
     +(DataArrays.AbstractDataArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury)
 before the new definition.
-WARNING: New definition 
-    push!(DataStructures.Accumulator{#T<:Any, #V<:Number}, #T<:Any) at /home/vagrant/.julia/v0.4/DataStructures/src/accumulator.jl:54
-is ambiguous with: 
-    push!(Base.Associative, Base.Pair) at dict.jl:294.
-To fix, define 
-    push!(DataStructures.Accumulator{K<:Any, #V<:Number}, _<:Base.Pair)
-before the new definition.
 Rendering points on pgf backend.
- 16.619959 seconds (11.20 M allocations: 477.224 MB, 0.94% gc time)
+ 18.956461 seconds (11.21 M allocations: 477.532 MB, 0.99% gc time)
 Rendering points on svgjs backend.
-  2.231971 seconds (1.00 M allocations: 40.715 MB, 0.73% gc time)
+  1.528209 seconds (1.00 M allocations: 40.857 MB, 1.15% gc time)
 Rendering points on svg backend.
-  0.016044 seconds (50.94 k allocations: 1.772 MB)
+  0.023417 seconds (50.94 k allocations: 1.772 MB)
 Rendering points on png backend.
 FAILED!
 ERROR: LoadError: Cairo and Fontconfig are necessary for the PNG backend. Run:

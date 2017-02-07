@@ -32,13 +32,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-108-generic #155-Ubuntu SMP Wed Jan 11 16:58:52 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (565.21875 MB free)
-Uptime: 29898.0 sec
-Load Avg:  1.037109375  1.02294921875  0.986328125
+Memory: 2.9392738342285156 GB (569.41015625 MB free)
+Uptime: 27086.0 sec
+Load Avg:  1.05615234375  1.03076171875  1.0400390625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1353525 s       4233 s     104895 s    1212958 s         90 s
-#2  3499 MHz     967093 s       3188 s      93613 s    1799715 s          1 s
+#1  3499 MHz    1317245 s       7351 s     106791 s     981739 s         75 s
+#2  3499 MHz     828128 s         58 s      99044 s    1691054 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -57,7 +57,7 @@ Package Directory: /home/vagrant/.julia/v0.4
  - JSON                          0.8.2
 18 additional packages:
  - Combinatorics                 0.2.1
- - Compat                        0.14.0
+ - Compat                        0.15.0
  - DataArrays                    0.3.11
  - DataFrames                    0.8.5
  - DataStructures                0.5.2
@@ -149,6 +149,20 @@ To fix, define
     push!(DataStructures.Accumulator{K<:Any, #V<:Number}, _<:Base.Pair)
 before the new definition.
 WARNING: New definition 
+    +(AbstractArray{#T1<:Number, #N<:Any}, NamedArrays.NamedArray{#T2<:Number, #N<:Any, AT<:Any, DT<:Any}) at /home/vagrant/.julia/v0.4/NamedArrays/src/arithmetic.jl:35
+is ambiguous with: 
+    +(DataArrays.DataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:276.
+To fix, define 
+    +(DataArrays.DataArray{#T1<:Number, N<:Any}, NamedArrays.NamedArray{#T2<:Number, N<:Any, AT<:Any, DT<:Any})
+before the new definition.
+WARNING: New definition 
+    +(AbstractArray{#T1<:Number, #N<:Any}, NamedArrays.NamedArray{#T2<:Number, #N<:Any, AT<:Any, DT<:Any}) at /home/vagrant/.julia/v0.4/NamedArrays/src/arithmetic.jl:35
+is ambiguous with: 
+    +(DataArrays.AbstractDataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:300.
+To fix, define 
+    +(DataArrays.AbstractDataArray{#T1<:Number, N<:Any}, NamedArrays.NamedArray{#T2<:Number, N<:Any, AT<:Any, DT<:Any})
+before the new definition.
+WARNING: New definition 
     .-(NamedArrays.NamedArray{#T1<:Number, #N<:Any, AT<:Any, DT<:Any}, AbstractArray{#T2<:Number, #N<:Any}) at /home/vagrant/.julia/v0.4/NamedArrays/src/arithmetic.jl:34
 is ambiguous with: 
     .-(AbstractArray, Union{DataArrays.DataArray, DataArrays.PooledDataArray}) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:291.
@@ -163,18 +177,11 @@ To fix, define
     .-(Union{DataArrays.DataArray{#T1<:Number, N<:Any}, DataArrays.PooledDataArray{#T1<:Number, R<:Integer, N<:Any}}, NamedArrays.NamedArray{#T2<:Number, N<:Any, AT<:Any, DT<:Any})
 before the new definition.
 WARNING: New definition 
-    +(AbstractArray{#T1<:Number, #N<:Any}, NamedArrays.NamedArray{#T2<:Number, #N<:Any, AT<:Any, DT<:Any}) at /home/vagrant/.julia/v0.4/NamedArrays/src/arithmetic.jl:35
+    broadcast(Any, NamedArrays.NamedArray, Any...) at /home/vagrant/.julia/v0.4/NamedArrays/src/keepnames.jl:53
 is ambiguous with: 
-    +(DataArrays.DataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:276.
+    broadcast(Function, AbstractArray, Union{DataArrays.DataArray, DataArrays.PooledDataArray}, AbstractArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:296.
 To fix, define 
-    +(DataArrays.DataArray{#T1<:Number, N<:Any}, NamedArrays.NamedArray{#T2<:Number, N<:Any, AT<:Any, DT<:Any})
-before the new definition.
-WARNING: New definition 
-    +(AbstractArray{#T1<:Number, #N<:Any}, NamedArrays.NamedArray{#T2<:Number, #N<:Any, AT<:Any, DT<:Any}) at /home/vagrant/.julia/v0.4/NamedArrays/src/arithmetic.jl:35
-is ambiguous with: 
-    +(DataArrays.AbstractDataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:300.
-To fix, define 
-    +(DataArrays.AbstractDataArray{#T1<:Number, N<:Any}, NamedArrays.NamedArray{#T2<:Number, N<:Any, AT<:Any, DT<:Any})
+    broadcast(Function, NamedArrays.NamedArray, Union{DataArrays.DataArray, DataArrays.PooledDataArray}, AbstractArray...)
 before the new definition.
 WARNING: New definition 
     -(AbstractArray{#T1<:Number, #N<:Any}, NamedArrays.NamedArray{#T2<:Number, #N<:Any, AT<:Any, DT<:Any}) at /home/vagrant/.julia/v0.4/NamedArrays/src/arithmetic.jl:35
@@ -191,13 +198,6 @@ To fix, define
     -(DataArrays.AbstractDataArray{#T1<:Number, N<:Any}, NamedArrays.NamedArray{#T2<:Number, N<:Any, AT<:Any, DT<:Any})
 before the new definition.
 WARNING: New definition 
-    broadcast(Any, NamedArrays.NamedArray, Any...) at /home/vagrant/.julia/v0.4/NamedArrays/src/keepnames.jl:53
-is ambiguous with: 
-    broadcast(Function, AbstractArray, Union{DataArrays.DataArray, DataArrays.PooledDataArray}, AbstractArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:296.
-To fix, define 
-    broadcast(Function, NamedArrays.NamedArray, Union{DataArrays.DataArray, DataArrays.PooledDataArray}, AbstractArray...)
-before the new definition.
-WARNING: New definition 
     .*(NamedArrays.NamedArray{#T1<:Number, #N<:Any, AT<:Any, DT<:Any}, AbstractArray{#T2<:Number, #N<:Any}) at /home/vagrant/.julia/v0.4/NamedArrays/src/arithmetic.jl:34
 is ambiguous with: 
     .*(AbstractArray, Union{DataArrays.DataArray, DataArrays.PooledDataArray}, AbstractArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:301.
@@ -210,20 +210,6 @@ is ambiguous with:
     .*(Union{DataArrays.DataArray, DataArrays.PooledDataArray}, AbstractArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:301.
 To fix, define 
     .*(Union{DataArrays.DataArray{#T1<:Number, N<:Any}, DataArrays.PooledDataArray{#T1<:Number, R<:Integer, N<:Any}}, NamedArrays.NamedArray{#T2<:Number, N<:Any, AT<:Any, DT<:Any})
-before the new definition.
-WARNING: New definition 
-    ./(NamedArrays.NamedArray{#T1<:Number, #N<:Any, AT<:Any, DT<:Any}, AbstractArray{#T2<:Number, #N<:Any}) at /home/vagrant/.julia/v0.4/NamedArrays/src/arithmetic.jl:34
-is ambiguous with: 
-    ./(AbstractArray, Union{DataArrays.DataArray, DataArrays.PooledDataArray}) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:291.
-To fix, define 
-    ./(NamedArrays.NamedArray{#T1<:Number, N<:Any, AT<:Any, DT<:Any}, Union{DataArrays.DataArray{#T2<:Number, N<:Any}, DataArrays.PooledDataArray{#T2<:Number, R<:Integer, N<:Any}})
-before the new definition.
-WARNING: New definition 
-    ./(AbstractArray{#T1<:Number, #N<:Any}, NamedArrays.NamedArray{#T2<:Number, #N<:Any, AT<:Any, DT<:Any}) at /home/vagrant/.julia/v0.4/NamedArrays/src/arithmetic.jl:35
-is ambiguous with: 
-    ./(Union{DataArrays.DataArray, DataArrays.PooledDataArray}, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:290.
-To fix, define 
-    ./(Union{DataArrays.DataArray{#T1<:Number, N<:Any}, DataArrays.PooledDataArray{#T1<:Number, R<:Integer, N<:Any}}, NamedArrays.NamedArray{#T2<:Number, N<:Any, AT<:Any, DT<:Any})
 before the new definition.
 WARNING: New definition 
     .+(NamedArrays.NamedArray{#T1<:Number, #N<:Any, AT<:Any, DT<:Any}, AbstractArray{#T2<:Number, #N<:Any}) at /home/vagrant/.julia/v0.4/NamedArrays/src/arithmetic.jl:34
@@ -240,6 +226,20 @@ To fix, define
     .+(Union{DataArrays.DataArray{#T1<:Number, N<:Any}, DataArrays.PooledDataArray{#T1<:Number, R<:Integer, N<:Any}}, NamedArrays.NamedArray{#T2<:Number, N<:Any, AT<:Any, DT<:Any})
 before the new definition.
 WARNING: New definition 
+    ./(NamedArrays.NamedArray{#T1<:Number, #N<:Any, AT<:Any, DT<:Any}, AbstractArray{#T2<:Number, #N<:Any}) at /home/vagrant/.julia/v0.4/NamedArrays/src/arithmetic.jl:34
+is ambiguous with: 
+    ./(AbstractArray, Union{DataArrays.DataArray, DataArrays.PooledDataArray}) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:291.
+To fix, define 
+    ./(NamedArrays.NamedArray{#T1<:Number, N<:Any, AT<:Any, DT<:Any}, Union{DataArrays.DataArray{#T2<:Number, N<:Any}, DataArrays.PooledDataArray{#T2<:Number, R<:Integer, N<:Any}})
+before the new definition.
+WARNING: New definition 
+    ./(AbstractArray{#T1<:Number, #N<:Any}, NamedArrays.NamedArray{#T2<:Number, #N<:Any, AT<:Any, DT<:Any}) at /home/vagrant/.julia/v0.4/NamedArrays/src/arithmetic.jl:35
+is ambiguous with: 
+    ./(Union{DataArrays.DataArray, DataArrays.PooledDataArray}, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:290.
+To fix, define 
+    ./(Union{DataArrays.DataArray{#T1<:Number, N<:Any}, DataArrays.PooledDataArray{#T1<:Number, R<:Integer, N<:Any}}, NamedArrays.NamedArray{#T2<:Number, N<:Any, AT<:Any, DT<:Any})
+before the new definition.
+WARNING: New definition 
     all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
 is ambiguous with: 
     all(Base.Predicate, Any) at reduce.jl:369.
@@ -252,6 +252,13 @@ is ambiguous with:
     all(Base.IdFun, Any) at reduce.jl:370.
 To fix, define 
     all(Base.IdFun, Lazy.List)
+before the new definition.
+WARNING: New definition 
+    all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
+is ambiguous with: 
+    all(DataArrays.DataArray, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/reducedim.jl:320.
+To fix, define 
+    all(DataArrays.DataArray, Lazy.List)
 before the new definition.
 WARNING: New definition 
     all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
@@ -273,6 +280,13 @@ is ambiguous with:
     any(Base.IdFun, Any) at reduce.jl:363.
 To fix, define 
     any(Base.IdFun, Lazy.List)
+before the new definition.
+WARNING: New definition 
+    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
+is ambiguous with: 
+    any(DataArrays.DataArray, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/reducedim.jl:320.
+To fix, define 
+    any(DataArrays.DataArray, Lazy.List)
 before the new definition.
 WARNING: New definition 
     any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
