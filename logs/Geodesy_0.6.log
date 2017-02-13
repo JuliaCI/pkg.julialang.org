@@ -2,26 +2,28 @@
 INFO: Cloning cache of Geodesy from https://github.com/JuliaGeo/Geodesy.jl.git
 INFO: Installing CoordinateTransformations v0.3.2
 INFO: Installing Geodesy v0.3.0
-INFO: Installing Rotations v0.3.3
-INFO: Installing StaticArrays v0.1.3
+INFO: Installing Rotations v0.3.4
+INFO: Installing StaticArrays v0.1.5
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of Geodesy
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Geodesy")' log
-Julia Version 0.6.0-dev.1973
-Commit f4ed16b (2017-01-06 23:58 UTC)
+Julia Version 0.6.0-dev.2788
+Commit 8341444 (2017-02-12 23:04 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-106-generic #153-Ubuntu SMP Tue Dec 6 15:44:32 UTC 2016 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1682.26171875 MB free)
-Uptime: 27736.0 sec
-Load Avg:  0.99267578125  1.04833984375  1.02197265625
+  uname: Linux 3.13.0-108-generic #155-Ubuntu SMP Wed Jan 11 16:58:52 UTC 2017 x86_64 x86_64
+Memory: 2.9392738342285156 GB (1471.01953125 MB free)
+Uptime: 33985.0 sec
+Load Avg:  1.0830078125  0.9931640625  0.9619140625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1504190 s       5510 s     147591 s     807459 s         60 s
-#2  3499 MHz     509137 s       1052 s     105179 s    2074932 s          0 s
+#1  3500 MHz    1398532 s        756 s     148116 s    1553266 s         94 s
+#2  3500 MHz     493407 s       6120 s      92149 s    2713031 s          4 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -37,116 +39,834 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - Geodesy                       0.3.0
- - JSON                          0.8.0
+ - JSON                          0.8.3
 4 additional packages:
- - Compat                        0.10.0
+ - Compat                        0.17.0
  - CoordinateTransformations     0.3.2
- - Rotations                     0.3.3
- - StaticArrays                  0.1.3
+ - Rotations                     0.3.4
+ - StaticArrays                  0.1.5
 INFO: Testing Geodesy
+
+WARNING: deprecated syntax "abstract Datum" at /home/vagrant/.julia/v0.6/Geodesy/src/datums.jl:11.
+Use "abstract type Datum end" instead.
+
+WARNING: deprecated syntax "inner constructor WGS84(...) around /home/vagrant/.julia/v0.6/Geodesy/src/datums.jl:57".
+Use "WGS84{GpsWeek}(...) where GpsWeek" instead.
+
+WARNING: deprecated syntax "inner constructor ITRF(...) around /home/vagrant/.julia/v0.6/Geodesy/src/datums.jl:115".
+Use "ITRF{Year,EpochT}(...) where {Year,EpochT}" instead.
 WARNING: both Geodesy and Base export "∘"; uses of it in module Main must be qualified
 Coordinate system transformations: Error During Test
+  Test threw an exception of type MethodError
+  Expression: ecef ≈ ECEF(-654007.2768949205, 5.794061748224952e6, -2.5796231395720555e6)
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] - at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:14 [inlined]
+   [4] #isapprox#14(::Float64, ::Int64, ::Bool, ::Base.LinAlg.#vecnorm, ::Function, ::Geodesy.ECEF{Float64}, ::Geodesy.ECEF{Float64}) at ./linalg/generic.jl:1233
+   [5] isapprox(::Geodesy.ECEF{Float64}, ::Geodesy.ECEF{Float64}) at ./linalg/generic.jl:1233
+   [6] eval_comparison(::Expr) at ./test.jl:196
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:12 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] anonymous at ./<missing>:?
+Coordinate system transformations: Error During Test
+  Test threw an exception of type MethodError
+  Expression: enu_ecef ≈ ENUfromECEF(ecef2, wgs84)
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] - at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:14 [inlined]
+   [4] #isapprox#14(::Float64, ::Int64, ::Bool, ::Base.LinAlg.#vecnorm, ::Function, ::Geodesy.ECEF{Float64}, ::Geodesy.ECEF{Float64}) at ./linalg/generic.jl:1233
+   [5] #isapprox#8(::Array{Any,1}, ::Function, ::Geodesy.ENUfromECEF{Float64}, ::Geodesy.ENUfromECEF{Float64}) at /home/vagrant/.julia/v0.6/Geodesy/src/transformations.jl:218
+   [6] isapprox(::Geodesy.ENUfromECEF{Float64}, ::Geodesy.ENUfromECEF{Float64}) at /home/vagrant/.julia/v0.6/Geodesy/src/transformations.jl:218
+   [7] eval_comparison(::Expr) at ./test.jl:196
+   [8] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:54 [inlined]
+   [9] macro expansion at ./test.jl:853 [inlined]
+   [10] anonymous at ./<missing>:?
+Coordinate system transformations: Error During Test
+  Test threw an exception of type MethodError
+  Expression: enu_ecef ≈ ENUfromECEF(utm2, 47, false, wgs84)
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] - at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:14 [inlined]
+   [4] #isapprox#14(::Float64, ::Int64, ::Bool, ::Base.LinAlg.#vecnorm, ::Function, ::Geodesy.ECEF{Float64}, ::Geodesy.ECEF{Float64}) at ./linalg/generic.jl:1233
+   [5] #isapprox#8(::Array{Any,1}, ::Function, ::Geodesy.ENUfromECEF{Float64}, ::Geodesy.ENUfromECEF{Float64}) at /home/vagrant/.julia/v0.6/Geodesy/src/transformations.jl:218
+   [6] isapprox(::Geodesy.ENUfromECEF{Float64}, ::Geodesy.ENUfromECEF{Float64}) at /home/vagrant/.julia/v0.6/Geodesy/src/transformations.jl:218
+   [7] eval_comparison(::Expr) at ./test.jl:196
+   [8] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:55 [inlined]
+   [9] macro expansion at ./test.jl:853 [inlined]
+   [10] anonymous at ./<missing>:?
+Coordinate system transformations: Error During Test
+  Test threw an exception of type MethodError
+  Expression: enu_ecef ≈ ENUfromECEF(utmz2, wgs84)
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] - at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:14 [inlined]
+   [4] #isapprox#14(::Float64, ::Int64, ::Bool, ::Base.LinAlg.#vecnorm, ::Function, ::Geodesy.ECEF{Float64}, ::Geodesy.ECEF{Float64}) at ./linalg/generic.jl:1233
+   [5] #isapprox#8(::Array{Any,1}, ::Function, ::Geodesy.ENUfromECEF{Float64}, ::Geodesy.ENUfromECEF{Float64}) at /home/vagrant/.julia/v0.6/Geodesy/src/transformations.jl:218
+   [6] isapprox(::Geodesy.ENUfromECEF{Float64}, ::Geodesy.ENUfromECEF{Float64}) at /home/vagrant/.julia/v0.6/Geodesy/src/transformations.jl:218
+   [7] eval_comparison(::Expr) at ./test.jl:196
+   [8] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:56 [inlined]
+   [9] macro expansion at ./test.jl:853 [inlined]
+   [10] anonymous at ./<missing>:?
+Coordinate system transformations: Error During Test
+  Test threw an exception of type MethodError
+  Expression: enu ≈ ENU(-6103.186938282723, 10222.54767562731, -295.55857190545794)
+  MethodError: no method matching similar_type(::Type{Geodesy.ENU{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] - at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:14 [inlined]
+   [4] #isapprox#14(::Float64, ::Int64, ::Bool, ::Base.LinAlg.#vecnorm, ::Function, ::Geodesy.ENU{Float64}, ::Geodesy.ENU{Float64}) at ./linalg/generic.jl:1233
+   [5] isapprox(::Geodesy.ENU{Float64}, ::Geodesy.ENU{Float64}) at ./linalg/generic.jl:1233
+   [6] eval_comparison(::Expr) at ./test.jl:196
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:58 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] anonymous at ./<missing>:?
+Coordinate system transformations: Error During Test
+  Test threw an exception of type MethodError
+  Expression: ecef_enu(ENU(-6103.186938282723, 10222.54767562731, -295.55857190545794)) ≈ ecef
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] - at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:14 [inlined]
+   [4] #isapprox#14(::Float64, ::Int64, ::Bool, ::Base.LinAlg.#vecnorm, ::Function, ::Geodesy.ECEF{Float64}, ::Geodesy.ECEF{Float64}) at ./linalg/generic.jl:1233
+   [5] isapprox(::Geodesy.ECEF{Float64}, ::Geodesy.ECEF{Float64}) at ./linalg/generic.jl:1233
+   [6] eval_comparison(::Expr) at ./test.jl:196
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:59 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] anonymous at ./<missing>:?
+Coordinate system transformations: Error During Test
   Test threw an exception of type UndefVarError
-  Expression: LLAfromENU(ecef,wgs84) == LLAfromECEF(wgs84) ∘ ECEFfromENU(ecef,wgs84)
+  Expression: LLAfromENU(ecef, wgs84) == LLAfromECEF(wgs84) ∘ ECEFfromENU(ecef, wgs84)
   UndefVarError: ∘ not defined
   Stacktrace:
-   [1] macro expansion; at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:76 [inlined]
-   [2] macro expansion; at ./test.jl:750 [inlined]
+   [1] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:76 [inlined]
+   [2] macro expansion at ./test.jl:853 [inlined]
    [3] anonymous at ./<missing>:?
 Coordinate system transformations: Error During Test
   Test threw an exception of type UndefVarError
-  Expression: ENUfromLLA(ecef,wgs84) == ENUfromECEF(ecef,wgs84) ∘ ECEFfromLLA(wgs84)
+  Expression: ENUfromLLA(ecef, wgs84) == ENUfromECEF(ecef, wgs84) ∘ ECEFfromLLA(wgs84)
   UndefVarError: ∘ not defined
   Stacktrace:
-   [1] macro expansion; at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:77 [inlined]
-   [2] macro expansion; at ./test.jl:750 [inlined]
+   [1] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:77 [inlined]
+   [2] macro expansion at ./test.jl:853 [inlined]
    [3] anonymous at ./<missing>:?
 Coordinate system transformations: Error During Test
   Test threw an exception of type UndefVarError
-  Expression: UTMfromECEF(47,false,wgs84) == UTMfromLLA(47,false,wgs84) ∘ LLAfromECEF(wgs84)
+  Expression: UTMfromECEF(47, false, wgs84) == UTMfromLLA(47, false, wgs84) ∘ LLAfromECEF(wgs84)
   UndefVarError: ∘ not defined
   Stacktrace:
-   [1] macro expansion; at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:79 [inlined]
-   [2] macro expansion; at ./test.jl:750 [inlined]
+   [1] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:79 [inlined]
+   [2] macro expansion at ./test.jl:853 [inlined]
    [3] anonymous at ./<missing>:?
 Coordinate system transformations: Error During Test
   Test threw an exception of type UndefVarError
-  Expression: ECEFfromUTM(47,false,wgs84) == ECEFfromLLA(wgs84) ∘ LLAfromUTM(47,false,wgs84)
+  Expression: ECEFfromUTM(47, false, wgs84) == ECEFfromLLA(wgs84) ∘ LLAfromUTM(47, false, wgs84)
   UndefVarError: ∘ not defined
   Stacktrace:
-   [1] macro expansion; at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:80 [inlined]
-   [2] macro expansion; at ./test.jl:750 [inlined]
+   [1] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:80 [inlined]
+   [2] macro expansion at ./test.jl:853 [inlined]
    [3] anonymous at ./<missing>:?
 Coordinate system transformations: Error During Test
   Test threw an exception of type UndefVarError
   Expression: UTMZfromECEF(wgs84) == UTMZfromLLA(wgs84) ∘ LLAfromECEF(wgs84)
   UndefVarError: ∘ not defined
   Stacktrace:
-   [1] macro expansion; at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:82 [inlined]
-   [2] macro expansion; at ./test.jl:750 [inlined]
+   [1] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:82 [inlined]
+   [2] macro expansion at ./test.jl:853 [inlined]
    [3] anonymous at ./<missing>:?
 Coordinate system transformations: Error During Test
   Test threw an exception of type UndefVarError
   Expression: ECEFfromUTMZ(wgs84) == ECEFfromLLA(wgs84) ∘ LLAfromUTMZ(wgs84)
   UndefVarError: ∘ not defined
   Stacktrace:
-   [1] macro expansion; at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:83 [inlined]
-   [2] macro expansion; at ./test.jl:750 [inlined]
+   [1] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:83 [inlined]
+   [2] macro expansion at ./test.jl:853 [inlined]
    [3] anonymous at ./<missing>:?
 Coordinate system transformations: Error During Test
   Test threw an exception of type UndefVarError
-  Expression: ENUfromUTMZ(ecef,wgs84) == ENUfromLLA(ecef,wgs84) ∘ LLAfromUTMZ(wgs84)
+  Expression: ENUfromUTMZ(ecef, wgs84) == ENUfromLLA(ecef, wgs84) ∘ LLAfromUTMZ(wgs84)
   UndefVarError: ∘ not defined
   Stacktrace:
-   [1] macro expansion; at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:85 [inlined]
-   [2] macro expansion; at ./test.jl:750 [inlined]
+   [1] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:85 [inlined]
+   [2] macro expansion at ./test.jl:853 [inlined]
    [3] anonymous at ./<missing>:?
 Coordinate system transformations: Error During Test
   Test threw an exception of type UndefVarError
-  Expression: UTMZfromENU(ecef,wgs84) == UTMZfromLLA(wgs84) ∘ LLAfromENU(ecef,wgs84)
+  Expression: UTMZfromENU(ecef, wgs84) == UTMZfromLLA(wgs84) ∘ LLAfromENU(ecef, wgs84)
   UndefVarError: ∘ not defined
   Stacktrace:
-   [1] macro expansion; at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:86 [inlined]
-   [2] macro expansion; at ./test.jl:750 [inlined]
+   [1] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:86 [inlined]
+   [2] macro expansion at ./test.jl:853 [inlined]
    [3] anonymous at ./<missing>:?
 Coordinate system transformations: Error During Test
   Test threw an exception of type UndefVarError
-  Expression: ENUfromUTM(ecef,47,false,wgs84) == ENUfromLLA(ecef,wgs84) ∘ LLAfromUTM(47,false,wgs84)
+  Expression: ENUfromUTM(ecef, 47, false, wgs84) == ENUfromLLA(ecef, wgs84) ∘ LLAfromUTM(47, false, wgs84)
   UndefVarError: ∘ not defined
   Stacktrace:
-   [1] macro expansion; at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:88 [inlined]
-   [2] macro expansion; at ./test.jl:750 [inlined]
+   [1] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:88 [inlined]
+   [2] macro expansion at ./test.jl:853 [inlined]
    [3] anonymous at ./<missing>:?
 Coordinate system transformations: Error During Test
   Test threw an exception of type UndefVarError
-  Expression: UTMfromENU(ecef,47,false,wgs84) == UTMfromLLA(47,false,wgs84) ∘ LLAfromENU(ecef,wgs84)
+  Expression: UTMfromENU(ecef, 47, false, wgs84) == UTMfromLLA(47, false, wgs84) ∘ LLAfromENU(ecef, wgs84)
   UndefVarError: ∘ not defined
   Stacktrace:
-   [1] macro expansion; at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:89 [inlined]
-   [2] macro expansion; at ./test.jl:750 [inlined]
+   [1] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/transformations.jl:89 [inlined]
+   [2] macro expansion at ./test.jl:853 [inlined]
    [3] anonymous at ./<missing>:?
+Fixed conversions: Error During Test
+  Test threw an exception of type MethodError
+  Expression: ECEF(lla, wgs84) ≈ ecef
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] - at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:14 [inlined]
+   [4] #isapprox#14(::Float64, ::Int64, ::Bool, ::Base.LinAlg.#vecnorm, ::Function, ::Geodesy.ECEF{Float64}, ::Geodesy.ECEF{Float64}) at ./linalg/generic.jl:1233
+   [5] isapprox(::Geodesy.ECEF{Float64}, ::Geodesy.ECEF{Float64}) at ./linalg/generic.jl:1233
+   [6] eval_comparison(::Expr) at ./test.jl:196
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/conversion.jl:12 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/conversion.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+Fixed conversions: Error During Test
+  Test threw an exception of type MethodError
+  Expression: ENU(lla, lla_ref, wgs84) ≈ enu
+  MethodError: no method matching similar_type(::Type{Geodesy.ENU{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] - at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:14 [inlined]
+   [4] #isapprox#14(::Float64, ::Int64, ::Bool, ::Base.LinAlg.#vecnorm, ::Function, ::Geodesy.ENU{Float64}, ::Geodesy.ENU{Float64}) at ./linalg/generic.jl:1233
+   [5] isapprox(::Geodesy.ENU{Float64}, ::Geodesy.ENU{Float64}) at ./linalg/generic.jl:1233
+   [6] eval_comparison(::Expr) at ./test.jl:196
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/conversion.jl:17 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/conversion.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+Fixed conversions: Error During Test
+  Test threw an exception of type MethodError
+  Expression: ENU(ecef, lla_ref, wgs84) ≈ enu
+  MethodError: no method matching similar_type(::Type{Geodesy.ENU{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] - at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:14 [inlined]
+   [4] #isapprox#14(::Float64, ::Int64, ::Bool, ::Base.LinAlg.#vecnorm, ::Function, ::Geodesy.ENU{Float64}, ::Geodesy.ENU{Float64}) at ./linalg/generic.jl:1233
+   [5] isapprox(::Geodesy.ENU{Float64}, ::Geodesy.ENU{Float64}) at ./linalg/generic.jl:1233
+   [6] eval_comparison(::Expr) at ./test.jl:196
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/conversion.jl:21 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/conversion.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+Fixed conversions: Error During Test
+  Test threw an exception of type MethodError
+  Expression: ECEF(enu, lla_ref, wgs84) ≈ ecef
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] - at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:14 [inlined]
+   [4] #isapprox#14(::Float64, ::Int64, ::Bool, ::Base.LinAlg.#vecnorm, ::Function, ::Geodesy.ECEF{Float64}, ::Geodesy.ECEF{Float64}) at ./linalg/generic.jl:1233
+   [5] isapprox(::Geodesy.ECEF{Float64}, ::Geodesy.ECEF{Float64}) at ./linalg/generic.jl:1233
+   [6] eval_comparison(::Expr) at ./test.jl:196
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/conversion.jl:22 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/conversion.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+Fixed conversions: Error During Test
+  Test threw an exception of type MethodError
+  Expression: ECEF(utm, z, h, wgs84) ≈ ecef
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] - at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:14 [inlined]
+   [4] #isapprox#14(::Float64, ::Int64, ::Bool, ::Base.LinAlg.#vecnorm, ::Function, ::Geodesy.ECEF{Float64}, ::Geodesy.ECEF{Float64}) at ./linalg/generic.jl:1233
+   [5] isapprox(::Geodesy.ECEF{Float64}, ::Geodesy.ECEF{Float64}) at ./linalg/generic.jl:1233
+   [6] eval_comparison(::Expr) at ./test.jl:196
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/conversion.jl:32 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/conversion.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+Fixed conversions: Error During Test
+  Test threw an exception of type MethodError
+  Expression: ENU(utm, z, h, lla_ref, wgs84) ≈ enu
+  MethodError: no method matching similar_type(::Type{Geodesy.ENU{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] - at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:14 [inlined]
+   [4] #isapprox#14(::Float64, ::Int64, ::Bool, ::Base.LinAlg.#vecnorm, ::Function, ::Geodesy.ENU{Float64}, ::Geodesy.ENU{Float64}) at ./linalg/generic.jl:1233
+   [5] isapprox(::Geodesy.ENU{Float64}, ::Geodesy.ENU{Float64}) at ./linalg/generic.jl:1233
+   [6] eval_comparison(::Expr) at ./test.jl:196
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/conversion.jl:36 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/conversion.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+Fixed conversions: Error During Test
+  Test threw an exception of type MethodError
+  Expression: ECEF(utmz, wgs84) ≈ ecef
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] - at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:14 [inlined]
+   [4] #isapprox#14(::Float64, ::Int64, ::Bool, ::Base.LinAlg.#vecnorm, ::Function, ::Geodesy.ECEF{Float64}, ::Geodesy.ECEF{Float64}) at ./linalg/generic.jl:1233
+   [5] isapprox(::Geodesy.ECEF{Float64}, ::Geodesy.ECEF{Float64}) at ./linalg/generic.jl:1233
+   [6] eval_comparison(::Expr) at ./test.jl:196
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/conversion.jl:45 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/conversion.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+Fixed conversions: Error During Test
+  Test threw an exception of type MethodError
+  Expression: ENU(utmz, lla_ref, wgs84) ≈ enu
+  MethodError: no method matching similar_type(::Type{Geodesy.ENU{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] - at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:14 [inlined]
+   [4] #isapprox#14(::Float64, ::Int64, ::Bool, ::Base.LinAlg.#vecnorm, ::Function, ::Geodesy.ENU{Float64}, ::Geodesy.ENU{Float64}) at ./linalg/generic.jl:1233
+   [5] isapprox(::Geodesy.ENU{Float64}, ::Geodesy.ENU{Float64}) at ./linalg/generic.jl:1233
+   [6] eval_comparison(::Expr) at ./test.jl:196
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/conversion.jl:49 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/conversion.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+Random distance tests: Error During Test
+  Got an exception of type MethodError outside of a @test
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] - at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:14 [inlined]
+   [4] distance at /home/vagrant/.julia/v0.6/Geodesy/src/distances.jl:8 [inlined]
+   [5] distance at /home/vagrant/.julia/v0.6/Geodesy/src/distances.jl:13 [inlined]
+   [6] distance(::Geodesy.ECEF{Float64}, ::Geodesy.LLA{Float64}, ::Geodesy.WGS84{Void}) at /home/vagrant/.julia/v0.6/Geodesy/src/distances.jl:15
+   [7] distance(::Geodesy.LLA{Float64}, ::Geodesy.LLA{Float64}) at /home/vagrant/.julia/v0.6/Geodesy/src/distances.jl:14
+   [8] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/conversion.jl:85 [inlined]
+   [9] macro expansion at ./test.jl:853 [inlined]
+   [10] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/conversion.jl:0 [inlined]
+   [11] macro expansion at ./test.jl:853 [inlined]
+   [12] anonymous at ./<missing>:?
+   [13] include_from_node1(::String) at ./loading.jl:539
+   [14] include(::String) at ./sysimg.jl:14
+   [15] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/runtests.jl:18 [inlined]
+   [16] macro expansion at ./test.jl:853 [inlined]
+   [17] anonymous at ./<missing>:?
+   [18] include_from_node1(::String) at ./loading.jl:539
+   [19] include(::String) at ./sysimg.jl:14
+   [20] process_options(::Base.JLOptions) at ./client.jl:305
+   [21] _start() at ./client.jl:371
 WARNING: using CoordinateTransformations.∘ in module Main conflicts with an existing identifier.
+Basic example: Error During Test
+  Test threw an exception of type MethodError
+  Expression: norm(x_GDA94 - (Geodesy.GDA94_from_ITRF_Dawson2010(2005, Date(2010, 6, 16)))(x_ITRF)) < 0.0002
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] + at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:10 [inlined]
+   [4] (::CoordinateTransformations.AffineMap{StaticArrays.SMatrix{3,3,Float64,9},StaticArrays.SVector{3,Float64}})(::Geodesy.ECEF{Float64}) at /home/vagrant/.julia/v0.6/CoordinateTransformations/src/affine.jl:104
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:13 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
 Basic example: Error During Test
   Got an exception of type UndefVarError outside of a @test
   UndefVarError: ∘ not defined
   Stacktrace:
-   [1] macro expansion; at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:17 [inlined]
-   [2] macro expansion; at ./test.jl:750 [inlined]
-   [3] macro expansion; at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
-   [4] macro expansion; at ./test.jl:750 [inlined]
-   [5] macro expansion; at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
-   [6] macro expansion; at ./test.jl:750 [inlined]
+   [1] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:17 [inlined]
+   [2] macro expansion at ./test.jl:853 [inlined]
+   [3] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [4] macro expansion at ./test.jl:853 [inlined]
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
    [7] anonymous at ./<missing>:?
-   [8] include_from_node1(::String) at ./loading.jl:532
+   [8] include_from_node1(::String) at ./loading.jl:539
    [9] include(::String) at ./sysimg.jl:14
-   [10] macro expansion; at /home/vagrant/.julia/v0.6/Geodesy/test/runtests.jl:19 [inlined]
-   [11] macro expansion; at ./test.jl:750 [inlined]
+   [10] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/runtests.jl:19 [inlined]
+   [11] macro expansion at ./test.jl:853 [inlined]
    [12] anonymous at ./<missing>:?
-   [13] include_from_node1(::String) at ./loading.jl:532
+   [13] include_from_node1(::String) at ./loading.jl:539
    [14] include(::String) at ./sysimg.jl:14
-   [15] process_options(::Base.JLOptions) at ./client.jl:308
-   [16] _start() at ./client.jl:374
-ERROR: LoadError: Some tests did not pass: 30251 passed, 0 failed, 11 errored, 0 broken.
+   [15] process_options(::Base.JLOptions) at ./client.jl:305
+   [16] _start() at ./client.jl:371
+ITRS realizations: Error During Test
+  Test threw an exception of type MethodError
+  Expression: (datum_shift_ECEF(GDA94(), ITRF{2008}(epoch)))(x_GDA94) == (Geodesy.GDA94_from_ITRF_Dawson2010(2008, epoch))(x_GDA94)
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] + at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:10 [inlined]
+   [4] (::CoordinateTransformations.AffineMap{StaticArrays.SMatrix{3,3,Float64,9},StaticArrays.SVector{3,Float64}})(::Geodesy.ECEF{Float64}) at /home/vagrant/.julia/v0.6/CoordinateTransformations/src/affine.jl:104
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:27 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+ITRS realizations: Error During Test
+  Test threw an exception of type MethodError
+  Expression: (datum_shift_ECEF(GDA94(), ITRF{1996}(epoch)))(x_GDA94) == (Geodesy.GDA94_from_ITRF_Dawson2010(1996, epoch))(x_GDA94)
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] + at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:10 [inlined]
+   [4] (::CoordinateTransformations.AffineMap{StaticArrays.SMatrix{3,3,Float64,9},StaticArrays.SVector{3,Float64}})(::Geodesy.ECEF{Float64}) at /home/vagrant/.julia/v0.6/CoordinateTransformations/src/affine.jl:104
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:28 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+GDA94 from ITRF: Error During Test
+  Test threw an exception of type MethodError
+  Expression: norm(x_GDA - to_GDA(x_ITRF)) < tolerance
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] + at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:10 [inlined]
+   [4] (::CoordinateTransformations.AffineMap{StaticArrays.SMatrix{3,3,Float64,9},StaticArrays.SVector{3,Float64}})(::Geodesy.ECEF{Float64}) at /home/vagrant/.julia/v0.6/CoordinateTransformations/src/affine.jl:104
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:91 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+GDA94 from ITRF: Error During Test
+  Test threw an exception of type MethodError
+  Expression: norm(x_GDA - to_GDA(x_ITRF)) < tolerance
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] + at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:10 [inlined]
+   [4] (::CoordinateTransformations.AffineMap{StaticArrays.SMatrix{3,3,Float64,9},StaticArrays.SVector{3,Float64}})(::Geodesy.ECEF{Float64}) at /home/vagrant/.julia/v0.6/CoordinateTransformations/src/affine.jl:104
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:91 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+GDA94 from ITRF: Error During Test
+  Test threw an exception of type MethodError
+  Expression: norm(x_GDA - to_GDA(x_ITRF)) < tolerance
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] + at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:10 [inlined]
+   [4] (::CoordinateTransformations.AffineMap{StaticArrays.SMatrix{3,3,Float64,9},StaticArrays.SVector{3,Float64}})(::Geodesy.ECEF{Float64}) at /home/vagrant/.julia/v0.6/CoordinateTransformations/src/affine.jl:104
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:91 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+GDA94 from ITRF: Error During Test
+  Test threw an exception of type MethodError
+  Expression: norm(x_GDA - to_GDA(x_ITRF)) < tolerance
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] + at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:10 [inlined]
+   [4] (::CoordinateTransformations.AffineMap{StaticArrays.SMatrix{3,3,Float64,9},StaticArrays.SVector{3,Float64}})(::Geodesy.ECEF{Float64}) at /home/vagrant/.julia/v0.6/CoordinateTransformations/src/affine.jl:104
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:91 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+GDA94 from ITRF: Error During Test
+  Test threw an exception of type MethodError
+  Expression: norm(x_GDA - to_GDA(x_ITRF)) < tolerance
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] + at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:10 [inlined]
+   [4] (::CoordinateTransformations.AffineMap{StaticArrays.SMatrix{3,3,Float64,9},StaticArrays.SVector{3,Float64}})(::Geodesy.ECEF{Float64}) at /home/vagrant/.julia/v0.6/CoordinateTransformations/src/affine.jl:104
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:91 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+GDA94 from ITRF: Error During Test
+  Test threw an exception of type MethodError
+  Expression: norm(x_GDA - to_GDA(x_ITRF)) < tolerance
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] + at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:10 [inlined]
+   [4] (::CoordinateTransformations.AffineMap{StaticArrays.SMatrix{3,3,Float64,9},StaticArrays.SVector{3,Float64}})(::Geodesy.ECEF{Float64}) at /home/vagrant/.julia/v0.6/CoordinateTransformations/src/affine.jl:104
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:91 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+GDA94 from ITRF: Error During Test
+  Test threw an exception of type MethodError
+  Expression: norm(x_GDA - to_GDA(x_ITRF)) < tolerance
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] + at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:10 [inlined]
+   [4] (::CoordinateTransformations.AffineMap{StaticArrays.SMatrix{3,3,Float64,9},StaticArrays.SVector{3,Float64}})(::Geodesy.ECEF{Float64}) at /home/vagrant/.julia/v0.6/CoordinateTransformations/src/affine.jl:104
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:91 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+GDA94 from ITRF: Error During Test
+  Test threw an exception of type MethodError
+  Expression: norm(x_GDA - to_GDA(x_ITRF)) < tolerance
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] + at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:10 [inlined]
+   [4] (::CoordinateTransformations.AffineMap{StaticArrays.SMatrix{3,3,Float64,9},StaticArrays.SVector{3,Float64}})(::Geodesy.ECEF{Float64}) at /home/vagrant/.julia/v0.6/CoordinateTransformations/src/affine.jl:104
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:91 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+GDA94 from ITRF: Error During Test
+  Test threw an exception of type MethodError
+  Expression: norm(x_GDA - to_GDA(x_ITRF)) < tolerance
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] + at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:10 [inlined]
+   [4] (::CoordinateTransformations.AffineMap{StaticArrays.SMatrix{3,3,Float64,9},StaticArrays.SVector{3,Float64}})(::Geodesy.ECEF{Float64}) at /home/vagrant/.julia/v0.6/CoordinateTransformations/src/affine.jl:104
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:91 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+GDA94 from ITRF: Error During Test
+  Test threw an exception of type MethodError
+  Expression: norm(x_GDA - to_GDA(x_ITRF)) < tolerance
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] + at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:10 [inlined]
+   [4] (::CoordinateTransformations.AffineMap{StaticArrays.SMatrix{3,3,Float64,9},StaticArrays.SVector{3,Float64}})(::Geodesy.ECEF{Float64}) at /home/vagrant/.julia/v0.6/CoordinateTransformations/src/affine.jl:104
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:91 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+GDA94 from ITRF: Error During Test
+  Test threw an exception of type MethodError
+  Expression: norm(x_GDA - to_GDA(x_ITRF)) < tolerance
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] + at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:10 [inlined]
+   [4] (::CoordinateTransformations.AffineMap{StaticArrays.SMatrix{3,3,Float64,9},StaticArrays.SVector{3,Float64}})(::Geodesy.ECEF{Float64}) at /home/vagrant/.julia/v0.6/CoordinateTransformations/src/affine.jl:104
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:91 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+GDA94 from ITRF: Error During Test
+  Test threw an exception of type MethodError
+  Expression: norm(x_GDA - to_GDA(x_ITRF)) < tolerance
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] + at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:10 [inlined]
+   [4] (::CoordinateTransformations.AffineMap{StaticArrays.SMatrix{3,3,Float64,9},StaticArrays.SVector{3,Float64}})(::Geodesy.ECEF{Float64}) at /home/vagrant/.julia/v0.6/CoordinateTransformations/src/affine.jl:104
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:91 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+GDA94 from ITRF: Error During Test
+  Test threw an exception of type MethodError
+  Expression: norm(x_GDA - to_GDA(x_ITRF)) < tolerance
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] + at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:10 [inlined]
+   [4] (::CoordinateTransformations.AffineMap{StaticArrays.SMatrix{3,3,Float64,9},StaticArrays.SVector{3,Float64}})(::Geodesy.ECEF{Float64}) at /home/vagrant/.julia/v0.6/CoordinateTransformations/src/affine.jl:104
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:91 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+GDA94 from ITRF: Error During Test
+  Test threw an exception of type MethodError
+  Expression: norm(x_GDA - to_GDA(x_ITRF)) < tolerance
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] + at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:10 [inlined]
+   [4] (::CoordinateTransformations.AffineMap{StaticArrays.SMatrix{3,3,Float64,9},StaticArrays.SVector{3,Float64}})(::Geodesy.ECEF{Float64}) at /home/vagrant/.julia/v0.6/CoordinateTransformations/src/affine.jl:104
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:91 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+GDA94 from ITRF: Error During Test
+  Test threw an exception of type MethodError
+  Expression: norm(x_GDA - to_GDA(x_ITRF)) < tolerance
+  MethodError: no method matching similar_type(::Type{Geodesy.ECEF{Float64}}, ::Type{Float64})
+  Closest candidates are:
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {SA<:StaticArrays.StaticArray, N, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:58
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::Int64) where {SA<:StaticArrays.StaticArray, T} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:61
+    similar_type(::Union{SA<:StaticArrays.StaticArray, Type{SA<:StaticArrays.StaticArray}}, ::Type{T}, !Matched::StaticArrays.Size{S}) where {SA<:StaticArrays.StaticArray, T, S} at /home/vagrant/.julia/v0.6/StaticArrays/src/abstractarray.jl:64
+    ...
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:24 [inlined]
+   [2] map at /home/vagrant/.julia/v0.6/StaticArrays/src/mapreduce.jl:17 [inlined]
+   [3] + at /home/vagrant/.julia/v0.6/StaticArrays/src/linalg.jl:10 [inlined]
+   [4] (::CoordinateTransformations.AffineMap{StaticArrays.SMatrix{3,3,Float64,9},StaticArrays.SVector{3,Float64}})(::Geodesy.ECEF{Float64}) at /home/vagrant/.julia/v0.6/CoordinateTransformations/src/affine.jl:104
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:91 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [8] macro expansion at ./test.jl:853 [inlined]
+   [9] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:0 [inlined]
+   [10] macro expansion at ./test.jl:853 [inlined]
+   [11] anonymous at ./<missing>:?
+Test Summary:                                |  Pass  Error  Total
+Geodesy                                      | 10098     44  10142
+  Point constructors                         |    10            10
+  Datums and ellipsoids                      |    14            14
+  Transverse Mercator projection and inverse | 10000         10000
+  Polar stereographic                        |    16            16
+  UTM functions                              |    18            18
+  Coordinate system transformations          |    22     16     38
+  Co-ordinate system conversion              |    17      9     26
+    Fixed conversions                        |    17      8     25
+    Random distance tests                    |            1      1
+  Datum transforms                           |     1     19     20
+    GDA94 from ITRF                          |     1     19     20
+      Basic example                          |            2      2
+      ITRS realizations                      |     1      2      3
+      GDA94 from ITRF                        |           15     15
+ERROR: LoadError: Some tests did not pass: 10098 passed, 0 failed, 44 errored, 0 broken.
 while loading /home/vagrant/.julia/v0.6/Geodesy/test/runtests.jl, in expression starting on line 11
 ===============================[ ERROR: Geodesy ]===============================
 
