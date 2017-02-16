@@ -7,8 +7,6 @@ INFO: Installing ForwardDiff v0.3.4
 INFO: Installing NaNMath v0.2.2
 INFO: Installing StaticArrays v0.2.1
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of ContMechTensors
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("ContMechTensors")' log
 Julia Version 0.6.0-dev.2635
@@ -19,13 +17,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-108-generic #155-Ubuntu SMP Wed Jan 11 16:58:52 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (769.12890625 MB free)
-Uptime: 11836.0 sec
-Load Avg:  0.9970703125  1.009765625  1.09228515625
+Memory: 2.9392738342285156 GB (773.8515625 MB free)
+Uptime: 12642.0 sec
+Load Avg:  1.19873046875  1.0068359375  1.0615234375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz     574246 s       6582 s      57004 s     413766 s         36 s
-#2  3500 MHz     200074 s         74 s      34314 s     909744 s          2 s
+#1  3500 MHz     605311 s       2883 s      63426 s     467555 s         41 s
+#2  3500 MHz     212319 s       3777 s      36956 s     973309 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -132,70 +130,6 @@ julia> tensor_data = reinterpret(Vec{2, Float64}, data, (5,))
  [0.794026, 0.854147]
  [0.200586, 0.298614]
  [0.246837, 0.579672]
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: src/man/automatic_differentiation.md
-
-> Code block:
-
-```jldoctest
-julia> E = rand(Tensor{4,2});
-
-julia> ψ(ϵ) = 1/2 * ϵ ⊡ E ⊡ ϵ;
-
-julia> E_sym = hessian(ψ, rand(Tensor{2,2}));
-
-julia> norm(majorsymmetric(E) - E_sym)
-0.0
-```
-
-> Subexpression:
-
-    E_sym = hessian(ψ, rand(Tensor{2,2}));
-
-> Output Diff (REQUIRES COLOR):
-
-ERROR: MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{4,ForwardDiff.Dual{4,Float64}}
-The applicable method may be too new: running in world age 21286, while current world is 21351.
-This may have arisen from a call to the constructor ForwardDiff.Dual{4,ForwardDiff.Dual{4,Float64}}(...),
-since type constructors fall back to convert methods.
-Stacktrace:
- [1] promote_matprod(::Type{Float64}, ::Type{ForwardDiff.Dual{4,ForwardDiff.Dual{4,Float64}}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
- [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:135
- [3] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:21 [inlined]
- [4] Ac_mul_B at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:19 [inlined]
- [5] dcontract(::ContMechTensors.Tensor{2,2,ForwardDiff.Dual{4,ForwardDiff.Dual{4,Float64}},4}, ::ContMechTensors.Tensor{4,2,Float64,16}) at /home/vagrant/.julia/v0.6/ContMechTensors/src/tensor_products.jl:39
- [6] ψ(::ContMechTensors.Tensor{2,2,ForwardDiff.Dual{4,ForwardDiff.Dual{4,Float64}},4}) at ./none:1
- [7] gradient(::#ψ, ::ContMechTensors.Tensor{2,2,ForwardDiff.Dual{4,Float64},4}) at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:314 (repeats 2 times)
- [8] hessian(::#ψ, ::ContMechTensors.Tensor{2,2,Float64,4}) at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: src/man/automatic_differentiation.md
-
-> Code block:
-
-```jldoctest
-julia> E = rand(Tensor{4,2});
-
-julia> ψ(ϵ) = 1/2 * ϵ ⊡ E ⊡ ϵ;
-
-julia> E_sym = hessian(ψ, rand(Tensor{2,2}));
-
-julia> norm(majorsymmetric(E) - E_sym)
-0.0
-```
-
-> Subexpression:
-
-    norm(majorsymmetric(E) - E_sym)
-
-> Output Diff (REQUIRES COLOR):
-
-0.0ERROR: UndefVarError: E_sym not defined
 
 =====[End Error]===============================
  > checking footnote links.
