@@ -1,9 +1,16 @@
 >>> 'Pkg.add("CUDAnative")' log
 INFO: Cloning cache of CUDAnative from https://github.com/JuliaGPU/CUDAnative.jl.git
 INFO: Cloning cache of LLVM from https://github.com/maleadt/LLVM.jl.git
-INFO: Installing CUDAdrv v0.2.1
+INFO: Installing CUDAdrv v0.2.3
 INFO: Installing CUDAnative v0.1.1
 INFO: Installing LLVM v0.3.0
+INFO: Building CUDAdrv
+===============================[ ERROR: CUDAdrv ]===============================
+
+LoadError: Could not find CUDA library -- is the CUDA driver installed?
+while loading /home/vagrant/.julia/v0.6/CUDAdrv/deps/build.jl, in expression starting on line 7
+
+================================================================================
 INFO: Building LLVM
 INFO: Found 1 unique LLVM installations
 WARNING: Only considering bundled LLVM v3.9.1 (define USE_SYSTEM_LLVM=1 to override)
@@ -15,20 +22,28 @@ while loading /home/vagrant/.julia/v0.6/LLVM/deps/build.jl, in expression starti
 
 ================================================================================
 INFO: Building CUDAnative
+ERROR: LoadError: Unable to load /home/vagrant/.julia/v0.6/CUDAdrv/src/../deps/ext.jl
+
+Please re-run Pkg.build("CUDAdrv"), and restart Julia.
+Stacktrace:
+ [1] error(::String) at ./error.jl:21
+ [2] include_from_node1(::String) at ./loading.jl:539
+ [3] include(::String) at ./sysimg.jl:14
+ [4] anonymous at ./<missing>:2
+while loading /home/vagrant/.julia/v0.6/CUDAdrv/src/CUDAdrv.jl, in expression starting on line 9
 =============================[ ERROR: CUDAnative ]==============================
 
-LoadError: InitError: Could not load CUDA (or any compatible) library
-during initialization of module CUDAdrv
+LoadError: Failed to precompile CUDAdrv to /home/vagrant/.julia/lib/v0.6/CUDAdrv.ji.
 while loading /home/vagrant/.julia/v0.6/CUDAnative/deps/build.jl, in expression starting on line 3
 
 ================================================================================
 
 ================================[ BUILD ERRORS ]================================
 
-WARNING: CUDAnative and LLVM had build errors.
+WARNING: CUDAnative, LLVM and CUDAdrv had build errors.
 
  - packages with build errors remain installed in /home/vagrant/.julia/v0.6
- - build the package(s) and all dependencies with `Pkg.build("CUDAnative", "LLVM")`
+ - build the package(s) and all dependencies with `Pkg.build("CUDAnative", "LLVM", "CUDAdrv")`
  - build a single package by running its `deps/build.jl` script
 
 ================================================================================
@@ -43,13 +58,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-108-generic #155-Ubuntu SMP Wed Jan 11 16:58:52 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (634.95703125 MB free)
-Uptime: 14145.0 sec
-Load Avg:  1.04296875  1.0224609375  1.02783203125
+Memory: 2.9392738342285156 GB (623.53515625 MB free)
+Uptime: 13653.0 sec
+Load Avg:  1.0341796875  0.9931640625  1.01318359375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz     702423 s       2883 s      71784 s     493453 s         44 s
-#2  3500 MHz     234976 s       3777 s      40224 s    1094279 s          0 s
+#1  3500 MHz     689861 s       6614 s      70576 s     457182 s         61 s
+#2  3500 MHz     230645 s         51 s      37850 s    1060585 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -67,23 +82,26 @@ Package Directory: /home/vagrant/.julia/v0.6
  - CUDAnative                    0.1.1
  - JSON                          0.8.3
 3 additional packages:
- - CUDAdrv                       0.2.1
- - Compat                        0.18.0
+ - CUDAdrv                       0.2.3
+ - Compat                        0.19.0
  - LLVM                          0.3.0
 INFO: Testing CUDAnative
-ERROR: LoadError: InitError: Could not load CUDA (or any compatible) library
+ERROR: LoadError: Unable to load /home/vagrant/.julia/v0.6/CUDAdrv/src/../deps/ext.jl
+
+Please re-run Pkg.build("CUDAdrv"), and restart Julia.
 Stacktrace:
- [1] load_library() at /home/vagrant/.julia/v0.6/CUDAdrv/src/base.jl:13
- [2] __init_library__() at /home/vagrant/.julia/v0.6/CUDAdrv/src/base.jl:76
- [3] __init__() at /home/vagrant/.julia/v0.6/CUDAdrv/src/CUDAdrv.jl:29
- [4] _include_from_serialized(::String) at ./loading.jl:157
- [5] _require_from_serialized(::Int64, ::Symbol, ::String, ::Bool) at ./loading.jl:194
- [6] _require_search_from_serialized(::Int64, ::Symbol, ::String, ::Bool) at ./loading.jl:224
- [7] require(::Symbol) at ./loading.jl:409
- [8] include_from_node1(::String) at ./loading.jl:539
- [9] include(::String) at ./sysimg.jl:14
- [10] anonymous at ./<missing>:2
-during initialization of module CUDAdrv
+ [1] error(::String) at ./error.jl:21
+ [2] include_from_node1(::String) at ./loading.jl:539
+ [3] include(::String) at ./sysimg.jl:14
+ [4] anonymous at ./<missing>:2
+while loading /home/vagrant/.julia/v0.6/CUDAdrv/src/CUDAdrv.jl, in expression starting on line 9
+ERROR: LoadError: Failed to precompile CUDAdrv to /home/vagrant/.julia/lib/v0.6/CUDAdrv.ji.
+Stacktrace:
+ [1] compilecache(::String) at ./loading.jl:673
+ [2] require(::Symbol) at ./loading.jl:431
+ [3] include_from_node1(::String) at ./loading.jl:539
+ [4] include(::String) at ./sysimg.jl:14
+ [5] anonymous at ./<missing>:2
 while loading /home/vagrant/.julia/v0.6/CUDAnative/src/CUDAnative.jl, in expression starting on line 5
 ERROR: LoadError: Failed to precompile CUDAnative to /home/vagrant/.julia/lib/v0.6/CUDAnative.ji.
 Stacktrace:
