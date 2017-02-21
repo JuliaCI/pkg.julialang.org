@@ -14,13 +14,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-108-generic #155-Ubuntu SMP Wed Jan 11 16:58:52 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1031.08203125 MB free)
-Uptime: 15538.0 sec
-Load Avg:  1.02880859375  1.17724609375  1.0625
+Memory: 2.9392738342285156 GB (1036.42578125 MB free)
+Uptime: 14493.0 sec
+Load Avg:  1.103515625  1.07763671875  1.0478515625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz     881274 s       6162 s      76804 s     399149 s         59 s
-#2  3499 MHz     300652 s        356 s      43986 s    1158506 s          0 s
+#1  3500 MHz     873745 s       3375 s      75086 s     317571 s         24 s
+#2  3500 MHz     236468 s       3840 s      36719 s    1142684 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -66,38 +66,38 @@ Transform
 `-f
 print ok
 names ok
-3 5  r"a{3,5}"
-1 1 a r"a{1,1}?"
-3 3 a r"a{3,3}"
-0 2 aaa r"a{0,2}?"
-3 4 aaa r"a{3,4}"
-0 1 aa r"a{0,1}?"
+2 4 aa r"a{2,4}"
+0 2 aaaa r"a{0,2}?"
 2 3 aaaa r"a{2,3}"
-0 1 aaa r"a{0,1}?"
-2 3 aaa r"a{2,3}"
-2 4 aaaa r"a{2,4}?"
-3 5 aaaa r"a{3,5}"
-1 2 aaaa r"a{1,2}?"
-1 3  r"a{1,3}"
-3 4  r"a{3,4}?"
-3 4  r"a{3,4}"
-0 2  r"a{0,2}?"
-2 2 a r"a{2,2}"
-0 1 a r"a{0,1}?"
-2 2  r"a{2,2}"
+2 3 aaaa r"a{2,3}?"
+0 2  r"a{0,2}"
+1 3 aaaa r"a{1,3}?"
+1 2 a r"a{1,2}"
 2 4 aaa r"a{2,4}?"
+0 1  r"a{0,1}"
+0 2 aaa r"a{0,2}?"
+3 4 aaaa r"a{3,4}"
+1 2  r"a{1,2}?"
+3 4 a r"a{3,4}"
+2 3 a r"a{2,3}?"
+0 1 aa r"a{0,1}"
+1 2 aaaa r"a{1,2}?"
+2 3 aaa r"a{2,3}"
+0 0  r"a{0,0}?"
+1 3  r"a{1,3}"
+1 3  r"a{1,3}?"
 tests ok
 greedy true
 ParserCombinator.NoCache{S,I}
-  0.048547 seconds (26.76 k allocations: 1.094 MB)
-  0.046651 seconds (18.40 k allocations: 784.750 KB)
+  0.056005 seconds (26.76 k allocations: 1.094 MB)
+  0.028475 seconds (18.40 k allocations: 784.750 KB)
 n results: 35
 max depth: 5
 max iter: 4
 n calls: 323
 ParserCombinator.Cache{S,I}
-  0.158975 seconds (60.46 k allocations: 2.013 MB)
-  0.045865 seconds (36.92 k allocations: 932.625 KB)
+  0.141987 seconds (89.92 k allocations: 3.380 MB)
+  0.011880 seconds (37.00 k allocations: 935.125 KB)
 n results: 35
 max depth: 4
 max iter: 4
@@ -114,7 +114,29 @@ all
 |   +-Seq
 |   | +-[1]:prd
 |   | | +-Seq
-|   | | | +-[1]:neg...
+|   | | | +-[1]:neg
+|   | | | | `-Alt
+|   | | | |   +-[1]:Seq
+|   | | | |   | +-[1]:Drop
+|   | | | |   | | `-Equal
+|   | | | |   | |   `-"("
+|   | | | |   | +-[2]:sum...
+|   | | | |   | `-[3]:Drop
+|   | | | |   |   `-Equal
+|   | | | |   |     `-")"
+|   | | | |   +-[2]:Transform
+|   | | | |   | +-Pattern
+|   | | | |   | | +-text="-?(\d*\.?\d+|\d+\.\d*)([eE]\d+)?"
+|   | | | |   | | +-regex=r"^(?:-?(\d*\.?\d+|\d+\.\d*)([eE]\d+)?)(.??)"
+|   | | | |   | | `-groups
+|   | | | |   | `-f
+|   | | | |   `-[3]:Transform
+|   | | | |     +-Seq
+|   | | | |     | +-[1]:Drop
+|   | | | |     | | `-Equal
+|   | | | |     | |   `-"-"
+|   | | | |     | `-[2]:neg...
+|   | | | |     `-f
 |   | | | `-[2]:Depth
 |   | | |   +-Alt
 |   | | |   | +-[1]:mul
@@ -127,29 +149,7 @@ all
 |   | | |   |   | +-[1]:Drop
 |   | | |   |   | | `-Equal
 |   | | |   |   | |   `-"/"
-|   | | |   |   | `-[2]:neg
-|   | | |   |   |   `-Alt
-|   | | |   |   |     +-[1]:Seq
-|   | | |   |   |     | +-[1]:Drop
-|   | | |   |   |     | | `-Equal
-|   | | |   |   |     | |   `-"("
-|   | | |   |   |     | +-[2]:sum...
-|   | | |   |   |     | `-[3]:Drop
-|   | | |   |   |     |   `-Equal
-|   | | |   |   |     |     `-")"
-|   | | |   |   |     +-[2]:Transform
-|   | | |   |   |     | +-Pattern
-|   | | |   |   |     | | +-text="-?(\d*\.?\d+|\d+\.\d*)([eE]\d+)?"
-|   | | |   |   |     | | +-regex=r"^(?:-?(\d*\.?\d+|\d+\.\d*)([eE]\d+)?)(.??)"
-|   | | |   |   |     | | `-groups
-|   | | |   |   |     | `-f
-|   | | |   |   |     `-[3]:Transform
-|   | | |   |   |       +-Seq
-|   | | |   |   |       | +-[1]:Drop
-|   | | |   |   |       | | `-Equal
-|   | | |   |   |       | |   `-"-"
-|   | | |   |   |       | `-[2]:neg...
-|   | | |   |   |       `-f
+|   | | |   |   | `-[2]:neg...
 |   | | |   |   `-f
 |   | | |   +-lo=0
 |   | | |   +-hi=9223372036854775807
@@ -340,46 +340,46 @@ CoreTest.Inv(CoreTest.Prd(Any[CoreTest.Neg(CoreTest.Sum(Any[CoreTest.Prd(Any[0.0
 CoreTest.Inv(CoreTest.Sum(Any[CoreTest.Prd(Any[CoreTest.Neg(CoreTest.Sum(Any[CoreTest.Prd(Any[0.0])]))])])) -Inf
 CoreTest.Neg(CoreTest.Prd(Any[7.0,CoreTest.Inv(0.0),CoreTest.Inv(2.0),CoreTest.Inv(CoreTest.Sum(Any[CoreTest.Prd(Any[CoreTest.Neg(CoreTest.Sum(Any[CoreTest.Prd(Any[0.0])]))])])),3.0])) Inf Inf
 Inf CoreTest.Sum(Any[CoreTest.Prd(Any[-9.0]),CoreTest.Neg(CoreTest.Prd(Any[7.0,CoreTest.Inv(0.0),CoreTest.Inv(2.0),CoreTest.Inv(CoreTest.Sum(Any[CoreTest.Prd(Any[CoreTest.Neg(CoreTest.Sum(Any[CoreTest.Prd(Any[0.0])]))])])),3.0])),CoreTest.Neg(CoreTest.Prd(Any[7.0,CoreTest.Inv(CoreTest.Neg(CoreTest.Sum(Any[CoreTest.Prd(Any[9.0]),CoreTest.Prd(Any[5.0])])))])),CoreTest.Prd(Any[5.0]),CoreTest.Neg(CoreTest.Prd(Any[7.0]))]) Inf
-expr -4.0+4.0
-0.0 0.0
-expr -6.0-4.0
--10.0 -10.0
-expr -8.0+6.0+7.0/(4.0)-2.0/(3.0)/1.0/4.0*8.0/-4.0
-0.08333333333333331 0.08333333333333331
-expr (((1.0+9.0))-7.0)-3.0/4.0+3.0/1.0/-(3.0)-0.0+2.0+8.0-5.0
-6.25 6.25
-expr (-4.0)/7.0+5.0
-4.428571428571429 4.428571428571429
-expr 2.0+1.0/((-4.0-6.0))*9.0-4.0*4.0*-0.0*8.0-5.0-8.0+9.0
--2.9000000000000004 -2.9000000000000004
-expr 8.0-4.0/-4.0/7.0+1.0*6.0
-14.142857142857142 14.142857142857142
-expr -4.0-7.0*7.0*8.0/-3.0*2.0
-257.3333333333333 257.3333333333333
-expr 4.0/4.0/-(1.0-5.0/8.0)*-1.0-6.0*-5.0/6.0-3.0
-4.666666666666666 4.666666666666666
-expr ((3.0)+2.0)*1.0/0.0*6.0
+expr -(4.0)/0.0*6.0*-8.0*4.0/0.0+8.0-2.0+9.0+3.0*2.0+5.0*2.0/1.0+3.0
 Inf Inf
-expr (2.0*9.0*7.0*9.0)/-5.0/7.0+3.0
--29.4 -29.4
-expr -1.0*-6.0-7.0*2.0/0.0*4.0
--Inf -Inf
-expr 2.0/7.0
-0.2857142857142857 0.2857142857142857
-expr -4.0+3.0-(3.0)
--4.0 -4.0
-expr -5.0*3.0-5.0-6.0+-4.0+0.0-8.0-7.0-1.0/((2.0))
--45.5 -45.5
-expr 2.0/2.0+8.0*7.0/5.0/1.0-8.0-1.0/4.0*3.0/-(-7.0)+-8.0/3.0-8.0/3.0
--1.2404761904761905 -1.2404761904761887
-expr -(9.0)*8.0-1.0+9.0-5.0*4.0+3.0*3.0*3.0/1.0/(6.0-4.0)+(3.0-7.0)/9.0*1.0-(9.0/5.0)
--72.74444444444444 -72.74444444444444
-expr 4.0-0.0-9.0+8.0+7.0+3.0-6.0
+expr ((2.0))*5.0/8.0-7.0-4.0-5.0-0.0*3.0/(((3.0)-5.0))*8.0
+-14.75 -14.75
+expr ((9.0)+2.0-3.0)/(3.0/3.0)*6.0
+48.0 48.0
+expr -6.0+9.0+2.0+0.0+8.0/7.0-(1.0+8.0)-8.0-8.0
+-18.857142857142858 -18.857142857142858
+expr (9.0/8.0)+5.0-5.0/4.0+7.0/0.0
+Inf Inf
+expr 3.0+4.0
 7.0 7.0
-expr -(7.0)*5.0-8.0+5.0
--38.0 -38.0
-expr -(8.0)+9.0/0.0*8.0
+expr 5.0-3.0+2.0/(9.0)-9.0-4.0*1.0/1.0+8.0*1.0
+-2.7777777777777786 -2.7777777777777786
+expr (5.0+8.0)/3.0-7.0/6.0-1.0+7.0-1.0-8.0+1.0*3.0+1.0
+4.166666666666666 4.166666666666666
+expr (9.0)-(-9.0)
+18.0 18.0
+expr 5.0-9.0+4.0+5.0*8.0-6.0+5.0-6.0+(9.0*2.0*6.0+5.0)+3.0-9.0-2.0-7.0*0.0/4.0*0.0+3.0
+141.0 141.0
+expr (8.0/9.0/9.0/9.0)*3.0+((6.0)/7.0)+6.0
+6.890064667842445 6.890064667842445
+expr 5.0-4.0+(6.0*8.0)*3.0/2.0/0.0/7.0-7.0*2.0/7.0/8.0/8.0-4.0/6.0
 Inf Inf
+expr -(8.0+3.0)/6.0/6.0-3.0*-2.0+3.0/9.0
+6.027777777777778 6.027777777777778
+expr -5.0/5.0*3.0-5.0/9.0/9.0-8.0*0.0-(4.0)+1.0+8.0*1.0
+1.9382716049382722 1.9382716049382722
+expr (-6.0*7.0+7.0)/-7.0*1.0*3.0/6.0
+2.5 2.5
+expr 7.0-0.0*-3.0-2.0+9.0*2.0*3.0+-(0.0*1.0-8.0)/-7.0-5.0-4.0-2.0
+46.857142857142854 46.857142857142854
+expr -3.0/5.0/((0.0/2.0*8.0))*-(6.0)*8.0
+Inf Inf
+expr (0.0*9.0)*-8.0+8.0/3.0/6.0+9.0+6.0*(-9.0/0.0+3.0)
+-Inf -Inf
+expr 0.0*7.0*1.0-4.0-2.0/2.0-9.0*4.0
+-41.0 -41.0
+expr (6.0)/-6.0-0.0*5.0*5.0
+-1.0 -1.0
 calc ok
 one level
   1:ab         00 Trace->Dot
@@ -869,9 +869,9 @@ edge 1 - 3
 edge 1 - 2
 fragments ok
 subgraphs ok
- 41.752043 seconds (10.06 M allocations: 334.709 MB, 0.41% gc time)
-  0.810494 seconds (308.17 k allocations: 117.744 MB, 18.35% gc time)
-  1.127557 seconds (269.87 k allocations: 111.068 MB, 36.47% gc time)
+ 31.149787 seconds (10.06 M allocations: 334.709 MB, 0.38% gc time)
+  0.576508 seconds (308.16 k allocations: 117.490 MB, 17.52% gc time)
+  1.034016 seconds (269.91 k allocations: 111.107 MB, 34.26% gc time)
 examples ok
 INFO: ParserCombinator tests passed
 INFO: Removing ZipFile v0.3.0

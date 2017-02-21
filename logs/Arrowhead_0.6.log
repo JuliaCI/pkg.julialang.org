@@ -6,21 +6,21 @@ INFO: Installing DoubleDouble v0.2.0
 INFO: Package database updated
 
 >>> 'Pkg.test("Arrowhead")' log
-Julia Version 0.6.0-dev.2635
-Commit dc2459d (2017-02-13 07:46 UTC)
+Julia Version 0.6.0-dev.2884
+Commit 30a215d (2017-02-20 23:35 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-108-generic #155-Ubuntu SMP Wed Jan 11 16:58:52 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (879.6796875 MB free)
-Uptime: 3178.0 sec
-Load Avg:  0.8955078125  0.9345703125  0.87060546875
+Memory: 2.9392738342285156 GB (900.453125 MB free)
+Uptime: 3629.0 sec
+Load Avg:  1.0078125  0.9951171875  0.89013671875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz     121326 s        108 s      15716 s     152172 s          8 s
-#2  3500 MHz      53208 s         50 s      11084 s     245283 s          0 s
+#1  3504 MHz     116865 s         88 s      15571 s     202513 s          6 s
+#2  3504 MHz      61620 s         68 s      11035 s     280644 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -41,6 +41,12 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Compat                        0.19.0
  - DoubleDouble                  0.2.0
 INFO: Testing Arrowhead
+
+WARNING: deprecated syntax "abstract AbstractDouble{T}<:Real" at /home/vagrant/.julia/v0.6/DoubleDouble/src/DoubleDouble.jl:11.
+Use "abstract type AbstractDouble{T}<:Real end" instead.
+
+WARNING: deprecated syntax "inner constructor Double(...) around /home/vagrant/.julia/v0.6/DoubleDouble/src/DoubleDouble.jl:25".
+Use "Double{T}(...) where T" instead.
 There are four tests for arrowhead matrices, a random matrix test and three
 tests from the arrowhead paper [1] (see README for details)
 
@@ -48,308 +54,92 @@ tols = [100.0, 100.0, 100.0, 100.0, 100.0] = [100.0, 100.0, 100.0, 100.0, 100.0]
 
 1st test - Random SymArrow matrix
 
-A = Arrowhead.GenSymArrow(10, 10) = [0.84754 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.904342; 0.0 0.313049 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.624086; 0.0 0.0 0.0165189 0.0 0.0 0.0 0.0 0.0 0.0 0.782641; 0.0 0.0 0.0 0.87348 0.0 0.0 0.0 0.0 0.0 0.540602; 0.0 0.0 0.0 0.0 0.712058 0.0 0.0 0.0 0.0 0.176372; 0.0 0.0 0.0 0.0 0.0 0.857165 0.0 0.0 0.0 0.478557; 0.0 0.0 0.0 0.0 0.0 0.0 0.773967 0.0 0.0 0.461339; 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0798281 0.0 0.167893; 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.362029 0.298293; 0.904342 0.624086 0.782641 0.540602 0.176372 0.478557 0.461339 0.167893 0.298293 0.256978]
-(U, Lambda) = eig(full(A)) = ([-1.28072, 0.0755186, 0.149876, 0.351741, 0.475283, 0.714759, 0.785778, 0.85487, 0.868751, 2.09676], [-0.306867 -0.0283651 -0.165786 0.0546373 0.39367 0.102676 -0.342012 0.505439 0.330767 0.476646; -0.282789 -0.0636218 -0.489168 -0.483157 -0.62337 -0.0234209 0.0308362 0.00471858 0.00871256 0.230368; -0.435698 0.321214 0.750597 -0.0699346 -0.276449 -0.0168977 0.0237639 0.00382436 0.00712439 0.247714; -0.181232 -0.016405 -0.0955517 0.0310375 0.219999 0.0513468 -0.143978 -0.118997 -0.886679 0.290974; -0.0639166 -0.00670943 -0.0401249 0.0146625 0.120708 -0.984488 0.0558822 0.00505929 0.00873222 0.0838641; -0.161656 -0.0148253 -0.0865364 0.0283622 0.203071 0.0506615 -0.156584 -0.854248 0.320438 0.254189; -0.16215 -0.0159944 -0.0945441 0.0327294 0.250294 0.117467 0.912302 0.0233602 0.0377596 0.229631; -0.0891174 -0.943376 0.306547 -0.0184955 -0.0687985 -0.00398637 0.00555505 0.000887423 0.00165098 0.0548081; -0.131134 -0.0252107 -0.179828 0.868556 -0.426805 -0.0127488 0.0164423 0.00247946 0.00456683 0.113217; 0.722175 0.0242148 0.127897 -0.0299545 -0.162047 -0.0150755 0.0233576 0.00409658 0.00775787 0.658417])
+A = Arrowhead.GenSymArrow(10, 10) = [0.994766 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.584236; 0.0 0.952475 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.882012; 0.0 0.0 0.570564 0.0 0.0 0.0 0.0 0.0 0.0 0.410193; 0.0 0.0 0.0 0.979723 0.0 0.0 0.0 0.0 0.0 0.0859034; 0.0 0.0 0.0 0.0 0.48177 0.0 0.0 0.0 0.0 0.046465; 0.0 0.0 0.0 0.0 0.0 0.122109 0.0 0.0 0.0 0.554163; 0.0 0.0 0.0 0.0 0.0 0.0 0.504708 0.0 0.0 0.920249; 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.976414 0.0 0.462457; 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.650262 0.0971658; 0.584236 0.882012 0.410193 0.0859034 0.046465 0.554163 0.920249 0.462457 0.0971658 0.40699]
+(U, Lambda) = eig(full(A)) = ([-1.11472, 0.188202, 0.481822, 0.557776, 0.648027, 0.719104, 0.969828, 0.979624, 0.987208, 2.22291], [-0.20113 -0.0794181 -0.00129123 0.0364983 0.037921 -0.293748 0.259599 0.0436685 -0.833868 0.315508; -0.309856 -0.126531 -0.00212452 0.0610049 0.0652013 -0.523832 -0.563198 -0.0367687 0.273922 0.460462; -0.176759 -0.117621 -0.0052402 0.875699 -0.119175 0.382741 -0.0113842 -0.00113492 0.01062 0.164649; -0.0297857 -0.0118992 -0.000195593 0.00555787 0.0058286 -0.0456844 0.0962031 0.984957 0.123791 0.0458295; -0.0211362 -0.0173535 0.998941 -0.016689 -0.00628984 0.0271348 -0.00105494 -0.00010563 0.000991651 0.0176996; -0.325383 0.919289 0.00174649 -0.0347247 -0.0237145 0.128656 -0.00724369 -0.000731408 0.00690993 0.174954; -0.412677 -0.318782 -0.045586 -0.473398 -0.144509 0.594909 -0.0219237 -0.00219307 0.0205736 0.355224; -0.160604 -0.0643278 -0.00106001 0.030157 0.0316942 -0.249102 0.778051 -0.163075 0.462165 0.246067; -0.0399797 -0.023056 -0.000653965 0.0286809 0.978304 0.195623 -0.0033692 -0.00033389 0.00311067 0.0409782; 0.726216 0.10964 0.00113367 -0.0272996 -0.0225058 0.1386 -0.0110809 -0.00113178 0.010787 0.663239])
 WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
 Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:51
  [3] inv(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:29
  [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:337
  [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
  [6] include_from_node1(::String) at ./loading.jl:539
  [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
+ [8] process_options(::Base.JLOptions) at ./client.jl:305
+ [9] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 242
 WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
 Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:51
  [3] inv(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:30
  [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:337
  [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
  [6] include_from_node1(::String) at ./loading.jl:539
  [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
+ [8] process_options(::Base.JLOptions) at ./client.jl:305
+ [9] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 242
 WARNING: maxabs(x) is deprecated, use maximum(abs, x) instead.
 Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] maxabs(::Array{Float64,1}) at ./deprecated.jl:50
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] maxabs(::Array{Float64,1}) at ./deprecated.jl:51
  [3] inv(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:63
  [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:337
  [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
  [6] include_from_node1(::String) at ./loading.jl:539
  [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
+ [8] process_options(::Base.JLOptions) at ./client.jl:305
+ [9] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 242
 WARNING: abs{T <: Number}(x::AbstractArray{T}) is deprecated, use abs.(x) instead.
 Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] abs(::Array{Float64,1}) at ./deprecated.jl:50
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] abs(::Array{Float64,1}) at ./deprecated.jl:51
  [3] bisect(::Arrowhead.SymArrow{Float64}, ::Char) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:557
  [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:341
  [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
  [6] include_from_node1(::String) at ./loading.jl:539
  [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
+ [8] process_options(::Base.JLOptions) at ./client.jl:305
+ [9] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 242
 WARNING: sumabs(x) is deprecated, use sum(abs, x) instead.
 Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] sumabs(::Array{Float64,1}) at ./deprecated.jl:50
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] sumabs(::Array{Float64,1}) at ./deprecated.jl:51
  [3] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:359
  [4] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
  [5] include_from_node1(::String) at ./loading.jl:539
  [6] include(::String) at ./sysimg.jl:14
- [7] process_options(::Base.JLOptions) at ./client.jl:300
- [8] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
+ [7] process_options(::Base.JLOptions) at ./client.jl:305
+ [8] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 242
 Remedy 3 
 WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
 Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:51
  [3] inv(::Arrowhead.SymArrow{Float64}, ::Float64, ::Float64) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:128
  [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:402
  [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
  [6] include_from_node1(::String) at ./loading.jl:539
  [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
+ [8] process_options(::Base.JLOptions) at ./client.jl:305
+ [9] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 242
 WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
 Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:51
  [3] inv(::Arrowhead.SymArrow{Float64}, ::Float64, ::Float64) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:129
  [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:402
  [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
  [6] include_from_node1(::String) at ./loading.jl:539
  [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
-WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
- [3] inv(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:29
- [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:337
- [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
- [6] include_from_node1(::String) at ./loading.jl:539
- [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
-WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
- [3] inv(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:30
- [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:337
- [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
- [6] include_from_node1(::String) at ./loading.jl:539
- [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
-WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
- [3] inv(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:29
- [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:337
- [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
- [6] include_from_node1(::String) at ./loading.jl:539
- [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
-WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
- [3] inv(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:30
- [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:337
- [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
- [6] include_from_node1(::String) at ./loading.jl:539
- [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
-WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
- [3] inv(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:29
- [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:337
- [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
- [6] include_from_node1(::String) at ./loading.jl:539
- [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
-WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
- [3] inv(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:30
- [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:337
- [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
- [6] include_from_node1(::String) at ./loading.jl:539
- [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
-WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
- [3] inv(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:29
- [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:337
- [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
- [6] include_from_node1(::String) at ./loading.jl:539
- [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
-WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
- [3] inv(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:30
- [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:337
- [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
- [6] include_from_node1(::String) at ./loading.jl:539
- [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
-WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
- [3] inv(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:29
- [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:337
- [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
- [6] include_from_node1(::String) at ./loading.jl:539
- [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
-WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
- [3] inv(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:30
- [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:337
- [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
- [6] include_from_node1(::String) at ./loading.jl:539
- [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
-WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
- [3] inv(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:29
- [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:337
- [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
- [6] include_from_node1(::String) at ./loading.jl:539
- [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
-WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
- [3] inv(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:30
- [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:337
- [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
- [6] include_from_node1(::String) at ./loading.jl:539
- [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
-WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
- [3] inv(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:29
- [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:337
- [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
- [6] include_from_node1(::String) at ./loading.jl:539
- [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
-WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
- [3] inv(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:30
- [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:337
- [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
- [6] include_from_node1(::String) at ./loading.jl:539
- [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
-WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
- [3] inv(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:29
- [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:337
- [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
- [6] include_from_node1(::String) at ./loading.jl:539
- [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
-WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
- [3] inv(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:30
- [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:337
- [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
- [6] include_from_node1(::String) at ./loading.jl:539
- [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
-WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
- [3] inv(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:29
- [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:337
- [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
- [6] include_from_node1(::String) at ./loading.jl:539
- [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
-WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:62
- [2] Array(::Type{Float64}, ::Int64) at ./deprecated.jl:50
- [3] inv(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:30
- [4] aheig(::Arrowhead.SymArrow{Float64}, ::Int64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:337
- [5] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:528
- [6] include_from_node1(::String) at ./loading.jl:539
- [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:300
- [9] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
+ [8] process_options(::Base.JLOptions) at ./client.jl:305
+ [9] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 242
 ERROR: LoadError: MethodError: Cannot `convert` an object of type Array{Float64,1} to an object of type Float64
 This may have arisen from a call to the constructor Float64(...),
 since type constructors fall back to convert methods.
@@ -359,16 +149,16 @@ Stacktrace:
  [3] macro expansion at ./multidimensional.jl:426 [inlined]
  [4] _unsafe_getindex! at ./multidimensional.jl:421 [inlined]
  [5] macro expansion at ./multidimensional.jl:415 [inlined]
- [6] _unsafe_getindex(::Base.LinearFast, ::Array{Float64,2}, ::Array{Any,1}, ::Array{Int64,1}) at ./multidimensional.jl:408
+ [6] _unsafe_getindex(::IndexLinear, ::Array{Float64,2}, ::Array{Any,1}, ::Array{Int64,1}) at ./multidimensional.jl:408
  [7] macro expansion at ./multidimensional.jl:397 [inlined]
  [8] _getindex at ./multidimensional.jl:393 [inlined]
- [9] getindex at ./abstractarray.jl:810 [inlined]
+ [9] getindex at ./abstractarray.jl:864 [inlined]
  [10] aheigall(::Arrowhead.SymArrow{Float64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Arrowhead/src/arrowhead3.jl:540
  [11] include_from_node1(::String) at ./loading.jl:539
  [12] include(::String) at ./sysimg.jl:14
- [13] process_options(::Base.JLOptions) at ./client.jl:300
- [14] _start() at ./client.jl:366
-while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 240
+ [13] process_options(::Base.JLOptions) at ./client.jl:305
+ [14] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl, in expression starting on line 242
 ==============================[ ERROR: Arrowhead ]==============================
 
 failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Arrowhead/test/runtests.jl`, ProcessExited(1)) [1]
