@@ -5,7 +5,7 @@ INFO: Installing DocStringExtensions v0.3.1
 INFO: Installing LightXML v0.4.0
 INFO: Installing RigidBodyDynamics v0.0.6
 INFO: Installing Rotations v0.3.4
-INFO: Installing StaticArrays v0.2.1
+INFO: Installing StaticArrays v0.3.0
 INFO: Building LightXML
 INFO: Package database updated
 INFO: METADATA is out-of-date — you may not have the latest version of RigidBodyDynamics
@@ -19,14 +19,14 @@ Platform Info:
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-108-generic #155-Ubuntu SMP Wed Jan 11 16:58:52 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (848.58984375 MB free)
-Uptime: 23974.0 sec
-Load Avg:  0.974609375  0.9755859375  0.95458984375
+  uname: Linux 3.13.0-109-generic #156-Ubuntu SMP Wed Feb 8 16:09:17 UTC 2017 x86_64 x86_64
+Memory: 2.9392738342285156 GB (875.40234375 MB free)
+Uptime: 24670.0 sec
+Load Avg:  0.98193359375  0.97509765625  0.96435546875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    1433897 s       3375 s     121160 s     549787 s         67 s
-#2  3500 MHz     432871 s       3845 s      60396 s    1835875 s          2 s
+#1  3496 MHz    1403679 s       6245 s     143553 s     614440 s        110 s
+#2  3496 MHz     464873 s        240 s      71190 s    1845759 s          2 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -49,7 +49,7 @@ Package Directory: /home/vagrant/.julia/v0.5
  - DocStringExtensions           0.3.1
  - LightXML                      0.4.0
  - Rotations                     0.3.4
- - StaticArrays                  0.2.1
+ - StaticArrays                  0.3.0
 INFO: Computing test dependencies for RigidBodyDynamics...
 INFO: Cloning cache of SymPy from https://github.com/JuliaPy/SymPy.jl.git
 INFO: Installing BaseTestNext v0.2.2
@@ -76,7 +76,7 @@ INFO: Installing Ranges v0.0.1
 INFO: Installing RecipesBase v0.1.0
 INFO: Installing RecursiveArrayTools v0.2.0
 INFO: Installing SHA v0.3.1
-INFO: Installing SimpleTraits v0.2.0
+INFO: Installing SimpleTraits v0.3.0
 INFO: Installing SymPy v0.5.0
 INFO: Installing URIParser v0.1.8
 INFO: Building Blosc
@@ -96,110 +96,48 @@ INFO: PyCall is using /home/vagrant/.julia/v0.5/Conda/deps/usr/bin/python (Pytho
 INFO: /home/vagrant/.julia/v0.5/PyCall/deps/deps.jl has not changed
 INFO: /home/vagrant/.julia/v0.5/PyCall/deps/PYTHON has not changed
 INFO: Testing RigidBodyDynamics
-Test Summary: | Pass  Total
-  util        |    6      6
-Test Summary: | Pass  Total
-  tree        |   67     67
-Test Summary: | Pass  Total
-  frames      |   10     10
-Test Summary: | Pass  Total
-  spatial     |  832    832
-Test Summary:   | Pass  Total
-  double pendulum |    8      8
-Test Summary:        | Pass  Total
-  mechanism algorithms |  971    971
-Test Summary:          | Pass  Total
-  mechanism manipulation | 1063   1063
-q = configuration_vector(state) = [0.3,0.4]
-v = velocity_vector(state) = [1.0,2.0]
-INFO: Installing sympy via the Conda sympy package...
-Fetching package metadata .........
-Solving package specifications: .
+rotation vector rate: Error During Test
+  Got an exception of type ErrorException outside of a @test
+  The size of type `Rotations.RotMatrix{3,Float64,9}` is not known.
+  
+  If you were trying to construct (or `convert` to) a `StaticArray` you
+  may need to add the size explicitly as a type parameter so its size is
+  inferrable to the Julia compiler (or performance would be terrible). For
+  example, you might try
+  
+      m = zeros(3,3)
+      SMatrix(m)      # this error
+      SMatrix{3,3}(m) # correct - size is inferrable
+  
+   in StaticArrays.Size{S}(::Type{Rotations.RotMatrix{3,Float64,9}}) at /home/vagrant/.julia/v0.5/StaticArrays/src/traits.jl:42
+   in size(::Type{Rotations.RotMatrix{3,Float64,9}}, ::Int64) at /home/vagrant/.julia/v0.5/StaticArrays/src/abstractarray.jl:10
+   in *(...) at /home/vagrant/.julia/v0.5/StaticArrays/src/matrix_multiply.jl:302
+   in macro expansion; at /home/vagrant/.julia/v0.5/RigidBodyDynamics/test/test_util.jl:8 [inlined]
+   in macro expansion; at ./test.jl:672 [inlined]
+   in macro expansion; at /home/vagrant/.julia/v0.5/RigidBodyDynamics/test/test_util.jl:4 [inlined]
+   in macro expansion; at ./test.jl:672 [inlined]
+   in anonymous at ./<missing>:?
+   in include_from_node1(::String) at ./loading.jl:488 (repeats 2 times)
+   in process_options(::Base.JLOptions) at ./client.jl:262
+   in _start() at ./client.jl:318
+Test Summary:          | Pass  Error  Total
+  util                 |    4      1      5
+  rotation vector rate |           1      1
+  colwise              |    4             4
+ERROR: LoadError: LoadError: Some tests did not pass: 4 passed, 0 failed, 1 errored, 0 broken.
+ in finish(::Base.Test.DefaultTestSet) at ./test.jl:495
+ in macro expansion; at ./test.jl:679 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:488 (repeats 2 times)
+ in process_options(::Base.JLOptions) at ./client.jl:262
+ in _start() at ./client.jl:318
+while loading /home/vagrant/.julia/v0.5/RigidBodyDynamics/test/test_util.jl, in expression starting on line 3
+while loading /home/vagrant/.julia/v0.5/RigidBodyDynamics/test/runtests.jl, in expression starting on line 21
+==========================[ ERROR: RigidBodyDynamics ]==========================
 
-Package plan for installation in environment /home/vagrant/.julia/v0.5/Conda/deps/usr:
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.5/RigidBodyDynamics/test/runtests.jl`, ProcessExited(1)) [1]
 
-The following NEW packages will be INSTALLED:
-
-    mpmath: 0.19-py27_1
-    sympy:  1.0-py27_0 
-
-mpmath-0.19-py   0% |                              | ETA:  --:--:--   0.00  B/smpmath-0.19-py   1% |                               | ETA:  0:00:02 369.39 kB/smpmath-0.19-py   3% |#                              | ETA:  0:00:01 729.33 kB/smpmath-0.19-py   5% |#                              | ETA:  0:00:00 943.22 kB/smpmath-0.19-py   7% |##                             | ETA:  0:00:00   1.25 MB/smpmath-0.19-py   9% |##                             | ETA:  0:00:00   1.55 MB/smpmath-0.19-py  10% |###                            | ETA:  0:00:00   1.84 MB/smpmath-0.19-py  12% |###                            | ETA:  0:00:00   2.13 MB/smpmath-0.19-py  14% |####                           | ETA:  0:00:00   2.42 MB/smpmath-0.19-py  16% |#####                          | ETA:  0:00:00   2.70 MB/smpmath-0.19-py  18% |#####                          | ETA:  0:00:00   2.96 MB/smpmath-0.19-py  20% |######                         | ETA:  0:00:00   3.14 MB/smpmath-0.19-py  21% |######                         | ETA:  0:00:00   3.34 MB/smpmath-0.19-py  23% |#######                        | ETA:  0:00:00   3.57 MB/smpmath-0.19-py  25% |#######                        | ETA:  0:00:00   3.69 MB/smpmath-0.19-py  27% |########                       | ETA:  0:00:00   3.90 MB/smpmath-0.19-py  29% |#########                      | ETA:  0:00:00   4.10 MB/smpmath-0.19-py  31% |#########                      | ETA:  0:00:00   4.27 MB/smpmath-0.19-py  32% |##########                     | ETA:  0:00:00   4.47 MB/smpmath-0.19-py  34% |##########                     | ETA:  0:00:00   4.67 MB/smpmath-0.19-py  36% |###########                    | ETA:  0:00:00   4.85 MB/smpmath-0.19-py  38% |###########                    | ETA:  0:00:00   5.01 MB/smpmath-0.19-py  40% |############                   | ETA:  0:00:00   5.18 MB/smpmath-0.19-py  42% |#############                  | ETA:  0:00:00   5.36 MB/smpmath-0.19-py  43% |#############                  | ETA:  0:00:00   5.53 MB/smpmath-0.19-py  45% |##############                 | ETA:  0:00:00   5.70 MB/smpmath-0.19-py  47% |##############                 | ETA:  0:00:00   5.85 MB/smpmath-0.19-py  49% |###############                | ETA:  0:00:00   6.01 MB/smpmath-0.19-py  51% |###############                | ETA:  0:00:00   6.16 MB/smpmath-0.19-py  53% |################               | ETA:  0:00:00   6.30 MB/smpmath-0.19-py  54% |#################              | ETA:  0:00:00   6.45 MB/smpmath-0.19-py  56% |#################              | ETA:  0:00:00   6.61 MB/smpmath-0.19-py  58% |##################             | ETA:  0:00:00   6.76 MB/smpmath-0.19-py  60% |##################             | ETA:  0:00:00   6.89 MB/smpmath-0.19-py  62% |###################            | ETA:  0:00:00   7.03 MB/smpmath-0.19-py  64% |###################            | ETA:  0:00:00   7.14 MB/smpmath-0.19-py  65% |####################           | ETA:  0:00:00   7.27 MB/smpmath-0.19-py  67% |#####################          | ETA:  0:00:00   7.41 MB/smpmath-0.19-py  69% |#####################          | ETA:  0:00:00   7.53 MB/smpmath-0.19-py  71% |######################         | ETA:  0:00:00   7.65 MB/smpmath-0.19-py  73% |######################         | ETA:  0:00:00   7.74 MB/smpmath-0.19-py  75% |#######################        | ETA:  0:00:00   7.89 MB/smpmath-0.19-py  76% |#######################        | ETA:  0:00:00   8.05 MB/smpmath-0.19-py  78% |########################       | ETA:  0:00:00   8.20 MB/smpmath-0.19-py  80% |#########################      | ETA:  0:00:00   8.36 MB/smpmath-0.19-py  82% |#########################      | ETA:  0:00:00   8.51 MB/smpmath-0.19-py  84% |##########################     | ETA:  0:00:00   8.67 MB/smpmath-0.19-py  86% |##########################     | ETA:  0:00:00   8.84 MB/smpmath-0.19-py  87% |###########################    | ETA:  0:00:00   8.99 MB/smpmath-0.19-py  89% |###########################    | ETA:  0:00:00   9.12 MB/smpmath-0.19-py  91% |############################   | ETA:  0:00:00   9.25 MB/smpmath-0.19-py  93% |############################   | ETA:  0:00:00   9.40 MB/smpmath-0.19-py  95% |#############################  | ETA:  0:00:00   9.54 MB/smpmath-0.19-py  97% |############################## | ETA:  0:00:00   9.69 MB/smpmath-0.19-py  98% |############################## | ETA:  0:00:00   9.83 MB/smpmath-0.19-py 100% |###############################| ETA:  0:00:00   9.91 MB/smpmath-0.19-py 100% |###############################| Time: 0:00:00   9.88 MB/s
-sympy-1.0-py27   0% |                              | ETA:  --:--:--   0.00  B/ssympy-1.0-py27   0% |                               | Time: 0:00:00  24.31 MB/ssympy-1.0-py27   0% |                               | Time: 0:00:00  30.29 MB/ssympy-1.0-py27   0% |                               | Time: 0:00:00  31.94 MB/ssympy-1.0-py27   1% |                               | Time: 0:00:00  28.05 MB/ssympy-1.0-py27   1% |                               | Time: 0:00:00  25.46 MB/ssympy-1.0-py27   1% |                               | Time: 0:00:00  23.07 MB/ssympy-1.0-py27   1% |                               | Time: 0:00:00  22.82 MB/ssympy-1.0-py27   2% |                               | Time: 0:00:00  22.58 MB/ssympy-1.0-py27   2% |                               | Time: 0:00:00  22.72 MB/ssympy-1.0-py27   2% |                               | Time: 0:00:00  22.67 MB/ssympy-1.0-py27   3% |                               | Time: 0:00:00  22.66 MB/ssympy-1.0-py27   3% |#                              | Time: 0:00:00  22.77 MB/ssympy-1.0-py27   3% |#                              | Time: 0:00:00  22.88 MB/ssympy-1.0-py27   3% |#                              | Time: 0:00:00  23.02 MB/ssympy-1.0-py27   4% |#                              | Time: 0:00:00  23.24 MB/ssympy-1.0-py27   4% |#                              | Time: 0:00:00  23.60 MB/ssympy-1.0-py27   4% |#                              | Time: 0:00:00  23.04 MB/ssympy-1.0-py27   4% |#                              | Time: 0:00:00  22.89 MB/ssympy-1.0-py27   5% |#                              | Time: 0:00:00  23.31 MB/ssympy-1.0-py27   5% |#                              | Time: 0:00:00  23.28 MB/ssympy-1.0-py27   5% |#                              | Time: 0:00:00  23.50 MB/ssympy-1.0-py27   6% |#                              | Time: 0:00:00  23.57 MB/ssympy-1.0-py27   6% |#                              | Time: 0:00:00  23.65 MB/ssympy-1.0-py27   6% |##                             | Time: 0:00:00  23.81 MB/ssympy-1.0-py27   6% |##                             | Time: 0:00:00  23.78 MB/ssympy-1.0-py27   7% |##                             | Time: 0:00:00  23.96 MB/ssympy-1.0-py27   7% |##                             | Time: 0:00:00  24.04 MB/ssympy-1.0-py27   7% |##                             | Time: 0:00:00  24.09 MB/ssympy-1.0-py27   8% |##                             | Time: 0:00:00  24.10 MB/ssympy-1.0-py27   8% |##                             | Time: 0:00:00  24.31 MB/ssympy-1.0-py27   8% |##                             | Time: 0:00:00  24.33 MB/ssympy-1.0-py27   8% |##                             | Time: 0:00:00  24.36 MB/ssympy-1.0-py27   9% |##                             | Time: 0:00:00  24.52 MB/ssympy-1.0-py27   9% |##                             | Time: 0:00:00  24.56 MB/ssympy-1.0-py27   9% |###                            | Time: 0:00:00  24.31 MB/ssympy-1.0-py27   9% |###                            | Time: 0:00:00  24.43 MB/ssympy-1.0-py27  10% |###                            | Time: 0:00:00  24.32 MB/ssympy-1.0-py27  10% |###                            | Time: 0:00:00  24.37 MB/ssympy-1.0-py27  10% |###                            | Time: 0:00:00  24.41 MB/ssympy-1.0-py27  11% |###                            | Time: 0:00:00  24.38 MB/ssympy-1.0-py27  11% |###                            | Time: 0:00:00  23.79 MB/ssympy-1.0-py27  11% |###                            | Time: 0:00:00  23.75 MB/ssympy-1.0-py27  11% |###                            | Time: 0:00:00  23.85 MB/ssympy-1.0-py27  12% |###                            | Time: 0:00:00  23.69 MB/ssympy-1.0-py27  12% |###                            | Time: 0:00:00  23.43 MB/ssympy-1.0-py27  12% |###                            | Time: 0:00:00  23.10 MB/ssympy-1.0-py27  13% |####                           | Time: 0:00:00  23.19 MB/ssympy-1.0-py27  13% |####                           | Time: 0:00:00  23.23 MB/ssympy-1.0-py27  13% |####                           | Time: 0:00:00  23.26 MB/ssympy-1.0-py27  13% |####                           | Time: 0:00:00  23.27 MB/ssympy-1.0-py27  14% |####                           | Time: 0:00:00  23.37 MB/ssympy-1.0-py27  14% |####                           | Time: 0:00:00  23.30 MB/ssympy-1.0-py27  14% |####                           | Time: 0:00:00  23.34 MB/ssympy-1.0-py27  14% |####                           | Time: 0:00:00  23.42 MB/ssympy-1.0-py27  15% |####                           | Time: 0:00:00  23.58 MB/ssympy-1.0-py27  15% |####                           | Time: 0:00:00  23.59 MB/ssympy-1.0-py27  15% |####                           | Time: 0:00:00  23.67 MB/ssympy-1.0-py27  16% |####                           | Time: 0:00:00  23.71 MB/ssympy-1.0-py27  16% |#####                          | Time: 0:00:00  23.74 MB/ssympy-1.0-py27  16% |#####                          | Time: 0:00:00  23.82 MB/ssympy-1.0-py27  16% |#####                          | Time: 0:00:00  23.82 MB/ssympy-1.0-py27  17% |#####                          | Time: 0:00:00  23.85 MB/ssympy-1.0-py27  17% |#####                          | Time: 0:00:00  23.83 MB/ssympy-1.0-py27  17% |#####                          | Time: 0:00:00  23.89 MB/ssympy-1.0-py27  18% |#####                          | Time: 0:00:00  23.88 MB/ssympy-1.0-py27  18% |#####                          | Time: 0:00:00  23.94 MB/ssympy-1.0-py27  18% |#####                          | Time: 0:00:00  23.97 MB/ssympy-1.0-py27  18% |#####                          | Time: 0:00:00  23.99 MB/ssympy-1.0-py27  19% |#####                          | Time: 0:00:00  24.02 MB/ssympy-1.0-py27  19% |######                         | Time: 0:00:00  23.98 MB/ssympy-1.0-py27  19% |######                         | Time: 0:00:00  24.02 MB/ssympy-1.0-py27  19% |######                         | Time: 0:00:00  24.00 MB/ssympy-1.0-py27  20% |######                         | Time: 0:00:00  24.01 MB/ssympy-1.0-py27  20% |######                         | Time: 0:00:00  24.02 MB/ssympy-1.0-py27  20% |######                         | Time: 0:00:00  24.06 MB/ssympy-1.0-py27  21% |######                         | Time: 0:00:00  24.04 MB/ssympy-1.0-py27  21% |######                         | Time: 0:00:00  23.95 MB/ssympy-1.0-py27  21% |######                         | Time: 0:00:00  23.99 MB/ssympy-1.0-py27  21% |######                         | Time: 0:00:00  24.04 MB/ssympy-1.0-py27  22% |######                         | Time: 0:00:00  24.06 MB/ssympy-1.0-py27  22% |######                         | Time: 0:00:00  24.11 MB/ssympy-1.0-py27  22% |#######                        | Time: 0:00:00  24.15 MB/ssympy-1.0-py27  23% |#######                        | Time: 0:00:00  24.15 MB/ssympy-1.0-py27  23% |#######                        | Time: 0:00:00  24.11 MB/ssympy-1.0-py27  23% |#######                        | Time: 0:00:00  24.15 MB/ssympy-1.0-py27  23% |#######                        | Time: 0:00:00  24.14 MB/ssympy-1.0-py27  24% |#######                        | Time: 0:00:00  24.13 MB/ssympy-1.0-py27  24% |#######                        | Time: 0:00:00  24.08 MB/ssympy-1.0-py27  24% |#######                        | Time: 0:00:00  24.09 MB/ssympy-1.0-py27  24% |#######                        | Time: 0:00:00  24.12 MB/ssympy-1.0-py27  25% |#######                        | Time: 0:00:00  24.13 MB/ssympy-1.0-py27  25% |#######                        | Time: 0:00:00  24.19 MB/ssympy-1.0-py27  25% |########                       | Time: 0:00:00  24.22 MB/ssympy-1.0-py27  26% |########                       | Time: 0:00:00  24.26 MB/ssympy-1.0-py27  26% |########                       | Time: 0:00:00  24.32 MB/ssympy-1.0-py27  26% |########                       | Time: 0:00:00  24.39 MB/ssympy-1.0-py27  26% |########                       | Time: 0:00:00  24.45 MB/ssympy-1.0-py27  27% |########                       | Time: 0:00:00  24.51 MB/ssympy-1.0-py27  27% |########                       | Time: 0:00:00  24.58 MB/ssympy-1.0-py27  27% |########                       | Time: 0:00:00  24.65 MB/ssympy-1.0-py27  28% |########                       | Time: 0:00:00  24.69 MB/ssympy-1.0-py27  28% |########                       | Time: 0:00:00  24.75 MB/ssympy-1.0-py27  28% |########                       | Time: 0:00:00  24.82 MB/ssympy-1.0-py27  28% |########                       | Time: 0:00:00  24.87 MB/ssympy-1.0-py27  29% |#########                      | Time: 0:00:00  24.90 MB/ssympy-1.0-py27  29% |#########                      | Time: 0:00:00  24.91 MB/ssympy-1.0-py27  29% |#########                      | Time: 0:00:00  24.97 MB/ssympy-1.0-py27  29% |#########                      | Time: 0:00:00  25.00 MB/ssympy-1.0-py27  30% |#########                      | Time: 0:00:00  24.93 MB/ssympy-1.0-py27  30% |#########                      | Time: 0:00:00  24.93 MB/ssympy-1.0-py27  30% |#########                      | Time: 0:00:00  24.96 MB/ssympy-1.0-py27  31% |#########                      | Time: 0:00:00  24.98 MB/ssympy-1.0-py27  31% |#########                      | Time: 0:00:00  25.01 MB/ssympy-1.0-py27  31% |#########                      | Time: 0:00:00  25.05 MB/ssympy-1.0-py27  31% |#########                      | Time: 0:00:00  24.82 MB/ssympy-1.0-py27  32% |#########                      | Time: 0:00:00  24.87 MB/ssympy-1.0-py27  32% |##########                     | Time: 0:00:00  24.89 MB/ssympy-1.0-py27  32% |##########                     | Time: 0:00:00  24.92 MB/ssympy-1.0-py27  33% |##########                     | Time: 0:00:00  24.98 MB/ssympy-1.0-py27  33% |##########                     | Time: 0:00:00  25.06 MB/ssympy-1.0-py27  33% |##########                     | Time: 0:00:00  25.13 MB/ssympy-1.0-py27  33% |##########                     | Time: 0:00:00  25.20 MB/ssympy-1.0-py27  34% |##########                     | Time: 0:00:00  25.26 MB/ssympy-1.0-py27  34% |##########                     | Time: 0:00:00  25.30 MB/ssympy-1.0-py27  34% |##########                     | Time: 0:00:00  25.36 MB/ssympy-1.0-py27  34% |##########                     | Time: 0:00:00  25.42 MB/ssympy-1.0-py27  35% |##########                     | Time: 0:00:00  25.49 MB/ssympy-1.0-py27  35% |###########                    | Time: 0:00:00  25.55 MB/ssympy-1.0-py27  35% |###########                    | Time: 0:00:00  25.61 MB/ssympy-1.0-py27  36% |###########                    | Time: 0:00:00  25.67 MB/ssympy-1.0-py27  36% |###########                    | Time: 0:00:00  25.73 MB/ssympy-1.0-py27  36% |###########                    | Time: 0:00:00  25.74 MB/ssympy-1.0-py27  36% |###########                    | Time: 0:00:00  25.80 MB/ssympy-1.0-py27  37% |###########                    | Time: 0:00:00  25.88 MB/ssympy-1.0-py27  37% |###########                    | Time: 0:00:00  25.94 MB/ssympy-1.0-py27  37% |###########                    | Time: 0:00:00  26.00 MB/ssympy-1.0-py27  38% |###########                    | Time: 0:00:00  26.07 MB/ssympy-1.0-py27  38% |###########                    | Time: 0:00:00  26.14 MB/ssympy-1.0-py27  38% |###########                    | Time: 0:00:00  26.21 MB/ssympy-1.0-py27  38% |############                   | Time: 0:00:00  26.27 MB/ssympy-1.0-py27  39% |############                   | Time: 0:00:00  26.31 MB/ssympy-1.0-py27  39% |############                   | Time: 0:00:00  26.35 MB/ssympy-1.0-py27  39% |############                   | Time: 0:00:00  26.41 MB/ssympy-1.0-py27  39% |############                   | Time: 0:00:00  26.45 MB/ssympy-1.0-py27  40% |############                   | Time: 0:00:00  26.51 MB/ssympy-1.0-py27  40% |############                   | Time: 0:00:00  26.55 MB/ssympy-1.0-py27  40% |############                   | Time: 0:00:00  26.61 MB/ssympy-1.0-py27  41% |############                   | Time: 0:00:00  26.64 MB/ssympy-1.0-py27  41% |############                   | Time: 0:00:00  26.65 MB/ssympy-1.0-py27  41% |############                   | Time: 0:00:00  26.65 MB/ssympy-1.0-py27  41% |############                   | Time: 0:00:00  26.70 MB/ssympy-1.0-py27  42% |#############                  | Time: 0:00:00  26.68 MB/ssympy-1.0-py27  42% |#############                  | Time: 0:00:00  26.65 MB/ssympy-1.0-py27  42% |#############                  | Time: 0:00:00  26.67 MB/ssympy-1.0-py27  43% |#############                  | Time: 0:00:00  26.67 MB/ssympy-1.0-py27  43% |#############                  | Time: 0:00:00  26.64 MB/ssympy-1.0-py27  43% |#############                  | Time: 0:00:00  26.64 MB/ssympy-1.0-py27  43% |#############                  | Time: 0:00:00  26.65 MB/ssympy-1.0-py27  44% |#############                  | Time: 0:00:00  26.67 MB/ssympy-1.0-py27  44% |#############                  | Time: 0:00:00  26.70 MB/ssympy-1.0-py27  44% |#############                  | Time: 0:00:00  26.72 MB/ssympy-1.0-py27  44% |#############                  | Time: 0:00:00  26.73 MB/ssympy-1.0-py27  45% |##############                 | Time: 0:00:00  26.75 MB/ssympy-1.0-py27  45% |##############                 | Time: 0:00:00  26.77 MB/ssympy-1.0-py27  45% |##############                 | Time: 0:00:00  26.79 MB/ssympy-1.0-py27  46% |##############                 | Time: 0:00:00  26.81 MB/ssympy-1.0-py27  46% |##############                 | Time: 0:00:00  26.82 MB/ssympy-1.0-py27  46% |##############                 | Time: 0:00:00  26.83 MB/ssympy-1.0-py27  46% |##############                 | Time: 0:00:00  26.83 MB/ssympy-1.0-py27  47% |##############                 | Time: 0:00:00  26.84 MB/ssympy-1.0-py27  47% |##############                 | Time: 0:00:00  26.86 MB/ssympy-1.0-py27  47% |##############                 | Time: 0:00:00  26.88 MB/ssympy-1.0-py27  48% |##############                 | Time: 0:00:00  26.90 MB/ssympy-1.0-py27  48% |##############                 | Time: 0:00:00  26.91 MB/ssympy-1.0-py27  48% |###############                | Time: 0:00:00  26.93 MB/ssympy-1.0-py27  48% |###############                | Time: 0:00:00  26.93 MB/ssympy-1.0-py27  49% |###############                | Time: 0:00:00  26.89 MB/ssympy-1.0-py27  49% |###############                | Time: 0:00:00  26.90 MB/ssympy-1.0-py27  49% |###############                | Time: 0:00:00  26.93 MB/ssympy-1.0-py27  49% |###############                | Time: 0:00:00  26.94 MB/ssympy-1.0-py27  50% |###############                | Time: 0:00:00  26.96 MB/ssympy-1.0-py27  50% |###############                | Time: 0:00:00  26.98 MB/ssympy-1.0-py27  50% |###############                | Time: 0:00:00  27.00 MB/ssympy-1.0-py27  51% |###############                | Time: 0:00:00  27.01 MB/ssympy-1.0-py27  51% |###############                | Time: 0:00:00  27.01 MB/ssympy-1.0-py27  51% |################               | Time: 0:00:00  27.03 MB/ssympy-1.0-py27  51% |################               | Time: 0:00:00  27.03 MB/ssympy-1.0-py27  52% |################               | Time: 0:00:00  27.04 MB/ssympy-1.0-py27  52% |################               | Time: 0:00:00  27.06 MB/ssympy-1.0-py27  52% |################               | Time: 0:00:00  27.07 MB/ssympy-1.0-py27  53% |################               | Time: 0:00:00  27.08 MB/ssympy-1.0-py27  53% |################               | Time: 0:00:00  27.10 MB/ssympy-1.0-py27  53% |################               | Time: 0:00:00  27.13 MB/ssympy-1.0-py27  53% |################               | Time: 0:00:00  27.15 MB/ssympy-1.0-py27  54% |################               | Time: 0:00:00  27.18 MB/ssympy-1.0-py27  54% |################               | Time: 0:00:00  27.20 MB/ssympy-1.0-py27  54% |################               | Time: 0:00:00  27.22 MB/ssympy-1.0-py27  54% |#################              | Time: 0:00:00  27.24 MB/ssympy-1.0-py27  55% |#################              | Time: 0:00:00  27.20 MB/ssympy-1.0-py27  55% |#################              | Time: 0:00:00  27.21 MB/ssympy-1.0-py27  55% |#################              | Time: 0:00:00  27.24 MB/ssympy-1.0-py27  56% |#################              | Time: 0:00:00  27.26 MB/ssympy-1.0-py27  56% |#################              | Time: 0:00:00  27.27 MB/ssympy-1.0-py27  56% |#################              | Time: 0:00:00  27.29 MB/ssympy-1.0-py27  56% |#################              | Time: 0:00:00  27.30 MB/ssympy-1.0-py27  57% |#################              | Time: 0:00:00  27.31 MB/ssympy-1.0-py27  57% |#################              | Time: 0:00:00  27.34 MB/ssympy-1.0-py27  57% |#################              | Time: 0:00:00  27.36 MB/ssympy-1.0-py27  58% |#################              | Time: 0:00:00  27.38 MB/ssympy-1.0-py27  58% |##################             | Time: 0:00:00  27.40 MB/ssympy-1.0-py27  58% |##################             | Time: 0:00:00  27.42 MB/ssympy-1.0-py27  58% |##################             | Time: 0:00:00  27.44 MB/ssympy-1.0-py27  59% |##################             | Time: 0:00:00  27.47 MB/ssympy-1.0-py27  59% |##################             | Time: 0:00:00  27.48 MB/ssympy-1.0-py27  59% |##################             | Time: 0:00:00  27.51 MB/ssympy-1.0-py27  59% |##################             | Time: 0:00:00  27.53 MB/ssympy-1.0-py27  60% |##################             | Time: 0:00:00  27.54 MB/ssympy-1.0-py27  60% |##################             | Time: 0:00:00  27.56 MB/ssympy-1.0-py27  60% |##################             | Time: 0:00:00  27.58 MB/ssympy-1.0-py27  61% |##################             | Time: 0:00:00  27.61 MB/ssympy-1.0-py27  61% |###################            | Time: 0:00:00  27.63 MB/ssympy-1.0-py27  61% |###################            | Time: 0:00:00  27.61 MB/ssympy-1.0-py27  61% |###################            | Time: 0:00:00  27.63 MB/ssympy-1.0-py27  62% |###################            | Time: 0:00:00  27.65 MB/ssympy-1.0-py27  62% |###################            | Time: 0:00:00  27.67 MB/ssympy-1.0-py27  62% |###################            | Time: 0:00:00  27.69 MB/ssympy-1.0-py27  63% |###################            | Time: 0:00:00  27.71 MB/ssympy-1.0-py27  63% |###################            | Time: 0:00:00  27.73 MB/ssympy-1.0-py27  63% |###################            | Time: 0:00:00  27.75 MB/ssympy-1.0-py27  63% |###################            | Time: 0:00:00  27.76 MB/ssympy-1.0-py27  64% |###################            | Time: 0:00:00  27.79 MB/ssympy-1.0-py27  64% |###################            | Time: 0:00:00  27.81 MB/ssympy-1.0-py27  64% |####################           | Time: 0:00:00  27.82 MB/ssympy-1.0-py27  64% |####################           | Time: 0:00:00  27.84 MB/ssympy-1.0-py27  65% |####################           | Time: 0:00:00  27.85 MB/ssympy-1.0-py27  65% |####################           | Time: 0:00:00  27.87 MB/ssympy-1.0-py27  65% |####################           | Time: 0:00:00  27.89 MB/ssympy-1.0-py27  66% |####################           | Time: 0:00:00  27.89 MB/ssympy-1.0-py27  66% |####################           | Time: 0:00:00  27.91 MB/ssympy-1.0-py27  66% |####################           | Time: 0:00:00  27.91 MB/ssympy-1.0-py27  66% |####################           | Time: 0:00:00  27.91 MB/ssympy-1.0-py27  67% |####################           | Time: 0:00:00  27.91 MB/ssympy-1.0-py27  67% |####################           | Time: 0:00:00  27.94 MB/ssympy-1.0-py27  67% |#####################          | Time: 0:00:00  27.95 MB/ssympy-1.0-py27  68% |#####################          | Time: 0:00:00  27.92 MB/ssympy-1.0-py27  68% |#####################          | Time: 0:00:00  27.95 MB/ssympy-1.0-py27  68% |#####################          | Time: 0:00:00  27.97 MB/ssympy-1.0-py27  68% |#####################          | Time: 0:00:00  27.98 MB/ssympy-1.0-py27  69% |#####################          | Time: 0:00:00  27.98 MB/ssympy-1.0-py27  69% |#####################          | Time: 0:00:00  28.00 MB/ssympy-1.0-py27  69% |#####################          | Time: 0:00:00  28.02 MB/ssympy-1.0-py27  69% |#####################          | Time: 0:00:00  28.04 MB/ssympy-1.0-py27  70% |#####################          | Time: 0:00:00  28.05 MB/ssympy-1.0-py27  70% |#####################          | Time: 0:00:00  28.06 MB/ssympy-1.0-py27  70% |#####################          | Time: 0:00:00  28.08 MB/ssympy-1.0-py27  71% |######################         | Time: 0:00:00  28.10 MB/ssympy-1.0-py27  71% |######################         | Time: 0:00:00  28.11 MB/ssympy-1.0-py27  71% |######################         | Time: 0:00:00  28.12 MB/ssympy-1.0-py27  71% |######################         | Time: 0:00:00  28.14 MB/ssympy-1.0-py27  72% |######################         | Time: 0:00:00  28.14 MB/ssympy-1.0-py27  72% |######################         | Time: 0:00:00  28.15 MB/ssympy-1.0-py27  72% |######################         | Time: 0:00:00  28.16 MB/ssympy-1.0-py27  73% |######################         | Time: 0:00:00  28.18 MB/ssympy-1.0-py27  73% |######################         | Time: 0:00:00  28.20 MB/ssympy-1.0-py27  73% |######################         | Time: 0:00:00  28.22 MB/ssympy-1.0-py27  73% |######################         | Time: 0:00:00  28.23 MB/ssympy-1.0-py27  74% |######################         | Time: 0:00:00  28.24 MB/ssympy-1.0-py27  74% |#######################        | Time: 0:00:00  28.08 MB/ssympy-1.0-py27  74% |#######################        | Time: 0:00:00  28.08 MB/ssympy-1.0-py27  74% |#######################        | Time: 0:00:00  28.05 MB/ssympy-1.0-py27  75% |#######################        | Time: 0:00:00  28.05 MB/ssympy-1.0-py27  75% |#######################        | Time: 0:00:00  28.06 MB/ssympy-1.0-py27  75% |#######################        | Time: 0:00:00  28.07 MB/ssympy-1.0-py27  76% |#######################        | Time: 0:00:00  28.09 MB/ssympy-1.0-py27  76% |#######################        | Time: 0:00:00  28.10 MB/ssympy-1.0-py27  76% |#######################        | Time: 0:00:00  28.12 MB/ssympy-1.0-py27  76% |#######################        | Time: 0:00:00  28.13 MB/ssympy-1.0-py27  77% |#######################        | Time: 0:00:00  28.14 MB/ssympy-1.0-py27  77% |########################       | Time: 0:00:00  28.16 MB/ssympy-1.0-py27  77% |########################       | Time: 0:00:00  28.17 MB/ssympy-1.0-py27  78% |########################       | Time: 0:00:00  28.19 MB/ssympy-1.0-py27  78% |########################       | Time: 0:00:00  28.21 MB/ssympy-1.0-py27  78% |########################       | Time: 0:00:00  28.21 MB/ssympy-1.0-py27  78% |########################       | Time: 0:00:00  28.22 MB/ssympy-1.0-py27  79% |########################       | Time: 0:00:00  28.23 MB/ssympy-1.0-py27  79% |########################       | Time: 0:00:00  28.24 MB/ssympy-1.0-py27  79% |########################       | Time: 0:00:00  28.26 MB/ssympy-1.0-py27  79% |########################       | Time: 0:00:00  28.28 MB/ssympy-1.0-py27  80% |########################       | Time: 0:00:00  28.30 MB/ssympy-1.0-py27  80% |########################       | Time: 0:00:00  28.28 MB/ssympy-1.0-py27  80% |#########################      | Time: 0:00:00  28.29 MB/ssympy-1.0-py27  81% |#########################      | Time: 0:00:00  28.30 MB/ssympy-1.0-py27  81% |#########################      | Time: 0:00:00  28.31 MB/ssympy-1.0-py27  81% |#########################      | Time: 0:00:00  28.32 MB/ssympy-1.0-py27  81% |#########################      | Time: 0:00:00  28.34 MB/ssympy-1.0-py27  82% |#########################      | Time: 0:00:00  28.35 MB/ssympy-1.0-py27  82% |#########################      | Time: 0:00:00  28.37 MB/ssympy-1.0-py27  82% |#########################      | Time: 0:00:00  28.37 MB/ssympy-1.0-py27  83% |#########################      | Time: 0:00:00  28.39 MB/ssympy-1.0-py27  83% |#########################      | Time: 0:00:00  28.40 MB/ssympy-1.0-py27  83% |#########################      | Time: 0:00:00  28.41 MB/ssympy-1.0-py27  83% |#########################      | Time: 0:00:00  28.42 MB/ssympy-1.0-py27  84% |##########################     | Time: 0:00:00  28.43 MB/ssympy-1.0-py27  84% |##########################     | Time: 0:00:00  28.43 MB/ssympy-1.0-py27  84% |##########################     | Time: 0:00:00  28.44 MB/ssympy-1.0-py27  84% |##########################     | Time: 0:00:00  28.45 MB/ssympy-1.0-py27  85% |##########################     | Time: 0:00:00  28.47 MB/ssympy-1.0-py27  85% |##########################     | Time: 0:00:00  28.48 MB/ssympy-1.0-py27  85% |##########################     | Time: 0:00:00  28.49 MB/ssympy-1.0-py27  86% |##########################     | Time: 0:00:00  28.50 MB/ssympy-1.0-py27  86% |##########################     | Time: 0:00:00  28.51 MB/ssympy-1.0-py27  86% |##########################     | Time: 0:00:00  28.52 MB/ssympy-1.0-py27  86% |##########################     | Time: 0:00:00  28.49 MB/ssympy-1.0-py27  87% |###########################    | Time: 0:00:00  28.50 MB/ssympy-1.0-py27  87% |###########################    | Time: 0:00:00  28.52 MB/ssympy-1.0-py27  87% |###########################    | Time: 0:00:00  28.54 MB/ssympy-1.0-py27  88% |###########################    | Time: 0:00:00  28.56 MB/ssympy-1.0-py27  88% |###########################    | Time: 0:00:00  28.58 MB/ssympy-1.0-py27  88% |###########################    | Time: 0:00:00  28.61 MB/ssympy-1.0-py27  88% |###########################    | Time: 0:00:00  28.64 MB/ssympy-1.0-py27  89% |###########################    | Time: 0:00:00  28.66 MB/ssympy-1.0-py27  89% |###########################    | Time: 0:00:00  28.67 MB/ssympy-1.0-py27  89% |###########################    | Time: 0:00:00  28.69 MB/ssympy-1.0-py27  89% |###########################    | Time: 0:00:00  28.71 MB/ssympy-1.0-py27  90% |###########################    | Time: 0:00:00  28.73 MB/ssympy-1.0-py27  90% |############################   | Time: 0:00:00  28.76 MB/ssympy-1.0-py27  90% |############################   | Time: 0:00:00  28.79 MB/ssympy-1.0-py27  91% |############################   | Time: 0:00:00  28.81 MB/ssympy-1.0-py27  91% |############################   | Time: 0:00:00  28.84 MB/ssympy-1.0-py27  91% |############################   | Time: 0:00:00  28.90 MB/ssympy-1.0-py27  91% |############################   | Time: 0:00:00  28.92 MB/ssympy-1.0-py27  92% |############################   | Time: 0:00:00  28.95 MB/ssympy-1.0-py27  92% |############################   | Time: 0:00:00  28.95 MB/ssympy-1.0-py27  92% |############################   | Time: 0:00:00  28.98 MB/ssympy-1.0-py27  93% |############################   | Time: 0:00:00  29.01 MB/ssympy-1.0-py27  93% |############################   | Time: 0:00:00  29.03 MB/ssympy-1.0-py27  93% |#############################  | Time: 0:00:00  29.06 MB/ssympy-1.0-py27  93% |#############################  | Time: 0:00:00  29.09 MB/ssympy-1.0-py27  94% |#############################  | Time: 0:00:00  29.11 MB/ssympy-1.0-py27  94% |#############################  | Time: 0:00:00  28.97 MB/ssympy-1.0-py27  94% |#############################  | Time: 0:00:00  28.99 MB/ssympy-1.0-py27  94% |#############################  | Time: 0:00:00  29.01 MB/ssympy-1.0-py27  95% |#############################  | Time: 0:00:00  29.04 MB/ssympy-1.0-py27  95% |#############################  | Time: 0:00:00  29.07 MB/ssympy-1.0-py27  95% |#############################  | Time: 0:00:00  29.09 MB/ssympy-1.0-py27  96% |#############################  | Time: 0:00:00  29.12 MB/ssympy-1.0-py27  96% |#############################  | Time: 0:00:00  29.15 MB/ssympy-1.0-py27  96% |#############################  | Time: 0:00:00  29.17 MB/ssympy-1.0-py27  96% |############################## | Time: 0:00:00  29.19 MB/ssympy-1.0-py27  97% |############################## | Time: 0:00:00  29.22 MB/ssympy-1.0-py27  97% |############################## | Time: 0:00:00  29.23 MB/ssympy-1.0-py27  97% |############################## | Time: 0:00:00  29.25 MB/ssympy-1.0-py27  98% |############################## | Time: 0:00:00  29.27 MB/ssympy-1.0-py27  98% |############################## | Time: 0:00:00  29.28 MB/ssympy-1.0-py27  98% |############################## | Time: 0:00:00  29.31 MB/ssympy-1.0-py27  98% |############################## | Time: 0:00:00  29.33 MB/ssympy-1.0-py27  99% |############################## | Time: 0:00:00  29.39 MB/ssympy-1.0-py27  99% |############################## | Time: 0:00:00  29.41 MB/ssympy-1.0-py27  99% |############################## | Time: 0:00:00  29.43 MB/ssympy-1.0-py27  99% |############################## | Time: 0:00:00  29.46 MB/ssympy-1.0-py27 100% |###############################| Time: 0:00:00  29.44 MB/ssympy-1.0-py27 100% |###############################| Time: 0:00:00  29.39 MB/s
-WARNING: using SymPy.transform in module Main conflicts with an existing identifier.
-WARNING: using SymPy.integrate in module Main conflicts with an existing identifier.
-Test Summary:     | 
-  example notebooks | No tests
-WARNING: using BenchmarkTools.params in module Main conflicts with an existing identifier.
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 51541  100 51541    0     0   220k      0 --:--:-- --:--:-- --:--:--  220k
-(1/4) benchmarking "inverse_dynamics"...
-done (took 3.903878491 seconds)
-(2/4) benchmarking "dynamics"...
-done (took 2.848723302 seconds)
-(3/4) benchmarking "mass_matrix"...
-done (took 1.800688739 seconds)
-(4/4) benchmarking "momentum_matrix"...
-done (took 2.448330967 seconds)
-inverse_dynamics:
-BenchmarkTools.Trial: 
-  memory estimate:  0 bytes
-  allocs estimate:  0
-  --------------
-  minimum time:     3.804 μs (0.00% GC)
-  median time:      42.090 μs (0.00% GC)
-  mean time:        41.319 μs (0.00% GC)
-  maximum time:     774.346 μs (0.00% GC)
-  --------------
-  samples:          10000
-  evals/sample:     6
-  time tolerance:   5.00%
-  memory tolerance: 1.00%
-dynamics:
-BenchmarkTools.Trial: 
-  memory estimate:  64 bytes
-  allocs estimate:  3
-  --------------
-  minimum time:     87.062 μs (0.00% GC)
-  median time:      148.794 μs (0.00% GC)
-  mean time:        151.695 μs (0.00% GC)
-  maximum time:     1.920 ms (0.00% GC)
-  --------------
-  samples:          10000
-  evals/sample:     1
-  time tolerance:   5.00%
-  memory tolerance: 1.00%
-mass_matrix:
-BenchmarkTools.Trial: 
-  memory estimate:  0 bytes
-  allocs estimate:  0
-  --------------
-  minimum time:     25.433 μs (0.00% GC)
-  median time:      92.194 μs (0.00% GC)
-  mean time:        81.080 μs (0.00% GC)
-  maximum time:     889.378 μs (0.00% GC)
-  --------------
-  samples:          10000
-  evals/sample:     1
-  time tolerance:   5.00%
-  memory tolerance: 1.00%
-momentum_matrix:
-BenchmarkTools.Trial: 
-  memory estimate:  0 bytes
-  allocs estimate:  0
-  --------------
-  minimum time:     3.805 μs (0.00% GC)
-  median time:      16.816 μs (0.00% GC)
-  mean time:        15.931 μs (0.00% GC)
-  maximum time:     109.996 μs (0.00% GC)
-  --------------
-  samples:          10000
-  evals/sample:     9
-  time tolerance:   5.00%
-  memory tolerance: 1.00%
-Test Summary: | Pass  Total
-  benchmarks  |    1      1
-INFO: RigidBodyDynamics tests passed
+================================================================================
 INFO: Removing BaseTestNext v0.2.2
 INFO: Removing BenchmarkTools v0.0.7
 INFO: Removing BinDeps v0.4.7
@@ -224,8 +162,20 @@ INFO: Removing Ranges v0.0.1
 INFO: Removing RecipesBase v0.1.0
 INFO: Removing RecursiveArrayTools v0.2.0
 INFO: Removing SHA v0.3.1
-INFO: Removing SimpleTraits v0.2.0
+INFO: Removing SimpleTraits v0.3.0
 INFO: Removing SymPy v0.5.0
 INFO: Removing URIParser v0.1.8
+ERROR: RigidBodyDynamics had test errors
+ in #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:740
+ in (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
+ in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:59
+ in #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
+ in (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
+ in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in eval(::Module, ::Any) at ./boot.jl:234
+ in process_options(::Base.JLOptions) at ./client.jl:239
+ in _start() at ./client.jl:318
 
 >>> End of log

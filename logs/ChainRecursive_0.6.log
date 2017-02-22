@@ -1,28 +1,27 @@
 >>> 'Pkg.add("ChainRecursive")' log
 INFO: Cloning cache of ChainRecursive from https://github.com/bramtayl/ChainRecursive.jl.git
 INFO: Cloning cache of CreateMacrosFrom from https://github.com/bramtayl/CreateMacrosFrom.jl.git
-INFO: Cloning cache of NumberedLines from https://github.com/bramtayl/NumberedLines.jl.git
-INFO: Installing ChainRecursive v0.0.1
+INFO: Installing ChainRecursive v0.0.2
 INFO: Installing CreateMacrosFrom v0.0.1
-INFO: Installing NumberedLines v0.0.2
+INFO: Installing MacroTools v0.3.4
 INFO: Package database updated
 
 >>> 'Pkg.test("ChainRecursive")' log
-Julia Version 0.6.0-dev.2884
-Commit 30a215d (2017-02-20 23:35 UTC)
+Julia Version 0.6.0-dev.2896
+Commit d168287 (2017-02-22 00:17 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-108-generic #155-Ubuntu SMP Wed Jan 11 16:58:52 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (689.078125 MB free)
-Uptime: 10144.0 sec
-Load Avg:  1.01318359375  1.18701171875  0.9443359375
+  uname: Linux 3.13.0-109-generic #156-Ubuntu SMP Wed Feb 8 16:09:17 UTC 2017 x86_64 x86_64
+Memory: 2.9392738342285156 GB (693.48828125 MB free)
+Uptime: 9739.0 sec
+Load Avg:  0.97412109375  1.10302734375  0.88232421875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3504 MHz     457126 s       5730 s      43339 s     412631 s         19 s
-#2  3504 MHz     143395 s         73 s      24480 s     824069 s          0 s
+#1  3492 MHz     444584 s       4918 s      45696 s     384683 s         14 s
+#2  3492 MHz     150804 s       1704 s      24436 s     774734 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -37,12 +36,12 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
- - ChainRecursive                0.0.1
+ - ChainRecursive                0.0.2
  - JSON                          0.8.3
 3 additional packages:
  - Compat                        0.19.0
  - CreateMacrosFrom              0.0.1
- - NumberedLines                 0.0.2
+ - MacroTools                    0.3.4
 INFO: Computing test dependencies for ChainRecursive...
 INFO: Installing DocStringExtensions v0.3.1
 INFO: Installing Documenter v0.9.0
@@ -188,371 +187,11 @@ Documenter: building cross-references.
 Documenter: running document checks.
  > checking for missing docstrings.
  > running doctests.
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.6/ChainRecursive/src/ChainRecursive.jl
-
-> Code block:
-
-```jldoctest
-julia> using ChainRecursive
-
-julia> @chain begin
-           1
-           vcat(2, _)
-       end
-2-element Array{Int64,1}:
- 2
- 1
-```
-
-> Subexpression:
-
-    @chain begin
-        1
-        vcat(2, _)
-    end
-
-> Output Diff (REQUIRES COLOR):
-
-
-WARNING: deprecated syntax "_ as an rvalue".
-2-element Array{Int64,1}:
- 2
- 1
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.6/ChainRecursive/src/ChainRecursive.jl
-
-> Code block:
-
-```jldoctest
-julia> using ChainRecursive
-
-julia> @chain begin
-           1
-           if _ == 1
-               _ + 1
-               vcat(_, 3)
-           end
-       end
-2-element Array{Int64,1}:
- 2
- 3
-```
-
-> Subexpression:
-
-    @chain begin
-        1
-        if _ == 1
-            _ + 1
-            vcat(_, 3)
-        end
-    end
-
-> Output Diff (REQUIRES COLOR):
-
-
-WARNING: deprecated syntax "_ as an rvalue".
-
-WARNING: deprecated syntax "_ as an rvalue".
-2-element Array{Int64,1}:
- 2
- 3
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.6/ChainRecursive/src/ChainRecursive.jl
-
-> Code block:
-
-```jldoctest
-julia> using ChainRecursive
-
-julia> @chain begin
-           a = 1
-           _
-       end
-ERROR: UndefVarError: _ not defined
-
-julia> @chain begin
-            a += 1
-            _
-       end
-ERROR: UndefVarError: _ not defined
-
-julia> @chain begin
-           function test_function(x) 1 end
-           _
-       end
-ERROR: UndefVarError: _ not defined
-
-julia> @chain begin
-           type cant_chain_types end
-           _
-       end
-ERROR: UndefVarError: _ not defined
-```
-
-> Subexpression:
-
-    @chain begin
-        a = 1
-        _
-    end
-
-> Output Diff (REQUIRES COLOR):
-
-
-WARNING: deprecated syntax "_ as an rvalue".
-ERROR: UndefVarError: _ not defined
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.6/ChainRecursive/src/ChainRecursive.jl
-
-> Code block:
-
-```jldoctest
-julia> using ChainRecursive
-
-julia> @chain begin
-           a = 1
-           _
-       end
-ERROR: UndefVarError: _ not defined
-
-julia> @chain begin
-            a += 1
-            _
-       end
-ERROR: UndefVarError: _ not defined
-
-julia> @chain begin
-           function test_function(x) 1 end
-           _
-       end
-ERROR: UndefVarError: _ not defined
-
-julia> @chain begin
-           type cant_chain_types end
-           _
-       end
-ERROR: UndefVarError: _ not defined
-```
-
-> Subexpression:
-
-    @chain begin
-         a += 1
-         _
-    end
-
-> Output Diff (REQUIRES COLOR):
-
-
-WARNING: deprecated syntax "_ as an rvalue".
-ERROR: UndefVarError: _ not defined
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.6/ChainRecursive/src/ChainRecursive.jl
-
-> Code block:
-
-```jldoctest
-julia> using ChainRecursive
-
-julia> @chain begin
-           a = 1
-           _
-       end
-ERROR: UndefVarError: _ not defined
-
-julia> @chain begin
-            a += 1
-            _
-       end
-ERROR: UndefVarError: _ not defined
-
-julia> @chain begin
-           function test_function(x) 1 end
-           _
-       end
-ERROR: UndefVarError: _ not defined
-
-julia> @chain begin
-           type cant_chain_types end
-           _
-       end
-ERROR: UndefVarError: _ not defined
-```
-
-> Subexpression:
-
-    @chain begin
-        function test_function(x) 1 end
-        _
-    end
-
-> Output Diff (REQUIRES COLOR):
-
-
-WARNING: deprecated syntax "_ as an rvalue".
-ERROR: UndefVarError: _ not defined
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.6/ChainRecursive/src/ChainRecursive.jl
-
-> Code block:
-
-```jldoctest
-julia> using ChainRecursive
-
-julia> @chain begin
-           a = 1
-           _
-       end
-ERROR: UndefVarError: _ not defined
-
-julia> @chain begin
-            a += 1
-            _
-       end
-ERROR: UndefVarError: _ not defined
-
-julia> @chain begin
-           function test_function(x) 1 end
-           _
-       end
-ERROR: UndefVarError: _ not defined
-
-julia> @chain begin
-           type cant_chain_types end
-           _
-       end
-ERROR: UndefVarError: _ not defined
-```
-
-> Subexpression:
-
-    @chain begin
-        type cant_chain_types end
-        _
-    end
-
-> Output Diff (REQUIRES COLOR):
-
-
-WARNING: deprecated syntax "_ as an rvalue".
-ERROR: UndefVarError: _ not defined
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.6/ChainRecursive/src/ChainRecursive.jl
-
-> Code block:
-
-```jldoctest
-julia> using ChainRecursive
-
-julia> @chain begin
-           a = 1
-           begin
-               a + 1
-               vcat(_, 3)
-           end
-       end
-2-element Array{Int64,1}:
- 2
- 3
-```
-
-> Subexpression:
-
-    @chain begin
-        a = 1
-        begin
-            a + 1
-            vcat(_, 3)
-        end
-    end
-
-> Output Diff (REQUIRES COLOR):
-
-
-WARNING: deprecated syntax "_ as an rvalue".
-2-element Array{Int64,1}:
- 2
- 3
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.6/ChainRecursive/src/ChainRecursive.jl
-
-> Code block:
-
-```jldoctest
-julia> using ChainRecursive
-
-julia> @chain type test_type
-           a
-           b::_
-       end
-ERROR: UndefVarError: _ not defined
-```
-
-> Subexpression:
-
-    @chain type test_type
-        a
-        b::_
-    end
-
-> Output Diff (REQUIRES COLOR):
-
-
-WARNING: deprecated syntax "_ as an rvalue".
-
-WARNING: deprecated syntax "_ as an rvalue".
-
-WARNING: deprecated syntax "_ as an rvalue".
-
-WARNING: deprecated syntax "_ as an rvalue".
-ERROR: UndefVarError: _ not defined
-
-=====[End Error]===============================
  > checking footnote links.
 Documenter: populating indices.
-ERROR: LoadError: `makedocs` encountered an error. Terminating build
-Stacktrace:
- [1] runner(::Type{Documenter.Builder.RenderDocument}, ::Documenter.Documents.Document) at /home/vagrant/.julia/v0.6/Documenter/src/Builder.jl:202
- [2] dispatch(::Type{Documenter.Builder.DocumentPipeline}, ::Documenter.Documents.Document) at /home/vagrant/.julia/v0.6/Documenter/src/Selectors.jl:164
- [3] cd(::Documenter.##2#3{Documenter.Documents.Document}, ::String) at ./file.jl:69
- [4] #makedocs#1(::Bool, ::Array{Any,1}, ::Function) at /home/vagrant/.julia/v0.6/Documenter/src/Documenter.jl:159
- [5] (::Documenter.#kw##makedocs)(::Array{Any,1}, ::Documenter.#makedocs) at ./<missing>:0
- [6] include_from_node1(::String) at ./loading.jl:539
- [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:305
- [9] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/ChainRecursive/test/runtests.jl, in expression starting on line 4
-===========================[ ERROR: ChainRecursive ]============================
-
-failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/ChainRecursive/test/runtests.jl`, ProcessExited(1)) [1]
-
-================================================================================
+Documenter: rendering document.
+INFO: ChainRecursive tests passed
 INFO: Removing DocStringExtensions v0.3.1
 INFO: Removing Documenter v0.9.0
-ERROR: ChainRecursive had test errors
 
 >>> End of log

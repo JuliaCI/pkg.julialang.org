@@ -1,28 +1,28 @@
 >>> 'Pkg.add("ToeplitzMatrices")' log
 INFO: Installing DataStructures v0.5.2
-INFO: Installing SpecialFunctions v0.1.0
+INFO: Installing SpecialFunctions v0.1.1
 INFO: Installing StatsBase v0.13.1
-INFO: Installing ToeplitzMatrices v0.1.1
+INFO: Installing ToeplitzMatrices v0.2.0
 INFO: Package database updated
 INFO: METADATA is out-of-date — you may not have the latest version of ToeplitzMatrices
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("ToeplitzMatrices")' log
-Julia Version 0.6.0-dev.2884
-Commit 30a215d (2017-02-20 23:35 UTC)
+Julia Version 0.6.0-dev.2896
+Commit d168287 (2017-02-22 00:17 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-108-generic #155-Ubuntu SMP Wed Jan 11 16:58:52 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1323.796875 MB free)
-Uptime: 29781.0 sec
-Load Avg:  1.15234375  1.08740234375  1.0400390625
+  uname: Linux 3.13.0-109-generic #156-Ubuntu SMP Wed Feb 8 16:09:17 UTC 2017 x86_64 x86_64
+Memory: 2.9392738342285156 GB (1320.296875 MB free)
+Uptime: 30466.0 sec
+Load Avg:  1.10595703125  1.10546875  1.04541015625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    1754107 s         62 s     150915 s     697756 s        124 s
-#2  3500 MHz     534368 s       6717 s      75618 s    2259329 s          2 s
+#1  3500 MHz    1789596 s       6706 s     154653 s     721448 s        128 s
+#2  3500 MHz     497326 s         45 s      75902 s    2383642 s          3 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -38,14 +38,27 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - JSON                          0.8.3
- - ToeplitzMatrices              0.1.1
+ - ToeplitzMatrices              0.2.0
 4 additional packages:
  - Compat                        0.19.0
  - DataStructures                0.5.2
- - SpecialFunctions              0.1.0
+ - SpecialFunctions              0.1.1
  - StatsBase                     0.13.1
+INFO: Computing test dependencies for ToeplitzMatrices...
+INFO: Installing FastTransforms v0.0.7
 INFO: Testing ToeplitzMatrices
-General Toeplitz: WARNING: @test_approx_eq is deprecated, use `@test As * xs ≈ full(As) * xs` instead
+Toeplitz
+Real general square: OK!
+Complex general square: OK!
+Real circulant: OK!
+Complex circulant: OK!
+Real upper triangular: OK!
+Complex upper triangular: OK!
+Real lower triangular: OK!
+Complex lower triangular: OK!
+Real general rectangular: OK!
+Complex general rectangular: OK!
+Symmetric Toeplitz: WARNING: @test_approx_eq is deprecated, use `@test StatsBase.levinson(Al, xl) ≈ full(Al) \ xl` instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
  [2] @test_approx_eq(::ANY, ::ANY) at ./deprecated.jl:1035
@@ -53,21 +66,598 @@ Stacktrace:
  [4] include(::String) at ./sysimg.jl:14
  [5] process_options(::Base.JLOptions) at ./client.jl:305
  [6] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 13
-ERROR: LoadError: UndefVarError: sub not defined
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 69
+OK!
+
+Hankel
+Real square: OK!
+Complex square: OK!
+Real rectangular: OK!
+Complex rectangular: OK!
+
+BigFloatWARNING: exp{T <: Number}(x::AbstractArray{T}) is deprecated, use exp.(x) instead.
 Stacktrace:
- [1] A_mul_B!(::Float64, ::ToeplitzMatrices.Toeplitz{Float64}, ::Array{Float64,2}, ::Float64, ::Array{Float64,2}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:77
- [2] *(::ToeplitzMatrices.Toeplitz{Float64}, ::Array{Float64,2}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:82
- [3] include_from_node1(::String) at ./loading.jl:539
- [4] include(::String) at ./sysimg.jl:14
- [5] process_options(::Base.JLOptions) at ./client.jl:305
- [6] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 13
-==========================[ ERROR: ToeplitzMatrices ]===========================
-
-failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl`, ProcessExited(1)) [1]
-
-================================================================================
-ERROR: ToeplitzMatrices had test errors
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] exp(::Array{Complex{BigFloat},1}) at ./deprecated.jl:51
+ [3] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:13
+ [4] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [5] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [6] ToeplitzMatrices.Toeplitz(::Array{BigFloat,1}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:151
+ [7] include_from_node1(::String) at ./loading.jl:539
+ [8] include(::String) at ./sysimg.jl:14
+ [9] process_options(::Base.JLOptions) at ./client.jl:305
+ [10] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 119
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] fft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:93
+ [4] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:45
+ [5] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [6] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [7] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [8] ToeplitzMatrices.Toeplitz(::Array{BigFloat,1}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:151
+ [9] include_from_node1(::String) at ./loading.jl:539
+ [10] include(::String) at ./sysimg.jl:14
+ [11] process_options(::Base.JLOptions) at ./client.jl:305
+ [12] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 119
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] ifft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:100
+ [4] checkbounds at ./abstractarray.jl:354 [inlined]
+ [5] getindex at ./array.jl:503 [inlined]
+ [6] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:47
+ [7] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [8] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [9] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [10] ToeplitzMatrices.Toeplitz(::Array{BigFloat,1}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:151
+ [11] include_from_node1(::String) at ./loading.jl:539
+ [12] include(::String) at ./sysimg.jl:14
+ [13] process_options(::Base.JLOptions) at ./client.jl:305
+ [14] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 119
+WARNING: exp{T <: Number}(x::AbstractArray{T}) is deprecated, use exp.(x) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] exp(::Array{Complex{BigFloat},1}) at ./deprecated.jl:51
+ [3] fft(::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:13
+ [4] rfft(::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:25
+ [5] *(::ToeplitzMatrices.Toeplitz{BigFloat,Complex{BigFloat}}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:570
+ [6] include_from_node1(::String) at ./loading.jl:539
+ [7] include(::String) at ./sysimg.jl:14
+ [8] process_options(::Base.JLOptions) at ./client.jl:305
+ [9] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 120
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] fft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:93
+ [4] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:45
+ [5] fft(::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [6] rfft(::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:25
+ [7] *(::ToeplitzMatrices.Toeplitz{BigFloat,Complex{BigFloat}}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:570
+ [8] include_from_node1(::String) at ./loading.jl:539
+ [9] include(::String) at ./sysimg.jl:14
+ [10] process_options(::Base.JLOptions) at ./client.jl:305
+ [11] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 120
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] ifft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:100
+ [4] checkbounds at ./abstractarray.jl:354 [inlined]
+ [5] getindex at ./array.jl:503 [inlined]
+ [6] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:47
+ [7] fft(::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [8] rfft(::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:25
+ [9] *(::ToeplitzMatrices.Toeplitz{BigFloat,Complex{BigFloat}}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:570
+ [10] include_from_node1(::String) at ./loading.jl:539
+ [11] include(::String) at ./sysimg.jl:14
+ [12] process_options(::Base.JLOptions) at ./client.jl:305
+ [13] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 120
+WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] Array(::Type{Complex{BigFloat}}, ::Int64) at ./deprecated.jl:51
+ [3] irfft(::Array{Complex{BigFloat},1}, ::Int64) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:28
+ [4] *(::ToeplitzMatrices.Toeplitz{BigFloat,Complex{BigFloat}}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:570
+ [5] include_from_node1(::String) at ./loading.jl:539
+ [6] include(::String) at ./sysimg.jl:14
+ [7] process_options(::Base.JLOptions) at ./client.jl:305
+ [8] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 120
+WARNING: exp{T <: Number}(x::AbstractArray{T}) is deprecated, use exp.(x) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] exp(::Array{Complex{BigFloat},1}) at ./deprecated.jl:51
+ [3] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:13
+ [4] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [5] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [6] ToeplitzMatrices.Toeplitz(::Array{BigFloat,1}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:151
+ [7] include_from_node1(::String) at ./loading.jl:539
+ [8] include(::String) at ./sysimg.jl:14
+ [9] process_options(::Base.JLOptions) at ./client.jl:305
+ [10] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 124
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] fft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:93
+ [4] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:45
+ [5] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [6] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [7] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [8] ToeplitzMatrices.Toeplitz(::Array{BigFloat,1}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:151
+ [9] include_from_node1(::String) at ./loading.jl:539
+ [10] include(::String) at ./sysimg.jl:14
+ [11] process_options(::Base.JLOptions) at ./client.jl:305
+ [12] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 124
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] ifft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:100
+ [4] checkbounds at ./abstractarray.jl:354 [inlined]
+ [5] getindex at ./array.jl:503 [inlined]
+ [6] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:47
+ [7] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [8] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [9] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [10] ToeplitzMatrices.Toeplitz(::Array{BigFloat,1}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:151
+ [11] include_from_node1(::String) at ./loading.jl:539
+ [12] include(::String) at ./sysimg.jl:14
+ [13] process_options(::Base.JLOptions) at ./client.jl:305
+ [14] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 124
+WARNING: exp{T <: Number}(x::AbstractArray{T}) is deprecated, use exp.(x) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] exp(::Array{Complex{BigFloat},1}) at ./deprecated.jl:51
+ [3] fft(::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:13
+ [4] rfft(::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:25
+ [5] *(::ToeplitzMatrices.Toeplitz{BigFloat,Complex{BigFloat}}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:570
+ [6] include_from_node1(::String) at ./loading.jl:539
+ [7] include(::String) at ./sysimg.jl:14
+ [8] process_options(::Base.JLOptions) at ./client.jl:305
+ [9] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 125
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] fft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:93
+ [4] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:45
+ [5] fft(::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [6] rfft(::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:25
+ [7] *(::ToeplitzMatrices.Toeplitz{BigFloat,Complex{BigFloat}}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:570
+ [8] include_from_node1(::String) at ./loading.jl:539
+ [9] include(::String) at ./sysimg.jl:14
+ [10] process_options(::Base.JLOptions) at ./client.jl:305
+ [11] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 125
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] ifft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:100
+ [4] checkbounds at ./abstractarray.jl:354 [inlined]
+ [5] getindex at ./array.jl:503 [inlined]
+ [6] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:47
+ [7] fft(::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [8] rfft(::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:25
+ [9] *(::ToeplitzMatrices.Toeplitz{BigFloat,Complex{BigFloat}}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:570
+ [10] include_from_node1(::String) at ./loading.jl:539
+ [11] include(::String) at ./sysimg.jl:14
+ [12] process_options(::Base.JLOptions) at ./client.jl:305
+ [13] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 125
+WARNING: Array{T}(::Type{T}, m::Int) is deprecated, use Array{T}(m) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] Array(::Type{Complex{BigFloat}}, ::Int64) at ./deprecated.jl:51
+ [3] irfft(::Array{Complex{BigFloat},1}, ::Int64) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:28
+ [4] *(::ToeplitzMatrices.Toeplitz{BigFloat,Complex{BigFloat}}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:570
+ [5] include_from_node1(::String) at ./loading.jl:539
+ [6] include(::String) at ./sysimg.jl:14
+ [7] process_options(::Base.JLOptions) at ./client.jl:305
+ [8] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 125
+WARNING: exp{T <: Number}(x::AbstractArray{T}) is deprecated, use exp.(x) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] exp(::Array{Complex{BigFloat},1}) at ./deprecated.jl:51
+ [3] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:13
+ [4] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [5] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [6] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [7] include_from_node1(::String) at ./loading.jl:539
+ [8] include(::String) at ./sysimg.jl:14
+ [9] process_options(::Base.JLOptions) at ./client.jl:305
+ [10] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 127
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] fft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:93
+ [4] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:45
+ [5] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [6] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [7] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [8] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [9] include_from_node1(::String) at ./loading.jl:539
+ [10] include(::String) at ./sysimg.jl:14
+ [11] process_options(::Base.JLOptions) at ./client.jl:305
+ [12] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 127
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] ifft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:100
+ [4] checkbounds at ./abstractarray.jl:354 [inlined]
+ [5] getindex at ./array.jl:503 [inlined]
+ [6] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:47
+ [7] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [8] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [9] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [10] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [11] include_from_node1(::String) at ./loading.jl:539
+ [12] include(::String) at ./sysimg.jl:14
+ [13] process_options(::Base.JLOptions) at ./client.jl:305
+ [14] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 127
+WARNING: exp{T <: Number}(x::AbstractArray{T}) is deprecated, use exp.(x) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] exp(::Array{Complex{BigFloat},1}) at ./deprecated.jl:51
+ [3] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:13
+ [4] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [5] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [6] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [7] convert(::Type{ToeplitzMatrices.TriangularToeplitz{BigFloat,S} where S<:Number}, ::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:388
+ [8] *(::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:101
+ [9] include_from_node1(::String) at ./loading.jl:539
+ [10] include(::String) at ./sysimg.jl:14
+ [11] process_options(::Base.JLOptions) at ./client.jl:305
+ [12] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 128
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] fft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:93
+ [4] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:45
+ [5] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [6] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [7] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [8] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [9] convert(::Type{ToeplitzMatrices.TriangularToeplitz{BigFloat,S} where S<:Number}, ::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:388
+ [10] *(::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:101
+ [11] include_from_node1(::String) at ./loading.jl:539
+ [12] include(::String) at ./sysimg.jl:14
+ [13] process_options(::Base.JLOptions) at ./client.jl:305
+ [14] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 128
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] ifft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:100
+ [4] checkbounds at ./abstractarray.jl:354 [inlined]
+ [5] getindex at ./array.jl:503 [inlined]
+ [6] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:47
+ [7] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [8] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [9] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [10] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [11] convert(::Type{ToeplitzMatrices.TriangularToeplitz{BigFloat,S} where S<:Number}, ::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:388
+ [12] *(::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:101
+ [13] include_from_node1(::String) at ./loading.jl:539
+ [14] include(::String) at ./sysimg.jl:14
+ [15] process_options(::Base.JLOptions) at ./client.jl:305
+ [16] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 128
+WARNING: exp{T <: Number}(x::AbstractArray{T}) is deprecated, use exp.(x) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] exp(::Array{Complex{BigFloat},1}) at ./deprecated.jl:51
+ [3] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:13
+ [4] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [5] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [6] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [7] include_from_node1(::String) at ./loading.jl:539
+ [8] include(::String) at ./sysimg.jl:14
+ [9] process_options(::Base.JLOptions) at ./client.jl:305
+ [10] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 132
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] fft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:93
+ [4] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:45
+ [5] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [6] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [7] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [8] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [9] include_from_node1(::String) at ./loading.jl:539
+ [10] include(::String) at ./sysimg.jl:14
+ [11] process_options(::Base.JLOptions) at ./client.jl:305
+ [12] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 132
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] ifft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:100
+ [4] checkbounds at ./abstractarray.jl:354 [inlined]
+ [5] getindex at ./array.jl:503 [inlined]
+ [6] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:47
+ [7] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [8] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [9] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [10] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [11] include_from_node1(::String) at ./loading.jl:539
+ [12] include(::String) at ./sysimg.jl:14
+ [13] process_options(::Base.JLOptions) at ./client.jl:305
+ [14] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 132
+WARNING: exp{T <: Number}(x::AbstractArray{T}) is deprecated, use exp.(x) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] exp(::Array{Complex{BigFloat},1}) at ./deprecated.jl:51
+ [3] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:13
+ [4] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [5] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [6] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [7] convert(::Type{ToeplitzMatrices.TriangularToeplitz{BigFloat,S} where S<:Number}, ::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:388
+ [8] *(::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:101
+ [9] include_from_node1(::String) at ./loading.jl:539
+ [10] include(::String) at ./sysimg.jl:14
+ [11] process_options(::Base.JLOptions) at ./client.jl:305
+ [12] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 133
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] fft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:93
+ [4] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:45
+ [5] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [6] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [7] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [8] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [9] convert(::Type{ToeplitzMatrices.TriangularToeplitz{BigFloat,S} where S<:Number}, ::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:388
+ [10] *(::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:101
+ [11] include_from_node1(::String) at ./loading.jl:539
+ [12] include(::String) at ./sysimg.jl:14
+ [13] process_options(::Base.JLOptions) at ./client.jl:305
+ [14] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 133
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] ifft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:100
+ [4] checkbounds at ./abstractarray.jl:354 [inlined]
+ [5] getindex at ./array.jl:503 [inlined]
+ [6] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:47
+ [7] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [8] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [9] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [10] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [11] convert(::Type{ToeplitzMatrices.TriangularToeplitz{BigFloat,S} where S<:Number}, ::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:388
+ [12] *(::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:101
+ [13] include_from_node1(::String) at ./loading.jl:539
+ [14] include(::String) at ./sysimg.jl:14
+ [15] process_options(::Base.JLOptions) at ./client.jl:305
+ [16] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 133
+WARNING: exp{T <: Number}(x::AbstractArray{T}) is deprecated, use exp.(x) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] exp(::Array{Complex{BigFloat},1}) at ./deprecated.jl:51
+ [3] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:13
+ [4] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [5] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [6] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [7] include_from_node1(::String) at ./loading.jl:539
+ [8] include(::String) at ./sysimg.jl:14
+ [9] process_options(::Base.JLOptions) at ./client.jl:305
+ [10] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 135
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] fft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:93
+ [4] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:45
+ [5] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [6] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [7] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [8] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [9] include_from_node1(::String) at ./loading.jl:539
+ [10] include(::String) at ./sysimg.jl:14
+ [11] process_options(::Base.JLOptions) at ./client.jl:305
+ [12] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 135
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] ifft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:100
+ [4] checkbounds at ./abstractarray.jl:354 [inlined]
+ [5] getindex at ./array.jl:503 [inlined]
+ [6] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:47
+ [7] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [8] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [9] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [10] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [11] include_from_node1(::String) at ./loading.jl:539
+ [12] include(::String) at ./sysimg.jl:14
+ [13] process_options(::Base.JLOptions) at ./client.jl:305
+ [14] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 135
+WARNING: exp{T <: Number}(x::AbstractArray{T}) is deprecated, use exp.(x) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] exp(::Array{Complex{BigFloat},1}) at ./deprecated.jl:51
+ [3] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:13
+ [4] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [5] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [6] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [7] convert(::Type{ToeplitzMatrices.TriangularToeplitz{BigFloat,S} where S<:Number}, ::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:388
+ [8] *(::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:101
+ [9] include_from_node1(::String) at ./loading.jl:539
+ [10] include(::String) at ./sysimg.jl:14
+ [11] process_options(::Base.JLOptions) at ./client.jl:305
+ [12] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 136
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] fft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:93
+ [4] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:45
+ [5] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [6] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [7] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [8] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [9] convert(::Type{ToeplitzMatrices.TriangularToeplitz{BigFloat,S} where S<:Number}, ::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:388
+ [10] *(::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:101
+ [11] include_from_node1(::String) at ./loading.jl:539
+ [12] include(::String) at ./sysimg.jl:14
+ [13] process_options(::Base.JLOptions) at ./client.jl:305
+ [14] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 136
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] ifft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:100
+ [4] checkbounds at ./abstractarray.jl:354 [inlined]
+ [5] getindex at ./array.jl:503 [inlined]
+ [6] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:47
+ [7] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [8] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [9] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [10] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [11] convert(::Type{ToeplitzMatrices.TriangularToeplitz{BigFloat,S} where S<:Number}, ::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:388
+ [12] *(::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:101
+ [13] include_from_node1(::String) at ./loading.jl:539
+ [14] include(::String) at ./sysimg.jl:14
+ [15] process_options(::Base.JLOptions) at ./client.jl:305
+ [16] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 136
+WARNING: exp{T <: Number}(x::AbstractArray{T}) is deprecated, use exp.(x) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] exp(::Array{Complex{BigFloat},1}) at ./deprecated.jl:51
+ [3] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:13
+ [4] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [5] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [6] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [7] include_from_node1(::String) at ./loading.jl:539
+ [8] include(::String) at ./sysimg.jl:14
+ [9] process_options(::Base.JLOptions) at ./client.jl:305
+ [10] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 140
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] fft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:93
+ [4] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:45
+ [5] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [6] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [7] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [8] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [9] include_from_node1(::String) at ./loading.jl:539
+ [10] include(::String) at ./sysimg.jl:14
+ [11] process_options(::Base.JLOptions) at ./client.jl:305
+ [12] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 140
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] ifft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:100
+ [4] checkbounds at ./abstractarray.jl:354 [inlined]
+ [5] getindex at ./array.jl:503 [inlined]
+ [6] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:47
+ [7] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [8] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [9] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [10] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [11] include_from_node1(::String) at ./loading.jl:539
+ [12] include(::String) at ./sysimg.jl:14
+ [13] process_options(::Base.JLOptions) at ./client.jl:305
+ [14] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 140
+WARNING: exp{T <: Number}(x::AbstractArray{T}) is deprecated, use exp.(x) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] exp(::Array{Complex{BigFloat},1}) at ./deprecated.jl:51
+ [3] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:13
+ [4] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [5] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [6] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [7] convert(::Type{ToeplitzMatrices.TriangularToeplitz{BigFloat,S} where S<:Number}, ::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:388
+ [8] *(::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:101
+ [9] include_from_node1(::String) at ./loading.jl:539
+ [10] include(::String) at ./sysimg.jl:14
+ [11] process_options(::Base.JLOptions) at ./client.jl:305
+ [12] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 141
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] fft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:93
+ [4] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:45
+ [5] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [6] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [7] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [8] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [9] convert(::Type{ToeplitzMatrices.TriangularToeplitz{BigFloat,S} where S<:Number}, ::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:388
+ [10] *(::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:101
+ [11] include_from_node1(::String) at ./loading.jl:539
+ [12] include(::String) at ./sysimg.jl:14
+ [13] process_options(::Base.JLOptions) at ./client.jl:305
+ [14] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 141
+WARNING: complex(A::AbstractArray, B::AbstractArray) is deprecated, use complex.(A, B) instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] complex(::Array{BigFloat,1}, ::Array{BigFloat,1}) at ./deprecated.jl:51
+ [3] ifft_pow2(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:100
+ [4] checkbounds at ./abstractarray.jl:354 [inlined]
+ [5] getindex at ./array.jl:503 [inlined]
+ [6] conv(::Array{Complex{BigFloat},1}, ::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:47
+ [7] fft(::Array{Complex{BigFloat},1}) at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:15
+ [8] fft! at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:19 [inlined]
+ [9] * at /home/vagrant/.julia/v0.6/FastTransforms/src/fftBigFloat.jl:154 [inlined]
+ [10] ToeplitzMatrices.TriangularToeplitz(::Array{BigFloat,1}, ::Symbol) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:375
+ [11] convert(::Type{ToeplitzMatrices.TriangularToeplitz{BigFloat,S} where S<:Number}, ::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:388
+ [12] *(::ToeplitzMatrices.TriangularToeplitz{BigFloat,Complex{BigFloat}}, ::Array{BigFloat,1}) at /home/vagrant/.julia/v0.6/ToeplitzMatrices/src/ToeplitzMatrices.jl:101
+ [13] include_from_node1(::String) at ./loading.jl:539
+ [14] include(::String) at ./sysimg.jl:14
+ [15] process_options(::Base.JLOptions) at ./client.jl:305
+ [16] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ToeplitzMatrices/test/runtests.jl, in expression starting on line 141
+OK!
+Convert
+INFO: ToeplitzMatrices tests passed
+INFO: Removing FastTransforms v0.0.7
 
 >>> End of log
