@@ -11,21 +11,21 @@ INFO: METADATA is out-of-date — you may not have the latest version of Tensors
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Tensors")' log
-Julia Version 0.6.0-dev.2966
-Commit 6ac7e24 (2017-02-25 00:48 UTC)
+Julia Version 0.6.0-dev.2981
+Commit 466af85 (2017-02-25 23:24 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-109-generic #156-Ubuntu SMP Wed Feb 8 16:09:17 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1450.98046875 MB free)
-Uptime: 28058.0 sec
-Load Avg:  1.12939453125  1.1396484375  1.0986328125
+  uname: Linux 3.13.0-110-generic #157-Ubuntu SMP Mon Feb 20 11:54:05 UTC 2017 x86_64 x86_64
+Memory: 2.9392738342285156 GB (1440.6796875 MB free)
+Uptime: 28555.0 sec
+Load Avg:  1.23095703125  1.0634765625  1.03564453125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1668294 s       7351 s     146516 s     636099 s        182 s
-#2  3499 MHz     517738 s        100 s      78305 s    2110801 s          6 s
+#1  3502 MHz    1655712 s       8841 s     145792 s     688945 s        159 s
+#2  3502 MHz     542128 s       6300 s      79252 s    2119291 s          4 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -772,6 +772,66 @@ WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
   likely near /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:23
 WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
   likely near /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:23
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: $(Expr(:escape, :(∇(I2, A)))) $(Expr(:escape, :≈)) $(Expr(:escape, :((∇(I2, A, :all))[1]))) $(Expr(:escape, :≈)) $(Expr(:escape, :(DI2(A))))
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{1,Float32}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{1,Float32}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{1,Float32}}, ::Type{ForwardDiff.Dual{1,Float32}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.Tensor{2,1,ForwardDiff.Dual{1,Float32},1}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.Tensor{2,1,Float32,1}) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:313
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:67 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: (∇(I2, A, :all))[2] ≈ I2(A)
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{1,Float32}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{1,Float32}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{1,Float32}}, ::Type{ForwardDiff.Dual{1,Float32}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.Tensor{2,1,ForwardDiff.Dual{1,Float32},1}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.Tensor{2,1,Float32,1}, ::Symbol) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:318
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:68 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: $(Expr(:escape, :(∇(I2, A_sym)))) $(Expr(:escape, :≈)) $(Expr(:escape, :((∇(I2, A_sym, :all))[1]))) $(Expr(:escape, :≈)) $(Expr(:escape, :(DI2(A_sym))))
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{1,Float32}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{1,Float32}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{1,Float32}}, ::Type{ForwardDiff.Dual{1,Float32}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.SymmetricTensor{2,1,ForwardDiff.Dual{1,Float32},1}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.SymmetricTensor{2,1,Float32,1}) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:313
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:73 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: (∇(I2, A_sym, :all))[2] ≈ I2(A_sym)
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{1,Float32}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{1,Float32}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{1,Float32}}, ::Type{ForwardDiff.Dual{1,Float32}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.SymmetricTensor{2,1,ForwardDiff.Dual{1,Float32},1}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.SymmetricTensor{2,1,Float32,1}, ::Symbol) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:318
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:74 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
 WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
   likely near /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:23
 WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
@@ -802,6 +862,66 @@ WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
   likely near /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:23
 WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
   likely near /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:23
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: $(Expr(:escape, :(∇(I2, A)))) $(Expr(:escape, :≈)) $(Expr(:escape, :((∇(I2, A, :all))[1]))) $(Expr(:escape, :≈)) $(Expr(:escape, :(DI2(A))))
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{1,Float64}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{1,Float64}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{1,Float64}}, ::Type{ForwardDiff.Dual{1,Float64}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.Tensor{2,1,ForwardDiff.Dual{1,Float64},1}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.Tensor{2,1,Float64,1}) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:313
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:67 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: (∇(I2, A, :all))[2] ≈ I2(A)
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{1,Float64}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{1,Float64}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{1,Float64}}, ::Type{ForwardDiff.Dual{1,Float64}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.Tensor{2,1,ForwardDiff.Dual{1,Float64},1}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.Tensor{2,1,Float64,1}, ::Symbol) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:318
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:68 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: $(Expr(:escape, :(∇(I2, A_sym)))) $(Expr(:escape, :≈)) $(Expr(:escape, :((∇(I2, A_sym, :all))[1]))) $(Expr(:escape, :≈)) $(Expr(:escape, :(DI2(A_sym))))
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{1,Float64}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{1,Float64}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{1,Float64}}, ::Type{ForwardDiff.Dual{1,Float64}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.SymmetricTensor{2,1,ForwardDiff.Dual{1,Float64},1}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.SymmetricTensor{2,1,Float64,1}) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:313
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:73 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: (∇(I2, A_sym, :all))[2] ≈ I2(A_sym)
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{1,Float64}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{1,Float64}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{1,Float64}}, ::Type{ForwardDiff.Dual{1,Float64}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.SymmetricTensor{2,1,ForwardDiff.Dual{1,Float64},1}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.SymmetricTensor{2,1,Float64,1}, ::Symbol) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:318
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:74 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
 WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
   likely near /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:23
 WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
@@ -833,6 +953,66 @@ WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
   likely near /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:23
 WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
   likely near /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:23
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: $(Expr(:escape, :(∇(I2, A)))) $(Expr(:escape, :≈)) $(Expr(:escape, :((∇(I2, A, :all))[1]))) $(Expr(:escape, :≈)) $(Expr(:escape, :(DI2(A))))
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{4,Float32}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{4,Float32}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{4,Float32}}, ::Type{ForwardDiff.Dual{4,Float32}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.Tensor{2,2,ForwardDiff.Dual{4,Float32},4}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.Tensor{2,2,Float32,4}) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:313
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:67 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: (∇(I2, A, :all))[2] ≈ I2(A)
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{4,Float32}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{4,Float32}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{4,Float32}}, ::Type{ForwardDiff.Dual{4,Float32}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.Tensor{2,2,ForwardDiff.Dual{4,Float32},4}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.Tensor{2,2,Float32,4}, ::Symbol) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:318
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:68 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: $(Expr(:escape, :(∇(I2, A_sym)))) $(Expr(:escape, :≈)) $(Expr(:escape, :((∇(I2, A_sym, :all))[1]))) $(Expr(:escape, :≈)) $(Expr(:escape, :(DI2(A_sym))))
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{3,Float32}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{3,Float32}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{3,Float32}}, ::Type{ForwardDiff.Dual{3,Float32}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.SymmetricTensor{2,2,ForwardDiff.Dual{3,Float32},3}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.SymmetricTensor{2,2,Float32,3}) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:313
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:73 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: (∇(I2, A_sym, :all))[2] ≈ I2(A_sym)
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{3,Float32}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{3,Float32}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{3,Float32}}, ::Type{ForwardDiff.Dual{3,Float32}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.SymmetricTensor{2,2,ForwardDiff.Dual{3,Float32},3}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.SymmetricTensor{2,2,Float32,3}, ::Symbol) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:318
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:74 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
 WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
   likely near /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:23
 WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
@@ -863,6 +1043,66 @@ WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
   likely near /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:23
 WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
   likely near /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:23
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: $(Expr(:escape, :(∇(I2, A)))) $(Expr(:escape, :≈)) $(Expr(:escape, :((∇(I2, A, :all))[1]))) $(Expr(:escape, :≈)) $(Expr(:escape, :(DI2(A))))
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{4,Float64}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{4,Float64}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{4,Float64}}, ::Type{ForwardDiff.Dual{4,Float64}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.Tensor{2,2,ForwardDiff.Dual{4,Float64},4}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.Tensor{2,2,Float64,4}) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:313
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:67 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: (∇(I2, A, :all))[2] ≈ I2(A)
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{4,Float64}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{4,Float64}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{4,Float64}}, ::Type{ForwardDiff.Dual{4,Float64}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.Tensor{2,2,ForwardDiff.Dual{4,Float64},4}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.Tensor{2,2,Float64,4}, ::Symbol) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:318
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:68 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: $(Expr(:escape, :(∇(I2, A_sym)))) $(Expr(:escape, :≈)) $(Expr(:escape, :((∇(I2, A_sym, :all))[1]))) $(Expr(:escape, :≈)) $(Expr(:escape, :(DI2(A_sym))))
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{3,Float64}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{3,Float64}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{3,Float64}}, ::Type{ForwardDiff.Dual{3,Float64}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.SymmetricTensor{2,2,ForwardDiff.Dual{3,Float64},3}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.SymmetricTensor{2,2,Float64,3}) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:313
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:73 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: (∇(I2, A_sym, :all))[2] ≈ I2(A_sym)
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{3,Float64}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{3,Float64}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{3,Float64}}, ::Type{ForwardDiff.Dual{3,Float64}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.SymmetricTensor{2,2,ForwardDiff.Dual{3,Float64},3}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.SymmetricTensor{2,2,Float64,3}, ::Symbol) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:318
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:74 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
 WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
   likely near /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:23
 WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
@@ -894,6 +1134,66 @@ WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
   likely near /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:23
 WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
   likely near /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:23
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: $(Expr(:escape, :(∇(I2, A)))) $(Expr(:escape, :≈)) $(Expr(:escape, :((∇(I2, A, :all))[1]))) $(Expr(:escape, :≈)) $(Expr(:escape, :(DI2(A))))
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{9,Float32}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{9,Float32}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{9,Float32}}, ::Type{ForwardDiff.Dual{9,Float32}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.Tensor{2,3,ForwardDiff.Dual{9,Float32},9}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.Tensor{2,3,Float32,9}) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:313
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:67 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: (∇(I2, A, :all))[2] ≈ I2(A)
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{9,Float32}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{9,Float32}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{9,Float32}}, ::Type{ForwardDiff.Dual{9,Float32}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.Tensor{2,3,ForwardDiff.Dual{9,Float32},9}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.Tensor{2,3,Float32,9}, ::Symbol) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:318
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:68 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: $(Expr(:escape, :(∇(I2, A_sym)))) $(Expr(:escape, :≈)) $(Expr(:escape, :((∇(I2, A_sym, :all))[1]))) $(Expr(:escape, :≈)) $(Expr(:escape, :(DI2(A_sym))))
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{6,Float32}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{6,Float32}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{6,Float32}}, ::Type{ForwardDiff.Dual{6,Float32}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.SymmetricTensor{2,3,ForwardDiff.Dual{6,Float32},6}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.SymmetricTensor{2,3,Float32,6}) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:313
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:73 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: (∇(I2, A_sym, :all))[2] ≈ I2(A_sym)
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{6,Float32}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{6,Float32}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{6,Float32}}, ::Type{ForwardDiff.Dual{6,Float32}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.SymmetricTensor{2,3,ForwardDiff.Dual{6,Float32},6}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.SymmetricTensor{2,3,Float32,6}, ::Symbol) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:318
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:74 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
 WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
   likely near /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:23
 WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
@@ -924,6 +1224,66 @@ WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
   likely near /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:23
 WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
   likely near /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:23
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: $(Expr(:escape, :(∇(I2, A)))) $(Expr(:escape, :≈)) $(Expr(:escape, :((∇(I2, A, :all))[1]))) $(Expr(:escape, :≈)) $(Expr(:escape, :(DI2(A))))
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{9,Float64}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{9,Float64}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{9,Float64}}, ::Type{ForwardDiff.Dual{9,Float64}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.Tensor{2,3,ForwardDiff.Dual{9,Float64},9}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.Tensor{2,3,Float64,9}) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:313
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:67 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: (∇(I2, A, :all))[2] ≈ I2(A)
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{9,Float64}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{9,Float64}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{9,Float64}}, ::Type{ForwardDiff.Dual{9,Float64}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.Tensor{2,3,ForwardDiff.Dual{9,Float64},9}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.Tensor{2,3,Float64,9}, ::Symbol) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:318
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:68 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: $(Expr(:escape, :(∇(I2, A_sym)))) $(Expr(:escape, :≈)) $(Expr(:escape, :((∇(I2, A_sym, :all))[1]))) $(Expr(:escape, :≈)) $(Expr(:escape, :(DI2(A_sym))))
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{6,Float64}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{6,Float64}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{6,Float64}}, ::Type{ForwardDiff.Dual{6,Float64}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.SymmetricTensor{2,3,ForwardDiff.Dual{6,Float64},6}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.SymmetricTensor{2,3,Float64,6}) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:313
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:73 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
+AD: Error During Test
+  Test threw an exception of type MethodError
+  Expression: (∇(I2, A_sym, :all))[2] ≈ I2(A_sym)
+  MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{6,Float64}
+  The applicable method may be too new: running in world age 21502, while current world is 21531.
+  This may have arisen from a call to the constructor ForwardDiff.Dual{6,Float64}(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] promote_matprod(::Type{ForwardDiff.Dual{6,Float64}}, ::Type{ForwardDiff.Dual{6,Float64}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+   [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:266
+   [3] (::##25#36)(::Tensors.SymmetricTensor{2,3,ForwardDiff.Dual{6,Float64},6}) at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:62
+   [4] gradient(::##25#36, ::Tensors.SymmetricTensor{2,3,Float64,6}, ::Symbol) at /home/vagrant/.julia/v0.6/Tensors/src/automatic_differentiation.jl:318
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:74 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
 WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
   likely near /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:23
 WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
@@ -948,97 +1308,11 @@ WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
   likely near /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:23
 WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
   likely near /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl:23
-Test Summary: | Pass  Total
-AD            |  231    231
-
-WARNING: deprecated syntax "_ as an rvalue".
-Documenter: setting up build directory.
-Documenter: expanding markdown templates.
-Documenter: building cross-references.
-Documenter: running document checks.
- > checking for missing docstrings.
- > running doctests.
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.6/Tensors/src/Tensors.jl
-
-> Code block:
-
-```jldoctest
-julia> eᵢ(Vec{2, Float64})
-([1.0,0.0],[0.0,1.0])
-
-julia> eᵢ(Vec{2, Float64}, 2)
-2-element Tensors.Tensor{1,2,Float64,2}:
- 0.0
- 1.0
-```
-
-> Subexpression:
-
-    eᵢ(Vec{2, Float64})
-
-> Output Diff (REQUIRES COLOR):
-
-([1.0,0.0],[0.0,1.0])([1.0, 0.0], [0.0, 1.0])
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: src/man/constructing_tensors.md
-
-> Code block:
-
-```jldoctest
-julia> data = rand(2, 5)
-2×5 Array{Float64,2}:
- 0.590845  0.566237  0.794026  0.200586  0.246837
- 0.766797  0.460085  0.854147  0.298614  0.579672
-
-julia> tensor_data = reinterpret(Vec{2, Float64}, data, (5,))
-5-element Array{Tensors.Tensor{1,2,Float64,2},1}:
- [0.590845,0.766797]
- [0.566237,0.460085]
- [0.794026,0.854147]
- [0.200586,0.298614]
- [0.246837,0.579672]
-```
-
-> Subexpression:
-
-    tensor_data = reinterpret(Vec{2, Float64}, data, (5,))
-
-> Output Diff (REQUIRES COLOR):
-
-5-element Array{Tensors.Tensor{1,2,Float64,2},1}:
- [0.590845,0.766797]
- [0.566237,0.460085]
- [0.794026,0.854147]
- [0.200586,0.298614]
- [0.246837,0.579672][0.590845, 0.766797]
- [0.566237, 0.460085]
- [0.794026, 0.854147]
- [0.200586, 0.298614]
- [0.246837, 0.579672]
-
-=====[End Error]===============================
- > checking footnote links.
-Documenter: populating indices.
-ERROR: LoadError: LoadError: `makedocs` encountered an error. Terminating build
-Stacktrace:
- [1] runner(::Type{Documenter.Builder.RenderDocument}, ::Documenter.Documents.Document) at /home/vagrant/.julia/v0.6/Documenter/src/Builder.jl:202
- [2] dispatch(::Type{Documenter.Builder.DocumentPipeline}, ::Documenter.Documents.Document) at /home/vagrant/.julia/v0.6/Documenter/src/Selectors.jl:164
- [3] cd(::Documenter.##2#3{Documenter.Documents.Document}, ::String) at ./file.jl:69
- [4] #makedocs#1(::Bool, ::Array{Any,1}, ::Function) at /home/vagrant/.julia/v0.6/Documenter/src/Documenter.jl:159
- [5] (::Documenter.#kw##makedocs)(::Array{Any,1}, ::Documenter.#makedocs) at ./<missing>:0
- [6] include_from_node1(::String) at ./loading.jl:539
- [7] include(::String) at ./sysimg.jl:14
- [8] include_from_node1(::String) at ./loading.jl:539
- [9] include(::String) at ./sysimg.jl:14
- [10] process_options(::Base.JLOptions) at ./client.jl:305
- [11] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/Tensors/test/../docs/make.jl, in expression starting on line 3
-while loading /home/vagrant/.julia/v0.6/Tensors/test/runtests.jl, in expression starting on line 9
+Test Summary: | Pass  Error  Total
+AD            |  207     24    231
+ERROR: LoadError: LoadError: Some tests did not pass: 207 passed, 0 failed, 24 errored, 0 broken.
+while loading /home/vagrant/.julia/v0.6/Tensors/test/test_ad.jl, in expression starting on line 23
+while loading /home/vagrant/.julia/v0.6/Tensors/test/runtests.jl, in expression starting on line 6
 ===============================[ ERROR: Tensors ]===============================
 
 failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Tensors/test/runtests.jl`, ProcessExited(1)) [1]
