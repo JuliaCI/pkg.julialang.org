@@ -6,15 +6,15 @@ INFO: Installing DiffBase v0.0.4
 INFO: Installing Distributions v0.12.1
 INFO: Installing ECOS v0.7.0
 INFO: Installing ForwardDiff v0.3.4
-INFO: Installing JuMP v0.15.1
+INFO: Installing JuMP v0.16.0
 INFO: Installing JuMPChance v0.3.0
 INFO: Installing Lazy v0.11.5
 INFO: Installing MacroTools v0.3.4
-INFO: Installing MathProgBase v0.5.10
+INFO: Installing MathProgBase v0.6.1
 INFO: Installing NaNMath v0.2.2
 INFO: Installing PDMats v0.5.6
 INFO: Installing QuadGK v0.1.1
-INFO: Installing ReverseDiffSparse v0.6.0
+INFO: Installing ReverseDiffSparse v0.7.1
 INFO: Installing Rmath v0.1.6
 INFO: Installing SHA v0.3.1
 INFO: Installing SpecialFunctions v0.1.1
@@ -28,21 +28,21 @@ INFO: METADATA is out-of-date — you may not have the latest version of JuMPCha
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("JuMPChance")' log
-Julia Version 0.6.0-dev.2945
-Commit 3ccfd1c (2017-02-24 00:52 UTC)
+Julia Version 0.6.0-dev.2966
+Commit 6ac7e24 (2017-02-25 00:48 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-109-generic #156-Ubuntu SMP Wed Feb 8 16:09:17 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1693.13671875 MB free)
-Uptime: 48837.0 sec
-Load Avg:  0.92822265625  1.01318359375  1.037109375
+Memory: 2.9392738342285156 GB (1677.3828125 MB free)
+Uptime: 57671.0 sec
+Load Avg:  1.0595703125  1.001953125  1.02587890625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1902880 s       2841 s     219383 s    2294723 s         86 s
-#2  3499 MHz     703788 s       3629 s     126286 s    3937207 s          1 s
+#1  3499 MHz    1977458 s       2584 s     201786 s    3144169 s         84 s
+#2  3499 MHz     552273 s       5862 s     123730 s    4965605 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -70,15 +70,15 @@ Package Directory: /home/vagrant/.julia/v0.6
  - DocOpt                        0.2.0
  - ECOS                          0.7.0
  - ForwardDiff                   0.3.4
- - JuMP                          0.15.1
+ - JuMP                          0.16.0
  - Lazy                          0.11.5
  - MacroTools                    0.3.4
- - MathProgBase                  0.5.10
+ - MathProgBase                  0.6.1
  - NaNMath                       0.2.2
  - PDMats                        0.5.6
  - ParallelAccelerator           0.2.2              6da2e374 (dirty)
  - QuadGK                        0.1.1
- - ReverseDiffSparse             0.6.0
+ - ReverseDiffSparse             0.7.1
  - Rmath                         0.1.6
  - SHA                           0.3.1
  - SpecialFunctions              0.1.1
@@ -103,56 +103,38 @@ Use "const CCAffExpr = JuMP.GenericAffExpr{AffExpr,IndepNormal}" instead.
 
 WARNING: deprecated syntax "typealias RandomAffExpr JuMP.GenericAffExpr{Float64,IndepNormal}" at /home/vagrant/.julia/v0.6/JuMPChance/src/JuMPChance.jl:93.
 Use "const RandomAffExpr = JuMP.GenericAffExpr{Float64,IndepNormal}" instead.
+WARNING: The curly syntax (sum{},prod{},norm2{}) is deprecated in favor of the new generator syntax (sum(),prod(),norm()).
+WARNING: Replace sum{quadobj.qcoeffs[i] * quadobj_t[i], i = 1:qterms} with sum(quadobj.qcoeffs[i] * quadobj_t[i] for i = 1:qterms).
+WARNING: Replace sum{getmean(ccexpr.vars[i]) * ccexpr.coeffs[i], i = 1:nterms} with sum(getmean(ccexpr.vars[i]) * ccexpr.coeffs[i] for i = 1:nterms).
+WARNING: Replace sum{varterm[i] ^ 2, i in 1:nterms} with sum(varterm[i] ^ 2 for i in 1:nterms).
+WARNING: Replace sum{getmean(ccexpr.vars[k]) * ccexpr.coeffs[k], k = 1:nterms} with sum(getmean(ccexpr.vars[k]) * ccexpr.coeffs[k] for k = 1:nterms).
+WARNING: Expression chancevarterm[i] should not be used as a variable name. Use the "anonymous" syntax chancevarterm[i] = @variable(m, ...) instead.
+WARNING: Expression twosidechancevarterm[k] should not be used as a variable name. Use the "anonymous" syntax twosidechancevarterm[k] = @variable(m, ...) instead.
+WARNING: Replace sum{qlinterm[i], i = 1:qterms} with sum(qlinterm[i] for i = 1:qterms).
+WARNING: Replace sum{getvalue((chancevarterm[i])[k]) * (chancevarterm[i])[k], k in 1:nterms} with sum(getvalue((chancevarterm[i])[k]) * (chancevarterm[i])[k] for k in 1:nterms).
+WARNING: Replace sum{getvalue((twosidechancevarterm[i])[k]) * (twosidechancevarterm[i])[k], k in 1:nterms} with sum(getvalue((twosidechancevarterm[i])[k]) * (twosidechancevarterm[i])[k] for k in 1:nterms).
+WARNING: Replace sum{means_nominal[ccexpr.vars[k].idx] * ccexpr.coeffs[k], k = 1:nterms} with sum(means_nominal[ccexpr.vars[k].idx] * ccexpr.coeffs[k] for k = 1:nterms).
+WARNING: Replace sum{sign(getvalue(ccexpr.coeffs[sorted_mean_idx[r]])) * means_deviation[ccexpr.vars[sorted_mean_idx[r]].idx] * ccexpr.coeffs[sorted_mean_idx[r]], r = 1:cc.uncertainty_budget_mean} with sum(sign(getvalue(ccexpr.coeffs[sorted_mean_idx[r]])) * means_deviation[ccexpr.vars[sorted_mean_idx[r]].idx] * ccexpr.coeffs[sorted_mean_idx[r]] for r = 1:cc.uncertainty_budget_mean).
+WARNING: Replace sum{var_coeffs[k] * getvalue(ccexpr.coeffs[k]) * (ccexpr.coeffs[k] - getvalue(ccexpr.coeffs[k])), k = 1:nterms} with sum(var_coeffs[k] * getvalue(ccexpr.coeffs[k]) * (ccexpr.coeffs[k] - getvalue(ccexpr.coeffs[k])) for k = 1:nterms).
 
-WARNING: deprecated syntax "abstract AbstractModel" at /home/vagrant/.julia/v0.6/JuMP/src/JuMP.jl:62.
-Use "abstract type AbstractModel end" instead.
+WARNING: deprecated syntax "abstract Result" at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:46.
+Use "abstract type Result end" instead.
 
-WARNING: deprecated syntax "abstract AbstractConstraint" at /home/vagrant/.julia/v0.6/JuMP/src/JuMP.jl:319.
-Use "abstract type AbstractConstraint end" instead.
+WARNING: deprecated syntax "abstract GLPKMathProgModel<:AbstractLinearQuadraticModel" at /home/vagrant/.julia/v0.6/GLPKMathProgInterface/src/GLPKInterfaceBase.jl:32.
+Use "abstract type GLPKMathProgModel<:AbstractLinearQuadraticModel end" instead.
 
-WARNING: deprecated syntax "abstract AbstractJuMPScalar" at /home/vagrant/.julia/v0.6/JuMP/src/JuMP.jl:322.
-Use "abstract type AbstractJuMPScalar end" instead.
+WARNING: deprecated syntax "abstract Param" at /home/vagrant/.julia/v0.6/GLPK/src/GLPK.jl:256.
+Use "abstract type Param end" instead.
 
-WARNING: deprecated syntax "typealias LinConstrRef ConstraintRef{Model,LinearConstraint}" at /home/vagrant/.julia/v0.6/JuMP/src/JuMP.jl:547.
-Use "const LinConstrRef = ConstraintRef{Model,LinearConstraint}" instead.
-
-WARNING: deprecated syntax "typealias JuMPTypes Union{AbstractJuMPScalar,NonlinearExpression,Norm,GenericAffExpr,QuadExpr,SOCExpr}" at /home/vagrant/.julia/v0.6/JuMP/src/JuMP.jl:872.
-Use "const JuMPTypes = Union{AbstractJuMPScalar,NonlinearExpression,Norm,GenericAffExpr,QuadExpr,SOCExpr}" instead.
-
-WARNING: deprecated syntax "typealias JuMPScalars Union{Number,JuMPTypes}" at /home/vagrant/.julia/v0.6/JuMP/src/JuMP.jl:873.
-Use "const JuMPScalars = Union{Number,JuMPTypes}" instead.
-
-WARNING: deprecated syntax "abstract JuMPContainer{T,N}" at /home/vagrant/.julia/v0.6/JuMP/src/JuMPContainer.jl:10.
-Use "abstract type JuMPContainer{T,N} end" instead.
-ERROR: LoadError: LoadError: LoadError: invalid subtyping in definition of JuMPArray
+WARNING: deprecated syntax "typealias VecOrNothing Union{AbstractVector,Void}" at /home/vagrant/.julia/v0.6/GLPK/src/GLPK.jl:275.
+Use "const VecOrNothing = Union{AbstractVector,Void}" instead.
+ERROR: LoadError: AssertionError: isexpr(mean, :kw) && mean.args[1] == :mean
 Stacktrace:
  [1] include_from_node1(::String) at ./loading.jl:539
  [2] include(::String) at ./sysimg.jl:14
- [3] include_from_node1(::String) at ./loading.jl:539
- [4] include(::String) at ./sysimg.jl:14
- [5] include_from_node1(::String) at ./loading.jl:539
- [6] include(::String) at ./sysimg.jl:14
- [7] anonymous at ./<missing>:2
-while loading /home/vagrant/.julia/v0.6/JuMP/src/JuMPArray.jl, in expression starting on line 6
-while loading /home/vagrant/.julia/v0.6/JuMP/src/JuMPContainer.jl, in expression starting on line 11
-while loading /home/vagrant/.julia/v0.6/JuMP/src/JuMP.jl, in expression starting on line 55
-ERROR: LoadError: Failed to precompile JuMP to /home/vagrant/.julia/lib/v0.6/JuMP.ji.
-Stacktrace:
- [1] compilecache(::String) at ./loading.jl:673
- [2] require(::Symbol) at ./loading.jl:431
- [3] include_from_node1(::String) at ./loading.jl:539
- [4] include(::String) at ./sysimg.jl:14
- [5] anonymous at ./<missing>:2
-while loading /home/vagrant/.julia/v0.6/JuMPChance/src/JuMPChance.jl, in expression starting on line 6
-ERROR: LoadError: Failed to precompile JuMPChance to /home/vagrant/.julia/lib/v0.6/JuMPChance.ji.
-Stacktrace:
- [1] compilecache(::String) at ./loading.jl:673
- [2] require(::Symbol) at ./loading.jl:460
- [3] include_from_node1(::String) at ./loading.jl:539
- [4] include(::String) at ./sysimg.jl:14
- [5] process_options(::Base.JLOptions) at ./client.jl:305
- [6] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/JuMPChance/test/runtests.jl, in expression starting on line 1
+ [3] process_options(::Base.JLOptions) at ./client.jl:305
+ [4] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/JuMPChance/test/runtests.jl, in expression starting on line 8
 =============================[ ERROR: JuMPChance ]==============================
 
 failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/JuMPChance/test/runtests.jl`, ProcessExited(1)) [1]

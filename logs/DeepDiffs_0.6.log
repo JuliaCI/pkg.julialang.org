@@ -2,23 +2,25 @@
 INFO: Cloning cache of DeepDiffs from https://github.com/ssfrr/DeepDiffs.jl.git
 INFO: Installing DeepDiffs v0.1.0
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of DeepDiffs
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("DeepDiffs")' log
-Julia Version 0.6.0-dev.2945
-Commit 3ccfd1c (2017-02-24 00:52 UTC)
+Julia Version 0.6.0-dev.2966
+Commit 6ac7e24 (2017-02-25 00:48 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-109-generic #156-Ubuntu SMP Wed Feb 8 16:09:17 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (525.015625 MB free)
-Uptime: 16989.0 sec
-Load Avg:  0.6533203125  0.53173828125  0.8955078125
+Memory: 2.9392738342285156 GB (518.91015625 MB free)
+Uptime: 17252.0 sec
+Load Avg:  0.75830078125  0.3779296875  0.7041015625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz     840809 s       2839 s      95378 s     567640 s         34 s
-#2  3499 MHz     292397 s       3629 s      51310 s    1306667 s          0 s
+#1  3499 MHz     886576 s       2584 s      92391 s     551325 s         37 s
+#2  3499 MHz     288965 s       5862 s      53940 s    1322745 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -54,15 +56,56 @@ Use "DottedTestSet{T}(...) where T" instead.
 
 arrays: ...................
 dicts: ..................
-display: [32m.[39m[32m.[39m..[32m.[39m..[32m.[39m.
+display: [32m.[39m[32m.[39m..[37mColor Diffs: [39m[1m[91mTest Failed
+[39m[22m  Expression: String(take!(buf)) == expected
+   Evaluated: "Dict(\n     :a => \"a\",\n     :dict1 => Dict(\n         :a => 1,\n         :b => 2,\n         :c => 3,\n     ),\n\e[31m-    :c => \"c\",\n\e[39m     :b => \"\e[31mb\e[39m\e[32md\e[39m\",\n     :list => [\e[0m1, \e[31m2\e[39m\e[31m, \e[39m\e[32m4\e[39m\e[32m, \e[39m\e[0m3],\n     :dict2 => Dict(\n         :a => 1,\n\e[31m-        :b => 2,\n\e[39m\e[31m-        :c => 3,\n\e[39m\e[32m+        :c => 4,\n\e[39m\e[32m\e[39m     ),\n\e[32m+    :e => \"e\",\n\e[39m)" == "Dict(\n     :a => \"a\",\n     :dict1 => Dict(\n         :c => 3,\n         :a => 1,\n         :b => 2,\n     ),\n\e[31m-    :c => \"c\",\n\e[39m     :list => [\e[0m1, \e[31m2\e[39m\e[31m, \e[39m\e[32m4\e[39m\e[32m, \e[39m\e[0m3],\n     :b => \"\e[31mb\e[39m\e[32md\e[39m\",\n     :dict2 => Dict(\n         :a => 1,\n\e[31m-        :b => 2,\n\e[39m\e[31m-        :c => 3,\n\e[39m\e[32m+        :c => 4,\n\e[39m\e[32m\e[39m     ),\n\e[32m+    :e => \"e\",\n\e[39m)"
+Stacktrace:
+ [1] [1mmacro expansion[22m[22m at [1m/home/vagrant/.julia/v0.6/DeepDiffs/test/display.jl:121[22m[22m [inlined]
+ [2] [1mmacro expansion[22m[22m at [1m./test.jl:853[22m[22m [inlined]
+ [3] [1mmacro expansion[22m[22m at [1m/home/vagrant/.julia/v0.6/DeepDiffs/test/display.jl:100[22m[22m [inlined]
+ [4] [1mmacro expansion[22m[22m at [1m./test.jl:853[22m[22m [inlined]
+ [5] [1mmacro expansion[22m[22m at [1m/home/vagrant/.julia/v0.6/DeepDiffs/test/display.jl:0[22m[22m [inlined]
+ [6] [1mmacro expansion[22m[22m at [1m./test.jl:853[22m[22m [inlined]
+ [7] [1manonymous[22m[22m at [1m./<missing>:?[22m[22m
+No-Color Diffs: Test Failed
+  Expression: String(take!(buf)) == "Dict(\n     :a => \"a\",\n     :dict1 => Dict(\n         :c => 3,\n         :a => 1,\n         :b => 2,\n     ),\n-    :c => \"c\",\n     :list => [1, (-)2, (+)4, 3],\n     :b => \"{-b-}{+d+}\",\n     :dict2 => Dict(\n         :a => 1,\n-        :b => 2,\n-        :c => 3,\n+        :c => 4,\n     ),\n+    :e => \"e\",\n)"
+   Evaluated: "Dict(\n     :a => \"a\",\n     :dict1 => Dict(\n         :a => 1,\n         :b => 2,\n         :c => 3,\n     ),\n-    :c => \"c\",\n     :b => \"{-b-}{+d+}\",\n     :list => [1, (-)2, (+)4, 3],\n     :dict2 => Dict(\n         :a => 1,\n-        :b => 2,\n-        :c => 3,\n+        :c => 4,\n     ),\n+    :e => \"e\",\n)" == "Dict(\n     :a => \"a\",\n     :dict1 => Dict(\n         :c => 3,\n         :a => 1,\n         :b => 2,\n     ),\n-    :c => \"c\",\n     :list => [1, (-)2, (+)4, 3],\n     :b => \"{-b-}{+d+}\",\n     :dict2 => Dict(\n         :a => 1,\n-        :b => 2,\n-        :c => 3,\n+        :c => 4,\n     ),\n+    :e => \"e\",\n)"
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/DeepDiffs/test/display.jl:126 [inlined]
+ [2] macro expansion at ./test.jl:853 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/DeepDiffs/test/display.jl:124 [inlined]
+ [4] macro expansion at ./test.jl:853 [inlined]
+ [5] macro expansion at /home/vagrant/.julia/v0.6/DeepDiffs/test/display.jl:0 [inlined]
+ [6] macro expansion at ./test.jl:853 [inlined]
+ [7] anonymous at ./<missing>:?
+.[32m.[39m.
 simplediff: [32m.[39m
 strings: [32m.[39m[32m.[39m[32m.[39m[32m.[39m[32m.[39m[32m.[39m[32m.[39m[32m.[39m[32m.[39m[32m.[39m
 
 
-[1m[37mTest Summary:  | [39m[22m[1m[32mPass  [39m[22m[1m[36mTotal[39m[22m
-DeepDiff Tests | [32m  57  [39m[36m   57[39m
-INFO: DeepDiffs tests passed
+[1m[37mTest Summary:                             | [39m[22m[1m[32mPass  [39m[22m[1m[91mFail  [39m[22m[1m[36mTotal[39m[22m
+DeepDiff Tests                            | [32m  55  [39m[91m   2  [39m[36m   57[39m
+  arrays can be diffed                    | [32m  19  [39m      [36m   19[39m
+  Dicts can be diffed                     | [32m  18  [39m      [36m   18[39m
+  Display tests                           | [32m   7  [39m[91m   2  [39m[36m    9[39m
+    Array diffs print correctly           | [32m   4  [39m      [36m    4[39m
+    Dict diffs print correctly            |       [91m   2  [39m[36m    2[39m
+      Color Diffs                         |       [91m   1  [39m[36m    1[39m
+      No-Color Diffs                      |       [91m   1  [39m[36m    1[39m
+    single-line strings display correctly | [32m   1  [39m      [36m    1[39m
+    Multi-line strings display correctly  | [32m   2  [39m      [36m    2[39m
+  SimpleDiff tests                        | [32m   1  [39m      [36m    1[39m
+  Single-line Strings can be diffed       | [32m   5  [39m      [36m    5[39m
+  Multi-line Strings can be diffed        | [32m   5  [39m      [36m    5[39m
+[1m[91mERROR: [39m[22mLoadError: [91mSome tests did not pass: 55 passed, 2 failed, 0 errored, 0 broken.[39m
+while loading /home/vagrant/.julia/v0.6/DeepDiffs/test/runtests.jl, in expression starting on line 6
+==============================[ ERROR: DeepDiffs ]==============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/DeepDiffs/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing BaseTestNext v0.2.2
 INFO: Removing TestSetExtensions v0.0.2
+ERROR: DeepDiffs had test errors
 
 >>> End of log
