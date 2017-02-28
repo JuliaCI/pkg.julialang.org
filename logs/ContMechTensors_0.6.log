@@ -7,25 +7,23 @@ INFO: Installing ForwardDiff v0.3.4
 INFO: Installing NaNMath v0.2.2
 INFO: Installing StaticArrays v0.3.0
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of ContMechTensors
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("ContMechTensors")' log
-Julia Version 0.6.0-dev.2981
-Commit 466af85 (2017-02-25 23:24 UTC)
+Julia Version 0.6.0-dev.2985
+Commit 2cd3ff7 (2017-02-26 06:00 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-110-generic #157-Ubuntu SMP Mon Feb 20 11:54:05 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (782.703125 MB free)
-Uptime: 12694.0 sec
-Load Avg:  1.0732421875  1.07666015625  1.07666015625
+Memory: 2.9392738342285156 GB (763.265625 MB free)
+Uptime: 13159.0 sec
+Load Avg:  1.00634765625  1.00439453125  1.04541015625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz     669175 s       4993 s      58732 s     386340 s         18 s
-#2  3500 MHz     175129 s       3610 s      29224 s    1029631 s          0 s
+#1  3500 MHz     646753 s       7730 s      57400 s     466383 s         19 s
+#2  3500 MHz     218492 s         41 s      30582 s    1038421 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -259,12 +257,45 @@ julia> norm(majorsymmetric(E) - E_sym)
 
 > Output Diff (REQUIRES COLOR):
 
-WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
-  likely near /home/vagrant/.julia/v0.6/ContMechTensors/test/../docs/make.jl:3
-WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
-  likely near /home/vagrant/.julia/v0.6/ContMechTensors/test/../docs/make.jl:3
-WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.
-  likely near /home/vagrant/.julia/v0.6/ContMechTensors/test/../docs/make.jl:3
+ERROR: MethodError: Cannot `convert` an object of type Int64 to an object of type ForwardDiff.Dual{4,ForwardDiff.Dual{4,Float64}}
+The applicable method may be too new: running in world age 21503, while current world is 21570.
+This may have arisen from a call to the constructor ForwardDiff.Dual{4,ForwardDiff.Dual{4,Float64}}(...),
+since type constructors fall back to convert methods.
+Stacktrace:
+ [1] promote_matprod(::Type{Float64}, ::Type{ForwardDiff.Dual{4,ForwardDiff.Dual{4,Float64}}}) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:7
+ [2] *(...) at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:135
+ [3] macro expansion at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:21 [inlined]
+ [4] Ac_mul_B at /home/vagrant/.julia/v0.6/StaticArrays/src/matrix_multiply.jl:19 [inlined]
+ [5] dcontract(::ContMechTensors.Tensor{2,2,ForwardDiff.Dual{4,ForwardDiff.Dual{4,Float64}},4}, ::ContMechTensors.Tensor{4,2,Float64,16}) at /home/vagrant/.julia/v0.6/ContMechTensors/src/tensor_products.jl:39
+ [6] ψ(::ContMechTensors.Tensor{2,2,ForwardDiff.Dual{4,ForwardDiff.Dual{4,Float64}},4}) at ./none:1
+ [7] gradient(::#ψ, ::ContMechTensors.Tensor{2,2,ForwardDiff.Dual{4,Float64},4}) at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:314 (repeats 2 times)
+ [8] hessian(::#ψ, ::ContMechTensors.Tensor{2,2,Float64,4}) at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: src/man/automatic_differentiation.md
+
+> Code block:
+
+```jldoctest
+julia> E = rand(Tensor{4,2});
+
+julia> ψ(ϵ) = 1/2 * ϵ ⊡ E ⊡ ϵ;
+
+julia> E_sym = hessian(ψ, rand(Tensor{2,2}));
+
+julia> norm(majorsymmetric(E) - E_sym)
+0.0
+```
+
+> Subexpression:
+
+    norm(majorsymmetric(E) - E_sym)
+
+> Output Diff (REQUIRES COLOR):
+
+0.0ERROR: UndefVarError: E_sym not defined
 
 =====[End Error]===============================
 WARNING: Base.LinearFast is deprecated, use Base.IndexLinear instead.

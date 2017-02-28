@@ -1,26 +1,12 @@
 >>> 'Pkg.add("Knet")' log
 INFO: Cloning cache of Knet from git://github.com/denizyuret/Knet.jl.git
-INFO: Installing AutoGrad v0.0.5
-INFO: Installing Knet v0.8.1
+INFO: Installing AutoGrad v0.0.6
+INFO: Installing Knet v0.8.2
 INFO: Building Knet
-WARNING: CUDA not installed, GPU support will not be available.
-WARNING: New definition 
-    ipermutedims(###8027<:Any, AutoGrad.Rec{###8028<:Any})
-is ambiguous with: 
-    ipermutedims(AbstractArray, Any) at abstractarraymath.jl:169.
-To fix, define 
-    ipermutedims(_<:AbstractArray, AutoGrad.Rec{###8028<:Any})
-before the new definition.
-WARNING: New definition 
-    permutedims(###8023<:Any, AutoGrad.Rec{###8024<:Any})
-is ambiguous with: 
-    permutedims(Union{DenseArray{T<:Any, N<:Any}, Base.SubArray{T<:Any, N<:Any, A<:DenseArray, I<:Tuple{Vararg{Union{Base.Colon, Base.Range{Int64}, Int64}}}, LD<:Any}}, Any) at bitarray.jl:1667.
-To fix, define 
-    permutedims(_<:Union{DenseArray{T<:Any, N<:Any}, Base.SubArray{T<:Any, N<:Any, A<:DenseArray, I<:Tuple{Vararg{Union{Base.Colon, Base.Range{Int64}, Int64}}}, LD<:Any}}, AutoGrad.Rec{###8024<:Any})
-before the new definition.
+WARNING: Cannot find nvcc, GPU support will not be available.
+g++ -c -O3 -Wall -fPIC -fopenmp conv.cpp -o conv.o
+g++ --shared -O3 -Wall -fPIC -fopenmp conv.o -o libknet8.so
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of Knet
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Knet")' log
 Julia Version 0.4.7
@@ -31,13 +17,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-110-generic #157-Ubuntu SMP Mon Feb 20 11:54:05 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1480.3515625 MB free)
-Uptime: 43650.0 sec
-Load Avg:  0.98388671875  1.005859375  1.02392578125
+Memory: 2.9392738342285156 GB (1470.2421875 MB free)
+Uptime: 43730.0 sec
+Load Avg:  1.08837890625  1.02978515625  0.97705078125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3516 MHz    2146120 s       7572 s     173190 s    1573634 s        188 s
-#2  3516 MHz    1427032 s       1957 s     149228 s    2601158 s          4 s
+#1  3500 MHz    2125974 s       2161 s     166905 s    1618685 s        150 s
+#2  3500 MHz    1412162 s       5413 s     144235 s    2646948 s          3 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -53,38 +39,41 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.4
 2 required packages:
  - JSON                          0.8.3
- - Knet                          0.8.1
+ - Knet                          0.8.2
 2 additional packages:
- - AutoGrad                      0.0.5
+ - AutoGrad                      0.0.6
  - Compat                        0.19.0
+INFO: Computing test dependencies for Knet...
+INFO: Installing BaseTestNext v0.2.2
 INFO: Testing Knet
-WARNING: New definition 
-    ipermutedims(###8027<:Any, AutoGrad.Rec{###8028<:Any})
-is ambiguous with: 
-    ipermutedims(AbstractArray, Any) at abstractarraymath.jl:169.
-To fix, define 
-    ipermutedims(_<:AbstractArray, AutoGrad.Rec{###8028<:Any})
-before the new definition.
-WARNING: New definition 
-    permutedims(###8023<:Any, AutoGrad.Rec{###8024<:Any})
-is ambiguous with: 
-    permutedims(Union{DenseArray{T<:Any, N<:Any}, Base.SubArray{T<:Any, N<:Any, A<:DenseArray, I<:Tuple{Vararg{Union{Base.Colon, Base.Range{Int64}, Int64}}}, LD<:Any}}, Any) at bitarray.jl:1667.
-To fix, define 
-    permutedims(_<:Union{DenseArray{T<:Any, N<:Any}, Base.SubArray{T<:Any, N<:Any, A<:DenseArray, I<:Tuple{Vararg{Union{Base.Colon, Base.Range{Int64}, Int64}}}, LD<:Any}}, AutoGrad.Rec{###8024<:Any})
-before the new definition.
 INFO: No GPU found, Knet using the CPU
-(:epoch,0,:loss,461.77524366804886)
-(:epoch,1,:loss,3.3320559275652446)
-(:epoch,2,:loss,0.11996149740117316)
-(:epoch,3,:loss,0.005568748814864159)
-(:epoch,4,:loss,0.0012351227916297526)
-(:epoch,5,:loss,0.0010684746173928936)
-(:epoch,6,:loss,0.0010918068889558643)
-(:epoch,7,:loss,0.0010152818144628201)
-(:epoch,8,:loss,0.0010581459658678986)
-(:epoch,9,:loss,0.0010342780204682536)
-(:epoch,10,:loss,0.00106015559488648)
-  1.943329 seconds (1.83 M allocations: 508.341 MB, 4.25% gc time)
+Test Summary: | Pass  Total
+kptr          |    1      1
+  1.491691 seconds (908.46 k allocations: 41.263 MB, 2.76% gc time)
+  0.084059 seconds (50.94 k allocations: 1.982 MB)
+Test Summary: | Pass  Total
+distributions |    3      3
+  1.127414 seconds (982.85 k allocations: 46.527 MB, 4.04% gc time)
+  0.265530 seconds (302.23 k allocations: 12.195 MB, 1.59% gc time)
+Test Summary: | Pass  Total
+linalg        |   40     40
+  7.215176 seconds (6.68 M allocations: 306.573 MB, 0.93% gc time)
+Test Summary: | Pass  Total
+broadcast     | 1128   1128
+  7.772431 seconds (5.49 M allocations: 284.430 MB, 0.90% gc time)
+Test Summary: | Pass  Total
+reduction     |  396    396
+  7.763248 seconds (7.18 M allocations: 331.732 MB, 1.11% gc time)
+Test Summary: | Pass  Total
+conv          |   52     52
+  8.899575 seconds (7.64 M allocations: 355.555 MB, 1.23% gc time)
+Test Summary: | Pass  Total
+unary         |  688    688
+  4.317245 seconds (2.81 M allocations: 136.517 MB, 0.98% gc time)
+Test Summary: | Pass  Total
+update!       |    9      9
+ 11.605661 seconds (23.96 M allocations: 1.169 GB, 2.87% gc time)
 INFO: Knet tests passed
+INFO: Removing BaseTestNext v0.2.2
 
 >>> End of log
