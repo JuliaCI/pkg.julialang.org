@@ -23,7 +23,7 @@ INFO: Installing Juno v0.2.6
 INFO: Installing KernelDensity v0.3.0
 INFO: Installing Lazy v0.11.5
 INFO: Installing LineSearches v0.1.5
-INFO: Installing MacroTools v0.3.5
+INFO: Installing MacroTools v0.3.6
 INFO: Installing Media v0.2.5
 INFO: Installing NaNMath v0.2.2
 INFO: Installing NoveltyColors v0.3.0
@@ -55,13 +55,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-110-generic #157-Ubuntu SMP Mon Feb 20 11:54:05 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (685.0234375 MB free)
-Uptime: 40688.0 sec
-Load Avg:  1.0029296875  0.98681640625  0.96533203125
+Memory: 2.9392738342285156 GB (662.80078125 MB free)
+Uptime: 41127.0 sec
+Load Avg:  1.021484375  0.9853515625  0.962890625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    1990750 s       3074 s     154459 s    1484054 s        156 s
-#2  3500 MHz    1308977 s       3698 s     135522 s    2443342 s          2 s
+#1  3499 MHz    1982822 s        802 s     156502 s    1545765 s        152 s
+#2  3499 MHz    1353070 s       5900 s     136720 s    2455642 s          4 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -103,7 +103,7 @@ Package Directory: /home/vagrant/.julia/v0.4
  - KernelDensity                 0.3.0
  - Lazy                          0.11.5
  - LineSearches                  0.1.5
- - MacroTools                    0.3.5
+ - MacroTools                    0.3.6
  - Media                         0.2.5
  - NaNMath                       0.2.2
  - NoveltyColors                 0.3.0
@@ -160,18 +160,25 @@ To fix, define
     write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
 before the new definition.
 WARNING: New definition 
-    +(AbstractArray, DataArrays.DataArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:276
+    all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
 is ambiguous with: 
-    +(WoodburyMatrices.SymWoodbury, AbstractArray{T<:Any, 2}) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:139.
+    all(Base.Predicate, Any) at reduce.jl:369.
 To fix, define 
-    +(WoodburyMatrices.SymWoodbury, DataArrays.DataArray{T<:Any, 2})
+    all(Base.Predicate, Lazy.List)
 before the new definition.
 WARNING: New definition 
-    +(AbstractArray, DataArrays.AbstractDataArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:300
+    all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
 is ambiguous with: 
-    +(WoodburyMatrices.SymWoodbury, AbstractArray{T<:Any, 2}) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:139.
+    all(Base.IdFun, Any) at reduce.jl:370.
 To fix, define 
-    +(WoodburyMatrices.SymWoodbury, DataArrays.AbstractDataArray{T<:Any, 2})
+    all(Base.IdFun, Lazy.List)
+before the new definition.
+WARNING: New definition 
+    all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
+is ambiguous with: 
+    all(AbstractArray, Any) at reducedim.jl:264.
+To fix, define 
+    all(AbstractArray, Lazy.List)
 before the new definition.
 WARNING: New definition 
     any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
@@ -190,44 +197,23 @@ before the new definition.
 WARNING: New definition 
     any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
 is ambiguous with: 
-    any(DataArrays.DataArray, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/reducedim.jl:320.
-To fix, define 
-    any(DataArrays.DataArray, Lazy.List)
-before the new definition.
-WARNING: New definition 
-    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
-is ambiguous with: 
     any(AbstractArray, Any) at reducedim.jl:264.
 To fix, define 
     any(AbstractArray, Lazy.List)
 before the new definition.
 WARNING: New definition 
-    all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
+    +(AbstractArray, DataArrays.DataArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:276
 is ambiguous with: 
-    all(Base.Predicate, Any) at reduce.jl:369.
+    +(WoodburyMatrices.SymWoodbury, AbstractArray{T<:Any, 2}) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:139.
 To fix, define 
-    all(Base.Predicate, Lazy.List)
+    +(WoodburyMatrices.SymWoodbury, DataArrays.DataArray{T<:Any, 2})
 before the new definition.
 WARNING: New definition 
-    all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
+    +(AbstractArray, DataArrays.AbstractDataArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:300
 is ambiguous with: 
-    all(Base.IdFun, Any) at reduce.jl:370.
+    +(WoodburyMatrices.SymWoodbury, AbstractArray{T<:Any, 2}) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:139.
 To fix, define 
-    all(Base.IdFun, Lazy.List)
-before the new definition.
-WARNING: New definition 
-    all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
-is ambiguous with: 
-    all(DataArrays.DataArray, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/reducedim.jl:320.
-To fix, define 
-    all(DataArrays.DataArray, Lazy.List)
-before the new definition.
-WARNING: New definition 
-    all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
-is ambiguous with: 
-    all(AbstractArray, Any) at reducedim.jl:264.
-To fix, define 
-    all(AbstractArray, Lazy.List)
+    +(WoodburyMatrices.SymWoodbury, DataArrays.AbstractDataArray{T<:Any, 2})
 before the new definition.
 Test 1
 Test 2
