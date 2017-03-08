@@ -5,7 +5,7 @@ INFO: Installing AutoHashEquals v0.0.10
 INFO: Installing BinDeps v0.4.7
 INFO: Installing Blosc v0.2.0
 INFO: Installing BufferedStreams v0.3.0
-INFO: Installing Calculus v0.2.0
+INFO: Installing Calculus v0.2.1
 INFO: Installing Codecs v0.3.0
 INFO: Installing Combinatorics v0.2.1
 INFO: Installing DSGE v0.1.4
@@ -40,7 +40,7 @@ INFO: Installing Optim v0.7.7
 INFO: Installing PDMats v0.5.6
 INFO: Installing ParserCombinator v1.7.11
 INFO: Installing PolynomialFactors v0.0.3
-INFO: Installing Polynomials v0.1.2
+INFO: Installing Polynomials v0.1.3
 INFO: Installing PositiveFactorizations v0.0.4
 INFO: Installing Primes v0.1.2
 INFO: Installing QuantEcon v0.9.0
@@ -48,7 +48,7 @@ INFO: Installing Reexport v0.0.3
 INFO: Installing Requests v0.4.1
 INFO: Installing Rmath v0.1.6
 INFO: Installing Roots v0.3.0
-INFO: Installing SHA v0.3.1
+INFO: Installing SHA v0.3.2
 INFO: Installing SortingAlgorithms v0.1.0
 INFO: Installing StatsBase v0.12.0
 INFO: Installing StatsFuns v0.4.0
@@ -60,6 +60,8 @@ INFO: Building HttpParser
 INFO: Building MbedTLS
 INFO: Building LightXML
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of DSGE
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("DSGE")' log
 Julia Version 0.4.7
@@ -70,13 +72,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-110-generic #157-Ubuntu SMP Mon Feb 20 11:54:05 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (594.16015625 MB free)
-Uptime: 25637.0 sec
-Load Avg:  0.87353515625  0.9697265625  1.0166015625
+Memory: 2.9392738342285156 GB (570.88671875 MB free)
+Uptime: 24070.0 sec
+Load Avg:  0.791015625  0.94189453125  1.02392578125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1155344 s       4599 s      98736 s    1059127 s         85 s
-#2  3499 MHz     723639 s       2436 s      87254 s    1669030 s          3 s
+#1  3499 MHz    1041352 s       7031 s      94196 s    1027296 s         97 s
+#2  3499 MHz     798638 s         40 s      84261 s    1418167 s          2 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -98,10 +100,10 @@ Package Directory: /home/vagrant/.julia/v0.4
  - BinDeps                       0.4.7
  - Blosc                         0.2.0
  - BufferedStreams               0.3.0
- - Calculus                      0.2.0
+ - Calculus                      0.2.1
  - Codecs                        0.3.0
  - Combinatorics                 0.2.1
- - Compat                        0.19.0
+ - Compat                        0.20.0
  - DSP                           0.1.1
  - DataArrays                    0.3.12
  - DataFrames                    0.8.5
@@ -133,7 +135,7 @@ Package Directory: /home/vagrant/.julia/v0.4
  - PDMats                        0.5.6
  - ParserCombinator              1.7.11
  - PolynomialFactors             0.0.3
- - Polynomials                   0.1.2
+ - Polynomials                   0.1.3
  - PositiveFactorizations        0.0.4
  - Primes                        0.1.2
  - QuantEcon                     0.9.0
@@ -141,7 +143,7 @@ Package Directory: /home/vagrant/.julia/v0.4
  - Requests                      0.4.1
  - Rmath                         0.1.6
  - Roots                         0.3.0
- - SHA                           0.3.1
+ - SHA                           0.3.2
  - SortingAlgorithms             0.1.0
  - StatsBase                     0.12.0
  - StatsFuns                     0.4.0
@@ -247,6 +249,13 @@ To fix, define
 before the new definition.
 WARNING: could not import Base.clear! into LineSearches
 WARNING: New definition 
+    write(Base.IO, ForwardDiff.Partials) at /home/vagrant/.julia/v0.4/ForwardDiff/src/partials.jl:57
+is ambiguous with: 
+    write(Base.Base64.Base64EncodePipe, AbstractArray{UInt8, 1}) at base64.jl:89.
+To fix, define 
+    write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
+before the new definition.
+WARNING: New definition 
     all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
 is ambiguous with: 
     all(Base.Predicate, Any) at reduce.jl:369.
@@ -288,13 +297,6 @@ is ambiguous with:
 To fix, define 
     any(AbstractArray, Lazy.List)
 before the new definition.
-WARNING: New definition 
-    write(Base.IO, ForwardDiff.Partials) at /home/vagrant/.julia/v0.4/ForwardDiff/src/partials.jl:57
-is ambiguous with: 
-    write(Base.Base64.Base64EncodePipe, AbstractArray{UInt8, 1}) at base64.jl:89.
-To fix, define 
-    write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
-before the new definition.
  * core.jl
  * parameters.jl
  * solve/gensys.jl
@@ -304,7 +306,7 @@ before the new definition.
  * estimate/hessizero.jl
  * estimate/hessian.jl
 WARNING: both DataFrames and FredData export "df"; uses of it in module DSGE must be qualified
-  3.973013 seconds (1.36 M allocations: 3.151 GB, 12.86% gc time)
+  4.163348 seconds (1.36 M allocations: 3.151 GB, 14.26% gc time)
  * estimate/csminwel.jl
 WARNING: MultivariateOptimizationResults(method,initial_x,minimizer,minimum,iterations,iteration_converged,x_converged,x_tol,f_converged,f_tol,g_converged,g_tol,trace,f_calls,g_calls) is deprecated, use MultivariateOptimizationResults(method,initial_x,minimizer,minimum,iterations,iteration_converged,x_converged,x_tol,f_converged,f_tol,g_converged,g_tol,false,trace,f_calls,g_calls,0) instead.
  in depwarn at deprecated.jl:73
