@@ -17,21 +17,21 @@ Using system libraries...
 INFO: Package database updated
 
 >>> 'Pkg.test("Currencies")' log
-Julia Version 0.6.0-pre.alpha.107
-Commit e91065c (2017-03-10 09:47 UTC)
+Julia Version 0.6.0-pre.alpha.116
+Commit 0e970f0 (2017-03-10 19:40 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-112-generic #159-Ubuntu SMP Fri Mar 3 15:26:07 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1105.33203125 MB free)
-Uptime: 19294.0 sec
-Load Avg:  0.91357421875  1.482421875  1.7607421875
+Memory: 2.9392738342285156 GB (1147.6953125 MB free)
+Uptime: 19120.0 sec
+Load Avg:  1.35546875  1.61474609375  1.826171875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1105281 s       3236 s      85715 s     559491 s         24 s
-#2  3499 MHz     549092 s       3662 s      50964 s    1269852 s          1 s
+#1  3499 MHz    1115468 s       7221 s      85122 s     532231 s         23 s
+#2  3499 MHz     536055 s        270 s      51051 s    1273458 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -81,18 +81,43 @@ Test Summary: | Pass  Total
 Custom        |   18     18
 Test Summary: | Pass  Total
 Valuation     |   20     20
-WARNING: takebuf_array is deprecated, use take! instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] takebuf_array(::Base.AbstractIOBuffer{Array{UInt8,1}}, ::Vararg{Base.AbstractIOBuffer{Array{UInt8,1}},N} where N) at ./deprecated.jl:31
- [3] readavailable(::MbedTLS.SSLContext) at /home/vagrant/.julia/v0.6/MbedTLS/src/ssl.jl:225
- [4] macro expansion at /home/vagrant/.julia/v0.6/Requests/src/streaming.jl:68 [inlined]
- [5] (::Requests.##6#8{Requests.ResponseStream{MbedTLS.SSLContext},Requests.ResponseParser,Channel{Symbol}})() at ./event.jl:73
+ECB data: Error During Test
+  Got an exception of type Requests.TimeoutException outside of a @test
+  TimeoutException: server did not respond for more than 15.0 seconds. 
+  Stacktrace:
+   [1] yieldto(::Task, ::ANY) at ./event.jl:160
+   [2] wait() at ./event.jl:193
+   [3] wait(::Condition) at ./event.jl:27
+   [4] wait(::Requests.ResponseStream{MbedTLS.SSLContext}) at /home/vagrant/.julia/v0.6/Requests/src/streaming.jl:107
+   [5] #do_stream_request#23(::Dict{AbstractString,AbstractString}, ::Void, ::Void, ::Void, ::Array{Requests.FileParam,1}, ::Int64, ::Dict{Any,Any}, ::Bool, ::Int64, ::Array{HttpCommon.Response,1}, ::MbedTLS.SSLConfig, ::Bool, ::Bool, ::Bool, ::Nullable{URIParser.URI}, ::Nullable{URIParser.URI}, ::Requests.#do_stream_request, ::URIParser.URI, ::String) at /home/vagrant/.julia/v0.6/Requests/src/Requests.jl:411
+   [6] (::Requests.#kw##do_stream_request)(::Array{Any,1}, ::Requests.#do_stream_request, ::URIParser.URI, ::String) at ./<missing>:0
+   [7] #do_request#22(::Array{Any,1}, ::Function, ::URIParser.URI, ::String) at /home/vagrant/.julia/v0.6/Requests/src/Requests.jl:311
+   [8] (::Requests.#kw##do_request)(::Array{Any,1}, ::Requests.#do_request, ::URIParser.URI, ::String) at ./<missing>:0
+   [9] #get#29(::Array{Any,1}, ::Function, ::URIParser.URI) at /home/vagrant/.julia/v0.6/Requests/src/Requests.jl:444
+   [10] (::Base.#kw##get)(::Array{Any,1}, ::Base.#get, ::URIParser.URI) at ./<missing>:0
+   [11] #get#28(::Array{Any,1}, ::Function, ::String) at /home/vagrant/.julia/v0.6/Requests/src/Requests.jl:443
+   [12] (::Base.#kw##get)(::Array{Any,1}, ::Base.#get, ::String) at ./<missing>:0
+   [13] ecbrates_fresh(::String) at /home/vagrant/.julia/v0.6/Currencies/src/Valuation/Valuation.jl:42
+   [14] ecbrates() at /home/vagrant/.julia/v0.6/Currencies/src/Valuation/Valuation.jl:81
+   [15] macro expansion at /home/vagrant/.julia/v0.6/Currencies/test/valuation.jl:61 [inlined]
+   [16] macro expansion at ./test.jl:853 [inlined]
+   [17] anonymous at ./<missing>:?
+   [18] include_from_node1(::String) at ./loading.jl:539
+   [19] include(::String) at ./sysimg.jl:14
+   [20] include_from_node1(::String) at ./loading.jl:539
+   [21] include(::String) at ./sysimg.jl:14
+   [22] process_options(::Base.JLOptions) at ./client.jl:305
+   [23] _start() at ./client.jl:371
+Test Summary: | Error  Total
+ECB data      |     1      1
+ERROR: LoadError: LoadError: Some tests did not pass: 0 passed, 0 failed, 1 errored, 0 broken.
 while loading /home/vagrant/.julia/v0.6/Currencies/test/valuation.jl, in expression starting on line 60
-Test Summary: | Pass  Total
-ECB data      |   12     12
-Test Summary: | Pass  Total
-Doc Examples  |    2      2
-INFO: Currencies tests passed
+while loading /home/vagrant/.julia/v0.6/Currencies/test/runtests.jl, in expression starting on line 38
+=============================[ ERROR: Currencies ]==============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Currencies/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: Currencies had test errors
 
 >>> End of log
