@@ -1,5 +1,5 @@
 >>> 'Pkg.add("Lint")' log
-INFO: Installing Lint v0.2.5
+INFO: Installing Lint v0.3.0
 INFO: Package database updated
 INFO: METADATA is out-of-date — you may not have the latest version of Lint
 INFO: Use `Pkg.update()` to get the latest versions of your packages
@@ -13,13 +13,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-112-generic #159-Ubuntu SMP Fri Mar 3 15:26:07 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (2176.80859375 MB free)
-Uptime: 61126.0 sec
-Load Avg:  1.05419921875  1.103515625  1.1904296875
+Memory: 2.9392738342285156 GB (2177.24609375 MB free)
+Uptime: 62982.0 sec
+Load Avg:  0.93115234375  1.1650390625  1.27001953125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    2628016 s        962 s     261529 s    2679763 s        104 s
-#2  3500 MHz    1040597 s       7236 s     157338 s    4737345 s          2 s
+#1  3500 MHz    2617547 s       2813 s     226044 s    2931564 s         84 s
+#2  3500 MHz     953448 s       5152 s     147320 s    5002454 s          2 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -35,36 +35,65 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - JSON                          0.8.3
- - Lint                          0.2.5
+ - Lint                          0.3.0
 1 additional packages:
  - Compat                        0.20.0
 INFO: Testing Lint
-ERROR: LoadError: LoadError: MethodError: Cannot `convert` an object of type Type{Array} to an object of type DataType
-This may have arisen from a call to the constructor DataType(...),
-since type constructors fall back to convert methods.
-Stacktrace:
- [1] getindex(::Type{DataType}, ::Type{T} where T, ::Type{T} where T, ::Type{T} where T, ::Type{T} where T, ::Vararg{Type{T} where T,N} where N) at ./array.jl:188
- [2] include_from_node1(::String) at ./loading.jl:539
- [3] include(::String) at ./sysimg.jl:14
- [4] include_from_node1(::String) at ./loading.jl:539
- [5] include(::String) at ./sysimg.jl:14
- [6] anonymous at ./<missing>:2
-while loading /home/vagrant/.julia/v0.6/Lint/src/functions.jl, in expression starting on line 1
-while loading /home/vagrant/.julia/v0.6/Lint/src/Lint.jl, in expression starting on line 29
-ERROR: LoadError: Failed to precompile Lint to /home/vagrant/.julia/lib/v0.6/Lint.ji.
-Stacktrace:
- [1] compilecache(::String) at ./loading.jl:673
- [2] require(::Symbol) at ./loading.jl:460
- [3] include_from_node1(::String) at ./loading.jl:539
- [4] include(::String) at ./sysimg.jl:14
- [5] process_options(::Base.JLOptions) at ./client.jl:305
- [6] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/Lint/test/runtests.jl, in expression starting on line 1
-================================[ ERROR: Lint ]=================================
+Test basic printing and sorting of lint messages
+...OK
 
-failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Lint/test/runtests.jl`, ProcessExited(1)) [1]
+Test core lint functionalities...
+found lint_helper in LintExample
+typeof(b) == Int64
 
-================================================================================
-ERROR: Lint had test errors
+
+WARNING: deprecated syntax "typealias TT Int64".
+Use "const TT = Int64" instead.
+
+WARNING: deprecated syntax "typealias SharedVector{TT} SharedArray{TT,1}".
+Use "SharedVector{TT} = SharedArray{TT,1}" instead.
+
+WARNING: deprecated syntax "abstract SomeAbsType".
+Use "abstract type SomeAbsType end" instead.
+
+WARNING: deprecated syntax "abstract SomeAbsNum<:Number".
+Use "abstract type SomeAbsNum<:Number end" instead.
+
+WARNING: deprecated syntax "abstract SomeAbsVec1{T}<:Array{T,1}".
+Use "abstract type SomeAbsVec1{T}<:Array{T,1} end" instead.
+
+WARNING: deprecated syntax "abstract SomeAbsVec2{T}".
+Use "abstract type SomeAbsVec2{T} end" instead.
+
+WARNING: deprecated syntax "bitstype 8 MyBitsType".
+Use "primitive type MyBitsType 8 end" instead.
+
+WARNING: deprecated syntax "bitstype a 8".
+Use "primitive type 8 a end" instead.
+Server running on port/pipe 2228 ...
+found lint_helper in LintExample
+Test Summary:      | Pass  Total
+lintserver() tests |    3      3
+Test Summary:                   | Pass  Total
+Testing the lintserver addition |    2      2
+Server running on port/pipe /tmp/juliauQOk6M ...
+Server running on port/pipe /tmp/juliazPdq0d ...
+Server running on port/pipe /tmp/julia18TvUE ...
+Server running on port/pipe /tmp/juliaoTSBO5 ...
+found lint_helper in LintExample
+found lint_helper in LintExample
+found lint_helper in LintExample
+found lint_helper in LintExample
+Test Summary:                                        | Pass  Total
+Testing lintserver() with named pipe and JSON format |   38     38
+Test Summary: | Pass  Total
+Regressions   |    8      8
+...OK
+
+Linting Lint itself
+/home/vagrant/.julia/v0.6/Lint/src/dict.jl:16 E321 lexicalfirst: use of undeclared symbol
+/home/vagrant/.julia/v0.6/Lint/src/dict.jl:16 E321 lexicallast: use of undeclared symbol
+...OK
+INFO: Lint tests passed
 
 >>> End of log
