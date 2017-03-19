@@ -30,13 +30,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-112-generic #159-Ubuntu SMP Fri Mar 3 15:26:07 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1019.578125 MB free)
-Uptime: 19297.0 sec
-Load Avg:  1.09716796875  1.0302734375  1.0400390625
+Memory: 2.9392738342285156 GB (1025.37890625 MB free)
+Uptime: 19113.0 sec
+Load Avg:  0.978515625  0.958984375  1.0078125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz     917239 s       6565 s      69501 s     738593 s         45 s
-#2  3500 MHz     568423 s         39 s      60486 s    1240889 s          2 s
+#1  3500 MHz     892374 s       4642 s      71302 s     751100 s         36 s
+#2  3500 MHz     577115 s       1227 s      61537 s    1192223 s          2 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -81,11 +81,25 @@ To fix, define
     promote_op(Type{#T<:Any}, Type{#R<:Number})
 before the new definition.
 WARNING: New definition 
-    broadcast(Function, DataArrays.PooledDataArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:323
+    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
 is ambiguous with: 
-    broadcast(Any, NullableArrays.NullableArray...).
+    any(Base.Predicate, Any) at reduce.jl:362.
 To fix, define 
-    broadcast(Function)
+    any(Base.Predicate, Lazy.List)
+before the new definition.
+WARNING: New definition 
+    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
+is ambiguous with: 
+    any(Base.IdFun, Any) at reduce.jl:363.
+To fix, define 
+    any(Base.IdFun, Lazy.List)
+before the new definition.
+WARNING: New definition 
+    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
+is ambiguous with: 
+    any(AbstractArray, Any) at reducedim.jl:264.
+To fix, define 
+    any(AbstractArray, Lazy.List)
 before the new definition.
 WARNING: New definition 
     all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
@@ -104,44 +118,30 @@ before the new definition.
 WARNING: New definition 
     all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
 is ambiguous with: 
-    all(DataArrays.DataArray, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/reducedim.jl:320.
-To fix, define 
-    all(DataArrays.DataArray, Lazy.List)
-before the new definition.
-WARNING: New definition 
-    all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
-is ambiguous with: 
     all(AbstractArray, Any) at reducedim.jl:264.
 To fix, define 
     all(AbstractArray, Lazy.List)
 before the new definition.
 WARNING: New definition 
-    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
+    broadcast(Function, DataArrays.PooledDataArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:323
 is ambiguous with: 
-    any(Base.Predicate, Any) at reduce.jl:362.
+    broadcast(Any, NullableArrays.NullableArray...).
 To fix, define 
-    any(Base.Predicate, Lazy.List)
+    broadcast(Function)
 before the new definition.
 WARNING: New definition 
-    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
+    ==(CategoricalArrays.CategoricalValue, Any) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:63
 is ambiguous with: 
-    any(Base.IdFun, Any) at reduce.jl:363.
+    ==(Any, DataArrays.NAtype) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:610.
 To fix, define 
-    any(Base.IdFun, Lazy.List)
+    ==(CategoricalArrays.CategoricalValue, DataArrays.NAtype)
 before the new definition.
 WARNING: New definition 
-    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
+    ==(Any, CategoricalArrays.CategoricalValue) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:64
 is ambiguous with: 
-    any(DataArrays.DataArray, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/reducedim.jl:320.
+    ==(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:610.
 To fix, define 
-    any(DataArrays.DataArray, Lazy.List)
-before the new definition.
-WARNING: New definition 
-    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
-is ambiguous with: 
-    any(AbstractArray, Any) at reducedim.jl:264.
-To fix, define 
-    any(AbstractArray, Lazy.List)
+    ==(DataArrays.NAtype, CategoricalArrays.CategoricalValue)
 before the new definition.
 WARNING: New definition 
     promote_rule(Type{CategoricalArrays.NominalValue{#S<:Any, R<:Integer}}, Type{#T<:Any}) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:12
@@ -184,6 +184,20 @@ is ambiguous with:
     promote_rule(Type{#T<:Any}, Type{DataArrays.NAtype}) at /home/vagrant/.julia/v0.4/DataArrays/src/natype.jl:37.
 To fix, define 
     promote_rule(Type{CategoricalArrays.OrdinalValue{#S<:Any, #R<:Any}}, Type{DataArrays.NAtype})
+before the new definition.
+WARNING: New definition 
+    isequal(CategoricalArrays.CategoricalValue, Any) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:68
+is ambiguous with: 
+    isequal(Any, DataArrays.NAtype) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:508.
+To fix, define 
+    isequal(CategoricalArrays.CategoricalValue, DataArrays.NAtype)
+before the new definition.
+WARNING: New definition 
+    isequal(Any, CategoricalArrays.CategoricalValue) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:69
+is ambiguous with: 
+    isequal(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:507.
+To fix, define 
+    isequal(DataArrays.NAtype, CategoricalArrays.CategoricalValue)
 before the new definition.
 WARNING: Method definition convert(Type{Array{#T<:Any, #n<:Any}}, AbstractArray{#S<:Any, #n<:Any}) in module Base at array.jl:241 overwritten in module CategoricalArrays at /home/vagrant/.julia/v0.4/CategoricalArrays/src/CategoricalArrays.jl:19.
 WARNING: Method definition convert(Type{Array{#T<:Any, N<:Any}}, AbstractArray{#S<:Any, #n<:Any}) in module Base at array.jl:240 overwritten in module CategoricalArrays at /home/vagrant/.julia/v0.4/CategoricalArrays/src/CategoricalArrays.jl:18.
@@ -236,34 +250,6 @@ is ambiguous with:
     convert(Type{CategoricalArrays.NullableOrdinalArray{#T<:Any, #N<:Any, #R<:Any}}, CategoricalArrays.NullableOrdinalArray{#T<:Any, #N<:Any, #R<:Any}) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/array.jl:56.
 To fix, define 
     convert(Type{CategoricalArrays.NullableOrdinalArray{#T<:Any, #N<:Any, #R<:Any}}, CategoricalArrays.NullableOrdinalArray{#T<:Any, #N<:Any, _<:Integer})
-before the new definition.
-WARNING: New definition 
-    isequal(CategoricalArrays.CategoricalValue, Any) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:68
-is ambiguous with: 
-    isequal(Any, DataArrays.NAtype) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:508.
-To fix, define 
-    isequal(CategoricalArrays.CategoricalValue, DataArrays.NAtype)
-before the new definition.
-WARNING: New definition 
-    isequal(Any, CategoricalArrays.CategoricalValue) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:69
-is ambiguous with: 
-    isequal(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:507.
-To fix, define 
-    isequal(DataArrays.NAtype, CategoricalArrays.CategoricalValue)
-before the new definition.
-WARNING: New definition 
-    ==(CategoricalArrays.CategoricalValue, Any) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:63
-is ambiguous with: 
-    ==(Any, DataArrays.NAtype) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:610.
-To fix, define 
-    ==(CategoricalArrays.CategoricalValue, DataArrays.NAtype)
-before the new definition.
-WARNING: New definition 
-    ==(Any, CategoricalArrays.CategoricalValue) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:64
-is ambiguous with: 
-    ==(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:610.
-To fix, define 
-    ==(DataArrays.NAtype, CategoricalArrays.CategoricalValue)
 before the new definition.
 INFO: DataStreams tests passed
 
