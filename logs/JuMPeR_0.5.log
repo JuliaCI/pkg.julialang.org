@@ -22,13 +22,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-112-generic #159-Ubuntu SMP Fri Mar 3 15:26:07 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1407.85546875 MB free)
-Uptime: 46623.0 sec
-Load Avg:  0.9970703125  0.998046875  1.0185546875
+Memory: 2.9392738342285156 GB (1398.19921875 MB free)
+Uptime: 48040.0 sec
+Load Avg:  0.90673828125  0.958984375  1.01318359375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    2884486 s        107 s     213525 s    1015717 s        157 s
-#2  3500 MHz    1170515 s       6220 s     132337 s    3174703 s          4 s
+#1  3499 MHz    2928922 s        128 s     229432 s    1084285 s        186 s
+#2  3499 MHz    1207028 s       7264 s     135715 s    3294537 s          3 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -64,7 +64,7 @@ INFO: Computing test dependencies for JuMPeR...
 INFO: Installing BaseTestNext v0.2.2
 INFO: Installing BinDeps v0.4.7
 INFO: Installing ECOS v0.7.0
-INFO: Installing GLPK v0.4.1
+INFO: Installing GLPK v0.4.2
 INFO: Installing GLPKMathProgInterface v0.3.2
 INFO: Installing SHA v0.3.2
 INFO: Installing URIParser v0.1.8
@@ -104,6 +104,26 @@ UncertainySet...
 BasicUncertaintySet polyhedral...
   LP tests...
   MILP tests...
+Test 1: Test Failed
+  Expression: isapprox(getvalue(x[2]),0.0,atol=TOL)
+ in record(::BaseTestNext.DefaultTestSet, ::BaseTestNext.Fail) at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:320
+ in do_test(::##694#736, ::Expr) at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:192
+ in macro expansion at /home/vagrant/.julia/v0.5/JuMPeR/test/uncsets_basic.jl:196 [inlined]
+ in macro expansion at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+ in macro expansion at /home/vagrant/.julia/v0.5/JuMPeR/test/uncsets_basic.jl:186 [inlined]
+ in macro expansion at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:606 [inlined]
+ in (::##691#733)(::Tuple{GLPKMathProgInterface.GLPKInterfaceMIP.GLPKSolverMIP,Bool}) at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:603
+ in collect(::Base.Generator{Base.Prod2{Array{Any,1},Array{Bool,1}},##691#733}) at ./array.jl:307
+ in macro expansion; at /home/vagrant/.julia/v0.5/JuMPeR/test/uncsets_basic.jl:183 [inlined]
+ in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:488
+ in macro expansion; at /home/vagrant/.julia/v0.5/JuMPeR/test/runtests.jl:27 [inlined]
+ in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:552 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:488
+ in process_options(::Base.JLOptions) at ./client.jl:265
+ in _start() at ./client.jl:321
 glp_intopt: optimal basis to initial LP relaxation not provided
 WARNING: Method definition solver_name(Any) in module Main at /home/vagrant/.julia/v0.5/JuMPeR/test/uncsets_basic.jl:25 overwritten at /home/vagrant/.julia/v0.5/JuMPeR/test/uncsets_basic_L1.jl:24.
 BasicUncertaintySet L1 norm...
@@ -117,15 +137,64 @@ WARNING: Method definition solver_name(Any) in module Main at /home/vagrant/.jul
 Adaptive Newsvendor Model...
 WARNING: Method definition solver_name(Any) in module Main at /home/vagrant/.julia/v0.5/JuMPeR/test/adp_newsvendor.jl:33 overwritten at /home/vagrant/.julia/v0.5/JuMPeR/test/adp_inventory.jl:26.
 Adaptive Inventory Model...
-Test Summary: | Pass  Total
-JuMPeR        | 1167   1167
-INFO: JuMPeR tests passed
+Test Summary:                                  | Pass  Fail  Total
+JuMPeR                                         | 1166     1   1167
+  Operators                                    |  313          313
+  Printing                                     |   19           19
+  Macros                                       |   19           19
+  UncertainySet                                |   28           28
+  BasicUncertaintySet polyhedral               |  175     1    176
+    LPs with GLPKInterfaceLP, cuts=true        |   35           35
+    LPs with ECOSSolver, cuts=true             |   35           35
+    LPs with GLPKInterfaceLP, cuts=false       |   35           35
+    LPs with ECOSSolver, cuts=false            |   35           35
+    MILPs with GLPKInterfaceMIP, cuts=true     |    8     1      9
+      Test 1                                   |    2     1      3
+      Test 2                                   |    3            3
+      Test 3 (integer unc. set)                |    2            2
+      Test 4 (infeasible MILP)                 |    1            1
+    MILPs with GLPKInterfaceMIP, cuts=false    |    7            7
+    Scenarios with GLPKInterfaceLP, cuts=true  |    5            5
+    Scenarios with ECOSSolver, cuts=true       |    5            5
+    Scenarios with GLPKInterfaceLP, cuts=false |    5            5
+    Scenarios with ECOSSolver, cuts=false      |    5            5
+  BasicUncertaintySet L1 norm                  |  216          216
+  BasicUncertaintySet L2 norm                  |   72           72
+  BasicUncertaintySet L∞ norm                  |  200          200
+  BudgetUncertaintySet                         |   84           84
+  Adaptive Newsvendor Model                    |   32           32
+  Adaptive Inventory                           |    8            8
+ERROR: LoadError: Some tests did not pass: 1166 passed, 1 failed, 0 errored.
+ in finish(::BaseTestNext.DefaultTestSet) at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:385
+ in macro expansion; at /home/vagrant/.julia/v0.5/BaseTestNext/src/BaseTestNext.jl:559 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:488
+ in process_options(::Base.JLOptions) at ./client.jl:265
+ in _start() at ./client.jl:321
+while loading /home/vagrant/.julia/v0.5/JuMPeR/test/runtests.jl, in expression starting on line 22
+===============================[ ERROR: JuMPeR ]================================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.5/JuMPeR/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing BaseTestNext v0.2.2
 INFO: Removing BinDeps v0.4.7
 INFO: Removing ECOS v0.7.0
-INFO: Removing GLPK v0.4.1
+INFO: Removing GLPK v0.4.2
 INFO: Removing GLPKMathProgInterface v0.3.2
 INFO: Removing SHA v0.3.2
 INFO: Removing URIParser v0.1.8
+ERROR: JuMPeR had test errors
+ in #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:749
+ in (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
+ in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:59
+ in #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
+ in (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
+ in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in eval(::Module, ::Any) at ./boot.jl:234
+ in process_options(::Base.JLOptions) at ./client.jl:242
+ in _start() at ./client.jl:321
 
 >>> End of log
