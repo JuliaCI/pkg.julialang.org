@@ -24,21 +24,21 @@ INFO: METADATA is out-of-date — you may not have the latest version of ImageFi
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("ImageFiltering")' log
-Julia Version 0.6.0-pre.alpha.208
-Commit 003a14f (2017-03-21 20:11 UTC)
+Julia Version 0.6.0-pre.alpha.229
+Commit cc917b5 (2017-03-22 21:53 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-112-generic #159-Ubuntu SMP Fri Mar 3 15:26:07 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (585.9765625 MB free)
-Uptime: 41511.0 sec
-Load Avg:  1.0771484375  0.98974609375  0.98095703125
+Memory: 2.9392738342285156 GB (584.5625 MB free)
+Uptime: 41373.0 sec
+Load Avg:  0.94140625  0.99169921875  0.96240234375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    2256123 s       4300 s     198110 s    1249947 s        139 s
-#2  3500 MHz     946598 s        281 s     120682 s    2948689 s          6 s
+#1  3501 MHz    2240952 s       3974 s     196988 s    1261647 s        188 s
+#2  3501 MHz     989134 s        152 s     125417 s    2847058 s          9 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -86,10 +86,40 @@ Skipping Base.<|
 Skipping Base.Parallel
 Skipping Base.active_repl
 Skipping Base.active_repl_backend
-Test Failed
-  Expression: isempty(setdiff(aif, asa))
-ERROR: LoadError: There was an error during testing
-while loading /home/vagrant/.julia/v0.6/ImageFiltering/test/runtests.jl, in expression starting on line 6
+Test Summary: | Pass  Total
+Border        |   79     79
+INFO: Two warnings are expected
+WARNING: Likely overflow or conversion error detected. Consider specifying the output type, e.g., `imfilter(UInt32, img, kernel, ...)`
+Test Summary: | Pass  Total
+1d            |   39     39
+WARNING: Likely overflow or conversion error detected. Consider specifying the output type, e.g., `imfilter(Int32, img, kernel, ...)`
+Test Summary: | Pass  Total
+2d widening   |    3      3
+Test Summary: | Pass  Total
+3d            |   18     18
+tiling: Error During Test
+  Got an exception of type BoundsError outside of a @test
+  BoundsError: attempt to access ()
+    at index [1]
+  Stacktrace:
+   [1] _kernelfactors at /home/vagrant/.julia/v0.6/ImageFiltering/src/kernelfactors.jl:420 [inlined]
+   [2] _kernelfactors at /home/vagrant/.julia/v0.6/ImageFiltering/src/kernelfactors.jl:422 [inlined] (repeats 2 times)
+   [3] kernelfactors(::Tuple{OffsetArrays.OffsetArray{Float64,1,Array{Float64,1}},OffsetArrays.OffsetArray{Float64,1,Array{Float64,1}}}) at /home/vagrant/.julia/v0.6/ImageFiltering/src/kernelfactors.jl:415
+   [4] prewitt(::Tuple{Bool,Bool}, ::Int64) at /home/vagrant/.julia/v0.6/ImageFiltering/src/kernelfactors.jl:167
+   [5] macro expansion at /home/vagrant/.julia/v0.6/ImageFiltering/test/2d.jl:7 [inlined]
+   [6] macro expansion at ./test.jl:853 [inlined]
+   [7] anonymous at ./<missing>:?
+   [8] include_from_node1(::String) at ./loading.jl:539
+   [9] include(::String) at ./sysimg.jl:14
+   [10] include_from_node1(::String) at ./loading.jl:539
+   [11] include(::String) at ./sysimg.jl:14
+   [12] process_options(::Base.JLOptions) at ./client.jl:305
+   [13] _start() at ./client.jl:371
+Test Summary: | Error  Total
+tiling        |     1      1
+ERROR: LoadError: LoadError: Some tests did not pass: 0 passed, 0 failed, 1 errored, 0 broken.
+while loading /home/vagrant/.julia/v0.6/ImageFiltering/test/2d.jl, in expression starting on line 4
+while loading /home/vagrant/.julia/v0.6/ImageFiltering/test/runtests.jl, in expression starting on line 10
 ===========================[ ERROR: ImageFiltering ]============================
 
 failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/ImageFiltering/test/runtests.jl`, ProcessExited(1)) [1]

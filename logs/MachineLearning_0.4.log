@@ -27,6 +27,7 @@ INFO: Cloning cache of JSON from git://github.com/JuliaIO/JSON.jl.git
 INFO: Cloning cache of Juno from https://github.com/JunoLab/Juno.jl.git
 INFO: Cloning cache of KernelDensity from git://github.com/JuliaStats/KernelDensity.jl.git
 INFO: Cloning cache of Lazy from git://github.com/MikeInnes/Lazy.jl.git
+INFO: Cloning cache of LineSearches from git://github.com/JuliaNLSolvers/LineSearches.jl.git
 INFO: Cloning cache of Loess from git://github.com/JuliaStats/Loess.jl.git
 INFO: Cloning cache of MachineLearning from git://github.com/benhamner/MachineLearning.jl.git
 INFO: Cloning cache of MacroTools from git://github.com/MikeInnes/MacroTools.jl.git
@@ -76,13 +77,14 @@ INFO: Installing JSON v0.8.3
 INFO: Installing Juno v0.2.7
 INFO: Installing KernelDensity v0.3.2
 INFO: Installing Lazy v0.11.5
+INFO: Installing LineSearches v0.1.5
 INFO: Installing Loess v0.1.0
 INFO: Installing MachineLearning v0.0.3
 INFO: Installing MacroTools v0.3.6
 INFO: Installing Measures v0.0.3
 INFO: Installing Media v0.2.5
 INFO: Installing NaNMath v0.2.2
-INFO: Installing Optim v0.4.5
+INFO: Installing Optim v0.4.7
 INFO: Installing PDMats v0.5.6
 INFO: Installing PositiveFactorizations v0.0.4
 INFO: Installing RData v0.0.4
@@ -109,13 +111,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-112-generic #159-Ubuntu SMP Fri Mar 3 15:26:07 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (500.046875 MB free)
-Uptime: 1657.0 sec
-Load Avg:  1.25  0.4013671875  0.17626953125
+Memory: 2.9392738342285156 GB (501.30859375 MB free)
+Uptime: 1201.0 sec
+Load Avg:  0.55126953125  0.2265625  0.11474609375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz       4476 s        101 s       2089 s     155204 s          5 s
-#2  3499 MHz       3332 s         41 s       2110 s     158398 s          0 s
+#1  3499 MHz       4352 s        101 s       2025 s     110323 s          2 s
+#2  3499 MHz       2797 s         44 s       2064 s     113960 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -131,7 +133,7 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.4
 1 required packages:
  - MachineLearning               0.0.3
-48 additional packages:
+49 additional packages:
  - AxisAlgorithms                0.1.6
  - BinDeps                       0.4.7
  - Calculus                      0.2.2
@@ -160,12 +162,13 @@ Package Directory: /home/vagrant/.julia/v0.4
  - Juno                          0.2.7
  - KernelDensity                 0.3.2
  - Lazy                          0.11.5
+ - LineSearches                  0.1.5
  - Loess                         0.1.0
  - MacroTools                    0.3.6
  - Measures                      0.0.3
  - Media                         0.2.5
  - NaNMath                       0.2.2
- - Optim                         0.4.5
+ - Optim                         0.4.7
  - PDMats                        0.5.6
  - PositiveFactorizations        0.0.4
  - RData                         0.0.4
@@ -232,27 +235,6 @@ To fix, define
     all(AbstractArray, Lazy.List)
 before the new definition.
 WARNING: New definition 
-    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
-is ambiguous with: 
-    any(Base.Predicate, Any) at reduce.jl:362.
-To fix, define 
-    any(Base.Predicate, Lazy.List)
-before the new definition.
-WARNING: New definition 
-    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
-is ambiguous with: 
-    any(Base.IdFun, Any) at reduce.jl:363.
-To fix, define 
-    any(Base.IdFun, Lazy.List)
-before the new definition.
-WARNING: New definition 
-    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
-is ambiguous with: 
-    any(AbstractArray, Any) at reducedim.jl:264.
-To fix, define 
-    any(AbstractArray, Lazy.List)
-before the new definition.
-WARNING: New definition 
     all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
 is ambiguous with: 
     all(Base.Predicate, Any) at reduce.jl:369.
@@ -328,13 +310,6 @@ is ambiguous with:
     any(Base.IdFun, Any) at reduce.jl:363.
 To fix, define 
     any(Base.IdFun, Lazy.List)
-before the new definition.
-WARNING: New definition 
-    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
-is ambiguous with: 
-    any(DataArrays.DataArray, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/reducedim.jl:320.
-To fix, define 
-    any(DataArrays.DataArray, Lazy.List)
 before the new definition.
 WARNING: New definition 
     any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
@@ -416,16 +391,30 @@ before the new definition.
 WARNING: New definition 
     all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
 is ambiguous with: 
-    all(DataArrays.DataArray, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/reducedim.jl:320.
-To fix, define 
-    all(DataArrays.DataArray, Lazy.List)
-before the new definition.
-WARNING: New definition 
-    all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
-is ambiguous with: 
     all(AbstractArray, Any) at reducedim.jl:264.
 To fix, define 
     all(AbstractArray, Lazy.List)
+before the new definition.
+WARNING: New definition 
+    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
+is ambiguous with: 
+    any(Base.Predicate, Any) at reduce.jl:362.
+To fix, define 
+    any(Base.Predicate, Lazy.List)
+before the new definition.
+WARNING: New definition 
+    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
+is ambiguous with: 
+    any(Base.IdFun, Any) at reduce.jl:363.
+To fix, define 
+    any(Base.IdFun, Lazy.List)
+before the new definition.
+WARNING: New definition 
+    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
+is ambiguous with: 
+    any(AbstractArray, Any) at reducedim.jl:264.
+To fix, define 
+    any(AbstractArray, Lazy.List)
 before the new definition.
 WARNING: New definition 
     floattype(Type{#T<:FixedPointNumbers.Fixed}) at /home/vagrant/.julia/v0.4/FixedPointNumbers/src/fixed.jl:16
@@ -442,34 +431,6 @@ To fix, define
     floattype(Type{FixedPointNumbers.UFixed{_<:Union{UInt16, UInt8}, #f<:Any}})
 before the new definition.
 WARNING: New definition 
-    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
-is ambiguous with: 
-    any(Base.Predicate, Any) at reduce.jl:362.
-To fix, define 
-    any(Base.Predicate, Lazy.List)
-before the new definition.
-WARNING: New definition 
-    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
-is ambiguous with: 
-    any(Base.IdFun, Any) at reduce.jl:363.
-To fix, define 
-    any(Base.IdFun, Lazy.List)
-before the new definition.
-WARNING: New definition 
-    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
-is ambiguous with: 
-    any(DataArrays.DataArray, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/reducedim.jl:320.
-To fix, define 
-    any(DataArrays.DataArray, Lazy.List)
-before the new definition.
-WARNING: New definition 
-    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
-is ambiguous with: 
-    any(AbstractArray, Any) at reducedim.jl:264.
-To fix, define 
-    any(AbstractArray, Lazy.List)
-before the new definition.
-WARNING: New definition 
     all(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:187
 is ambiguous with: 
     all(Base.Predicate, Any) at reduce.jl:369.
@@ -496,6 +457,34 @@ is ambiguous with:
     all(AbstractArray, Any) at reducedim.jl:264.
 To fix, define 
     all(AbstractArray, Lazy.List)
+before the new definition.
+WARNING: New definition 
+    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
+is ambiguous with: 
+    any(Base.Predicate, Any) at reduce.jl:362.
+To fix, define 
+    any(Base.Predicate, Lazy.List)
+before the new definition.
+WARNING: New definition 
+    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
+is ambiguous with: 
+    any(Base.IdFun, Any) at reduce.jl:363.
+To fix, define 
+    any(Base.IdFun, Lazy.List)
+before the new definition.
+WARNING: New definition 
+    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
+is ambiguous with: 
+    any(DataArrays.DataArray, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/reducedim.jl:320.
+To fix, define 
+    any(DataArrays.DataArray, Lazy.List)
+before the new definition.
+WARNING: New definition 
+    any(Any, Lazy.List) at /home/vagrant/.julia/v0.4/Lazy/src/liblazy.jl:184
+is ambiguous with: 
+    any(AbstractArray, Any) at reducedim.jl:264.
+To fix, define 
+    any(AbstractArray, Lazy.List)
 before the new definition.
 WARNING: New definition 
     color_discrete_manual(ColorTypes.Color...) at /home/vagrant/.julia/v0.4/Gadfly/src/scale.jl:546
