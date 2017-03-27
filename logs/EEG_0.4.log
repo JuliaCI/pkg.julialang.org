@@ -26,7 +26,7 @@ INFO: Installing FileIO v0.2.2
 INFO: Installing FixedPointNumbers v0.2.1
 INFO: Installing FixedSizeArrays v0.2.5
 INFO: Installing GZip v0.2.20
-INFO: Installing Graphics v0.1.4
+INFO: Installing Graphics v0.1.5
 INFO: Installing HDF5 v0.7.3
 INFO: Installing Hiccup v0.0.3
 INFO: Installing HttpCommon v0.2.7
@@ -43,6 +43,7 @@ INFO: Installing MacroTools v0.3.6
 INFO: Installing MbedTLS v0.3.0
 INFO: Installing Measures v0.0.3
 INFO: Installing Media v0.2.5
+INFO: Installing NaNMath v0.2.4
 INFO: Installing NumericExtensions v0.6.2
 INFO: Installing NumericFuns v0.2.4
 INFO: Installing PDMats v0.5.6
@@ -85,13 +86,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-113-generic #160-Ubuntu SMP Thu Mar 9 09:27:29 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (534.53515625 MB free)
-Uptime: 24561.0 sec
-Load Avg:  0.9921875  0.97412109375  1.01416015625
+Memory: 2.9392738342285156 GB (541.57421875 MB free)
+Uptime: 24351.0 sec
+Load Avg:  1.025390625  0.9765625  1.0166015625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1133494 s       2892 s      92937 s     981478 s        105 s
-#2  3499 MHz     800008 s       3285 s      82239 s    1468019 s          2 s
+#1  3499 MHz    1121832 s       4464 s      94041 s     967700 s         89 s
+#2  3499 MHz     793656 s       3560 s      81264 s    1460328 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -108,7 +109,7 @@ Package Directory: /home/vagrant/.julia/v0.4
 2 required packages:
  - EEG                           0.1.1
  - JSON                          0.8.3
-62 additional packages:
+63 additional packages:
  - AWS                           0.2.0
  - ArrayViews                    0.6.4
  - BDF                           0.1.5
@@ -133,7 +134,7 @@ Package Directory: /home/vagrant/.julia/v0.4
  - FixedPointNumbers             0.2.1
  - FixedSizeArrays               0.2.5
  - GZip                          0.2.20
- - Graphics                      0.1.4
+ - Graphics                      0.1.5
  - HDF5                          0.7.3
  - Hiccup                        0.0.3
  - HttpCommon                    0.2.7
@@ -150,6 +151,7 @@ Package Directory: /home/vagrant/.julia/v0.4
  - MbedTLS                       0.3.0
  - Measures                      0.0.3
  - Media                         0.2.5
+ - NaNMath                       0.2.4
  - NumericExtensions             0.6.2
  - NumericFuns                   0.2.4
  - PDMats                        0.5.6
@@ -220,18 +222,32 @@ To fix, define
     all(AbstractArray, Lazy.List)
 before the new definition.
 WARNING: New definition 
-    .*(Images.AbstractImageDirect, AbstractArray) at /home/vagrant/.julia/v0.4/Images/src/algorithms.jl:51
+    +(AbstractArray, Images.AbstractImageDirect) at /home/vagrant/.julia/v0.4/Images/src/algorithms.jl:20
 is ambiguous with: 
-    .*(AbstractArray, Union{DataArrays.PooledDataArray, DataArrays.DataArray}, AbstractArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:301.
+    +(DataArrays.DataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:276.
 To fix, define 
-    .*(Images.AbstractImageDirect, Union{DataArrays.PooledDataArray, DataArrays.DataArray})
+    +(DataArrays.DataArray, Images.AbstractImageDirect)
 before the new definition.
 WARNING: New definition 
-    .*(AbstractArray, Images.AbstractImageDirect) at /home/vagrant/.julia/v0.4/Images/src/algorithms.jl:52
+    +(AbstractArray, Images.AbstractImageDirect) at /home/vagrant/.julia/v0.4/Images/src/algorithms.jl:20
 is ambiguous with: 
-    .*(Union{DataArrays.PooledDataArray, DataArrays.DataArray}, AbstractArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:301.
+    +(DataArrays.AbstractDataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:300.
 To fix, define 
-    .*(Union{DataArrays.PooledDataArray, DataArrays.DataArray}, Images.AbstractImageDirect)
+    +(DataArrays.AbstractDataArray, Images.AbstractImageDirect)
+before the new definition.
+WARNING: New definition 
+    .+(Images.AbstractImageDirect, AbstractArray) at /home/vagrant/.julia/v0.4/Images/src/algorithms.jl:22
+is ambiguous with: 
+    .+(AbstractArray, Union{DataArrays.PooledDataArray, DataArrays.DataArray}, AbstractArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:303.
+To fix, define 
+    .+(Images.AbstractImageDirect, Union{DataArrays.PooledDataArray, DataArrays.DataArray})
+before the new definition.
+WARNING: New definition 
+    convert(Type{Array{#T<:ColorTypes.Colorant, N<:Any}}, AbstractArray{#S<:Any, #n<:Any}) at /home/vagrant/.julia/v0.4/Images/src/core.jl:401
+is ambiguous with: 
+    convert(Type{Array{#S<:Any, N<:Any}}, DataArrays.DataArray{#T<:Any, #N<:Any}) at /home/vagrant/.julia/v0.4/DataArrays/src/dataarray.jl:371.
+To fix, define 
+    convert(Type{Array{#T<:ColorTypes.Colorant, N<:Any}}, DataArrays.DataArray{#T<:Any, #N<:Any})
 before the new definition.
 WARNING: New definition 
     -(AbstractArray, Images.AbstractImageDirect) at /home/vagrant/.julia/v0.4/Images/src/algorithms.jl:37
@@ -246,13 +262,6 @@ is ambiguous with:
     -(DataArrays.AbstractDataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:300.
 To fix, define 
     -(DataArrays.AbstractDataArray, Images.AbstractImageDirect)
-before the new definition.
-WARNING: New definition 
-    ./(Images.AbstractImageDirect, AbstractArray) at /home/vagrant/.julia/v0.4/Images/src/algorithms.jl:55
-is ambiguous with: 
-    ./(AbstractArray, Union{DataArrays.PooledDataArray, DataArrays.DataArray}) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:291.
-To fix, define 
-    ./(Images.AbstractImageDirect, Union{DataArrays.PooledDataArray, DataArrays.DataArray})
 before the new definition.
 WARNING: New definition 
     .==(Images.AbstractImageDirect{Bool, N<:Any}, AbstractArray{Bool, N<:Any}) at /home/vagrant/.julia/v0.4/Images/src/algorithms.jl:187
@@ -276,32 +285,18 @@ To fix, define
     .==(Images.AbstractImageDirect, Union{DataArrays.PooledDataArray, DataArrays.DataArray})
 before the new definition.
 WARNING: New definition 
-    +(AbstractArray, Images.AbstractImageDirect) at /home/vagrant/.julia/v0.4/Images/src/algorithms.jl:20
+    .*(Images.AbstractImageDirect, AbstractArray) at /home/vagrant/.julia/v0.4/Images/src/algorithms.jl:51
 is ambiguous with: 
-    +(DataArrays.DataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:276.
+    .*(AbstractArray, Union{DataArrays.PooledDataArray, DataArrays.DataArray}, AbstractArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:301.
 To fix, define 
-    +(DataArrays.DataArray, Images.AbstractImageDirect)
+    .*(Images.AbstractImageDirect, Union{DataArrays.PooledDataArray, DataArrays.DataArray})
 before the new definition.
 WARNING: New definition 
-    +(AbstractArray, Images.AbstractImageDirect) at /home/vagrant/.julia/v0.4/Images/src/algorithms.jl:20
+    .*(AbstractArray, Images.AbstractImageDirect) at /home/vagrant/.julia/v0.4/Images/src/algorithms.jl:52
 is ambiguous with: 
-    +(DataArrays.AbstractDataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:300.
+    .*(Union{DataArrays.PooledDataArray, DataArrays.DataArray}, AbstractArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:301.
 To fix, define 
-    +(DataArrays.AbstractDataArray, Images.AbstractImageDirect)
-before the new definition.
-WARNING: New definition 
-    .>(Images.AbstractImageDirect, AbstractArray) at /home/vagrant/.julia/v0.4/Images/src/algorithms.jl:185
-is ambiguous with: 
-    .>(AbstractArray{Bool, N<:Any}, Union{DataArrays.PooledDataArray{Bool, R<:Integer, N<:Any}, DataArrays.DataArray{Bool, N<:Any}}) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:349.
-To fix, define 
-    .>(Images.AbstractImageDirect{Bool, N<:Any}, Union{DataArrays.PooledDataArray{Bool, R<:Integer, N<:Any}, DataArrays.DataArray{Bool, N<:Any}})
-before the new definition.
-WARNING: New definition 
-    .>(Images.AbstractImageDirect, AbstractArray) at /home/vagrant/.julia/v0.4/Images/src/algorithms.jl:185
-is ambiguous with: 
-    .>(AbstractArray, Union{DataArrays.PooledDataArray, DataArrays.DataArray}) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:291.
-To fix, define 
-    .>(Images.AbstractImageDirect, Union{DataArrays.PooledDataArray, DataArrays.DataArray})
+    .*(Union{DataArrays.PooledDataArray, DataArrays.DataArray}, Images.AbstractImageDirect)
 before the new definition.
 WARNING: New definition 
     .<(Images.AbstractImageDirect{Bool, N<:Any}, AbstractArray{Bool, N<:Any}) at /home/vagrant/.julia/v0.4/Images/src/algorithms.jl:183
@@ -325,11 +320,18 @@ To fix, define
     .<(Images.AbstractImageDirect, Union{DataArrays.PooledDataArray, DataArrays.DataArray})
 before the new definition.
 WARNING: New definition 
-    .+(Images.AbstractImageDirect, AbstractArray) at /home/vagrant/.julia/v0.4/Images/src/algorithms.jl:22
+    .>(Images.AbstractImageDirect, AbstractArray) at /home/vagrant/.julia/v0.4/Images/src/algorithms.jl:185
 is ambiguous with: 
-    .+(AbstractArray, Union{DataArrays.PooledDataArray, DataArrays.DataArray}, AbstractArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:303.
+    .>(AbstractArray{Bool, N<:Any}, Union{DataArrays.PooledDataArray{Bool, R<:Integer, N<:Any}, DataArrays.DataArray{Bool, N<:Any}}) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:349.
 To fix, define 
-    .+(Images.AbstractImageDirect, Union{DataArrays.PooledDataArray, DataArrays.DataArray})
+    .>(Images.AbstractImageDirect{Bool, N<:Any}, Union{DataArrays.PooledDataArray{Bool, R<:Integer, N<:Any}, DataArrays.DataArray{Bool, N<:Any}})
+before the new definition.
+WARNING: New definition 
+    .>(Images.AbstractImageDirect, AbstractArray) at /home/vagrant/.julia/v0.4/Images/src/algorithms.jl:185
+is ambiguous with: 
+    .>(AbstractArray, Union{DataArrays.PooledDataArray, DataArrays.DataArray}) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:291.
+To fix, define 
+    .>(Images.AbstractImageDirect, Union{DataArrays.PooledDataArray, DataArrays.DataArray})
 before the new definition.
 WARNING: New definition 
     .-(Images.AbstractImageDirect, AbstractArray) at /home/vagrant/.julia/v0.4/Images/src/algorithms.jl:40
@@ -339,11 +341,11 @@ To fix, define
     .-(Images.AbstractImageDirect, Union{DataArrays.PooledDataArray, DataArrays.DataArray})
 before the new definition.
 WARNING: New definition 
-    convert(Type{Array{#T<:ColorTypes.Colorant, N<:Any}}, AbstractArray{#S<:Any, #n<:Any}) at /home/vagrant/.julia/v0.4/Images/src/core.jl:401
+    ./(Images.AbstractImageDirect, AbstractArray) at /home/vagrant/.julia/v0.4/Images/src/algorithms.jl:55
 is ambiguous with: 
-    convert(Type{Array{#S<:Any, N<:Any}}, DataArrays.DataArray{#T<:Any, #N<:Any}) at /home/vagrant/.julia/v0.4/DataArrays/src/dataarray.jl:371.
+    ./(AbstractArray, Union{DataArrays.PooledDataArray, DataArrays.DataArray}) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:291.
 To fix, define 
-    convert(Type{Array{#T<:ColorTypes.Colorant, N<:Any}}, DataArrays.DataArray{#T<:Any, #N<:Any})
+    ./(Images.AbstractImageDirect, Union{DataArrays.PooledDataArray, DataArrays.DataArray})
 before the new definition.
 WARNING: Base.String is deprecated, use AbstractString instead.
   likely near /home/vagrant/.julia/v0.4/EEG/src/types/SSR/ReadWrite.jl:32
