@@ -18,10 +18,10 @@ INFO: Installing JLD v0.6.10
 INFO: Installing JuMP v0.16.2
 INFO: Installing Lazy v0.11.5
 INFO: Installing LegacyStrings v0.2.1
-INFO: Installing LightGraphs v0.7.4
+INFO: Installing LightGraphs v0.7.5
 INFO: Installing LightGraphsExtras v0.1.0
 INFO: Installing MacroTools v0.3.6
-INFO: Installing MathProgBase v0.6.3
+INFO: Installing MathProgBase v0.6.4
 INFO: Installing MatrixDepot v0.5.6
 INFO: Installing NaNMath v0.2.4
 INFO: Installing NearestNeighbors v0.2.0
@@ -54,13 +54,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-113-generic #160-Ubuntu SMP Thu Mar 9 09:27:29 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (395.5703125 MB free)
-Uptime: 48610.0 sec
-Load Avg:  1.0029296875  1.4072265625  1.46826171875
+Memory: 2.9392738342285156 GB (377.515625 MB free)
+Uptime: 51547.0 sec
+Load Avg:  1.02783203125  1.42138671875  1.41748046875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    3022489 s       1796 s     235302 s    1020385 s        147 s
-#2  3500 MHz    1230281 s       5070 s     140860 s    3323516 s          5 s
+#1  3500 MHz    3129107 s        235 s     268006 s    1163755 s        176 s
+#2  3500 MHz    1254190 s       7100 s     151133 s    3577117 s          6 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -100,9 +100,9 @@ Package Directory: /home/vagrant/.julia/v0.5
  - JuMP                          0.16.2
  - Lazy                          0.11.5
  - LegacyStrings                 0.2.1
- - LightGraphs                   0.7.4
+ - LightGraphs                   0.7.5
  - MacroTools                    0.3.6
- - MathProgBase                  0.6.3
+ - MathProgBase                  0.6.4
  - MatrixDepot                   0.5.6
  - NaNMath                       0.2.4
  - NearestNeighbors              0.2.0
@@ -127,13 +127,26 @@ INFO: Testing LightGraphsExtras
 WARNING: The curly syntax (sum{},prod{},norm2{}) is deprecated in favor of the new generator syntax (sum(),prod(),norm()).
 WARNING: Replace sum{x[id],id = idx} with sum(x[id] for id = idx).
 WARNING: Replace sum{c * x[edgemap[e]],(e,c) = w} with sum(c * x[edgemap[e]] for (e,c) = w).
-ERROR: LoadError: LoadError: LoadError: UndefVarError: SimpleGraph not defined
- in include_from_node1(::String) at ./loading.jl:488 (repeats 3 times)
+WARNING: Replace sum{x[i,j],i = 1:n,j = 1:n; capacity_matrix[i,j] > 0} with sum(x[i,j] for i = 1:n for j = 1:n if capacity_matrix[i,j] > 0).
+WARNING: Replace sum{x[j,i],i = 1:n,j = 1:n; capacity_matrix[j,i] > 0} with sum(x[j,i] for i = 1:n for j = 1:n if capacity_matrix[j,i] > 0).
+WARNING: Replace sum{x_value[i,j] * δ[i,j] - x_value[i,j] * ν[i,j],i = 1:n,j = 1:n; capacity_matrix[i,j] > 0} with sum(x_value[i,j] * δ[i,j] - x_value[i,j] * ν[i,j] for i = 1:n for j = 1:n if capacity_matrix[i,j] > 0).
+WARNING: Replace sum{μ[i,j],i = 1:n,j = 1:n} with sum(μ[i,j] for i = 1:n for j = 1:n).
+WARNING: Replace sum{δ_value[i,j] * x[i,j] - ν_value[i,j] * x[i,j],i = 1:n,j = 1:n; capacity_matrix[i,j] > 0} with sum(δ_value[i,j] * x[i,j] - ν_value[i,j] * x[i,j] for i = 1:n for j = 1:n if capacity_matrix[i,j] > 0).
+running /home/vagrant/.julia/v0.5/LightGraphsExtras/test/matching/runtests.jl ...
+ERROR: LoadError: LoadError: No solver was provided. JuMP has classified this model as LP. Julia packages which provide solvers for this class of problems include Clp, GLPKMathProgInterface, Gurobi, CPLEX, Mosek, and Xpress. The solver must be specified by using either the "solver=" keyword argument to "Model()" or the "setsolver()" method.
+ in no_solver_error(::JuMP.ProblemTraits) at /home/vagrant/.julia/v0.5/JuMP/src/solvers.jl:84
+ in #build#114(::Bool, ::Bool, ::JuMP.ProblemTraits, ::Function, ::JuMP.Model) at /home/vagrant/.julia/v0.5/JuMP/src/solvers.jl:343
+ in (::JuMP.#kw##build)(::Array{Any,1}, ::JuMP.#build, ::JuMP.Model) at ./<missing>:0
+ in #solve#109(::Bool, ::Bool, ::Bool, ::Array{Any,1}, ::Function, ::JuMP.Model) at /home/vagrant/.julia/v0.5/JuMP/src/solvers.jl:166
+ in maximum_weight_maximal_matching(::LightGraphs.Graph, ::Dict{Pair{Int64,Int64},Float64}) at /home/vagrant/.julia/v0.5/LightGraphsExtras/test/../src/matching/lp.jl:84
+ in include_from_node1(::String) at ./loading.jl:488
+ in macro expansion; at /home/vagrant/.julia/v0.5/LightGraphsExtras/test/runtests.jl:22 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:488
  in process_options(::Base.JLOptions) at ./client.jl:265
  in _start() at ./client.jl:321
-while loading /home/vagrant/.julia/v0.5/LightGraphsExtras/test/../src/community/detection.jl, in expression starting on line 30
-while loading /home/vagrant/.julia/v0.5/LightGraphsExtras/test/../src/LightGraphsExtras.jl, in expression starting on line 10
-while loading /home/vagrant/.julia/v0.5/LightGraphsExtras/test/runtests.jl, in expression starting on line 1
+while loading /home/vagrant/.julia/v0.5/LightGraphsExtras/test/matching/runtests.jl, in expression starting on line 7
+while loading /home/vagrant/.julia/v0.5/LightGraphsExtras/test/runtests.jl, in expression starting on line 19
 ==========================[ ERROR: LightGraphsExtras ]==========================
 
 failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.5/LightGraphsExtras/test/runtests.jl`, ProcessExited(1)) [1]

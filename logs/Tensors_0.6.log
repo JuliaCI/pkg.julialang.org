@@ -4,28 +4,29 @@ INFO: Installing Calculus v0.2.2
 INFO: Installing DiffBase v0.1.0
 INFO: Installing ForwardDiff v0.4.1
 INFO: Installing NaNMath v0.2.4
+INFO: Installing SIMD v0.2.0
 INFO: Installing SpecialFunctions v0.1.1
-INFO: Installing Tensors v0.5.0
+INFO: Installing Tensors v0.6.0
 INFO: Package database updated
 INFO: METADATA is out-of-date — you may not have the latest version of Tensors
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Tensors")' log
-Julia Version 0.6.0-pre.alpha.300
-Commit 06e096f (2017-03-29 02:23 UTC)
+Julia Version 0.6.0-pre.alpha.315
+Commit 9a2400c (2017-03-29 22:41 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-113-generic #160-Ubuntu SMP Thu Mar 9 09:27:29 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (796.17578125 MB free)
-Uptime: 29491.0 sec
-Load Avg:  1.037109375  1.0302734375  1.046875
+Memory: 2.9392738342285156 GB (799.32421875 MB free)
+Uptime: 31171.0 sec
+Load Avg:  1.048828125  1.13916015625  1.12451171875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1830468 s       7680 s     148798 s     581723 s        150 s
-#2  3499 MHz     500365 s         41 s      75979 s    2280342 s          4 s
+#1  3499 MHz    1886687 s        102 s     160239 s     694708 s        162 s
+#2  3499 MHz     565256 s       6642 s      81675 s    2363379 s          6 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -41,47 +42,100 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - JSON                          0.8.3
- - Tensors                       0.5.0
-6 additional packages:
+ - Tensors                       0.6.0
+7 additional packages:
  - Calculus                      0.2.2
  - Compat                        0.21.0
  - DiffBase                      0.1.0
  - ForwardDiff                   0.4.1
  - NaNMath                       0.2.4
+ - SIMD                          0.2.0
  - SpecialFunctions              0.1.1
 INFO: Computing test dependencies for Tensors...
+INFO: Cloning cache of Crayons from https://github.com/KristofferC/Crayons.jl.git
+INFO: Cloning cache of TimerOutputs from https://github.com/KristofferC/TimerOutputs.jl.git
+INFO: Installing Crayons v0.2.0
 INFO: Installing DocStringExtensions v0.3.2
 INFO: Installing Documenter v0.9.2
+INFO: Installing TimerOutputs v0.2.5
 INFO: Testing Tensors
-Test Summary:                        | Pass  Total
-basic constructors: rand, zero, ones |  654    654
 Test Summary: | Pass  Total
-diagm, one    |  532    532
+constructors  |  981    981
 Test Summary: | Pass  Total
-base vectors  |   30     30
+diagm, one    |  798    798
+Test Summary: | Pass  Total
+base vectors  |   45     45
 Test Summary: | Pass  Total
 simple math   |  390    390
-Test Summary:          | Pass  Total
-create with a function |  396    396
-Test Summary:     | Pass  Total
-create from Array |  168    168
 Test Summary: | Pass  Total
-indexing      | 1806   1806
+constrct func |  594    594
+Test Summary: | Pass  Total
+constrct Arr  |  168    168
+Test Summary: | Pass  Total
+indexing      | 2709   2709
 Test Summary:              | Pass  Total
-norm, trace, det, inv, eig |  174    174
+norm, trace, det, inv, eig |  342    342
 Test Summary:     | Pass  Total
-tensor identities |  192    192
+tensor identities |  288    288
 Test Summary:        | Pass  Total
 promotion/conversion |  256    256
 Test Summary: | Pass  Total
-exceptions    |    8      8
-Test Summary:     | Pass  Total
-tensor operations |  884    884
-Testing AD for dim = 1
-Testing AD for dim = 2
-Testing AD for dim = 3
+exceptions    |   10     10
+T = Float32, dim = 1
+T = Float32, dim = 2
+T = Float32, dim = 3
+T = Float64, dim = 1
+T = Float64, dim = 2
+T = Float64, dim = 3
+T = F64, dim = 1
+T = F64, dim = 2
+T = F64, dim = 3
 Test Summary: | Pass  Total
-AD            |  231    231
+tensor ops    | 1407   1407
+Test Summary: | Pass  Total
+AD            |  291    291
+ ──────────────────────────────────────────────────────────────────────────────
+                                       Time                   Allocations      
+                               ──────────────────────   ───────────────────────
+       Tot / % measured:             384s / 93.1%           10.2GiB / 95.4%    
+
+ Section               ncalls     time   %tot     avg     alloc   %tot      avg
+ ──────────────────────────────────────────────────────────────────────────────
+ tensor ops                 1     135s  37.9%    135s   3.18GiB  32.6%  3.18GiB
+   symmetric/skew-s...      9    61.0s  17.1%   6.78s   1.49GiB  15.2%   169MiB
+   outer product            9    29.4s  8.21%   3.26s    721MiB  7.22%  80.1MiB
+   double contraction       9    18.8s  5.26%   2.09s    399MiB  3.99%  44.3MiB
+   transpose                9    18.5s  5.19%   2.06s    472MiB  4.72%  52.4MiB
+   tovoigt/fromvoigt        9    4.54s  1.27%   504ms   79.8MiB  0.80%  8.87MiB
+   dot products             9    1.70s  0.48%   189ms   33.3MiB  0.33%  3.70MiB
+   special                  9    1.16s  0.32%   129ms   28.4MiB  0.28%  3.16MiB
+   cross product            9    180ms  0.05%  20.0ms   2.61MiB  0.03%   297KiB
+   rotation                 9    673μs  0.00%  74.8μs   41.0KiB  0.00%  4.55KiB
+ AD                         1    78.5s  22.0%   78.5s   2.99GiB  30.6%  2.99GiB
+   dim 3                    1    63.3s  17.7%   63.3s   2.60GiB  26.6%  2.60GiB
+     hessian                2    32.5s  9.09%   16.2s   1.35GiB  13.8%   691MiB
+     2nd tensor grad        2    10.5s  2.95%   5.27s    453MiB  4.53%   226MiB
+     scalar grad            2    1.57s  0.44%   785ms   47.0MiB  0.47%  23.5MiB
+   dim 2                    1    9.79s  2.74%   9.79s    269MiB  2.69%   269MiB
+     hessian                2    4.10s  1.15%   2.05s    116MiB  1.16%  57.9MiB
+     2nd tensor grad        2    1.83s  0.51%   917ms   48.0MiB  0.48%  24.0MiB
+     scalar grad            2    974ms  0.27%   487ms   30.4MiB  0.30%  15.2MiB
+   dim 1                    1    5.41s  1.51%   5.41s    129MiB  1.29%   129MiB
+     hessian                2    2.45s  0.69%   1.23s   66.0MiB  0.66%  33.0MiB
+     2nd tensor grad        2    881ms  0.25%   441ms   17.0MiB  0.17%  8.48MiB
+     scalar grad            2    795ms  0.22%   398ms   18.2MiB  0.18%  9.11MiB
+ constrct Arr               1    35.6s  9.97%   35.6s   1.00GiB  10.2%  1.00GiB
+ norm, trace, det, ...      1    22.9s  6.40%   22.9s    512MiB  5.12%   512MiB
+ constructors               1    22.5s  6.30%   22.5s    483MiB  4.83%   483MiB
+ tensor identities          1    17.8s  4.98%   17.8s    540MiB  5.40%   540MiB
+ simple math                1    15.0s  4.20%   15.0s    345MiB  3.46%   345MiB
+ indexing                   1    11.7s  3.27%   11.7s    363MiB  3.63%   363MiB
+ promotion/conversion       1    7.98s  2.23%   7.98s    171MiB  1.71%   171MiB
+ base vectors               1    3.82s  1.07%   3.82s   86.1MiB  0.86%  86.1MiB
+ diagm, one                 1    3.51s  0.98%   3.51s   68.9MiB  0.69%  68.9MiB
+ constrct func              1    2.68s  0.75%   2.68s   81.9MiB  0.82%  81.9MiB
+ exceptions                 1   2.96ms  0.00%  2.96ms   8.14KiB  0.00%  8.14KiB
+ ──────────────────────────────────────────────────────────────────────────────
 
 WARNING: deprecated syntax "_ as an rvalue".
 Documenter: setting up build directory.
@@ -96,7 +150,9 @@ Documenter: rendering document.
 Documenter: skipping docs deployment.
   You can set DOCUMENTER_DEBUG to "true" in Travis to see more information.
 INFO: Tensors tests passed
+INFO: Removing Crayons v0.2.0
 INFO: Removing DocStringExtensions v0.3.2
 INFO: Removing Documenter v0.9.2
+INFO: Removing TimerOutputs v0.2.5
 
 >>> End of log
