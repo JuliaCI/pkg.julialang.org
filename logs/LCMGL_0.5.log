@@ -21,8 +21,8 @@ INFO: Attempting to Create directory /home/vagrant/.julia/v0.5/LCMGL/deps/downlo
 INFO: Downloading file https://github.com/lcm-proj/lcm/releases/download/v1.3.1/lcm-1.3.1.zip
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   590    0   590    0     0   5412      0 --:--:-- --:--:-- --:--:--  5462
-  0 7164k    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 7164k  100 7164k    0     0  4520k      0  0:00:01  0:00:01 --:--:--  9.8M
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   590    0   590    0     0   7046      0 --:--:-- --:--:-- --:--:--  7108
+  7 7164k    7  559k    0     0   615k      0  0:00:11 --:--:--  0:00:11  615k100 7164k  100 7164k    0     0  6151k      0  0:00:01  0:00:01 --:--:-- 25.1M
 INFO: Done downloading file https://github.com/lcm-proj/lcm/releases/download/v1.3.1/lcm-1.3.1.zip
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.5/LCMGL/deps/src
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.5/LCMGL/deps
@@ -1304,6 +1304,15 @@ make[1]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/
   CC       lcm_tcpq.lo
   CC       ringbuffer.lo
   CC       udpm_util.lo
+lcm_memq.c: In function 'lcm_memq_destroy':
+lcm_memq.c:61:5: warning: 'g_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:275) [-Wdeprecated-declarations]
+     g_mutex_free(self->mutex);
+     ^
+lcm_memq.c: In function 'lcm_memq_create':
+lcm_memq.c:80:5: warning: 'g_mutex_new' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:273) [-Wdeprecated-declarations]
+     self->mutex = g_mutex_new();
+     ^
+  CC       eventlog.lo
 lcm.c: In function 'lcm_create':
 lcm.c:61:5: warning: 'g_thread_init' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:261) [-Wdeprecated-declarations]
      if (!g_thread_supported ()) g_thread_init (NULL);
@@ -1384,15 +1393,10 @@ lcm_file.c: In function 'lcm_logprov_create':
 lcm_file.c:230:9: warning: 'g_thread_create' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:100): Use 'g_thread_new' instead [-Wdeprecated-declarations]
          lr->timer_thread = g_thread_create (timer_thread, lr, TRUE, NULL);
          ^
-lcm_memq.c: In function 'lcm_memq_destroy':
-lcm_memq.c:61:5: warning: 'g_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:275) [-Wdeprecated-declarations]
-     g_mutex_free(self->mutex);
-     ^
-lcm_memq.c: In function 'lcm_memq_create':
-lcm_memq.c:80:5: warning: 'g_mutex_new' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:273) [-Wdeprecated-declarations]
-     self->mutex = g_mutex_new();
-     ^
+  CC       lcmtypes/channel_to_port_t.lo
 lcm_udpm.c: In function 'lcm_udpm_destroy':
+  CC       lcmtypes/channel_port_map_update_t.lo
+lcm_mpudpm.c: In function 'lcm_mpudpm_destroy':
 lcm_udpm.c:178:5: warning: 'g_static_rec_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:191): Use 'g_rec_mutex_free' instead [-Wdeprecated-declarations]
      g_static_rec_mutex_free (&lcm->mutex);
      ^
@@ -1409,9 +1413,15 @@ lcm_udpm.c: In function '_recv_message_fragment':
 lcm_udpm.c:341:9: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
          g_static_rec_mutex_lock (&lcm->mutex);
          ^
+lcm_mpudpm.c:297:5: warning: 'g_static_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:148): Use 'g_mutex_clear' instead [-Wdeprecated-declarations]
+     g_static_mutex_free (&lcm->receive_lock);
+     ^
 lcm_udpm.c:343:9: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
          g_static_rec_mutex_unlock (&lcm->mutex);
          ^
+lcm_mpudpm.c:298:5: warning: 'g_static_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:148): Use 'g_mutex_clear' instead [-Wdeprecated-declarations]
+     g_static_mutex_free (&lcm->transmit_lock);
+     ^
 lcm_udpm.c: In function 'udp_read_packet':
 lcm_udpm.c:470:13: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
              g_static_rec_mutex_lock (&lcm->mutex);
@@ -1442,6 +1452,12 @@ lcm_udpm.c:652:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declar
 lcm_udpm.c:671:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_lock (&lcm->transmit_lock);
          ^
+lcm_mpudpm.c:300:9: warning: 'g_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:275) [-Wdeprecated-declarations]
+         g_mutex_free(lcm->create_read_thread_mutex);
+         ^
+lcm_mpudpm.c:301:9: warning: 'g_cond_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:279) [-Wdeprecated-declarations]
+         g_cond_free(lcm->create_read_thread_cond);
+         ^
 lcm_udpm.c:741:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_unlock (&lcm->transmit_lock);
          ^
@@ -1458,6 +1474,7 @@ lcm_udpm.c:783:5: warning: 'g_static_rec_mutex_unlock' is deprecated (declared a
 lcm_udpm.c:800:5: warning: 'g_static_rec_mutex_lock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:175): Use 'g_rec_mutex_lock' instead [-Wdeprecated-declarations]
      g_static_rec_mutex_lock (&lcm->mutex);
      ^
+lcm_mpudpm.c: In function 'recv_message_fragment':
 lcm_udpm.c:803:5: warning: 'g_static_rec_mutex_unlock' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:181): Use 'g_rec_mutex_unlock' instead [-Wdeprecated-declarations]
      g_static_rec_mutex_unlock (&lcm->mutex);
      ^
@@ -1514,21 +1531,6 @@ lcm_udpm.c:1122:5: warning: 'g_static_rec_mutex_init' is deprecated (declared at
 lcm_udpm.c:1123:5: warning: 'g_static_mutex_init' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:146): Use 'g_mutex_init' instead [-Wdeprecated-declarations]
      g_static_mutex_init (&lcm->transmit_lock);
      ^
-  CC       eventlog.lo
-lcm_mpudpm.c: In function 'lcm_mpudpm_destroy':
-lcm_mpudpm.c:297:5: warning: 'g_static_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:148): Use 'g_mutex_clear' instead [-Wdeprecated-declarations]
-     g_static_mutex_free (&lcm->receive_lock);
-     ^
-lcm_mpudpm.c:298:5: warning: 'g_static_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:148): Use 'g_mutex_clear' instead [-Wdeprecated-declarations]
-     g_static_mutex_free (&lcm->transmit_lock);
-     ^
-lcm_mpudpm.c:300:9: warning: 'g_mutex_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:275) [-Wdeprecated-declarations]
-         g_mutex_free(lcm->create_read_thread_mutex);
-         ^
-lcm_mpudpm.c:301:9: warning: 'g_cond_free' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:279) [-Wdeprecated-declarations]
-         g_cond_free(lcm->create_read_thread_cond);
-         ^
-lcm_mpudpm.c: In function 'recv_message_fragment':
 lcm_mpudpm.c:507:9: warning: 'g_static_mutex_get_mutex_impl' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:150): Use 'GMutex' instead [-Wdeprecated-declarations]
          g_static_mutex_lock(&lcm->receive_lock);
          ^
@@ -1736,8 +1738,6 @@ lcm_mpudpm.c:1755:5: warning: 'g_static_mutex_init' is deprecated (declared at /
 lcm_mpudpm.c:1756:5: warning: 'g_static_mutex_init' is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:146): Use 'g_mutex_init' instead [-Wdeprecated-declarations]
      g_static_mutex_init (&lcm->transmit_lock);
      ^
-  CC       lcmtypes/channel_to_port_t.lo
-  CC       lcmtypes/channel_port_map_update_t.lo
   CCLD     liblcm.la
 make[1]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/lcm'
 Making all in liblcm-test
@@ -1750,12 +1750,12 @@ make[1]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/
   CC       buftest-receiver.o
   CC       buftest-sender.o
   CCLD     lcm-sink
-  CCLD     lcm-source
-  CCLD     lcm-example
   CCLD     lcm-buftest-sender
-  CCLD     lcm-tester
+  CCLD     lcm-example
+  CCLD     lcm-source
   CCLD     lcm-buftest-receiver
   CCLD     lcm-logfilter
+  CCLD     lcm-tester
 make[1]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/liblcm-test'
 Making all in lcmgen
 make[1]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/lcmgen'
@@ -1899,8 +1899,8 @@ make[1]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/l
 Making install in lcm-logger
 make[1]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/lcm-logger'
 make[2]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/lcm-1.3.1/lcm-logger'
- /bin/mkdir -p '/home/vagrant/.julia/v0.5/LCMGL/deps/usr/share/man/man1'
  /bin/mkdir -p '/home/vagrant/.julia/v0.5/LCMGL/deps/usr/bin'
+ /bin/mkdir -p '/home/vagrant/.julia/v0.5/LCMGL/deps/usr/share/man/man1'
   /bin/bash ../libtool   --mode=install /usr/bin/install -c lcm-logger lcm-logplayer '/home/vagrant/.julia/v0.5/LCMGL/deps/usr/bin'
  /usr/bin/install -c -m 644 lcm-logger.1 lcm-logplayer.1 '/home/vagrant/.julia/v0.5/LCMGL/deps/usr/share/man/man1'
 libtool: install: /usr/bin/install -c .libs/lcm-logger /home/vagrant/.julia/v0.5/LCMGL/deps/usr/bin/lcm-logger
@@ -1934,8 +1934,8 @@ INFO: Directory /home/vagrant/.julia/v0.5/LCMGL/deps/downloads already created
 INFO: Downloading file https://github.com/RobotLocomotion/libbot/archive/cc8d228b50847c4c55e6963b8ee95c237287547f.zip
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   161    0   161    0     0   1496      0 --:--:-- --:--:-- --:--:--  1504
-  0     0    0 40743    0     0  91014      0 --:--:-- --:--:-- --:--:-- 91014  0     0    0  193k    0     0  89961      0 --:--:--  0:00:02 --:--:-- 89721  0     0    0  881k    0     0   397k      0 --:--:--  0:00:02 --:--:--  475k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   161    0   161    0     0   1845      0 --:--:-- --:--:-- --:--:--  1850
+  0     0    0  417k    0     0  1230k      0 --:--:-- --:--:-- --:--:-- 1230k  0     0    0  881k    0     0  2525k      0 --:--:-- --:--:-- --:--:-- 45.3M
 INFO: Done downloading file https://github.com/RobotLocomotion/libbot/archive/cc8d228b50847c4c55e6963b8ee95c237287547f.zip
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.5/LCMGL/deps/src
 INFO: Directory /home/vagrant/.julia/v0.5/LCMGL/deps/src already created
@@ -2551,12 +2551,6 @@ Check build of bot2-core
 make[4]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
 make[5]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
 make[6]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
-Scanning dependencies of target lcmgen_python
-make[6]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
-make[6]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
-make[6]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
-[  0%] Built target lcmgen_python
-make[6]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
 Scanning dependencies of target lcmgen_c
 make[6]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
 make[6]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
@@ -2583,6 +2577,12 @@ make[6]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d
 make[6]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
 make[6]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
 [ 26%] Built target lcmgen_cpp
+make[6]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
+Scanning dependencies of target lcmgen_python
+make[6]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
+make[6]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
+make[6]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
+[ 26%] Built target lcmgen_python
 make[6]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
 Scanning dependencies of target bot2-core
 make[6]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
@@ -2689,11 +2689,6 @@ make[6]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8
 make[6]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
 make[6]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
 make[6]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
-[  0%] Built target lcmgen_python
-make[6]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
-make[6]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
-make[6]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
-make[6]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
 [  0%] Built target lcmgen_c
 make[6]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
 make[6]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
@@ -2703,6 +2698,11 @@ make[6]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d
 make[6]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
 make[6]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
 [ 26%] Built target lcmgen_cpp
+make[6]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
+make[6]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
+make[6]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
+make[6]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
+[ 26%] Built target lcmgen_python
 make[6]: Entering directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
 make[6]: Leaving directory `/home/vagrant/.julia/v0.5/LCMGL/deps/src/libbot-cc8d228b50847c4c55e6963b8ee95c237287547f/bot2-core/pod-build'
 [100%] Built target bot2-core
@@ -3402,13 +3402,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-115-generic #162-Ubuntu SMP Fri Mar 24 16:03:51 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (418.94140625 MB free)
-Uptime: 49677.0 sec
-Load Avg:  1.23046875  1.11328125  1.08642578125
+Memory: 2.9392738342285156 GB (396.0546875 MB free)
+Uptime: 49033.0 sec
+Load Avg:  1.21826171875  1.07568359375  1.05908203125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3507 MHz    3071156 s       5818 s     233970 s    1127695 s        190 s
-#2  3507 MHz    1287367 s       1026 s     138682 s    3371789 s          4 s
+#1  3504 MHz    3038214 s         75 s     272855 s    1012821 s        169 s
+#2  3504 MHz    1180796 s         94 s     143829 s    3423763 s          5 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
