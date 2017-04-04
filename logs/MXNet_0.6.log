@@ -321,13 +321,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-115-generic #162-Ubuntu SMP Fri Mar 24 16:03:51 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (999.30859375 MB free)
-Uptime: 7033.0 sec
-Load Avg:  0.85791015625  0.939453125  0.94580078125
+Memory: 2.9392738342285156 GB (990.1953125 MB free)
+Uptime: 6804.0 sec
+Load Avg:  0.97802734375  0.998046875  0.97607421875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz     367071 s         60 s      34839 s     219100 s         12 s
-#2  3500 MHz     106014 s        111 s      16195 s     566978 s          0 s
+#1  3500 MHz     373137 s        154 s      33494 s     186972 s         11 s
+#2  3500 MHz      94319 s          0 s      15474 s     557597 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -527,9 +527,17 @@ INFO: EvalMetric::ACE
 INFO: Visualize::basic
 INFO: random::uniform::dims = (100, 100, 2)
 INFO: random::gaussian::dims = (80, 80, 4)
-INFO: Operator::scalar_op::dims = (2, 8, 9, 9)
-INFO: NDArray::assign::dims = (3, 4, 5)
-INFO: NDArray::copy::dims = (6, 1, 2, 2, 4, 9)
+INFO: Operator::scalar_op::dims = (10, 4, 8, 5)
+INFO: NDArray::assign::dims = (9, 3, 7, 3, 5)
+NDArray Test: Test Failed
+  Expression: reldiff(zeros(Float16, size(tensor)) + scalar, copy(array3)) < thresh
+   Evaluated: 0.0013167815813753848 < 0.001
+Stacktrace:
+ [1] test_assign() at /home/vagrant/.julia/v0.6/MXNet/test/unittest/ndarray.jl:65
+ [2] macro expansion at /home/vagrant/.julia/v0.6/MXNet/test/unittest/ndarray.jl:401 [inlined]
+ [3] macro expansion at ./test.jl:853 [inlined]
+ [4] anonymous at ./<missing>:?
+INFO: NDArray::copy::dims = (4,)
 NDArray Test: Error During Test
   Test threw an exception of type UndefVarError
   Expression: copy(slice(array, 2:3)) == [1 1; 1 1]
@@ -539,14 +547,14 @@ NDArray Test: Error During Test
    [2] macro expansion at /home/vagrant/.julia/v0.6/MXNet/test/unittest/ndarray.jl:403 [inlined]
    [3] macro expansion at ./test.jl:853 [inlined]
    [4] anonymous at ./<missing>:?
-INFO: NDArray::plus::dims = (5, 8)
-INFO: NDArray::minus::dims = (6, 5, 9, 4, 6)
-INFO: NDArray::mul::dims = (10, 8, 3, 8, 3)
-INFO: NDArray::div::dims = (6,)
-INFO: NDArray::gd::dims = (2,)
+INFO: NDArray::plus::dims = (9, 10)
+INFO: NDArray::minus::dims = (5, 1, 1, 10, 9, 9)
+INFO: NDArray::mul::dims = (10, 9, 8)
+INFO: NDArray::div::dims = (9, 4, 6)
+INFO: NDArray::gd::dims = (7, 5, 7)
 INFO: NDArray::saveload::n_arrays = 5
-INFO: NDArray::clip::dims = (7, 3, 9, 7, 10)
-INFO: NDArray::sqrt::dims = (10, 9)
+INFO: NDArray::clip::dims = (5, 9)
+INFO: NDArray::sqrt::dims = (5, 2, 3, 4, 1, 10)
 INFO: NDArray::eltype
 INFO: NDArray::nd_as_jl::dims = (2, 3)
 INFO: NDArray::dot
@@ -591,7 +599,7 @@ IO Test: Error During Test
    [20] include(::String) at ./sysimg.jl:14
    [21] process_options(::Base.JLOptions) at ./client.jl:305
    [22] _start() at ./client.jl:371
-INFO: Bind::arithmetic::Float32::Base.#700::dims = (4, 5, 9, 3)
+INFO: Bind::arithmetic::Float32::Base.#700::dims = (6,)
 WARNING: .+ is no longer a function object; use broadcast(+, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -617,7 +625,7 @@ while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expressi
 WARNING: .+ is no longer a function object; use broadcast(+, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] (::Base.##700#701)(::Array{Float32,4}, ::Array{Float32,4}) at ./deprecated.jl:340
+ [2] (::Base.##700#701)(::Array{Float32,1}, ::Array{Float32,1}) at ./deprecated.jl:340
  [3] test_arithmetic(::Type{Float32}, ::Base.##700#701, ::TestBind.##1#6) at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:33
  [4] test_arithmetic() at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:59
  [5] macro expansion at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:74 [inlined]
@@ -636,7 +644,7 @@ Stacktrace:
  [18] process_options(::Base.JLOptions) at ./client.jl:305
  [19] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expression starting on line 73
-INFO: Bind::arithmetic::Float32::Base.#702::dims = (3, 7, 5, 5, 9, 7)
+INFO: Bind::arithmetic::Float32::Base.#702::dims = (9, 3, 5, 6)
 WARNING: .- is no longer a function object; use broadcast(-, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -662,7 +670,7 @@ while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expressi
 WARNING: .- is no longer a function object; use broadcast(-, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] (::Base.##702#703)(::Array{Float32,6}, ::Array{Float32,6}) at ./deprecated.jl:340
+ [2] (::Base.##702#703)(::Array{Float32,4}, ::Array{Float32,4}) at ./deprecated.jl:340
  [3] test_arithmetic(::Type{Float32}, ::Base.##702#703, ::TestBind.##2#7) at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:33
  [4] test_arithmetic() at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:60
  [5] macro expansion at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:74 [inlined]
@@ -681,7 +689,7 @@ Stacktrace:
  [18] process_options(::Base.JLOptions) at ./client.jl:305
  [19] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expression starting on line 73
-INFO: Bind::arithmetic::Float32::Base.#704::dims = (5, 9, 4)
+INFO: Bind::arithmetic::Float32::Base.#704::dims = (4, 4, 9, 10, 5, 3)
 WARNING: .* is no longer a function object; use broadcast(*, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -707,7 +715,7 @@ while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expressi
 WARNING: .* is no longer a function object; use broadcast(*, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] (::Base.##704#705)(::Array{Float32,3}, ::Array{Float32,3}) at ./deprecated.jl:340
+ [2] (::Base.##704#705)(::Array{Float32,6}, ::Array{Float32,6}) at ./deprecated.jl:340
  [3] test_arithmetic(::Type{Float32}, ::Base.##704#705, ::TestBind.##3#8) at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:33
  [4] test_arithmetic() at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:61
  [5] macro expansion at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:74 [inlined]
@@ -726,7 +734,7 @@ Stacktrace:
  [18] process_options(::Base.JLOptions) at ./client.jl:305
  [19] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expression starting on line 73
-INFO: Bind::arithmetic::Float32::Base.#706::dims = (9, 1, 8, 2, 5, 4)
+INFO: Bind::arithmetic::Float32::Base.#706::dims = (4, 9, 8)
 WARNING: ./ is no longer a function object; use broadcast(/, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -752,7 +760,7 @@ while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expressi
 WARNING: ./ is no longer a function object; use broadcast(/, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] (::Base.##706#707)(::Array{Float32,6}, ::Array{Float32,6}) at ./deprecated.jl:340
+ [2] (::Base.##706#707)(::Array{Float32,3}, ::Array{Float32,3}) at ./deprecated.jl:340
  [3] test_arithmetic(::Type{Float32}, ::Base.##706#707, ::TestBind.##4#9) at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:33
  [4] test_arithmetic() at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:65
  [5] macro expansion at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:74 [inlined]
@@ -771,7 +779,7 @@ Stacktrace:
  [18] process_options(::Base.JLOptions) at ./client.jl:305
  [19] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expression starting on line 73
-INFO: Bind::arithmetic::Float64::Base.#700::dims = (1, 4, 2)
+INFO: Bind::arithmetic::Float64::Base.#700::dims = (1,)
 WARNING: .+ is no longer a function object; use broadcast(+, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -797,7 +805,7 @@ while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expressi
 WARNING: .+ is no longer a function object; use broadcast(+, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] (::Base.##700#701)(::Array{Float64,3}, ::Array{Float64,3}) at ./deprecated.jl:340
+ [2] (::Base.##700#701)(::Array{Float64,1}, ::Array{Float64,1}) at ./deprecated.jl:340
  [3] test_arithmetic(::Type{Float64}, ::Base.##700#701, ::TestBind.##1#6) at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:33
  [4] test_arithmetic() at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:59
  [5] macro expansion at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:74 [inlined]
@@ -816,7 +824,7 @@ Stacktrace:
  [18] process_options(::Base.JLOptions) at ./client.jl:305
  [19] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expression starting on line 73
-INFO: Bind::arithmetic::Float64::Base.#702::dims = (10, 4)
+INFO: Bind::arithmetic::Float64::Base.#702::dims = (5, 4, 5, 9, 6)
 WARNING: .- is no longer a function object; use broadcast(-, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -842,7 +850,7 @@ while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expressi
 WARNING: .- is no longer a function object; use broadcast(-, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] (::Base.##702#703)(::Array{Float64,2}, ::Array{Float64,2}) at ./deprecated.jl:340
+ [2] (::Base.##702#703)(::Array{Float64,5}, ::Array{Float64,5}) at ./deprecated.jl:340
  [3] test_arithmetic(::Type{Float64}, ::Base.##702#703, ::TestBind.##2#7) at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:33
  [4] test_arithmetic() at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:60
  [5] macro expansion at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:74 [inlined]
@@ -861,7 +869,7 @@ Stacktrace:
  [18] process_options(::Base.JLOptions) at ./client.jl:305
  [19] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expression starting on line 73
-INFO: Bind::arithmetic::Float64::Base.#704::dims = (7, 4, 4, 3, 4, 2)
+INFO: Bind::arithmetic::Float64::Base.#704::dims = (10,)
 WARNING: .* is no longer a function object; use broadcast(*, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -887,7 +895,7 @@ while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expressi
 WARNING: .* is no longer a function object; use broadcast(*, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] (::Base.##704#705)(::Array{Float64,6}, ::Array{Float64,6}) at ./deprecated.jl:340
+ [2] (::Base.##704#705)(::Array{Float64,1}, ::Array{Float64,1}) at ./deprecated.jl:340
  [3] test_arithmetic(::Type{Float64}, ::Base.##704#705, ::TestBind.##3#8) at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:33
  [4] test_arithmetic() at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:61
  [5] macro expansion at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:74 [inlined]
@@ -906,7 +914,7 @@ Stacktrace:
  [18] process_options(::Base.JLOptions) at ./client.jl:305
  [19] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expression starting on line 73
-INFO: Bind::arithmetic::Float64::Base.#706::dims = (1, 9, 5)
+INFO: Bind::arithmetic::Float64::Base.#706::dims = (4, 5, 10, 3)
 WARNING: ./ is no longer a function object; use broadcast(/, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -932,7 +940,7 @@ while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expressi
 WARNING: ./ is no longer a function object; use broadcast(/, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] (::Base.##706#707)(::Array{Float64,3}, ::Array{Float64,3}) at ./deprecated.jl:340
+ [2] (::Base.##706#707)(::Array{Float64,4}, ::Array{Float64,4}) at ./deprecated.jl:340
  [3] test_arithmetic(::Type{Float64}, ::Base.##706#707, ::TestBind.##4#9) at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:33
  [4] test_arithmetic() at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:65
  [5] macro expansion at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:74 [inlined]
@@ -951,7 +959,7 @@ Stacktrace:
  [18] process_options(::Base.JLOptions) at ./client.jl:305
  [19] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expression starting on line 73
-INFO: Bind::arithmetic::Float16::Base.#700::dims = (8,)
+INFO: Bind::arithmetic::Float16::Base.#700::dims = (3, 6, 10, 3)
 WARNING: .+ is no longer a function object; use broadcast(+, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -977,7 +985,7 @@ while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expressi
 WARNING: .+ is no longer a function object; use broadcast(+, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] (::Base.##700#701)(::Array{Float16,1}, ::Array{Float16,1}) at ./deprecated.jl:340
+ [2] (::Base.##700#701)(::Array{Float16,4}, ::Array{Float16,4}) at ./deprecated.jl:340
  [3] test_arithmetic(::Type{Float16}, ::Base.##700#701, ::TestBind.##1#6) at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:33
  [4] test_arithmetic() at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:59
  [5] macro expansion at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:74 [inlined]
@@ -996,7 +1004,7 @@ Stacktrace:
  [18] process_options(::Base.JLOptions) at ./client.jl:305
  [19] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expression starting on line 73
-INFO: Bind::arithmetic::Float16::Base.#702::dims = (8, 2, 7, 9, 10, 2)
+INFO: Bind::arithmetic::Float16::Base.#702::dims = (9, 4, 2, 9, 2)
 WARNING: .- is no longer a function object; use broadcast(-, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -1022,7 +1030,7 @@ while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expressi
 WARNING: .- is no longer a function object; use broadcast(-, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] (::Base.##702#703)(::Array{Float16,6}, ::Array{Float16,6}) at ./deprecated.jl:340
+ [2] (::Base.##702#703)(::Array{Float16,5}, ::Array{Float16,5}) at ./deprecated.jl:340
  [3] test_arithmetic(::Type{Float16}, ::Base.##702#703, ::TestBind.##2#7) at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:33
  [4] test_arithmetic() at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:60
  [5] macro expansion at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:74 [inlined]
@@ -1041,7 +1049,7 @@ Stacktrace:
  [18] process_options(::Base.JLOptions) at ./client.jl:305
  [19] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expression starting on line 73
-INFO: Bind::arithmetic::Float16::Base.#704::dims = (6, 10, 9, 10, 2, 1)
+INFO: Bind::arithmetic::Float16::Base.#704::dims = (3,)
 WARNING: .* is no longer a function object; use broadcast(*, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -1067,7 +1075,7 @@ while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expressi
 WARNING: .* is no longer a function object; use broadcast(*, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] (::Base.##704#705)(::Array{Float16,6}, ::Array{Float16,6}) at ./deprecated.jl:340
+ [2] (::Base.##704#705)(::Array{Float16,1}, ::Array{Float16,1}) at ./deprecated.jl:340
  [3] test_arithmetic(::Type{Float16}, ::Base.##704#705, ::TestBind.##3#8) at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:33
  [4] test_arithmetic() at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:61
  [5] macro expansion at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:74 [inlined]
@@ -1087,7 +1095,7 @@ Stacktrace:
  [19] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expression starting on line 73
 WARNING: Not running division test for Float16
-INFO: Bind::arithmetic::UInt8::Base.#700::dims = (9,)
+INFO: Bind::arithmetic::UInt8::Base.#700::dims = (4, 9)
 WARNING: .+ is no longer a function object; use broadcast(+, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -1113,7 +1121,7 @@ while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expressi
 WARNING: .+ is no longer a function object; use broadcast(+, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] (::Base.##700#701)(::Array{UInt8,1}, ::Array{UInt8,1}) at ./deprecated.jl:340
+ [2] (::Base.##700#701)(::Array{UInt8,2}, ::Array{UInt8,2}) at ./deprecated.jl:340
  [3] test_arithmetic(::Type{UInt8}, ::Base.##700#701, ::TestBind.##1#6) at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:33
  [4] test_arithmetic() at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:59
  [5] macro expansion at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:74 [inlined]
@@ -1132,7 +1140,7 @@ Stacktrace:
  [18] process_options(::Base.JLOptions) at ./client.jl:305
  [19] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expression starting on line 73
-INFO: Bind::arithmetic::UInt8::Base.#702::dims = (7, 5)
+INFO: Bind::arithmetic::UInt8::Base.#702::dims = (6, 5, 7)
 WARNING: .- is no longer a function object; use broadcast(-, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -1158,7 +1166,7 @@ while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expressi
 WARNING: .- is no longer a function object; use broadcast(-, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] (::Base.##702#703)(::Array{UInt8,2}, ::Array{UInt8,2}) at ./deprecated.jl:340
+ [2] (::Base.##702#703)(::Array{UInt8,3}, ::Array{UInt8,3}) at ./deprecated.jl:340
  [3] test_arithmetic(::Type{UInt8}, ::Base.##702#703, ::TestBind.##2#7) at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:33
  [4] test_arithmetic() at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:60
  [5] macro expansion at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:74 [inlined]
@@ -1177,7 +1185,7 @@ Stacktrace:
  [18] process_options(::Base.JLOptions) at ./client.jl:305
  [19] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expression starting on line 73
-INFO: Bind::arithmetic::UInt8::Base.#704::dims = (3, 8)
+INFO: Bind::arithmetic::UInt8::Base.#704::dims = (1, 7, 7, 8, 9, 8)
 WARNING: .* is no longer a function object; use broadcast(*, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -1203,7 +1211,7 @@ while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expressi
 WARNING: .* is no longer a function object; use broadcast(*, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] (::Base.##704#705)(::Array{UInt8,2}, ::Array{UInt8,2}) at ./deprecated.jl:340
+ [2] (::Base.##704#705)(::Array{UInt8,6}, ::Array{UInt8,6}) at ./deprecated.jl:340
  [3] test_arithmetic(::Type{UInt8}, ::Base.##704#705, ::TestBind.##3#8) at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:33
  [4] test_arithmetic() at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:61
  [5] macro expansion at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:74 [inlined]
@@ -1223,7 +1231,7 @@ Stacktrace:
  [19] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expression starting on line 73
 WARNING: Not running division test for UInt8
-INFO: Bind::arithmetic::Int32::Base.#700::dims = (5, 5, 4, 6, 8, 5)
+INFO: Bind::arithmetic::Int32::Base.#700::dims = (1,)
 WARNING: .+ is no longer a function object; use broadcast(+, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -1249,7 +1257,7 @@ while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expressi
 WARNING: .+ is no longer a function object; use broadcast(+, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] (::Base.##700#701)(::Array{Int32,6}, ::Array{Int32,6}) at ./deprecated.jl:340
+ [2] (::Base.##700#701)(::Array{Int32,1}, ::Array{Int32,1}) at ./deprecated.jl:340
  [3] test_arithmetic(::Type{Int32}, ::Base.##700#701, ::TestBind.##1#6) at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:33
  [4] test_arithmetic() at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:59
  [5] macro expansion at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:74 [inlined]
@@ -1268,7 +1276,7 @@ Stacktrace:
  [18] process_options(::Base.JLOptions) at ./client.jl:305
  [19] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expression starting on line 73
-INFO: Bind::arithmetic::Int32::Base.#702::dims = (2, 3)
+INFO: Bind::arithmetic::Int32::Base.#702::dims = (1, 2, 3, 4, 2, 4)
 WARNING: .- is no longer a function object; use broadcast(-, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -1294,7 +1302,7 @@ while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expressi
 WARNING: .- is no longer a function object; use broadcast(-, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] (::Base.##702#703)(::Array{Int32,2}, ::Array{Int32,2}) at ./deprecated.jl:340
+ [2] (::Base.##702#703)(::Array{Int32,6}, ::Array{Int32,6}) at ./deprecated.jl:340
  [3] test_arithmetic(::Type{Int32}, ::Base.##702#703, ::TestBind.##2#7) at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:33
  [4] test_arithmetic() at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:60
  [5] macro expansion at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:74 [inlined]
@@ -1313,7 +1321,7 @@ Stacktrace:
  [18] process_options(::Base.JLOptions) at ./client.jl:305
  [19] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expression starting on line 73
-INFO: Bind::arithmetic::Int32::Base.#704::dims = (6, 5, 7, 10, 9, 7)
+INFO: Bind::arithmetic::Int32::Base.#704::dims = (2, 6, 8)
 WARNING: .* is no longer a function object; use broadcast(*, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
@@ -1339,7 +1347,7 @@ while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expressi
 WARNING: .* is no longer a function object; use broadcast(*, ...) instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] (::Base.##704#705)(::Array{Int32,6}, ::Array{Int32,6}) at ./deprecated.jl:340
+ [2] (::Base.##704#705)(::Array{Int32,3}, ::Array{Int32,3}) at ./deprecated.jl:340
  [3] test_arithmetic(::Type{Int32}, ::Base.##704#705, ::TestBind.##3#8) at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:33
  [4] test_arithmetic() at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:61
  [5] macro expansion at /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl:74 [inlined]
@@ -1359,18 +1367,18 @@ Stacktrace:
  [19] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/MXNet/test/unittest/bind.jl, in expression starting on line 73
 WARNING: Not running division test for Int32
-Test Summary:       | Pass  Error  Total
-MXNet Test          |  344      2    346
-  SymbolicNode Test |   22            22
-  Visualize Test    |    1             1
-  Random Test       |    5             5
-  Operator Test     |    2             2
-  NDArray Test      |   92      1     93
-  Name Test         |    6             6
-  KVStore Test      |   20            20
-  IO Test           |   59      1     60
-  Bind Test         |  136           136
-ERROR: LoadError: Some tests did not pass: 344 passed, 0 failed, 2 errored, 0 broken.
+Test Summary:       | Pass  Fail  Error  Total
+MXNet Test          |  343     1      2    346
+  SymbolicNode Test |   22                  22
+  Visualize Test    |    1                   1
+  Random Test       |    5                   5
+  Operator Test     |    2                   2
+  NDArray Test      |   91     1      1     93
+  Name Test         |    6                   6
+  KVStore Test      |   20                  20
+  IO Test           |   59            1     60
+  Bind Test         |  136                 136
+ERROR: LoadError: Some tests did not pass: 343 passed, 1 failed, 2 errored, 0 broken.
 while loading /home/vagrant/.julia/v0.6/MXNet/test/runtests.jl, in expression starting on line 15
 ================================[ ERROR: MXNet ]================================
 
