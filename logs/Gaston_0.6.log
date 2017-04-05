@@ -14,13 +14,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-115-generic #162-Ubuntu SMP Fri Mar 24 16:03:51 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (743.1875 MB free)
-Uptime: 29541.0 sec
-Load Avg:  1.1748046875  1.05908203125  1.046875
+Memory: 2.9392738342285156 GB (733.796875 MB free)
+Uptime: 34157.0 sec
+Load Avg:  0.9248046875  1.0087890625  1.0400390625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    1596060 s         54 s     142273 s     865007 s         66 s
-#2  3500 MHz     529135 s         92 s      82092 s    2249667 s          3 s
+#1  3499 MHz    2041583 s        968 s     152537 s     824244 s        140 s
+#2  3499 MHz     877400 s       6555 s     105408 s    2269963 s          2 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -40,17 +40,45 @@ Package Directory: /home/vagrant/.julia/v0.6
 1 additional packages:
  - Compat                        0.21.0
 INFO: Testing Gaston
-ERROR: LoadError: LoadError: could not spawn `gnuplot --version`: no such file or directory (ENOENT)
+
+WARNING: deprecated syntax "typealias UnitRange{T} Range1{T}" at /home/vagrant/.julia/v0.6/Gaston/src/gaston_types.jl:9.
+Use "UnitRange{T} = Range1{T}" instead.
+WARNING: sin{T <: Number}(x::AbstractArray{T}) is deprecated, use sin.(x) instead.
 Stacktrace:
- [1] _jl_spawn(::String, ::Array{String,1}, ::Ptr{Void}, ::Base.Process, ::Base.DevNullStream, ::Base.DevNullStream, ::Base.DevNullStream) at ./process.jl:365
- [2] #363 at ./process.jl:517 [inlined]
- [3] setup_stdio(::Base.##363#364{Cmd}, ::Tuple{Base.DevNullStream,Base.DevNullStream,Base.DevNullStream}) at ./process.jl:503
- [4] #spawn#362(::Nullable{Base.ProcessChain}, ::Function, ::Cmd, ::Tuple{Base.DevNullStream,Base.DevNullStream,Base.DevNullStream}) at ./process.jl:516
- [5] (::Base.#kw##spawn)(::Array{Any,1}, ::Base.#spawn, ::Cmd, ::Tuple{Base.DevNullStream,Base.DevNullStream,Base.DevNullStream}) at ./<missing>:0
- [6] success(::Cmd) at ./process.jl:683
- [7] include_from_node1(::String) at ./loading.jl:539
-while loading /home/vagrant/.julia/v0.6/Gaston/src/Gaston.jl, in expression starting on line 21
-while loading /home/vagrant/.julia/v0.6/Gaston/test/runtests.jl, in expression starting on line 13
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] sin(::StepRangeLen{Float64,Base.TwicePrecision{Float64},Base.TwicePrecision{Float64}}) at ./deprecated.jl:51
+ [3] macro expansion at /home/vagrant/.julia/v0.6/Gaston/test/runtests.jl:29 [inlined]
+ [4] macro expansion at ./test.jl:853 [inlined]
+ [5] anonymous at ./<missing>:?
+ [6] include_from_node1(::String) at ./loading.jl:539
+ [7] include(::String) at ./sysimg.jl:14
+ [8] process_options(::Base.JLOptions) at ./client.jl:305
+ [9] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/Gaston/test/runtests.jl, in expression starting on line 16
+Pass expected: Error During Test
+  Test threw an exception of type UndefVarError
+  Expression: histogram(rand(1000)) == 1
+  UndefVarError: hist not defined
+  Stacktrace:
+   [1] histogram(::Array{Float64,1}, ::Vararg{Array{Float64,1},N} where N) at /home/vagrant/.julia/v0.6/Gaston/src/gaston_hilvl.jl:283
+   [2] macro expansion at /home/vagrant/.julia/v0.6/Gaston/test/runtests.jl:43 [inlined]
+   [3] macro expansion at ./test.jl:853 [inlined]
+   [4] anonymous at ./<missing>:?
+Pass expected: Error During Test
+  Test threw an exception of type UndefVarError
+  Expression: begin 
+        histogram(randn(1000), "bins", 100, "norm", 1, "color", "blue", "linewidth", 2, "title", "test histogram", "xlabel", "x", "ylabel", "y", "box", "inside horizontal left top")
+    end == 1
+  UndefVarError: hist not defined
+  Stacktrace:
+   [1] histogram(::Array{Float64,1}, ::Vararg{Any,N} where N) at /home/vagrant/.julia/v0.6/Gaston/src/gaston_hilvl.jl:283
+   [2] macro expansion at /home/vagrant/.julia/v0.6/Gaston/test/runtests.jl:44 [inlined]
+   [3] macro expansion at ./test.jl:853 [inlined]
+   [4] anonymous at ./<missing>:?
+Test Summary: | Pass  Error  Total
+Pass expected |   32      2     34
+ERROR: LoadError: Some tests did not pass: 32 passed, 0 failed, 2 errored, 0 broken.
+while loading /home/vagrant/.julia/v0.6/Gaston/test/runtests.jl, in expression starting on line 16
 ===============================[ ERROR: Gaston ]================================
 
 failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Gaston/test/runtests.jl`, ProcessExited(1)) [1]
