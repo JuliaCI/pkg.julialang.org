@@ -1,0 +1,97 @@
+>>> 'Pkg.add("FortranFiles")' log
+INFO: Cloning cache of FortranFiles from https://github.com/traktofon/FortranFiles.jl.git
+INFO: Installing FortranFiles v0.0.1
+INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of FortranFiles
+INFO: Use `Pkg.update()` to get the latest versions of your packages
+
+>>> 'Pkg.test("FortranFiles")' log
+Julia Version 0.5.1
+Commit 6445c82 (2017-03-05 13:25 UTC)
+Platform Info:
+  OS: Linux (x86_64-pc-linux-gnu)
+  CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
+  WORD_SIZE: 64
+           Ubuntu 14.04.5 LTS
+  uname: Linux 3.13.0-116-generic #163-Ubuntu SMP Fri Mar 31 14:13:22 UTC 2017 x86_64 x86_64
+Memory: 2.9392738342285156 GB (711.14453125 MB free)
+Uptime: 33344.0 sec
+Load Avg:  0.98779296875  0.9814453125  1.009765625
+Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
+       speed         user         nice          sys         idle          irq
+#1  3500 MHz    2012051 s       6721 s     160704 s     778575 s        153 s
+#2  3500 MHz     942727 s         40 s     100346 s    2165411 s          6 s
+
+  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
+  LAPACK: libopenblas64_
+  LIBM: libopenlibm
+  LLVM: libLLVM-3.7.1 (ORCJIT, haswell)
+Environment:
+  TERM = vt100
+  LD_LIBRARY_PATH = :/usr/local/lib/
+  PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/vagrant/julia/bin/
+  JAVA_HOME = /usr/lib/jvm/java-7-oracle
+  HOME = /home/vagrant
+
+Package Directory: /home/vagrant/.julia/v0.5
+2 required packages:
+ - FortranFiles                  0.0.1
+ - JSON                          0.8.3
+1 additional packages:
+ - Compat                        0.22.0
+INFO: Testing FortranFiles
+make: Entering directory `/home/vagrant/.julia/v0.5/FortranFiles/test/codegen'
+julia genrandom.jl
+touch .random-stamp
+gfortran -std=f2008 -fcheck=all -Wall -Wno-conversion -c -o randutil.o randutil.f90
+gfortran -std=f2008 -fcheck=all -Wall -Wno-conversion -c -o randomi1.o randomi1.f90
+gfortran -std=f2008 -fcheck=all -Wall -Wno-conversion -c -o randomi2.o randomi2.f90
+gfortran -std=f2008 -fcheck=all -Wall -Wno-conversion -c -o randomi4.o randomi4.f90
+gfortran -std=f2008 -fcheck=all -Wall -Wno-conversion -c -o randomi8.o randomi8.f90
+gfortran -std=f2008 -fcheck=all -Wall -Wno-conversion -c -o randomr4.o randomr4.f90
+gfortran -std=f2008 -fcheck=all -Wall -Wno-conversion -c -o randomr8.o randomr8.f90
+gfortran -std=f2008 -fcheck=all -Wall -Wno-conversion -c -o randomc8.o randomc8.f90
+gfortran -std=f2008 -fcheck=all -Wall -Wno-conversion -c -o randomc16.o randomc16.f90
+gfortran -std=f2008 -fcheck=all -Wall -Wno-conversion -c -o randomstr.o randomstr.f90
+julia gencode.jl
+touch .code-stamp
+gfortran -std=f2008 -fcheck=all -Wall -Wno-conversion -fmax-subrecord-length=32759 -c -o gendata4Bshort.o gendata.F90
+gfortran -o gendata4Bshort.x randomi1.o randomi2.o randomi4.o randomi8.o randomr4.o randomr8.o randomc8.o randomc16.o randomstr.o randutil.o gendata4Bshort.o
+make: Leaving directory `/home/vagrant/.julia/v0.5/FortranFiles/test/codegen'
+make: Entering directory `/home/vagrant/.julia/v0.5/FortranFiles/test/codegen'
+gfortran -std=f2008 -fcheck=all -Wall -Wno-conversion  -c -o gendata4Bdef.o gendata.F90
+gfortran -o gendata4Bdef.x randomi1.o randomi2.o randomi4.o randomi8.o randomr4.o randomr8.o randomc8.o randomc16.o randomstr.o randutil.o gendata4Bdef.o
+make: Leaving directory `/home/vagrant/.julia/v0.5/FortranFiles/test/codegen'
+make: Entering directory `/home/vagrant/.julia/v0.5/FortranFiles/test/codegen'
+gfortran -std=f2008 -fcheck=all -Wall -Wno-conversion -frecord-marker=8 -c -o gendata8B.o gendata.F90
+gfortran -o gendata8B.x randomi1.o randomi2.o randomi4.o randomi8.o randomr4.o randomr8.o randomc8.o randomc16.o randomstr.o randutil.o gendata8B.o
+make: Leaving directory `/home/vagrant/.julia/v0.5/FortranFiles/test/codegen'
+make: Entering directory `/home/vagrant/.julia/v0.5/FortranFiles/test/codegen'
+gfortran -std=f2008 -fcheck=all -Wall -Wno-conversion  -c -o gendata4Bdumb.o gendata.F90
+gfortran -o gendata4Bdumb.x randomi1.o randomi2.o randomi4.o randomi8.o randomr4.o randomr8.o randomc8.o randomc16.o randomstr.o randutil.o gendata4Bdumb.o
+make: Leaving directory `/home/vagrant/.julia/v0.5/FortranFiles/test/codegen'
+Test Summary: | Pass  Total
+  Strings     |    7      7
+  5.768683 seconds (2.83 M allocations: 118.498 MB, 0.70% gc time)
+  0.357758 seconds (125.44 k allocations: 5.291 MB)
+  1.957778 seconds (753.53 k allocations: 32.738 MB, 0.84% gc time)
+Test Summary:                                             | Pass  Total
+  Tests with record markers of 4-byte with short subrecords |  106    106
+  0.010313 seconds (13.77 k allocations: 898.453 KB)
+  0.000880 seconds (4.04 k allocations: 256.891 KB)
+  0.003781 seconds (8.98 k allocations: 146.000 KB)
+Test Summary:                                               | Pass  Total
+  Tests with record markers of 4-byte with default subrecords |  106    106
+  4.306632 seconds (1.31 M allocations: 50.271 MB, 0.31% gc time)
+  0.437830 seconds (107.50 k allocations: 4.402 MB)
+  1.300575 seconds (411.07 k allocations: 17.426 MB, 0.62% gc time)
+Test Summary:                                          | Pass  Total
+  Tests with record markers of 8-byte without subrecords |  106    106
+  5.124875 seconds (1.31 M allocations: 50.043 MB, 0.41% gc time)
+  0.408078 seconds (107.50 k allocations: 4.400 MB, 2.49% gc time)
+  1.075108 seconds (410.92 k allocations: 17.393 MB)
+Test Summary:                                          | Pass  Total
+  Tests with record markers of 4-byte without subrecords |  106    106
+INFO: FortranFiles tests passed
+
+>>> End of log
