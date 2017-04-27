@@ -15,21 +15,21 @@ INFO: METADATA is out-of-date — you may not have the latest version of Roots
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Roots")' log
-Julia Version 0.6.0-pre.beta.314
-Commit 7cd0324 (2017-04-24 22:37 UTC)
+Julia Version 0.6.0-pre.beta.337
+Commit 98414b9 (2017-04-26 01:38 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-117-generic #164-Ubuntu SMP Fri Apr 7 11:05:26 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1000.39453125 MB free)
-Uptime: 55367.0 sec
-Load Avg:  1.2587890625  1.1708984375  0.6904296875
+Memory: 2.9392738342285156 GB (995.23828125 MB free)
+Uptime: 56241.0 sec
+Load Avg:  1.384765625  1.15625  0.6669921875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    3387806 s       6248 s     137643 s    1139414 s         43 s
-#2  3500 MHz     597974 s        100 s      65774 s    4799155 s          1 s
+#1  3507 MHz    3446224 s       5610 s     142450 s    1154456 s         42 s
+#2  3507 MHz     613090 s       1123 s      68737 s    4864268 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -59,14 +59,28 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Primes                        0.1.3
  - SpecialFunctions              0.1.1
 INFO: Testing Roots
-WARNING: The call to compilecache failed to create a usable precompiled cache file for module Combinatorics. Got:
-WARNING: Module Iterators uuid did not match cache file.
-ERROR: LoadError: LoadError: Declaring __precompile__(true) is only allowed in module files being imported.
-Stacktrace:
- [1] __precompile__(::Bool) at ./loading.jl:318
- [2] include_from_node1(::String) at ./loading.jl:539
-while loading /home/vagrant/.julia/v0.6/Combinatorics/src/Combinatorics.jl, in expression starting on line 1
-while loading /home/vagrant/.julia/v0.6/Roots/test/runtests.jl, in expression starting on line 1
+Error During Test
+  Test threw an exception of type MethodError
+  Expression: norm(newton(sin, cos, 0.5) - 0.0) <= 100 * eps(1.0)
+  MethodError: Roots.derivative_free_setup(::Roots.Newton, ::Roots.FirstDerivative, ::Float64) is ambiguous. Candidates:
+    derivative_free_setup(method::Roots.Newton, fs::Roots.CallableFunction, x0::Union{Complex{T}, T}) where T<:AbstractFloat in Roots at /home/vagrant/.julia/v0.6/Roots/src/newton.jl:61
+    derivative_free_setup(method, fs::Roots.CallableFunction, x0::Union{Array{T,1}, T}) where T<:AbstractFloat in Roots at /home/vagrant/.julia/v0.6/Roots/src/find_zero.jl:147
+  Possible fix, define
+    derivative_free_setup(::Roots.Newton, ::Roots.CallableFunction, ::T<:AbstractFloat)
+  Stacktrace:
+   [1] #find_zero#10(::Array{Any,1}, ::Function, ::Roots.Newton, ::Roots.FirstDerivative, ::Float64) at /home/vagrant/.julia/v0.6/Roots/src/find_zero.jl:411
+   [2] #find_zero#7(::Array{Any,1}, ::Function, ::Tuple{Base.#sin,Base.#cos}, ::Float64, ::Roots.Newton) at /home/vagrant/.julia/v0.6/Roots/src/find_zero.jl:401
+   [3] #newton#20(::Array{Any,1}, ::Function, ::Function, ::Function, ::Float64) at /home/vagrant/.julia/v0.6/Roots/src/newton.jl:103
+   [4] newton(::Function, ::Function, ::Float64) at /home/vagrant/.julia/v0.6/Roots/src/newton.jl:103
+   [5] include_from_node1(::String) at ./loading.jl:539
+   [6] include(::String) at ./sysimg.jl:14
+   [7] include_from_node1(::String) at ./loading.jl:539
+   [8] include(::String) at ./sysimg.jl:14
+   [9] process_options(::Base.JLOptions) at ./client.jl:305
+   [10] _start() at ./client.jl:371
+ERROR: LoadError: LoadError: There was an error during testing
+while loading /home/vagrant/.julia/v0.6/Roots/test/./test_newton.jl, in expression starting on line 4
+while loading /home/vagrant/.julia/v0.6/Roots/test/runtests.jl, in expression starting on line 14
 ================================[ ERROR: Roots ]================================
 
 failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Roots/test/runtests.jl`, ProcessExited(1)) [1]
