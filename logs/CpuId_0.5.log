@@ -1,6 +1,6 @@
 >>> 'Pkg.add("CpuId")' log
 INFO: Cloning cache of CpuId from https://github.com/m-j-w/CpuId.jl.git
-INFO: Installing CpuId v0.1.2
+INFO: Installing CpuId v0.1.9
 INFO: Package database updated
 INFO: METADATA is out-of-date — you may not have the latest version of CpuId
 INFO: Use `Pkg.update()` to get the latest versions of your packages
@@ -14,13 +14,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-117-generic #164-Ubuntu SMP Fri Apr 7 11:05:26 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (637.97265625 MB free)
-Uptime: 18504.0 sec
-Load Avg:  1.0234375  1.0380859375  1.04541015625
+Memory: 2.9392738342285156 GB (618.19921875 MB free)
+Uptime: 18482.0 sec
+Load Avg:  1.0322265625  1.0712890625  1.0615234375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3504 MHz    1038125 s       3376 s      86178 s     491075 s         33 s
-#2  3504 MHz     364445 s       3071 s      51174 s    1379352 s          0 s
+#1  3500 MHz    1040202 s       1310 s      88216 s     486339 s         32 s
+#2  3500 MHz     391380 s       5440 s      49931 s    1353584 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -35,7 +35,7 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.5
 2 required packages:
- - CpuId                         0.1.2
+ - CpuId                         0.1.9
  - JSON                          0.9.1
 1 additional packages:
  - Compat                        0.24.0
@@ -56,7 +56,6 @@ INFO: Testing CpuId
 | Time Stamp Counter | TSC is accessible via `rdtsc`                           |
 |                    | TSC increased at every clock cycle (non-invariant TSC)  |
 | Perf. Monitoring   | Performance Monitoring Counters (PMC) are not supported |
-|                    | Instruction Based Sampling (IBS) is not supported       |
 | Hypervisor         | No                                                      |
 
 | Cpu Feature | Description                                               |
@@ -74,7 +73,7 @@ INFO: Testing CpuId
 | FPU         | Onboard x87 FPU                                           |
 | FXSR        | FXSAVE, FXRSTOR instructions                              |
 | HTT         | Max APIC IDs reserved field is valid                      |
-| LM_         | AMD64 long mode                                           |
+| LM          | AMD64 long mode                                           |
 | MCA         | Machine Check Architecture (MSR)                          |
 | MCE         | Machine check exception                                   |
 | MMX         | 64bit Multimedia Streaming Extensions                     |
@@ -106,7 +105,7 @@ model		: 60
 model name	: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
 stepping	: 3
 microcode	: 0x19
-cpu MHz		: 3504.461
+cpu MHz		: 3500.346
 cache size	: 6144 KB
 physical id	: 0
 siblings	: 2
@@ -119,46 +118,19 @@ fpu_exception	: yes
 cpuid level	: 5
 wp		: yes
 flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx rdtscp lm constant_tsc rep_good nopl pni ssse3 lahf_lm
-bogomips	: 7008.92
+bogomips	: 7000.69
 clflush size	: 64
 cache_alignment	: 64
 address sizes	: 39 bits physical, 48 bits virtual
 power management:
-
-processor	: 1
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 60
-model name	: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
-stepping	: 3
-microcode	: 0x19
-cpu MHz		: 3504.461
-cache size	: 6144 KB
-physical id	: 0
-siblings	: 2
-core id		: 1
-cpu cores	: 2
-apicid		: 1
-initial apicid	: 1
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 5
-wp		: yes
-flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx rdtscp lm constant_tsc rep_good nopl pni ssse3 lahf_lm
-bogomips	: 7008.92
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 39 bits physical, 48 bits virtual
-power management:
-
 Test Summary: | Pass  Total
-  ReturnTypes |   46     46
+  ReturnTypes |   51     51
 Dump of all cpuid leafs, used for mocking 'cpuid'...
 
 # Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz without hypervisor
-push( _mockdb, Dict(
+push!( _mockdb, Dict(
     ((0x00000000,0x00000000) => (0x00000005,0x756e6547,0x6c65746e,0x49656e69)),
-    ((0x00000001,0x00000000) => (0x000306c3,0x01020800,0x00000201,0x178bfbff)),
+    ((0x00000001,0x00000000) => (0x000306c3,0x00020800,0x00000201,0x178bfbff)),
     ((0x00000002,0x00000000) => (0x76036301,0x00f0b5ff,0x00000000,0x00c10000)),
     ((0x00000003,0x00000000) => (0x00000000,0x00000000,0x00000000,0x00000000)),
     ((0x00000004,0x00000000) => (0x04000021,0x01c0003f,0x0000003f,0x00000000)),
@@ -179,15 +151,28 @@ push( _mockdb, Dict(
 
 Done.
 
-WARNING: Method definition cpuid(Tuple{UInt32, UInt32, UInt32, UInt32}) in module CpuInstructions at /home/vagrant/.julia/v0.5/CpuId/src/CpuInstructions.jl:40 overwritten in module Main at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:37.
-WARNING: Method definition cpuid(Tuple{UInt32, UInt32, UInt32, UInt32}) in module Main at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:37 overwritten at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:37.
-WARNING: Method definition cpuid(Tuple{UInt32, UInt32, UInt32, UInt32}) in module Main at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:37 overwritten at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:37.
-WARNING: Method definition cpuid(Tuple{UInt32, UInt32, UInt32, UInt32}) in module Main at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:37 overwritten at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:37.
-WARNING: Method definition cpuid(Tuple{UInt32, UInt32, UInt32, UInt32}) in module Main at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:37 overwritten at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:37.
-WARNING: Method definition cpuid(Tuple{UInt32, UInt32, UInt32, UInt32}) in module Main at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:37 overwritten at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:37.
-WARNING: Method definition cpuid(Tuple{UInt32, UInt32, UInt32, UInt32}) in module Main at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:37 overwritten at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:37.
+WARNING: Method definition cpuid(UInt32, UInt32) in module CpuInstructions at /home/vagrant/.julia/v0.5/CpuId/src/CpuInstructions.jl:44 overwritten in module Main at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:43.
+Tested recorded cpuid table #1 for 'Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz'
+WARNING: Method definition cpuid(UInt32, UInt32) in module Main at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:43 overwritten at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:43.
+Tested recorded cpuid table #2 for 'Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz'
+WARNING: Method definition cpuid(UInt32, UInt32) in module Main at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:43 overwritten at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:43.
+Tested recorded cpuid table #3 for 'Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz'
+WARNING: Method definition cpuid(UInt32, UInt32) in module Main at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:43 overwritten at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:43.
+Tested recorded cpuid table #4 for 'Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz'
+WARNING: Method definition cpuid(UInt32, UInt32) in module Main at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:43 overwritten at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:43.
+Tested recorded cpuid table #5 for 'Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz'
+WARNING: Method definition cpuid(UInt32, UInt32) in module Main at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:43 overwritten at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:43.
+Tested recorded cpuid table #6 for 'Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz'
+WARNING: Method definition cpuid(UInt32, UInt32) in module Main at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:43 overwritten at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:43.
+Tested recorded cpuid table #7 for 'Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz'
+WARNING: Method definition cpuid(UInt32, UInt32) in module Main at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:43 overwritten at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:43.
+Tested recorded cpuid table #8 for 'Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz'
+WARNING: Method definition cpuid(UInt32, UInt32) in module Main at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:43 overwritten at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:43.
+Tested recorded cpuid table #9 for 'Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz'
+WARNING: Method definition cpuid(UInt32, UInt32) in module Main at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:43 overwritten at /home/vagrant/.julia/v0.5/CpuId/test/mock.jl:43.
+Tested recorded cpuid table #10 for 'Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz'
 Test Summary: | Pass  Total
-  Mocking     |    7      7
+  Mocking     |   40     40
 INFO: CpuId tests passed
 
 >>> End of log
