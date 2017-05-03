@@ -2,24 +2,45 @@
 INFO: Cloning cache of LIBLINEAR from https://github.com/innerlee/LIBLINEAR.jl.git
 INFO: Installing LIBLINEAR v0.3.0
 INFO: Building LIBLINEAR
+g++ -Wall -Wconversion -O3 -fPIC -c -o linear.o linear.cpp
+g++ -Wall -Wconversion -O3 -fPIC -c -o tron.o tron.cpp
+make -C blas OPTFLAGS='-Wall -Wconversion -O3 -fPIC' CC='cc';
+make[1]: Entering directory `/home/vagrant/.julia/v0.6/LIBLINEAR/deps/liblinear-210/blas'
+cc -Wall -Wconversion -O3 -fPIC  -c dnrm2.c
+cc -Wall -Wconversion -O3 -fPIC  -c daxpy.c
+cc -Wall -Wconversion -O3 -fPIC  -c ddot.c
+cc -Wall -Wconversion -O3 -fPIC  -c dscal.c
+ar rcv blas.a dnrm2.o daxpy.o ddot.o dscal.o   
+a - dnrm2.o
+a - daxpy.o
+a - ddot.o
+a - dscal.o
+ranlib  blas.a
+make[1]: Leaving directory `/home/vagrant/.julia/v0.6/LIBLINEAR/deps/liblinear-210/blas'
+if [ "Linux" = "Darwin" ]; then \
+		SHARED_LIB_FLAG="-dynamiclib -Wl,-install_name,liblinear.so.3"; \
+	else \
+		SHARED_LIB_FLAG="-shared -Wl,-soname,liblinear.so.3"; \
+	fi; \
+	g++ ${SHARED_LIB_FLAG} linear.o tron.o blas/blas.a -o liblinear.so.3
 INFO: Package database updated
 
 >>> 'Pkg.test("LIBLINEAR")' log
-Julia Version 0.6.0-pre.beta.458
-Commit 3a181fe (2017-05-02 02:52 UTC)
+Julia Version 0.6.0-pre.beta.0
+Commit bd84fa1 (2017-03-31 12:58 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-117-generic #164-Ubuntu SMP Fri Apr 7 11:05:26 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (402.55078125 MB free)
-Uptime: 4461.0 sec
-Load Avg:  0.82373046875  1.5966796875  1.44482421875
+Memory: 2.9392738342285156 GB (368.29296875 MB free)
+Uptime: 3112.0 sec
+Load Avg:  1.2265625  2.09521484375  1.53271484375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz     254394 s         37 s      14759 s     112317 s          7 s
-#2  3500 MHz      48157 s        126 s       7388 s     384248 s          0 s
+#1  3500 MHz     135712 s        111 s      14328 s     131769 s         10 s
+#2  3500 MHz      49032 s         40 s       8248 s     248035 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
