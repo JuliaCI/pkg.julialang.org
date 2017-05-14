@@ -54,7 +54,7 @@ INFO: Building Plots
 INFO: Cannot find deps/plotly-latest.min.js... downloading latest version.
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 2121k    0  2178    0     0   3117      0  0:11:36 --:--:--  0:11:36  3115100 2121k  100 2121k    0     0  2705k      0 --:--:-- --:--:-- --:--:-- 2705k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 2193k  100 2193k    0     0  3793k      0 --:--:-- --:--:-- --:--:-- 3789k
 INFO: Package database updated
 INFO: METADATA is out-of-date — you may not have the latest version of PlotRecipes
 INFO: Use `Pkg.update()` to get the latest versions of your packages
@@ -68,13 +68,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-117-generic #164-Ubuntu SMP Fri Apr 7 11:05:26 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (544.57421875 MB free)
-Uptime: 21917.0 sec
-Load Avg:  1.15576171875  1.0458984375  1.03466796875
+Memory: 2.9392738342285156 GB (557.8984375 MB free)
+Uptime: 23783.0 sec
+Load Avg:  0.85791015625  1.01025390625  1.0341796875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1058319 s        638 s      85160 s     820961 s         40 s
-#2  3499 MHz     748193 s       6077 s      72640 s    1287445 s          0 s
+#1  3499 MHz    1097447 s       2239 s      90586 s     953636 s         38 s
+#2  3499 MHz     816063 s       4742 s      79702 s    1409324 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -97,7 +97,7 @@ Package Directory: /home/vagrant/.julia/v0.4
  - Calculus                      0.2.2
  - ColorTypes                    0.2.12
  - Colors                        0.6.9
- - Compat                        0.24.0
+ - Compat                        0.25.0
  - DataArrays                    0.3.12
  - DataFrames                    0.8.5
  - DataStructures                0.5.3
@@ -160,6 +160,13 @@ To fix, define
     +(DataArrays.AbstractDataArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury)
 before the new definition.
 WARNING: New definition 
+    write(Base.IO, ForwardDiff.Partials) at /home/vagrant/.julia/v0.4/ForwardDiff/src/partials.jl:57
+is ambiguous with: 
+    write(Base.Base64.Base64EncodePipe, AbstractArray{UInt8, 1}) at base64.jl:89.
+To fix, define 
+    write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
+before the new definition.
+WARNING: New definition 
     +(AbstractArray, DataArrays.DataArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:276
 is ambiguous with: 
     +(WoodburyMatrices.SymWoodbury, AbstractArray{T<:Any, 2}) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:139.
@@ -181,25 +188,18 @@ To fix, define
     write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
 before the new definition.
 WARNING: New definition 
-    +(AbstractArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:138
+    +(AbstractArray, DataArrays.DataArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:276
 is ambiguous with: 
-    +(DataArrays.DataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:276.
+    +(WoodburyMatrices.SymWoodbury, AbstractArray{T<:Any, 2}) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:139.
 To fix, define 
-    +(DataArrays.DataArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury)
+    +(WoodburyMatrices.SymWoodbury, DataArrays.DataArray{T<:Any, 2})
 before the new definition.
 WARNING: New definition 
-    +(AbstractArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:138
+    +(AbstractArray, DataArrays.AbstractDataArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:300
 is ambiguous with: 
-    +(DataArrays.AbstractDataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:300.
+    +(WoodburyMatrices.SymWoodbury, AbstractArray{T<:Any, 2}) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:139.
 To fix, define 
-    +(DataArrays.AbstractDataArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury)
-before the new definition.
-WARNING: New definition 
-    write(Base.IO, ForwardDiff.Partials) at /home/vagrant/.julia/v0.4/ForwardDiff/src/partials.jl:57
-is ambiguous with: 
-    write(Base.Base64.Base64EncodePipe, AbstractArray{UInt8, 1}) at base64.jl:89.
-To fix, define 
-    write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
+    +(WoodburyMatrices.SymWoodbury, DataArrays.AbstractDataArray{T<:Any, 2})
 before the new definition.
 INFO: PlotRecipes tests passed
 

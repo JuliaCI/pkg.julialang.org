@@ -1,6 +1,6 @@
 >>> 'Pkg.add("Interact")' log
 INFO: Installing DataStructures v0.5.3
-INFO: Installing Interact v0.4.3
+INFO: Installing Interact v0.4.4
 INFO: Installing Reactive v0.4.1
 INFO: Building Interact
 WARNING: IJulia is not installed. run Pkg.build("Interact")
@@ -18,13 +18,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-117-generic #164-Ubuntu SMP Fri Apr 7 11:05:26 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (2284.59765625 MB free)
-Uptime: 66557.0 sec
-Load Avg:  1.01416015625  1.01953125  0.970703125
+Memory: 2.9392738342285156 GB (2229.6953125 MB free)
+Uptime: 67321.0 sec
+Load Avg:  1.01513671875  1.03125  1.04541015625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    4315173 s        121 s     172891 s    1092362 s         26 s
-#2  3500 MHz    1060366 s       6736 s      98932 s    5362197 s          0 s
+#1  3500 MHz    4595484 s         93 s     182272 s     953307 s         34 s
+#2  3500 MHz    1019235 s       5794 s     117742 s    5472299 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -39,15 +39,15 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
- - Interact                      0.4.3
+ - Interact                      0.4.4
  - JSON                          0.11.0
 3 additional packages:
- - Compat                        0.24.0
+ - Compat                        0.25.0
  - DataStructures                0.5.3
  - Reactive                      0.4.1
 INFO: Computing test dependencies for Interact...
 INFO: Installing BaseTestNext v0.2.2
-INFO: Installing BinDeps v0.4.7
+INFO: Installing BinDeps v0.5.0
 INFO: Installing Conda v0.5.3
 INFO: Installing IJulia v1.5.0
 INFO: Installing MbedTLS v0.4.5
@@ -57,6 +57,8 @@ INFO: Installing ZMQ v0.4.2
 INFO: Building Conda
 INFO: Building MbedTLS
 INFO: Building ZMQ
+WARNING: BinDeps.shlib_ext is deprecated.
+  likely near /home/vagrant/.julia/v0.6/ZMQ/deps/build.jl:22
 INFO: Building IJulia
 INFO: Installing Jupyter via the Conda package.
 INFO: Found Jupyter version 4.3.0: /home/vagrant/.julia/v0.6/Conda/deps/usr/bin/jupyter
@@ -66,12 +68,17 @@ Installing julia kernelspec julia-0.6
 [InstallKernelSpec] Installed kernelspec julia-0.6 in /home/vagrant/.local/share/jupyter/kernels/julia-0.6
 INFO: Testing Interact
 
-WARNING: deprecated syntax "abstract Widget" at /home/vagrant/.julia/v0.6/Interact/src/Interact.jl:10.
+WARNING: deprecated syntax "abstract Widget" at /home/vagrant/.julia/v0.6/Interact/src/Interact.jl:12.
 Use "abstract type Widget end" instead.
 
-WARNING: deprecated syntax "abstract InputWidget{T}<:Widget" at /home/vagrant/.julia/v0.6/Interact/src/Interact.jl:13.
+WARNING: deprecated syntax "abstract InputWidget{T}<:Widget" at /home/vagrant/.julia/v0.6/Interact/src/Interact.jl:15.
 Use "abstract type InputWidget{T}<:Widget end" instead.
-WARNING: could not import Base.writemime into Interact
+
+WARNING: deprecated syntax "abstract Widget" at /home/vagrant/.julia/v0.6/Interact/src/Interact.jl:12.
+Use "abstract type Widget end" instead.
+
+WARNING: deprecated syntax "abstract InputWidget{T}<:Widget" at /home/vagrant/.julia/v0.6/Interact/src/Interact.jl:15.
+Use "abstract type InputWidget{T}<:Widget end" instead.
 
 WARNING: deprecated syntax "abstract WidgetMod<:Widget" at /home/vagrant/.julia/v0.6/Interact/src/compose.jl:4.
 Use "abstract type WidgetMod<:Widget end" instead.
@@ -82,27 +89,119 @@ Test Summary: | Pass  Total
 statedict     |    2      2
 Test Summary: | Pass  Total
 parse         |    6      6
-WARNING: could not import Base.writemime into Main
-ERROR: LoadError: LoadError: LoadError: MethodError: no method matching show(::Base.PipeEndpoint, ::MIME{Symbol("text/html")}, ::String)
-Closest candidates are:
-  show(::IO, ::MIME{Symbol("text/html")}, !Matched::Method; kwtype) at methodshow.jl:223
-  show(::IO, ::MIME{Symbol("text/html")}, !Matched::Base.MethodList) at methodshow.jl:270
-  show(::IO, ::MIME{Symbol("text/html")}, !Matched::MethodTable) at methodshow.jl:286
-  ...
+<div id="interact-js-shim">
+    <script charset="utf-8">
+(function (IPython, $, _, MathJax) {
+    $.event.special.destroyed = {
+	remove: function(o) {
+	    if (o.handler) {
+		o.handler.apply(this, arguments)
+	    }
+	}
+    }
+
+    var OutputArea = IPython.version >= "4.0.0" ? require("notebook/js/outputarea").OutputArea : IPython.OutputArea;
+
+    var redrawValue = function (container, type, val) {
+	var selector = $("<div/>");
+	var oa = new OutputArea(_.extend(selector, {
+	    selector: selector,
+	    prompt_area: true,
+	    events: IPython.events,
+	    keyboard_manager: IPython.keyboard_manager
+	})); // Hack to work with IPython 2.1.0
+
+	switch (type) {
+	case "image/png":
+            var _src = 'data:' + type + ';base64,' + val;
+	    $(container).find("img").attr('src', _src);
+	    break;
+	case "text/latex":
+		if (MathJax){
+			var math = MathJax.Hub.getAllJax(container)[0];
+			MathJax.Hub.Queue(["Text", math, val.replace(/^\${1,2}|\${1,2}$/g, '')]);
+			break;
+		}
+	default:
+	    var toinsert = OutputArea.append_map[type].apply(
+		oa, [val, {}, selector]
+	    );
+	    $(container).empty().append(toinsert.contents());
+	    selector.remove();
+	}
+    }
+
+
+    $(document).ready(function() {
+	function initComm(evt, data) {
+	    var comm_manager = data.kernel.comm_manager;
+        //_.extend(comm_manager.targets, require("widgets/js/widget"))
+	    comm_manager.register_target("Signal", function (comm) {
+            comm.on_msg(function (msg) {
+                var val = msg.content.data.value;
+                $(".signal-" + comm.comm_id).each(function() {
+                var type = $(this).data("type");
+                if (typeof(val[type]) !== "undefined" && val[type] !== null) {
+                    redrawValue(this, type, val[type], type);
+                }
+                });
+                delete val;
+                delete msg.content.data.value;
+            });
+	    });
+
+	    // coordingate with Comm and redraw Signals
+	    // XXX: Test using Reactive here to improve performance
+	    $([IPython.events]).on(
+		'output_appended.OutputArea', function (event, type, value, md, toinsert) {
+		    if (md && md.reactive) {
+                // console.log(md.comm_id);
+                toinsert.addClass("signal-" + md.comm_id);
+                toinsert.data("type", type);
+                // Signal back indicating the mimetype required
+                var comm_manager = IPython.notebook.kernel.comm_manager;
+                var comm = comm_manager.comms[md.comm_id];
+                comm.then(function (c) {
+                    c.send({action: "subscribe_mime",
+                       mime: type});
+                    toinsert.bind("destroyed", function() {
+                        c.send({action: "unsubscribe_mime",
+                               mime: type});
+                    });
+                })
+		    }
+	    });
+	}
+
+	try {
+	    // try to initialize right away. otherwise, wait on the status_started event.
+	    initComm(undefined, IPython.notebook);
+	} catch (e) {
+	    $([IPython.events]).on('kernel_created.Kernel kernel_created.Session', initComm);
+	}
+    });
+})(IPython, jQuery, _, MathJax);
+</script>
+    <script>
+        window.interactLoadedFlag = true
+       $("#interact-js-shim").bind("destroyed", function () {
+           if (window.interactLoadedFlag) {
+               console.warn("JavaScript required by Interact will be removed if you remove this cell or run using Interact more than once.")
+           }
+       })
+       $([IPython.events]).on("kernel_starting.Kernel kernel_restarting.Kernel", function () { window.interactLoadedFlag = false })
+   </script>
+</div>ijulia.jl: Test Failed
+  Expression: removespaces("Interact.Slider{Int64}(Signal{Int64}(3, nactions=1),\"\",3,1:5,\"horizontal\",true,\"d\",true)") == removespaces(stringmime("text/plain", sliderWidget))
+   Evaluated: "Interact.Slider{Int64}(Signal{Int64}(3,nactions=1),\"\",3,1:5,\"horizontal\",true,\"d\",true)" == "Interact.Slider{Int64}(input-3:Signal{Int64}(3,nactions=1),\"\",3,1:5,\"horizontal\",true,\"d\",true)"
 Stacktrace:
- [1] display(::TextDisplay, ::MIME{Symbol("text/html")}, ::String) at ./multimedia.jl:158
- [2] display(::MIME{Symbol("text/html")}, ::String) at ./multimedia.jl:208
- [3] display(::String, ::String) at ./multimedia.jl:126
- [4] include_from_node1(::String) at ./loading.jl:552
- [5] include(::String) at ./sysimg.jl:14
- [6] include_from_node1(::String) at ./loading.jl:552
- [7] include(::String) at ./sysimg.jl:14
- [8] include_from_node1(::String) at ./loading.jl:552
- [9] include(::String) at ./sysimg.jl:14
- [10] process_options(::Base.JLOptions) at ./client.jl:305
- [11] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/Interact/src/IJulia/setup.jl, in expression starting on line 16
-while loading /home/vagrant/.julia/v0.6/Interact/test/ijulia.jl, in expression starting on line 16
+ [1] macro expansion at /home/vagrant/.julia/v0.6/Interact/test/ijulia.jl:25 [inlined]
+ [2] macro expansion at ./test.jl:856 [inlined]
+ [3] anonymous at ./<missing>:?
+Test Summary: | Pass  Fail  Total
+ijulia.jl     |    2     1      3
+ERROR: LoadError: LoadError: Some tests did not pass: 2 passed, 1 failed, 0 errored, 0 broken.
+while loading /home/vagrant/.julia/v0.6/Interact/test/ijulia.jl, in expression starting on line 19
 while loading /home/vagrant/.julia/v0.6/Interact/test/runtests.jl, in expression starting on line 9
 ==============================[ ERROR: Interact ]===============================
 
@@ -110,7 +209,7 @@ failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/
 
 ================================================================================
 INFO: Removing BaseTestNext v0.2.2
-INFO: Removing BinDeps v0.4.7
+INFO: Removing BinDeps v0.5.0
 INFO: Removing Conda v0.5.3
 INFO: Removing IJulia v1.5.0
 INFO: Removing MbedTLS v0.4.5
