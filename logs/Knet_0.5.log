@@ -19,13 +19,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-117-generic #164-Ubuntu SMP Fri Apr 7 11:05:26 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1208.1640625 MB free)
-Uptime: 50254.0 sec
-Load Avg:  1.03857421875  1.04150390625  1.04541015625
+Memory: 2.9392738342285156 GB (1203.76171875 MB free)
+Uptime: 50131.0 sec
+Load Avg:  0.9970703125  0.9853515625  0.95947265625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    3070651 s         86 s     262193 s    1076757 s         61 s
-#2  3500 MHz    1166756 s       6471 s     132275 s    3564757 s          2 s
+#1  3499 MHz    3085602 s      11740 s     230836 s    1061327 s         91 s
+#2  3499 MHz    1178498 s       2333 s     130739 s    3547173 s          7 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -52,31 +52,66 @@ INFO: Testing Knet
 INFO: No GPU found, Knet using the CPU
 Test Summary: | Pass  Total
   kptr        |    1      1
-  0.554807 seconds (810.49 k allocations: 35.910 MB)
-  0.327839 seconds (403.05 k allocations: 17.700 MB, 17.96% gc time)
+  0.571533 seconds (810.49 k allocations: 35.910 MB)
+  0.329617 seconds (402.08 k allocations: 17.652 MB, 18.30% gc time)
 Test Summary: | Pass  Total
   distributions |    3      3
-  1.207137 seconds (1.03 M allocations: 42.709 MB, 9.32% gc time)
-  0.176066 seconds (124.56 k allocations: 5.308 MB)
+  1.396134 seconds (1.03 M allocations: 42.709 MB, 10.77% gc time)
+  0.269225 seconds (124.56 k allocations: 5.309 MB)
 Test Summary: | Pass  Total
   linalg      |   40     40
- 13.108175 seconds (6.02 M allocations: 250.044 MB, 0.61% gc time)
+ 12.503815 seconds (6.02 M allocations: 250.055 MB, 0.67% gc time)
 Test Summary: | Pass  Total
   broadcast   | 1128   1128
- 15.908727 seconds (7.13 M allocations: 324.188 MB, 0.60% gc time)
-Test Summary: | Pass  Total
-  reduction   |  396    396
- 17.293830 seconds (7.29 M allocations: 301.016 MB, 0.56% gc time)
-Test Summary: | Pass  Total
-  conv        |   52     52
- 24.669737 seconds (7.20 M allocations: 307.221 MB, 0.55% gc time)
-Test Summary: | Pass  Total
-  unary       |  688    688
- 26.325045 seconds (8.38 M allocations: 360.936 MB, 0.53% gc time)
-Test Summary: | Pass  Total
-  update!     |    9      9
- 18.794444 seconds (19.82 M allocations: 1.180 GB, 1.61% gc time)
-INFO: Knet tests passed
+ 16.660764 seconds (7.13 M allocations: 324.185 MB, 0.65% gc time)
+reduction: Test Failed
+  Expression: gradcheck(f,ax,p)
+ in record(::Base.Test.DefaultTestSet, ::Base.Test.Fail) at ./test.jl:431
+ in do_test(::Base.Test.Returned, ::Expr) at ./test.jl:281
+ in macro expansion; at /home/vagrant/.julia/v0.5/Knet/test/reduction.jl:45 [inlined]
+ in macro expansion; at ./test.jl:674 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:488 (repeats 2 times)
+ in process_options(::Base.JLOptions) at ./client.jl:265
+ in _start() at ./client.jl:321
+reduction: Test Failed
+  Expression: gradcheck(f,ax,p)
+ in record(::Base.Test.DefaultTestSet, ::Base.Test.Fail) at ./test.jl:431
+ in do_test(::Base.Test.Returned, ::Expr) at ./test.jl:281
+ in macro expansion; at /home/vagrant/.julia/v0.5/Knet/test/reduction.jl:45 [inlined]
+ in macro expansion; at ./test.jl:674 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:488 (repeats 2 times)
+ in process_options(::Base.JLOptions) at ./client.jl:265
+ in _start() at ./client.jl:321
+Test Summary: | Pass  Fail  Total
+  reduction   |  394     2    396
+ERROR: LoadError: LoadError: Some tests did not pass: 394 passed, 2 failed, 0 errored, 0 broken.
+ in finish(::Base.Test.DefaultTestSet) at ./test.jl:498
+ in macro expansion; at ./test.jl:681 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:488 (repeats 2 times)
+ in process_options(::Base.JLOptions) at ./client.jl:265
+ in _start() at ./client.jl:321
+while loading /home/vagrant/.julia/v0.5/Knet/test/reduction.jl, in expression starting on line 17
+while loading /home/vagrant/.julia/v0.5/Knet/test/runtests.jl, in expression starting on line 188
+================================[ ERROR: Knet ]=================================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.5/Knet/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing BaseTestNext v0.2.2
+ERROR: Knet had test errors
+ in #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:748
+ in (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
+ in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:59
+ in #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
+ in (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
+ in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in eval(::Module, ::Any) at ./boot.jl:234
+ in process_options(::Base.JLOptions) at ./client.jl:242
+ in _start() at ./client.jl:321
 
 >>> End of log

@@ -33,13 +33,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-117-generic #164-Ubuntu SMP Fri Apr 7 11:05:26 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (679.11328125 MB free)
-Uptime: 23311.0 sec
-Load Avg:  0.98876953125  0.98193359375  0.95458984375
+Memory: 2.9392738342285156 GB (656.5390625 MB free)
+Uptime: 24358.0 sec
+Load Avg:  1.01708984375  0.97021484375  0.91796875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3504 MHz    1451310 s        121 s     125225 s     456648 s         34 s
-#2  3504 MHz     378803 s       6051 s      62326 s    1833750 s          2 s
+#1  3496 MHz    1462738 s       4006 s     161984 s     526177 s         45 s
+#2  3496 MHz     452588 s       3012 s      75311 s    1850589 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -65,31 +65,38 @@ Package Directory: /home/vagrant/.julia/v0.5
  - SHA                           0.3.2
  - URIParser                     0.1.8
 INFO: Computing test dependencies for PyAMG...
-INFO: Installing IterativeSolvers v0.2.2
+INFO: Installing DataStructures v0.5.3
+INFO: Installing IterativeSolvers v0.3.0
+INFO: Installing LinearMaps v0.3.0
+INFO: Installing RecipesBase v0.1.0
+INFO: Installing SpecialFunctions v0.1.1
+INFO: Installing StatsBase v0.14.1
+INFO: Installing SugarBLAS v0.0.3
+INFO: Installing UnicodePlots v0.2.3
 INFO: Testing PyAMG
 =================================================
 Test 1: Julia `\` vs PyAMG Blackbox `solve` (2D) Laplacian
- \ :   1.201721 seconds (553.78 k allocations: 32.020 MB, 7.26% gc time)
+ \ :   0.871740 seconds (553.78 k allocations: 32.020 MB, 7.47% gc time)
 PyAMG-Warmup: /home/vagrant/.julia/v0.5/Conda/deps/usr/lib/python2.7/site-packages/pyamg/strength.py:533: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
   if B == 'ones':
-  2.475978 seconds (1.42 M allocations: 61.799 MB, 0.83% gc time)
-PyAMG:   0.259487 seconds (268 allocations: 942.203 KB)
-|x_\ - x_amg|_∞ = 1.5335094305513053e-12
-|A x_amg - b|_∞ = 3.2590605769655667e-9
+  2.942850 seconds (1.42 M allocations: 61.832 MB, 0.75% gc time)
+PyAMG:   0.263146 seconds (268 allocations: 942.203 KB)
+|x_\ - x_amg|_∞ = 1.4031935335889756e-11
+|A x_amg - b|_∞ = 2.7446926509355762e-8
 =================================================
 Test 2: Julia `\` vs PyAMG Blackbox `solve` (3D)
- \ :   0.738961 seconds (68 allocations: 93.885 MB, 3.33% gc time)
-PyAMG-Warmup:   1.336310 seconds (267 allocations: 3.224 MB)
-PyAMG:   1.447359 seconds (267 allocations: 3.224 MB)
-|x_\ - x_amg|_∞ = 1.3280418431627083e-12
-|A x_amg - b|_∞ = 8.020890618354315e-10
+ \ :   0.766805 seconds (68 allocations: 93.885 MB, 2.94% gc time)
+PyAMG-Warmup:   1.430866 seconds (267 allocations: 3.224 MB)
+PyAMG:   1.131393 seconds (267 allocations: 3.224 MB)
+|x_\ - x_amg|_∞ = 1.0874912081959565e-12
+|A x_amg - b|_∞ = 9.35926891543204e-10
 =================================================
 Test 3: RugeStubenSolver (3D)
         50 x 50 x 50 grid = 125k dofs 
-Create solver:   0.675188 seconds (34.53 k allocations: 15.485 MB)
-First solve:   0.467084 seconds (82.35 k allocations: 4.089 MB)
-Second solve: (tol 1e-9)  0.391575 seconds (8.47 k allocations: 1.331 MB)
-Third solve: (tol 1e-6)  0.212205 seconds (175 allocations: 983.188 KB, 1.19% gc time)
+Create solver:   0.664465 seconds (34.53 k allocations: 15.485 MB)
+First solve:   0.305364 seconds (82.35 k allocations: 4.089 MB)
+Second solve: (tol 1e-9)  0.393002 seconds (8.47 k allocations: 1.331 MB)
+Third solve: (tol 1e-6)  0.261673 seconds (175 allocations: 983.188 KB, 1.02% gc time)
 |A x_amg - b|_∞ = 2.532215134465332e-6
 =================================================
 Test 4: \, ldiv, and kwargs
@@ -98,18 +105,37 @@ Test 5: AMG as a preconditioner
         100 x 100 Dirichlet problem, TOL = 1e-4
         PyAMG vs CG vs PCG  (using IterativeSolvers)
 Plain CG:
-  0.311538 seconds (176.76 k allocations: 69.129 MB, 3.15% gc time)
-  0.062382 seconds (1.64 k allocations: 61.633 MB, 7.35% gc time)
-PyAMG-preconditionerd CG:  (see `aspreconditioner`)
-  0.347899 seconds (146.83 k allocations: 8.574 MB)
-  0.015307 seconds (493 allocations: 2.078 MB)
-PyAMG solver
-  0.026093 seconds (196 allocations: 85.781 KB)
-  0.033086 seconds (195 allocations: 85.734 KB)
-|x_cg-x| = 3.5312070957405564e-6 
-|x_pcg-x| = 2.7796572140519933e-6
-|x_pyamg-x| = 1.0901104458602403e-7
-INFO: PyAMG tests passed
-INFO: Removing IterativeSolvers v0.2.2
+ERROR: LoadError: MethodError: no method matching cg(::SparseMatrixCSC{Float64,Int64}, ::Array{Float64,1}, ::Int64; tol=0.0001)
+Closest candidates are:
+  cg(::Any, ::Any; kwargs...) at /home/vagrant/.julia/v0.5/IterativeSolvers/src/cg.jl:7
+ in include_from_node1(::String) at ./loading.jl:488
+ in process_options(::Base.JLOptions) at ./client.jl:265
+ in _start() at ./client.jl:321
+while loading /home/vagrant/.julia/v0.5/PyAMG/test/runtests.jl, in expression starting on line 188
+================================[ ERROR: PyAMG ]================================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.5/PyAMG/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+INFO: Removing DataStructures v0.5.3
+INFO: Removing IterativeSolvers v0.3.0
+INFO: Removing LinearMaps v0.3.0
+INFO: Removing RecipesBase v0.1.0
+INFO: Removing SpecialFunctions v0.1.1
+INFO: Removing StatsBase v0.14.1
+INFO: Removing SugarBLAS v0.0.3
+INFO: Removing UnicodePlots v0.2.3
+ERROR: PyAMG had test errors
+ in #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:748
+ in (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
+ in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:59
+ in #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
+ in (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
+ in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in eval(::Module, ::Any) at ./boot.jl:234
+ in process_options(::Base.JLOptions) at ./client.jl:242
+ in _start() at ./client.jl:321
 
 >>> End of log
