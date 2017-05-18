@@ -1,6 +1,6 @@
 >>> 'Pkg.add("TestSetExtensions")' log
-INFO: Installing BaseTestNext v0.2.2
-INFO: Installing TestSetExtensions v0.0.2
+INFO: Installing DeepDiffs v1.0.0
+INFO: Installing TestSetExtensions v1.0.0
 INFO: Package database updated
 INFO: METADATA is out-of-date — you may not have the latest version of TestSetExtensions
 INFO: Use `Pkg.update()` to get the latest versions of your packages
@@ -14,13 +14,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-117-generic #164-Ubuntu SMP Fri Apr 7 11:05:26 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (808.11328125 MB free)
-Uptime: 66675.0 sec
-Load Avg:  1.0029296875  1.0146484375  1.041015625
+Memory: 2.9392738342285156 GB (821.64453125 MB free)
+Uptime: 66663.0 sec
+Load Avg:  1.03076171875  0.96337890625  0.869140625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    4339658 s       6506 s     180912 s    1021739 s         46 s
-#2  3499 MHz     797921 s         94 s      90380 s    5681063 s          2 s
+#1  3499 MHz    4348038 s       6674 s     173046 s     892915 s         55 s
+#2  3499 MHz     607816 s         89 s      83065 s    5852060 s          6 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -35,27 +35,135 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
- - JSON                          0.11.0
- - TestSetExtensions             0.0.2
+ - JSON                          0.12.0
+ - TestSetExtensions             1.0.0
 2 additional packages:
- - BaseTestNext                  0.2.2
- - Compat                        0.25.0
+ - Compat                        0.25.1
+ - DeepDiffs                     1.0.0
 INFO: Computing test dependencies for TestSetExtensions...
 INFO: Installing Suppressor v0.0.4
 INFO: Testing TestSetExtensions
+INFO: You should see 3 failing tests with pretty diffs...
 
-WARNING: deprecated syntax "inner constructor DottedTestSet(...) around /home/vagrant/.julia/v0.6/TestSetExtensions/src/TestSetExtensions.jl:50".
-Use "DottedTestSet{T}(...) where T" instead.
-check output: Test Failed
-  Expression: (split(output_color, '\n'))[1] == "\e[1m\e[32m.\e[0m\e[1m\e[32m.\e[0m\e[1m\e[32m.\e[0m\e[1m\e[32m.\e[0m"
-   Evaluated: "\e[32m.\e[39m\e[32m.\e[39m\e[32m.\e[39m\e[32m.\e[39m" == "\e[1m\e[32m.\e[0m\e[1m\e[32m.\e[0m\e[1m\e[32m.\e[0m\e[1m\e[32m.\e[0m"
+=====================================================
+Nice Diffs: Test Failed
+  Expression: [3, 5, 6, 1, 6, 8] == [3, 5, 6, 1, 9, 8]
+
+Diff:
+[3, 5, 6, 1, (-)6, (+)9, 8]
+
 Stacktrace:
- [1] macro expansion at /home/vagrant/.julia/v0.6/TestSetExtensions/test/runtests.jl:44 [inlined]
+ [1] macro expansion at /home/vagrant/.julia/v0.6/TestSetExtensions/test/../diffdemo.jl:5 [inlined]
  [2] macro expansion at ./test.jl:856 [inlined]
- [3] macro expansion at /home/vagrant/.julia/v0.6/TestSetExtensions/test/runtests.jl:43 [inlined]
+ [3] anonymous at ./<missing>:?
+=====================================================
+
+=====================================================
+Nice Diffs: Test Failed
+  Expression: "Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit, sed do\neiusmod tempor incididunt ut\nlabore et dolore magna aliqua.\nUt enim ad minim veniam, quis nostrud\nexercitation ullamco aboris." == "Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit, sed do\neiusmod temper incididunt ut\nlabore et dolore magna aliqua.\nUt enim ad minim veniam, quis nostrud\nexercitation ullamco aboris."
+
+Diff:
+"""
+  Lorem ipsum dolor sit amet,
+  consectetur adipiscing elit, sed do
+- eiusmod tempor incididunt ut
++ eiusmod temper incididunt ut
+  labore et dolore magna aliqua.
+  Ut enim ad minim veniam, quis nostrud
+  exercitation ullamco aboris."""
+
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/TestSetExtensions/test/../diffdemo.jl:6 [inlined]
+ [2] macro expansion at ./test.jl:856 [inlined]
+ [3] anonymous at ./<missing>:?
+=====================================================
+
+=====================================================
+Nice Diffs: Test Failed
+  Expression: Dict(:foo => "bar", :baz => [1, 4, 5], :biz => nothing) == Dict(:baz => [1, 7, 5], :biz => 42)
+
+Diff:
+Dict(
+-    :foo => "bar",
+-    :biz => nothing,
++    :biz => 42,
+     :baz => [1, (-)4, (+)7, 5],
+)
+
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/TestSetExtensions/test/../diffdemo.jl:18 [inlined]
+ [2] macro expansion at ./test.jl:856 [inlined]
+ [3] anonymous at ./<missing>:?
+=====================================================
+
+
+Test Summary: | Fail  Total
+Nice Diffs    |    3      3
+INFO: These 4 failing tests don't have pretty diffs to display
+
+=====================================================
+No pretty diff for matrices: Test Failed
+  Expression: [1 2; 3 4] == [1 4; 3 4]
+   Evaluated: [1 2; 3 4] == [1 4; 3 4]
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/TestSetExtensions/test/runtests.jl:48 [inlined]
+ [2] macro expansion at ./test.jl:856 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/TestSetExtensions/test/runtests.jl:47 [inlined]
  [4] macro expansion at ./test.jl:856 [inlined]
- [5] anonymous at ./<missing>:?
-.
+ [5] macro expansion at /home/vagrant/.julia/v0.6/TestSetExtensions/test/runtests.jl:46 [inlined]
+ [6] anonymous at ./<missing>:?
+=====================================================
+
+=====================================================
+don't diff non-equality: Test Failed
+  Expression: 1 > 2
+   Evaluated: 1 > 2
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/TestSetExtensions/test/runtests.jl:51 [inlined]
+ [2] macro expansion at ./test.jl:856 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/TestSetExtensions/test/runtests.jl:50 [inlined]
+ [4] macro expansion at ./test.jl:856 [inlined]
+ [5] macro expansion at /home/vagrant/.julia/v0.6/TestSetExtensions/test/runtests.jl:46 [inlined]
+ [6] anonymous at ./<missing>:?
+=====================================================
+
+=====================================================
+don't diff non-comparisons: Test Failed
+  Expression: iseven(7)
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/TestSetExtensions/test/runtests.jl:54 [inlined]
+ [2] macro expansion at ./test.jl:856 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/TestSetExtensions/test/runtests.jl:53 [inlined]
+ [4] macro expansion at ./test.jl:856 [inlined]
+ [5] macro expansion at /home/vagrant/.julia/v0.6/TestSetExtensions/test/runtests.jl:46 [inlined]
+ [6] anonymous at ./<missing>:?
+=====================================================
+
+=====================================================
+errors don't have diffs either: Error During Test
+  Got an exception of type ErrorException outside of a @test
+  This test is supposed to throw an error
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/TestSetExtensions/test/runtests.jl:57 [inlined]
+   [2] macro expansion at ./test.jl:856 [inlined]
+   [3] macro expansion at /home/vagrant/.julia/v0.6/TestSetExtensions/test/runtests.jl:56 [inlined]
+   [4] macro expansion at ./test.jl:856 [inlined]
+   [5] macro expansion at /home/vagrant/.julia/v0.6/TestSetExtensions/test/runtests.jl:46 [inlined]
+   [6] anonymous at ./<missing>:?
+   [7] include_from_node1(::String) at ./loading.jl:552
+   [8] include(::String) at ./sysimg.jl:14
+   [9] process_options(::Base.JLOptions) at ./client.jl:305
+   [10] _start() at ./client.jl:371
+=====================================================
+
+
+Test Summary:                    | Fail  Error  Total
+not-pretty                       |    3      1      4
+  No pretty diff for matrices    |    1             1
+  don't diff non-equality        |    1             1
+  don't diff non-comparisons     |    1             1
+  errors don't have diffs either |           1      1
+....
 file1: ..
 file2: ..
 file3: ..
@@ -64,20 +172,9 @@ file1: ..
 file3: ..
 ....
 
-Test Summary:                                    | Pass  Fail  Total
-TextSetExtensions Tests                          |   18     1     19
-  check output                                   |    1     1      2
-  Auto-run test files                            |    9            9
-  run selected test files                        |    7            7
-  more than one arg to @includetests is an error |    1            1
-ERROR: LoadError: Some tests did not pass: 18 passed, 1 failed, 0 errored, 0 broken.
-while loading /home/vagrant/.julia/v0.6/TestSetExtensions/test/runtests.jl, in expression starting on line 42
-==========================[ ERROR: TestSetExtensions ]==========================
-
-failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/TestSetExtensions/test/runtests.jl`, ProcessExited(1)) [1]
-
-================================================================================
+Test Summary:           | Pass  Total
+TextSetExtensions Tests |   21     21
+INFO: TestSetExtensions tests passed
 INFO: Removing Suppressor v0.0.4
-ERROR: TestSetExtensions had test errors
 
 >>> End of log

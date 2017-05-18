@@ -1,6 +1,6 @@
 >>> 'Pkg.add("Reactive")' log
 INFO: Installing DataStructures v0.5.3
-INFO: Installing Reactive v0.4.1
+INFO: Installing Reactive v0.5.0
 INFO: Package database updated
 INFO: METADATA is out-of-date — you may not have the latest version of Reactive
 INFO: Use `Pkg.update()` to get the latest versions of your packages
@@ -14,13 +14,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-117-generic #164-Ubuntu SMP Fri Apr 7 11:05:26 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (529.9609375 MB free)
-Uptime: 50737.0 sec
-Load Avg:  1.01025390625  1.001953125  0.98681640625
+Memory: 2.9392738342285156 GB (492.390625 MB free)
+Uptime: 50297.0 sec
+Load Avg:  0.9716796875  0.998046875  0.97607421875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    3261589 s       6506 s     134455 s     854191 s         44 s
-#2  3499 MHz     715375 s         94 s      70911 s    4201918 s          2 s
+#1  3499 MHz    3254518 s       6674 s     128915 s     707276 s         53 s
+#2  3499 MHz     546346 s         89 s      64305 s    4308360 s          6 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -35,10 +35,10 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
- - JSON                          0.11.0
- - Reactive                      0.4.1
+ - JSON                          0.12.0
+ - Reactive                      0.5.0
 2 additional packages:
- - Compat                        0.25.0
+ - Compat                        0.25.1
  - DataStructures                0.5.3
 INFO: Computing test dependencies for Reactive...
 INFO: Installing FactCheck v0.4.3
@@ -50,48 +50,90 @@ Basic checks
   > map
   > merge
   > foldp
-WARNING: round{T}(::Type{T}, x::AbstractArray) is deprecated, use round.(T, x) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] round(::Type{Int64}, ::Array{Float64,1}) at ./deprecated.jl:51
- [3] (::##30#149)() at /home/vagrant/.julia/v0.6/Reactive/test/basics.jl:82
- [4] context(::##30#149, ::String) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:475
- [5] (::##1#120)() at /home/vagrant/.julia/v0.6/Reactive/test/basics.jl:75
- [6] facts(::##1#120, ::String) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:449
- [7] include_from_node1(::String) at ./loading.jl:552
- [8] include(::String) at ./sysimg.jl:14
- [9] include_from_node1(::String) at ./loading.jl:552
- [10] include(::String) at ./sysimg.jl:14
- [11] process_options(::Base.JLOptions) at ./client.jl:305
- [12] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/Reactive/test/basics.jl, in expression starting on line 10
   > filter
+  > filter counts
   > sampleon
+step 1
+step 2
+step 3
   > droprepeats
   > filterwhen
   > push! inside push!
   > previous
   > delay
-  > bindind
-49 facts verified.
+  > bind
+queue_size() = 0
+71 facts verified.
+Push to non-input nodes
+  > push to map
+  > push to merge
+  > push to foldp
+  > push to filter
+  > push to sampleon
+  > push to droprepeats
+  > push to filterwhen
+  > push to previous
+  > push to delay
+  > bind non-input
+31 facts verified.
+multi-path graphs 1
+av = 1
+bv = 2
+av = 1
+bv = 3
+av = 7
+bv = 7
+17 facts verified.
+multi-path graphs 2
+16 facts verified.
+multi-path graphs: dfs good, bfs bad
+2 facts verified.
+multi-path graphs: bfs good, dfs bad
+2 facts verified.
+multi-path graphs: dfs bad, bfs bad
+2 facts verified.
 Call counting
 600 facts verified.
-multi-path graphs
-16 facts verified.
 Flatten
   > Signal{Signal} -> flat Signal
   > Initial update count
   > Current signal updates
   > Signal swap
-11 facts verified.
+  > Subtle sig swap issue
+  > Sigsig's value created after SigSig
+30 facts verified.
 Timing functions
   > fpswhen
+dt = 1.083243929
   > every
   > throttle
-22 facts verified.
+z got 3
+z got 6
+z′ got [1, 2, 3, 4, 5, 6, 7]
+z got 7
+z got 10
+z′ got [8, 9, 10, 11, 12]
+z got 12
+i = 12
+dt = 2.3099119663238525
+ydt = 0.5
+y′dt = 1.1
+zcount = 5.0
+z′count = 3.0
+value(y) = 12
+value(y′) = [8, 9, 10, 11, 12]
+value(z) = 5
+value(z′) = 2
+  > debounce
+28 facts verified.
 Async
   > async_map
-3 facts verified.
+5 facts verified.
+Queue runner
+  > Queue restarts during push!
+  > Multiple queue restarts during a single action
+  > Queue restarts after more than one push!
+24 facts verified.
 INFO: Reactive tests passed
 INFO: Removing FactCheck v0.4.3
 

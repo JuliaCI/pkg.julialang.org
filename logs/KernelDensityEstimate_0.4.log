@@ -65,13 +65,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-117-generic #164-Ubuntu SMP Fri Apr 7 11:05:26 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1510.90625 MB free)
-Uptime: 47415.0 sec
-Load Avg:  0.9150390625  0.99169921875  1.0009765625
+Memory: 2.9392738342285156 GB (1509.13671875 MB free)
+Uptime: 45453.0 sec
+Load Avg:  0.95263671875  0.9853515625  1.00146484375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3504 MHz    2123105 s        649 s     183094 s    1861116 s         98 s
-#2  3504 MHz    1527371 s       5549 s     157304 s    2811322 s          0 s
+#1  3500 MHz    2231294 s       1366 s     173709 s    1673163 s         93 s
+#2  3500 MHz    1521096 s       5543 s     147840 s    2698071 s          3 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -95,7 +95,7 @@ Package Directory: /home/vagrant/.julia/v0.4
  - Calculus                      0.2.2
  - ColorTypes                    0.2.12
  - Colors                        0.6.9
- - Compat                        0.25.0
+ - Compat                        0.25.1
  - Compose                       0.4.5
  - Contour                       0.2.0
  - DataArrays                    0.3.12
@@ -141,11 +141,18 @@ Package Directory: /home/vagrant/.julia/v0.4
  - WoodburyMatrices              0.2.2
 INFO: Testing KernelDensityEstimate
 WARNING: New definition 
-    write(Base.IO, ForwardDiff.Partials) at /home/vagrant/.julia/v0.4/ForwardDiff/src/partials.jl:57
+    +(AbstractArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:138
 is ambiguous with: 
-    write(Base.Base64.Base64EncodePipe, AbstractArray{UInt8, 1}) at base64.jl:89.
+    +(DataArrays.DataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:276.
 To fix, define 
-    write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
+    +(DataArrays.DataArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury)
+before the new definition.
+WARNING: New definition 
+    +(AbstractArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:138
+is ambiguous with: 
+    +(DataArrays.AbstractDataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:300.
+To fix, define 
+    +(DataArrays.AbstractDataArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury)
 before the new definition.
 WARNING: New definition 
     write(Base.IO, ForwardDiff.Partials) at /home/vagrant/.julia/v0.4/ForwardDiff/src/partials.jl:57
@@ -208,59 +215,41 @@ To fix, define
     +(WoodburyMatrices.SymWoodbury, DataArrays.AbstractDataArray{T<:Any, 2})
 before the new definition.
 WARNING: New definition 
-    +(AbstractArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:138
+    write(Base.IO, ForwardDiff.Partials) at /home/vagrant/.julia/v0.4/ForwardDiff/src/partials.jl:57
 is ambiguous with: 
-    +(DataArrays.DataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:276.
+    write(Base.Base64.Base64EncodePipe, AbstractArray{UInt8, 1}) at base64.jl:89.
 To fix, define 
-    +(DataArrays.DataArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury)
-before the new definition.
-WARNING: New definition 
-    +(AbstractArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:138
-is ambiguous with: 
-    +(DataArrays.AbstractDataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:300.
-To fix, define 
-    +(DataArrays.AbstractDataArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury)
+    write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
 before the new definition.
 Running UnitTest1D01...Success
 Running UnitTest1Dlcv01...Success
 Running UnitTest2D01...Success
 Running UnitTest2Dvar01...Success
-v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[false,true,true,true,true,true,true,true,true,true]
+v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[true,true,true,true,true,true,true,false,true,true]
 passt = passt && rangeTestProds(D=2,M=2) = true
 v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[true,true,true,true,true,true,true,true,true,true]
 passt = passt && rangeTestProds(D=2,M=4) = true
 v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[true,true,true,true,true,true,true,true,true,true]
 passt = passt && rangeTestProds(D=2,M=6) = true
-v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[true,true,true,true,true,true,true,true,true,true]
+v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[true,true,true,true,true,true,true,false,true,true]
 passt = passt && rangeTestProds(D=3,M=6,MCMC=10) = true
-v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[true,false,false,false,true,true,false,true,false,false]
-passt = passt && rangeTestProds(D=4,M=6,MCMC=10) = false
-passt = passt && rangeTestProds(D=3,M=5,N=300) = false
-passt = passt && rangeTestProds(D=2,M=7,n=300) = false
-passt = passt && rangeTestProds(D=3,M=2,MCMC=100) = false
-ERROR: LoadError: test failed: rangeUnitTests()
- in expression: rangeUnitTests()
- in error at ./error.jl:21
- in default_handler at test.jl:28
- in do_test at test.jl:53
- in include at ./boot.jl:261
- in include_from_node1 at ./loading.jl:333
- in process_options at ./client.jl:280
- in _start at ./client.jl:378
-while loading /home/vagrant/.julia/v0.4/KernelDensityEstimate/test/runtests.jl, in expression starting on line 265
-========================[ ERROR: KernelDensityEstimate ]========================
-
-failed process: Process(`/home/vagrant/julia/bin/julia --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.4/KernelDensityEstimate/test/runtests.jl`, ProcessExited(1)) [1]
-
-================================================================================
-ERROR: KernelDensityEstimate had test errors
- in error at ./error.jl:21
- in test at pkg/entry.jl:803
- in anonymous at pkg/dir.jl:31
- in cd at file.jl:22
- in cd at pkg/dir.jl:31
- in test at pkg.jl:71
- in process_options at ./client.jl:257
- in _start at ./client.jl:378
+v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[true,true,true,true,false,true,true,true,true,false]
+passt = passt && rangeTestProds(D=4,M=6,MCMC=10) = true
+v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[true,true,true,true,true,true,true,true,true,true]
+passt = passt && rangeTestProds(D=3,M=5,N=300) = true
+v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[true,true,true,true,true,true,true,true,true,true]
+passt = passt && rangeTestProds(D=2,M=7,n=300) = true
+v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[true,true,false,true,true,true,true,true,true,true]
+passt = passt && rangeTestProds(D=3,M=2,MCMC=100) = true
+a = intgAppxGaussianOffs(offs=0.0,dim=1) = 0.2651992295453005
+testflag = testflag && 0.2 < a < 0.35 = true
+a = intgAppxGaussianOffs(offs=1.0,dim=1,N=1000) = 0.20543955714978385
+testflag = testflag && 0.1 < a < 0.3 = true
+a = intgAppxGaussianOffs(offs=-2.0,dim=1,N=1000) = 0.1102928935187735
+testflag = testflag && 0.01 < a < 0.15 = true
+a = intgAppxGaussianOffs(offs=0.0,dim=2) = 0.06397513036278539
+testflag = testflag && 0.05 < a < 0.12 = true
+testing rand functionality
+INFO: KernelDensityEstimate tests passed
 
 >>> End of log

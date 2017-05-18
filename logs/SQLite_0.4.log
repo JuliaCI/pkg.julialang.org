@@ -35,13 +35,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-117-generic #164-Ubuntu SMP Fri Apr 7 11:05:26 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (797.078125 MB free)
-Uptime: 39158.0 sec
-Load Avg:  1.13427734375  1.005859375  0.99169921875
+Memory: 2.9392738342285156 GB (800.3046875 MB free)
+Uptime: 38877.0 sec
+Load Avg:  0.9833984375  0.92919921875  0.95947265625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    1892218 s       6718 s     157803 s    1483234 s         77 s
-#2  3500 MHz    1335865 s        285 s     138503 s    2323426 s          2 s
+#1  3499 MHz    1870492 s       6691 s     140020 s    1470900 s        109 s
+#2  3499 MHz    1287564 s       1130 s     120099 s    2354752 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -61,7 +61,7 @@ Package Directory: /home/vagrant/.julia/v0.4
 22 additional packages:
  - BinDeps                       0.4.7
  - CategoricalArrays             0.0.4
- - Compat                        0.25.0
+ - Compat                        0.25.1
  - DataArrays                    0.3.12
  - DataFrames                    0.8.5
  - DataStreams                   0.0.15
@@ -189,11 +189,11 @@ To fix, define
     convert(Type{CategoricalArrays.NullableOrdinalArray{#T<:Any, #N<:Any, #R<:Any}}, CategoricalArrays.NullableOrdinalArray{#T<:Any, #N<:Any, _<:Integer})
 before the new definition.
 WARNING: New definition 
-    broadcast(Any, NullableArrays.NullableArray...)
+    promote_op(Type{#T<:Any}, Any) at /home/vagrant/.julia/v0.4/NullableArrays/src/operators.jl:16
 is ambiguous with: 
-    broadcast(Function, DataArrays.PooledDataArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:323.
+    promote_op(Any, Type{#R<:Number}) at /home/vagrant/.julia/v0.4/NullableArrays/src/operators.jl:18.
 To fix, define 
-    broadcast(Function)
+    promote_op(Type{#T<:Any}, Type{#R<:Number})
 before the new definition.
 WARNING: New definition 
     map(Any, NullableArrays.NullableArray...) at /home/vagrant/.julia/v0.4/NullableArrays/src/map.jl:109
@@ -210,11 +210,11 @@ To fix, define
     map(DataType)
 before the new definition.
 WARNING: New definition 
-    promote_op(Type{#T<:Any}, Any) at /home/vagrant/.julia/v0.4/NullableArrays/src/operators.jl:16
+    broadcast(Any, NullableArrays.NullableArray...)
 is ambiguous with: 
-    promote_op(Any, Type{#R<:Number}) at /home/vagrant/.julia/v0.4/NullableArrays/src/operators.jl:18.
+    broadcast(Function, DataArrays.PooledDataArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:323.
 To fix, define 
-    promote_op(Type{#T<:Any}, Type{#R<:Number})
+    broadcast(Function)
 before the new definition.
 WARNING: Method definition convert(Type{Array{#T<:Any, #n<:Any}}, AbstractArray{#S<:Any, #n<:Any}) in module Base at array.jl:241 overwritten in module CategoricalArrays at /home/vagrant/.julia/v0.4/CategoricalArrays/src/CategoricalArrays.jl:19.
 WARNING: Method definition convert(Type{Array{#T<:Any, N<:Any}}, AbstractArray{#S<:Any, #n<:Any}) in module Base at array.jl:240 overwritten in module CategoricalArrays at /home/vagrant/.julia/v0.4/CategoricalArrays/src/CategoricalArrays.jl:18.
@@ -269,18 +269,18 @@ To fix, define
     convert(Type{CategoricalArrays.NullableOrdinalArray{#T<:Any, #N<:Any, #R<:Any}}, CategoricalArrays.NullableOrdinalArray{#T<:Any, #N<:Any, _<:Integer})
 before the new definition.
 WARNING: New definition 
-    ==(CategoricalArrays.CategoricalValue, Any) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:63
+    isequal(CategoricalArrays.CategoricalValue, Any) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:68
 is ambiguous with: 
-    ==(Any, DataArrays.NAtype) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:610.
+    isequal(Any, DataArrays.NAtype) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:508.
 To fix, define 
-    ==(CategoricalArrays.CategoricalValue, DataArrays.NAtype)
+    isequal(CategoricalArrays.CategoricalValue, DataArrays.NAtype)
 before the new definition.
 WARNING: New definition 
-    ==(Any, CategoricalArrays.CategoricalValue) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:64
+    isequal(Any, CategoricalArrays.CategoricalValue) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:69
 is ambiguous with: 
-    ==(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:610.
+    isequal(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:507.
 To fix, define 
-    ==(DataArrays.NAtype, CategoricalArrays.CategoricalValue)
+    isequal(DataArrays.NAtype, CategoricalArrays.CategoricalValue)
 before the new definition.
 WARNING: New definition 
     promote_rule(Type{CategoricalArrays.NominalValue{#S<:Any, R<:Integer}}, Type{#T<:Any}) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:12
@@ -325,18 +325,18 @@ To fix, define
     promote_rule(Type{CategoricalArrays.OrdinalValue{#S<:Any, #R<:Any}}, Type{DataArrays.NAtype})
 before the new definition.
 WARNING: New definition 
-    isequal(CategoricalArrays.CategoricalValue, Any) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:68
+    ==(CategoricalArrays.CategoricalValue, Any) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:63
 is ambiguous with: 
-    isequal(Any, DataArrays.NAtype) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:508.
+    ==(Any, DataArrays.NAtype) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:610.
 To fix, define 
-    isequal(CategoricalArrays.CategoricalValue, DataArrays.NAtype)
+    ==(CategoricalArrays.CategoricalValue, DataArrays.NAtype)
 before the new definition.
 WARNING: New definition 
-    isequal(Any, CategoricalArrays.CategoricalValue) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:69
+    ==(Any, CategoricalArrays.CategoricalValue) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:64
 is ambiguous with: 
-    isequal(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:507.
+    ==(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:610.
 To fix, define 
-    isequal(DataArrays.NAtype, CategoricalArrays.CategoricalValue)
+    ==(DataArrays.NAtype, CategoricalArrays.CategoricalValue)
 before the new definition.
 WARNING: Method definition convert(Type{Array{#T<:Any, #n<:Any}}, AbstractArray{#S<:Any, #n<:Any}) in module Base at array.jl:241 overwritten in module CategoricalArrays at /home/vagrant/.julia/v0.4/CategoricalArrays/src/CategoricalArrays.jl:19.
 WARNING: Method definition convert(Type{Array{#T<:Any, N<:Any}}, AbstractArray{#S<:Any, #n<:Any}) in module Base at array.jl:240 overwritten in module CategoricalArrays at /home/vagrant/.julia/v0.4/CategoricalArrays/src/CategoricalArrays.jl:18.
@@ -391,18 +391,18 @@ To fix, define
     convert(Type{CategoricalArrays.NullableOrdinalArray{#T<:Any, #N<:Any, #R<:Any}}, CategoricalArrays.NullableOrdinalArray{#T<:Any, #N<:Any, _<:Integer})
 before the new definition.
 WARNING: New definition 
-    ==(CategoricalArrays.CategoricalValue, Any) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:63
+    isequal(CategoricalArrays.CategoricalValue, Any) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:68
 is ambiguous with: 
-    ==(Any, DataArrays.NAtype) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:610.
+    isequal(Any, DataArrays.NAtype) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:508.
 To fix, define 
-    ==(CategoricalArrays.CategoricalValue, DataArrays.NAtype)
+    isequal(CategoricalArrays.CategoricalValue, DataArrays.NAtype)
 before the new definition.
 WARNING: New definition 
-    ==(Any, CategoricalArrays.CategoricalValue) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:64
+    isequal(Any, CategoricalArrays.CategoricalValue) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:69
 is ambiguous with: 
-    ==(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:610.
+    isequal(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:507.
 To fix, define 
-    ==(DataArrays.NAtype, CategoricalArrays.CategoricalValue)
+    isequal(DataArrays.NAtype, CategoricalArrays.CategoricalValue)
 before the new definition.
 WARNING: New definition 
     promote_rule(Type{CategoricalArrays.NominalValue{#S<:Any, R<:Integer}}, Type{#T<:Any}) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:12
@@ -447,25 +447,25 @@ To fix, define
     promote_rule(Type{CategoricalArrays.OrdinalValue{#S<:Any, #R<:Any}}, Type{DataArrays.NAtype})
 before the new definition.
 WARNING: New definition 
-    isequal(CategoricalArrays.CategoricalValue, Any) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:68
+    ==(CategoricalArrays.CategoricalValue, Any) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:63
 is ambiguous with: 
-    isequal(Any, DataArrays.NAtype) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:508.
+    ==(Any, DataArrays.NAtype) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:610.
 To fix, define 
-    isequal(CategoricalArrays.CategoricalValue, DataArrays.NAtype)
+    ==(CategoricalArrays.CategoricalValue, DataArrays.NAtype)
 before the new definition.
 WARNING: New definition 
-    isequal(Any, CategoricalArrays.CategoricalValue) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:69
+    ==(Any, CategoricalArrays.CategoricalValue) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:64
 is ambiguous with: 
-    isequal(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:507.
+    ==(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:610.
 To fix, define 
-    isequal(DataArrays.NAtype, CategoricalArrays.CategoricalValue)
+    ==(DataArrays.NAtype, CategoricalArrays.CategoricalValue)
 before the new definition.
 WARNING: New definition 
-    broadcast(Any, NullableArrays.NullableArray...)
+    promote_op(Type{#T<:Any}, Any) at /home/vagrant/.julia/v0.4/NullableArrays/src/operators.jl:16
 is ambiguous with: 
-    broadcast(Function, DataArrays.PooledDataArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:323.
+    promote_op(Any, Type{#R<:Number}) at /home/vagrant/.julia/v0.4/NullableArrays/src/operators.jl:18.
 To fix, define 
-    broadcast(Function)
+    promote_op(Type{#T<:Any}, Type{#R<:Number})
 before the new definition.
 WARNING: New definition 
     map(Any, NullableArrays.NullableArray...) at /home/vagrant/.julia/v0.4/NullableArrays/src/map.jl:109
@@ -482,11 +482,11 @@ To fix, define
     map(DataType)
 before the new definition.
 WARNING: New definition 
-    promote_op(Type{#T<:Any}, Any) at /home/vagrant/.julia/v0.4/NullableArrays/src/operators.jl:16
+    broadcast(Any, NullableArrays.NullableArray...)
 is ambiguous with: 
-    promote_op(Any, Type{#R<:Number}) at /home/vagrant/.julia/v0.4/NullableArrays/src/operators.jl:18.
+    broadcast(Function, DataArrays.PooledDataArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:323.
 To fix, define 
-    promote_op(Type{#T<:Any}, Type{#R<:Number})
+    broadcast(Function)
 before the new definition.
 WARNING: New definition 
     load(SQLite.Sink, Type{#T<:Any}, Any...) at /home/vagrant/.julia/v0.4/SQLite/src/Sink.jl:120
@@ -501,20 +501,6 @@ is ambiguous with:
     load(Array, Any, Any, Type{#T<:Any}, Any...).
 To fix, define 
     load(Array, SQLite.Sink, Type{#T<:Any}, Type{#T<:Any}, Any...)
-before the new definition.
-WARNING: New definition 
-    ==(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:610
-is ambiguous with: 
-    ==(Any, CategoricalArrays.CategoricalValue) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:64.
-To fix, define 
-    ==(DataArrays.NAtype, CategoricalArrays.CategoricalValue)
-before the new definition.
-WARNING: New definition 
-    ==(Any, DataArrays.NAtype) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:610
-is ambiguous with: 
-    ==(CategoricalArrays.CategoricalValue, Any) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:63.
-To fix, define 
-    ==(CategoricalArrays.CategoricalValue, DataArrays.NAtype)
 before the new definition.
 WARNING: New definition 
     isequal(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:507
@@ -573,11 +559,25 @@ To fix, define
     promote_rule(Type{CategoricalArrays.OrdinalValue{#S<:Any, #R<:Any}}, Type{DataArrays.NAtype})
 before the new definition.
 WARNING: New definition 
-    broadcast(Any, NullableArrays.NullableArray...)
+    ==(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:610
 is ambiguous with: 
-    broadcast(Function, DataArrays.PooledDataArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:323.
+    ==(Any, CategoricalArrays.CategoricalValue) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:64.
 To fix, define 
-    broadcast(Function)
+    ==(DataArrays.NAtype, CategoricalArrays.CategoricalValue)
+before the new definition.
+WARNING: New definition 
+    ==(Any, DataArrays.NAtype) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:610
+is ambiguous with: 
+    ==(CategoricalArrays.CategoricalValue, Any) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:63.
+To fix, define 
+    ==(CategoricalArrays.CategoricalValue, DataArrays.NAtype)
+before the new definition.
+WARNING: New definition 
+    promote_op(Type{#T<:Any}, Any) at /home/vagrant/.julia/v0.4/NullableArrays/src/operators.jl:16
+is ambiguous with: 
+    promote_op(Any, Type{#R<:Number}) at /home/vagrant/.julia/v0.4/NullableArrays/src/operators.jl:18.
+To fix, define 
+    promote_op(Type{#T<:Any}, Type{#R<:Number})
 before the new definition.
 WARNING: New definition 
     map(Any, NullableArrays.NullableArray...) at /home/vagrant/.julia/v0.4/NullableArrays/src/map.jl:109
@@ -594,11 +594,11 @@ To fix, define
     map(DataType)
 before the new definition.
 WARNING: New definition 
-    promote_op(Type{#T<:Any}, Any) at /home/vagrant/.julia/v0.4/NullableArrays/src/operators.jl:16
+    broadcast(Any, NullableArrays.NullableArray...)
 is ambiguous with: 
-    promote_op(Any, Type{#R<:Number}) at /home/vagrant/.julia/v0.4/NullableArrays/src/operators.jl:18.
+    broadcast(Function, DataArrays.PooledDataArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:323.
 To fix, define 
-    promote_op(Type{#T<:Any}, Type{#R<:Number})
+    broadcast(Function)
 before the new definition.
 WARNING: Method definition convert(Type{Array{#T<:Any, #n<:Any}}, AbstractArray{#S<:Any, #n<:Any}) in module Base at array.jl:241 overwritten in module CategoricalArrays at /home/vagrant/.julia/v0.4/CategoricalArrays/src/CategoricalArrays.jl:19.
 WARNING: Method definition convert(Type{Array{#T<:Any, N<:Any}}, AbstractArray{#S<:Any, #n<:Any}) in module Base at array.jl:240 overwritten in module CategoricalArrays at /home/vagrant/.julia/v0.4/CategoricalArrays/src/CategoricalArrays.jl:18.
@@ -653,18 +653,18 @@ To fix, define
     convert(Type{CategoricalArrays.NullableOrdinalArray{#T<:Any, #N<:Any, #R<:Any}}, CategoricalArrays.NullableOrdinalArray{#T<:Any, #N<:Any, _<:Integer})
 before the new definition.
 WARNING: New definition 
-    ==(CategoricalArrays.CategoricalValue, Any) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:63
+    isequal(CategoricalArrays.CategoricalValue, Any) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:68
 is ambiguous with: 
-    ==(Any, DataArrays.NAtype) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:610.
+    isequal(Any, DataArrays.NAtype) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:508.
 To fix, define 
-    ==(CategoricalArrays.CategoricalValue, DataArrays.NAtype)
+    isequal(CategoricalArrays.CategoricalValue, DataArrays.NAtype)
 before the new definition.
 WARNING: New definition 
-    ==(Any, CategoricalArrays.CategoricalValue) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:64
+    isequal(Any, CategoricalArrays.CategoricalValue) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:69
 is ambiguous with: 
-    ==(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:610.
+    isequal(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:507.
 To fix, define 
-    ==(DataArrays.NAtype, CategoricalArrays.CategoricalValue)
+    isequal(DataArrays.NAtype, CategoricalArrays.CategoricalValue)
 before the new definition.
 WARNING: New definition 
     promote_rule(Type{CategoricalArrays.NominalValue{#S<:Any, R<:Integer}}, Type{#T<:Any}) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:12
@@ -709,25 +709,25 @@ To fix, define
     promote_rule(Type{CategoricalArrays.OrdinalValue{#S<:Any, #R<:Any}}, Type{DataArrays.NAtype})
 before the new definition.
 WARNING: New definition 
-    isequal(CategoricalArrays.CategoricalValue, Any) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:68
+    ==(CategoricalArrays.CategoricalValue, Any) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:63
 is ambiguous with: 
-    isequal(Any, DataArrays.NAtype) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:508.
+    ==(Any, DataArrays.NAtype) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:610.
 To fix, define 
-    isequal(CategoricalArrays.CategoricalValue, DataArrays.NAtype)
+    ==(CategoricalArrays.CategoricalValue, DataArrays.NAtype)
 before the new definition.
 WARNING: New definition 
-    isequal(Any, CategoricalArrays.CategoricalValue) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:69
+    ==(Any, CategoricalArrays.CategoricalValue) at /home/vagrant/.julia/v0.4/CategoricalArrays/src/value.jl:64
 is ambiguous with: 
-    isequal(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:507.
+    ==(DataArrays.NAtype, Any) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:610.
 To fix, define 
-    isequal(DataArrays.NAtype, CategoricalArrays.CategoricalValue)
+    ==(DataArrays.NAtype, CategoricalArrays.CategoricalValue)
 before the new definition.
 WARNING: New definition 
-    broadcast(Any, NullableArrays.NullableArray...)
+    promote_op(Type{#T<:Any}, Any) at /home/vagrant/.julia/v0.4/NullableArrays/src/operators.jl:16
 is ambiguous with: 
-    broadcast(Function, DataArrays.PooledDataArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:323.
+    promote_op(Any, Type{#R<:Number}) at /home/vagrant/.julia/v0.4/NullableArrays/src/operators.jl:18.
 To fix, define 
-    broadcast(Function)
+    promote_op(Type{#T<:Any}, Type{#R<:Number})
 before the new definition.
 WARNING: New definition 
     map(Any, NullableArrays.NullableArray...) at /home/vagrant/.julia/v0.4/NullableArrays/src/map.jl:109
@@ -744,11 +744,11 @@ To fix, define
     map(DataType)
 before the new definition.
 WARNING: New definition 
-    promote_op(Type{#T<:Any}, Any) at /home/vagrant/.julia/v0.4/NullableArrays/src/operators.jl:16
+    broadcast(Any, NullableArrays.NullableArray...)
 is ambiguous with: 
-    promote_op(Any, Type{#R<:Number}) at /home/vagrant/.julia/v0.4/NullableArrays/src/operators.jl:18.
+    broadcast(Function, DataArrays.PooledDataArray...) at /home/vagrant/.julia/v0.4/DataArrays/src/broadcast.jl:323.
 To fix, define 
-    promote_op(Type{#T<:Any}, Type{#R<:Number})
+    broadcast(Function)
 before the new definition.
 INFO: SQLite tests passed
 INFO: Removing CSV v0.0.14
