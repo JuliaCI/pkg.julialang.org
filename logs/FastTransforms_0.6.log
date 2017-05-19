@@ -1,6 +1,9 @@
 >>> 'Pkg.add("FastTransforms")' log
 INFO: Installing DataStructures v0.5.3
-INFO: Installing FastTransforms v0.1.0
+INFO: Installing FastTransforms v0.2.0
+INFO: Installing HierarchicalMatrices v0.0.1
+INFO: Installing LowRankApprox v0.0.2
+INFO: Installing ProgressMeter v0.3.4
 INFO: Installing SpecialFunctions v0.1.1
 INFO: Installing StatsBase v0.14.1
 INFO: Installing ToeplitzMatrices v0.2.0
@@ -17,13 +20,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-117-generic #164-Ubuntu SMP Fri Apr 7 11:05:26 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (699.6875 MB free)
-Uptime: 52338.0 sec
-Load Avg:  0.9970703125  0.9853515625  1.03466796875
+Memory: 2.9392738342285156 GB (661.93359375 MB free)
+Uptime: 52189.0 sec
+Load Avg:  0.9970703125  0.998046875  1.0400390625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    3461106 s       7958 s     162263 s     796052 s         34 s
-#2  3500 MHz     896329 s        160 s      86973 s    4152912 s          1 s
+#1  3500 MHz    3411678 s       4886 s     155943 s     856962 s         34 s
+#2  3500 MHz     995610 s       1731 s      94534 s    4030366 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -38,33 +41,36 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
- - FastTransforms                0.1.0
+ - FastTransforms                0.2.0
  - JSON                          0.12.0
-5 additional packages:
+8 additional packages:
  - Compat                        0.25.1
  - DataStructures                0.5.3
+ - HierarchicalMatrices          0.0.1
+ - LowRankApprox                 0.0.2
+ - ProgressMeter                 0.3.4
  - SpecialFunctions              0.1.1
  - StatsBase                     0.14.1
  - ToeplitzMatrices              0.2.0
 INFO: Testing FastTransforms
 Testing special functions
-  0.022711 seconds (6.82 k allocations: 7.996 MiB)
-  0.004014 seconds (6 allocations: 7.630 MiB)
-  0.029062 seconds (18.98 k allocations: 1.045 MiB)
-  0.035370 seconds (21.55 k allocations: 1.172 MiB)
+  0.023036 seconds (6.81 k allocations: 7.996 MiB)
+  0.004067 seconds (6 allocations: 7.630 MiB)
+  0.030410 seconds (18.98 k allocations: 1.045 MiB)
+  0.035737 seconds (21.55 k allocations: 1.191 MiB)
 Testing the Chebyshev–Jacobi transform
 
 N = 10
 
-This is the mean log(||Error||_∞/Estimate): -4.014131201167697 and the standard deviation: 0.9977718382021427
+This is the mean log(||Error||_∞/Estimate): -3.944612628798568 and the standard deviation: 1.098841913465305
 
 N = 100
 
-This is the mean log(||Error||_∞/Estimate): -4.039803357370111 and the standard deviation: 1.8397117211827696
+This is the mean log(||Error||_∞/Estimate): -4.050967815006617 and the standard deviation: 1.8201342809560797
 
 N = 1000
 
-This is the mean log(||Error||_∞/Estimate): -4.476942875351839 and the standard deviation: 2.2574477021257375
+This is the mean log(||Error||_∞/Estimate): -4.437231301564464 and the standard deviation: 2.2435054414901017
 Testing the special cases length(c) = 0,1,2:
 Testing the special cases (α,β) = (±0.5,±0.5)
 Testing increment/decrement operators for α,β ≤ -0.5
@@ -81,9 +87,177 @@ Testing BigFloat support of FFT and DCT methods
 Testing equivalence of CXN and ASY methods
 Testing (I)Padua Transforms and their inverse function property
 Testing runtimes for (I)Padua Transforms
-  0.002099 seconds (410 allocations: 16.047 KiB)
-  0.002170 seconds (207 allocations: 12.844 KiB)
+  0.001922 seconds (410 allocations: 16.047 KiB)
+  0.002109 seconds (207 allocations: 12.844 KiB)
 Accuracy of 2d function interpolation at a point
+
+A_mul_B!, At_mul_B!, and Ac_mul_B!
+
+
+Butterfly algorithm tests
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+N = 7
+  0.528804 seconds (371.53 k allocations: 24.708 MiB, 1.55% gc time)
+  0.108769 seconds (41.89 k allocations: 1.981 MiB)
+  0.071785 seconds (13.94 k allocations: 745.187 KiB)
+  0.100014 seconds (19.33 k allocations: 1.001 MiB)
+2.1797456620220258e-16
+1.3629026081827939e-14
+1.3431262370678169e-14
+N = 8
+  0.072216 seconds (11.16 k allocations: 19.946 MiB, 12.02% gc time)
+  0.000094 seconds (1 allocation: 4.125 KiB)
+  0.000306 seconds
+  0.000250 seconds
+2.7535272801755185e-16
+7.014072085619913e-14
+7.020818582828075e-14
+N = 9
+  0.232263 seconds (31.79 k allocations: 72.758 MiB, 6.97% gc time)
+  0.000325 seconds (1 allocation: 8.125 KiB)
+  0.000731 seconds
+  0.000654 seconds
+7.050678876669046e-16
+1.8967547685656906e-13
+1.893563005492099e-13
+N = 10
+  0.799558 seconds (92.84 k allocations: 277.828 MiB, 4.25% gc time)
+  0.001449 seconds (1 allocation: 16.125 KiB)
+  0.001637 seconds
+  0.001409 seconds
+7.551794934014634e-16
+2.0415606162408657e-13
+2.0350348206685558e-13
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+N = 7
+  0.403091 seconds (293.98 k allocations: 16.081 MiB, 2.07% gc time)
+  0.082171 seconds (29.18 k allocations: 1.535 MiB)
+  0.059302 seconds (13.75 k allocations: 735.268 KiB)
+  0.074946 seconds (18.64 k allocations: 998.417 KiB)
+8.408073478888662e-18
+1.0888357788540873e-14
+1.092685614583524e-14
+N = 8
+  0.003866 seconds (5.16 k allocations: 2.638 MiB)
+  0.000049 seconds (1 allocation: 2.125 KiB)
+  0.000070 seconds
+  0.000081 seconds
+7.123451807154577e-18
+5.202016612162796e-15
+5.474834560643793e-15
+N = 9
+  0.012143 seconds (12.05 k allocations: 9.255 MiB)
+  0.000201 seconds (1 allocation: 4.125 KiB)
+  0.000118 seconds
+  0.000093 seconds
+8.908729011484192e-18
+2.660359133722792e-14
+2.6812339250843666e-14
+N = 10
+  0.055694 seconds (27.72 k allocations: 34.014 MiB, 22.34% gc time)
+  0.000608 seconds (1 allocation: 8.125 KiB)
+  0.000158 seconds
+  0.000162 seconds
+1.0486451719940497e-17
+5.4641989097715667e-14
+5.614085329521404e-14
+  0.023831 seconds (2.29 k allocations: 4.770 MiB)
+7
+  0.088012 seconds (7.18 k allocations: 20.384 MiB, 8.50% gc time)
+8
+  0.441395 seconds (21.68 k allocations: 75.040 MiB, 38.03% gc time)
+9
+  0.908136 seconds (60.87 k allocations: 272.524 MiB, 3.09% gc time)
+10
+N = 7
+  0.002560 seconds (14 allocations: 1.063 KiB)
+  0.005300 seconds (100 allocations: 7.798 KiB)
+1.3485356042353747e-14
+N = 8
+  0.000116 seconds
+  0.000224 seconds
+6.217260824219672e-14
+N = 9
+  0.000438 seconds
+  0.000568 seconds
+1.909863883460454e-13
+N = 10
+  0.001174 seconds
+  0.001553 seconds
+1.318259939219968e-12
+
+Testing slow plan
+
+At a bandlimit of 10, the maximum 2-norm in the columns over 2 trials is: 8.881784197001252e-16
+At a bandlimit of 15, the maximum 2-norm in the columns over 2 trials is: 7.439949291311123e-16
+At a bandlimit of 22, the maximum 2-norm in the columns over 2 trials is: 8.421869076849649e-16
+At a bandlimit of 32, the maximum 2-norm in the columns over 2 trials is: 8.48304159226928e-16
+At a bandlimit of 46, the maximum 2-norm in the columns over 2 trials is: 1.1793635635789436e-15
+At a bandlimit of 68, the maximum 2-norm in the columns over 2 trials is: 1.3039817664526809e-15
+At a bandlimit of 100, the maximum 2-norm in the columns over 2 trials is: 2.011150311827234e-15
+At a bandlimit of 147, the maximum 2-norm in the columns over 2 trials is: 2.301599591469263e-15
+At a bandlimit of 215, the maximum 2-norm in the columns over 2 trials is: 2.8548512492210066e-15
+At a bandlimit of 316, the maximum 2-norm in the columns over 2 trials is: 3.61874097808038e-15
+
+Testing fast plan
+
+[1GPre-computing...  0%|                                           |  ETA: 0:00:51[K[1GPre-computing... 17%|███████                                    |  ETA: 0:00:03[K[1GPre-computing... 20%|█████████                                  |  ETA: 0:00:03[K[1GPre-computing... 28%|████████████                               |  ETA: 0:00:02[K[1GPre-computing... 36%|███████████████                            |  ETA: 0:00:02[K[1GPre-computing... 44%|███████████████████                        |  ETA: 0:00:01[K[1GPre-computing... 52%|██████████████████████                     |  ETA: 0:00:01[K[1GPre-computing... 59%|██████████████████████████                 |  ETA: 0:00:01[K[1GPre-computing... 63%|███████████████████████████                |  ETA: 0:00:01[K[1GPre-computing... 71%|██████████████████████████████             |  ETA: 0:00:01[K[1GPre-computing... 78%|██████████████████████████████████         |  ETA: 0:00:00[K[1GPre-computing... 85%|█████████████████████████████████████      |  ETA: 0:00:00[K[1GPre-computing... 93%|████████████████████████████████████████   |  ETA: 0:00:00[K[1GPre-computing...100%|███████████████████████████████████████████| Time: 0:00:02[K
+  2.185863 seconds (933.97 k allocations: 632.264 MiB, 15.65% gc time)
+  0.003634 seconds (1.03 k allocations: 2.780 MiB)
+  0.017421 seconds (4 allocations: 160 bytes)
+  0.157530 seconds (38.08 k allocations: 2.001 MiB)
+  0.019555 seconds (4 allocations: 160 bytes)
+  0.127067 seconds (33.20 k allocations: 1.729 MiB)
+The forward difference between slow and fast plans: 2.740352049789616e-14
+The backward difference between slow plan and original: 3.4549918544633587e-15
+The backward difference between fast plan and original: 7.985494774604988e-15
+The backward difference between slow and fast plans: 7.985659482066689e-15
+
+Testing thin plan
+
+[1GPre-computing... 25%|███████████                                |  ETA: 0:00:01[K[1GPre-computing... 56%|████████████████████████                   |  ETA: 0:00:00[K[1GPre-computing... 81%|███████████████████████████████████        |  ETA: 0:00:00[K[1GPre-computing...100%|███████████████████████████████████████████| Time: 0:00:01[K
+  0.603755 seconds (145.96 k allocations: 151.200 MiB, 18.86% gc time)
+  0.123038 seconds (2.75 k allocations: 10.443 MiB, 91.00% gc time)
+  0.132290 seconds (4 allocations: 160 bytes)
+  0.191298 seconds (25.40 k allocations: 1.243 MiB)
+  0.155036 seconds (4 allocations: 160 bytes)
+  0.179758 seconds (25.23 k allocations: 1.233 MiB)
+The forward difference between slow and thin plans: 5.766440770932002e-14
+The backward difference between slow plan and original: 4.515708523991057e-15
+The backward difference between thin plan and original: 1.2926604244871386e-14
+The backward difference between slow and thin plans: 1.2674935246306709e-14
+
+Testing pointwise evaluation
+
+
+Testing API
+
+The backward difference between slow plan and original: 4.239249638446193e-15
+The backward difference between slow plan and original: 4.239249638446193e-15
+[1GPre-computing...  3%|█                                          |  ETA: 0:00:04[K[1GPre-computing...  6%|███                                        |  ETA: 0:00:05[K[1GPre-computing...  9%|████                                       |  ETA: 0:00:05[K[1GPre-computing... 13%|█████                                      |  ETA: 0:00:04[K[1GPre-computing... 16%|███████                                    |  ETA: 0:00:04[K[1GPre-computing... 19%|████████                                   |  ETA: 0:00:04[K[1GPre-computing... 22%|█████████                                  |  ETA: 0:00:03[K[1GPre-computing... 25%|███████████                                |  ETA: 0:00:03[K[1GPre-computing... 28%|████████████                               |  ETA: 0:00:03[K[1GPre-computing... 31%|█████████████                              |  ETA: 0:00:03[K[1GPre-computing... 34%|███████████████                            |  ETA: 0:00:03[K[1GPre-computing... 38%|████████████████                           |  ETA: 0:00:03[K[1GPre-computing... 41%|██████████████████                         |  ETA: 0:00:03[K[1GPre-computing... 44%|███████████████████                        |  ETA: 0:00:02[K[1GPre-computing... 47%|████████████████████                       |  ETA: 0:00:02[K[1GPre-computing... 53%|███████████████████████                    |  ETA: 0:00:02[K[1GPre-computing... 56%|████████████████████████                   |  ETA: 0:00:02[K[1GPre-computing... 59%|██████████████████████████                 |  ETA: 0:00:02[K[1GPre-computing... 63%|███████████████████████████                |  ETA: 0:00:02[K[1GPre-computing... 66%|████████████████████████████               |  ETA: 0:00:01[K[1GPre-computing... 69%|██████████████████████████████             |  ETA: 0:00:01[K[1GPre-computing... 72%|███████████████████████████████            |  ETA: 0:00:01[K[1GPre-computing... 75%|████████████████████████████████           |  ETA: 0:00:01[K[1GPre-computing... 78%|██████████████████████████████████         |  ETA: 0:00:01[K[1GPre-computing... 81%|███████████████████████████████████        |  ETA: 0:00:01[K[1GPre-computing... 84%|████████████████████████████████████       |  ETA: 0:00:01[K[1GPre-computing... 88%|██████████████████████████████████████     |  ETA: 0:00:01[K[1GPre-computing... 91%|███████████████████████████████████████    |  ETA: 0:00:00[K[1GPre-computing... 94%|████████████████████████████████████████   |  ETA: 0:00:00[K[1GPre-computing... 97%|██████████████████████████████████████████ |  ETA: 0:00:00[K[1GPre-computing...100%|███████████████████████████████████████████| Time: 0:00:04[K
+[1GPre-computing...  3%|█                                          |  ETA: 0:00:04[K[1GPre-computing...  6%|███                                        |  ETA: 0:00:06[K[1GPre-computing...  9%|████                                       |  ETA: 0:00:05[K[1GPre-computing... 13%|█████                                      |  ETA: 0:00:04[K[1GPre-computing... 16%|███████                                    |  ETA: 0:00:04[K[1GPre-computing... 19%|████████                                   |  ETA: 0:00:04[K[1GPre-computing... 22%|█████████                                  |  ETA: 0:00:04[K[1GPre-computing... 25%|███████████                                |  ETA: 0:00:03[K[1GPre-computing... 28%|████████████                               |  ETA: 0:00:04[K[1GPre-computing... 31%|█████████████                              |  ETA: 0:00:03[K[1GPre-computing... 34%|███████████████                            |  ETA: 0:00:03[K[1GPre-computing... 38%|████████████████                           |  ETA: 0:00:03[K[1GPre-computing... 41%|██████████████████                         |  ETA: 0:00:03[K[1GPre-computing... 44%|███████████████████                        |  ETA: 0:00:03[K[1GPre-computing... 47%|████████████████████                       |  ETA: 0:00:02[K[1GPre-computing... 53%|███████████████████████                    |  ETA: 0:00:02[K[1GPre-computing... 56%|████████████████████████                   |  ETA: 0:00:02[K[1GPre-computing... 59%|██████████████████████████                 |  ETA: 0:00:02[K[1GPre-computing... 63%|███████████████████████████                |  ETA: 0:00:02[K[1GPre-computing... 66%|████████████████████████████               |  ETA: 0:00:02[K[1GPre-computing... 69%|██████████████████████████████             |  ETA: 0:00:01[K[1GPre-computing... 72%|███████████████████████████████            |  ETA: 0:00:01[K[1GPre-computing... 75%|████████████████████████████████           |  ETA: 0:00:01[K[1GPre-computing... 78%|██████████████████████████████████         |  ETA: 0:00:01[K[1GPre-computing... 81%|███████████████████████████████████        |  ETA: 0:00:01[K[1GPre-computing... 84%|████████████████████████████████████       |  ETA: 0:00:01[K[1GPre-computing... 88%|██████████████████████████████████████     |  ETA: 0:00:01[K[1GPre-computing... 91%|███████████████████████████████████████    |  ETA: 0:00:00[K[1GPre-computing... 94%|████████████████████████████████████████   |  ETA: 0:00:00[K[1GPre-computing... 97%|██████████████████████████████████████████ |  ETA: 0:00:00[K[1GPre-computing...100%|███████████████████████████████████████████| Time: 0:00:04[K
+The backward difference between thin plan and original: 2.5897175618610392e-14
+[1GPre-computing...  3%|█                                          |  ETA: 0:00:04[K[1GPre-computing...  6%|███                                        |  ETA: 0:00:05[K[1GPre-computing...  9%|████                                       |  ETA: 0:00:05[K[1GPre-computing... 13%|█████                                      |  ETA: 0:00:04[K[1GPre-computing... 16%|███████                                    |  ETA: 0:00:04[K[1GPre-computing... 19%|████████                                   |  ETA: 0:00:04[K[1GPre-computing... 22%|█████████                                  |  ETA: 0:00:04[K[1GPre-computing... 25%|███████████                                |  ETA: 0:00:03[K[1GPre-computing... 28%|████████████                               |  ETA: 0:00:03[K[1GPre-computing... 31%|█████████████                              |  ETA: 0:00:03[K[1GPre-computing... 34%|███████████████                            |  ETA: 0:00:03[K[1GPre-computing... 38%|████████████████                           |  ETA: 0:00:03[K[1GPre-computing... 41%|██████████████████                         |  ETA: 0:00:03[K[1GPre-computing... 44%|███████████████████                        |  ETA: 0:00:03[K[1GPre-computing... 47%|████████████████████                       |  ETA: 0:00:02[K[1GPre-computing... 53%|███████████████████████                    |  ETA: 0:00:02[K[1GPre-computing... 56%|████████████████████████                   |  ETA: 0:00:02[K[1GPre-computing... 59%|██████████████████████████                 |  ETA: 0:00:02[K[1GPre-computing... 63%|███████████████████████████                |  ETA: 0:00:02[K[1GPre-computing... 66%|████████████████████████████               |  ETA: 0:00:01[K[1GPre-computing... 69%|██████████████████████████████             |  ETA: 0:00:01[K[1GPre-computing... 72%|███████████████████████████████            |  ETA: 0:00:01[K[1GPre-computing... 75%|████████████████████████████████           |  ETA: 0:00:01[K[1GPre-computing... 78%|██████████████████████████████████         |  ETA: 0:00:01[K[1GPre-computing... 81%|███████████████████████████████████        |  ETA: 0:00:01[K[1GPre-computing... 84%|████████████████████████████████████       |  ETA: 0:00:01[K[1GPre-computing... 88%|██████████████████████████████████████     |  ETA: 0:00:01[K[1GPre-computing... 91%|███████████████████████████████████████    |  ETA: 0:00:00[K[1GPre-computing... 94%|████████████████████████████████████████   |  ETA: 0:00:00[K[1GPre-computing... 97%|██████████████████████████████████████████ |  ETA: 0:00:00[K[1GPre-computing...100%|███████████████████████████████████████████| Time: 0:00:04[K
+The backward difference between thin plan and original: 2.5897175618610392e-14
 INFO: FastTransforms tests passed
 
 >>> End of log
