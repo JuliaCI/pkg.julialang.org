@@ -1,5 +1,5 @@
 >>> 'Pkg.add("PyAMG")' log
-INFO: Installing BinDeps v0.5.0
+INFO: Installing BinDeps v0.6.0
 INFO: Installing Conda v0.5.3
 INFO: Installing MacroTools v0.3.6
 INFO: Installing PyAMG v0.1.1
@@ -21,6 +21,8 @@ INFO: PyCall is using /home/vagrant/.julia/v0.5/Conda/deps/usr/bin/python (Pytho
 INFO: /home/vagrant/.julia/v0.5/PyCall/deps/deps.jl has not changed
 INFO: /home/vagrant/.julia/v0.5/PyCall/deps/PYTHON has not changed
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of PyAMG
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("PyAMG")' log
 Julia Version 0.5.2
@@ -31,13 +33,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-119-generic #166-Ubuntu SMP Wed May 3 12:18:55 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (716.12109375 MB free)
-Uptime: 25546.0 sec
-Load Avg:  0.994140625  0.9609375  0.9482421875
+Memory: 2.9392738342285156 GB (690.35546875 MB free)
+Uptime: 25609.0 sec
+Load Avg:  0.9921875  0.9384765625  0.92626953125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1506834 s       5388 s     134764 s     582704 s         48 s
-#2  3499 MHz     442359 s       2393 s      63403 s    1991678 s          0 s
+#1  3499 MHz    1474822 s       6044 s     149580 s     634836 s         42 s
+#2  3499 MHz     516484 s       2341 s      66806 s    1902702 s          2 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -55,7 +57,7 @@ Package Directory: /home/vagrant/.julia/v0.5
  - JSON                          0.12.0
  - PyAMG                         0.1.1
 7 additional packages:
- - BinDeps                       0.5.0
+ - BinDeps                       0.6.0
  - Compat                        0.25.2
  - Conda                         0.5.3
  - MacroTools                    0.3.6
@@ -74,27 +76,27 @@ INFO: Installing UnicodePlots v0.2.3
 INFO: Testing PyAMG
 =================================================
 Test 1: Julia `\` vs PyAMG Blackbox `solve` (2D) Laplacian
- \ :   0.812457 seconds (553.78 k allocations: 32.020 MB, 8.26% gc time)
+ \ :   1.220184 seconds (553.78 k allocations: 32.022 MB, 8.20% gc time)
 PyAMG-Warmup: /home/vagrant/.julia/v0.5/Conda/deps/usr/lib/python2.7/site-packages/pyamg/strength.py:533: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
   if B == 'ones':
-  2.619778 seconds (1.42 M allocations: 61.799 MB, 0.72% gc time)
-PyAMG:   0.256333 seconds (268 allocations: 942.203 KB)
-|x_\ - x_amg|_∞ = 1.526623966130458e-11
-|A x_amg - b|_∞ = 3.6943106351827737e-9
+  2.781511 seconds (1.42 M allocations: 62.327 MB, 0.84% gc time)
+PyAMG:   0.260441 seconds (268 allocations: 942.203 KB)
+|x_\ - x_amg|_∞ = 1.3745657390096255e-11
+|A x_amg - b|_∞ = 2.0050038074259646e-8
 =================================================
 Test 2: Julia `\` vs PyAMG Blackbox `solve` (3D)
- \ :   0.699220 seconds (68 allocations: 93.885 MB, 3.45% gc time)
-PyAMG-Warmup:   1.358547 seconds (267 allocations: 3.224 MB)
-PyAMG:   1.409285 seconds (267 allocations: 3.224 MB)
-|x_\ - x_amg|_∞ = 1.2233408730466522e-12
-|A x_amg - b|_∞ = 1.1194956073268258e-9
+ \ :   0.754466 seconds (68 allocations: 93.885 MB, 3.12% gc time)
+PyAMG-Warmup:   1.502078 seconds (267 allocations: 3.224 MB)
+PyAMG:   1.472236 seconds (267 allocations: 3.224 MB)
+|x_\ - x_amg|_∞ = 1.5961051924584524e-12
+|A x_amg - b|_∞ = 1.1547474088047238e-9
 =================================================
 Test 3: RugeStubenSolver (3D)
         50 x 50 x 50 grid = 125k dofs 
-Create solver:   0.628266 seconds (34.53 k allocations: 15.485 MB)
-First solve:   0.408215 seconds (82.35 k allocations: 4.089 MB)
-Second solve: (tol 1e-9)  0.380324 seconds (8.47 k allocations: 1.331 MB)
-Third solve: (tol 1e-6)  0.218666 seconds (175 allocations: 983.188 KB, 1.13% gc time)
+Create solver:   0.617109 seconds (34.53 k allocations: 15.485 MB)
+First solve:   0.357550 seconds (82.35 k allocations: 4.089 MB)
+Second solve: (tol 1e-9)  0.371711 seconds (8.47 k allocations: 1.331 MB)
+Third solve: (tol 1e-6)  0.203559 seconds (175 allocations: 983.188 KB, 1.18% gc time)
 |A x_amg - b|_∞ = 2.532215134465332e-6
 =================================================
 Test 4: \, ldiv, and kwargs
@@ -103,14 +105,14 @@ Test 5: AMG as a preconditioner
         100 x 100 Dirichlet problem, TOL = 1e-4
         PyAMG vs CG vs PCG  (using IterativeSolvers)
 Plain CG:
-  2.275009 seconds (2.26 M allocations: 119.107 MB, 2.79% gc time)
-  0.034219 seconds (844 allocations: 20.865 MB, 11.99% gc time)
+  2.221140 seconds (2.20 M allocations: 116.319 MB, 3.09% gc time)
+  0.034699 seconds (844 allocations: 20.865 MB, 10.35% gc time)
 PyAMG-preconditionerd CG:  (see `aspreconditioner`)
-  0.155779 seconds (32.04 k allocations: 2.353 MB)
-  0.016315 seconds (483 allocations: 1.010 MB)
+  0.147456 seconds (32.04 k allocations: 2.353 MB)
+  0.017649 seconds (483 allocations: 1.010 MB)
 PyAMG solver
-  0.015349 seconds (196 allocations: 85.781 KB)
-  0.019099 seconds (195 allocations: 85.734 KB)
+  0.018095 seconds (196 allocations: 85.781 KB)
+  0.018806 seconds (195 allocations: 85.734 KB)
 |x_cg-x| = 3.5312070957405564e-6 
 |x_pcg-x| = 2.7796572140519933e-6
 |x_pyamg-x| = 1.0901104458602403e-7

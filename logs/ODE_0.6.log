@@ -6,7 +6,7 @@ INFO: Installing Iterators v0.3.1
 INFO: Installing Juno v0.2.7
 INFO: Installing MacroTools v0.3.6
 INFO: Installing Media v0.2.7
-INFO: Installing ODE v0.5.0
+INFO: Installing ODE v0.6.0
 INFO: Installing Parameters v0.7.2
 INFO: Installing Polynomials v0.1.5
 INFO: Installing Ranges v0.0.1
@@ -15,6 +15,8 @@ INFO: Installing RecursiveArrayTools v0.7.1
 INFO: Installing SimpleTraits v0.5.0
 INFO: Installing StaticArrays v0.5.0
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of ODE
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("ODE")' log
 Julia Version 0.6.0-rc2.0
@@ -25,13 +27,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-119-generic #166-Ubuntu SMP Wed May 3 12:18:55 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (575.40234375 MB free)
-Uptime: 30731.0 sec
-Load Avg:  0.9365234375  0.94677734375  0.97021484375
+Memory: 2.9392738342285156 GB (583.234375 MB free)
+Uptime: 30215.0 sec
+Load Avg:  0.9970703125  1.017578125  1.04541015625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3511 MHz    1884038 s       6558 s      81538 s     591579 s         34 s
-#2  3511 MHz     438874 s        807 s      46171 s    2515999 s          0 s
+#1  3499 MHz    1980425 s       2073 s      83041 s     452986 s         24 s
+#2  3499 MHz     356339 s       4198 s      43400 s    2561719 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -47,7 +49,7 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - JSON                          0.12.0
- - ODE                           0.5.0
+ - ODE                           0.6.0
 15 additional packages:
  - Compat                        0.25.2
  - DataStructures                0.5.3
@@ -65,7 +67,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - SimpleTraits                  0.5.0
  - StaticArrays                  0.5.0
 INFO: Computing test dependencies for ODE...
-INFO: Installing BinDeps v0.5.0
+INFO: Installing BinDeps v0.6.0
 INFO: Installing Blosc v0.2.1
 INFO: Installing Calculus v0.2.2
 INFO: Installing ChunkedArrays v0.1.1
@@ -95,46 +97,133 @@ INFO: Building Rmath
 INFO: Building SymEngine
 INFO: Building HDF5
 INFO: Testing ODE
-
-WARNING: deprecated syntax "abstract Tableau{Name,S,T<:Real}" at /home/vagrant/.julia/v0.6/ODE/src/ODE.jl:37.
-Use "abstract type Tableau{Name,S,T<:Real} end" instead.
-
-WARNING: deprecated syntax "abstract Tableau{Name,S,T<:Real}" at /home/vagrant/.julia/v0.6/ODE/src/ODE.jl:37.
-Use "abstract type Tableau{Name,S,T<:Real} end" instead.
-
-WARNING: deprecated syntax "abstract ODEjlAlgorithm<:AbstractODEAlgorithm" at /home/vagrant/.julia/v0.6/ODE/src/algorithm_types.jl:2.
-Use "abstract type ODEjlAlgorithm<:AbstractODEAlgorithm end" instead.
-
-WARNING: deprecated syntax "inner constructor TableauRKExplicit(...) around /home/vagrant/.julia/v0.6/ODE/src/runge_kutta.jl:17".
-Use "TableauRKExplicit{Name,S,T}(...) where {Name,S,T}" instead.
-ERROR: LoadError: LoadError: MethodError: no method matching ODE.TableauRKExplicit(::Symbol, ::Tuple{Int64}, ::Type{Rational{Int64}}, ::Array{Int64,2}, ::RowVector{Int64,Array{Int64,1}}, ::Array{Int64,1})
-Closest candidates are:
-  ODE.TableauRKExplicit(::Symbol, ::Tuple{Vararg{Int64,N} where N}, ::Type, ::Array{T,2} where T, !Matched::Array{T,2} where T, ::Array{T,1} where T) at /home/vagrant/.julia/v0.6/ODE/src/runge_kutta.jl:38
-  ODE.TableauRKExplicit(::Symbol, ::Tuple{Vararg{Int64,N} where N}, !Matched::Array{T,2}, ::Array{T,2}, !Matched::Array{T,1}) where T at /home/vagrant/.julia/v0.6/ODE/src/runge_kutta.jl:34
+using ODE.ode1
+using ODE.ode2_midpoint
+using ODE.ode2_heun
+using ODE.ode4
+using ODE.ode4ms
+using ODE.ode5ms
+using ODE.ode23
+using ODE.ode45_dp
+using ODE.ode45_fe
+using ODE.ode78
+using ODE.ode4s_s
+WARNING: J::UniformScaling - x::Number is deprecated, use J.λ - x instead.
 Stacktrace:
- [1] include_from_node1(::String) at ./loading.jl:569
- [2] include(::String) at ./sysimg.jl:14
- [3] include_from_node1(::String) at ./loading.jl:569
- [4] include(::String) at ./sysimg.jl:14
- [5] anonymous at ./<missing>:2
-while loading /home/vagrant/.julia/v0.6/ODE/src/runge_kutta.jl, in expression starting on line 66
-while loading /home/vagrant/.julia/v0.6/ODE/src/ODE.jl, in expression starting on line 159
-ERROR: LoadError: Failed to precompile ODE to /home/vagrant/.julia/lib/v0.6/ODE.ji.
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] -(::UniformScaling{Float64}, ::Float32) at ./deprecated.jl:51
+ [3] #oderosenbrock#28(::Void, ::Array{Any,1}, ::Function, ::##1#7, ::Float32, ::Array{Float32,1}, ::Float64, ::Array{Float64,2}, ::Array{Float64,2}, ::Array{Float64,2}) at /home/vagrant/.julia/v0.6/ODE/src/ODE.jl:385
+ [4] (::ODE.#kw##oderosenbrock)(::Array{Any,1}, ::ODE.#oderosenbrock, ::Function, ::Float32, ::Array{Float32,1}, ::Float64, ::Array{Float64,2}, ::Array{Float64,2}, ::Array{Float64,2}) at ./<missing>:0
+ [5] #ode4s_s#32(::Void, ::Array{Any,1}, ::Function, ::Function, ::Float32, ::Array{Float32,1}) at /home/vagrant/.julia/v0.6/ODE/src/ODE.jl:433
+ [6] ode4s_s(::Function, ::Float32, ::Array{Float32,1}) at /home/vagrant/.julia/v0.6/ODE/src/ODE.jl:433
+ [7] macro expansion at /home/vagrant/.julia/v0.6/ODE/test/runtests.jl:48 [inlined]
+ [8] anonymous at ./<missing>:?
+ [9] include_from_node1(::String) at ./loading.jl:569
+ [10] include(::String) at ./sysimg.jl:14
+ [11] process_options(::Base.JLOptions) at ./client.jl:305
+ [12] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ODE/test/runtests.jl, in expression starting on line 37
+WARNING: J::UniformScaling - x::Number is deprecated, use J.λ - x instead.
 Stacktrace:
- [1] compilecache(::String) at ./loading.jl:703
- [2] _require(::Symbol) at ./loading.jl:490
- [3] require(::Symbol) at ./loading.jl:398
- [4] include_from_node1(::String) at ./loading.jl:569
- [5] include(::String) at ./sysimg.jl:14
- [6] process_options(::Base.JLOptions) at ./client.jl:305
- [7] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/ODE/test/runtests.jl, in expression starting on line 1
-=================================[ ERROR: ODE ]=================================
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] -(::UniformScaling{Float64}, ::Float32) at ./deprecated.jl:51
+ [3] #oderosenbrock#28(::Void, ::Array{Any,1}, ::Function, ::##4#10, ::Float32, ::Array{Float32,1}, ::Float64, ::Array{Float64,2}, ::Array{Float64,2}, ::Array{Float64,2}) at /home/vagrant/.julia/v0.6/ODE/src/ODE.jl:385
+ [4] (::ODE.#kw##oderosenbrock)(::Array{Any,1}, ::ODE.#oderosenbrock, ::Function, ::Float32, ::Array{Float32,1}, ::Float64, ::Array{Float64,2}, ::Array{Float64,2}, ::Array{Float64,2}) at ./<missing>:0
+ [5] #ode4s_s#32(::Void, ::Array{Any,1}, ::Function, ::Function, ::Float32, ::Array{Float32,1}) at /home/vagrant/.julia/v0.6/ODE/src/ODE.jl:433
+ [6] ode4s_s(::Function, ::Float32, ::Array{Float32,1}) at /home/vagrant/.julia/v0.6/ODE/src/ODE.jl:433
+ [7] macro expansion at /home/vagrant/.julia/v0.6/ODE/test/runtests.jl:62 [inlined]
+ [8] anonymous at ./<missing>:?
+ [9] include_from_node1(::String) at ./loading.jl:569
+ [10] include(::String) at ./sysimg.jl:14
+ [11] process_options(::Base.JLOptions) at ./client.jl:305
+ [12] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ODE/test/runtests.jl, in expression starting on line 37
+using ODE.ode4s_kr
+using ODE.ode23s
+WARNING: J::UniformScaling - x::Number is deprecated, use J.λ - x instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] -(::UniformScaling{Int64}, ::Float64) at ./deprecated.jl:51
+ [3] #ode23s#23(::Float64, ::Float64, ::Void, ::Symbol, ::Base.LinAlg.#norm, ::Float64, ::Float64, ::Float64, ::Type{T} where T, ::##4#10, ::Float32, ::Array{Float32,1}) at /home/vagrant/.julia/v0.6/ODE/src/ODE.jl:302
+ [4] ODE.ode23s(::Function, ::Float32, ::Array{Float32,1}) at /home/vagrant/.julia/v0.6/ODE/src/ODE.jl:260
+ [5] macro expansion at /home/vagrant/.julia/v0.6/ODE/test/runtests.jl:62 [inlined]
+ [6] anonymous at ./<missing>:?
+ [7] include_from_node1(::String) at ./loading.jl:569
+ [8] include(::String) at ./sysimg.jl:14
+ [9] process_options(::Base.JLOptions) at ./client.jl:305
+ [10] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ODE/test/runtests.jl, in expression starting on line 37
+ROBER test case
 
-failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/ODE/test/runtests.jl`, ProcessExited(1)) [1]
+WARNING: deprecated syntax "function .+(...)".
+Use "function Base.broadcast(::typeof(+), ...)" instead.
 
-================================================================================
-INFO: Removing BinDeps v0.5.0
+WARNING: deprecated syntax "function .-(...)".
+Use "function Base.broadcast(::typeof(-), ...)" instead.
+
+WARNING: deprecated syntax "function .*(...)".
+Use "function Base.broadcast(::typeof(*), ...)" instead.
+
+WARNING: deprecated syntax "function .*(...)".
+Use "function Base.broadcast(::typeof(*), ...)" instead.
+
+WARNING: deprecated syntax "function ./(...)".
+Use "function Base.broadcast(::typeof(/), ...)" instead.
+Testing interface for scalar-like state... ok.
+WARNING: J::UniformScaling - x::Number is deprecated, use J.λ - x instead.
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] -(::UniformScaling{Float64}, ::Float64) at ./deprecated.jl:51
+ [3] #oderosenbrock#28(::Void, ::Array{Any,1}, ::Function, ::DiffEqProblemLibrary.##1#2, ::Float64, ::Array{Float64,1}, ::Float64, ::Array{Float64,2}, ::Array{Float64,2}, ::Array{Float64,2}) at /home/vagrant/.julia/v0.6/ODE/src/ODE.jl:385
+ [4] (::ODE.#kw##oderosenbrock)(::Array{Any,1}, ::ODE.#oderosenbrock, ::Function, ::Float64, ::Array{Float64,1}, ::Float64, ::Array{Float64,2}, ::Array{Float64,2}, ::Array{Float64,2}) at ./<missing>:0
+ [5] #ode4s_s#32(::Void, ::Array{Any,1}, ::Function, ::Function, ::Float64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/ODE/src/ODE.jl:433
+ [6] (::ODE.#kw##ode4s_s)(::Array{Any,1}, ::ODE.#ode4s_s, ::Function, ::Float64, ::Array{Float64,1}) at ./<missing>:0
+ [7] #ode4s#33(::Void, ::Array{Any,1}, ::Type{T} where T, ::Function, ::Float64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/ODE/src/ODE.jl:437
+ [8] (::Core.#kw#Type)(::Array{Any,1}, ::Type{ODE.ode4s}, ::Function, ::Float64, ::Array{Float64,1}) at ./<missing>:0
+ [9] #solve#34(::Bool, ::Void, ::Array{Float64,1}, ::Float64, ::Float64, ::Bool, ::Bool, ::Bool, ::Void, ::Float64, ::Float64, ::Bool, ::Bool, ::Float64, ::Base.LinAlg.#vecnorm, ::Array{Any,1}, ::DiffEqBase.#solve, ::DiffEqBase.ODEProblem{Float64,Float64,false,DiffEqProblemLibrary.##1#2,Void,UniformScaling{Int64}}, ::ODE.ode4s, ::Array{Any,1}, ::Array{Any,1}, ::Array{Any,1}) at /home/vagrant/.julia/v0.6/ODE/src/common.jl:86
+ [10] (::DiffEqBase.#kw##solve)(::Array{Any,1}, ::DiffEqBase.#solve, ::DiffEqBase.ODEProblem{Float64,Float64,false,DiffEqProblemLibrary.##1#2,Void,UniformScaling{Int64}}, ::ODE.ode4s, ::Array{Any,1}, ::Array{Any,1}, ::Array{Any,1}) at ./<missing>:0 (repeats 2 times)
+ [11] macro expansion at /home/vagrant/.julia/v0.6/ODE/test/common.jl:12 [inlined]
+ [12] anonymous at ./<missing>:?
+ [13] include_from_node1(::String) at ./loading.jl:569
+ [14] include(::String) at ./sysimg.jl:14
+ [15] include_from_node1(::String) at ./loading.jl:569
+ [16] include(::String) at ./sysimg.jl:14
+ [17] process_options(::Base.JLOptions) at ./client.jl:305
+ [18] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/ODE/test/common.jl, in expression starting on line 11
+WARNING: The save_idxs argument is ignored by ODE.ode23().
+WARNING: The progress argument is ignored by ODE.ode23().
+WARNING: The beta1 argument is ignored by ODE.ode23().
+WARNING: The gamma argument is ignored by ODE.ode23().
+WARNING: Please see http://docs.juliadiffeq.org/latest/basics/compatibility_chart.html
+WARNING: The save_idxs argument is ignored by ODE.ode45().
+WARNING: The progress argument is ignored by ODE.ode45().
+WARNING: The beta1 argument is ignored by ODE.ode45().
+WARNING: The gamma argument is ignored by ODE.ode45().
+WARNING: Please see http://docs.juliadiffeq.org/latest/basics/compatibility_chart.html
+WARNING: The save_idxs argument is ignored by ODE.ode78().
+WARNING: The progress argument is ignored by ODE.ode78().
+WARNING: The beta1 argument is ignored by ODE.ode78().
+WARNING: The gamma argument is ignored by ODE.ode78().
+WARNING: Please see http://docs.juliadiffeq.org/latest/basics/compatibility_chart.html
+WARNING: The save_idxs argument is ignored by ODE.ode4().
+WARNING: The progress argument is ignored by ODE.ode4().
+WARNING: The beta1 argument is ignored by ODE.ode4().
+WARNING: The gamma argument is ignored by ODE.ode4().
+WARNING: Please see http://docs.juliadiffeq.org/latest/basics/compatibility_chart.html
+WARNING: The save_idxs argument is ignored by ODE.ode4ms().
+WARNING: The progress argument is ignored by ODE.ode4ms().
+WARNING: The beta1 argument is ignored by ODE.ode4ms().
+WARNING: The gamma argument is ignored by ODE.ode4ms().
+WARNING: Please see http://docs.juliadiffeq.org/latest/basics/compatibility_chart.html
+WARNING: The save_idxs argument is ignored by ODE.ode4s().
+WARNING: The progress argument is ignored by ODE.ode4s().
+WARNING: The beta1 argument is ignored by ODE.ode4s().
+WARNING: The gamma argument is ignored by ODE.ode4s().
+WARNING: Please see http://docs.juliadiffeq.org/latest/basics/compatibility_chart.html
+All looks OK
+INFO: ODE tests passed
+INFO: Removing BinDeps v0.6.0
 INFO: Removing Blosc v0.2.1
 INFO: Removing Calculus v0.2.2
 INFO: Removing ChunkedArrays v0.1.1
@@ -158,6 +247,5 @@ INFO: Removing StatsFuns v0.5.0
 INFO: Removing SymEngine v0.2.0
 INFO: Removing URIParser v0.1.8
 INFO: Removing VectorizedRoutines v0.0.2
-ERROR: ODE had test errors
 
 >>> End of log
