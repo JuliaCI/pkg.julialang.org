@@ -1,10 +1,11 @@
 >>> 'Pkg.add("ContMechTensors")' log
 INFO: Cloning cache of ContMechTensors from https://github.com/KristofferC/ContMechTensors.jl.git
-INFO: Installing Calculus v0.2.2
+INFO: Installing CommonSubexpressions v0.0.1
 INFO: Installing ContMechTensors v0.3.0
 INFO: Installing DiffBase v0.2.0
-INFO: Installing ForwardDiff v0.4.2
+INFO: Installing ForwardDiff v0.5.0
 INFO: Installing NaNMath v0.2.4
+INFO: Installing RealInterface v0.0.2
 INFO: Installing SpecialFunctions v0.1.1
 INFO: Installing StaticArrays v0.5.0
 INFO: Package database updated
@@ -20,13 +21,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-119-generic #166-Ubuntu SMP Wed May 3 12:18:55 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (634.18359375 MB free)
-Uptime: 25824.0 sec
-Load Avg:  0.9716796875  0.9853515625  0.990234375
+Memory: 2.9392738342285156 GB (663.5390625 MB free)
+Uptime: 26707.0 sec
+Load Avg:  0.99560546875  0.998046875  1.0400390625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3501 MHz    1548447 s       5128 s      78950 s     549823 s         27 s
-#2  3501 MHz     289287 s       1942 s      46046 s    2200385 s          0 s
+#1  3508 MHz    1603752 s       6469 s      75856 s     583152 s         22 s
+#2  3508 MHz     352160 s       1183 s      44048 s    2228569 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -43,17 +44,18 @@ Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - ContMechTensors               0.3.0
  - JSON                          0.12.0
-7 additional packages:
- - Calculus                      0.2.2
+8 additional packages:
+ - CommonSubexpressions          0.0.1
  - Compat                        0.25.2
  - DiffBase                      0.2.0
- - ForwardDiff                   0.4.2
+ - ForwardDiff                   0.5.0
  - NaNMath                       0.2.4
+ - RealInterface                 0.0.2
  - SpecialFunctions              0.1.1
  - StaticArrays                  0.5.0
 INFO: Computing test dependencies for ContMechTensors...
 INFO: Installing DocStringExtensions v0.3.3
-INFO: Installing Documenter v0.10.3
+INFO: Installing Documenter v0.11.0
 INFO: Testing ContMechTensors
 
 WARNING: deprecated syntax "abstract AbstractTensor{order,dim,T<:Real}<:AbstractArray{T,order}" at /home/vagrant/.julia/v0.6/ContMechTensors/src/ContMechTensors.jl:21.
@@ -328,6 +330,261 @@ WARNING: Base.LinearSlow is deprecated, use Base.IndexCartesian instead.
   likely near /home/vagrant/.julia/v0.6/ContMechTensors/test/../docs/make.jl:3
 =====[Test Error]==============================
 
+> File: /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl
+
+> Code block:
+
+```jldoctest
+julia> A = rand(SymmetricTensor{2, 2});
+
+julia> ∇f = gradient(norm, A)
+2×2 ContMechTensors.SymmetricTensor{2,2,Float64,3}:
+ 0.434906  0.56442
+ 0.56442   0.416793
+
+julia> ∇f, f = gradient(norm, A, :all);
+```
+
+> Subexpression:
+
+    ∇f = gradient(norm, A)
+
+> Output Diff (REQUIRES COLOR):
+
+2×2 ContMechTensors.SymmetricTensor{2,2,Float64,3}:
+ 0.434906  0.56442
+ 0.56442   0.41679ERROR: MethodError: no method matching _extract_gradient(::ForwardDiff.Dual{Void,Float64,3}, ::ContMechTensors.SymmetricTensor{2,2,Float64,3})
+Closest candidates are:
+  _extract_gradient(::ForwardDiff.Dual{N,T,N} where N, !Matched::ContMechTensors.Tensor{1,N,T,N} where T) where {N, T} at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:20
+  _extract_gradient(::ForwardDiff.Dual{N,T,N} where N, !Matched::ContMechTensors.SymmetricTensor{2,dim,T2,N}) where {N, T, dim, T2} at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:27
+  _extract_gradient(::ForwardDiff.Dual{N,T,N} where N, !Matched::ContMechTensors.Tensor{2,dim,T2,N}) where {N, T, dim, T2} at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:34
+  ...
+Stacktrace:
+ [1] gradient(::Base.LinAlg.#norm, ::ContMechTensors.SymmetricTensor{2,2,Float64,3}) at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:315
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl
+
+> Code block:
+
+```jldoctest
+julia> A = rand(SymmetricTensor{2, 2});
+
+julia> ∇f = gradient(norm, A)
+2×2 ContMechTensors.SymmetricTensor{2,2,Float64,3}:
+ 0.434906  0.56442
+ 0.56442   0.416793
+
+julia> ∇f, f = gradient(norm, A, :all);
+```
+
+> Subexpression:
+
+    ∇f, f = gradient(norm, A, :all);
+
+> Output Diff (REQUIRES COLOR):
+
+ERROR: MethodError: no method matching _extract_gradient(::ForwardDiff.Dual{Void,Float64,3}, ::ContMechTensors.SymmetricTensor{2,2,Float64,3})
+Closest candidates are:
+  _extract_gradient(::ForwardDiff.Dual{N,T,N} where N, !Matched::ContMechTensors.Tensor{1,N,T,N} where T) where {N, T} at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:20
+  _extract_gradient(::ForwardDiff.Dual{N,T,N} where N, !Matched::ContMechTensors.SymmetricTensor{2,dim,T2,N}) where {N, T, dim, T2} at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:27
+  _extract_gradient(::ForwardDiff.Dual{N,T,N} where N, !Matched::ContMechTensors.Tensor{2,dim,T2,N}) where {N, T, dim, T2} at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:34
+  ...
+Stacktrace:
+ [1] gradient(::Base.LinAlg.#norm, ::ContMechTensors.SymmetricTensor{2,2,Float64,3}, ::Symbol) at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:320
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl
+
+> Code block:
+
+```jldoctest
+julia> A = rand(SymmetricTensor{2, 2});
+
+julia> ∇∇f = hessian(norm, A)
+2×2×2×2 ContMechTensors.SymmetricTensor{4,2,Float64,9}:
+[:, :, 1, 1] =
+  0.596851  -0.180684
+ -0.180684  -0.133425
+
+[:, :, 2, 1] =
+ -0.180684   0.133546
+  0.133546  -0.173159
+
+[:, :, 1, 2] =
+ -0.180684   0.133546
+  0.133546  -0.173159
+
+[:, :, 2, 2] =
+ -0.133425  -0.173159
+ -0.173159   0.608207
+
+julia> ∇∇f, ∇f, f = hessian(norm, A, :all);
+```
+
+> Subexpression:
+
+    ∇∇f = hessian(norm, A)
+
+> Output Diff (REQUIRES COLOR):
+
+2×2×2×2 ContMechTensors.SymmetricTensor{4,2,Float64,9}:
+[:, :, 1, 1] =
+  0.596851  -0.180684
+ -0.180684  -0.133425
+
+[:, :, 2, 1] =
+ -0.180684   0.133546
+  0.133546  -0.173159
+
+[:, :, 1, 2] =
+ -0.180684   0.133546
+  0.133546  -0.173159
+
+[:, :, 2, 2] =
+ -0.133425  -0.173159
+ -0.173159   0.608ERROR: MethodError: no method matching _extract_gradient(::ForwardDiff.Dual{Void,ForwardDiff.Dual{Void,Float64,3},3}, ::ContMechTensors.SymmetricTensor{2,2,ForwardDiff.Dual{Void,Float64,3},3})
+Closest candidates are:
+  _extract_gradient(::ForwardDiff.Dual{N,T,N} where N, !Matched::ContMechTensors.Tensor{1,N,T,N} where T) where {N, T} at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:20
+  _extract_gradient(::ForwardDiff.Dual{N,T,N} where N, !Matched::ContMechTensors.SymmetricTensor{2,dim,T2,N}) where {N, T, dim, T2} at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:27
+  _extract_gradient(::ForwardDiff.Dual{N,T,N} where N, !Matched::ContMechTensors.Tensor{2,dim,T2,N}) where {N, T, dim, T2} at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:34
+  ...
+Stacktrace:
+ [1] gradient(::Base.LinAlg.#norm, ::ContMechTensors.SymmetricTensor{2,2,ForwardDiff.Dual{Void,Float64,3},3}) at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:315
+ [2] gradient(::ContMechTensors.##59#60{Base.LinAlg.#norm}, ::ContMechTensors.SymmetricTensor{2,2,Float64,3}) at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:314
+ [3] hessian(::Base.LinAlg.#norm, ::ContMechTensors.SymmetricTensor{2,2,Float64,3}) at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:361
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl
+
+> Code block:
+
+```jldoctest
+julia> A = rand(SymmetricTensor{2, 2});
+
+julia> ∇∇f = hessian(norm, A)
+2×2×2×2 ContMechTensors.SymmetricTensor{4,2,Float64,9}:
+[:, :, 1, 1] =
+  0.596851  -0.180684
+ -0.180684  -0.133425
+
+[:, :, 2, 1] =
+ -0.180684   0.133546
+  0.133546  -0.173159
+
+[:, :, 1, 2] =
+ -0.180684   0.133546
+  0.133546  -0.173159
+
+[:, :, 2, 2] =
+ -0.133425  -0.173159
+ -0.173159   0.608207
+
+julia> ∇∇f, ∇f, f = hessian(norm, A, :all);
+```
+
+> Subexpression:
+
+    ∇∇f, ∇f, f = hessian(norm, A, :all);
+
+> Output Diff (REQUIRES COLOR):
+
+ERROR: MethodError: no method matching _extract_gradient(::ForwardDiff.Dual{Void,ForwardDiff.Dual{Void,Float64,3},3}, ::ContMechTensors.SymmetricTensor{2,2,ForwardDiff.Dual{Void,Float64,3},3})
+Closest candidates are:
+  _extract_gradient(::ForwardDiff.Dual{N,T,N} where N, !Matched::ContMechTensors.Tensor{1,N,T,N} where T) where {N, T} at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:20
+  _extract_gradient(::ForwardDiff.Dual{N,T,N} where N, !Matched::ContMechTensors.SymmetricTensor{2,dim,T2,N}) where {N, T, dim, T2} at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:27
+  _extract_gradient(::ForwardDiff.Dual{N,T,N} where N, !Matched::ContMechTensors.Tensor{2,dim,T2,N}) where {N, T, dim, T2} at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:34
+  ...
+Stacktrace:
+ [1] gradient(::Base.LinAlg.#norm, ::ContMechTensors.SymmetricTensor{2,2,ForwardDiff.Dual{Void,Float64,3},3}) at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:315
+ [2] gradient(::ContMechTensors.##61#62{Base.LinAlg.#norm}, ::ContMechTensors.SymmetricTensor{2,2,Float64,3}) at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:314
+ [3] hessian(::Base.LinAlg.#norm, ::ContMechTensors.SymmetricTensor{2,2,Float64,3}, ::Symbol) at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:366
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: src/man/automatic_differentiation.md
+
+> Code block:
+
+```jldoctest
+julia> x = rand(Vec{2});
+
+julia> gradient(norm, x)
+2-element ContMechTensors.Tensor{1,2,Float64,2}:
+ 0.61036
+ 0.792124
+
+julia> x / norm(x)
+2-element ContMechTensors.Tensor{1,2,Float64,2}:
+ 0.61036
+ 0.792124
+```
+
+> Subexpression:
+
+    gradient(norm, x)
+
+> Output Diff (REQUIRES COLOR):
+
+2-element ContMechTensors.Tensor{1,2,Float64,2}:
+ 0.61036
+ 0.792124ERROR: MethodError: no method matching _extract_gradient(::ForwardDiff.Dual{Void,Float64,2}, ::ContMechTensors.Tensor{1,2,Float64,2})
+Closest candidates are:
+  _extract_gradient(::ForwardDiff.Dual{N,T,N} where N, !Matched::ContMechTensors.Tensor{1,N,T,N} where T) where {N, T} at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:20
+  _extract_gradient(::ForwardDiff.Dual{N,T,N} where N, !Matched::ContMechTensors.SymmetricTensor{2,dim,T2,N}) where {N, T, dim, T2} at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:27
+  _extract_gradient(::ForwardDiff.Dual{N,T,N} where N, !Matched::ContMechTensors.Tensor{2,dim,T2,N}) where {N, T, dim, T2} at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:34
+  ...
+Stacktrace:
+ [1] gradient(::Base.LinAlg.#norm, ::ContMechTensors.Tensor{1,2,Float64,2}) at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:315
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: src/man/automatic_differentiation.md
+
+> Code block:
+
+```jldoctest
+julia> A = rand(SymmetricTensor{2,2});
+
+julia> gradient(det, A)
+2×2 ContMechTensors.SymmetricTensor{2,2,Float64,3}:
+  0.566237  -0.766797
+ -0.766797   0.590845
+
+julia> inv(A)' * det(A)
+2×2 ContMechTensors.SymmetricTensor{2,2,Float64,3}:
+  0.566237  -0.766797
+ -0.766797   0.590845
+```
+
+> Subexpression:
+
+    gradient(det, A)
+
+> Output Diff (REQUIRES COLOR):
+
+2×2 ContMechTensors.SymmetricTensor{2,2,Float64,3}:
+  0.566237  -0.766797
+ -0.766797   0.59084ERROR: MethodError: no method matching _extract_gradient(::ForwardDiff.Dual{Void,Float64,3}, ::ContMechTensors.SymmetricTensor{2,2,Float64,3})
+Closest candidates are:
+  _extract_gradient(::ForwardDiff.Dual{N,T,N} where N, !Matched::ContMechTensors.Tensor{1,N,T,N} where T) where {N, T} at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:20
+  _extract_gradient(::ForwardDiff.Dual{N,T,N} where N, !Matched::ContMechTensors.SymmetricTensor{2,dim,T2,N}) where {N, T, dim, T2} at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:27
+  _extract_gradient(::ForwardDiff.Dual{N,T,N} where N, !Matched::ContMechTensors.Tensor{2,dim,T2,N}) where {N, T, dim, T2} at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:34
+  ...
+Stacktrace:
+ [1] gradient(::Base.LinAlg.#det, ::ContMechTensors.SymmetricTensor{2,2,Float64,3}) at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:315
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
 > File: src/man/automatic_differentiation.md
 
 > Code block:
@@ -355,9 +612,9 @@ ERROR: MethodError: convert(::Type{StaticArrays.SArray{Tuple{4,4},T,2,L} where L
 Possible fix, define
   convert(::Type{StaticArrays.SArray{Tuple{Any,Any},T,2,L} where L where T}, ::StaticArrays.StaticArray{#s51,T,N} where N where #s51<:Tuple)
 Stacktrace:
- [1] dcontract(::ContMechTensors.Tensor{2,2,ForwardDiff.Dual{4,ForwardDiff.Dual{4,Float64}},4}, ::ContMechTensors.Tensor{4,2,Float64,16}) at /home/vagrant/.julia/v0.6/ContMechTensors/src/tensor_products.jl:39
- [2] ψ(::ContMechTensors.Tensor{2,2,ForwardDiff.Dual{4,ForwardDiff.Dual{4,Float64}},4}) at ./none:1
- [3] gradient(::#ψ, ::ContMechTensors.Tensor{2,2,ForwardDiff.Dual{4,Float64},4}) at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:314 (repeats 2 times)
+ [1] dcontract(::ContMechTensors.Tensor{2,2,ForwardDiff.Dual{Void,ForwardDiff.Dual{Void,Float64,4},4},4}, ::ContMechTensors.Tensor{4,2,Float64,16}) at /home/vagrant/.julia/v0.6/ContMechTensors/src/tensor_products.jl:39
+ [2] ψ(::ContMechTensors.Tensor{2,2,ForwardDiff.Dual{Void,ForwardDiff.Dual{Void,Float64,4},4},4}) at ./none:1
+ [3] gradient(::#ψ, ::ContMechTensors.Tensor{2,2,ForwardDiff.Dual{Void,Float64,4},4}) at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:314 (repeats 2 times)
  [4] hessian(::#ψ, ::ContMechTensors.Tensor{2,2,Float64,4}) at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:
 
 =====[End Error]===============================
@@ -705,6 +962,53 @@ julia> Φ ⋅ diagm(Tensor{2,3}, Λ) ⋅ inv(Φ) # Same as A
  0.566237  0.794026  0.85414ERROR: UndefVarError: Φ not define
 
 =====[End Error]===============================
+=====[Test Error]==============================
+
+> File: src/demos.md
+
+> Code block:
+
+```jldoctest
+julia> μ = 1e10;
+
+julia> Kb = 1.66e11;
+
+julia> F = one(Tensor{2,3}) + rand(Tensor{2,3});
+
+julia> C = tdot(F);
+
+julia> S_AD = 2 * gradient(C -> Ψ(C, μ, Kb), C)
+3×3 ContMechTensors.SymmetricTensor{2,3,Float64,6}:
+  4.30534e11  -2.30282e11  -8.52861e10
+ -2.30282e11   4.38793e11  -2.64481e11
+ -8.52861e10  -2.64481e11   7.85515e11
+
+julia> S(C, μ, Kb)
+3×3 ContMechTensors.SymmetricTensor{2,3,Float64,6}:
+  4.30534e11  -2.30282e11  -8.52861e10
+ -2.30282e11   4.38793e11  -2.64481e11
+ -8.52861e10  -2.64481e11   7.85515e11
+```
+
+> Subexpression:
+
+    S_AD = 2 * gradient(C -> Ψ(C, μ, Kb), C)
+
+> Output Diff (REQUIRES COLOR):
+
+3×3 ContMechTensors.SymmetricTensor{2,3,Float64,6}:
+  4.30534e11  -2.30282e11  -8.52861e10
+ -2.30282e11   4.38793e11  -2.64481e11
+ -8.52861e10  -2.64481e11   7.85515e1ERROR: MethodError: no method matching _extract_gradient(::ForwardDiff.Dual{Void,Float64,6}, ::ContMechTensors.SymmetricTensor{2,3,Float64,6})
+Closest candidates are:
+  _extract_gradient(::ForwardDiff.Dual{N,T,N} where N, !Matched::ContMechTensors.Tensor{1,N,T,N} where T) where {N, T} at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:20
+  _extract_gradient(::ForwardDiff.Dual{N,T,N} where N, !Matched::ContMechTensors.SymmetricTensor{2,dim,T2,N}) where {N, T, dim, T2} at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:27
+  _extract_gradient(::ForwardDiff.Dual{N,T,N} where N, !Matched::ContMechTensors.Tensor{2,dim,T2,N}) where {N, T, dim, T2} at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:34
+  ...
+Stacktrace:
+ [1] gradient(::##3#4, ::ContMechTensors.SymmetricTensor{2,3,Float64,6}) at /home/vagrant/.julia/v0.6/ContMechTensors/src/automatic_differentiation.jl:315
+
+=====[End Error]===============================
  > checking footnote links.
 Documenter: populating indices.
 ERROR: LoadError: LoadError: `makedocs` encountered an error. Terminating build
@@ -728,7 +1032,7 @@ failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/
 
 ================================================================================
 INFO: Removing DocStringExtensions v0.3.3
-INFO: Removing Documenter v0.10.3
+INFO: Removing Documenter v0.11.0
 ERROR: ContMechTensors had test errors
 
 >>> End of log
