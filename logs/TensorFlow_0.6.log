@@ -1,5 +1,6 @@
 >>> 'Pkg.add("TensorFlow")' log
 INFO: Cloning cache of TensorFlow from https://github.com/malmaud/TensorFlow.jl.git
+INFO: Installing AutoHashEquals v0.1.1
 INFO: Installing BinDeps v0.6.0
 INFO: Installing Blosc v0.2.1
 INFO: Installing BufferedStreams v0.3.2
@@ -31,7 +32,7 @@ INFO: Installing SHA v0.3.3
 INFO: Installing SpecialFunctions v0.1.1
 INFO: Installing StatsBase v0.15.0
 INFO: Installing StatsFuns v0.5.0
-INFO: Installing TensorFlow v0.5.1
+INFO: Installing TensorFlow v0.6.0
 INFO: Installing URIParser v0.1.8
 INFO: Building Blosc
 INFO: Building Conda
@@ -62,13 +63,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-119-generic #166-Ubuntu SMP Wed May 3 12:18:55 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (867.91796875 MB free)
-Uptime: 66874.0 sec
-Load Avg:  0.3408203125  0.79150390625  0.94970703125
+Memory: 2.9392738342285156 GB (871.1484375 MB free)
+Uptime: 66892.0 sec
+Load Avg:  0.08740234375  0.39453125  0.7626953125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3494 MHz    4402921 s       6399 s     179905 s     938003 s         45 s
-#2  3494 MHz     750684 s         41 s      89078 s    5737790 s          0 s
+#1  3500 MHz    4431214 s        776 s     183698 s     915977 s         48 s
+#2  3500 MHz     681927 s       7594 s      86710 s    5800755 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -84,8 +85,9 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - JSON                          0.12.0
- - TensorFlow                    0.5.1
-33 additional packages:
+ - TensorFlow                    0.6.0
+34 additional packages:
+ - AutoHashEquals                0.1.1
  - BinDeps                       0.6.0
  - Blosc                         0.2.1
  - BufferedStreams               0.3.2
@@ -120,28 +122,22 @@ Package Directory: /home/vagrant/.julia/v0.6
  - StatsFuns                     0.5.0
  - URIParser                     0.1.8
 INFO: Testing TensorFlow
-ERROR: LoadError: LoadError: LoadError: AssertionError: item.head == Symbol("=>")
+WARNING: Loading a new version of TensorFlow.jl for the first time. This initial load can take up to 15 minutes as code is precompiled; subsequent usage will only take a few seconds.
+ERROR: LoadError: LoadError: On worker 2:
+The Python TensorFlow package could not be imported. You must install Python TensorFlow before using this package.
+init at /home/vagrant/.julia/v0.6/TensorFlow/src/py.jl:15
+#4 at /home/vagrant/.julia/v0.6/TensorFlow/src/TensorFlow.jl:148
+#110 at ./distributed/process_messages.jl:275 [inlined]
+run_work_thunk at ./distributed/process_messages.jl:56
+run_work_thunk at ./distributed/process_messages.jl:65 [inlined]
+#96 at ./event.jl:73
 Stacktrace:
- [1] include_from_node1(::String) at ./loading.jl:569
- [2] include(::String) at ./sysimg.jl:14
- [3] include_from_node1(::String) at ./loading.jl:569
- [4] include(::String) at ./sysimg.jl:14
- [5] include_from_node1(::String) at ./loading.jl:569
- [6] include(::String) at ./sysimg.jl:14
- [7] anonymous at ./<missing>:2
-while loading /home/vagrant/.julia/v0.6/TensorFlow/src/ops/nn.jl, in expression starting on line 139
-while loading /home/vagrant/.julia/v0.6/TensorFlow/src/ops.jl, in expression starting on line 158
-while loading /home/vagrant/.julia/v0.6/TensorFlow/src/TensorFlow.jl, in expression starting on line 171
-ERROR: LoadError: Failed to precompile TensorFlow to /home/vagrant/.julia/lib/v0.6/TensorFlow.ji.
-Stacktrace:
- [1] compilecache(::String) at ./loading.jl:703
- [2] _require(::Symbol) at ./loading.jl:490
- [3] require(::Symbol) at ./loading.jl:398
- [4] include_from_node1(::String) at ./loading.jl:569
- [5] include(::String) at ./sysimg.jl:14
- [6] process_options(::Base.JLOptions) at ./client.jl:305
- [7] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/TensorFlow/test/runtests.jl, in expression starting on line 1
+ [1] #remotecall_wait#146(::Array{Any,1}, ::Function, ::Function, ::Base.Distributed.Worker) at ./distributed/remotecall.jl:382
+ [2] remotecall_wait(::Function, ::Base.Distributed.Worker) at ./distributed/remotecall.jl:373
+ [3] #remotecall_wait#149(::Array{Any,1}, ::Function, ::Function, ::Int64) at ./distributed/remotecall.jl:394
+ [4] remotecall_wait(::Function, ::Int64) at ./distributed/remotecall.jl:394
+while loading /home/vagrant/.julia/v0.6/TensorFlow/test/../examples/logistic.jl, in expression starting on line 36
+while loading /home/vagrant/.julia/v0.6/TensorFlow/test/runtests.jl, in expression starting on line 6
 =============================[ ERROR: TensorFlow ]==============================
 
 failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/TensorFlow/test/runtests.jl`, ProcessExited(1)) [1]
