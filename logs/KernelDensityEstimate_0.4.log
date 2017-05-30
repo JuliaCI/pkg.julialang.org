@@ -65,13 +65,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-119-generic #166-Ubuntu SMP Wed May 3 12:18:55 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1519.4375 MB free)
-Uptime: 46511.0 sec
-Load Avg:  0.921875  0.95361328125  0.98095703125
+Memory: 2.9392738342285156 GB (1518.14453125 MB free)
+Uptime: 45709.0 sec
+Load Avg:  1.0322265625  1.0029296875  1.0400390625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3503 MHz    2292628 s         66 s     182688 s    1739611 s         94 s
-#2  3503 MHz    1612409 s       6725 s     156764 s    2736577 s          0 s
+#1  3499 MHz    2233817 s       6808 s     165206 s    1710896 s        108 s
+#2  3499 MHz    1566310 s          5 s     138726 s    2720872 s          2 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -141,25 +141,18 @@ Package Directory: /home/vagrant/.julia/v0.4
  - WoodburyMatrices              0.2.2
 INFO: Testing KernelDensityEstimate
 WARNING: New definition 
-    write(Base.IO, ForwardDiff.Partials) at /home/vagrant/.julia/v0.4/ForwardDiff/src/partials.jl:57
+    +(AbstractArray, DataArrays.DataArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:276
 is ambiguous with: 
-    write(Base.Base64.Base64EncodePipe, AbstractArray{UInt8, 1}) at base64.jl:89.
+    +(WoodburyMatrices.SymWoodbury, AbstractArray{T<:Any, 2}) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:139.
 To fix, define 
-    write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
+    +(WoodburyMatrices.SymWoodbury, DataArrays.DataArray{T<:Any, 2})
 before the new definition.
 WARNING: New definition 
-    +(AbstractArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:138
+    +(AbstractArray, DataArrays.AbstractDataArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:300
 is ambiguous with: 
-    +(DataArrays.DataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:276.
+    +(WoodburyMatrices.SymWoodbury, AbstractArray{T<:Any, 2}) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:139.
 To fix, define 
-    +(DataArrays.DataArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury)
-before the new definition.
-WARNING: New definition 
-    +(AbstractArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:138
-is ambiguous with: 
-    +(DataArrays.AbstractDataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:300.
-To fix, define 
-    +(DataArrays.AbstractDataArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury)
+    +(WoodburyMatrices.SymWoodbury, DataArrays.AbstractDataArray{T<:Any, 2})
 before the new definition.
 WARNING: New definition 
     write(Base.IO, ForwardDiff.Partials) at /home/vagrant/.julia/v0.4/ForwardDiff/src/partials.jl:57
@@ -208,6 +201,13 @@ To fix, define
     write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
 before the new definition.
 WARNING: New definition 
+    write(Base.IO, ForwardDiff.Partials) at /home/vagrant/.julia/v0.4/ForwardDiff/src/partials.jl:57
+is ambiguous with: 
+    write(Base.Base64.Base64EncodePipe, AbstractArray{UInt8, 1}) at base64.jl:89.
+To fix, define 
+    write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
+before the new definition.
+WARNING: New definition 
     +(AbstractArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:138
 is ambiguous with: 
     +(DataArrays.DataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:276.
@@ -231,23 +231,23 @@ v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[true,true,
 passt = passt && rangeTestProds(D=2,M=4) = true
 v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[true,true,true,true,true,true,true,true,true,true]
 passt = passt && rangeTestProds(D=2,M=6) = true
-v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[true,true,true,true,true,true,true,true,true,true]
+v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[true,true,true,true,true,true,true,true,false,true]
 passt = passt && rangeTestProds(D=3,M=6,MCMC=10) = true
-v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[false,true,true,true,true,false,true,true,true,true]
+v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[true,true,true,true,true,true,true,true,true,false]
 passt = passt && rangeTestProds(D=4,M=6,MCMC=10) = true
-v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[true,true,false,true,true,true,true,true,true,true]
+v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[true,true,true,true,true,true,true,true,true,true]
 passt = passt && rangeTestProds(D=3,M=5,N=300) = true
 v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[true,true,true,true,true,true,true,true,true,true]
 passt = passt && rangeTestProds(D=2,M=7,n=300) = true
-v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[true,true,true,true,true,true,true,true,true,true]
+v = [testProds(D=D,M=M,N=N,n=n,dev=dev,MCMC=MCMC) for i = 1:10] = Any[true,true,false,false,true,true,true,true,true,true]
 passt = passt && rangeTestProds(D=3,M=2,MCMC=100) = true
-a = intgAppxGaussianOffs(offs=0.0,dim=1) = 0.25656979272115793
+a = intgAppxGaussianOffs(offs=0.0,dim=1) = 0.27314874897678226
 testflag = testflag && 0.2 < a < 0.35 = true
-a = intgAppxGaussianOffs(offs=1.0,dim=1,N=1000) = 0.2025917704576102
+a = intgAppxGaussianOffs(offs=1.0,dim=1,N=1000) = 0.21024379921129535
 testflag = testflag && 0.1 < a < 0.3 = true
-a = intgAppxGaussianOffs(offs=-2.0,dim=1,N=1000) = 0.11079741166866836
+a = intgAppxGaussianOffs(offs=-2.0,dim=1,N=1000) = 0.11978161114937069
 testflag = testflag && 0.01 < a < 0.15 = true
-a = intgAppxGaussianOffs(offs=0.0,dim=2) = 0.07235676365032727
+a = intgAppxGaussianOffs(offs=0.0,dim=2) = 0.08017788164955715
 testflag = testflag && 0.05 < a < 0.12 = true
 testing rand functionality
 INFO: KernelDensityEstimate tests passed
