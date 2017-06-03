@@ -1,0 +1,149 @@
+>>> 'Pkg.add("TensorToolbox")' log
+INFO: Cloning cache of TensorToolbox from https://github.com/lanaperisa/TensorToolbox.jl.git
+INFO: Installing TensorToolbox v0.0.1
+INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of TensorToolbox
+INFO: Use `Pkg.update()` to get the latest versions of your packages
+
+>>> 'Pkg.test("TensorToolbox")' log
+Julia Version 0.5.2
+Commit f4c6c9d (2017-05-06 16:34 UTC)
+Platform Info:
+  OS: Linux (x86_64-pc-linux-gnu)
+  CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
+  WORD_SIZE: 64
+           Ubuntu 14.04.5 LTS
+  uname: Linux 3.13.0-119-generic #166-Ubuntu SMP Wed May 3 12:18:55 UTC 2017 x86_64 x86_64
+Memory: 2.9392738342285156 GB (1115.91015625 MB free)
+Uptime: 44065.0 sec
+Load Avg:  1.0029296875  1.0068359375  1.013671875
+Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
+       speed         user         nice          sys         idle          irq
+#1  3499 MHz    2680763 s       3577 s     251778 s     927950 s        111 s
+#2  3499 MHz     780349 s       3212 s     116927 s    3386809 s          1 s
+
+  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
+  LAPACK: libopenblas64_
+  LIBM: libopenlibm
+  LLVM: libLLVM-3.7.1 (ORCJIT, haswell)
+Environment:
+  TERM = vt100
+  LD_LIBRARY_PATH = :/usr/local/lib/
+  PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/vagrant/julia/bin/
+  JAVA_HOME = /usr/lib/jvm/java-7-oracle
+  HOME = /home/vagrant
+
+Package Directory: /home/vagrant/.julia/v0.5
+2 required packages:
+ - JSON                          0.12.0
+ - TensorToolbox                 0.0.1
+1 additional packages:
+ - Compat                        0.25.2
+INFO: Testing TensorToolbox
+
+...Test tensor X of size: (20,10,50,5)
+
+...Testing matten and tenmat.
+Size of 1-mode matricization: [20,2500]
+Check if it folds back correctly: true
+Size of 2-mode matricization: [10,5000]
+Check if it folds back correctly: true
+Size of 3-mode matricization: [50,1000]
+Check if it folds back correctly: true
+Size of 4-mode matricization: [5,10000]
+Check if it folds back correctly: true
+
+...Testing hosvd.
+
+Creating exact decomposition with rank = size(X):
+Results:
+Type of output T: TensorToolbox.ttensor{Float64}
+Core tensor size: (20,10,50,5)
+Factor matrices sizes: (20,20) (10,10) (50,50) (5,5) 
+
+...Testing function full, i.e. n-mode multiplication (ttm): vecnorm(full(T)-X) = 2.426016443099416e-13
+
+...Testing ttm for ttensor T and array of matrices A : vecnorm(full(ttm(T,A))-ttm(full(T),A)) = 1.6951161178090663e-11
+
+...Testing hosvd with smaller multilinear rank: [5,5,5,5]
+Results:
+Type of output T: TensorToolbox.ttensor{Float64}
+Core tensor size: (5,5,5,5)
+Factor matrices sizes: (20,5) (10,5) (50,5) (5,5) 
+
+...Testing size of ttensor T : (20,10,50,5)
+
+...Testing ndims of ttensor T : 4
+
+
+...Testing hosvd for tensor with noise.
+For ttensor T, X=full(T) tensor of size (60,50,40) and rank [5,5,5] , N noise tensor and S=hosvd(X+N,[5,5,5]).
+Error( vecnorm(T-S) ): 0.014096944047437483. Noise vecnorm: 0.17311254116081498.
+
+
+...Testing hosvd with eps_abs=1e-5 on function defined tensor X of size (20,20,20)
+Results:
+Type of output T: TensorToolbox.ttensor{Float64}
+Core tensor size: (7,7,7)
+Factor matrices sizes: (20,7) (20,7) (20,7) 
+
+...Testing hosvd with eps_rel=1e-5 on function defined tensor X of size (20,20,20)
+Results:
+Type of output T: TensorToolbox.ttensor{Float64}
+Core tensor size: (6,6,6)
+Factor matrices sizes: (20,6) (20,6) (20,6) 
+
+...Testing if factor matrices of ttensor T are orthogonal: true
+
+
+...Recompress Tucer tensor T to smaller rank: [3,3,3]
+Results:
+Type of output T: TensorToolbox.ttensor{Float64}
+Core tensor size: (3,3,3)
+Factor matrices sizes: (20,3) (20,3) (20,3) 
+
+...Testing orthogonal flag and reorthogonalization for random ttensor S of size (4,5,2).
+Has orthogonal factor matrices: false
+After reorthogonalization: true
+
+
+...Testing vecnorm of ttensor T.
+|vecnorm(T) - vecnorm(full(T))| = 2.1316282072803006e-14
+
+
+...Testing scalar multiplication 3*T.
+vecnorm(full(3*T) - 3*full(T)) = 3.923079530336531e-14
+
+
+...Creating two random ttensors X and Y of size (6,8,2,5,4).
+
+...Testing addition.
+vecnorm(full(X+Y) - (full(X)+full(Y))) = 2.2598440524702423e-13
+
+
+...Testing inner product.
+|innerprod(X,Y) - innerprod(full(X),full(Y))| = 7.275957614183426e-12
+
+
+...Testing Hadamard product.
+vecnorm(full(X.*Y) - full(X).*full(Y)) = 3.4130634680335386e-12
+
+
+...Testing singular values of matricizations of Tucker Tensor.
+
+Singular values of matricizations of random Tucker tensor of size (10,9,8), rank [3,3,3] and vecnorm 93.87643064510407.
+Mode-1 singular values error: 6.434238129413513e-14
+Mode-2 singular values error: 4.819135301037582e-14
+Mode-3 singular values error: 7.856238108948326e-14
+
+Singular values of matricizations of random Tucker tensor of size (20,20,20,20), rank [5,5,5,5] and vecnorm 12390.617014808407.
+Mode-1 singular values error: 7.850156408327197e-12
+Mode-2 singular values error: 4.016219857625332e-12
+Mode-3 singular values error: 4.167828315035731e-12
+Mode-4 singular values error: 3.858659226461245e-12
+
+
+
+INFO: TensorToolbox tests passed
+
+>>> End of log

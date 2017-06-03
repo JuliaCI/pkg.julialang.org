@@ -1,0 +1,251 @@
+>>> 'Pkg.add("TensorToolbox")' log
+INFO: Cloning cache of TensorToolbox from https://github.com/lanaperisa/TensorToolbox.jl.git
+INFO: Installing TensorToolbox v0.0.1
+INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of TensorToolbox
+INFO: Use `Pkg.update()` to get the latest versions of your packages
+
+>>> 'Pkg.test("TensorToolbox")' log
+Julia Version 0.6.0-rc2.0
+Commit 68e911b (2017-05-18 02:31 UTC)
+Platform Info:
+  OS: Linux (x86_64-pc-linux-gnu)
+  CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
+  WORD_SIZE: 64
+           Ubuntu 14.04.5 LTS
+  uname: Linux 3.13.0-119-generic #166-Ubuntu SMP Wed May 3 12:18:55 UTC 2017 x86_64 x86_64
+Memory: 2.9392738342285156 GB (889.796875 MB free)
+Uptime: 67881.0 sec
+Load Avg:  1.0029296875  0.92529296875  0.87451171875
+Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
+       speed         user         nice          sys         idle          irq
+#1  3499 MHz    4504609 s       6112 s     180938 s     951489 s         58 s
+#2  3499 MHz     774199 s        597 s      88306 s    5810071 s          1 s
+
+  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
+  LAPACK: libopenblas64_
+  LIBM: libopenlibm
+  LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
+Environment:
+  TERM = vt100
+  LD_LIBRARY_PATH = :/usr/local/lib/
+  PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/vagrant/julia/bin/
+  JAVA_HOME = /usr/lib/jvm/java-7-oracle
+  HOME = /home/vagrant
+
+Package Directory: /home/vagrant/.julia/v0.6
+2 required packages:
+ - JSON                          0.12.0
+ - TensorToolbox                 0.0.1
+1 additional packages:
+ - Compat                        0.25.2
+INFO: Testing TensorToolbox
+
+WARNING: deprecated syntax "typealias MatrixCell Array{Matrix,1}" at /home/vagrant/.julia/v0.6/TensorToolbox/src/helper.jl:8.
+Use "const MatrixCell = Array{Matrix,1}" instead.
+
+WARNING: deprecated syntax "typealias VectorCell Array{Vector,1}" at /home/vagrant/.julia/v0.6/TensorToolbox/src/helper.jl:9.
+Use "const VectorCell = Array{Vector,1}" instead.
+
+WARNING: deprecated syntax "inner constructor ttensor(...) around /home/vagrant/.julia/v0.6/TensorToolbox/src/ttensor.jl:14".
+Use "ttensor{T}(...) where T" instead.
+
+WARNING: deprecated syntax "function .*(...)".
+Use "function Base.broadcast(::typeof(*), ...)" instead.
+
+...Test tensor X of size: (20, 10, 50, 5)
+
+...Testing matten and tenmat.
+Size of 1-mode matricization: [20, 2500]
+Check if it folds back correctly: true
+Size of 2-mode matricization: [10, 5000]
+Check if it folds back correctly: true
+Size of 3-mode matricization: [50, 1000]
+Check if it folds back correctly: true
+Size of 4-mode matricization: [5, 10000]
+Check if it folds back correctly: true
+
+...Testing hosvd.
+
+Creating exact decomposition with rank = size(X):
+Results:
+Type of output T: TensorToolbox.ttensor{Float64}
+Core tensor size: (20, 10, 50, 5)
+Factor matrices sizes: (20, 20) (10, 10) (50, 50) (5, 5) 
+
+...Testing function full, i.e. n-mode multiplication (ttm): vecnorm(full(T)-X) = 2.1030664619078203e-13
+WARNING: @test_approx_eq_eps is deprecated, use `@test vecnorm(full(T) - X) ≈ 0 atol=1.0e-12` instead
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] @test_approx_eq_eps(::ANY, ::ANY, ::ANY) at ./deprecated.jl:1031
+ [3] include_from_node1(::String) at ./loading.jl:569
+ [4] include(::String) at ./sysimg.jl:14
+ [5] process_options(::Base.JLOptions) at ./client.jl:305
+ [6] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/TensorToolbox/test/runtests.jl, in expression starting on line 32
+
+...Testing ttm for ttensor T and array of matrices A : vecnorm(full(ttm(T,A))-ttm(full(T),A)) = 1.3759395433596426e-11
+WARNING: @test_approx_eq_eps is deprecated, use `@test vecnorm(full(ttm(T, A)) - ttm(full(T), A)) ≈ 0 atol=1.0e-10` instead
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] @test_approx_eq_eps(::ANY, ::ANY, ::ANY) at ./deprecated.jl:1031
+ [3] include_from_node1(::String) at ./loading.jl:569
+ [4] include(::String) at ./sysimg.jl:14
+ [5] process_options(::Base.JLOptions) at ./client.jl:305
+ [6] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/TensorToolbox/test/runtests.jl, in expression starting on line 39
+
+...Testing hosvd with smaller multilinear rank: [5, 5, 5, 5]
+Results:
+Type of output T: TensorToolbox.ttensor{Float64}
+Core tensor size: (5, 5, 5, 5)
+Factor matrices sizes: (20, 5) (10, 5) (50, 5) (5, 5) 
+
+...Testing size of ttensor T : (20, 10, 50, 5)
+
+...Testing ndims of ttensor T : 4
+
+
+...Testing hosvd for tensor with noise.
+For ttensor T, X=full(T) tensor of size (60, 50, 40) and rank [5, 5, 5] , N noise tensor and S=hosvd(X+N,[5, 5, 5]).
+Error( vecnorm(T-S) ): 0.013452418391651514. Noise vecnorm: 0.17309317344864178.
+
+
+...Testing hosvd with eps_abs=1e-5 on function defined tensor X of size (20, 20, 20)
+Results:
+Type of output T: TensorToolbox.ttensor{Float64}
+Core tensor size: (7, 7, 7)
+Factor matrices sizes: (20, 7) (20, 7) (20, 7) WARNING: @test_approx_eq_eps is deprecated, use `@test vecnorm(full(T) - X) ≈ 0 atol=1.0e-5` instead
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] @test_approx_eq_eps(::ANY, ::ANY, ::ANY) at ./deprecated.jl:1031
+ [3] include_from_node1(::String) at ./loading.jl:569
+ [4] include(::String) at ./sysimg.jl:14
+ [5] process_options(::Base.JLOptions) at ./client.jl:305
+ [6] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/TensorToolbox/test/runtests.jl, in expression starting on line 88
+
+
+...Testing hosvd with eps_rel=1e-5 on function defined tensor X of size (20, 20, 20)
+Results:
+Type of output T: TensorToolbox.ttensor{Float64}
+Core tensor size: (6, 6, 6)
+Factor matrices sizes: (20, 6) (20, 6) (20, 6) 
+
+...Testing if factor matrices of ttensor T are orthogonal: true
+
+
+...Recompress Tucer tensor T to smaller rank: [3, 3, 3]
+Results:
+Type of output T: TensorToolbox.ttensor{Float64}
+Core tensor size: (3, 3, 3)
+Factor matrices sizes: (20, 3) (20, 3) (20, 3) 
+
+...Testing orthogonal flag and reorthogonalization for random ttensor S of size (4, 5, 2).
+Has orthogonal factor matrices: false
+After reorthogonalization: true
+
+
+...Testing vecnorm of ttensor T.
+|vecnorm(T) - vecnorm(full(T))| = 2.1316282072803006e-14
+WARNING: @test_approx_eq_eps is deprecated, use `@test abs(vecnorm(T) - vecnorm(full(T))) ≈ 0 atol=1.0e-12` instead
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] @test_approx_eq_eps(::ANY, ::ANY, ::ANY) at ./deprecated.jl:1031
+ [3] include_from_node1(::String) at ./loading.jl:569
+ [4] include(::String) at ./sysimg.jl:14
+ [5] process_options(::Base.JLOptions) at ./client.jl:305
+ [6] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/TensorToolbox/test/runtests.jl, in expression starting on line 125
+
+
+...Testing scalar multiplication 3*T.
+vecnorm(full(3*T) - 3*full(T)) = 3.923079530336531e-14
+WARNING: @test_approx_eq_eps is deprecated, use `@test vecnorm(full(3T) - 3 * full(T)) ≈ 0 atol=1.0e-12` instead
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] @test_approx_eq_eps(::ANY, ::ANY, ::ANY) at ./deprecated.jl:1031
+ [3] include_from_node1(::String) at ./loading.jl:569
+ [4] include(::String) at ./sysimg.jl:14
+ [5] process_options(::Base.JLOptions) at ./client.jl:305
+ [6] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/TensorToolbox/test/runtests.jl, in expression starting on line 129
+
+
+...Creating two random ttensors X and Y of size (6, 8, 2, 5, 4).
+
+...Testing addition.
+vecnorm(full(X+Y) - (full(X)+full(Y))) = 1.4067717592202724e-13
+WARNING: @test_approx_eq_eps is deprecated, use `@test vecnorm(full(Z) - F) ≈ 0 atol=1.0e-12` instead
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] @test_approx_eq_eps(::ANY, ::ANY, ::ANY) at ./deprecated.jl:1031
+ [3] include_from_node1(::String) at ./loading.jl:569
+ [4] include(::String) at ./sysimg.jl:14
+ [5] process_options(::Base.JLOptions) at ./client.jl:305
+ [6] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/TensorToolbox/test/runtests.jl, in expression starting on line 138
+
+
+...Testing inner product.
+|innerprod(X,Y) - innerprod(full(X),full(Y))| = 5.4569682106375694e-12
+WARNING: @test_approx_eq_eps is deprecated, use `@test abs(Z - innerprod(full(X), full(Y))) ≈ 0 atol=1.0e-10` instead
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] @test_approx_eq_eps(::ANY, ::ANY, ::ANY) at ./deprecated.jl:1031
+ [3] include_from_node1(::String) at ./loading.jl:569
+ [4] include(::String) at ./sysimg.jl:14
+ [5] process_options(::Base.JLOptions) at ./client.jl:305
+ [6] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/TensorToolbox/test/runtests.jl, in expression starting on line 143
+
+
+...Testing Hadamard product.
+vecnorm(full(X.*Y) - full(X).*full(Y)) = 3.737954921601292e-12
+WARNING: @test_approx_eq_eps is deprecated, use `@test vecnorm(full(X .* Y) - full(X) .* full(Y)) ≈ 0 atol=1.0e-10` instead
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] @test_approx_eq_eps(::ANY, ::ANY, ::ANY) at ./deprecated.jl:1031
+ [3] include_from_node1(::String) at ./loading.jl:569
+ [4] include(::String) at ./sysimg.jl:14
+ [5] process_options(::Base.JLOptions) at ./client.jl:305
+ [6] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/TensorToolbox/test/runtests.jl, in expression starting on line 147
+
+
+...Testing singular values of matricizations of Tucker Tensor.
+
+Singular values of matricizations of random Tucker tensor of size (10, 9, 8), rank [3, 3, 3] and vecnorm 76.18956976287174.
+WARNING: @test_approx_eq_eps is deprecated, use `@test norm(sv - ((svdfact!(tenmat(full(T), n)))[:S])[1:length(sv)]) ≈ 0 atol=1.0e-10` instead
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] @test_approx_eq_eps(::ANY, ::ANY, ::ANY) at ./deprecated.jl:1031
+ [3] include_from_node1(::String) at ./loading.jl:569
+ [4] include(::String) at ./sysimg.jl:14
+ [5] process_options(::Base.JLOptions) at ./client.jl:305
+ [6] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/TensorToolbox/test/runtests.jl, in expression starting on line 154
+Mode-1 singular values error: 4.4938668397781776e-14
+Mode-2 singular values error: 2.5121479338940402e-14
+Mode-3 singular values error: 3.552713678800501e-15
+
+Singular values of matricizations of random Tucker tensor of size (20, 20, 20, 20), rank [5, 5, 5, 5] and vecnorm 9629.99270062103.
+WARNING: @test_approx_eq_eps is deprecated, use `@test norm(sv - ((svdfact!(tenmat(full(T), n)))[:S])[1:length(sv)]) ≈ 0 atol=1.0e-10` instead
+Stacktrace:
+ [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
+ [2] @test_approx_eq_eps(::ANY, ::ANY, ::ANY) at ./deprecated.jl:1031
+ [3] include_from_node1(::String) at ./loading.jl:569
+ [4] include(::String) at ./sysimg.jl:14
+ [5] process_options(::Base.JLOptions) at ./client.jl:305
+ [6] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/TensorToolbox/test/runtests.jl, in expression starting on line 164
+Mode-1 singular values error: 3.0505379675102492e-12
+Mode-2 singular values error: 7.458411103860602e-12
+Mode-3 singular values error: 3.310610686312665e-12
+Mode-4 singular values error: 6.636819088874483e-12
+
+
+
+INFO: TensorToolbox tests passed
+
+>>> End of log
