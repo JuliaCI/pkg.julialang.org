@@ -1,12 +1,10 @@
 >>> 'Pkg.add("GeoStats")' log
 INFO: Cloning cache of GeoStats from https://github.com/juliohm/GeoStats.jl.git
 INFO: Installing Combinatorics v0.4.0
-INFO: Installing GeoStats v0.1.3
+INFO: Installing GeoStats v0.2.0
 INFO: Installing Iterators v0.3.1
 INFO: Installing Polynomials v0.1.5
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of GeoStats
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("GeoStats")' log
 Julia Version 0.6.0-rc2.0
@@ -17,13 +15,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-119-generic #166-Ubuntu SMP Wed May 3 12:18:55 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1149.875 MB free)
-Uptime: 58939.0 sec
-Load Avg:  1.01953125  0.9853515625  0.98095703125
+Memory: 2.9392738342285156 GB (988.51953125 MB free)
+Uptime: 59171.0 sec
+Load Avg:  1.0029296875  1.0146484375  0.9814453125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    3895501 s       7088 s     161766 s     933239 s         48 s
-#2  3500 MHz    1017166 s         97 s     109761 s    4637080 s          1 s
+#1  3500 MHz    3896208 s       4480 s     186312 s     915787 s         46 s
+#2  3500 MHz     991898 s        446 s      94863 s    4722143 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -38,7 +36,7 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
- - GeoStats                      0.1.3
+ - GeoStats                      0.2.0
  - JSON                          0.12.0
 4 additional packages:
  - Combinatorics                 0.4.0
@@ -47,11 +45,14 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Polynomials                   0.1.5
 INFO: Testing GeoStats
 
-WARNING: deprecated syntax "abstract CovarianceModel" at /home/vagrant/.julia/v0.6/GeoStats/src/covmodels.jl:16.
-Use "abstract type CovarianceModel end" instead.
+WARNING: deprecated syntax "abstract AbstractVariogram" at /home/vagrant/.julia/v0.6/GeoStats/src/variograms.jl:16.
+Use "abstract type AbstractVariogram end" instead.
 
-WARNING: deprecated syntax "abstract AbstractEstimator" at /home/vagrant/.julia/v0.6/GeoStats/src/estimators.jl:16.
+WARNING: deprecated syntax "abstract AbstractEstimator" at /home/vagrant/.julia/v0.6/GeoStats/src/estimators.jl:21.
 Use "abstract type AbstractEstimator end" instead.
+
+WARNING: deprecated syntax "abstract AbstractWeights{E}" at /home/vagrant/.julia/v0.6/GeoStats/src/estimators.jl:49.
+Use "abstract type AbstractWeights{E} end" instead.
 
 WARNING: deprecated syntax "inner constructor SimpleKriging(...) around /home/vagrant/.julia/v0.6/GeoStats/src/simple_kriging.jl:36".
 Use "SimpleKriging{T,V}(...) where {T,V}" instead.
@@ -61,35 +62,43 @@ Use "OrdinaryKriging{T,V}(...) where {T,V}" instead.
 
 WARNING: deprecated syntax "inner constructor UniversalKriging(...) around /home/vagrant/.julia/v0.6/GeoStats/src/universal_kriging.jl:39".
 Use "UniversalKriging{T,V}(...) where {T,V}" instead.
-Test Summary: | Pass  Total
-Kriging       |   77     77
 WARNING: exp{T <: Number}(x::AbstractArray{T}) is deprecated, use exp.(x) instead.
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
  [2] exp(::Array{Float64,1}) at ./deprecated.jl:51
- [3] (::GeoStats.GaussianCovariance{Float64})(::StepRangeLen{Float64,Base.TwicePrecision{Float64},Base.TwicePrecision{Float64}}) at /home/vagrant/.julia/v0.6/GeoStats/src/covmodels.jl:23
- [4] macro expansion at /home/vagrant/.julia/v0.6/GeoStats/test/runtests.jl:100 [inlined]
+ [3] (::GeoStats.GaussianVariogram{Float64})(::StepRangeLen{Float64,Base.TwicePrecision{Float64},Base.TwicePrecision{Float64}}) at /home/vagrant/.julia/v0.6/GeoStats/src/variograms.jl:33
+ [4] macro expansion at /home/vagrant/.julia/v0.6/GeoStats/test/variograms.jl:8 [inlined]
  [5] macro expansion at ./test.jl:856 [inlined]
  [6] anonymous at ./<missing>:?
  [7] include_from_node1(::String) at ./loading.jl:569
  [8] include(::String) at ./sysimg.jl:14
- [9] process_options(::Base.JLOptions) at ./client.jl:305
- [10] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/GeoStats/test/runtests.jl, in expression starting on line 93
+ [9] macro expansion at /home/vagrant/.julia/v0.6/GeoStats/test/runtests.jl:20 [inlined]
+ [10] anonymous at ./<missing>:?
+ [11] include_from_node1(::String) at ./loading.jl:569
+ [12] include(::String) at ./sysimg.jl:14
+ [13] process_options(::Base.JLOptions) at ./client.jl:305
+ [14] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/GeoStats/test/variograms.jl, in expression starting on line 1
 WARNING: exp{T <: Number}(x::AbstractArray{T}) is deprecated, use exp.(x) instead.
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
  [2] exp(::StepRangeLen{Float64,Base.TwicePrecision{Float64},Base.TwicePrecision{Float64}}) at ./deprecated.jl:51
- [3] macro expansion at /home/vagrant/.julia/v0.6/GeoStats/test/runtests.jl:102 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/GeoStats/test/variograms.jl:10 [inlined]
  [4] macro expansion at ./test.jl:856 [inlined]
  [5] anonymous at ./<missing>:?
  [6] include_from_node1(::String) at ./loading.jl:569
  [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:305
- [9] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/GeoStats/test/runtests.jl, in expression starting on line 93
-Test Summary:     | Pass  Total
-Covariance models |    3      3
+ [8] macro expansion at /home/vagrant/.julia/v0.6/GeoStats/test/runtests.jl:20 [inlined]
+ [9] anonymous at ./<missing>:?
+ [10] include_from_node1(::String) at ./loading.jl:569
+ [11] include(::String) at ./sysimg.jl:14
+ [12] process_options(::Base.JLOptions) at ./client.jl:305
+ [13] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/GeoStats/test/variograms.jl, in expression starting on line 1
+Test Summary: | Pass  Total
+Variogram     |    3      3
+Test Summary: | Pass  Total
+Kriging       |   77     77
 INFO: GeoStats tests passed
 
 >>> End of log

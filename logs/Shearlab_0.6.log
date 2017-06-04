@@ -1,5 +1,7 @@
 >>> 'Pkg.add("Shearlab")' log
+INFO: Cloning cache of ArrayFire from https://github.com/JuliaComputing/ArrayFire.jl.git
 INFO: Cloning cache of Shearlab from https://github.com/arsenal9971/Shearlab.jl.git
+INFO: Installing ArrayFire v0.0.4
 INFO: Installing AxisAlgorithms v0.1.6
 INFO: Installing AxisArrays v0.1.3
 INFO: Installing BinDeps v0.6.0
@@ -42,7 +44,7 @@ INFO: Installing Reexport v0.0.3
 INFO: Installing Rotations v0.5.0
 INFO: Installing SHA v0.3.3
 INFO: Installing SIUnits v0.1.0
-INFO: Installing Shearlab v0.1.2
+INFO: Installing Shearlab v0.1.3
 INFO: Installing ShowItLikeYouBuildIt v0.0.1
 INFO: Installing SimpleTraits v0.5.0
 INFO: Installing SpecialFunctions v0.1.1
@@ -61,8 +63,6 @@ INFO: PyCall is using /home/vagrant/.julia/v0.6/Conda/deps/usr/bin/python (Pytho
 INFO: /home/vagrant/.julia/v0.6/PyCall/deps/deps.jl has not changed
 INFO: /home/vagrant/.julia/v0.6/PyCall/deps/PYTHON has not changed
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of Shearlab
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Shearlab")' log
 Julia Version 0.6.0-rc2.0
@@ -73,13 +73,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-119-generic #166-Ubuntu SMP Wed May 3 12:18:55 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (799.234375 MB free)
-Uptime: 59197.0 sec
-Load Avg:  1.0498046875  1.013671875  1.0185546875
+Memory: 2.9392738342285156 GB (877.74609375 MB free)
+Uptime: 59393.0 sec
+Load Avg:  0.97998046875  0.99072265625  1.0185546875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    3903254 s       6112 s     157122 s     876583 s         58 s
-#2  3499 MHz     735817 s        597 s      76657 s    4998112 s          1 s
+#1  3500 MHz    3898182 s       6176 s     171088 s     892684 s         52 s
+#2  3500 MHz     745213 s         92 s      79005 s    4993720 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -95,8 +95,9 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - JSON                          0.12.0
- - Shearlab                      0.1.2
-53 additional packages:
+ - Shearlab                      0.1.3
+54 additional packages:
+ - ArrayFire                     0.0.4
  - AxisAlgorithms                0.1.6
  - AxisArrays                    0.1.3
  - BinDeps                       0.6.0
@@ -196,93 +197,33 @@ Use "abstract type DNFT end" instead.
 WARNING: deprecated syntax "abstract Entropy" at /home/vagrant/.julia/v0.6/Wavelets/src/mod/Threshold.jl:338.
 Use "abstract type Entropy end" instead.
 WARNING: No working GUI backend found for matplotlib
-Test Summary:          | Pass  Total
-Wavelet Transform Size |    1      1
-  4.540598 seconds (2.60 M allocations: 344.160 MiB, 4.19% gc time)
-Test Summary:                  | Pass  Total
-Wavelet Inverse Transform Size |    1      1
-  0.400292 seconds (148.12 k allocations: 429.814 MiB, 7.60% gc time)
-WARNING: ceil{T <: Real}(x::AbstractArray{T}) is deprecated, use ceil.(x) instead.
+
+WARNING: deprecated syntax "typealias AFVector{T} AFArray{T,1}" at /home/vagrant/.julia/v0.6/ArrayFire/src/ArrayFire.jl:20.
+Use "AFVector{T} = AFArray{T,1}" instead.
+
+WARNING: deprecated syntax "typealias AFMatrix{T} AFArray{T,2}" at /home/vagrant/.julia/v0.6/ArrayFire/src/ArrayFire.jl:21.
+Use "AFMatrix{T} = AFArray{T,2}" instead.
+
+WARNING: deprecated syntax "inner constructor AFArray(...) around /home/vagrant/.julia/v0.6/ArrayFire/src/ArrayFire.jl:13".
+Use "AFArray{T,N}(...) where {T,N}" instead.
+
+WARNING: deprecated syntax "typealias dim Int" at /home/vagrant/.julia/v0.6/ArrayFire/src/defns.jl:78.
+Use "const dim = Int" instead.
+WARNING: Base.LinearIndexing is deprecated, use Base.IndexStyle instead.
+  likely near /home/vagrant/.julia/v0.6/ArrayFire/src/indexing.jl:125
+ERROR: LoadError: LoadError: LoadError: LoadError: UndefVarError: af_array not defined
 Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] ceil(::StepRangeLen{Float64,Base.TwicePrecision{Float64},Base.TwicePrecision{Float64}}) at ./deprecated.jl:51
- [3] getshearletsystem2D(::Int64, ::Int64, ::Int64) at /home/vagrant/.julia/v0.6/Shearlab/src/2D/getshearlets2D.jl:256
- [4] include_from_node1(::String) at ./loading.jl:569
- [5] include(::String) at ./sysimg.jl:14
- [6] macro expansion at /home/vagrant/.julia/v0.6/Shearlab/test/runtests.jl:6 [inlined]
- [7] macro expansion at ./test.jl:856 [inlined]
- [8] macro expansion at ./util.jl:237 [inlined]
- [9] anonymous at ./<missing>:?
- [10] include_from_node1(::String) at ./loading.jl:569
- [11] include(::String) at ./sysimg.jl:14
- [12] process_options(::Base.JLOptions) at ./client.jl:305
- [13] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/Shearlab/test/shearlet_trans_size.jl, in expression starting on line 14
-WARNING: abs{T <: Number}(x::AbstractArray{T}) is deprecated, use abs.(x) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] abs(::Array{Float64,1}) at ./deprecated.jl:51
- [3] getwedgebandpasslowpassfilters2D(::Int64, ::Int64, ::Array{Int64,1}, ::Array{Float64,2}, ::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Shearlab/src/2D/getshearlets2D.jl:35
- [4] preparefilters2D(::Int64, ::Int64, ::Int64, ::Array{Int64,1}, ::Array{Float64,2}, ::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Shearlab/src/2D/getshearlets2D.jl:174
- [5] getshearletsystem2D(::Int64, ::Int64, ::Int64, ::Array{Float64,1}, ::Int64, ::Array{Float64,2}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Shearlab/src/2D/getshearlets2D.jl:259
- [6] getshearletsystem2D(::Int64, ::Int64, ::Int64) at /home/vagrant/.julia/v0.6/Shearlab/src/2D/getshearlets2D.jl:256
+ [1] include_from_node1(::String) at ./loading.jl:569
+ [2] include(::String) at ./sysimg.jl:14
+ [3] include_from_node1(::String) at ./loading.jl:569
+ [4] eval(::Module, ::Any) at ./boot.jl:235
+ [5] _require(::Symbol) at ./loading.jl:483
+ [6] require(::Symbol) at ./loading.jl:398
  [7] include_from_node1(::String) at ./loading.jl:569
- [8] include(::String) at ./sysimg.jl:14
- [9] macro expansion at /home/vagrant/.julia/v0.6/Shearlab/test/runtests.jl:6 [inlined]
- [10] macro expansion at ./test.jl:856 [inlined]
- [11] macro expansion at ./util.jl:237 [inlined]
- [12] anonymous at ./<missing>:?
- [13] include_from_node1(::String) at ./loading.jl:569
- [14] include(::String) at ./sysimg.jl:14
- [15] process_options(::Base.JLOptions) at ./client.jl:305
- [16] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/Shearlab/test/shearlet_trans_size.jl, in expression starting on line 14
-WARNING: round{T}(::Type{T}, x::AbstractArray) is deprecated, use round.(T, x) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:64
- [2] round(::Type{Int64}, ::Array{Float64,2}) at ./deprecated.jl:51
- [3] padarray(::Array{Float64,1}, ::Array{Int64,1}) at /home/vagrant/.julia/v0.6/Shearlab/src/util/operations.jl:29
- [4] getwedgebandpasslowpassfilters2D(::Int64, ::Int64, ::Array{Int64,1}, ::Array{Float64,2}, ::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Shearlab/src/2D/getshearlets2D.jl:64
- [5] preparefilters2D(::Int64, ::Int64, ::Int64, ::Array{Int64,1}, ::Array{Float64,2}, ::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Shearlab/src/2D/getshearlets2D.jl:174
- [6] getshearletsystem2D(::Int64, ::Int64, ::Int64, ::Array{Float64,1}, ::Int64, ::Array{Float64,2}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Shearlab/src/2D/getshearlets2D.jl:259
- [7] getshearletsystem2D(::Int64, ::Int64, ::Int64) at /home/vagrant/.julia/v0.6/Shearlab/src/2D/getshearlets2D.jl:256
- [8] include_from_node1(::String) at ./loading.jl:569
- [9] include(::String) at ./sysimg.jl:14
- [10] macro expansion at /home/vagrant/.julia/v0.6/Shearlab/test/runtests.jl:6 [inlined]
- [11] macro expansion at ./test.jl:856 [inlined]
- [12] macro expansion at ./util.jl:237 [inlined]
- [13] anonymous at ./<missing>:?
- [14] include_from_node1(::String) at ./loading.jl:569
- [15] include(::String) at ./sysimg.jl:14
- [16] process_options(::Base.JLOptions) at ./client.jl:305
- [17] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/Shearlab/test/shearlet_trans_size.jl, in expression starting on line 14
-Shearlet Transform Size: Error During Test
-  Got an exception of type LoadError outside of a @test
-  LoadError: MethodError: no method matching conv2(::Array{Float64,2}, ::Array{Float64,1})
-  Closest candidates are:
-    conv2(!Matched::Union{Base.ReshapedArray{T,1,A,MI} where MI<:Tuple{Vararg{Base.MultiplicativeInverses.SignedMultiplicativeInverse{Int64},N} where N} where A<:DenseArray, DenseArray{T,1}, SubArray{T,1,A,I,L} where L} where I<:Tuple{Vararg{Union{Base.AbstractCartesianIndex, Int64, Range{Int64}},N} where N} where A<:Union{Base.ReshapedArray{T,N,A,MI} where MI<:Tuple{Vararg{Base.MultiplicativeInverses.SignedMultiplicativeInverse{Int64},N} where N} where A<:DenseArray where N where T, DenseArray}, ::Union{Base.ReshapedArray{T,1,A,MI} where MI<:Tuple{Vararg{Base.MultiplicativeInverses.SignedMultiplicativeInverse{Int64},N} where N} where A<:DenseArray, DenseArray{T,1}, SubArray{T,1,A,I,L} where L} where I<:Tuple{Vararg{Union{Base.AbstractCartesianIndex, Int64, Range{Int64}},N} where N} where A<:Union{Base.ReshapedArray{T,N,A,MI} where MI<:Tuple{Vararg{Base.MultiplicativeInverses.SignedMultiplicativeInverse{Int64},N} where N} where A<:DenseArray where N where T, DenseArray}, !Matched::Union{Base.ReshapedArray{T,2,A,MI} where MI<:Tuple{Vararg{Base.MultiplicativeInverses.SignedMultiplicativeInverse{Int64},N} where N} where A<:DenseArray, DenseArray{T,2}, SubArray{T,2,A,I,L} where L} where I<:Tuple{Vararg{Union{Base.AbstractCartesianIndex, Int64, Range{Int64}},N} where N} where A<:Union{Base.ReshapedArray{T,N,A,MI} where MI<:Tuple{Vararg{Base.MultiplicativeInverses.SignedMultiplicativeInverse{Int64},N} where N} where A<:DenseArray where N where T, DenseArray}) where T at dsp.jl:156
-    conv2(::Union{Base.ReshapedArray{T,2,A,MI} where MI<:Tuple{Vararg{Base.MultiplicativeInverses.SignedMultiplicativeInverse{Int64},N} where N} where A<:DenseArray, DenseArray{T,2}, SubArray{T,2,A,I,L} where L} where I<:Tuple{Vararg{Union{Base.AbstractCartesianIndex, Int64, Range{Int64}},N} where N} where A<:Union{Base.ReshapedArray{T,N,A,MI} where MI<:Tuple{Vararg{Base.MultiplicativeInverses.SignedMultiplicativeInverse{Int64},N} where N} where A<:DenseArray where N where T, DenseArray}, !Matched::Union{Base.ReshapedArray{T,2,A,MI} where MI<:Tuple{Vararg{Base.MultiplicativeInverses.SignedMultiplicativeInverse{Int64},N} where N} where A<:DenseArray, DenseArray{T,2}, SubArray{T,2,A,I,L} where L} where I<:Tuple{Vararg{Union{Base.AbstractCartesianIndex, Int64, Range{Int64}},N} where N} where A<:Union{Base.ReshapedArray{T,N,A,MI} where MI<:Tuple{Vararg{Base.MultiplicativeInverses.SignedMultiplicativeInverse{Int64},N} where N} where A<:DenseArray where N where T, DenseArray}) where T at dsp.jl:175
-  Stacktrace:
-   [1] getwedgebandpasslowpassfilters2D(::Int64, ::Int64, ::Array{Int64,1}, ::Array{Float64,2}, ::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Shearlab/src/2D/getshearlets2D.jl:88
-   [2] preparefilters2D(::Int64, ::Int64, ::Int64, ::Array{Int64,1}, ::Array{Float64,2}, ::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Shearlab/src/2D/getshearlets2D.jl:174
-   [3] getshearletsystem2D(::Int64, ::Int64, ::Int64, ::Array{Float64,1}, ::Int64, ::Array{Float64,2}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/Shearlab/src/2D/getshearlets2D.jl:259
-   [4] getshearletsystem2D(::Int64, ::Int64, ::Int64) at /home/vagrant/.julia/v0.6/Shearlab/src/2D/getshearlets2D.jl:256
-   [5] include_from_node1(::String) at ./loading.jl:569
-   [6] include(::String) at ./sysimg.jl:14
-   [7] macro expansion at /home/vagrant/.julia/v0.6/Shearlab/test/runtests.jl:6 [inlined]
-   [8] macro expansion at ./test.jl:856 [inlined]
-   [9] macro expansion at ./util.jl:237 [inlined]
-   [10] anonymous at ./<missing>:?
-   [11] include_from_node1(::String) at ./loading.jl:569
-   [12] include(::String) at ./sysimg.jl:14
-   [13] process_options(::Base.JLOptions) at ./client.jl:305
-   [14] _start() at ./client.jl:371
-  while loading /home/vagrant/.julia/v0.6/Shearlab/test/shearlet_trans_size.jl, in expression starting on line 14
-Test Summary:           | Error  Total
-Shearlet Transform Size |     1      1
-ERROR: LoadError: Some tests did not pass: 0 passed, 0 failed, 1 errored, 0 broken.
-while loading /home/vagrant/.julia/v0.6/Shearlab/test/runtests.jl, in expression starting on line 6
+while loading /home/vagrant/.julia/v0.6/ArrayFire/src/wrap.jl, in expression starting on line 1581
+while loading /home/vagrant/.julia/v0.6/ArrayFire/src/ArrayFire.jl, in expression starting on line 25
+while loading /home/vagrant/.julia/v0.6/Shearlab/src/Shearlab.jl, in expression starting on line 6
+while loading /home/vagrant/.julia/v0.6/Shearlab/test/runtests.jl, in expression starting on line 3
 ==============================[ ERROR: Shearlab ]===============================
 
 failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Shearlab/test/runtests.jl`, ProcessExited(1)) [1]
