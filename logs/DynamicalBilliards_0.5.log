@@ -1,10 +1,8 @@
 >>> 'Pkg.add("DynamicalBilliards")' log
 INFO: Cloning cache of DynamicalBilliards from https://github.com/Datseris/DynamicalBilliards.jl.git
-INFO: Installing DynamicalBilliards v1.1.0
+INFO: Installing DynamicalBilliards v1.2.1
 INFO: Installing StaticArrays v0.3.1
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of DynamicalBilliards
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("DynamicalBilliards")' log
 Julia Version 0.5.2
@@ -15,13 +13,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-119-generic #166-Ubuntu SMP Wed May 3 12:18:55 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (784.03515625 MB free)
-Uptime: 30705.0 sec
-Load Avg:  1.01220703125  0.9853515625  1.04541015625
+Memory: 2.9392738342285156 GB (727.9453125 MB free)
+Uptime: 32335.0 sec
+Load Avg:  1.03076171875  0.9853515625  0.98046875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1834460 s       5650 s     169640 s     723431 s         30 s
-#2  3499 MHz     903048 s       8016 s      90636 s    1991647 s          0 s
+#1  3498 MHz    1963416 s       1090 s     186205 s     707044 s         39 s
+#2  3498 MHz     805198 s       5328 s      91110 s    2248015 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -36,14 +34,124 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.5
 2 required packages:
- - DynamicalBilliards            1.1.0
+ - DynamicalBilliards            1.2.1
  - JSON                          0.12.0
 2 additional packages:
  - Compat                        0.25.2
  - StaticArrays                  0.3.1
 INFO: Testing DynamicalBilliards
-DynamicalBilliards tests started at: 12:53:147
-DynamicalBilliards tests ended (successfully) at: 12:53:234
+DynamicalBilliards tests started at: 13:20:404
+
+Currently testing: check_straight_sinai
+--evolve!() works for Particle and has finite collision time
+--billiard_sinai works, and randominside() works
+--collisiontime for FiniteWall and Disk with `Particle` works
+--resolvecollision for Particle with FiniteWall and Disk works
+--back-propagation happens and particle is never outside of billiard
+...for (r,x,y) = (0.15,1.0,1.0)
+...for (r,x,y) = (0.3,1.5,1.0)
+...for (r,x,y) = (0.4,1.4,2.2)
+
+Currently testing: check_magnetic_sinai
+--evolve!() works for MagneticParticle and has finite collision time
+--billiard_sinai works, and randominside(bt, ω) works for given ω
+--collisiontime for FiniteWall and Disk with MagneticParticle works
+--resolvecollision for MagneticParticle with FiniteWall and Disk works
+--back-propagation happens and particle is never outside of billiard
+...for ω = -0.5 and for (r,x,y) = (0.4,1.0,1.0)
+...for ω = -0.5 and for (r,x,y) = (0.3,1.5,1.0)
+...for ω = 1.2 and for (r,x,y) = (0.4,1.0,1.0)
+...for ω = 1.2 and for (r,x,y) = (0.3,1.5,1.0)
+
+Currently testing: check_straight_sinai_periodic
+--randominside() works for periodic billiards
+--collisiontime for PeriodicWall works
+--resolvecollision for Particle with PeriodicWall works
+--evolve!() works and `pos` is always out of Disk
+--minimum collision time is always >= 1-2r
+...for (r,x,y) = (0.3,1.5,1.0)
+...for (r,x,y) = (0.5,1.4,2.2)
+...for (r,x,y) = (0.2,0.8,2.2)
+
+Currently testing: check_magnetic_sinai_periodic
+--randominside() works MagneticParticle in periodic billiards
+--collisiontime for PeriodicWall with MagneticParticle works
+--resolvecollision for MagneticParticle with PeriodicWall works
+--evolve!() with MagneticParticle works and `pos` is always out of Disk
+--minimum collision time is always >= 1-2r
+...for (ω,r,x,y) = (0.1,0.4,1.5,1.0)
+...for (ω,r,x,y) = (2.18,0.4,1.5,1.0)
+...for (ω,r,x,y) = (0.1,0.25,1.0,1.0)
+...for (ω,r,x,y) = (2.18,0.25,1.0,1.0)
+
+Currently testing: check_magnetic_pinned
+--there are not any pinned particles for very small ω
+--(equivalent to Inf collision time in periodic Sinai)
+...for (ω,r,x,y) = (0.02,0.4,1.0,1.0)
+...for (ω,r,x,y) = (0.04,0.4,1.0,1.0)
+
+Currently testing: check_previous_obstacle
+--The previous collision obstacle is never the same as the
+  current in a closed sinai billiard.
+--The `distance` after propagation is not big.
+...for ω=0.0
+...for ω=0.002
+...for ω=-0.8
+
+Currently testing: check_raysplitting_omega
+--ray-splitting with Antidot works
+--for straight propagation
+--for magnetic propagation
+--when transmission NOT depending on ω
+--Also checking `isphysical()`
+...for ω = 0.0
+...for ω = 1.0
+...for ω = -0.5
+...for ω = 0.02
+
+Currently testing: check_raysplitting_periodic
+--ray-splitting with Antidot works in periodic billiard
+--for straight propagation
+--for magnetic propagation
+--when transmission does NOT depend on ω
+--Also testing `isphysical()`
+...for ω = 0.0
+...for ω = 0.02
+...for ω = -0.04
+
+Currently testing if...
+--ray-splitting with SplitterWall and Antidot works
+--for both straight and magnetic propagation
+...for ω = 0.0
+...for ω = -0.04
+...for ω = 0.5
+
+Currently testing if...
+--billiard_sinai works with setting = `random` 
+--collisiontime for RandomWall and RandomDisk works
+--resolvecollision for AbstractParticle with
+  random obstacle works and reflects randomly
+--evolve!() works and never there is infinite time
+...for (r,x,y) = (0.25,1.0,1.0)
+......and ω = 0.0
+......and ω = 0.02
+......and ω = 0.78596
+...for (r,x,y) = (0.35,1.4,2.2)
+......and ω = 0.0
+......and ω = 0.02
+......and ω = 0.78596
+
+Currently testing: check_klein_magnetic
+--ray-splitting with Antidot works in a periodic billiard
+--For complicated, magnetic field dependent Tunneling
+--Emulates klein tunneling in magnetic fields
+...for ω = 0.0
+...for ω = 0.16
+...for ω = -0.5
+...for ω = -1.0
+DynamicalBilliards tests ended (successfully) at: 13:36:304
+Total time required was:
+975.855 seconds, or 16.264 minutes
 INFO: DynamicalBilliards tests passed
 
 >>> End of log
