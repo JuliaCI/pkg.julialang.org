@@ -18,21 +18,21 @@ INFO: METADATA is out-of-date — you may not have the latest version of PyAMG
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("PyAMG")' log
-Julia Version 0.6.0-rc2.0
-Commit 68e911b (2017-05-18 02:31 UTC)
+Julia Version 0.6.0-rc3.0
+Commit ad290e9 (2017-06-07 11:53 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-119-generic #166-Ubuntu SMP Wed May 3 12:18:55 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1141.69140625 MB free)
-Uptime: 47547.0 sec
-Load Avg:  1.09619140625  1.05126953125  0.99755859375
+Memory: 2.9392738342285156 GB (1106.91796875 MB free)
+Uptime: 44977.0 sec
+Load Avg:  1.0029296875  1.001953125  0.96533203125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    2945179 s       1250 s     122417 s     962166 s         40 s
-#2  3499 MHz     658826 s       5673 s      65842 s    3930991 s          1 s
+#1  3499 MHz    2965900 s       1974 s     125426 s     682127 s         43 s
+#2  3499 MHz     611497 s       4983 s      63944 s    3729684 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -51,7 +51,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - PyAMG                         0.1.1
 7 additional packages:
  - BinDeps                       0.6.0
- - Compat                        0.25.2
+ - Compat                        0.26.0
  - Conda                         0.5.3
  - MacroTools                    0.3.6
  - PyCall                        1.12.0
@@ -65,7 +65,7 @@ INFO: Installing IterativeSolvers v0.3.1
 INFO: Installing LinearMaps v0.3.0
 INFO: Installing RecipesBase v0.1.0
 INFO: Installing SpecialFunctions v0.1.1
-INFO: Installing StatsBase v0.15.0
+INFO: Installing StatsBase v0.16.0
 INFO: Installing SugarBLAS v0.0.3
 INFO: Installing UnicodePlots v0.2.3
 INFO: Testing PyAMG
@@ -75,65 +75,49 @@ Use "const RugeStubenSolver = AMGSolver{RugeStuben}" instead.
 
 WARNING: deprecated syntax "typealias SmoothedAggregationSolver AMGSolver{SmoothedAggregation}" at /home/vagrant/.julia/v0.6/PyAMG/src/PyAMG.jl:75.
 Use "const SmoothedAggregationSolver = AMGSolver{SmoothedAggregation}" instead.
+WARNING: Method definition macroexpand(Module, Any) in module Compat at /home/vagrant/.julia/v0.6/Compat/src/Compat.jl:1491 overwritten in module MacroTools at /home/vagrant/.julia/v0.6/MacroTools/src/utils.jl:64.
 =================================================
 Test 1: Julia `\` vs PyAMG Blackbox `solve` (2D) Laplacian
- \ :   0.678724 seconds (264.61 k allocations: 22.939 MiB, 1.10% gc time)
+ \ :   0.889706 seconds (264.59 k allocations: 22.885 MiB, 8.88% gc time)
 PyAMG-Warmup: /home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/pyamg/strength.py:533: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
   if B == 'ones':
-  2.213629 seconds (719.75 k allocations: 39.769 MiB, 0.75% gc time)
-PyAMG:   0.156029 seconds (273 allocations: 942.766 KiB)
-|x_\ - x_amg|_∞ = 1.0334073874407324e-11
-|A x_amg - b|_∞ = 2.9573357096523978e-9
-=================================================
-Test 2: Julia `\` vs PyAMG Blackbox `solve` (3D)
- \ :   0.701646 seconds (67 allocations: 93.885 MiB, 2.18% gc time)
-PyAMG-Warmup:   1.338198 seconds (272 allocations: 3.225 MiB)
-PyAMG:   1.265662 seconds (272 allocations: 3.225 MiB)
-|x_\ - x_amg|_∞ = 8.917241944850218e-13
-|A x_amg - b|_∞ = 1.1818528378171322e-9
-=================================================
-Test 3: RugeStubenSolver (3D)
-        50 x 50 x 50 grid = 125k dofs 
-Create solver:   0.692372 seconds (17.62 k allocations: 15.041 MiB)
-First solve:   0.395985 seconds (44.90 k allocations: 3.271 MiB)
-Second solve: (tol 1e-9)  0.412487 seconds (6.20 k allocations: 1.291 MiB)
-Third solve: (tol 1e-6)  0.230703 seconds (164 allocations: 983.406 KiB)
-|A x_amg - b|_∞ = 2.532215134465332e-6
-=================================================
-Test 4: \, ldiv, and kwargs
-=================================================
-Test 5: AMG as a preconditioner
-        100 x 100 Dirichlet problem, TOL = 1e-4
-        PyAMG vs CG vs PCG  (using IterativeSolvers)
+ERROR: LoadError: PyError (ccall(@pysym(:PyObject_Call), PyPtr, (PyPtr, PyPtr, PyPtr), o, arg, kw)) <type 'exceptions.TypeError'>
+TypeError('Failed generating smoothed_aggregation_solver',)
+  File "/home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/pyamg/blackbox.py", line 284, in solve
+    existing_solver = solver(A, config)
+  File "/home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/pyamg/blackbox.py", line 215, in solver
+    raise TypeError('Failed generating smoothed_aggregation_solver')
 
-WARNING: deprecated syntax "abstract AbstractLinearMap{T}" at /home/vagrant/.julia/v0.6/LinearMaps/src/LinearMaps.jl:8.
-Use "abstract type AbstractLinearMap{T} end" instead.
+Stacktrace:
+ [1] pyerr_check at /home/vagrant/.julia/v0.6/PyCall/src/exception.jl:56 [inlined]
+ [2] pyerr_check at /home/vagrant/.julia/v0.6/PyCall/src/exception.jl:61 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/PyCall/src/exception.jl:81 [inlined]
+ [4] #_pycall#66(::Array{Any,1}, ::Function, ::PyCall.PyObject, ::PyCall.PyObject, ::Vararg{Any,N} where N) at /home/vagrant/.julia/v0.6/PyCall/src/PyCall.jl:554
+ [5] (::PyCall.#kw##_pycall)(::Array{Any,1}, ::PyCall.#_pycall, ::PyCall.PyObject, ::PyCall.PyObject, ::Vararg{Any,N} where N) at ./<missing>:0
+ [6] #pycall#70(::Array{Any,1}, ::Function, ::PyCall.PyObject, ::Type{PyCall.PyAny}, ::PyCall.PyObject, ::Vararg{Any,N} where N) at /home/vagrant/.julia/v0.6/PyCall/src/PyCall.jl:571
+ [7] (::PyCall.#kw##pycall)(::Array{Any,1}, ::PyCall.#pycall, ::PyCall.PyObject, ::Type{PyCall.PyAny}, ::PyCall.PyObject, ::Vararg{Any,N} where N) at ./<missing>:0
+ [8] #call#71(::Array{Any,1}, ::PyCall.PyObject, ::PyCall.PyObject, ::Vararg{Any,N} where N) at /home/vagrant/.julia/v0.6/PyCall/src/PyCall.jl:574
+ [9] (::PyCall.#kw#PyObject)(::Array{Any,1}, ::PyCall.PyObject, ::PyCall.PyObject, ::Vararg{Any,N} where N) at ./<missing>:0
+ [10] #solve#4(::Array{Any,1}, ::Function, ::SparseMatrixCSC{Float64,Int64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/PyAMG/src/PyAMG.jl:128
+ [11] (::PyAMG.#kw##solve)(::Array{Any,1}, ::PyAMG.#solve, ::SparseMatrixCSC{Float64,Int64}, ::Array{Float64,1}) at ./<missing>:0
+ [12] include_from_node1(::String) at ./loading.jl:569
+ [13] include(::String) at ./sysimg.jl:14
+ [14] process_options(::Base.JLOptions) at ./client.jl:305
+ [15] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/PyAMG/test/runtests.jl, in expression starting on line 237
+================================[ ERROR: PyAMG ]================================
 
-WARNING: deprecated syntax "inner constructor LinearCombination(...) around /home/vagrant/.julia/v0.6/LinearMaps/src/linearcombination.jl:5".
-Use "LinearCombination{T,As,Ts}(...) where {T,As,Ts}" instead.
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/PyAMG/test/runtests.jl`, ProcessExited(1)) [1]
 
-WARNING: deprecated syntax "inner constructor CompositeMap(...) around /home/vagrant/.julia/v0.6/LinearMaps/src/composition.jl:4".
-Use "CompositeMap{T,As}(...) where {T,As}" instead.
-Plain CG:
-  1.547688 seconds (1.07 M allocations: 80.385 MiB, 4.06% gc time)
-  0.027103 seconds (847 allocations: 20.865 MiB, 26.65% gc time)
-PyAMG-preconditionerd CG:  (see `aspreconditioner`)
-  0.121106 seconds (50.46 k allocations: 3.773 MiB)
-  0.015112 seconds (538 allocations: 1.013 MiB)
-PyAMG solver
-  0.018096 seconds (206 allocations: 86.688 KiB)
-  0.013590 seconds (205 allocations: 86.641 KiB)
-|x_cg-x| = 3.5312070957405564e-6 
-|x_pcg-x| = 2.7796572140519933e-6
-|x_pyamg-x| = 1.0901104458602403e-7
-INFO: PyAMG tests passed
+================================================================================
 INFO: Removing DataStructures v0.5.3
 INFO: Removing IterativeSolvers v0.3.1
 INFO: Removing LinearMaps v0.3.0
 INFO: Removing RecipesBase v0.1.0
 INFO: Removing SpecialFunctions v0.1.1
-INFO: Removing StatsBase v0.15.0
+INFO: Removing StatsBase v0.16.0
 INFO: Removing SugarBLAS v0.0.3
 INFO: Removing UnicodePlots v0.2.3
+ERROR: PyAMG had test errors
 
 >>> End of log
