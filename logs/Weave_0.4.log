@@ -14,6 +14,8 @@ INFO: Installing Weave v0.1.2
 INFO: Building Blosc
 INFO: Building HDF5
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of Weave
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Weave")' log
 Julia Version 0.4.7
@@ -24,13 +26,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-119-generic #166-Ubuntu SMP Wed May 3 12:18:55 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1152.2734375 MB free)
-Uptime: 49737.0 sec
-Load Avg:  0.77294921875  0.35205078125  0.587890625
+Memory: 2.9392738342285156 GB (1169.8046875 MB free)
+Uptime: 50044.0 sec
+Load Avg:  0.7373046875  0.33203125  0.56005859375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3502 MHz    2428019 s       2686 s     195092 s    1853635 s        150 s
-#2  3502 MHz    1629210 s       4225 s     166286 s    2998089 s          2 s
+#1  3500 MHz    2512950 s       5472 s     174788 s    1800033 s        133 s
+#2  3500 MHz    1565962 s       1893 s     147095 s    3077618 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -94,7 +96,7 @@ INFO: Installing LaTeXStrings v0.2.1
 INFO: Installing Lazy v0.11.7
 INFO: Installing LineSearches v0.1.5
 INFO: Installing Loess v0.1.0
-INFO: Installing MacroTools v0.3.6
+INFO: Installing MacroTools v0.3.7
 INFO: Installing Measures v0.0.3
 INFO: Installing Media v0.2.7
 INFO: Installing NaNMath v0.2.5
@@ -219,15 +221,6 @@ INFO: Weaving chunk 3 from line 12
 INFO: Weaving chunk 5 from line 24
 INFO: Report weaved to /home/vagrant/.julia/v0.4/Weave/test/documents/chunk_cache.md
 INFO: Test: Chunk options with Gadfly
-WARNING: Method definition macroexpand(Module, Any) in module Compat at /home/vagrant/.julia/v0.4/Compat/src/Compat.jl:1491 overwritten in module MacroTools at /home/vagrant/.julia/v0.4/MacroTools/src/utils.jl:64.
-WARNING: New definition 
-    write(Base.IO, ForwardDiff.Partials) at /home/vagrant/.julia/v0.4/ForwardDiff/src/partials.jl:57
-is ambiguous with: 
-    write(Base.Base64.Base64EncodePipe, AbstractArray{UInt8, 1}) at base64.jl:89.
-To fix, define 
-    write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
-before the new definition.
-WARNING: Method definition macroexpand(Module, Any) in module Compat at /home/vagrant/.julia/v0.4/Compat/src/Compat.jl:1491 overwritten in module MacroTools at /home/vagrant/.julia/v0.4/MacroTools/src/utils.jl:64.
 WARNING: New definition 
     color_discrete_manual(ColorTypes.Color...) at /home/vagrant/.julia/v0.4/Gadfly/src/scale.jl:546
 is ambiguous with: 
@@ -268,18 +261,25 @@ To fix, define
     +(DataArrays.AbstractDataArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury)
 before the new definition.
 WARNING: New definition 
-    +(AbstractArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:138
+    write(Base.IO, ForwardDiff.Partials) at /home/vagrant/.julia/v0.4/ForwardDiff/src/partials.jl:57
 is ambiguous with: 
-    +(DataArrays.DataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:276.
+    write(Base.Base64.Base64EncodePipe, AbstractArray{UInt8, 1}) at base64.jl:89.
 To fix, define 
-    +(DataArrays.DataArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury)
+    write(Base.Base64.Base64EncodePipe, ForwardDiff.Partials{N<:Any, UInt8})
 before the new definition.
 WARNING: New definition 
-    +(AbstractArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:138
+    +(AbstractArray, DataArrays.DataArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:276
 is ambiguous with: 
-    +(DataArrays.AbstractDataArray, AbstractArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:300.
+    +(WoodburyMatrices.SymWoodbury, AbstractArray{T<:Any, 2}) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:139.
 To fix, define 
-    +(DataArrays.AbstractDataArray{T<:Any, 2}, WoodburyMatrices.SymWoodbury)
+    +(WoodburyMatrices.SymWoodbury, DataArrays.DataArray{T<:Any, 2})
+before the new definition.
+WARNING: New definition 
+    +(AbstractArray, DataArrays.AbstractDataArray) at /home/vagrant/.julia/v0.4/DataArrays/src/operators.jl:300
+is ambiguous with: 
+    +(WoodburyMatrices.SymWoodbury, AbstractArray{T<:Any, 2}) at /home/vagrant/.julia/v0.4/WoodburyMatrices/src/SymWoodburyMatrices.jl:139.
+To fix, define 
+    +(WoodburyMatrices.SymWoodbury, DataArrays.AbstractDataArray{T<:Any, 2})
 before the new definition.
 INFO: Weaving chunk 1 from line 4
 INFO: Weaving chunk 2 from line 15
@@ -386,7 +386,6 @@ INFO: Weaving chunk 3 from line 68
 INFO: Weaving chunk 4 from line 77
 INFO: Report weaved to /home/vagrant/.julia/v0.4/Weave/test/documents/FIR_design.md
 INFO: Test: Weaving with PyPlot
-WARNING: Method definition macroexpand(Module, Any) in module Compat at /home/vagrant/.julia/v0.4/Compat/src/Compat.jl:1491 overwritten in module MacroTools at /home/vagrant/.julia/v0.4/MacroTools/src/utils.jl:64.
 /home/vagrant/.julia/v0.4/Conda/deps/usr/lib/python2.7/site-packages/matplotlib/__init__.py:1405: UserWarning: 
 This call to matplotlib.use() has no effect because the backend has already
 been chosen; matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
@@ -470,7 +469,7 @@ INFO: Removing LaTeXStrings v0.2.1
 INFO: Removing Lazy v0.11.7
 INFO: Removing LineSearches v0.1.5
 INFO: Removing Loess v0.1.0
-INFO: Removing MacroTools v0.3.6
+INFO: Removing MacroTools v0.3.7
 INFO: Removing Measures v0.0.3
 INFO: Removing Media v0.2.7
 INFO: Removing NaNMath v0.2.5
