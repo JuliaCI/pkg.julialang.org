@@ -27,13 +27,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-119-generic #166-Ubuntu SMP Wed May 3 12:18:55 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1098.58984375 MB free)
-Uptime: 67681.0 sec
-Load Avg:  1.080078125  1.02197265625  1.04541015625
+Memory: 2.9392738342285156 GB (1084.5 MB free)
+Uptime: 66646.0 sec
+Load Avg:  1.12255859375  1.04296875  0.97607421875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    4489083 s       4760 s     203715 s     982800 s        153 s
-#2  3500 MHz    1008667 s       2290 s     104803 s    5507474 s          5 s
+#1  3498 MHz    4395809 s       1081 s     196499 s     989350 s         74 s
+#2  3498 MHz     975501 s       5071 s     101579 s    5421489 s          3 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -74,7 +74,7 @@ INFO: Installing DataStructures v0.5.3
 INFO: Installing DiffEqPDEBase v0.3.2
 INFO: Installing DiffEqProblemLibrary v0.7.0
 INFO: Installing Distributions v0.13.0
-INFO: Installing EllipsisNotation v0.1.0
+INFO: Installing EllipsisNotation v0.2.0
 INFO: Installing FileIO v0.4.0
 INFO: Installing HDF5 v0.8.1
 INFO: Installing JLD v0.6.11
@@ -158,9 +158,59 @@ Residual: [4.79473e-6, -3.76818e-6]
 Test Summary: | Pass  Total
 Handle Tests  |    5      5
 == test common interface
-Test Summary:    | Pass  Total
-Common Interface |   21     21
-INFO: Sundials tests passed
+ERROR: LoadError: LoadError: MethodError: getindex(::StepRange{Rational{Int64},Rational{Int64}}, ::Int64) is ambiguous. Candidates:
+  getindex(A::AbstractArray{T,N}, I::Vararg{Union{Int64, Val{:..}},N2}) where {T, N, N2} in EllipsisNotation at /home/vagrant/.julia/v0.6/EllipsisNotation/src/EllipsisNotation.jl:34
+  getindex(v::Range{T}, i::Integer) where T in Base at range.jl:488
+Possible fix, define
+  getindex(::Range{T}, ::Int64)
+Stacktrace:
+ [1] getindex at ./reshapedarray.jl:183 [inlined]
+ [2] next at ./abstractarray.jl:759 [inlined]
+ [3] macro expansion at ./multidimensional.jl:504 [inlined]
+ [4] macro expansion at ./cartesian.jl:64 [inlined]
+ [5] macro expansion at ./multidimensional.jl:503 [inlined]
+ [6] _unsafe_setindex!(::IndexLinear, ::Array{Rational{Int64},2}, ::Base.ReshapedArray{Rational{Int64},2,StepRange{Rational{Int64},Rational{Int64}},Tuple{}}, ::UnitRange{Int64}, ::UnitRange{Int64}) at ./multidimensional.jl:496
+ [7] macro expansion at ./multidimensional.jl:488 [inlined]
+ [8] _setindex! at ./multidimensional.jl:484 [inlined]
+ [9] setindex! at ./abstractarray.jl:967 [inlined]
+ [10] repmat(::Base.ReshapedArray{Rational{Int64},2,StepRange{Rational{Int64},Rational{Int64}},Tuple{}}, ::Int64, ::Int64) at ./abstractarraymath.jl:312
+ [11] meshgrid(::StepRange{Rational{Int64},Rational{Int64}}, ::StepRange{Rational{Int64},Rational{Int64}}) at /home/vagrant/.julia/v0.6/VectorizedRoutines/src/matlab.jl:54
+ [12] fem_squaremesh(::Array{Int64,2}, ::Rational{Int64}) at /home/vagrant/.julia/v0.6/DiffEqPDEBase/src/mesh_tools/meshes.jl:87
+ [13] parabolic_squaremesh(::Array{Int64,2}, ::Rational{Int64}, ::Rational{Int64}, ::Tuple{Float64,Float64}, ::Symbol) at /home/vagrant/.julia/v0.6/DiffEqPDEBase/src/mesh_tools/meshes.jl:136
+ [14] include_from_node1(::String) at ./loading.jl:569
+ [15] include(::String) at ./sysimg.jl:14
+ [16] include_from_node1(::String) at ./loading.jl:569
+ [17] include(::String) at ./sysimg.jl:14
+ [18] anonymous at ./<missing>:2
+while loading /home/vagrant/.julia/v0.6/DiffEqProblemLibrary/src/fem_premade_problems.jl, in expression starting on line 12
+while loading /home/vagrant/.julia/v0.6/DiffEqProblemLibrary/src/DiffEqProblemLibrary.jl, in expression starting on line 10
+Common Interface: Error During Test
+  Got an exception of type LoadError outside of a @test
+  LoadError: Failed to precompile DiffEqProblemLibrary to /home/vagrant/.julia/lib/v0.6/DiffEqProblemLibrary.ji.
+  Stacktrace:
+   [1] compilecache(::String) at ./loading.jl:703
+   [2] _require(::Symbol) at ./loading.jl:490
+   [3] require(::Symbol) at ./loading.jl:398
+   [4] include_from_node1(::String) at ./loading.jl:569
+   [5] include(::String) at ./sysimg.jl:14
+   [6] macro expansion at /home/vagrant/.julia/v0.6/Sundials/test/runtests.jl:71 [inlined]
+   [7] macro expansion at ./test.jl:856 [inlined]
+   [8] macro expansion at /home/vagrant/.julia/v0.6/Sundials/test/runtests.jl:71 [inlined]
+   [9] anonymous at ./<missing>:?
+   [10] include_from_node1(::String) at ./loading.jl:569
+   [11] include(::String) at ./sysimg.jl:14
+   [12] process_options(::Base.JLOptions) at ./client.jl:305
+   [13] _start() at ./client.jl:371
+  while loading /home/vagrant/.julia/v0.6/Sundials/test/../examples/common_interface.jl, in expression starting on line 1
+Test Summary:    | Error  Total
+Common Interface |     1      1
+ERROR: LoadError: Some tests did not pass: 0 passed, 0 failed, 1 errored, 0 broken.
+while loading /home/vagrant/.julia/v0.6/Sundials/test/runtests.jl, in expression starting on line 70
+==============================[ ERROR: Sundials ]===============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Sundials/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing Blosc v0.2.1
 INFO: Removing Calculus v0.2.2
 INFO: Removing ChunkedArrays v0.1.1
@@ -169,7 +219,7 @@ INFO: Removing DataStructures v0.5.3
 INFO: Removing DiffEqPDEBase v0.3.2
 INFO: Removing DiffEqProblemLibrary v0.7.0
 INFO: Removing Distributions v0.13.0
-INFO: Removing EllipsisNotation v0.1.0
+INFO: Removing EllipsisNotation v0.2.0
 INFO: Removing FileIO v0.4.0
 INFO: Removing HDF5 v0.8.1
 INFO: Removing JLD v0.6.11
@@ -183,5 +233,6 @@ INFO: Removing StatsBase v0.16.0
 INFO: Removing StatsFuns v0.5.0
 INFO: Removing SymEngine v0.2.0
 INFO: Removing VectorizedRoutines v0.0.2
+ERROR: Sundials had test errors
 
 >>> End of log

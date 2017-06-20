@@ -9,7 +9,7 @@ INFO: Installing DiffEqBase v1.12.0
 INFO: Installing DiffEqPDEBase v0.3.2
 INFO: Installing DiffEqProblemLibrary v0.7.0
 INFO: Installing Distributions v0.13.0
-INFO: Installing EllipsisNotation v0.1.0
+INFO: Installing EllipsisNotation v0.2.0
 INFO: Installing FileIO v0.4.0
 INFO: Installing HDF5 v0.8.1
 INFO: Installing Hiccup v0.1.1
@@ -52,13 +52,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-119-generic #166-Ubuntu SMP Wed May 3 12:18:55 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1738.40234375 MB free)
-Uptime: 46289.0 sec
-Load Avg:  1.0029296875  1.0146484375  1.04541015625
+Memory: 2.9392738342285156 GB (1751.80078125 MB free)
+Uptime: 45836.0 sec
+Load Avg:  0.994140625  0.9853515625  1.03759765625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    2954905 s        960 s     152250 s     877754 s         73 s
-#2  3499 MHz    1027116 s      11689 s     104199 s    3361211 s          1 s
+#1  3500 MHz    2988106 s       4853 s     140792 s     807079 s         42 s
+#2  3500 MHz     952206 s       1641 s     107915 s    3406741 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -86,7 +86,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - DiffEqBase                    1.12.0
  - DiffEqPDEBase                 0.3.2
  - Distributions                 0.13.0
- - EllipsisNotation              0.1.0
+ - EllipsisNotation              0.2.0
  - FileIO                        0.4.0
  - HDF5                          0.8.1
  - Hiccup                        0.1.1
@@ -112,6 +112,47 @@ Package Directory: /home/vagrant/.julia/v0.6
  - URIParser                     0.1.8
  - VectorizedRoutines            0.0.2
 INFO: Testing DiffEqProblemLibrary
-INFO: DiffEqProblemLibrary tests passed
+ERROR: LoadError: LoadError: MethodError: getindex(::StepRange{Rational{Int64},Rational{Int64}}, ::Int64) is ambiguous. Candidates:
+  getindex(A::AbstractArray{T,N}, I::Vararg{Union{Int64, Val{:..}},N2}) where {T, N, N2} in EllipsisNotation at /home/vagrant/.julia/v0.6/EllipsisNotation/src/EllipsisNotation.jl:34
+  getindex(v::Range{T}, i::Integer) where T in Base at range.jl:488
+Possible fix, define
+  getindex(::Range{T}, ::Int64)
+Stacktrace:
+ [1] getindex at ./reshapedarray.jl:183 [inlined]
+ [2] next at ./abstractarray.jl:759 [inlined]
+ [3] macro expansion at ./multidimensional.jl:504 [inlined]
+ [4] macro expansion at ./cartesian.jl:64 [inlined]
+ [5] macro expansion at ./multidimensional.jl:503 [inlined]
+ [6] _unsafe_setindex!(::IndexLinear, ::Array{Rational{Int64},2}, ::Base.ReshapedArray{Rational{Int64},2,StepRange{Rational{Int64},Rational{Int64}},Tuple{}}, ::UnitRange{Int64}, ::UnitRange{Int64}) at ./multidimensional.jl:496
+ [7] macro expansion at ./multidimensional.jl:488 [inlined]
+ [8] _setindex! at ./multidimensional.jl:484 [inlined]
+ [9] setindex! at ./abstractarray.jl:967 [inlined]
+ [10] repmat(::Base.ReshapedArray{Rational{Int64},2,StepRange{Rational{Int64},Rational{Int64}},Tuple{}}, ::Int64, ::Int64) at ./abstractarraymath.jl:312
+ [11] meshgrid(::StepRange{Rational{Int64},Rational{Int64}}, ::StepRange{Rational{Int64},Rational{Int64}}) at /home/vagrant/.julia/v0.6/VectorizedRoutines/src/matlab.jl:54
+ [12] fem_squaremesh(::Array{Int64,2}, ::Rational{Int64}) at /home/vagrant/.julia/v0.6/DiffEqPDEBase/src/mesh_tools/meshes.jl:87
+ [13] parabolic_squaremesh(::Array{Int64,2}, ::Rational{Int64}, ::Rational{Int64}, ::Tuple{Float64,Float64}, ::Symbol) at /home/vagrant/.julia/v0.6/DiffEqPDEBase/src/mesh_tools/meshes.jl:136
+ [14] include_from_node1(::String) at ./loading.jl:569
+ [15] include(::String) at ./sysimg.jl:14
+ [16] include_from_node1(::String) at ./loading.jl:569
+ [17] include(::String) at ./sysimg.jl:14
+ [18] anonymous at ./<missing>:2
+while loading /home/vagrant/.julia/v0.6/DiffEqProblemLibrary/src/fem_premade_problems.jl, in expression starting on line 12
+while loading /home/vagrant/.julia/v0.6/DiffEqProblemLibrary/src/DiffEqProblemLibrary.jl, in expression starting on line 10
+ERROR: LoadError: Failed to precompile DiffEqProblemLibrary to /home/vagrant/.julia/lib/v0.6/DiffEqProblemLibrary.ji.
+Stacktrace:
+ [1] compilecache(::String) at ./loading.jl:703
+ [2] _require(::Symbol) at ./loading.jl:490
+ [3] require(::Symbol) at ./loading.jl:398
+ [4] include_from_node1(::String) at ./loading.jl:569
+ [5] include(::String) at ./sysimg.jl:14
+ [6] process_options(::Base.JLOptions) at ./client.jl:305
+ [7] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/DiffEqProblemLibrary/test/runtests.jl, in expression starting on line 1
+========================[ ERROR: DiffEqProblemLibrary ]=========================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/DiffEqProblemLibrary/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: DiffEqProblemLibrary had test errors
 
 >>> End of log

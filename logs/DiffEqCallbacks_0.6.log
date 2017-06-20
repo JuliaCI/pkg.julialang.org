@@ -36,13 +36,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-119-generic #166-Ubuntu SMP Wed May 3 12:18:55 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1767.203125 MB free)
-Uptime: 44918.0 sec
-Load Avg:  1.00048828125  1.02783203125  1.1259765625
+Memory: 2.9392738342285156 GB (1777.0234375 MB free)
+Uptime: 44712.0 sec
+Load Avg:  0.99365234375  1.0146484375  1.12255859375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    2867829 s        960 s     149647 s     851691 s         71 s
-#2  3499 MHz    1002507 s      11689 s     102862 s    3252905 s          1 s
+#1  3500 MHz    2914271 s       4853 s     138177 s     789381 s         42 s
+#2  3500 MHz     935832 s       1641 s     106781 s    3314181 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -93,7 +93,7 @@ INFO: Installing Conda v0.5.3
 INFO: Installing DiffEqPDEBase v0.3.2
 INFO: Installing DiffEqProblemLibrary v0.7.0
 INFO: Installing Distributions v0.13.0
-INFO: Installing EllipsisNotation v0.1.0
+INFO: Installing EllipsisNotation v0.2.0
 INFO: Installing FileIO v0.4.0
 INFO: Installing GenericSVD v0.0.2
 INFO: Installing HDF5 v0.8.1
@@ -122,14 +122,59 @@ INFO: Building Rmath
 INFO: Building SymEngine
 INFO: Building HDF5
 INFO: Testing DiffEqCallbacks
-Test Summary: | Pass  Total
-AutoAbstol    |    2      2
- 19.465379 seconds (6.82 M allocations: 666.796 MiB, 2.05% gc time)
-Test Summary:  | Pass  Total
-Manifold tests |    2      2
- 22.805128 seconds (10.90 M allocations: 722.139 MiB, 2.72% gc time)
-elapsed time: 44.932811905 seconds
-INFO: DiffEqCallbacks tests passed
+ERROR: LoadError: LoadError: MethodError: getindex(::StepRange{Rational{Int64},Rational{Int64}}, ::Int64) is ambiguous. Candidates:
+  getindex(A::AbstractArray{T,N}, I::Vararg{Union{Int64, Val{:..}},N2}) where {T, N, N2} in EllipsisNotation at /home/vagrant/.julia/v0.6/EllipsisNotation/src/EllipsisNotation.jl:34
+  getindex(v::Range{T}, i::Integer) where T in Base at range.jl:488
+Possible fix, define
+  getindex(::Range{T}, ::Int64)
+Stacktrace:
+ [1] getindex at ./reshapedarray.jl:183 [inlined]
+ [2] next at ./abstractarray.jl:759 [inlined]
+ [3] macro expansion at ./multidimensional.jl:504 [inlined]
+ [4] macro expansion at ./cartesian.jl:64 [inlined]
+ [5] macro expansion at ./multidimensional.jl:503 [inlined]
+ [6] _unsafe_setindex!(::IndexLinear, ::Array{Rational{Int64},2}, ::Base.ReshapedArray{Rational{Int64},2,StepRange{Rational{Int64},Rational{Int64}},Tuple{}}, ::UnitRange{Int64}, ::UnitRange{Int64}) at ./multidimensional.jl:496
+ [7] macro expansion at ./multidimensional.jl:488 [inlined]
+ [8] _setindex! at ./multidimensional.jl:484 [inlined]
+ [9] setindex! at ./abstractarray.jl:967 [inlined]
+ [10] repmat(::Base.ReshapedArray{Rational{Int64},2,StepRange{Rational{Int64},Rational{Int64}},Tuple{}}, ::Int64, ::Int64) at ./abstractarraymath.jl:312
+ [11] meshgrid(::StepRange{Rational{Int64},Rational{Int64}}, ::StepRange{Rational{Int64},Rational{Int64}}) at /home/vagrant/.julia/v0.6/VectorizedRoutines/src/matlab.jl:54
+ [12] fem_squaremesh(::Array{Int64,2}, ::Rational{Int64}) at /home/vagrant/.julia/v0.6/DiffEqPDEBase/src/mesh_tools/meshes.jl:87
+ [13] parabolic_squaremesh(::Array{Int64,2}, ::Rational{Int64}, ::Rational{Int64}, ::Tuple{Float64,Float64}, ::Symbol) at /home/vagrant/.julia/v0.6/DiffEqPDEBase/src/mesh_tools/meshes.jl:136
+ [14] include_from_node1(::String) at ./loading.jl:569
+ [15] include(::String) at ./sysimg.jl:14
+ [16] include_from_node1(::String) at ./loading.jl:569
+ [17] include(::String) at ./sysimg.jl:14
+ [18] anonymous at ./<missing>:2
+while loading /home/vagrant/.julia/v0.6/DiffEqProblemLibrary/src/fem_premade_problems.jl, in expression starting on line 12
+while loading /home/vagrant/.julia/v0.6/DiffEqProblemLibrary/src/DiffEqProblemLibrary.jl, in expression starting on line 10
+AutoAbstol: Error During Test
+  Got an exception of type LoadError outside of a @test
+  LoadError: Failed to precompile DiffEqProblemLibrary to /home/vagrant/.julia/lib/v0.6/DiffEqProblemLibrary.ji.
+  Stacktrace:
+   [1] compilecache(::String) at ./loading.jl:703
+   [2] _require(::Symbol) at ./loading.jl:490
+   [3] require(::Symbol) at ./loading.jl:398
+   [4] include_from_node1(::String) at ./loading.jl:569
+   [5] include(::String) at ./sysimg.jl:14
+   [6] macro expansion at /home/vagrant/.julia/v0.6/DiffEqCallbacks/test/runtests.jl:6 [inlined]
+   [7] macro expansion at ./test.jl:856 [inlined]
+   [8] macro expansion at ./util.jl:237 [inlined]
+   [9] anonymous at ./<missing>:?
+   [10] include_from_node1(::String) at ./loading.jl:569
+   [11] include(::String) at ./sysimg.jl:14
+   [12] process_options(::Base.JLOptions) at ./client.jl:305
+   [13] _start() at ./client.jl:371
+  while loading /home/vagrant/.julia/v0.6/DiffEqCallbacks/test/autoabstol_tests.jl, in expression starting on line 1
+Test Summary: | Error  Total
+AutoAbstol    |     1      1
+ERROR: LoadError: Some tests did not pass: 0 passed, 0 failed, 1 errored, 0 broken.
+while loading /home/vagrant/.julia/v0.6/DiffEqCallbacks/test/runtests.jl, in expression starting on line 6
+===========================[ ERROR: DiffEqCallbacks ]===========================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/DiffEqCallbacks/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing BinDeps v0.6.0
 INFO: Removing Blosc v0.2.1
 INFO: Removing ChunkedArrays v0.1.1
@@ -138,7 +183,7 @@ INFO: Removing Conda v0.5.3
 INFO: Removing DiffEqPDEBase v0.3.2
 INFO: Removing DiffEqProblemLibrary v0.7.0
 INFO: Removing Distributions v0.13.0
-INFO: Removing EllipsisNotation v0.1.0
+INFO: Removing EllipsisNotation v0.2.0
 INFO: Removing FileIO v0.4.0
 INFO: Removing GenericSVD v0.0.2
 INFO: Removing HDF5 v0.8.1
@@ -161,5 +206,6 @@ INFO: Removing StatsFuns v0.5.0
 INFO: Removing SymEngine v0.2.0
 INFO: Removing URIParser v0.1.8
 INFO: Removing VectorizedRoutines v0.0.2
+ERROR: DiffEqCallbacks had test errors
 
 >>> End of log

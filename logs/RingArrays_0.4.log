@@ -16,13 +16,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-119-generic #166-Ubuntu SMP Wed May 3 12:18:55 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (917.2578125 MB free)
-Uptime: 31507.0 sec
-Load Avg:  1.03955078125  0.9765625  0.9599609375
+Memory: 2.9392738342285156 GB (816.84765625 MB free)
+Uptime: 31525.0 sec
+Load Avg:  1.03369140625  1.01025390625  0.970703125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3501 MHz    1556268 s       6478 s     118898 s    1136609 s         92 s
-#2  3501 MHz    1056956 s        214 s     101098 s    1882059 s          1 s
+#1  3499 MHz    1550886 s       4188 s     116761 s    1159475 s         55 s
+#2  3499 MHz    1038998 s       2769 s      95503 s    1910095 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -110,7 +110,10 @@ Using checkbounds
 36 facts verified.
 Using display
   > trying display on a typical RingArray
-5-element Array{AbstractArray{Int64,1},1}:
+8-element Array{AbstractArray{Int64,1},1}:
+ #undef
+ #undef
+ #undef
  #undef
  #undef
  #undef
@@ -125,8 +128,8 @@ Using views
   > having many views that goes out of scope don't run gc
   > having a view that stays and many views that goes out of scope don't run gc
   > having the RingArray overflow to the first block when second block is in use
-Out of 63 total facts:
-  Verified: 61
+Out of 61 total facts:
+  Verified: 59
   Pending:  2
 Loading blocks in RingArray
   > loading the first block
@@ -134,16 +137,96 @@ Loading blocks in RingArray
   > loading a block of different size
   > loading a block of different dimensions
   > loading too many blocks
-173 facts verified.
+169 facts verified.
 Testing custom errors
   > testing output of OverwriteError
   > testing output of RingArrayFullError
   > testing output of RingArrayBoundsError
 3 facts verified.
-Test Summary:   | Pass  Total
-RingArray Tests |   32     32
-INFO: RingArrays tests passed
+testing a bad range that ends are both in valid ranges: Error During Test
+  Test threw an exception of type BoundsError
+  Expression: typeof(expected[range]) == Array{Int,1}
+  BoundsError: attempt to access 134x1x1 Array{Int64,3}:
+  [:, :, 1] =
+   -7132197099415260522
+   -8017581412691289404
+   -1390890777513627131
+   -1141864553729716034
+   -8876623516797621988
+    3120369024980672721
+   -2212697386751086699
+   -7518559799595573066
+    1146323984734086164
+    1150721853755206942
+                      ⋮
+   -7625202001001105430
+    1953149688880053214
+    5595047141182737171
+   -9023984459808524099
+    5487530749435603086
+   -2828731551582989378
+   -3418131307989060757
+    5682650994759231702
+   -8704126687053685957
+    at index [-2:134]
+   in throw_boundserror at abstractarray.jl:156
+   in getindex at array.jl:289
+   in anonymous at /home/vagrant/.julia/v0.4/BaseTestNext/src/BaseTestNext.jl:160
+   in do_test at /home/vagrant/.julia/v0.4/BaseTestNext/src/BaseTestNext.jl:181
+   [inlined code] from /home/vagrant/.julia/v0.4/RingArrays/test/RingArrays.jl:1946
+   in anonymous at no file:0
+testing a bad range that ends are both in valid ranges: Test Failed
+  Expression: test[range]
+    Expected: RingArrays.RingArrayBoundsError
+      Thrown: BoundsError
+ in record at /home/vagrant/.julia/v0.4/BaseTestNext/src/BaseTestNext.jl:320
+ in do_test_throws at /home/vagrant/.julia/v0.4/BaseTestNext/src/BaseTestNext.jl:222
+ [inlined code] from /home/vagrant/.julia/v0.4/RingArrays/test/RingArrays.jl:1947
+ in anonymous at no file:0
+testing a bad range that ends are both in valid ranges: Test Failed
+  Expression: occured.data == "RingArrayBoundsError: Cannot index $((range,)), outside of range $(test_range)".data
+   Evaluated: UInt8[0x42,0x6f,0x75,0x6e,0x64,0x73,0x45,0x72,0x72,0x6f,0x72,0x3a,0x20,0x61,0x74,0x74,0x65,0x6d,0x70,0x74,0x20,0x74,0x6f,0x20,0x61,0x63,0x63,0x65,0x73,0x73,0x20,0x39,0x2d,0x65,0x6c,0x65,0x6d,0x65,0x6e,0x74,0x20,0x41,0x72,0x72,0x61,0x79,0x7b,0x49,0x6e,0x74,0x36,0x34,0x2c,0x31,0x7d,0x3a,0x0a,0x20,0x30,0x0a,0x20,0x30,0x0a,0x20,0x30,0x0a,0x20,0x30,0x0a,0x20,0x30,0x0a,0x20,0x30,0x0a,0x20,0x30,0x0a,0x20,0x30,0x0a,0x20,0x30,0x0a,0x20,0x20,0x61,0x74,0x20,0x69,0x6e,0x64,0x65,0x78,0x20,0x5b,0x2d,0x31,0x5d] == UInt8[0x52,0x69,0x6e,0x67,0x41,0x72,0x72,0x61,0x79,0x42,0x6f,0x75,0x6e,0x64,0x73,0x45,0x72,0x72,0x6f,0x72,0x3a,0x20,0x43,0x61,0x6e,0x6e,0x6f,0x74,0x20,0x69,0x6e,0x64,0x65,0x78,0x20,0x28,0x2d,0x32,0x3a,0x31,0x33,0x34,0x2c,0x29,0x2c,0x20,0x6f,0x75,0x74,0x73,0x69,0x64,0x65,0x20,0x6f,0x66,0x20,0x72,0x61,0x6e,0x67,0x65,0x20,0x28,0x31,0x31,0x37,0x3a,0x31,0x33,0x34,0x2c,0x31,0x2c,0x31,0x29]
+ in record at /home/vagrant/.julia/v0.4/BaseTestNext/src/BaseTestNext.jl:320
+ in do_test at /home/vagrant/.julia/v0.4/BaseTestNext/src/BaseTestNext.jl:192
+ [inlined code] from /home/vagrant/.julia/v0.4/RingArrays/test/RingArrays.jl:1960
+ in anonymous at no file:0
+Test Summary:                                                                                         | Pass  Fail  Error  Total
+RingArray Tests                                                                                       |   29     2      1     32
+  View                                                                                                |   29     2      1     32
+    getting view from 2 d array like a 1 d array                                                      |    2                   2
+    getting view from 2 d array like a 1 d array after overflow                                       |    2                   2
+    getting view from N d array like a 1 d array after overflow                                       |    2                   2
+    getting the last view from N d array like a 1 d array after overflow                              |    1                   1
+    testing a bad range                                                                               |    3                   3
+    testing a bad range that ends are both in valid ranges                                            |          2      1      3
+    testing a bad range that is within the length of the RingArray but not valid                      |    3                   3
+    testing a bad range that is valid but outside the length of the RingArray                         |    3                   3
+    getting view from N d array like a M d array (M < N) after overflow                               |    2                   2
+    getting view from N d array like a M d array (M < N) after overflow where the Mth index is larger |    2                   2
+    testing a bad range in the first range when indexing into an N d array with an M d index          |    3                   3
+    testing a bad range in the middle range when indexing into an N d array with an M d index         |    3                   3
+    testing a bad range in the last range when indexing into an N d array with an M d index           |    3                   3
+ERROR: LoadError: LoadError: Some tests did not pass: 29 passed, 2 failed, 1 errored.
+ in finish at /home/vagrant/.julia/v0.4/BaseTestNext/src/BaseTestNext.jl:385
+ [inlined code] from /home/vagrant/.julia/v0.4/BaseTestNext/src/BaseTestNext.jl:559
+ in anonymous at no file:0
+while loading /home/vagrant/.julia/v0.4/RingArrays/test/RingArrays.jl, in expression starting on line 1749
+while loading /home/vagrant/.julia/v0.4/RingArrays/test/runtests.jl, in expression starting on line 11
+=============================[ ERROR: RingArrays ]==============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.4/RingArrays/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing BaseTestNext v0.2.2
 INFO: Removing FactCheck v0.4.3
+ERROR: RingArrays had test errors
+ in error at ./error.jl:21
+ in test at pkg/entry.jl:803
+ in anonymous at pkg/dir.jl:31
+ in cd at file.jl:22
+ in cd at pkg/dir.jl:31
+ in test at pkg.jl:71
+ in process_options at ./client.jl:257
+ in _start at ./client.jl:378
 
 >>> End of log

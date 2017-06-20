@@ -25,7 +25,7 @@ INFO: Installing DifferentialEquations v2.2.1
 INFO: Installing DimensionalPlotRecipes v0.0.2
 INFO: Installing Distances v0.4.1
 INFO: Installing Distributions v0.13.0
-INFO: Installing EllipsisNotation v0.1.0
+INFO: Installing EllipsisNotation v0.2.0
 INFO: Installing FiniteElementDiffEq v0.4.0
 INFO: Installing ForwardDiff v0.5.0
 INFO: Installing GenericSVD v0.0.2
@@ -93,13 +93,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-119-generic #166-Ubuntu SMP Wed May 3 12:18:55 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1733.49609375 MB free)
-Uptime: 46713.0 sec
-Load Avg:  1.0830078125  1.03125  1.05078125
+Memory: 2.9392738342285156 GB (1743.42578125 MB free)
+Uptime: 46292.0 sec
+Load Avg:  1.1318359375  1.0576171875  1.0517578125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    2982174 s        960 s     153268 s     884797 s         73 s
-#2  3499 MHz    1033765 s      11689 s     104550 s    3395818 s          1 s
+#1  3500 MHz    3019595 s       4853 s     141827 s     812478 s         42 s
+#2  3500 MHz     957261 s       1641 s     108348 s    3446174 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -143,7 +143,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - DimensionalPlotRecipes        0.0.2
  - Distances                     0.4.1
  - Distributions                 0.13.0
- - EllipsisNotation              0.1.0
+ - EllipsisNotation              0.2.0
  - FiniteElementDiffEq           0.4.0
  - ForwardDiff                   0.5.0
  - GenericSVD                    0.0.2
@@ -209,34 +209,66 @@ INFO: Building Rmath
 INFO: Testing DifferentialEquations
 Test Summary:              | Pass  Total
 Default Discrete Algorithm |    1      1
-  5.429570 seconds (3.48 M allocations: 409.702 MiB, 2.63% gc time)
-Test Summary:         | Pass  Total
-Default ODE Algorithm |   16     16
- 74.666657 seconds (22.71 M allocations: 2.441 GiB, 1.23% gc time)
-Test Summary:                  | Pass  Total
-Default Steady State Algorithm |    1      1
-  5.580268 seconds (1.70 M allocations: 84.618 MiB, 1.19% gc time)
-Test Summary:         | Pass  Total
-Default SDE Algorithm |    4      4
- 10.807465 seconds (4.11 M allocations: 690.336 MiB, 2.70% gc time)
-Test Summary:          | Pass  Total
-Default RODE Algorithm |    1      1
-  2.235455 seconds (641.49 k allocations: 113.151 MiB, 2.00% gc time)
-Test Summary:         | Pass  Total
-Default DDE Algorithm |    1      1
-  4.436721 seconds (1.37 M allocations: 148.551 MiB, 1.67% gc time)
-Test Summary:         | Pass  Total
-Default DAE Algorithm |    1      1
-  1.952178 seconds (452.01 k allocations: 23.487 MiB, 0.93% gc time)
-Test Summary:         |
-Default FEM Algorithm | No tests
- 28.763144 seconds (13.02 M allocations: 666.568 MiB, 2.69% gc time)
-INFO: DifferentialEquations tests passed
+  5.700305 seconds (3.49 M allocations: 410.594 MiB, 2.47% gc time)
+ERROR: LoadError: LoadError: MethodError: getindex(::StepRange{Rational{Int64},Rational{Int64}}, ::Int64) is ambiguous. Candidates:
+  getindex(A::AbstractArray{T,N}, I::Vararg{Union{Int64, Val{:..}},N2}) where {T, N, N2} in EllipsisNotation at /home/vagrant/.julia/v0.6/EllipsisNotation/src/EllipsisNotation.jl:34
+  getindex(v::Range{T}, i::Integer) where T in Base at range.jl:488
+Possible fix, define
+  getindex(::Range{T}, ::Int64)
+Stacktrace:
+ [1] getindex at ./reshapedarray.jl:183 [inlined]
+ [2] next at ./abstractarray.jl:759 [inlined]
+ [3] macro expansion at ./multidimensional.jl:504 [inlined]
+ [4] macro expansion at ./cartesian.jl:64 [inlined]
+ [5] macro expansion at ./multidimensional.jl:503 [inlined]
+ [6] _unsafe_setindex!(::IndexLinear, ::Array{Rational{Int64},2}, ::Base.ReshapedArray{Rational{Int64},2,StepRange{Rational{Int64},Rational{Int64}},Tuple{}}, ::UnitRange{Int64}, ::UnitRange{Int64}) at ./multidimensional.jl:496
+ [7] macro expansion at ./multidimensional.jl:488 [inlined]
+ [8] _setindex! at ./multidimensional.jl:484 [inlined]
+ [9] setindex! at ./abstractarray.jl:967 [inlined]
+ [10] repmat(::Base.ReshapedArray{Rational{Int64},2,StepRange{Rational{Int64},Rational{Int64}},Tuple{}}, ::Int64, ::Int64) at ./abstractarraymath.jl:312
+ [11] meshgrid(::StepRange{Rational{Int64},Rational{Int64}}, ::StepRange{Rational{Int64},Rational{Int64}}) at /home/vagrant/.julia/v0.6/VectorizedRoutines/src/matlab.jl:54
+ [12] fem_squaremesh(::Array{Int64,2}, ::Rational{Int64}) at /home/vagrant/.julia/v0.6/DiffEqPDEBase/src/mesh_tools/meshes.jl:87
+ [13] parabolic_squaremesh(::Array{Int64,2}, ::Rational{Int64}, ::Rational{Int64}, ::Tuple{Float64,Float64}, ::Symbol) at /home/vagrant/.julia/v0.6/DiffEqPDEBase/src/mesh_tools/meshes.jl:136
+ [14] include_from_node1(::String) at ./loading.jl:569
+ [15] include(::String) at ./sysimg.jl:14
+ [16] include_from_node1(::String) at ./loading.jl:569
+ [17] include(::String) at ./sysimg.jl:14
+ [18] anonymous at ./<missing>:2
+while loading /home/vagrant/.julia/v0.6/DiffEqProblemLibrary/src/fem_premade_problems.jl, in expression starting on line 12
+while loading /home/vagrant/.julia/v0.6/DiffEqProblemLibrary/src/DiffEqProblemLibrary.jl, in expression starting on line 10
+Default ODE Algorithm: Error During Test
+  Got an exception of type LoadError outside of a @test
+  LoadError: Failed to precompile DiffEqProblemLibrary to /home/vagrant/.julia/lib/v0.6/DiffEqProblemLibrary.ji.
+  Stacktrace:
+   [1] compilecache(::String) at ./loading.jl:703
+   [2] _require(::Symbol) at ./loading.jl:490
+   [3] require(::Symbol) at ./loading.jl:398
+   [4] include_from_node1(::String) at ./loading.jl:569
+   [5] include(::String) at ./sysimg.jl:14
+   [6] macro expansion at /home/vagrant/.julia/v0.6/DifferentialEquations/test/runtests.jl:5 [inlined]
+   [7] macro expansion at ./test.jl:856 [inlined]
+   [8] macro expansion at ./util.jl:237 [inlined]
+   [9] anonymous at ./<missing>:?
+   [10] include_from_node1(::String) at ./loading.jl:569
+   [11] include(::String) at ./sysimg.jl:14
+   [12] process_options(::Base.JLOptions) at ./client.jl:305
+   [13] _start() at ./client.jl:371
+  while loading /home/vagrant/.julia/v0.6/DifferentialEquations/test/default_ode_alg_test.jl, in expression starting on line 1
+Test Summary:         | Error  Total
+Default ODE Algorithm |     1      1
+ERROR: LoadError: Some tests did not pass: 0 passed, 0 failed, 1 errored, 0 broken.
+while loading /home/vagrant/.julia/v0.6/DifferentialEquations/test/runtests.jl, in expression starting on line 5
+========================[ ERROR: DifferentialEquations ]========================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/DifferentialEquations/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing Blosc v0.2.1
 INFO: Removing DiffEqProblemLibrary v0.7.0
 INFO: Removing FileIO v0.4.0
 INFO: Removing HDF5 v0.8.1
 INFO: Removing JLD v0.6.11
 INFO: Removing LegacyStrings v0.2.2
+ERROR: DifferentialEquations had test errors
 
 >>> End of log
