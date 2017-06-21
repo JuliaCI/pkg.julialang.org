@@ -6,21 +6,21 @@ INFO: METADATA is out-of-date — you may not have the latest version of SIUnits
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("SIUnits")' log
-Julia Version 0.6.0-rc3.0
-Commit ad290e9 (2017-06-07 11:53 UTC)
+Julia Version 0.6.0
+Commit 9036443 (2017-06-19 13:05 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-119-generic #166-Ubuntu SMP Wed May 3 12:18:55 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (788.53125 MB free)
-Uptime: 61857.0 sec
-Load Avg:  1.01416015625  1.009765625  1.0341796875
+  uname: Linux 3.13.0-121-generic #170-Ubuntu SMP Wed Jun 14 09:04:33 UTC 2017 x86_64 x86_64
+Memory: 2.9392738342285156 GB (806.8359375 MB free)
+Uptime: 62129.0 sec
+Load Avg:  1.00830078125  0.97216796875  1.00244140625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3498 MHz    4065581 s       1081 s     178508 s     957024 s         74 s
-#2  3498 MHz     953122 s       5071 s      96538 s    4974153 s          3 s
+#1  3500 MHz    4129540 s       6431 s     182338 s     883132 s         78 s
+#2  3500 MHz     921004 s         62 s      95613 s    5063142 s          2 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -30,7 +30,7 @@ Environment:
   TERM = vt100
   LD_LIBRARY_PATH = :/usr/local/lib/
   PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/vagrant/julia/bin/
-  JAVA_HOME = /usr/lib/jvm/java-7-oracle
+  JAVA_HOME = /usr/lib/jvm/java-8-openjdk-amd64
   HOME = /home/vagrant
 
 Package Directory: /home/vagrant/.julia/v0.6
@@ -50,18 +50,22 @@ Stacktrace:
  [5] process_options(::Base.JLOptions) at ./client.jl:305
  [6] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/SIUnits/test/runtests.jl, in expression starting on line 79
-ERROR: LoadError: MethodError: convert(::Type{SIUnits.NonSIQuantity{Rational{Int64},SIUnits.NonSIUnit{SIUnits.SIUnit{-1,1,-2,0,0,0,0,0,0},:torr}}}, ::SIUnits.NonSIQuantity{Rational{Int64},SIUnits.NonSIUnit{SIUnits.SIUnit{-1,1,-2,0,0,0,0,0,0},:torr}}) is ambiguous. Candidates:
-  convert(::Type{SIUnits.NonSIQuantity{T,U}}, x::SIUnits.NonSIQuantity{T,U}) where {T, U} in SIUnits at /home/vagrant/.julia/v0.6/SIUnits/src/SIUnits.jl:560
-  convert(::Type{SIUnits.NonSIQuantity{T,U1}}, x::SIUnits.NonSIQuantity{S,U2}) where {T<:Number, S, U1, U2} in SIUnits at /home/vagrant/.julia/v0.6/SIUnits/src/SIUnits.jl:561
-Possible fix, define
-  convert(::Type{SIUnits.NonSIQuantity{T<:Number,U1}}, ::SIUnits.NonSIQuantity{T<:Number,U1})
-Stacktrace:
- [1] *(::Int64, ::SIUnits.NonSIQuantity{Rational{Int64},SIUnits.NonSIUnit{SIUnits.SIUnit{-1,1,-2,0,0,0,0,0,0},:torr}}) at ./promotion.jl:250
- [2] include_from_node1(::String) at ./loading.jl:569
- [3] include(::String) at ./sysimg.jl:14
- [4] process_options(::Base.JLOptions) at ./client.jl:305
- [5] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/SIUnits/test/runtests.jl, in expression starting on line 79
+Error During Test
+  Test threw an exception of type MethodError
+  Expression: r1 * (1m) == (1m) * r1 == (1Hz) * m:(5Hz) * m
+  MethodError: Cannot `convert` an object of type SIUnits.SIQuantity{Int64,1,0,-1,0,0,0,0,0,0} to an object of type Int64
+  This may have arisen from a call to the constructor Int64(...),
+  since type constructors fall back to convert methods.
+  Stacktrace:
+   [1] unsafe_getindex(::StepRangeLen{SIUnits.SIQuantity{Int64,1,0,-1,0,0,0,0,0,0},SIUnits.SIQuantity{Int64,1,0,-1,0,0,0,0,0,0},SIUnits.SIQuantity{Int64,1,0,-1,0,0,0,0,0,0}}, ::Int64) at ./range.jl:506
+   [2] ==(::StepRangeLen{SIUnits.SIQuantity{Int64,1,0,-1,0,0,0,0,0,0},SIUnits.SIQuantity{Int64,1,0,-1,0,0,0,0,0,0},SIUnits.SIQuantity{Int64,1,0,-1,0,0,0,0,0,0}}, ::StepRangeLen{SIUnits.SIQuantity{Int64,1,0,-1,0,0,0,0,0,0},SIUnits.SIQuantity{Int64,1,0,-1,0,0,0,0,0,0},SIUnits.SIQuantity{Int64,1,0,-1,0,0,0,0,0,0}}) at ./range.jl:574
+   [3] eval_comparison(::Expr, ::Expr) at ./test.jl:198
+   [4] include_from_node1(::String) at ./loading.jl:569
+   [5] include(::String) at ./sysimg.jl:14
+   [6] process_options(::Base.JLOptions) at ./client.jl:305
+   [7] _start() at ./client.jl:371
+ERROR: LoadError: There was an error during testing
+while loading /home/vagrant/.julia/v0.6/SIUnits/test/runtests.jl, in expression starting on line 107
 ===============================[ ERROR: SIUnits ]===============================
 
 failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/SIUnits/test/runtests.jl`, ProcessExited(1)) [1]

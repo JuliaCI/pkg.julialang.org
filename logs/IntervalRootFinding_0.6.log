@@ -1,9 +1,12 @@
 >>> 'Pkg.add("IntervalRootFinding")' log
+INFO: Installing AdjacentFloats v0.0.5
 INFO: Installing CRlibm v0.5.0
 INFO: Installing CommonSubexpressions v0.0.1
 INFO: Installing DiffBase v0.2.0
+INFO: Installing ErrorfreeArithmetic v0.0.3
+INFO: Installing FastRounding v0.0.4
 INFO: Installing ForwardDiff v0.5.0
-INFO: Installing IntervalArithmetic v0.9.1
+INFO: Installing IntervalArithmetic v0.11.0
 INFO: Installing IntervalRootFinding v0.1.1
 INFO: Installing NaNMath v0.2.5
 INFO: Installing RealInterface v0.0.2
@@ -16,21 +19,21 @@ INFO: METADATA is out-of-date — you may not have the latest version of Interva
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("IntervalRootFinding")' log
-Julia Version 0.6.0-rc3.0
-Commit ad290e9 (2017-06-07 11:53 UTC)
+Julia Version 0.6.0
+Commit 9036443 (2017-06-19 13:05 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-119-generic #166-Ubuntu SMP Wed May 3 12:18:55 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (2021.2890625 MB free)
-Uptime: 70979.0 sec
-Load Avg:  0.96484375  0.9892578125  1.03466796875
+  uname: Linux 3.13.0-121-generic #170-Ubuntu SMP Wed Jun 14 09:04:33 UTC 2017 x86_64 x86_64
+Memory: 2.9392738342285156 GB (2009.1015625 MB free)
+Uptime: 71218.0 sec
+Load Avg:  1.03125  1.0  1.02392578125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    4731274 s       4854 s     212561 s    1040326 s         46 s
-#2  3500 MHz    1171660 s       1643 s     136227 s    5645297 s          1 s
+#1  3511 MHz    4744240 s       6974 s     211987 s    1024638 s         49 s
+#2  3511 MHz    1157228 s         98 s     138470 s    5678615 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -40,20 +43,23 @@ Environment:
   TERM = vt100
   LD_LIBRARY_PATH = :/usr/local/lib/
   PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/vagrant/julia/bin/
-  JAVA_HOME = /usr/lib/jvm/java-7-oracle
+  JAVA_HOME = /usr/lib/jvm/java-8-openjdk-amd64
   HOME = /home/vagrant
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - IntervalRootFinding           0.1.1
  - JSON                          0.12.0
-11 additional packages:
+14 additional packages:
+ - AdjacentFloats                0.0.5
  - CRlibm                        0.5.0
  - CommonSubexpressions          0.0.1
  - Compat                        0.26.0
  - DiffBase                      0.2.0
+ - ErrorfreeArithmetic           0.0.3
+ - FastRounding                  0.0.4
  - ForwardDiff                   0.5.0
- - IntervalArithmetic            0.9.1
+ - IntervalArithmetic            0.11.0
  - NaNMath                       0.2.5
  - RealInterface                 0.0.2
  - RecipesBase                   0.2.0
@@ -62,17 +68,52 @@ Package Directory: /home/vagrant/.julia/v0.6
 INFO: Computing test dependencies for IntervalRootFinding...
 INFO: Installing Polynomials v0.1.5
 INFO: Testing IntervalRootFinding
-Test Summary:     | Pass  Total
-`bisect` function |   10     10
-Test Summary:        | Pass  Total
-Testing root finding | 1512   1512
-Test Summary:    | Pass  Total
-find_roots tests |   10     10
-Test Summary:  | Pass  Total
-Multiple roots |    4      4
-Test Summary:                           | Pass  Total
-Iterated logistic function fixed points |   20     20
-INFO: IntervalRootFinding tests passed
+`bisect` function: Test Failed
+  Expression: bisect(X) == (0 .. 0.5, 0.5 .. 1)
+   Evaluated: ([0, 0.5], [0.5, 1]) == ([0, 0.500001], [0.499999, 1])
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/IntervalRootFinding/test/bisect.jl:7 [inlined]
+ [2] macro expansion at ./test.jl:860 [inlined]
+ [3] anonymous at ./<missing>:?
+`bisect` function: Test Failed
+  Expression: bisect(X, 0.25) == (0 .. 0.25, 0.25 .. 1)
+   Evaluated: ([0, 0.25], [0.25, 1]) == ([0, 0.250001], [0.249999, 1])
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/IntervalRootFinding/test/bisect.jl:8 [inlined]
+ [2] macro expansion at ./test.jl:860 [inlined]
+ [3] anonymous at ./<missing>:?
+`bisect` function: Test Failed
+  Expression: bisect(X, 0.25) == ((0 .. 1) × (0 .. 0.5), (0 .. 1) × (0.5 .. 2))
+   Evaluated: ([0, 1] × [0, 0.5], [0, 1] × [0.5, 2]) == ([0, 1] × [0, 0.500001], [0, 1] × [0.499999, 2])
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/IntervalRootFinding/test/bisect.jl:19 [inlined]
+ [2] macro expansion at ./test.jl:860 [inlined]
+ [3] anonymous at ./<missing>:?
+`bisect` function: Test Failed
+  Expression: bisect(X, 1, 0.5) == ((0 .. 0.5) × (0 .. 2), (0.5 .. 1) × (0 .. 2))
+   Evaluated: ([0, 0.5] × [0, 2], [0.5, 1] × [0, 2]) == ([0, 0.500001] × [0, 2], [0.499999, 1] × [0, 2])
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/IntervalRootFinding/test/bisect.jl:20 [inlined]
+ [2] macro expansion at ./test.jl:860 [inlined]
+ [3] anonymous at ./<missing>:?
+`bisect` function: Test Failed
+  Expression: bisect(X, 1, 0.25) == ((0 .. 0.25) × (0 .. 2), (0.25 .. 1) × (0 .. 2))
+   Evaluated: ([0, 0.25] × [0, 2], [0.25, 1] × [0, 2]) == ([0, 0.250001] × [0, 2], [0.249999, 1] × [0, 2])
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/IntervalRootFinding/test/bisect.jl:21 [inlined]
+ [2] macro expansion at ./test.jl:860 [inlined]
+ [3] anonymous at ./<missing>:?
+Test Summary:     | Pass  Fail  Total
+`bisect` function |    5     5     10
+ERROR: LoadError: LoadError: Some tests did not pass: 5 passed, 5 failed, 0 errored, 0 broken.
+while loading /home/vagrant/.julia/v0.6/IntervalRootFinding/test/bisect.jl, in expression starting on line 5
+while loading /home/vagrant/.julia/v0.6/IntervalRootFinding/test/runtests.jl, in expression starting on line 4
+=========================[ ERROR: IntervalRootFinding ]=========================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/IntervalRootFinding/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing Polynomials v0.1.5
+ERROR: IntervalRootFinding had test errors
 
 >>> End of log
