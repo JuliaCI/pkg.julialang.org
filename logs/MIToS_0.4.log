@@ -51,13 +51,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-121-generic #170-Ubuntu SMP Wed Jun 14 09:04:33 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (473.8359375 MB free)
-Uptime: 10562.0 sec
-Load Avg:  1.06396484375  1.00244140625  1.0400390625
+Memory: 2.9392738342285156 GB (586.23046875 MB free)
+Uptime: 10887.0 sec
+Load Avg:  1.07177734375  0.978515625  1.0224609375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz     468101 s       5664 s      46782 s     440408 s         16 s
-#2  3500 MHz     354840 s       1356 s      42026 s     625740 s          0 s
+#1  3500 MHz     492300 s        459 s      42159 s     455009 s         16 s
+#2  3500 MHz     339133 s       5950 s      35433 s     666021 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -214,10 +214,10 @@ Parse Fasta
 Test download of read(URL, ...)
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    77  100    77    0     0     95      0 --:--:-- --:--:-- --:--:--    95100    77  100    77    0     0     95      0 --:--:-- --:--:-- --:--:--    95
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    77  100    77    0     0    176      0 --:--:-- --:--:-- --:--:--   176
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   378  100   378    0     0   1291      0 --:--:-- --:--:-- --:--:--  1294
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   378  100   378    0     0    992      0 --:--:-- --:--:-- --:--:--   994
 Test parse for string inputs
 Test the FASTA parser usando Gao et.al. 2011 example
 Sequence identifiers FASTA
@@ -289,40 +289,524 @@ Test delete MIToS annotations
 
 Test shuffle_...
 ================
-ERROR: LoadError: LoadError: test failed: [0.045454545454545456
- 0.09090909090909091
- 0.02727272727272727
- 0.05454545454545454] != [0.045454545454545456
- 0.09090909090909091
- 0.02727272727272727
- 0.05454545454545454]
- in expression: lseq != mean(aln .== Residue('L'),2)
- in error at ./error.jl:21
- in default_handler at test.jl:28
- in do_test at test.jl:53
- [inlined code] from /home/vagrant/.julia/v0.4/MIToS/test/shuffle.jl:17
- in anonymous at no file:0
- in include at ./boot.jl:261
- in include_from_node1 at ./loading.jl:333
- in include at ./boot.jl:261
- in include_from_node1 at ./loading.jl:333
- in process_options at ./client.jl:280
- in _start at ./client.jl:378
-while loading /home/vagrant/.julia/v0.4/MIToS/test/shuffle.jl, in expression starting on line 10
-while loading /home/vagrant/.julia/v0.4/MIToS/test/runtests.jl, in expression starting on line 21
-================================[ ERROR: MIToS ]================================
 
-failed process: Process(`/home/vagrant/julia/bin/julia --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.4/MIToS/test/runtests.jl`, ProcessExited(1)) [1]
+Clustering
+==========
 
-================================================================================
-ERROR: MIToS had test errors
- in error at ./error.jl:21
- in test at pkg/entry.jl:803
- in anonymous at pkg/dir.jl:31
- in cd at file.jl:22
- in cd at pkg/dir.jl:31
- in test at pkg.jl:71
- in process_options at ./client.jl:257
- in _start at ./client.jl:378
+
+percentidentity
+---------------
+
+-> Float64
+-> Bool
+
+Hobohm I
+--------
+
+percentidentity on a MSA
+------------------------
+SequenceIdentityMatrix
+
+Test meanpercentidentity
+------------------------
+
+Test percentsimilarity
+======================
+Test with gaps
+Using SMS's "Ident and Sim" residue groups
+Using Bio3D's (2.2) seqidentity residue groups
+
+Tests for PDB
+=============
+
+Parse PDB and PDBML
+-------------------
+2VQC => Missings
+Test download
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100 37900  100 37900    0     0  88710      0 --:--:-- --:--:-- --:--:-- 88710
+1H4A => Chain A (auth) == Chain X (label)
+1SSX => Residues with insert codes: 15A 15B
+test @residues
+Occupancy != 1.0 and @atom
+Best occupancy
+@atom with residue wildcard
+`read` only atoms with the best occupancy (occupancyfilter=true)
+1CBN => Identical PDBe ResNum for Residue 22:
+
+        <residue dbSource="PDBe" dbCoordSys="PDBe" dbResNum="22" dbResName="SER">
+          <crossRefDb dbSource="PDB" dbCoordSys="PDBresnum" dbAccessionId="1cbn" dbResNum="22" dbResName="SER" dbChainId="A"/>
+          <crossRefDb dbSource="UniProt" dbCoordSys="UniProt" dbAccessionId="P01542" dbResNum="22" dbResName="P"/>
+          ....
+        <residue dbSource="PDBe" dbCoordSys="PDBe" dbResNum="22" dbResName="PRO">
+          <crossRefDb dbSource="PDB" dbCoordSys="PDBresnum" dbAccessionId="1cbn" dbResNum="22" dbResName="PRO" dbChainId="A"/>
+          <crossRefDb dbSource="UniProt" dbCoordSys="UniProt" dbAccessionId="P01542" dbResNum="22" dbResName="P"/>
+          ...
+
+1AS5 => NMR
+1DPO => Inserted residues lack insertion letters
+Single unnamed chain in 1DPO contains insertions at postions 184 (Gly, Phe), 188 (Gly, Lys), and 221 (Ala, Leu) but no insertion letters.
+1IGY => Insertions have more than one copy of the same amino acid in a single insertion block.
+For example, chain B in 1IGY contains a block of four residues inserted at sequence position 82. The block contains Leu-Ser-Ser-Leu.
+1HAG => Chain E begins with 1H, 1G, 1F, ... 1A, then 1 (in reverse alphabetic order)
+1NSA => Contains a single (unnamed) protein chain with sequence 7A-95A that continues 4-308.
+1IAO => Contains in chain B (in this order) 1S, 2S, 323P-334P, 6-94, 94A, 95-188, 1T, 2T
+
+RESTful PDB Interface
+=====================
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  1097  100  1097    0     0  21043      0 --:--:-- --:--:-- --:--:-- 21096
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   531  100   531    0     0   9241      0 --:--:-- --:--:-- --:--:--  9315
+
+Write PDB files
+===============
+
+read/write consistency
+----------------------
+2VQC
+1IAO
+1NSA
+1HAG
+1IGY
+1DPO
+1AS5
+1CBN
+1SSX
+
+Tests for Contacts on PDB
+=========================
+1IGY => Test it using data from http://www-cryst.bioc.cam.ac.uk/~richard/piccolo/piccolo.php?PDB=1IGY (28/Sep/2015)
+WARNING: RESIDUE: NAG is unknown for MIToS.PDB (AtomsData.jl)
+WARNING: RESIDUE: FUL is unknown for MIToS.PDB (AtomsData.jl)
+WARNING: RESIDUE: NDG is unknown for MIToS.PDB (AtomsData.jl)
+WARNING: RESIDUE: BMA is unknown for MIToS.PDB (AtomsData.jl)
+WARNING: RESIDUE: MAN is unknown for MIToS.PDB (AtomsData.jl)
+WARNING: RESIDUE: NAG is unknown for MIToS.PDB (AtomsData.jl)
+WARNING: RESIDUE: GAL is unknown for MIToS.PDB (AtomsData.jl)
+WARNING: RESIDUE: MAN is unknown for MIToS.PDB (AtomsData.jl)
+WARNING: RESIDUE: NAG is unknown for MIToS.PDB (AtomsData.jl)
+WARNING: RESIDUE: NAG is unknown for MIToS.PDB (AtomsData.jl)
+WARNING: RESIDUE: FUC is unknown for MIToS.PDB (AtomsData.jl)
+WARNING: RESIDUE: NDG is unknown for MIToS.PDB (AtomsData.jl)
+WARNING: RESIDUE: BMA is unknown for MIToS.PDB (AtomsData.jl)
+WARNING: RESIDUE: MAN is unknown for MIToS.PDB (AtomsData.jl)
+WARNING: RESIDUE: NAG is unknown for MIToS.PDB (AtomsData.jl)
+WARNING: RESIDUE: GAL is unknown for MIToS.PDB (AtomsData.jl)
+WARNING: RESIDUE: MAN is unknown for MIToS.PDB (AtomsData.jl)
+WARNING: RESIDUE: NAG is unknown for MIToS.PDB (AtomsData.jl)
+
+Test findheavy
+
+All the interface between chain A and D
+aromatic between chain A and B
+
+Vectorized contact/distance
+---------------------------
+
+Proximity Mean
+--------------
+
+Test Kabsch algorithm
+=====================
+
+RMSF
+----
+
+Superimpose PDBs and RMSD
+-------------------------
+rmsd with Vector{PDBResidue}
+Centered
+RMSD
+coordinatesmatrix, centeredresidues and centeredcoordinates
+Superimpose with centered PDBs
+RMSF
+
+Tests for SIFTS Mappings
+========================
+
+Parse SIFTS
+-----------
+all against all
+
+siftsmapping
+------------
+missings
+1SSX => Residues with insert codes: 15A 15B
+1CBN => Multiple InterProt annotations, the last is used.
+Identical PDBe ResNum for Residue 22:
+
+        <residue dbSource="PDBe" dbCoordSys="PDBe" dbResNum="22" dbResName="SER">
+          <crossRefDb dbSource="PDB" dbCoordSys="PDBresnum" dbAccessionId="1cbn" dbResNum="22" dbResName="SER" dbChainId="A"/>
+          <crossRefDb dbSource="UniProt" dbCoordSys="UniProt" dbAccessionId="P01542" dbResNum="22" dbResName="P"/>
+          ....
+        <residue dbSource="PDBe" dbCoordSys="PDBe" dbResNum="22" dbResName="PRO">
+          <crossRefDb dbSource="PDB" dbCoordSys="PDBresnum" dbAccessionId="1cbn" dbResNum="22" dbResName="PRO" dbChainId="A"/>
+          <crossRefDb dbSource="UniProt" dbCoordSys="UniProt" dbAccessionId="P01542" dbResNum="22" dbResName="P"/>
+          ...
+
+WARNING: 22 is already in the mapping with the value 22. The value is replaced by 22
+WARNING: 25 is already in the mapping with the value 25. The value is replaced by 25
+1AS5 => NMR
+1DPO => Inserted residues lack insertion letters
+Single unnamed chain in 1DPO contains insertions at postions 184 (Gly, Phe), 188 (Gly, Lys), and 221 (Ala, Leu) but no insertion letters.
+1IGY => Insertions have more than one copy of the same amino acid in a single insertion block.
+For example, chain B in 1IGY contains a block of four residues inserted at sequence position 82. The block contains Leu-Ser-Ser-Leu.
+1HAG => Chain E begins with 1H, 1G, 1F, ... 1A, then 1 (in reverse alphabetic order)
+
+Functions for SIFTSResidues
+===========================
+1NSA => Contains a single (unnamed) protein chain with sequence 7A-95A that continues 4-308.
+Test findobjects & read
+Test collectcaptures
+1IAO => Contains in chain B (in this order) 1S, 323P-334P, 6-94, 94A, 95-188, 1T, 2T
+Test collectobjects and isobject
+
+Test download
+=============
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0  5420    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0100  5420  100  5420    0     0   1692      0  0:00:03  0:00:03 --:--:--  1692
+
+Tests for ResidueContingencyTables
+==================================
+
+Tests for ResidueCount
+----------------------
+
+Iterate for N & UseGap:
+# Iteration = N: 1 UseGap: true
+Test nresidues for ResidueCount{Float64, 1, true}
+Test zeros for ResidueCount{Float64, 1, true}
+Test iteration interface for ResidueCount{Float64, 1, true}
+Test size for ResidueCount{Float64, 1, true}
+Test indexing with i for ResidueCount{Float64, 1, true}
+Test setindex! with i for ResidueCount{Float64, 1, true}
+Test update! for ResidueCount{Float64, 1, true}
+Test apply_pseudocount! with Laplace Smoothing for ResidueCount{Float64, 1, true}
+Test fill! with AdditiveSmoothing(0.05) for ResidueCount{Float64, 1, true}
+# Iteration = N: 1 UseGap: false
+Test nresidues for ResidueCount{Float64, 1, false}
+Test zeros for ResidueCount{Float64, 1, false}
+Test iteration interface for ResidueCount{Float64, 1, false}
+Test size for ResidueCount{Float64, 1, false}
+Test indexing with i for ResidueCount{Float64, 1, false}
+Test setindex! with i for ResidueCount{Float64, 1, false}
+Test update! for ResidueCount{Float64, 1, false}
+Test apply_pseudocount! with Laplace Smoothing for ResidueCount{Float64, 1, false}
+Test fill! with AdditiveSmoothing(0.05) for ResidueCount{Float64, 1, false}
+# Iteration = N: 2 UseGap: true
+Test nresidues for ResidueCount{Float64, 2, true}
+Test zeros for ResidueCount{Float64, 2, true}
+Test iteration interface for ResidueCount{Float64, 2, true}
+Test size for ResidueCount{Float64, 2, true}
+Test indexing with i for ResidueCount{Float64, 2, true}
+Test setindex! with i for ResidueCount{Float64, 2, true}
+Test update! for ResidueCount{Float64, 2, true}
+Test apply_pseudocount! with Laplace Smoothing for ResidueCount{Float64, 2, true}
+Test fill! with AdditiveSmoothing(0.05) for ResidueCount{Float64, 2, true}
+# Iteration = N: 2 UseGap: false
+Test nresidues for ResidueCount{Float64, 2, false}
+Test zeros for ResidueCount{Float64, 2, false}
+Test iteration interface for ResidueCount{Float64, 2, false}
+Test size for ResidueCount{Float64, 2, false}
+Test indexing with i for ResidueCount{Float64, 2, false}
+Test setindex! with i for ResidueCount{Float64, 2, false}
+Test update! for ResidueCount{Float64, 2, false}
+Test apply_pseudocount! with Laplace Smoothing for ResidueCount{Float64, 2, false}
+Test fill! with AdditiveSmoothing(0.05) for ResidueCount{Float64, 2, false}
+# Iteration = N: 3 UseGap: true
+Test nresidues for ResidueCount{Float64, 3, true}
+Test zeros for ResidueCount{Float64, 3, true}
+Test iteration interface for ResidueCount{Float64, 3, true}
+Test size for ResidueCount{Float64, 3, true}
+Test indexing with i for ResidueCount{Float64, 3, true}
+Test setindex! with i for ResidueCount{Float64, 3, true}
+Test update! for ResidueCount{Float64, 3, true}
+Test apply_pseudocount! with Laplace Smoothing for ResidueCount{Float64, 3, true}
+Test fill! with AdditiveSmoothing(0.05) for ResidueCount{Float64, 3, true}
+# Iteration = N: 3 UseGap: false
+Test nresidues for ResidueCount{Float64, 3, false}
+Test zeros for ResidueCount{Float64, 3, false}
+Test iteration interface for ResidueCount{Float64, 3, false}
+Test size for ResidueCount{Float64, 3, false}
+Test indexing with i for ResidueCount{Float64, 3, false}
+Test setindex! with i for ResidueCount{Float64, 3, false}
+Test update! for ResidueCount{Float64, 3, false}
+Test apply_pseudocount! with Laplace Smoothing for ResidueCount{Float64, 3, false}
+Test fill! with AdditiveSmoothing(0.05) for ResidueCount{Float64, 3, false}
+# Iteration = N: 4 UseGap: true
+Test nresidues for ResidueCount{Float64, 4, true}
+Test zeros for ResidueCount{Float64, 4, true}
+Test iteration interface for ResidueCount{Float64, 4, true}
+Test size for ResidueCount{Float64, 4, true}
+Test indexing with i for ResidueCount{Float64, 4, true}
+Test setindex! with i for ResidueCount{Float64, 4, true}
+Test update! for ResidueCount{Float64, 4, true}
+Test apply_pseudocount! with Laplace Smoothing for ResidueCount{Float64, 4, true}
+Test fill! with AdditiveSmoothing(0.05) for ResidueCount{Float64, 4, true}
+# Iteration = N: 4 UseGap: false
+Test nresidues for ResidueCount{Float64, 4, false}
+Test zeros for ResidueCount{Float64, 4, false}
+Test iteration interface for ResidueCount{Float64, 4, false}
+Test size for ResidueCount{Float64, 4, false}
+Test indexing with i for ResidueCount{Float64, 4, false}
+Test setindex! with i for ResidueCount{Float64, 4, false}
+Test update! for ResidueCount{Float64, 4, false}
+Test apply_pseudocount! with Laplace Smoothing for ResidueCount{Float64, 4, false}
+Test fill! with AdditiveSmoothing(0.05) for ResidueCount{Float64, 4, false}
+Iteration end
+
+
+Iterate for UseGap in [true, false]:
+# Iteration = UseGap: true
+Test indexing with ij for ResidueCount{Float64, 2, true}
+Test setindex! with ij for ResidueCount{Float64, 2, true}
+Test count! for ResidueCount{Float64, 2, true} and ResidueCount{Float64, 1, true}
+Test count! for ResidueCount{Float64, 5, true} and  ResidueCount{Float64, 5, true}}
+Test count! for ResidueCount{Float64, 4, true} and  ResidueCount{Float64, 4, true}}
+# Iteration = UseGap: false
+Test indexing with ij for ResidueCount{Float64, 2, false}
+Test setindex! with ij for ResidueCount{Float64, 2, false}
+Test count! for ResidueCount{Float64, 2, false} and ResidueCount{Float64, 1, false}
+Test count! for ResidueCount{Float64, 5, false} and  ResidueCount{Float64, 5, false}}
+Test count! for ResidueCount{Float64, 4, false} and  ResidueCount{Float64, 4, false}}
+Iteration end
+
+Test similar
+Test count! with SequenceClusters
+Test count
+
+Tests for ResidueProbability
+----------------------
+
+Iterate for N & UseGap:
+# Iteration = N: 1 UseGap: true
+Test zeros for ResidueProbability{BigFloat, 1, true}
+Test iteration interface for ResidueProbability{BigFloat, 1, true}
+Test size for ResidueProbability{BigFloat, 1, true}
+Test indexing with i for ResidueProbability{BigFloat, 1, true}
+Test setindex! with i for ResidueProbability{BigFloat, 1, true}
+Test update! for ResidueProbability{BigFloat, 1, true}
+Test normalize! for ResidueProbability{BigFloat, 1, true}
+Test fill! with ResidueCount{Int, 1, true} for ResidueProbability{BigFloat, 1, true}
+# Iteration = N: 1 UseGap: false
+Test zeros for ResidueProbability{BigFloat, 1, false}
+Test iteration interface for ResidueProbability{BigFloat, 1, false}
+Test size for ResidueProbability{BigFloat, 1, false}
+Test indexing with i for ResidueProbability{BigFloat, 1, false}
+Test setindex! with i for ResidueProbability{BigFloat, 1, false}
+Test update! for ResidueProbability{BigFloat, 1, false}
+Test normalize! for ResidueProbability{BigFloat, 1, false}
+Test fill! with ResidueCount{Int, 1, false} for ResidueProbability{BigFloat, 1, false}
+# Iteration = N: 2 UseGap: true
+Test zeros for ResidueProbability{BigFloat, 2, true}
+Test iteration interface for ResidueProbability{BigFloat, 2, true}
+Test size for ResidueProbability{BigFloat, 2, true}
+Test indexing with i for ResidueProbability{BigFloat, 2, true}
+Test setindex! with i for ResidueProbability{BigFloat, 2, true}
+Test update! for ResidueProbability{BigFloat, 2, true}
+Test normalize! for ResidueProbability{BigFloat, 2, true}
+Test fill! with ResidueCount{Int, 2, true} for ResidueProbability{BigFloat, 2, true}
+# Iteration = N: 2 UseGap: false
+Test zeros for ResidueProbability{BigFloat, 2, false}
+Test iteration interface for ResidueProbability{BigFloat, 2, false}
+Test size for ResidueProbability{BigFloat, 2, false}
+Test indexing with i for ResidueProbability{BigFloat, 2, false}
+Test setindex! with i for ResidueProbability{BigFloat, 2, false}
+Test update! for ResidueProbability{BigFloat, 2, false}
+Test normalize! for ResidueProbability{BigFloat, 2, false}
+Test fill! with ResidueCount{Int, 2, false} for ResidueProbability{BigFloat, 2, false}
+# Iteration = N: 3 UseGap: true
+Test zeros for ResidueProbability{BigFloat, 3, true}
+Test iteration interface for ResidueProbability{BigFloat, 3, true}
+Test size for ResidueProbability{BigFloat, 3, true}
+Test indexing with i for ResidueProbability{BigFloat, 3, true}
+Test setindex! with i for ResidueProbability{BigFloat, 3, true}
+Test update! for ResidueProbability{BigFloat, 3, true}
+Test normalize! for ResidueProbability{BigFloat, 3, true}
+Test fill! with ResidueCount{Int, 3, true} for ResidueProbability{BigFloat, 3, true}
+# Iteration = N: 3 UseGap: false
+Test zeros for ResidueProbability{BigFloat, 3, false}
+Test iteration interface for ResidueProbability{BigFloat, 3, false}
+Test size for ResidueProbability{BigFloat, 3, false}
+Test indexing with i for ResidueProbability{BigFloat, 3, false}
+Test setindex! with i for ResidueProbability{BigFloat, 3, false}
+Test update! for ResidueProbability{BigFloat, 3, false}
+Test normalize! for ResidueProbability{BigFloat, 3, false}
+Test fill! with ResidueCount{Int, 3, false} for ResidueProbability{BigFloat, 3, false}
+# Iteration = N: 4 UseGap: true
+Test zeros for ResidueProbability{BigFloat, 4, true}
+Test iteration interface for ResidueProbability{BigFloat, 4, true}
+Test size for ResidueProbability{BigFloat, 4, true}
+Test indexing with i for ResidueProbability{BigFloat, 4, true}
+Test setindex! with i for ResidueProbability{BigFloat, 4, true}
+Test update! for ResidueProbability{BigFloat, 4, true}
+Test normalize! for ResidueProbability{BigFloat, 4, true}
+Test fill! with ResidueCount{Int, 4, true} for ResidueProbability{BigFloat, 4, true}
+# Iteration = N: 4 UseGap: false
+Test zeros for ResidueProbability{BigFloat, 4, false}
+Test iteration interface for ResidueProbability{BigFloat, 4, false}
+Test size for ResidueProbability{BigFloat, 4, false}
+Test indexing with i for ResidueProbability{BigFloat, 4, false}
+Test setindex! with i for ResidueProbability{BigFloat, 4, false}
+Test update! for ResidueProbability{BigFloat, 4, false}
+Test normalize! for ResidueProbability{BigFloat, 4, false}
+Test fill! with ResidueCount{Int, 4, false} for ResidueProbability{BigFloat, 4, false}
+Iteration end
+
+Test Float64
+
+Iterate for UseGap in [true, false]:
+# Iteration = UseGap: true
+Test indexing with ij for ResidueProbability{BigFloat, 2, true}
+Test setindex! with ij for ResidueProbability{BigFloat, 2, true}
+# Iteration = UseGap: false
+Test indexing with ij for ResidueProbability{BigFloat, 2, false}
+Test setindex! with ij for ResidueProbability{BigFloat, 2, false}
+Iteration end
+
+Test pseudofrequencies
+Test probabilities
+Test delete_dimensions
+
+Tests for Information Measures
+==============================
+
+Entropy
+-------
+Entropy: H(X)
+Joint Entropy: H(X,Y)
+Joint Entropy: H(X,Y,Z)
+Entropy using ResidueCount
+
+Kullback-Leibler
+----------------
+
+Mutual Information
+------------------
+MI(X,Y) = H(X) + H(Y) - H(X,Y)
+MI using ResidueCount
+MI(X,Y,Z)
+MI(X,Y,Z) = H(X) + H(Y) + H(Z) - H(X,Y) - H(X,Z) - H(Y,Z) + H(X,Y,Z)
+MI(X,Y,Z) <= min{ H(X,Y), H(X,Z), H(Y,Z) }
+
+Pairwise Gap Percentage
+-----------------------
+
+Estimation of measures on a MSA
+===============================
+This is the example of MI(X, Y)/H(X, Y) from:
+Gao, H., Dou, Y., Yang, J., & Wang, J. (2011). New methods to measure residues coevolution in proteins. BMC bioinformatics, 12(1), 206.
+
+Test APC!
+=========
+
+Simple examples
+===============
+MI
+
+MI: Using pseudocount (0.05)
+----------------------------
+
+Test APC!
+
+Z-score
+MI
+
+MI: Using pseudocount (0.05)
+----------------------------
+
+Test APC!
+
+Z-score
+
+Results from Buslje et. al 2009
+===============================
+
+MI
+
+Pearson for Z-score: 0.9706139760722333
+
+cMI
+
+MI + clustering
+
+Pearson for Z-score: 0.9623912783430139
+
+MIp
+
+Pearson for MIp: 0.9999999999999999
+Pearson for Z-score: 0.9757873955015272
+
+MIp + clustering
+
+Pearson for MIp: 0.9999999999999999
+Pearson for Z-score: 0.9510574833756749
+
+Test for BLMI
+=============
+
+Test for Pairwise Gap Percentage
+================================
+
+Test download from Pfam
+=======================
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:11 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:12 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:13 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:14 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:15 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:16 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:17 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:18 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:19 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:20 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:21 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:22 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:23 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:24 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:25 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:26 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:27 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:28 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:29 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:30 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:31 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:32 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:33 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:34 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:35 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:36 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:37 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:38 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:39 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:40 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:41 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:42 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:43 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:44 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:45 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:46 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:47 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:48 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:49 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:50 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:51 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:52 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:53 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:54 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:55 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:56 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:57 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:58 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:59 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:00 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:02 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:03 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:04 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:05 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:06 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:07 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:08 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:09 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:10 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:11 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:12 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:13 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:14 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:15 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:16 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:17 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:18 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:19 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:20 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:21 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:22 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:23 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:24 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:25 --:--:--     0100   932  100   932    0     0     10      0  0:01:33  0:01:26  0:00:07   220100   932  100   932    0     0     10      0  0:01:33  0:01:26  0:00:07   288
+
+Test PDB code from Pfam
+=======================
+
+Test Mapping PDB/Pfam
+=====================
+
+Test Residues
+-------------
+
+Test Contacts
+=============
+
+Test MSA contact map using PDBResidues from the MSA
+---------------------------------------------------
+
+...............................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
+
+Test hasresidues
+
+Test AUC and Contact Masks
+==========================
+
+AUC Example using MI
+--------------------
+
+Test scripts
+============
+
+STDIN -> STDOUT
+---------------
+--arg
+--list & -a
+
+File -> File
+------------
+--list & -a
+
+-p (parallel)
+-------------
+File -> File (--list)
+STDIN -> File (--list)
+
+Distances.jl
+============
+
+----- =D -----
+
+INFO: MIToS tests passed
 
 >>> End of log
