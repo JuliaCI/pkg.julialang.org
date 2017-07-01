@@ -5,13 +5,13 @@ INFO: Installing DataFrames v0.10.0
 INFO: Installing DataStructures v0.5.3
 INFO: Installing FileIO v0.4.1
 INFO: Installing GZip v0.3.0
-INFO: Installing LazyContext v0.1.0
+INFO: Installing LazyContext v0.0.2
 INFO: Installing LazyQuery v0.0.1
 INFO: Installing MacroTools v0.3.7
 INFO: Installing Reexport v0.0.3
 INFO: Installing SortingAlgorithms v0.1.1
 INFO: Installing SpecialFunctions v0.1.1
-INFO: Installing StatsBase v0.16.0
+INFO: Installing StatsBase v0.16.1
 INFO: Package database updated
 
 >>> 'Pkg.test("LazyQuery")' log
@@ -23,13 +23,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-121-generic #170-Ubuntu SMP Wed Jun 14 09:04:33 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (983.59765625 MB free)
-Uptime: 2388.0 sec
-Load Avg:  0.986328125  0.96435546875  0.8701171875
+Memory: 2.9392738342285156 GB (972.25 MB free)
+Uptime: 2355.0 sec
+Load Avg:  1.0771484375  0.97802734375  0.79296875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3501 MHz     107787 s         56 s       7764 s      95232 s          0 s
-#2  3501 MHz      15980 s         96 s       3291 s     216942 s          0 s
+#1  3499 MHz     102748 s         56 s       7178 s      99249 s          4 s
+#2  3499 MHz      24681 s         90 s       3820 s     203034 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -53,12 +53,12 @@ Package Directory: /home/vagrant/.julia/v0.6
  - DataStructures                0.5.3
  - FileIO                        0.4.1
  - GZip                          0.3.0
- - LazyContext                   0.1.0
+ - LazyContext                   0.0.2
  - MacroTools                    0.3.7
  - Reexport                      0.0.3
  - SortingAlgorithms             0.1.1
  - SpecialFunctions              0.1.1
- - StatsBase                     0.16.0
+ - StatsBase                     0.16.1
 INFO: Computing test dependencies for LazyQuery...
 INFO: Installing ASTInterpreter v0.0.4
 INFO: Installing AbstractTrees v0.0.4
@@ -115,247 +115,12 @@ Documenter: building cross-references.
 Documenter: running document checks.
  > checking for missing docstrings.
  > running doctests.
-=====[Test Error]==============================
-
-> File: src/index.md
-
-> Code block:
-
-```jldoctest
-julia>  import LazyContext, ChainRecursive, LazyQuery, DataFrames;
-
-julia>  LazyContext.@new_environment;
-
-julia>  LazyContext.@use_in_environment DataFrames LazyQuery;
-
-julia>  ChainRecursive.@chain LazyContext.@evaluate begin
-            DataFrame(
-                a = [1, 1, 2, 2, 3, 3],
-                be = [1, 3, 2, 4, 3, 5],
-                C = [5, 3, 4, 2, 3, 1] )
-            @rename it b = be c = C
-            @add_to(it,
-                d = b .+ c,
-                e = b .- a)
-            @choose_from it -c
-            @rows_where it a .> 1
-            @groupby it e
-            map(it) do subframe
-                @make_from(subframe,
-                    f = sum(a),
-                    g = mean(b)
-                )
-            end
-            combine(it)
-        end
-2×3 DataFrames.DataFrame
-│ Row │ e │ f │ g   │
-├─────┼───┼───┼─────┤
-│ 1   │ 0 │ 5 │ 2.5 │
-│ 2   │ 2 │ 5 │ 4.5 │
-```
-
-> Subexpression:
-
-     ChainRecursive.@chain LazyContext.@evaluate begin
-         DataFrame(
-             a = [1, 1, 2, 2, 3, 3],
-             be = [1, 3, 2, 4, 3, 5],
-             C = [5, 3, 4, 2, 3, 1] )
-         @rename it b = be c = C
-         @add_to(it,
-             d = b .+ c,
-             e = b .- a)
-         @choose_from it -c
-         @rows_where it a .> 1
-         @groupby it e
-         map(it) do subframe
-             @make_from(subframe,
-                 f = sum(a),
-                 g = mean(b)
-             )
-         end
-         combine(it)
-     end
-
-> Output Diff (REQUIRES COLOR):
-
-2×3 DataFrames.DataFrame
-│ Row │ e │ f │ g   │
-├─────┼───┼───┼─────┤
-│ 1   │ 0 │ 5 │ 2.5 │
-│ 2   │ 2 │ 5 │ 4.5 ERROR: MethodError: no method matching LazyContext.WithContext(::Expr, ::LazyContext.Environment)
-Closest candidates are:
-  LazyContext.WithContext(::environment_type, ::expression_type, !Matched::Module) where {environment_type, expression_type} at /home/vagrant/.julia/v0.6/LazyContext/src/environment.jl:204
-Stacktrace:
- [1] evaluate_keyword(::DataFrames.DataFrame, ::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyQuery/src/lazy_patterns.jl:48
- [2] evaluate_keywords(::LazyQuery.#add_to, ::DataFrames.DataFrame, ::Tuple{LazyContext.WithContext{LazyContext.Environment,Expr},LazyContext.WithContext{LazyContext.Environment,Expr}}) at /home/vagrant/.julia/v0.6/LazyQuery/src/lazy_patterns.jl:52
- [3] add_to(::LazyContext.WithContext{LazyContext.Environment,Symbol}, ::LazyContext.WithContext{LazyContext.Environment,Expr}, ::Vararg{LazyContext.WithContext{LazyContext.Environment,Expr},N} where N) at /home/vagrant/.julia/v0.6/LazyQuery/src/query_verbs.jl:44
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.6/LazyQuery/src/query_verbs.jl
-
-> Code block:
-
-```jldoctest
-julia> import LazyContext, LazyQuery
-
-julia> LazyContext.@new_environment;
-
-julia> LazyContext.@use_in_environment LazyQuery;
-
-julia> LazyContext.@evaluate begin
-           d = Dict(:a => 1, :b => 2);
-           @add_to d c = a + b
-       end == Dict(:a => 1, :b => 2, :c => 3)
-true
-```
-
-> Subexpression:
-
-    LazyContext.@evaluate begin
-        d = Dict(:a => 1, :b => 2);
-        @add_to d c = a + b
-    end == Dict(:a => 1, :b => 2, :c => 3)
-
-> Output Diff (REQUIRES COLOR):
-
-trueERROR: MethodError: no method matching LazyContext.WithContext(::Expr, ::LazyContext.Environment)
-Closest candidates are:
-  LazyContext.WithContext(::environment_type, ::expression_type, !Matched::Module) where {environment_type, expression_type} at /home/vagrant/.julia/v0.6/LazyContext/src/environment.jl:204
-Stacktrace:
- [1] evaluate_keyword(::Dict{Symbol,Int64}, ::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyQuery/src/lazy_patterns.jl:48
- [2] evaluate_keywords(::LazyQuery.#add_to, ::Dict{Symbol,Int64}, ::Tuple{LazyContext.WithContext{LazyContext.Environment,Expr}}) at /home/vagrant/.julia/v0.6/LazyQuery/src/lazy_patterns.jl:52
- [3] add_to(::LazyContext.WithContext{LazyContext.Environment,Symbol}, ::LazyContext.WithContext{LazyContext.Environment,Expr}, ::Vararg{LazyContext.WithContext{LazyContext.Environment,Expr},N} where N) at /home/vagrant/.julia/v0.6/LazyQuery/src/query_verbs.jl:44
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.6/LazyQuery/src/query_verbs.jl
-
-> Code block:
-
-```jldoctest
-julia> import LazyContext, LazyQuery
-
-julia> LazyContext.@new_environment;
-
-julia> LazyContext.@use_in_environment LazyQuery;
-
-julia> LazyContext.@evaluate begin
-           d = Dict(:a => 1, :b => 2)
-           @make_from(d, c = a + b, d = b - a)
-       end == Dict(:c => 3, :d => 1)
-true
-```
-
-> Subexpression:
-
-    LazyContext.@evaluate begin
-        d = Dict(:a => 1, :b => 2)
-        @make_from(d, c = a + b, d = b - a)
-    end == Dict(:c => 3, :d => 1)
-
-> Output Diff (REQUIRES COLOR):
-
-trueERROR: MethodError: no method matching LazyContext.WithContext(::Expr, ::LazyContext.Environment)
-Closest candidates are:
-  LazyContext.WithContext(::environment_type, ::expression_type, !Matched::Module) where {environment_type, expression_type} at /home/vagrant/.julia/v0.6/LazyContext/src/environment.jl:204
-Stacktrace:
- [1] evaluate_keyword(::Dict{Symbol,Int64}, ::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyQuery/src/lazy_patterns.jl:48
- [2] evaluate_keywords(::LazyQuery.#make_from, ::Dict{Symbol,Int64}, ::Tuple{LazyContext.WithContext{LazyContext.Environment,Expr},LazyContext.WithContext{LazyContext.Environment,Expr}}) at /home/vagrant/.julia/v0.6/LazyQuery/src/lazy_patterns.jl:52
- [3] make_from(::LazyContext.WithContext{LazyContext.Environment,Symbol}, ::LazyContext.WithContext{LazyContext.Environment,Expr}, ::Vararg{LazyContext.WithContext{LazyContext.Environment,Expr},N} where N) at /home/vagrant/.julia/v0.6/LazyQuery/src/query_verbs.jl:67
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.6/LazyQuery/src/query_verbs.jl
-
-> Code block:
-
-```jldoctest
-julia> import LazyContext, LazyQuery, DataFrames
-
-julia> LazyContext.@new_environment;
-
-julia> LazyContext.@use_in_environment LazyQuery DataFrames;
-
-julia> LazyContext.@evaluate begin
-           d = DataFrame(a = [1, 2, 3], b = [3, 2, 1] )
-           @rows_where d a .== b
-       end
-1×2 DataFrames.DataFrame
-│ Row │ a │ b │
-├─────┼───┼───┤
-│ 1   │ 2 │ 2 │
-```
-
-> Subexpression:
-
-    LazyContext.@evaluate begin
-        d = DataFrame(a = [1, 2, 3], b = [3, 2, 1] )
-        @rows_where d a .== b
-    end
-
-> Output Diff (REQUIRES COLOR):
-
-WARNING: .== is no longer a function object; use broadcast(==, ...) instead
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
- [2] (::Base.##730#731)(::DataArrays.DataArray{Int64,1}, ::DataArrays.DataArray{Int64,1}) at ./deprecated.jl:346
- [3] with(::DataFrames.DataFrame, ::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyQuery/src/lazy_patterns.jl:5
- [4] rows_where(::LazyContext.WithContext{LazyContext.Environment,Symbol}, ::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyQuery/src/query_verbs.jl:95
- [5] disable_color(::Documenter.DocChecks.##8#10{Module}) at /home/vagrant/.julia/v0.6/Documenter/src/DocChecks.jl:558
- [6] withoutput(::Documenter.DocChecks.##7#9{Module}) at /home/vagrant/.julia/v0.6/Documenter/src/Utilities/Utilities.jl:587
- [7] eval_repl(::String, ::Module, ::Dict{Symbol,Any}, ::Documenter.Documents.Document, ::Documenter.Documents.Page) at /home/vagrant/.julia/v0.6/Documenter/src/DocChecks.jl:200
- [8] doctest(::Base.Markdown.Code, ::Dict{Symbol,Any}, ::Documenter.Documents.Document, ::Documenter.Documents.Page) at /home/vagrant/.julia/v0.6/Documenter/src/DocChecks.jl:150
- [9] walk(::Documenter.DocChecks.##1#2{Documenter.Documents.Document}, ::Dict{Symbol,Any}, ::Base.Markdown.Code) at /home/vagrant/.julia/v0.6/Documenter/src/Walkers.jl:22
- [10] walk(::Function, ::Dict{Symbol,Any}, ::Array{Any,1}) at /home/vagrant/.julia/v0.6/Documenter/src/Walkers.jl:36
- [11] walk(::Documenter.DocChecks.##1#2{Documenter.Documents.Document}, ::Dict{Symbol,Any}, ::Base.Markdown.MD) at /home/vagrant/.julia/v0.6/Documenter/src/Walkers.jl:29
- [12] walk(::Function, ::Dict{Symbol,Any}, ::Array{Any,1}) at /home/vagrant/.julia/v0.6/Documenter/src/Walkers.jl:36
- [13] walk(::Documenter.DocChecks.##1#2{Documenter.Documents.Document}, ::Dict{Symbol,Any}, ::Base.Markdown.MD) at /home/vagrant/.julia/v0.6/Documenter/src/Walkers.jl:29
- [14] walk(::Function, ::Dict{Symbol,Any}, ::Array{Documenter.Documents.DocsNode,1}) at /home/vagrant/.julia/v0.6/Documenter/src/Walkers.jl:36
- [15] walk(::Function, ::Dict{Symbol,Any}, ::Documenter.Documents.DocsNodes) at /home/vagrant/.julia/v0.6/Documenter/src/Walkers.jl:49
- [16] doctest(::Documenter.Documents.Document) at /home/vagrant/.julia/v0.6/Documenter/src/DocChecks.jl:115
- [17] runner(::Type{Documenter.Builder.CheckDocument}, ::Documenter.Documents.Document) at /home/vagrant/.julia/v0.6/Documenter/src/Builder.jl:189
- [18] dispatch(::Type{Documenter.Builder.DocumentPipeline}, ::Documenter.Documents.Document) at /home/vagrant/.julia/v0.6/Documenter/src/Selectors.jl:164
- [19] cd(::Documenter.##2#3{Documenter.Documents.Document}, ::String) at ./file.jl:70
- [20] #makedocs#1(::Bool, ::Array{Any,1}, ::Function) at /home/vagrant/.julia/v0.6/Documenter/src/Documenter.jl:198
- [21] (::Documenter.#kw##makedocs)(::Array{Any,1}, ::Documenter.#makedocs) at ./<missing>:0
- [22] include_from_node1(::String) at ./loading.jl:569
- [23] include(::String) at ./sysimg.jl:14
- [24] process_options(::Base.JLOptions) at ./client.jl:305
- [25] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/LazyQuery/test/runtests.jl, in expression starting on line 3
-1×2 DataFrames.DataFrame
-│ Row │ a │ b │
-├─────┼───┼───┤
-│ 1   │ 2 │ 2 
-
-=====[End Error]===============================
  > checking footnote links.
  > checking external URLs:
    - index.md
 Documenter: populating indices.
-ERROR: LoadError: `makedocs` encountered an error. Terminating build
-Stacktrace:
- [1] runner(::Type{Documenter.Builder.RenderDocument}, ::Documenter.Documents.Document) at /home/vagrant/.julia/v0.6/Documenter/src/Builder.jl:202
- [2] dispatch(::Type{Documenter.Builder.DocumentPipeline}, ::Documenter.Documents.Document) at /home/vagrant/.julia/v0.6/Documenter/src/Selectors.jl:164
- [3] cd(::Documenter.##2#3{Documenter.Documents.Document}, ::String) at ./file.jl:70
- [4] #makedocs#1(::Bool, ::Array{Any,1}, ::Function) at /home/vagrant/.julia/v0.6/Documenter/src/Documenter.jl:198
- [5] (::Documenter.#kw##makedocs)(::Array{Any,1}, ::Documenter.#makedocs) at ./<missing>:0
- [6] include_from_node1(::String) at ./loading.jl:569
- [7] include(::String) at ./sysimg.jl:14
- [8] process_options(::Base.JLOptions) at ./client.jl:305
- [9] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/LazyQuery/test/runtests.jl, in expression starting on line 6
-==============================[ ERROR: LazyQuery ]==============================
-
-failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/LazyQuery/test/runtests.jl`, ProcessExited(1)) [1]
-
-================================================================================
+Documenter: rendering document.
+INFO: LazyQuery tests passed
 INFO: Removing ASTInterpreter v0.0.4
 INFO: Removing AbstractTrees v0.0.4
 INFO: Removing ArgParse v0.5.0
@@ -400,6 +165,5 @@ INFO: Removing Tokenize v0.1.8
 INFO: Removing URIParser v0.1.8
 INFO: Removing VT100 v0.1.0
 INFO: Removing WebSockets v0.2.3
-ERROR: LazyQuery had test errors
 
 >>> End of log
