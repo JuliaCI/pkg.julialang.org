@@ -2,6 +2,8 @@
 INFO: Cloning cache of MLKernels from https://github.com/trthatcher/MLKernels.jl.git
 INFO: Installing MLKernels v0.2.0
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of MLKernels
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("MLKernels")' log
 Julia Version 0.5.2
@@ -12,13 +14,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-121-generic #170-Ubuntu SMP Wed Jun 14 09:04:33 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (719.1953125 MB free)
-Uptime: 12620.0 sec
-Load Avg:  0.9775390625  0.9736328125  1.01171875
+Memory: 2.9392738342285156 GB (725.8828125 MB free)
+Uptime: 11980.0 sec
+Load Avg:  1.0380859375  1.037109375  1.04736328125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz     701630 s       2524 s      84654 s     328603 s         18 s
-#2  3499 MHz     227783 s       4450 s      36224 s     960001 s          0 s
+#1  3500 MHz     689232 s       6286 s      67308 s     293494 s         19 s
+#2  3500 MHz     226950 s         92 s      34350 s     907741 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -82,12 +84,34 @@ INFO: Testing MLKernels.kernel
 INFO: Testing MLKernels.kappamatrix!
 INFO: Testing MLKernels.symmetric_kappamatrix!
 INFO: Testing MLKernels.kernelmatrix!
-INFO: Testing MLKernels.kernelmatrix
-INFO: Testing MLKernels.centerkernelmatrix!
-INFO: Testing MLKernels.samplematrix
-INFO: Testing MLKernels.nystrom_sample
-INFO: Testing MLKernels.nystrom_pinv!
-INFO: Testing MLKernels.nystrom
-INFO: MLKernels tests passed
+ERROR: LoadError: LoadError: DomainError:
+ in exponentialkernel at /home/vagrant/.julia/v0.5/MLKernels/src/kernel.jl:110 [inlined]
+ in kappa at /home/vagrant/.julia/v0.5/MLKernels/src/kernel.jl:114 [inlined]
+ in symmetric_kappamatrix!(::MLKernels.ExponentialKernel{Float64}, ::Array{Float64,2}, ::Bool) at /home/vagrant/.julia/v0.5/MLKernels/src/kernelmatrix.jl:35
+ in kernelmatrix!(::MLKernels.PairwiseFunctions.RowMajor, ::Array{Float64,2}, ::MLKernels.ExponentialKernel{Float64}, ::Array{Float64,2}, ::Bool) at /home/vagrant/.julia/v0.5/MLKernels/src/kernelmatrix.jl:48
+ in macro expansion; at /home/vagrant/.julia/v0.5/MLKernels/test/kernelmatrix.jl:74 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:488 (repeats 2 times)
+ in process_options(::Base.JLOptions) at ./client.jl:265
+ in _start() at ./client.jl:321
+while loading /home/vagrant/.julia/v0.5/MLKernels/test/kernelmatrix.jl, in expression starting on line 59
+while loading /home/vagrant/.julia/v0.5/MLKernels/test/runtests.jl, in expression starting on line 30
+==============================[ ERROR: MLKernels ]==============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.5/MLKernels/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: MLKernels had test errors
+ in #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:748
+ in (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
+ in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:59
+ in #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
+ in (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
+ in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in eval(::Module, ::Any) at ./boot.jl:234
+ in process_options(::Base.JLOptions) at ./client.jl:242
+ in _start() at ./client.jl:321
 
 >>> End of log
