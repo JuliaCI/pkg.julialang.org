@@ -26,13 +26,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-121-generic #170-Ubuntu SMP Wed Jun 14 09:04:33 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1065.67578125 MB free)
-Uptime: 46392.0 sec
-Load Avg:  1.0029296875  1.005859375  0.9677734375
+Memory: 2.9392738342285156 GB (1270.17578125 MB free)
+Uptime: 46838.0 sec
+Load Avg:  1.0029296875  1.001953125  1.005859375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    2972637 s       6358 s     135370 s     795226 s         67 s
-#2  3500 MHz     668182 s         42 s      75452 s    3796342 s          2 s
+#1  3512 MHz    3058655 s       1886 s     138636 s     732720 s         94 s
+#2  3512 MHz     606474 s       4669 s      72549 s    3907854 s          4 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -80,38 +80,47 @@ WARNING: deprecated syntax "typealias SmoothedAggregationSolver AMGSolver{Smooth
 Use "const SmoothedAggregationSolver = AMGSolver{SmoothedAggregation}" instead.
 =================================================
 Test 1: Julia `\` vs PyAMG Blackbox `solve` (2D) Laplacian
- \ :   0.988549 seconds (267.67 k allocations: 23.017 MiB, 7.17% gc time)
+ \ :   1.087176 seconds (267.67 k allocations: 23.204 MiB, 8.45% gc time)
 PyAMG-Warmup: /home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/pyamg/strength.py:533: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
   if B == 'ones':
-ERROR: LoadError: PyError (ccall(@pysym(:PyObject_Call), PyPtr, (PyPtr, PyPtr, PyPtr), o, arg, kw)) <type 'exceptions.TypeError'>
-TypeError('Failed generating smoothed_aggregation_solver',)
-  File "/home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/pyamg/blackbox.py", line 284, in solve
-    existing_solver = solver(A, config)
-  File "/home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/pyamg/blackbox.py", line 215, in solver
-    raise TypeError('Failed generating smoothed_aggregation_solver')
-
-Stacktrace:
- [1] pyerr_check at /home/vagrant/.julia/v0.6/PyCall/src/exception.jl:56 [inlined]
- [2] pyerr_check at /home/vagrant/.julia/v0.6/PyCall/src/exception.jl:61 [inlined]
- [3] macro expansion at /home/vagrant/.julia/v0.6/PyCall/src/exception.jl:81 [inlined]
- [4] #_pycall#66(::Array{Any,1}, ::Function, ::PyCall.PyObject, ::PyCall.PyObject, ::Vararg{Any,N} where N) at /home/vagrant/.julia/v0.6/PyCall/src/PyCall.jl:601
- [5] (::PyCall.#kw##_pycall)(::Array{Any,1}, ::PyCall.#_pycall, ::PyCall.PyObject, ::PyCall.PyObject, ::Vararg{Any,N} where N) at ./<missing>:0
- [6] #pycall#70(::Array{Any,1}, ::Function, ::PyCall.PyObject, ::Type{PyCall.PyAny}, ::PyCall.PyObject, ::Vararg{Any,N} where N) at /home/vagrant/.julia/v0.6/PyCall/src/PyCall.jl:618
- [7] (::PyCall.#kw##pycall)(::Array{Any,1}, ::PyCall.#pycall, ::PyCall.PyObject, ::Type{PyCall.PyAny}, ::PyCall.PyObject, ::Vararg{Any,N} where N) at ./<missing>:0
- [8] #call#71(::Array{Any,1}, ::PyCall.PyObject, ::PyCall.PyObject, ::Vararg{Any,N} where N) at /home/vagrant/.julia/v0.6/PyCall/src/PyCall.jl:621
- [9] (::PyCall.#kw#PyObject)(::Array{Any,1}, ::PyCall.PyObject, ::PyCall.PyObject, ::Vararg{Any,N} where N) at ./<missing>:0
- [10] #solve#4(::Array{Any,1}, ::Function, ::SparseMatrixCSC{Float64,Int64}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/PyAMG/src/PyAMG.jl:128
- [11] (::PyAMG.#kw##solve)(::Array{Any,1}, ::PyAMG.#solve, ::SparseMatrixCSC{Float64,Int64}, ::Array{Float64,1}) at ./<missing>:0
- [12] include_from_node1(::String) at ./loading.jl:569
- [13] include(::String) at ./sysimg.jl:14
- [14] process_options(::Base.JLOptions) at ./client.jl:305
- [15] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/PyAMG/test/runtests.jl, in expression starting on line 237
-================================[ ERROR: PyAMG ]================================
-
-failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/PyAMG/test/runtests.jl`, ProcessExited(1)) [1]
-
-================================================================================
+  3.008608 seconds (736.28 k allocations: 40.585 MiB, 0.71% gc time)
+PyAMG:   0.186686 seconds (278 allocations: 942.844 KiB)
+|x_\ - x_amg|_∞ = 1.123589415952253e-11
+|A x_amg - b|_∞ = 3.221373390260851e-9
+=================================================
+Test 2: Julia `\` vs PyAMG Blackbox `solve` (3D)
+ \ :   0.746374 seconds (68 allocations: 93.885 MiB, 2.73% gc time)
+PyAMG-Warmup:   1.489208 seconds (277 allocations: 3.225 MiB)
+PyAMG:   1.320589 seconds (277 allocations: 3.225 MiB)
+|x_\ - x_amg|_∞ = 5.949546411088136e-13
+|A x_amg - b|_∞ = 7.657909861791268e-10
+=================================================
+Test 3: RugeStubenSolver (3D)
+        50 x 50 x 50 grid = 125k dofs 
+Create solver:   0.681106 seconds (18.07 k allocations: 15.360 MiB)
+First solve:   0.459688 seconds (44.80 k allocations: 3.268 MiB)
+Second solve: (tol 1e-9)  0.422355 seconds (6.20 k allocations: 1.291 MiB)
+Third solve: (tol 1e-6)  0.210542 seconds (169 allocations: 983.484 KiB)
+|A x_amg - b|_∞ = 2.532215049200204e-6
+=================================================
+Test 4: \, ldiv, and kwargs
+=================================================
+Test 5: AMG as a preconditioner
+        100 x 100 Dirichlet problem, TOL = 1e-4
+        PyAMG vs CG vs PCG  (using IterativeSolvers)
+Plain CG:
+  1.136094 seconds (1.14 M allocations: 84.161 MiB, 3.99% gc time)
+  0.019985 seconds (848 allocations: 20.865 MiB)
+PyAMG-preconditionerd CG:  (see `aspreconditioner`)
+  0.114582 seconds (50.56 k allocations: 3.658 MiB, 2.23% gc time)
+  0.015878 seconds (559 allocations: 1.013 MiB)
+PyAMG solver
+  0.021927 seconds (211 allocations: 86.766 KiB)
+  0.020729 seconds (210 allocations: 86.719 KiB)
+|x_cg-x| = 3.5312070957405564e-6 
+|x_pcg-x| = 2.7796572129198973e-6
+|x_pyamg-x| = 1.0901104402769516e-7
+INFO: PyAMG tests passed
 INFO: Removing Combinatorics v0.4.1
 INFO: Removing DataStructures v0.5.3
 INFO: Removing IterTools v0.1.0
@@ -123,6 +132,5 @@ INFO: Removing SpecialFunctions v0.1.1
 INFO: Removing StatsBase v0.17.0
 INFO: Removing SugarBLAS v0.0.4
 INFO: Removing UnicodePlots v0.2.4
-ERROR: PyAMG had test errors
 
 >>> End of log

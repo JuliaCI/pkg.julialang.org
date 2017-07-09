@@ -16,7 +16,7 @@ Solving package specifications: .
 # All requested packages already installed.
 # packages in environment at /home/vagrant/.julia/v0.4/Conda/deps/usr:
 #
-numpy                     1.13.0                   py27_0  
+numpy                     1.13.1                   py27_0  
 INFO: PyCall is using /home/vagrant/.julia/v0.4/Conda/deps/usr/bin/python (Python 2.7.13) at /home/vagrant/.julia/v0.4/Conda/deps/usr/bin/python, libpython = /home/vagrant/.julia/v0.4/Conda/deps/usr/lib/libpython2.7
 INFO: /home/vagrant/.julia/v0.4/PyCall/deps/deps.jl has not changed
 INFO: /home/vagrant/.julia/v0.4/PyCall/deps/PYTHON has not changed
@@ -33,13 +33,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-121-generic #170-Ubuntu SMP Wed Jun 14 09:04:33 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (525.01953125 MB free)
-Uptime: 26130.0 sec
-Load Avg:  1.2255859375  1.02392578125  0.9736328125
+Memory: 2.9392738342285156 GB (518.3984375 MB free)
+Uptime: 26506.0 sec
+Load Avg:  1.0205078125  0.9697265625  0.9208984375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    1284201 s       7018 s      95544 s     970530 s         46 s
-#2  3500 MHz     887774 s         87 s      80956 s    1559549 s          0 s
+#1  3499 MHz    1287002 s       4964 s     110737 s     982577 s         37 s
+#2  3499 MHz     869861 s       1468 s      96649 s    1583365 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -70,40 +70,48 @@ INFO: Installing IterativeSolvers v0.2.2
 INFO: Testing PyAMG
 =================================================
 Test 1: Julia `\` vs PyAMG Blackbox `solve` (2D) Laplacian
- \ :   0.593562 seconds (393.72 k allocations: 26.655 MB, 0.93% gc time)
+ \ :   0.597264 seconds (393.72 k allocations: 26.655 MB, 1.01% gc time)
 PyAMG-Warmup: /home/vagrant/.julia/v0.4/Conda/deps/usr/lib/python2.7/site-packages/pyamg/strength.py:533: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
   if B == 'ones':
-ERROR: LoadError: PyError (:PyObject_Call) <type 'exceptions.TypeError'>
-TypeError('Failed generating smoothed_aggregation_solver',)
-  File "/home/vagrant/.julia/v0.4/Conda/deps/usr/lib/python2.7/site-packages/pyamg/blackbox.py", line 284, in solve
-    existing_solver = solver(A, config)
-  File "/home/vagrant/.julia/v0.4/Conda/deps/usr/lib/python2.7/site-packages/pyamg/blackbox.py", line 215, in solver
-    raise TypeError('Failed generating smoothed_aggregation_solver')
-
- [inlined code] from /home/vagrant/.julia/v0.4/PyCall/src/exception.jl:81
- in _pycall at /home/vagrant/.julia/v0.4/PyCall/src/PyCall.jl:556
- in pycall at /home/vagrant/.julia/v0.4/PyCall/src/PyCall.jl:573
- in call at /home/vagrant/.julia/v0.4/PyCall/src/PyCall.jl:576
- in solve at /home/vagrant/.julia/v0.4/PyAMG/src/PyAMG.jl:128
- in include at ./boot.jl:261
- in include_from_node1 at ./loading.jl:333
- in process_options at ./client.jl:280
- in _start at ./client.jl:378
-while loading /home/vagrant/.julia/v0.4/PyAMG/test/runtests.jl, in expression starting on line 155
-================================[ ERROR: PyAMG ]================================
-
-failed process: Process(`/home/vagrant/julia/bin/julia --check-bounds=yes --code-coverage=none --color=no /home/vagrant/.julia/v0.4/PyAMG/test/runtests.jl`, ProcessExited(1)) [1]
-
-================================================================================
+  2.338505 seconds (1.90 M allocations: 81.818 MB, 0.99% gc time)
+PyAMG:   0.239197 seconds (289 allocations: 942.469 KB)
+|x_\ - x_amg|_∞ = 1.065460220051051e-12
+|A x_amg - b|_∞ = 3.225579803256551e-9
+=================================================
+Test 2: Julia `\` vs PyAMG Blackbox `solve` (3D)
+ \ :   0.710011 seconds (85 allocations: 98.501 MB, 0.52% gc time)
+PyAMG-Warmup:   1.319828 seconds (288 allocations: 3.224 MB)
+PyAMG:   1.273013 seconds (288 allocations: 3.224 MB)
+|x_\ - x_amg|_∞ = 7.402828350322466e-13
+|A x_amg - b|_∞ = 1.2642402680285159e-9
+=================================================
+Test 3: RugeStubenSolver (3D)
+        50 x 50 x 50 grid = 125k dofs 
+Create solver:   0.775209 seconds (126.06 k allocations: 19.336 MB)
+First solve:   0.332708 seconds (149.70 k allocations: 7.844 MB, 0.63% gc time)
+Second solve: (tol 1e-9)  0.327332 seconds (13.89 k allocations: 1.608 MB)
+Third solve: (tol 1e-6)  0.199944 seconds (189 allocations: 983.938 KB)
+|A x_amg - b|_∞ = 2.532215049200204e-6
+=================================================
+Test 4: \, ldiv, and kwargs
+=================================================
+Test 5: AMG as a preconditioner
+        100 x 100 Dirichlet problem, TOL = 1e-4
+        PyAMG vs CG vs PCG  (using IterativeSolvers)
+WARNING: replacing module IterativeSolvers
+Plain CG:
+  0.485067 seconds (331.93 k allocations: 76.482 MB, 5.27% gc time)
+  0.057288 seconds (3.25 k allocations: 61.645 MB, 7.38% gc time)
+PyAMG-preconditionerd CG:  (see `aspreconditioner`)
+  0.176873 seconds (57.09 k allocations: 4.712 MB)
+  0.018137 seconds (629 allocations: 2.082 MB)
+PyAMG solver
+  0.022880 seconds (247 allocations: 88.359 KB)
+  0.019403 seconds (215 allocations: 86.359 KB)
+|x_cg-x| = 3.5312070957405564e-6 
+|x_pcg-x| = 2.7796572129198973e-6
+|x_pyamg-x| = 1.0901104402769516e-7
+INFO: PyAMG tests passed
 INFO: Removing IterativeSolvers v0.2.2
-ERROR: PyAMG had test errors
- in error at ./error.jl:21
- in test at pkg/entry.jl:803
- in anonymous at pkg/dir.jl:31
- in cd at file.jl:22
- in cd at pkg/dir.jl:31
- in test at pkg.jl:71
- in process_options at ./client.jl:257
- in _start at ./client.jl:378
 
 >>> End of log
