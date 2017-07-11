@@ -14,13 +14,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-121-generic #170-Ubuntu SMP Wed Jun 14 09:04:33 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (894.3125 MB free)
-Uptime: 72636.0 sec
-Load Avg:  0.984375  1.00048828125  1.03466796875
+Memory: 2.9392738342285156 GB (895.58984375 MB free)
+Uptime: 72624.0 sec
+Load Avg:  0.9970703125  0.9853515625  0.98095703125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    4841490 s       5432 s     223313 s     961880 s         76 s
-#2  3500 MHz     934195 s        955 s     106837 s    6081490 s          1 s
+#1  3499 MHz    4823405 s         68 s     222041 s    1012537 s        100 s
+#2  3499 MHz     946288 s       6423 s     110158 s    6041888 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -73,7 +73,7 @@ Type of output T: TensorToolbox.ttensor{Float64}
 Core tensor size: (20, 10, 50, 5)
 Factor matrices sizes: (20, 20) (10, 10) (50, 50) (5, 5) 
 
-...Testing function full, i.e. n-mode multiplication (ttm): vecnorm(full(T)-X) = 2.505748723254131e-13
+...Testing function full, i.e. n-mode multiplication (ttm): vecnorm(full(T)-X) = 2.3476024639048874e-13
 WARNING: @test_approx_eq_eps is deprecated, use `@test vecnorm(full(T) - X) ≈ 0 atol=1.0e-12` instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
@@ -84,7 +84,7 @@ Stacktrace:
  [6] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/TensorToolbox/test/runtests.jl, in expression starting on line 32
 
-...Testing ttm for ttensor T and array of matrices A : vecnorm(full(ttm(T,A))-ttm(full(T),A)) = 8.869030746082938e-12
+...Testing ttm for ttensor T and array of matrices A : vecnorm(full(ttm(T,A))-ttm(full(T),A)) = 1.7953523895246492e-11
 WARNING: @test_approx_eq_eps is deprecated, use `@test vecnorm(full(ttm(T, A)) - ttm(full(T), A)) ≈ 0 atol=1.0e-10` instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
@@ -108,7 +108,7 @@ Factor matrices sizes: (20, 5) (10, 5) (50, 5) (5, 5)
 
 ...Testing hosvd for tensor with noise.
 For ttensor T, X=full(T) tensor of size (60, 50, 40) and rank [5, 5, 5] , N noise tensor and S=hosvd(X+N,[5, 5, 5]).
-Error( vecnorm(T-S) ): 0.01427993395560335. Noise vecnorm: 0.173328580463133.
+Error( vecnorm(T-S) ): 0.014281881301093069. Noise vecnorm: 0.1730681250080044.
 
 
 ...Testing hosvd with eps_abs=1e-5 on function defined tensor X of size (20, 20, 20)
@@ -175,7 +175,7 @@ while loading /home/vagrant/.julia/v0.6/TensorToolbox/test/runtests.jl, in expre
 ...Creating two random ttensors X and Y of size (6, 8, 2, 5, 4).
 
 ...Testing addition.
-vecnorm(full(X+Y) - (full(X)+full(Y))) = 1.617323803662528e-13
+vecnorm(full(X+Y) - (full(X)+full(Y))) = 1.8218458104940848e-13
 WARNING: @test_approx_eq_eps is deprecated, use `@test vecnorm(full(Z) - F) ≈ 0 atol=1.0e-12` instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
@@ -188,7 +188,7 @@ while loading /home/vagrant/.julia/v0.6/TensorToolbox/test/runtests.jl, in expre
 
 
 ...Testing inner product.
-|innerprod(X,Y) - innerprod(full(X),full(Y))| = 1.2505552149377763e-12
+|innerprod(X,Y) - innerprod(full(X),full(Y))| = 4.320099833421409e-12
 WARNING: @test_approx_eq_eps is deprecated, use `@test abs(Z - innerprod(full(X), full(Y))) ≈ 0 atol=1.0e-10` instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
@@ -201,7 +201,7 @@ while loading /home/vagrant/.julia/v0.6/TensorToolbox/test/runtests.jl, in expre
 
 
 ...Testing Hadamard product.
-vecnorm(full(X.*Y) - full(X).*full(Y)) = 2.0486884479240793e-12
+vecnorm(full(X.*Y) - full(X).*full(Y)) = 1.7019770987992182e-12
 WARNING: @test_approx_eq_eps is deprecated, use `@test vecnorm(full(X .* Y) - full(X) .* full(Y)) ≈ 0 atol=1.0e-10` instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
@@ -215,7 +215,7 @@ while loading /home/vagrant/.julia/v0.6/TensorToolbox/test/runtests.jl, in expre
 
 ...Testing singular values of matricizations of Tucker Tensor.
 
-Singular values of matricizations of random Tucker tensor of size (10, 9, 8), rank [3, 3, 3] and vecnorm 122.94382605506797.
+Singular values of matricizations of random Tucker tensor of size (10, 9, 8), rank [3, 3, 3] and vecnorm 85.69520908221249.
 WARNING: @test_approx_eq_eps is deprecated, use `@test norm(sv - ((svdfact!(tenmat(full(T), n)))[:S])[1:length(sv)]) ≈ 0 atol=1.0e-10` instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
@@ -225,11 +225,11 @@ Stacktrace:
  [5] process_options(::Base.JLOptions) at ./client.jl:305
  [6] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/TensorToolbox/test/runtests.jl, in expression starting on line 154
-Mode-1 singular values error: 9.998222537511686e-14
-Mode-2 singular values error: 1.7763568394002505e-14
-Mode-3 singular values error: 3.014577520672848e-14
+Mode-1 singular values error: 2.95110562224397e-14
+Mode-2 singular values error: 1.7852165294699933e-14
+Mode-3 singular values error: 2.95110562224397e-14
 
-Singular values of matricizations of random Tucker tensor of size (20, 20, 20, 20), rank [5, 5, 5, 5] and vecnorm 9139.628262620934.
+Singular values of matricizations of random Tucker tensor of size (20, 20, 20, 20), rank [5, 5, 5, 5] and vecnorm 12043.959063791752.
 WARNING: @test_approx_eq_eps is deprecated, use `@test norm(sv - ((svdfact!(tenmat(full(T), n)))[:S])[1:length(sv)]) ≈ 0 atol=1.0e-10` instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
@@ -239,10 +239,10 @@ Stacktrace:
  [5] process_options(::Base.JLOptions) at ./client.jl:305
  [6] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/TensorToolbox/test/runtests.jl, in expression starting on line 164
-Mode-1 singular values error: 8.235824805649297e-12
-Mode-2 singular values error: 3.777415196472282e-12
-Mode-3 singular values error: 6.050020008683564e-12
-Mode-4 singular values error: 5.164937052359413e-12
+Mode-1 singular values error: 1.37029193622942e-11
+Mode-2 singular values error: 5.34207180156533e-12
+Mode-3 singular values error: 6.03290534919397e-12
+Mode-4 singular values error: 3.1587760507704397e-12
 
 
 
