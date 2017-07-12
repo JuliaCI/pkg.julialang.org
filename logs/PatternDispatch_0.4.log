@@ -2,6 +2,8 @@
 INFO: Cloning cache of PatternDispatch from git://github.com/toivoh/PatternDispatch.jl.git
 INFO: Installing PatternDispatch v0.2.0
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of PatternDispatch
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("PatternDispatch")' log
 Julia Version 0.4.7
@@ -12,13 +14,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-121-generic #170-Ubuntu SMP Wed Jun 14 09:04:33 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1161.4921875 MB free)
-Uptime: 21950.0 sec
-Load Avg:  0.97412109375  0.9853515625  1.0166015625
+Memory: 2.9392738342285156 GB (1146.37109375 MB free)
+Uptime: 21543.0 sec
+Load Avg:  1.0234375  0.97509765625  0.96337890625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    1028110 s       6150 s      85049 s     860121 s         28 s
-#2  3500 MHz     757464 s        442 s      71953 s    1290044 s          0 s
+#1  3499 MHz    1056000 s         13 s      83483 s     795711 s         34 s
+#2  3499 MHz     721714 s       6237 s      70012 s    1293290 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -96,11 +98,11 @@ end
 function dispatch(x_9::$(Expr(:quote, Int64)),y_9::$(Expr(:quote, Int64)))
     ##t#8038 = $(Expr(:quote, 1))
     if is(x_9,##t#8038)
-        if is(y_9,##t#8038)
-            match1()
+        if is(y_9,$(Expr(:quote, 2)))
+            match2()
         else 
-            if is(y_9,$(Expr(:quote, 2)))
-                match2()
+            if is(y_9,##t#8038)
+                match1()
             else 
                 match5(y_9)
             end
@@ -235,23 +237,23 @@ end
 
 # ---- Dispatch methods: ----
 function dispatch(arg1::$(Expr(:quote, Tuple)))
-    ##t#8209 = $(Expr(:quote, 2))
-    if (is(length(arg1),##t#8209) && begin 
-                    x_4 = arg1[1]
-                    isa(x_4,$(Expr(:quote, Int64)))
+    ##t#8213 = $(Expr(:quote, 2))
+    if (is(length(arg1),##t#8213) && begin 
+                    y_4 = arg1[2]
+                    isa(y_4,$(Expr(:quote, Int64)))
                 end) && begin 
-                y_4 = arg1[2]
-                isa(y_4,$(Expr(:quote, Int64)))
+                x_4 = arg1[1]
+                isa(x_4,$(Expr(:quote, Int64)))
             end
-        if is(x_4,$(Expr(:quote, 1)))
-            if is(y_4,##t#8209)
+        if is(y_4,##t#8213)
+            if is(x_4,$(Expr(:quote, 1)))
                 match1()
             else 
-                match3(y_4)
+                match2(x_4)
             end
         else 
-            if is(y_4,##t#8209)
-                match2(x_4)
+            if is(x_4,$(Expr(:quote, 1)))
+                match3(y_4)
             else 
                 match4(x_4,y_4)
             end
