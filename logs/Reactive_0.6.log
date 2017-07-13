@@ -1,5 +1,5 @@
 >>> 'Pkg.add("Reactive")' log
-INFO: Installing DataStructures v0.5.3
+INFO: Installing DataStructures v0.6.0
 INFO: Installing Reactive v0.5.2
 INFO: Package database updated
 INFO: METADATA is out-of-date — you may not have the latest version of Reactive
@@ -14,13 +14,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-121-generic #170-Ubuntu SMP Wed Jun 14 09:04:33 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (601.77734375 MB free)
-Uptime: 52270.0 sec
-Load Avg:  0.9970703125  0.9853515625  0.95458984375
+Memory: 2.9392738342285156 GB (600.81640625 MB free)
+Uptime: 46615.0 sec
+Load Avg:  1.015625  1.02099609375  0.97607421875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    3406367 s       5222 s     152545 s     790088 s         74 s
-#2  3500 MHz     686998 s       1659 s      78424 s    4360929 s          1 s
+#1  3498 MHz    3127592 s       4236 s     142307 s     518205 s         15 s
+#2  3498 MHz     407025 s        915 s      62038 s    4124960 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -39,7 +39,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Reactive                      0.5.2
 2 additional packages:
  - Compat                        0.26.0
- - DataStructures                0.5.3
+ - DataStructures                0.6.0
 INFO: Computing test dependencies for Reactive...
 INFO: Installing FactCheck v0.4.3
 INFO: Testing Reactive
@@ -106,28 +106,33 @@ Flatten
 30 facts verified.
 Timing functions
   > fpswhen
-dt = 1.044176891
+dt = 1.075922548
   > every
   > throttle
-z got 3
-z got 6
-z′ got [1, 2, 3, 4, 5, 6, 7]
-z got 8
-z got 11
-z′ got [8, 9, 10, 11, 12, 13]
-z got 13
-i = 13
-dt = 2.3032619953155518
+z got 2
+z got 5
+z′ got [1, 2, 3, 4, 5, 6]
+z got 7
+z got 10
+z′ got [7, 8, 9, 10, 11, 12]
+z got 12
+i = 12
+dt = 2.3162660598754883
 ydt = 0.5
 y′dt = 1.1
 zcount = 5.0
 z′count = 3.0
-value(y) = 13
-value(y′) = [8, 9, 10, 11, 12, 13]
+value(y) = 12
+value(y′) = [7, 8, 9, 10, 11, 12]
 value(z) = 5
 value(z′) = 2
+    Failure :: (line:272) :: throttle :: fact was false
+      Expression: length(value(y′)) --> less_than(i / (z′count - 1))
+        Expected: 6 < 6.0
   > debounce
-28 facts verified.
+Out of 28 total facts:
+  Verified: 27
+  Failed:   1
 Async
   > async_map
 5 facts verified.
@@ -136,7 +141,20 @@ Queue runner
   > Multiple queue restarts during a single action
   > Queue restarts after more than one push!
 24 facts verified.
-INFO: Reactive tests passed
+ERROR: LoadError: FactCheck finished with 1 non-successful tests.
+Stacktrace:
+ [1] exitstatus() at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:568
+ [2] include_from_node1(::String) at ./loading.jl:569
+ [3] include(::String) at ./sysimg.jl:14
+ [4] process_options(::Base.JLOptions) at ./client.jl:305
+ [5] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/Reactive/test/runtests.jl, in expression starting on line 27
+==============================[ ERROR: Reactive ]===============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Reactive/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing FactCheck v0.4.3
+ERROR: Reactive had test errors
 
 >>> End of log
