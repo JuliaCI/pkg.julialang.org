@@ -1,7 +1,7 @@
 >>> 'Pkg.add("CxxWrap")' log
 INFO: Cloning cache of CxxWrap from https://github.com/JuliaInterop/CxxWrap.jl.git
 INFO: Installing BinDeps v0.6.0
-INFO: Installing CxxWrap v0.4.1
+INFO: Installing CxxWrap v0.5.0
 INFO: Installing SHA v0.3.3
 INFO: Installing URIParser v0.1.8
 INFO: Building CxxWrap
@@ -20,13 +20,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-121-generic #170-Ubuntu SMP Wed Jun 14 09:04:33 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1382.35546875 MB free)
-Uptime: 39697.0 sec
-Load Avg:  1.4580078125  1.67578125  1.77197265625
+Memory: 2.9392738342285156 GB (1368.72265625 MB free)
+Uptime: 39309.0 sec
+Load Avg:  1.48583984375  1.701171875  1.7724609375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    2594490 s       6089 s     114673 s     691620 s         37 s
-#2  3499 MHz     814110 s         50 s      72458 s    3000160 s          0 s
+#1  3499 MHz    2473872 s       7181 s     116098 s     779796 s         37 s
+#2  3499 MHz     856513 s        121 s      74013 s    2887259 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -41,7 +41,7 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
- - CxxWrap                       0.4.1
+ - CxxWrap                       0.5.0
  - JSON                          0.13.0
 4 additional packages:
  - BinDeps                       0.6.0
@@ -49,7 +49,6 @@ Package Directory: /home/vagrant/.julia/v0.6
  - SHA                           0.3.3
  - URIParser                     0.1.8
 INFO: Testing CxxWrap
-running test containers.jl...
 Displaying const matrix
 3×2 CxxWrap.ConstArray{Float64,2}:
  1.0  4.0
@@ -60,59 +59,52 @@ Displaying mutable matrix
  1.0  4.0
  2.0  5.0
  3.0  6.0
-running test except.jl...
 exception 1
 exception 2
 exception 3
-running test extended_module.jl...
-running test functions.jl...
 methods(CppHalfFunctions.half_d) = # 1 method for generic function "half_d":
-half_d(arg1::Union{Float64, Int64}) in CppHalfFunctions
-c_func = safe_cfunction(testf, Float64, (Float64, Float64)) = CxxWrap.SafeCFunction(Ptr{Void} @0x00007effff05a6b0, Float64, Type[Float64, Float64])
-callback result for function 0x7effff05a6b0 is 3
-callback result for function 0x7effff05a6b0 is 3
+half_d(arg1::Union{Float64, Int64, Irrational}) in CppHalfFunctions
+c_func = safe_cfunction(testf, Float64, (Float64, Float64)) = CxxWrap.SafeCFunction(Ptr{Void} @0x00007f8850a61b00, Float64, Type[Float64, Float64])
+callback result for function 0x7f8850a61b00 is 3
+callback result for function 0x7f8850a61b00 is 3
 ---- Half test timings ----
 Julia test:
-  0.084521 seconds (85 allocations: 6.873 KiB)
-  0.110573 seconds (4 allocations: 160 bytes)
-  0.091488 seconds (4 allocations: 160 bytes)
+  0.073924 seconds (85 allocations: 6.873 KiB)
+  0.080262 seconds (4 allocations: 160 bytes)
+  0.100498 seconds (4 allocations: 160 bytes)
 C test:
-  0.131491 seconds (4 allocations: 160 bytes)
-  0.125761 seconds (4 allocations: 160 bytes)
-  0.129028 seconds (4 allocations: 160 bytes)
+  0.139873 seconds (4 allocations: 160 bytes)
+  0.121636 seconds (4 allocations: 160 bytes)
+  0.094006 seconds (4 allocations: 160 bytes)
 C++ test:
-  0.102008 seconds (4 allocations: 160 bytes)
-  0.129896 seconds (4 allocations: 160 bytes)
-  0.131914 seconds (4 allocations: 160 bytes)
+  0.098224 seconds (4 allocations: 160 bytes)
+  0.107407 seconds (4 allocations: 160 bytes)
+  0.103994 seconds (4 allocations: 160 bytes)
 C++ lambda test:
-  0.194155 seconds (4 allocations: 160 bytes)
-  0.196634 seconds (4 allocations: 160 bytes)
-  0.190556 seconds (4 allocations: 160 bytes)
+  0.199428 seconds (4 allocations: 160 bytes)
+  0.195638 seconds (4 allocations: 160 bytes)
+  0.185414 seconds (4 allocations: 160 bytes)
 C++ test, loop in the C++ code:
-  0.083031 seconds (23 allocations: 1.609 KiB)
-  0.084277 seconds (4 allocations: 160 bytes)
-  0.085754 seconds (4 allocations: 160 bytes)
+  0.096823 seconds (23 allocations: 1.609 KiB)
+  0.088178 seconds (4 allocations: 160 bytes)
+  0.071986 seconds (4 allocations: 160 bytes)
 cfunction in C++ loop
-  0.427575 seconds (1.21 k allocations: 66.921 KiB)
-  0.277691 seconds (4 allocations: 160 bytes)
-  0.271662 seconds (4 allocations: 160 bytes)
+  0.513810 seconds (1.21 k allocations: 66.921 KiB)
+  0.396517 seconds (4 allocations: 160 bytes)
+  0.295456 seconds (4 allocations: 160 bytes)
 jl_call inside C++ loop (array is 100 times smaller than other tests):
-  0.104721 seconds (1.00 M allocations: 15.311 MiB, 66.50% gc time)
-  0.033145 seconds (1.00 M allocations: 15.259 MiB)
-  0.099160 seconds (1.00 M allocations: 15.259 MiB, 64.83% gc time)
-running test hello.jl...
+  0.167463 seconds (1.00 M allocations: 15.311 MiB, 58.79% gc time)
+  0.064834 seconds (1.00 M allocations: 15.259 MiB)
+  0.160823 seconds (1.00 M allocations: 15.259 MiB, 56.34% gc time)
 CppHello.greet() = "hello, world"
-running test inheritance.jl...
-running test parametric.jl...
 Dumping object p1:
 TemplateTypeAllocated{P1,P2}
-  cpp_object: Ptr{Void} Ptr{Void} @0x0000000004926080
-running test types.jl...
+  cpp_object: Ptr{Void} Ptr{Void} @0x000000000361aaa0
 Dumping type w...
 WorldAllocated
-  cpp_object: Ptr{Void} Ptr{Void} @0x000000000494c780
-fw = CppTypes.world_factory() = WorldRef(Ptr{Void} @0x0000000004480a60)
-uwf = CppTypes.unique_world_factory() = CxxWrap.SmartPointerWithDeref{World,0xef6180661ff0d2b6,Ptr{Void} @0x00007effc9beacb0,Ptr{Void} @0x00007effc9bec280,Ptr{Void} @0x00007effc9bec270}(Ptr{Void} @0x000000000455cfa0)
+  cpp_object: Ptr{Void} Ptr{Void} @0x000000000365fae0
+fw = CppTypes.world_factory() = WorldRef(Ptr{Void} @0x0000000002675210)
+uwf = CppTypes.unique_world_factory() = CxxWrap.SmartPointerWithDeref{World,0xef6180661ff0d2b6,Ptr{Void} @0x00007f88175d6640,Ptr{Void} @0x00007f88175d7d50,Ptr{Void} @0x00007f88175d7d40}(Ptr{Void} @0x0000000002b15e50)
 Destroying World with message world by value hello
 CppTypes.greet(w) = "hello"
 Destroying World with message constructed
@@ -121,6 +113,8 @@ throw test 1 passed
 throw test 2 passed
 completed deepcopy test
 a: 2.0, b: 3.0
+Test Summary: | Pass  Total
+CxxWrap tests |  154    154
 Destroying World with message hello
 Destroying World with message shared factory hello
 Destroying World with message unique factory hello
