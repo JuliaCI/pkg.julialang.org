@@ -1,6 +1,6 @@
 >>> 'Pkg.add("Etcd")' log
 INFO: Cloning cache of Etcd from https://github.com/rofinn/Etcd.jl.git
-INFO: Installing BinDeps v0.7.0
+INFO: Installing BinDeps v0.6.0
 INFO: Installing BufferedStreams v0.3.3
 INFO: Installing Codecs v0.3.0
 INFO: Installing Etcd v0.1.0
@@ -30,13 +30,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-126-generic #175-Ubuntu SMP Thu Jul 20 17:33:56 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (853.6328125 MB free)
-Uptime: 34148.0 sec
-Load Avg:  1.126953125  1.302734375  1.169921875
+Memory: 2.9392738342285156 GB (848.796875 MB free)
+Uptime: 37489.0 sec
+Load Avg:  0.94970703125  1.22802734375  1.171875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3504 MHz    2065074 s       1938 s     178742 s     758073 s         53 s
-#2  3504 MHz     782542 s       4285 s      90855 s    2429731 s          0 s
+#1  3500 MHz    2201238 s       7832 s     185048 s     921898 s         81 s
+#2  3500 MHz     947931 s       1116 s      99377 s    2570815 s          2 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -54,7 +54,7 @@ Package Directory: /home/vagrant/.julia/v0.5
  - Etcd                          0.1.0
  - JSON                          0.13.0
 13 additional packages:
- - BinDeps                       0.7.0
+ - BinDeps                       0.6.0
  - BufferedStreams               0.3.3
  - Codecs                        0.3.0
  - Compat                        0.29.0
@@ -72,8 +72,8 @@ INFO: Testing Etcd
 [info] Downloading etcd...
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   620    0   620    0     0   3339      0 --:--:-- --:--:-- --:--:--  3351
-  5 8347k    5  423k    0     0   452k      0  0:00:18 --:--:--  0:00:18  452k100 8347k  100 8347k    0     0  4721k      0  0:00:01  0:00:01 --:--:-- 9524k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   620    0   620    0     0   3934      0 --:--:-- --:--:-- --:--:--  3949
+  1 8347k    1  100k    0     0   116k      0  0:01:11 --:--:--  0:01:11  116k 94 8347k   94 7863k    0     0  3785k      0  0:00:02  0:00:02 --:--:-- 6389k100 8347k  100 8347k    0     0  4000k      0  0:00:02  0:00:02 --:--:-- 6732k
 etcd-v2.3.7-linux-amd64/
 etcd-v2.3.7-linux-amd64/Documentation/
 etcd-v2.3.7-linux-amd64/Documentation/runtime-configuration.md
@@ -133,21 +133,13 @@ etcd-v2.3.7-linux-amd64/README.md
 [error] EtcdError: Key already exists (105).
 [error] EtcdError: Key not found (100).
 [error] EtcdError: Key not found (100).
-ERROR (unhandled task failure): schedule: Task not runnable
- in enq_work(::Task) at ./event.jl:77
- in #schedule#358(::Bool, ::Function, ::Task, ::IPv4) at ./event.jl:103
- in (::Base.#kw##schedule)(::Array{Any,1}, ::Base.#schedule, ::Task, ::IPv4) at ./<missing>:0
- in notify(::Condition, ::IPv4, ::Bool, ::Bool) at ./event.jl:45
- in (::Base.##402#403{Condition})(::IPv4) at ./socket.jl:590
- in uv_getaddrinfocb(::Ptr{Void}, ::Int32, ::Ptr{Void}) at ./socket.jl:555
- in process_events(::Bool) at ./libuv.jl:84
- in wait() at ./event.jl:188
- in wait(::Condition) at ./event.jl:27
- in stream_wait(::TCPSocket, ::Condition, ::Vararg{Condition,N}) at ./stream.jl:44
- in close(::TCPSocket) at ./stream.jl:333
- in close(::Requests.ResponseStream{TCPSocket}) at /home/vagrant/.julia/v0.5/Requests/src/streaming.jl:148
- in macro expansion at /home/vagrant/.julia/v0.5/Requests/src/Requests.jl:406 [inlined]
- in (::Requests.##24#25)() at ./event.jl:68
+ERROR (unhandled task failure): InterruptException:
+ in (::Etcd.#retry_cond#2)(::InterruptException) at /home/vagrant/.julia/v0.5/Etcd/src/requests.jl:60
+ in (::Base.##55#56{Int64,Float64,Etcd.#retry_func#3{Base.#get,String,Dict{String,Any}},Etcd.#retry_cond#2})() at ./error.jl:83
+ in #request#1(::Int64, ::Float64, ::Function, ::Base.#get, ::String, ::Dict{String,Any}) at /home/vagrant/.julia/v0.5/Etcd/src/requests.jl:65
+ in #get#5(::Bool, ::Bool, ::Function, ::Etcd.Client, ::String, ::Dict{String,Any}) at /home/vagrant/.julia/v0.5/Etcd/src/api/keys.jl:20
+ in macro expansion at /home/vagrant/.julia/v0.5/Etcd/src/api/watch.jl:53 [inlined]
+ in (::Etcd.##31#35{Bool,##2#5,Etcd.Client,String,Etcd.##32#36})() at ./task.jl:360
 Test Summary: | Pass  Total
   Etcd        |  114    114
 [info] Stopping etcd server...

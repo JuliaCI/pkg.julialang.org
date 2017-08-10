@@ -1,6 +1,6 @@
 >>> 'Pkg.add("Bootstrap")' log
 INFO: Cloning cache of Bootstrap from https://github.com/juliangehring/Bootstrap.jl.git
-INFO: Installing BinDeps v0.7.0
+INFO: Installing BinDeps v0.6.0
 INFO: Installing Bootstrap v1.1.0
 INFO: Installing Calculus v0.2.2
 INFO: Installing DataArrays v0.4.1
@@ -22,6 +22,8 @@ INFO: Installing StatsFuns v0.5.0
 INFO: Installing URIParser v0.2.0
 INFO: Building Rmath
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of Bootstrap
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Bootstrap")' log
 Julia Version 0.5.2
@@ -32,13 +34,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-126-generic #175-Ubuntu SMP Thu Jul 20 17:33:56 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (313.73046875 MB free)
-Uptime: 9994.0 sec
-Load Avg:  0.9111328125  0.98388671875  1.02978515625
+Memory: 2.9392738342285156 GB (319.54296875 MB free)
+Uptime: 11362.0 sec
+Load Avg:  1.02587890625  1.04541015625  1.04541015625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3504 MHz     598352 s       1933 s      66548 s     211843 s         16 s
-#2  3504 MHz     159109 s       4285 s      35379 s     777534 s          0 s
+#1  3500 MHz     620686 s       7824 s      61570 s     310404 s         13 s
+#2  3500 MHz     202203 s       1116 s      36072 s     869594 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -56,7 +58,7 @@ Package Directory: /home/vagrant/.julia/v0.5
  - Bootstrap                     1.1.0
  - JSON                          0.13.0
 20 additional packages:
- - BinDeps                       0.7.0
+ - BinDeps                       0.6.0
  - Calculus                      0.2.2
  - Compat                        0.29.0
  - DataArrays                    0.4.1
@@ -122,17 +124,43 @@ Generalized linear regression models
   > Residual resampling with link function
   > Wild resampling: Rademacher
   > Wild resampling with link function: Mammen
-Out of 118 total facts:
-  Verified: 116
-  Pending:  2
-Normal-interpolated quantiles
-  > Reference values: alpha scalar
-  > Reference values: alpha vector
-  > Monotone quantiles
-1008 facts verified.
-Exact sampling
-8 facts verified.
-INFO: Bootstrap tests passed
+ERROR: LoadError: LoadError: step-halving failed at beta0 = [2.89869,-0.0181092]
+ in _fit!(::GLM.GeneralizedLinearModel{GLM.GlmResp{Array{Float64,1},Distributions.Normal{Float64},GLM.IdentityLink},GLM.DensePredChol{Float64,Base.LinAlg.Cholesky{Float64,Array{Float64,2}}}}, ::Bool, ::Int64, ::Float64, ::Float64, ::Void) at /home/vagrant/.julia/v0.5/GLM/src/glmfit.jl:225
+ in (::StatsBase.#kw##fit!)(::Array{Any,1}, ::StatsBase.#fit!, ::GLM.GeneralizedLinearModel{GLM.GlmResp{Array{Float64,1},Distributions.Normal{Float64},GLM.IdentityLink},GLM.DensePredChol{Float64,Base.LinAlg.Cholesky{Float64,Array{Float64,2}}}}) at ./<missing>:0
+ in #fit#13(::Bool, ::Array{Float64,1}, ::Array{Float64,1}, ::Array{Any,1}, ::Function, ::Type{GLM.GeneralizedLinearModel}, ::Array{Float64,2}, ::Array{Float64,1}, ::Distributions.Normal{Float64}, ::GLM.IdentityLink) at /home/vagrant/.julia/v0.5/GLM/src/glmfit.jl:307
+ in (::StatsBase.#kw##fit)(::Array{Any,1}, ::StatsBase.#fit, ::Type{GLM.GeneralizedLinearModel}, ::Array{Float64,2}, ::Array{Float64,1}, ::Distributions.Normal{Float64}, ::GLM.IdentityLink) at ./<missing>:0
+ in #fit#141(::Dict{Any,Any}, ::Array{Any,1}, ::Function, ::Type{GLM.GeneralizedLinearModel}, ::DataFrames.Formula, ::DataFrames.DataFrame, ::Distributions.Normal{Float64}, ::Vararg{Any,N}) at /home/vagrant/.julia/v0.5/DataFrames/src/statsmodels/statsmodel.jl:55
+ in (::StatsBase.#kw##fit)(::Array{Any,1}, ::StatsBase.#fit, ::Type{GLM.GeneralizedLinearModel}, ::DataFrames.Formula, ::DataFrames.DataFrame, ::Distributions.Normal{Float64}, ::GLM.IdentityLink) at ./<missing>:0
+ in bootstrap(::DataFrames.DataFrame, ::StatsBase.#coef, ::Bootstrap.FormulaModel{DataType}, ::Bootstrap.WildSampling) at /home/vagrant/.julia/v0.5/Bootstrap/src/bootsampling.jl:350
+ in (::TestBootsampleParametric.##131#136{Array{Float64,1},Int64,Float64})() at /home/vagrant/.julia/v0.5/Bootstrap/test/bootsample-parametric.jl:150
+ in context(::TestBootsampleParametric.##131#136{Array{Float64,1},Int64,Float64}, ::String) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:475
+ in (::TestBootsampleParametric.##127#132)() at /home/vagrant/.julia/v0.5/Bootstrap/test/bootsample-parametric.jl:149
+ in facts(::TestBootsampleParametric.##127#132, ::String) at /home/vagrant/.julia/v0.5/FactCheck/src/FactCheck.jl:449
+ in include_from_node1(::String) at ./loading.jl:488
+ in macro expansion; at /home/vagrant/.julia/v0.5/Bootstrap/test/runtests.jl:16 [inlined]
+ in anonymous at ./<missing>:?
+ in include_from_node1(::String) at ./loading.jl:488
+ in process_options(::Base.JLOptions) at ./client.jl:265
+ in _start() at ./client.jl:321
+while loading /home/vagrant/.julia/v0.5/Bootstrap/test/bootsample-parametric.jl, in expression starting on line 121
+while loading /home/vagrant/.julia/v0.5/Bootstrap/test/runtests.jl, in expression starting on line 11
+==============================[ ERROR: Bootstrap ]==============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.5/Bootstrap/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing GLM v0.7.0
+ERROR: Bootstrap had test errors
+ in #test#61(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:748
+ in (::Base.Pkg.Entry.#kw##test)(::Array{Any,1}, ::Base.Pkg.Entry.#test, ::Array{AbstractString,1}) at ./<missing>:0
+ in (::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:31
+ in cd(::Base.Pkg.Dir.##2#3{Array{Any,1},Base.Pkg.Entry.#test,Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:59
+ in #cd#1(::Array{Any,1}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./pkg/dir.jl:31
+ in (::Base.Pkg.Dir.#kw##cd)(::Array{Any,1}, ::Base.Pkg.Dir.#cd, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N}) at ./<missing>:0
+ in #test#3(::Bool, ::Function, ::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in test(::String, ::Vararg{String,N}) at ./pkg/pkg.jl:258
+ in eval(::Module, ::Any) at ./boot.jl:234
+ in process_options(::Base.JLOptions) at ./client.jl:242
+ in _start() at ./client.jl:321
 
 >>> End of log
