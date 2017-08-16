@@ -28,13 +28,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-128-generic #177-Ubuntu SMP Tue Aug 8 11:40:23 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (832.93359375 MB free)
-Uptime: 36648.0 sec
-Load Avg:  1.04443359375  1.240234375  1.11669921875
+Memory: 2.9392738342285156 GB (837.4140625 MB free)
+Uptime: 36503.0 sec
+Load Avg:  1.01953125  1.22119140625  1.15576171875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    2171471 s       1798 s     175872 s     890366 s         62 s
-#2  3500 MHz     922318 s       4790 s      98018 s    2497588 s          0 s
+#1  3500 MHz    2177964 s       2118 s     188643 s     862615 s         87 s
+#2  3500 MHz     961710 s       4117 s      97108 s    2443476 s          5 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -70,8 +70,8 @@ INFO: Testing Etcd
 [info] Downloading etcd...
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   620    0   620    0     0   3364      0 --:--:-- --:--:-- --:--:--  3369
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 8347k  100 8347k    0     0  6503k      0  0:00:01  0:00:01 --:--:-- 8650k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   620    0   620    0     0   2936      0 --:--:-- --:--:-- --:--:--  2952
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 26 8347k   26 2191k    0     0  1699k      0  0:00:04  0:00:01  0:00:03 2299k100 8347k  100 8347k    0     0  5670k      0  0:00:01  0:00:01 --:--:-- 7361k
 etcd-v2.3.7-linux-amd64/
 etcd-v2.3.7-linux-amd64/Documentation/
 etcd-v2.3.7-linux-amd64/Documentation/runtime-configuration.md
@@ -131,21 +131,13 @@ etcd-v2.3.7-linux-amd64/README.md
 [error] EtcdError: Key already exists (105).
 [error] EtcdError: Key not found (100).
 [error] EtcdError: Key not found (100).
-ERROR (unhandled task failure): schedule: Task not runnable
- in enq_work(::Task) at ./event.jl:77
- in #schedule#358(::Bool, ::Function, ::Task, ::IPv4) at ./event.jl:103
- in (::Base.#kw##schedule)(::Array{Any,1}, ::Base.#schedule, ::Task, ::IPv4) at ./<missing>:0
- in notify(::Condition, ::IPv4, ::Bool, ::Bool) at ./event.jl:45
- in (::Base.##402#403{Condition})(::IPv4) at ./socket.jl:590
- in uv_getaddrinfocb(::Ptr{Void}, ::Int32, ::Ptr{Void}) at ./socket.jl:555
- in process_events(::Bool) at ./libuv.jl:84
- in wait() at ./event.jl:188
- in wait(::Condition) at ./event.jl:27
- in stream_wait(::TCPSocket, ::Condition, ::Vararg{Condition,N}) at ./stream.jl:44
- in close(::TCPSocket) at ./stream.jl:333
- in close(::Requests.ResponseStream{TCPSocket}) at /home/vagrant/.julia/v0.5/Requests/src/streaming.jl:148
- in macro expansion at /home/vagrant/.julia/v0.5/Requests/src/Requests.jl:406 [inlined]
- in (::Requests.##24#25)() at ./event.jl:68
+ERROR (unhandled task failure): InterruptException:
+ in (::Etcd.#retry_cond#2)(::InterruptException) at /home/vagrant/.julia/v0.5/Etcd/src/requests.jl:60
+ in (::Base.##55#56{Int64,Float64,Etcd.#retry_func#3{Base.#get,String,Dict{String,Any}},Etcd.#retry_cond#2})() at ./error.jl:83
+ in #request#1(::Int64, ::Float64, ::Function, ::Base.#get, ::String, ::Dict{String,Any}) at /home/vagrant/.julia/v0.5/Etcd/src/requests.jl:65
+ in #get#5(::Bool, ::Bool, ::Function, ::Etcd.Client, ::String, ::Dict{String,Any}) at /home/vagrant/.julia/v0.5/Etcd/src/api/keys.jl:20
+ in macro expansion at /home/vagrant/.julia/v0.5/Etcd/src/api/watch.jl:53 [inlined]
+ in (::Etcd.##31#35{Bool,##2#5,Etcd.Client,String,Etcd.##32#36})() at ./task.jl:360
 Test Summary: | Pass  Total
   Etcd        |  114    114
 [info] Stopping etcd server...
