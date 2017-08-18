@@ -21,13 +21,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-128-generic #177-Ubuntu SMP Tue Aug 8 11:40:23 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (627.671875 MB free)
-Uptime: 64259.0 sec
-Load Avg:  0.953125  0.9853515625  1.01318359375
+Memory: 2.9392738342285156 GB (679.171875 MB free)
+Uptime: 65393.0 sec
+Load Avg:  1.06298828125  0.73876953125  0.662109375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    4200645 s       6311 s     190085 s    1070041 s         48 s
-#2  3499 MHz    1194762 s         72 s     110562 s    4988795 s          1 s
+#1  3500 MHz    4316301 s       1447 s     176585 s    1116297 s         58 s
+#2  3500 MHz    1036490 s       5927 s     107512 s    5267141 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -70,7 +70,7 @@ INFO: Installing CustomUnitRanges v0.0.4
 INFO: Installing DualNumbers v0.3.0
 INFO: Installing FFTViews v0.0.2
 INFO: Installing FileIO v0.5.1
-INFO: Installing FixedPointNumbers v0.3.9
+INFO: Installing FixedPointNumbers v0.4.0
 INFO: Installing GR v0.23.0
 INFO: Installing GeoStatsImages v0.1.0
 INFO: Installing Graphics v0.2.0
@@ -116,7 +116,7 @@ INFO: Building GR
 INFO: Downloading pre-compiled GR 0.26.0 Ubuntu binary
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 38.3M    0  176k    0     0   121k      0  0:05:22  0:00:01  0:05:21  121k  4 38.3M    4 1584k    0     0   641k      0  0:01:01  0:00:02  0:00:59  641k 16 38.3M   16 6416k    0     0  1861k      0  0:00:21  0:00:03  0:00:18 1861k 56 38.3M   56 21.5M    0     0  4944k      0  0:00:07  0:00:04  0:00:03 4944k100 38.3M  100 38.3M    0     0  7612k      0  0:00:05  0:00:05 --:--:-- 8347k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 38.3M    0 16384    0     0  12523      0  0:53:27  0:00:01  0:53:26 12516  1 38.3M    1  608k    0     0   265k      0  0:02:27  0:00:02  0:02:25  265k  6 38.3M    6 2560k    0     0   774k      0  0:00:50  0:00:03  0:00:47  774k 22 38.3M   22 8816k    0     0  2056k      0  0:00:19  0:00:04  0:00:15 2056k 56 38.3M   56 21.7M    0     0  4228k      0  0:00:09  0:00:05  0:00:04 4681k100 38.3M  100 38.3M    0     0  6570k      0  0:00:05  0:00:05 --:--:-- 8412k
 INFO: Building ImageMagick
 WARNING: Compat.ASCIIString is deprecated, use String instead.
   likely near /home/vagrant/.julia/v0.6/ImageMagick/deps/build.jl:89
@@ -129,9 +129,34 @@ Test Summary:        | Pass  Total
 Empirical variograms |    3      3
 Test Summary:          | Pass  Total
 Theoretical variograms |   22     22
-Test Summary:      | Pass  Total
-Kriging estimators |  182    182
-INFO: GeoStats tests passed
+Kriging estimators: Test Failed
+  Expression: isapprox(SKestimate_f, SKestimate_d, atol=0.0001)
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/GeoStats/test/estimators.jl:151 [inlined]
+ [2] macro expansion at ./test.jl:860 [inlined]
+ [3] anonymous at ./<missing>:?
+Kriging estimators: Test Failed
+  Expression: isapprox(OKestimate_f, OKestimate_d, atol=0.0001)
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/GeoStats/test/estimators.jl:153 [inlined]
+ [2] macro expansion at ./test.jl:860 [inlined]
+ [3] anonymous at ./<missing>:?
+Kriging estimators: Test Failed
+  Expression: isapprox(DKestimate_f, DKestimate_d, atol=0.0001)
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/GeoStats/test/estimators.jl:157 [inlined]
+ [2] macro expansion at ./test.jl:860 [inlined]
+ [3] anonymous at ./<missing>:?
+Test Summary:      | Pass  Fail  Total
+Kriging estimators |  179     3    182
+ERROR: LoadError: LoadError: Some tests did not pass: 179 passed, 3 failed, 0 errored, 0 broken.
+while loading /home/vagrant/.julia/v0.6/GeoStats/test/estimators.jl, in expression starting on line 1
+while loading /home/vagrant/.julia/v0.6/GeoStats/test/runtests.jl, in expression starting on line 35
+==============================[ ERROR: GeoStats ]===============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/GeoStats/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing AxisAlgorithms v0.2.0
 INFO: Removing AxisArrays v0.1.4
 INFO: Removing BinDeps v0.6.0
@@ -147,7 +172,7 @@ INFO: Removing CustomUnitRanges v0.0.4
 INFO: Removing DualNumbers v0.3.0
 INFO: Removing FFTViews v0.0.2
 INFO: Removing FileIO v0.5.1
-INFO: Removing FixedPointNumbers v0.3.9
+INFO: Removing FixedPointNumbers v0.4.0
 INFO: Removing GR v0.23.0
 INFO: Removing GeoStatsImages v0.1.0
 INFO: Removing Graphics v0.2.0
@@ -189,5 +214,6 @@ INFO: Removing TiledIteration v0.0.2
 INFO: Removing URIParser v0.2.0
 INFO: Removing VisualRegressionTests v0.1.0
 INFO: Removing WoodburyMatrices v0.2.2
+ERROR: GeoStats had test errors
 
 >>> End of log
