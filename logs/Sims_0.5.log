@@ -47,7 +47,7 @@ INFO: Attempting to Create directory /home/vagrant/.julia/v0.5/Sundials/deps/dow
 INFO: Downloading file http://ftp.mcs.anl.gov/pub/petsc/externalpackages/sundials-2.5.0.tar.gz
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  4 8102k    4  370k    0     0   431k      0  0:00:18 --:--:--  0:00:18  430k100 8102k  100 8102k    0     0  5300k      0  0:00:01  0:00:01 --:--:-- 5302k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 96 8102k   96 7815k    0     0  7565k      0  0:00:01  0:00:01 --:--:-- 7566k100 8102k  100 8102k    0     0  7617k      0  0:00:01  0:00:01 --:--:-- 7615k
 INFO: Done downloading file http://ftp.mcs.anl.gov/pub/petsc/externalpackages/sundials-2.5.0.tar.gz
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.5/Sundials/deps/src
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.5/Sundials/deps
@@ -138,19 +138,7 @@ MPI-C Settings
 
 checking if using MPI-C script... yes
 checking if absolute path to mpicc was given... no
-checking for mpicc... none
-configure: WARNING: cannot find MPI-C compiler
-
-   Unable to find a functional MPI-C compiler.
-
-   Try using --with-mpicc to specify a MPI-C compiler script,
-   --with-mpi-incdir, --with-mpi-libdir and --with-mpi-libs
-   to specify the locations of all relevant MPI files, or
-   --with-mpi-root to specify the base installation directory
-   of the MPI implementation to be used.
-
-   Disabling the parallel NVECTOR module and all parallel examples...
-
+checking for mpicc... /usr/bin/mpicc
 
 Libtool Settings
 ----------------
@@ -209,6 +197,7 @@ configure: creating ./config.status
 config.status: creating Makefile
 config.status: creating src/sundials/Makefile
 config.status: creating src/nvec_ser/Makefile
+config.status: creating src/nvec_par/Makefile
 config.status: creating src/cvode/Makefile
 config.status: creating src/cvodes/Makefile
 config.status: creating src/ida/Makefile
@@ -245,6 +234,15 @@ Configuration
   C Linker:                  cc
   Linker Flags:              
   Libraries:                 -lm 
+
+  MPI Root Directory:        
+  MPI Include Directory:     /usr/bin/../include
+  MPI Library Directory:     /usr/bin/../lib
+  MPI Flags:                 
+  Extra MPI Libraries:       
+
+  Using MPI-C script?        yes
+  MPI-C:                     /usr/bin/mpicc
 
   srcdir:                    /home/vagrant/.julia/v0.5/Sundials/deps/src/sundials-2.5.0
   builddir:                  /home/vagrant/.julia/v0.5/Sundials/deps/src/sundials-2.5.0
@@ -373,6 +371,59 @@ more information, such as the ld(1) and ld.so(8) manual pages.
 ----------------------------------------------------------------------
 /usr/bin/install -c -m 644 ./../../include/nvector/nvector_serial.h /home/vagrant/.julia/v0.5/Sundials/deps/usr/include/nvector/
 make[1]: Leaving directory `/home/vagrant/.julia/v0.5/Sundials/deps/src/sundials-2.5.0/src/nvec_ser'
+
+----------------------
+Install src/nvec_par...
+----------------------
+make[1]: Entering directory `/home/vagrant/.julia/v0.5/Sundials/deps/src/sundials-2.5.0/src/nvec_par'
+make[2]: Entering directory `/home/vagrant/.julia/v0.5/Sundials/deps/src/sundials-2.5.0/src/sundials'
+make[3]: Entering directory `/home/vagrant/.julia/v0.5/Sundials/deps/src/sundials-2.5.0/src/sundials'
+make[3]: Nothing to be done for `lib_without_bl'.
+make[3]: Leaving directory `/home/vagrant/.julia/v0.5/Sundials/deps/src/sundials-2.5.0/src/sundials'
+make[2]: Leaving directory `/home/vagrant/.julia/v0.5/Sundials/deps/src/sundials-2.5.0/src/sundials'
+/bin/bash ../..//libtool --mode=compile /usr/bin/mpicc   -I./../../include -I../..//include -I/usr/bin/../include -g -O2 -c ./nvector_parallel.c
+mkdir .libs
+ /usr/bin/mpicc -I./../../include -I../..//include -I/usr/bin/../include -g -O2 -c ./nvector_parallel.c  -fPIC -DPIC -o .libs/nvector_parallel.o
+ /usr/bin/mpicc -I./../../include -I../..//include -I/usr/bin/../include -g -O2 -c ./nvector_parallel.c -o nvector_parallel.o >/dev/null 2>&1
+/bin/bash ../..//libtool --mode=link /usr/bin/mpicc -g -O2  -o libsundials_nvecparallel.la nvector_parallel.lo ../..//src/sundials/sundials_math.lo  -L/usr/bin/../lib  -lm  -rpath /home/vagrant/.julia/v0.5/Sundials/deps/usr/lib -version-info 0:2:0
+g++ -shared -nostdlib /usr/lib/gcc/x86_64-linux-gnu/4.8/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/4.8/crtbeginS.o  .libs/nvector_parallel.o ../..//src/sundials/.libs/sundials_math.o  -L/usr/bin/../lib -L/usr/lib/gcc/x86_64-linux-gnu/4.8 -L/usr/lib/gcc/x86_64-linux-gnu/4.8/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/4.8/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/4.8/../../.. -lstdc++ -lm -lc -lgcc_s /usr/lib/gcc/x86_64-linux-gnu/4.8/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/4.8/../../../x86_64-linux-gnu/crtn.o  -Wl,-soname -Wl,libsundials_nvecparallel.so.0 -o .libs/libsundials_nvecparallel.so.0.0.2
+(cd .libs && rm -f libsundials_nvecparallel.so.0 && ln -s libsundials_nvecparallel.so.0.0.2 libsundials_nvecparallel.so.0)
+(cd .libs && rm -f libsundials_nvecparallel.so && ln -s libsundials_nvecparallel.so.0.0.2 libsundials_nvecparallel.so)
+ar cru .libs/libsundials_nvecparallel.a  nvector_parallel.o ../..//src/sundials/sundials_math.o
+ranlib .libs/libsundials_nvecparallel.a
+creating libsundials_nvecparallel.la
+(cd .libs && rm -f libsundials_nvecparallel.la && ln -s ../libsundials_nvecparallel.la libsundials_nvecparallel.la)
+/bin/bash ./../../config/mkinstalldirs /home/vagrant/.julia/v0.5/Sundials/deps/usr/include/nvector
+/bin/bash ./../../config/mkinstalldirs /home/vagrant/.julia/v0.5/Sundials/deps/usr/lib
+/bin/bash ../..//libtool --mode=install /usr/bin/install -c libsundials_nvecparallel.la /home/vagrant/.julia/v0.5/Sundials/deps/usr/lib
+/usr/bin/install -c .libs/libsundials_nvecparallel.so.0.0.2 /home/vagrant/.julia/v0.5/Sundials/deps/usr/lib/libsundials_nvecparallel.so.0.0.2
+(cd /home/vagrant/.julia/v0.5/Sundials/deps/usr/lib && { ln -s -f libsundials_nvecparallel.so.0.0.2 libsundials_nvecparallel.so.0 || { rm -f libsundials_nvecparallel.so.0 && ln -s libsundials_nvecparallel.so.0.0.2 libsundials_nvecparallel.so.0; }; })
+(cd /home/vagrant/.julia/v0.5/Sundials/deps/usr/lib && { ln -s -f libsundials_nvecparallel.so.0.0.2 libsundials_nvecparallel.so || { rm -f libsundials_nvecparallel.so && ln -s libsundials_nvecparallel.so.0.0.2 libsundials_nvecparallel.so; }; })
+/usr/bin/install -c .libs/libsundials_nvecparallel.lai /home/vagrant/.julia/v0.5/Sundials/deps/usr/lib/libsundials_nvecparallel.la
+/usr/bin/install -c .libs/libsundials_nvecparallel.a /home/vagrant/.julia/v0.5/Sundials/deps/usr/lib/libsundials_nvecparallel.a
+chmod 644 /home/vagrant/.julia/v0.5/Sundials/deps/usr/lib/libsundials_nvecparallel.a
+ranlib /home/vagrant/.julia/v0.5/Sundials/deps/usr/lib/libsundials_nvecparallel.a
+PATH="$PATH:/sbin" ldconfig -n /home/vagrant/.julia/v0.5/Sundials/deps/usr/lib
+----------------------------------------------------------------------
+Libraries have been installed in:
+   /home/vagrant/.julia/v0.5/Sundials/deps/usr/lib
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the `-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
+     during execution
+   - add LIBDIR to the `LD_RUN_PATH' environment variable
+     during linking
+   - use the `-Wl,--rpath -Wl,LIBDIR' linker flag
+   - have your system administrator add LIBDIR to `/etc/ld.so.conf'
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+/usr/bin/install -c -m 644 ./../../include/nvector/nvector_parallel.h /home/vagrant/.julia/v0.5/Sundials/deps/usr/include/nvector/
+make[1]: Leaving directory `/home/vagrant/.julia/v0.5/Sundials/deps/src/sundials-2.5.0/src/nvec_par'
 
 ----------------------
 Install src/cvode...
@@ -955,8 +1006,6 @@ DASKR/dlinpk.f:785.72:
                                                                         1
 Warning: Deleted feature: ASSIGN statement at (1)
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of Sims
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Sims")' log
 Julia Version 0.5.2
@@ -967,13 +1016,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-128-generic #177-Ubuntu SMP Tue Aug 8 11:40:23 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1416.3671875 MB free)
-Uptime: 41410.0 sec
-Load Avg:  1.02587890625  1.0146484375  0.9814453125
+Memory: 2.9392738342285156 GB (1410.82421875 MB free)
+Uptime: 43033.0 sec
+Load Avg:  1.0029296875  1.001953125  0.99365234375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    2445924 s       6420 s     239577 s    1017024 s         64 s
-#2  3500 MHz     874774 s         55 s     113158 s    3054710 s          0 s
+#1  3500 MHz    2588691 s       6354 s     230143 s     984366 s         83 s
+#2  3500 MHz     860355 s         94 s     104650 s    3234142 s          2 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -1373,115 +1422,115 @@ starting dasslsim()
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
       In above message,  R1 =  0.3211706450101D-04
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
-      In above message,  R1 =  0.4204281368032D-02
+      In above message,  R1 =  0.4204281341933D-02
  ------ MIN. LAMBDA = (R1)                                                       
-      In above message,  R1 =  0.8711238921139D-08
+      In above message,  R1 =  0.8711238975215D-08
  ------ LAMBDA = (R1)                                                            
       In above message,  R1 =  0.1000000000000D+01
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
-      In above,  R1 =  0.8837990910791D-05   R2 =  0.3246899113045D-08
+      In above,  R1 =  0.8837990801064D-05   R2 =  0.3246899113638D-08
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
-      In above message,  R1 =  0.8058410653529D-04
+      In above message,  R1 =  0.8058410654265D-04
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
-      In above message,  R1 =  0.2653177390805D-01
+      In above message,  R1 =  0.2653177390751D-01
  ------ MIN. LAMBDA = (R1)                                                       
-      In above message,  R1 =  0.1380401461868D-08
+      In above message,  R1 =  0.1380401461896D-08
  ------ LAMBDA = (R1)                                                            
       In above message,  R1 =  0.1000000000000D+01
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
-      In above,  R1 =  0.3519675133540D-03   R2 =  0.1488496558031D-10
+      In above,  R1 =  0.3519675133396D-03   R2 =  0.1488496558242D-10
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
-      In above message,  R1 =  0.5456182837902D-05
+      In above message,  R1 =  0.5456182838289D-05
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
-      In above message,  R1 =  0.6530044226565D-02
+      In above message,  R1 =  0.6530044229021D-02
  ------ MIN. LAMBDA = (R1)                                                       
-      In above message,  R1 =  0.5608614309169D-08
+      In above message,  R1 =  0.5608614307059D-08
  ------ LAMBDA = (R1)                                                            
       In above message,  R1 =  0.1000000000000D+01
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
-      In above,  R1 =  0.2132073880045D-04   R2 =  0.7567735109396D-09
+      In above,  R1 =  0.2132073881649D-04   R2 =  0.7567735109109D-09
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
-      In above message,  R1 =  0.3890433165959D-04
+      In above message,  R1 =  0.3890433165885D-04
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
-      In above message,  R1 =  0.3165590445294D-01
+      In above message,  R1 =  0.3165590502816D-01
  ------ MIN. LAMBDA = (R1)                                                       
-      In above message,  R1 =  0.1156956344213D-08
+      In above message,  R1 =  0.1156956323190D-08
  ------ LAMBDA = (R1)                                                            
       In above message,  R1 =  0.1000000000000D+01
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
-      In above,  R1 =  0.5010481433668D-03   R2 =  0.2118050909136D-10
+      In above,  R1 =  0.5010481615759D-03   R2 =  0.2118050996514D-10
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
-      In above message,  R1 =  0.6508534257628D-05
+      In above message,  R1 =  0.6508534391879D-05
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
-      In above message,  R1 =  0.5318162362358D-02
+      In above message,  R1 =  0.5318162353330D-02
  ------ MIN. LAMBDA = (R1)                                                       
-      In above message,  R1 =  0.6886683217468D-08
+      In above message,  R1 =  0.6886683229158D-08
  ------ LAMBDA = (R1)                                                            
       In above message,  R1 =  0.1000000000000D+01
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
-      In above,  R1 =  0.1414142545620D-04   R2 =  0.5302846007101D-09
+      In above,  R1 =  0.1414142540819D-04   R2 =  0.5302846005167D-09
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
-      In above message,  R1 =  0.3256638146034D-04
+      In above message,  R1 =  0.3256638145440D-04
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
-      In above message,  R1 =  0.3170496568517D-01
+      In above message,  R1 =  0.3170496566753D-01
  ------ MIN. LAMBDA = (R1)                                                       
-      In above message,  R1 =  0.1155166034630D-08
+      In above message,  R1 =  0.1155166035273D-08
  ------ LAMBDA = (R1)                                                            
       In above message,  R1 =  0.1000000000000D+01
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
-      In above,  R1 =  0.5026024245490D-03   R2 =  0.2124590147514D-10
+      In above,  R1 =  0.5026024239898D-03   R2 =  0.2124590145505D-10
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
-      In above message,  R1 =  0.6518573689871D-05
+      In above message,  R1 =  0.6518573686789D-05
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
-      In above message,  R1 =  0.5274610595012D-02
+      In above message,  R1 =  0.5274610726851D-02
  ------ MIN. LAMBDA = (R1)                                                       
-      In above message,  R1 =  0.6943545656859D-08
+      In above message,  R1 =  0.6943545483306D-08
  ------ LAMBDA = (R1)                                                            
       In above message,  R1 =  0.1000000000000D+01
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
-      In above,  R1 =  0.1391075846451D-04   R2 =  0.5228152307374D-09
+      In above,  R1 =  0.1391075915990D-04   R2 =  0.5228152292897D-09
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
-      In above message,  R1 =  0.3233620975740D-04
+      In above message,  R1 =  0.3233620971263D-04
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
-      In above message,  R1 =  0.3170606671660D-01
+      In above message,  R1 =  0.3170606670569D-01
  ------ MIN. LAMBDA = (R1)                                                       
-      In above message,  R1 =  0.1155125920096D-08
+      In above message,  R1 =  0.1155125920493D-08
  ------ LAMBDA = (R1)                                                            
       In above message,  R1 =  0.1000000000000D+01
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
-      In above,  R1 =  0.5026373333187D-03   R2 =  0.2124736688200D-10
+      In above,  R1 =  0.5026373329727D-03   R2 =  0.2124736687842D-10
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
-      In above message,  R1 =  0.6518798490826D-05
+      In above message,  R1 =  0.6518798490276D-05
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
-      In above message,  R1 =  0.5273103810490D-02
+      In above message,  R1 =  0.5273103815244D-02
  ------ MIN. LAMBDA = (R1)                                                       
-      In above message,  R1 =  0.6945529768590D-08
+      In above message,  R1 =  0.6945529762328D-08
  ------ LAMBDA = (R1)                                                            
       In above message,  R1 =  0.1000000000000D+01
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
-      In above,  R1 =  0.1390281189810D-04   R2 =  0.5225576106977D-09
+      In above,  R1 =  0.1390281192317D-04   R2 =  0.5225576107987D-09
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
-      In above message,  R1 =  0.3232824185438D-04
+      In above message,  R1 =  0.3232824185751D-04
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
-      In above message,  R1 =  0.3170610429346D-01
+      In above message,  R1 =  0.3170610293465D-01
  ------ MIN. LAMBDA = (R1)                                                       
-      In above message,  R1 =  0.1155124551085D-08
+      In above message,  R1 =  0.1155124600589D-08
  ------ LAMBDA = (R1)                                                            
       In above message,  R1 =  0.1000000000000D+01
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
-      In above,  R1 =  0.5026385247338D-03   R2 =  0.2124741698296D-10
+      In above,  R1 =  0.5026384816512D-03   R2 =  0.2124741414416D-10
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
-      In above message,  R1 =  0.6518806176435D-05
+      In above message,  R1 =  0.6518805740956D-05
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
-      In above message,  R1 =  0.5273051671126D-02
+      In above message,  R1 =  0.5273051448936D-02
  ------ MIN. LAMBDA = (R1)                                                       
-      In above message,  R1 =  0.6945598445236D-08
+      In above message,  R1 =  0.6945598737901D-08
  ------ LAMBDA = (R1)                                                            
       In above message,  R1 =  0.1000000000000D+01
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
-      In above,  R1 =  0.1390253696318D-04   R2 =  0.5225487052269D-09
+      In above,  R1 =  0.1390253579156D-04   R2 =  0.5225487075720D-09
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
-      In above message,  R1 =  0.3232796638290D-04
+      In above message,  R1 =  0.3232796645544D-04
 starting dasslsim()
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
       In above message,  R1 =  0.7191460449610D+03
@@ -1788,19 +1837,19 @@ starting dasslsim()
  ------ LAMBDA = (R1)                                                            
       In above message,  R1 =  0.1000000000000D+01
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
-      In above,  R1 =  0.1193462993653D+08   R2 =  0.9769613077696D-01
+      In above,  R1 =  0.1193462993653D+08   R2 =  0.9769613077704D-01
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
-      In above message,  R1 =  0.4420319689275D+00
+      In above message,  R1 =  0.4420319689277D+00
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
-      In above message,  R1 =  0.4420319689275D+00
+      In above message,  R1 =  0.4420319689277D+00
  ------ MIN. LAMBDA = (R1)                                                       
-      In above message,  R1 =  0.8285486585389D-10
+      In above message,  R1 =  0.8285486585386D-10
  ------ LAMBDA = (R1)                                                            
       In above message,  R1 =  0.1000000000000D+01
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
-      In above,  R1 =  0.9769613077696D-01   R2 =  0.8066805694584D-09
+      In above,  R1 =  0.9769613077704D-01   R2 =  0.8066805692722D-09
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
-      In above message,  R1 =  0.4016666701280D-04
+      In above message,  R1 =  0.4016666700816D-04
 starting dasslsim()
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
       In above message,  R1 =  0.3649927273936D+04
@@ -1830,19 +1879,19 @@ starting dasslsim()
  ------ LAMBDA = (R1)                                                            
       In above message,  R1 =  0.1000000000000D+01
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
-      In above,  R1 =  0.6660984552511D+07   R2 =  0.7021206605459D-01
+      In above,  R1 =  0.6660984552511D+07   R2 =  0.7021206605462D-01
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
-      In above message,  R1 =  0.3747320804377D+00
+      In above message,  R1 =  0.3747320804378D+00
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
-      In above message,  R1 =  0.3747320804377D+00
+      In above message,  R1 =  0.3747320804378D+00
  ------ MIN. LAMBDA = (R1)                                                       
-      In above message,  R1 =  0.9773515906575D-10
+      In above message,  R1 =  0.9773515906573D-10
  ------ LAMBDA = (R1)                                                            
       In above message,  R1 =  0.1000000000000D+01
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
-      In above,  R1 =  0.7021206605459D-01   R2 =  0.8960679079521D-09
+      In above,  R1 =  0.7021206605462D-01   R2 =  0.8960679086328D-09
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
-      In above message,  R1 =  0.4233362512122D-04
+      In above message,  R1 =  0.4233362513730D-04
 starting dasslsim()
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
       In above message,  R1 =  0.4648923046711D+05
@@ -1865,43 +1914,43 @@ starting dasslsim()
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
       In above message,  R1 =  0.1003599744690D-12
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
-      In above message,  R1 =  0.3564579022547D-02
+      In above message,  R1 =  0.3564579800222D-02
  ------ MIN. LAMBDA = (R1)                                                       
-      In above message,  R1 =  0.1027456517501D-07
+      In above message,  R1 =  0.1027456293343D-07
  ------ LAMBDA = (R1)                                                            
       In above message,  R1 =  0.1000000000000D+01
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
-      In above,  R1 =  0.6353111803991D-05   R2 =  0.2513750771400D-25
+      In above,  R1 =  0.6353114576074D-05   R2 =  0.6328732270100D-22
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
-      In above message,  R1 =  0.2242209076514D-12
+      In above message,  R1 =  0.1125053978270D-10
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
-      In above message,  R1 =  0.2251313903998D-01
+      In above message,  R1 =  0.2251314256044D-01
  ------ MIN. LAMBDA = (R1)                                                       
-      In above message,  R1 =  0.1626805547800D-08
+      In above message,  R1 =  0.1626805293410D-08
  ------ LAMBDA = (R1)                                                            
       In above message,  R1 =  0.1000000000000D+01
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
-      In above,  R1 =  0.2534207147166D-03   R2 =  0.1182502722680D-23
+      In above,  R1 =  0.2534207939734D-03   R2 =  0.4675485697467D-28
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
-      In above message,  R1 =  0.1537857420361D-11
+      In above message,  R1 =  0.9670042086223D-14
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
-      In above message,  R1 =  0.2659421708532D-01
+      In above message,  R1 =  0.2659421710987D-01
  ------ MIN. LAMBDA = (R1)                                                       
-      In above message,  R1 =  0.1377160281542D-08
+      In above message,  R1 =  0.1377160280271D-08
  ------ LAMBDA = (R1)                                                            
       In above message,  R1 =  0.1000000000000D+01
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
-      In above,  R1 =  0.3536261911906D-03   R2 =  0.9319153996487D-26
+      In above,  R1 =  0.3536261918436D-03   R2 =  0.0000000000000D+00
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
-      In above message,  R1 =  0.1365221886470D-12
+      In above message,  R1 =  0.0000000000000D+00
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
-      In above message,  R1 =  0.1282183640362D-01
+      In above message,  R1 =  0.1282183648243D-01
  ------ MIN. LAMBDA = (R1)                                                       
-      In above message,  R1 =  0.2856416065197D-08
+      In above message,  R1 =  0.2856416047640D-08
  ------ LAMBDA = (R1)                                                            
       In above message,  R1 =  0.1000000000000D+01
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
-      In above,  R1 =  0.8219974438055D-04   R2 =  0.1138656491422D-24
+      In above,  R1 =  0.8219974539104D-04   R2 =  0.1138656491422D-24
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
       In above message,  R1 =  0.4772120055953D-12
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
@@ -1911,9 +1960,9 @@ starting dasslsim()
  ------ LAMBDA = (R1)                                                            
       In above message,  R1 =  0.1000000000000D+01
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
-      In above,  R1 =  0.9528956889952D+02   R2 =  0.7015627895966D-25
+      In above,  R1 =  0.9528956889952D+02   R2 =  0.7015737282246D-25
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
-      In above message,  R1 =  0.3745831789060D-12
+      In above message,  R1 =  0.3745860991080D-12
 starting dasslsim()
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
       In above message,  R1 =  0.1549284152893D+05
@@ -2055,9 +2104,9 @@ starting dasslsim()
  ------ LAMBDA = (R1)                                                            
       In above message,  R1 =  0.1000000000000D+01
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
-      In above,  R1 =  0.4080416095779D-01   R2 =  0.3390116311646D-26
+      In above,  R1 =  0.4080416095779D-01   R2 =  0.3390116311661D-26
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
-      In above message,  R1 =  0.8234216795356D-13
+      In above message,  R1 =  0.8234216795374D-13
  ------ IN ROUTINE DLINSD-- PNRM = (R1)                                          
       In above message,  R1 =  0.3239426400667D-01
  ------ MIN. LAMBDA = (R1)                                                       
@@ -2137,7 +2186,7 @@ starting dasslsim()
  ------ NORM(F1) = (R1),  NORM(F1NEW) = (R2)                                     
       In above,  R1 =  0.6841235991523D-03   R2 =  0.1272495256111D-25
  ------ LEAVING ROUTINE DLINSD, FNRM = (R1)                                      
-      In above message,  R1 =  0.1595302639696D-12
+      In above message,  R1 =  0.1595302639697D-12
 starting sunsim()
 
 [IDAS WARNING]  IDASolve
