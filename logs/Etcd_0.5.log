@@ -18,6 +18,8 @@ INFO: Building MbedTLS
 Using system libraries...
 INFO: Building Etcd
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of Etcd
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Etcd")' log
 Julia Version 0.5.2
@@ -28,13 +30,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-128-generic #177-Ubuntu SMP Tue Aug 8 11:40:23 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (815.734375 MB free)
-Uptime: 37467.0 sec
-Load Avg:  1.03076171875  1.2353515625  1.177734375
+Memory: 2.9392738342285156 GB (857.08984375 MB free)
+Uptime: 36990.0 sec
+Load Avg:  0.98681640625  1.22509765625  1.1591796875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    2206600 s       1678 s     207745 s     910527 s         88 s
-#2  3499 MHz     995758 s       4899 s     101137 s    2518165 s          2 s
+#1  3500 MHz    2250058 s       1360 s     226665 s     794326 s         70 s
+#2  3500 MHz     923003 s       4735 s     105479 s    2533507 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -70,8 +72,8 @@ INFO: Testing Etcd
 [info] Downloading etcd...
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   620    0   620    0     0   2859      0 --:--:-- --:--:-- --:--:--  2870
-100 8347k  100 8347k    0     0  9547k      0 --:--:-- --:--:-- --:--:-- 9547k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   620    0   620    0     0   2221      0 --:--:-- --:--:-- --:--:--  2230
+  0 8347k    0 42319    0     0  75828      0  0:01:52 --:--:--  0:01:52 75828100 8347k  100 8347k    0     0  8228k      0  0:00:01  0:00:01 --:--:-- 17.7M
 etcd-v2.3.7-linux-amd64/
 etcd-v2.3.7-linux-amd64/Documentation/
 etcd-v2.3.7-linux-amd64/Documentation/runtime-configuration.md
@@ -131,13 +133,21 @@ etcd-v2.3.7-linux-amd64/README.md
 [error] EtcdError: Key already exists (105).
 [error] EtcdError: Key not found (100).
 [error] EtcdError: Key not found (100).
-ERROR (unhandled task failure): InterruptException:
- in (::Etcd.#retry_cond#2)(::InterruptException) at /home/vagrant/.julia/v0.5/Etcd/src/requests.jl:60
- in (::Base.##55#56{Int64,Float64,Etcd.#retry_func#3{Base.#get,String,Dict{String,Any}},Etcd.#retry_cond#2})() at ./error.jl:83
- in #request#1(::Int64, ::Float64, ::Function, ::Base.#get, ::String, ::Dict{String,Any}) at /home/vagrant/.julia/v0.5/Etcd/src/requests.jl:65
- in #get#5(::Bool, ::Bool, ::Function, ::Etcd.Client, ::String, ::Dict{String,Any}) at /home/vagrant/.julia/v0.5/Etcd/src/api/keys.jl:20
- in macro expansion at /home/vagrant/.julia/v0.5/Etcd/src/api/watch.jl:53 [inlined]
- in (::Etcd.##31#35{Bool,##2#5,Etcd.Client,String,Etcd.##32#36})() at ./task.jl:360
+ERROR (unhandled task failure): schedule: Task not runnable
+ in enq_work(::Task) at ./event.jl:77
+ in #schedule#358(::Bool, ::Function, ::Task, ::IPv4) at ./event.jl:103
+ in (::Base.#kw##schedule)(::Array{Any,1}, ::Base.#schedule, ::Task, ::IPv4) at ./<missing>:0
+ in notify(::Condition, ::IPv4, ::Bool, ::Bool) at ./event.jl:45
+ in (::Base.##402#403{Condition})(::IPv4) at ./socket.jl:590
+ in uv_getaddrinfocb(::Ptr{Void}, ::Int32, ::Ptr{Void}) at ./socket.jl:555
+ in process_events(::Bool) at ./libuv.jl:84
+ in wait() at ./event.jl:188
+ in wait(::Condition) at ./event.jl:27
+ in stream_wait(::TCPSocket, ::Condition, ::Vararg{Condition,N}) at ./stream.jl:44
+ in close(::TCPSocket) at ./stream.jl:333
+ in close(::Requests.ResponseStream{TCPSocket}) at /home/vagrant/.julia/v0.5/Requests/src/streaming.jl:148
+ in macro expansion at /home/vagrant/.julia/v0.5/Requests/src/Requests.jl:406 [inlined]
+ in (::Requests.##24#25)() at ./event.jl:68
 Test Summary: | Pass  Total
   Etcd        |  114    114
 [info] Stopping etcd server...
