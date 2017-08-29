@@ -21,6 +21,8 @@ INFO: PyCall is using /home/vagrant/.julia/v0.4/Conda/deps/usr/bin/python (Pytho
 INFO: /home/vagrant/.julia/v0.4/PyCall/deps/deps.jl has not changed
 INFO: /home/vagrant/.julia/v0.4/PyCall/deps/PYTHON has not changed
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of PyAMG
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("PyAMG")' log
 Julia Version 0.4.7
@@ -31,13 +33,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-128-generic #177-Ubuntu SMP Tue Aug 8 11:40:23 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (524.05078125 MB free)
-Uptime: 28249.0 sec
-Load Avg:  0.9580078125  0.98046875  0.95361328125
+Memory: 2.9392738342285156 GB (535.48046875 MB free)
+Uptime: 28540.0 sec
+Load Avg:  1.10546875  0.99267578125  0.9345703125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1381265 s        118 s     109971 s    1060982 s         48 s
-#2  3499 MHz     941976 s       6144 s      94141 s    1687618 s          1 s
+#1  3499 MHz    1374717 s       6050 s     112162 s    1078041 s         56 s
+#2  3499 MHz     925139 s         84 s      97898 s    1725099 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -68,27 +70,27 @@ INFO: Installing IterativeSolvers v0.2.2
 INFO: Testing PyAMG
 =================================================
 Test 1: Julia `\` vs PyAMG Blackbox `solve` (2D) Laplacian
- \ :   0.353477 seconds (393.72 k allocations: 26.655 MB, 1.16% gc time)
+ \ :   0.417432 seconds (393.72 k allocations: 26.655 MB, 1.12% gc time)
 PyAMG-Warmup: /home/vagrant/.julia/v0.4/Conda/deps/usr/lib/python2.7/site-packages/pyamg/strength.py:533: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
   if B == 'ones':
-  2.420018 seconds (1.90 M allocations: 81.792 MB, 0.88% gc time)
-PyAMG:   0.262684 seconds (289 allocations: 942.469 KB)
-|x_\ - x_amg|_∞ = 1.1952494549660742e-11
-|A x_amg - b|_∞ = 3.5860239222529344e-9
+  2.653901 seconds (1.90 M allocations: 81.852 MB, 0.75% gc time)
+PyAMG:   0.291728 seconds (289 allocations: 942.469 KB)
+|x_\ - x_amg|_∞ = 7.001829671615667e-12
+|A x_amg - b|_∞ = 2.420233613520395e-8
 =================================================
 Test 2: Julia `\` vs PyAMG Blackbox `solve` (3D)
- \ :   0.723772 seconds (85 allocations: 98.501 MB, 0.92% gc time)
-PyAMG-Warmup:   1.510794 seconds (288 allocations: 3.224 MB)
-PyAMG:   0.973094 seconds (288 allocations: 3.224 MB)
-|x_\ - x_amg|_∞ = 1.9776888460221187e-12
-|A x_amg - b|_∞ = 1.480181310853368e-9
+ \ :   0.780624 seconds (85 allocations: 98.501 MB, 0.84% gc time)
+PyAMG-Warmup:   1.577724 seconds (288 allocations: 3.224 MB)
+PyAMG:   1.527786 seconds (288 allocations: 3.224 MB)
+|x_\ - x_amg|_∞ = 1.1628753515680046e-12
+|A x_amg - b|_∞ = 1.1351133366588328e-9
 =================================================
 Test 3: RugeStubenSolver (3D)
         50 x 50 x 50 grid = 125k dofs 
-Create solver:   0.730704 seconds (126.06 k allocations: 19.336 MB)
-First solve:   0.389102 seconds (149.69 k allocations: 7.375 MB, 0.65% gc time)
-Second solve: (tol 1e-9)  0.364833 seconds (13.89 k allocations: 1.608 MB)
-Third solve: (tol 1e-6)  0.230378 seconds (189 allocations: 983.938 KB)
+Create solver:   0.783130 seconds (126.06 k allocations: 19.336 MB)
+First solve:   0.449251 seconds (149.69 k allocations: 7.375 MB, 0.70% gc time)
+Second solve: (tol 1e-9)  0.369328 seconds (13.89 k allocations: 1.608 MB)
+Third solve: (tol 1e-6)  0.213031 seconds (189 allocations: 983.938 KB)
 |A x_amg - b|_∞ = 2.532215049200204e-6
 =================================================
 Test 4: \, ldiv, and kwargs
@@ -98,14 +100,14 @@ Test 5: AMG as a preconditioner
         PyAMG vs CG vs PCG  (using IterativeSolvers)
 WARNING: replacing module IterativeSolvers
 Plain CG:
-  0.379911 seconds (331.93 k allocations: 76.482 MB, 4.36% gc time)
-  0.037351 seconds (3.25 k allocations: 61.645 MB, 11.33% gc time)
+  0.339560 seconds (331.93 k allocations: 76.482 MB, 4.22% gc time)
+  0.056819 seconds (3.25 k allocations: 61.645 MB, 7.11% gc time)
 PyAMG-preconditionerd CG:  (see `aspreconditioner`)
-  0.136605 seconds (57.09 k allocations: 4.712 MB)
-  0.015283 seconds (629 allocations: 2.082 MB)
+  0.142337 seconds (57.09 k allocations: 4.712 MB)
+  0.021066 seconds (629 allocations: 2.082 MB)
 PyAMG solver
-  0.019233 seconds (247 allocations: 88.359 KB)
-  0.015499 seconds (215 allocations: 86.359 KB)
+  0.023505 seconds (247 allocations: 88.359 KB)
+  0.015601 seconds (215 allocations: 86.359 KB)
 |x_cg-x| = 3.5312070957405564e-6 
 |x_pcg-x| = 2.7796572129198973e-6
 |x_pyamg-x| = 1.0901104402769516e-7
