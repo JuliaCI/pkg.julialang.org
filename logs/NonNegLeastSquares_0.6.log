@@ -2,6 +2,8 @@
 INFO: Cloning cache of NonNegLeastSquares from https://github.com/ahwillia/NonNegLeastSquares.jl.git
 INFO: Installing NonNegLeastSquares v0.1.0
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of NonNegLeastSquares
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("NonNegLeastSquares")' log
 Julia Version 0.6.0
@@ -11,14 +13,14 @@ Platform Info:
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-129-generic #178-Ubuntu SMP Fri Aug 11 12:48:20 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (904.9375 MB free)
-Uptime: 28788.0 sec
-Load Avg:  1.02783203125  0.9853515625  1.04345703125
+  uname: Linux 3.13.0-132-generic #181-Ubuntu SMP Wed Sep 13 13:25:03 UTC 2017 x86_64 x86_64
+Memory: 2.93927001953125 GB (1034.59375 MB free)
+Uptime: 26904.0 sec
+Load Avg:  1.037109375  0.9853515625  1.029296875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3496 MHz    1815432 s       5927 s      89312 s     537026 s         24 s
-#2  3496 MHz     447089 s        168 s      46020 s    2337789 s          0 s
+#1  3504 MHz    1800264 s         69 s      84670 s     330061 s          8 s
+#2  3504 MHz     273308 s       6086 s      45112 s    2334287 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -33,15 +35,15 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
- - JSON                          0.13.0
+ - JSON                          0.14.0
  - NonNegLeastSquares            0.1.0
 1 additional packages:
- - Compat                        0.31.0
+ - Compat                        0.32.0
 INFO: Computing test dependencies for NonNegLeastSquares...
 INFO: Installing BinDeps v0.6.0
 INFO: Installing Conda v0.7.0
 INFO: Installing MacroTools v0.3.7
-INFO: Installing PyCall v1.14.0
+INFO: Installing PyCall v1.15.0
 INFO: Installing SHA v0.5.1
 INFO: Installing URIParser v0.2.0
 INFO: Building Conda
@@ -52,19 +54,36 @@ INFO: PyCall is using /home/vagrant/.julia/v0.6/Conda/deps/usr/bin/python (Pytho
 INFO: /home/vagrant/.julia/v0.6/PyCall/deps/deps.jl has not changed
 INFO: /home/vagrant/.julia/v0.6/PyCall/deps/PYTHON has not changed
 INFO: Testing NonNegLeastSquares
-ERROR: LoadError: PyError (ccall(@pysym(:PyImport_ImportModule), PyPtr, (Cstring,), name)) <type 'exceptions.ImportError'>
+ERROR: LoadError: PyError (ccall(@pysym(:PyImport_ImportModule), PyPtr, (Cstring,), name)
+
+The Python package scipy.optimize could not be found by pyimport. Usually this means
+that you did not install scipy.optimize in the Python version being used by PyCall.
+
+PyCall is currently configured to use the Julia-specific Python distribution
+installed by the Conda.jl package.  To install the scipy.optimize module, you can
+use `pyimport_conda("scipy.optimize", PKG)`, where PKG is the Anaconda
+package the contains the module scipy.optimize, or alternatively you can use the
+Conda package directly (via `using Conda` followed by `Conda.add` etcetera).
+
+Alternatively, if you want to use a different Python distribution on your
+system, such as a system-wide Python (as opposed to the Julia-specific Python),
+you can re-configure PyCall with that Python.   As explained in the PyCall
+documentation, set ENV["PYTHON"] to the path/name of the python executable
+you want to use, run Pkg.build("PyCall"), and re-launch Julia.
+
+) <type 'exceptions.ImportError'>
 ImportError('No module named scipy.optimize',)
 
 Stacktrace:
  [1] pyerr_check at /home/vagrant/.julia/v0.6/PyCall/src/exception.jl:56 [inlined]
  [2] pyerr_check at /home/vagrant/.julia/v0.6/PyCall/src/exception.jl:61 [inlined]
  [3] macro expansion at /home/vagrant/.julia/v0.6/PyCall/src/exception.jl:81 [inlined]
- [4] pyimport(::String) at /home/vagrant/.julia/v0.6/PyCall/src/PyCall.jl:370
+ [4] pyimport(::String) at /home/vagrant/.julia/v0.6/PyCall/src/PyCall.jl:374
  [5] include_from_node1(::String) at ./loading.jl:569
  [6] include(::String) at ./sysimg.jl:14
  [7] process_options(::Base.JLOptions) at ./client.jl:305
  [8] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/NonNegLeastSquares/test/runtests.jl, in expression starting on line 410
+while loading /home/vagrant/.julia/v0.6/NonNegLeastSquares/test/runtests.jl, in expression starting on line 467
 =========================[ ERROR: NonNegLeastSquares ]==========================
 
 failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/NonNegLeastSquares/test/runtests.jl`, ProcessExited(1)) [1]
@@ -73,7 +92,7 @@ failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/
 INFO: Removing BinDeps v0.6.0
 INFO: Removing Conda v0.7.0
 INFO: Removing MacroTools v0.3.7
-INFO: Removing PyCall v1.14.0
+INFO: Removing PyCall v1.15.0
 INFO: Removing SHA v0.5.1
 INFO: Removing URIParser v0.2.0
 ERROR: NonNegLeastSquares had test errors

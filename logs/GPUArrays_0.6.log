@@ -1,28 +1,35 @@
 >>> 'Pkg.add("GPUArrays")' log
 INFO: Cloning cache of GPUArrays from https://github.com/JuliaGPU/GPUArrays.jl.git
 INFO: Cloning cache of Transpiler from https://github.com/SimonDanisch/Transpiler.jl.git
-INFO: Installing BinDeps v0.6.0
-INFO: Installing CLBLAS v1.1.2
-INFO: Installing CLFFT v0.5.0
+INFO: Installing AxisAlgorithms v0.2.0
+INFO: Installing CLBLAS v1.1.3
+INFO: Installing CLFFT v0.5.1
 INFO: Installing CUBLAS v0.2.2
 INFO: Installing CUDAapi v0.1.2
-INFO: Installing CUDAdrv v0.5.2
-INFO: Installing CUDArt v0.4.0
+INFO: Installing CUDAdrv v0.5.4
+INFO: Installing CUDAnative v0.5.1
+INFO: Installing CUDArt v0.4.1
 INFO: Installing CUFFT v0.0.4
-INFO: Installing ColorTypes v0.6.1
-INFO: Installing DataStructures v0.7.1
-INFO: Installing FixedPointNumbers v0.4.0
-INFO: Installing GPUArrays v0.0.2
+INFO: Installing Calculus v0.2.2
+INFO: Installing ColorTypes v0.6.3
+INFO: Installing DataStructures v0.7.2
+INFO: Installing DualNumbers v0.3.0
+INFO: Installing FixedPointNumbers v0.4.1
+INFO: Installing GPUArrays v0.1.0
+INFO: Installing Interpolations v0.7.0
+INFO: Installing IterTools v0.1.0
+INFO: Installing LLVM v0.4.0
 INFO: Installing MacroTools v0.3.7
 INFO: Installing Matcha v0.1.0
-INFO: Installing OpenCL v0.6.0
-INFO: Installing Primes v0.1.3
-INFO: Installing SHA v0.5.1
-INFO: Installing SpecialFunctions v0.3.1
+INFO: Installing NaNMath v0.2.6
+INFO: Installing OpenCL v0.6.1
+INFO: Installing Primes v0.2.0
+INFO: Installing Ratios v0.2.0
+INFO: Installing ShowItLikeYouBuildIt v0.1.1
 INFO: Installing StaticArrays v0.6.2
 INFO: Installing Sugar v0.3.1
 INFO: Installing Transpiler v0.3.0
-INFO: Installing URIParser v0.2.0
+INFO: Installing WoodburyMatrices v0.2.2
 INFO: Building CLBLAS
 WARNING: Compat.ASCIIString is deprecated, use String instead.
   likely near /home/vagrant/.julia/v0.6/CLBLAS/deps/build.jl:43
@@ -40,20 +47,38 @@ while loading /home/vagrant/.julia/v0.6/CLBLAS/deps/build.jl, in expression star
 ================================================================================
 INFO: Building CLFFT
 WARNING: Compat.ASCIIString is deprecated, use String instead.
-  likely near /home/vagrant/.julia/v0.6/CLFFT/deps/build.jl:45
+  likely near /home/vagrant/.julia/v0.6/CLFFT/deps/build.jl:43
 ================================[ ERROR: CLFFT ]================================
 
 LoadError: None of the selected providers can install dependency libCLFFT.
 Use BinDeps.debug(package_name) to see available providers
 
-while loading /home/vagrant/.julia/v0.6/CLFFT/deps/build.jl, in expression starting on line 45
+while loading /home/vagrant/.julia/v0.6/CLFFT/deps/build.jl, in expression starting on line 43
 
 ================================================================================
 INFO: Building CUDAdrv
 ===============================[ ERROR: CUDAdrv ]===============================
 
-LoadError: Could not find the CUDA driver library (specify the path to libcuda using the CUDA_DRIVER environment variable).
-while loading /home/vagrant/.julia/v0.6/CUDAdrv/deps/build.jl, in expression starting on line 126
+LoadError: Could not find CUDA driver
+while loading /home/vagrant/.julia/v0.6/CUDAdrv/deps/build.jl, in expression starting on line 104
+
+================================================================================
+INFO: Building LLVM
+================================[ ERROR: LLVM ]=================================
+
+LoadError: could not find LLVM installation providing llvm-config
+while loading /home/vagrant/.julia/v0.6/LLVM/deps/build.jl, in expression starting on line 101
+
+================================================================================
+INFO: Building CUDAnative
+WARNING: CUDAdrv.jl has not been configured, and will not work properly.
+WARNING: Please run Pkg.build("CUDAdrv") and restart Julia.
+WARNING: LLVM.jl has not been configured, and will not work properly.
+WARNING: Please run Pkg.build("LLVM") and restart Julia.
+=============================[ ERROR: CUDAnative ]==============================
+
+LoadError: LLVM.jl has not been configured.
+while loading /home/vagrant/.julia/v0.6/CUDAnative/deps/build.jl, in expression starting on line 161
 
 ================================================================================
 INFO: Building CUDArt
@@ -63,37 +88,28 @@ LoadError: Could not find CUDA toolkit; specify using CUDA_(dir|HOME|ROOT) envir
 while loading /home/vagrant/.julia/v0.6/CUDArt/deps/build.jl, in expression starting on line 275
 
 ================================================================================
+INFO: Building SpecialFunctions
 INFO: Building GPUArrays
 INFO: This process will figure out which acceleration Packages you have installed
 and therefore which backends GPUArrays can offer.
 Theoretically available:
-:cudanative, :julia, :opencl
+:cudanative, :threaded, :opencl
 
-:julia is the default backend, which should always work.
+:threaded is the default backend, which should always work.
 Just start Julia with:
 `JULIA_NUM_THREADS=8 julia -O3` to get it some threads.
 8 is just an example and should be chosen depending on the processor you have.
 `-O3` is completely optional, but when you're already fishing for multhithreaded
 acceleration, you might as well want optimization level 3!
 In the future, OpenCL, CUDA and OpenGL will be added as another backend.
-INFO: Not installing CUDAnative backend. If you've installed CUDAnative.jl not in the
-default location, consider building GPUArrays like this:
-```
-ENV[CUDANATIVE_PATH] = "path/to/CUDAnative/"
-Pkg.build("GPUArrays")
-```
-If not installed, you can get CUDAnative like this:
-```
-Install CUDA runtime
-Build Julia from the branch: tb/cuda.
-Then:
-Pkg.clone("https://github.com/JuliaGPU/CUDAnative.jl.git") #
-Pkg.test("CUDAnative")
-Pkg.checkout("CUDAdrv")
-Pkg.checkout("LLVM")
-```
-INFO: julia added as a backend.
-INFO: CUDAnative doesn't seem to be usable and it won't be installed as a backend. Error: ArgumentError("Module CUDAnative not found in current path.\nRun `Pkg.add(\"CUDAnative\")` to install the CUDAnative package.")
+INFO: threaded backend added.
+WARNING: LLVM.jl has not been configured, and will not work properly.
+WARNING: Please run Pkg.build("LLVM") and restart Julia.
+WARNING: CUDAdrv.jl has not been configured, and will not work properly.
+WARNING: Please run Pkg.build("CUDAdrv") and restart Julia.
+WARNING: CUDAnative.jl has not been configured, and will not work properly.
+WARNING: Please run Pkg.build("CUDAnative") and restart Julia.
+INFO: CUDAnative doesn't seem to be usable and it won't be installed as a backend. Error: ErrorException("CUDAdrv.jl has not been configured.")
 INFO: If error fixed, try Pkg.build("GPUArrays") again!
 ERROR: LoadError: LoadError: AssertionError: libopencl != ""
 Stacktrace:
@@ -108,10 +124,10 @@ INFO: OpenCL not usable. Please install drivers and add OpenCL.jl: ErrorExceptio
 
 ================================[ BUILD ERRORS ]================================
 
-WARNING: CUDArt, CUDAdrv, CLBLAS and CLFFT had build errors.
+WARNING: CUDAnative, LLVM, CUDArt, CUDAdrv, CLBLAS and CLFFT had build errors.
 
  - packages with build errors remain installed in /home/vagrant/.julia/v0.6
- - build the package(s) and all dependencies with `Pkg.build("CUDArt", "CUDAdrv", "CLBLAS", "CLFFT")`
+ - build the package(s) and all dependencies with `Pkg.build("CUDAnative", "LLVM", "CUDArt", "CUDAdrv", "CLBLAS", "CLFFT")`
  - build a single package by running its `deps/build.jl` script
 
 ================================================================================
@@ -127,14 +143,14 @@ Platform Info:
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-129-generic #178-Ubuntu SMP Fri Aug 11 12:48:20 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (652.48046875 MB free)
-Uptime: 68547.0 sec
-Load Avg:  1.0029296875  1.0146484375  1.00830078125
+  uname: Linux 3.13.0-132-generic #181-Ubuntu SMP Wed Sep 13 13:25:03 UTC 2017 x86_64 x86_64
+Memory: 2.93927001953125 GB (666.9375 MB free)
+Uptime: 65565.0 sec
+Load Avg:  0.9970703125  0.9853515625  0.9404296875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    4506516 s         68 s     194766 s    1118929 s         43 s
-#2  3499 MHz    1209698 s       6571 s     119323 s    5391595 s          1 s
+#1  3503 MHz    4351028 s       5687 s     206695 s     879415 s         16 s
+#2  3503 MHz     873783 s        538 s      95093 s    5444690 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -149,40 +165,58 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
- - GPUArrays                     0.0.2
- - JSON                          0.13.0
-22 additional packages:
+ - GPUArrays                     0.1.0
+ - JSON                          0.14.0
+34 additional packages:
+ - AxisAlgorithms                0.2.0
  - BinDeps                       0.6.0
- - CLBLAS                        1.1.2
- - CLFFT                         0.5.0
+ - CLBLAS                        1.1.3
+ - CLFFT                         0.5.1
  - CUBLAS                        0.2.2
  - CUDAapi                       0.1.2
- - CUDAdrv                       0.5.2
- - CUDArt                        0.4.0
+ - CUDAdrv                       0.5.4
+ - CUDAnative                    0.5.1
+ - CUDArt                        0.4.1
  - CUFFT                         0.0.4
- - ColorTypes                    0.6.1
- - Compat                        0.31.0
- - DataStructures                0.7.1
- - FixedPointNumbers             0.4.0
+ - Calculus                      0.2.2
+ - ColorTypes                    0.6.3
+ - Compat                        0.32.0
+ - DataStructures                0.7.2
+ - DualNumbers                   0.3.0
+ - FixedPointNumbers             0.4.1
+ - HyperDualNumbers              1.0.0+             master
+ - Interpolations                0.7.0
+ - IterTools                     0.1.0
+ - LLVM                          0.4.0
  - MacroTools                    0.3.7
  - Matcha                        0.1.0
- - OpenCL                        0.6.0
- - Primes                        0.1.3
+ - NaNMath                       0.2.6
+ - OpenCL                        0.6.1
+ - Primes                        0.2.0
+ - Ratios                        0.2.0
  - SHA                           0.5.1
- - SpecialFunctions              0.3.1
+ - ShowItLikeYouBuildIt          0.1.1
+ - SpecialFunctions              0.3.3
  - StaticArrays                  0.6.2
  - Sugar                         0.3.1
  - Transpiler                    0.3.0
  - URIParser                     0.2.0
+ - WoodburyMatrices              0.2.2
 INFO: Computing test dependencies for GPUArrays...
 INFO: No packages to install, update or remove
 INFO: Testing GPUArrays
 Test Summary: | Pass  Total
-julia         |   48     48
+Broadcast     |    9      9
 Test Summary: | Pass  Total
-BLAS          |    4      4
+threaded      |   10     10
 Test Summary: | Pass  Total
-Shared        |    3      3
+BLAS          |    6      6
+Test Summary: | Pass  Total
+Shared        |   50     50
+Test Summary:           | Pass  Total
+Array/Vector Operations |  116    116
+Test Summary: | Pass  Total
+FFT           |    6      6
 INFO: GPUArrays tests passed
 INFO: No packages to install, update or remove
 

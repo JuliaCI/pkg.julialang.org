@@ -1,6 +1,5 @@
 >>> 'Pkg.add("HyperDualNumbers")' log
-INFO: Cloning cache of HyperDualNumbers from https://github.com/JuliaDiff/HyperDualNumbers.jl.git
-INFO: Installing HyperDualNumbers v1.0.0
+INFO: No packages to install, update or remove
 INFO: Package database updated
 INFO: METADATA is out-of-date — you may not have the latest version of HyperDualNumbers
 INFO: Use `Pkg.update()` to get the latest versions of your packages
@@ -13,14 +12,14 @@ Platform Info:
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-129-generic #178-Ubuntu SMP Fri Aug 11 12:48:20 UTC 2017 x86_64 x86_64
-Memory: 2.9392738342285156 GB (1548.046875 MB free)
-Uptime: 73110.0 sec
-Load Avg:  1.0029296875  1.001953125  1.10888671875
+  uname: Linux 3.13.0-132-generic #181-Ubuntu SMP Wed Sep 13 13:25:03 UTC 2017 x86_64 x86_64
+Memory: 2.93927001953125 GB (1602.5703125 MB free)
+Uptime: 70203.0 sec
+Load Avg:  1.02099609375  0.97265625  1.0673828125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    4810506 s         70 s     211434 s    1174216 s         43 s
-#2  3499 MHz    1273530 s       6571 s     127448 s    5770541 s          1 s
+#1  3503 MHz    4682368 s       5688 s     223912 s     904665 s         16 s
+#2  3503 MHz     905734 s        540 s     103143 s    5864584 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -35,43 +34,22 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
- - HyperDualNumbers              1.0.0
- - JSON                          0.13.0
-1 additional packages:
- - Compat                        0.31.0
+ - HyperDualNumbers              1.0.0+             master
+ - JSON                          0.14.0
+5 additional packages:
+ - BinDeps                       0.6.0
+ - Compat                        0.32.0
+ - SHA                           0.5.1
+ - SpecialFunctions              0.3.3
+ - URIParser                     0.2.0
 INFO: Testing HyperDualNumbers
 Running tests:
   * test_basics.jl *
 
-WARNING: deprecated syntax "typealias Hyper256 Hyper{Float64}" at /home/vagrant/.julia/v0.6/HyperDualNumbers/src/hyperdual.jl:19.
-Use "const Hyper256 = Hyper{Float64}" instead.
-
-WARNING: deprecated syntax "typealias Hyper128 Hyper{Float32}" at /home/vagrant/.julia/v0.6/HyperDualNumbers/src/hyperdual.jl:21.
-Use "const Hyper128 = Hyper{Float32}" instead.
-WARNING: `@vectorize_1arg` is deprecated in favor of compact broadcast syntax. Instead of `@vectorize_1arg`'ing function `f` and calling `f(arg)`, call `f.(arg)`.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
- [2] @vectorize_1arg(::ANY, ::ANY) at ./deprecated.jl:322
- [3] include_from_node1(::String) at ./loading.jl:569
- [4] include(::String) at ./sysimg.jl:14
- [5] include_from_node1(::String) at ./loading.jl:569
- [6] eval(::Module, ::Any) at ./boot.jl:235
- [7] _require(::Symbol) at ./loading.jl:483
- [8] require(::Symbol) at ./loading.jl:398
- [9] include_from_node1(::String) at ./loading.jl:569
- [10] include(::String) at ./sysimg.jl:14
- [11] macro expansion at /home/vagrant/.julia/v0.6/HyperDualNumbers/test/runtests.jl:9 [inlined]
- [12] anonymous at ./<missing>:?
- [13] include_from_node1(::String) at ./loading.jl:569
- [14] include(::String) at ./sysimg.jl:14
- [15] process_options(::Base.JLOptions) at ./client.jl:305
- [16] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/HyperDualNumbers/src/hyperdual.jl, in expression starting on line 61
-
 Examples of show() for hyperdual numbers with NaN:
 
-hdNaN = NaN + 0.0ϵ1 + 0.0ϵ2 + 0.0ϵ1ϵ2
-hdNaN + hd4 = NaN + 4.0ϵ1 + 3.0ϵ2 + 4.0ϵ1ϵ2
+hdNaN = HyperDualNumbers.Hyper{Float64}(NaN, 0.0, 0.0, 0.0)
+hdNaN + hd4 = HyperDualNumbers.Hyper{Float64}(NaN, 4.0, 3.0, 4.0)
 
 Testing includes Tim Holy's division performance improvement.
 Testing includes ngedwin98's fixes for asin, acos and atan.
@@ -79,7 +57,7 @@ Testing includes ngedwin98's fixes for asin, acos and atan.
 
 
   * test_TimHoly_example.jl *
-8//25 - 8//5ϵ1 - 8//5ϵ2 + 144//25ϵ1ϵ2
+HyperDualNumbers.Hyper{Rational{Int64}}(8//25, -8//5, -8//5, 144//25)
 
 
 
@@ -88,18 +66,26 @@ Testing includes ngedwin98's fixes for asin, acos and atan.
 "THE" example
 f(1.5) = 4.497780053946162
 
-t0 = 1.5 + 1.0ϵ1 + 1.0ϵ2 + 0.0ϵ1ϵ2
-t1 = 4.4816890703380645 + 4.4816890703380645ϵ1 + 4.4816890703380645ϵ2 + 4.4816890703380645ϵ1ϵ2
-t2 = 0.9974949866040544 + 0.0707372016677029ϵ1 + 0.0707372016677029ϵ2 - 0.9974949866040544ϵ1ϵ2
-t3 = 0.9925037693693152 + 0.21114975082386195ϵ1 + 0.21114975082386195ϵ2 - 2.947564004699509ϵ1ϵ2
-t4 = 0.0707372016677029 - 0.9974949866040544ϵ1 - 0.9974949866040544ϵ2 - 0.0707372016677029ϵ1ϵ2
-t5 = 0.000353951393082256 - 0.014973651704218029ϵ1 - 0.014973651704218029ϵ2 + 0.42123764746847714ϵ1ϵ2
-t5a = 0.000353951393082256 - 0.014973651704218029ϵ1 - 0.014973651704218029ϵ2 + 0.42123764746847714ϵ1ϵ2
-t6 = 0.9928577207623974 + 0.19617609911964393ϵ1 + 0.19617609911964393ϵ2 - 2.526326357231032ϵ1ϵ2
-t7 = 1.0035903837494204 - 0.0991483686337086ϵ1 - 0.0991483686337086ϵ2 + 1.3062034995890381ϵ1ϵ2
-t8 = 4.497780053946162 + 4.053427893898621ϵ1 + 4.053427893898621ϵ2 + 9.463073681596603ϵ1ϵ2
+t0 = HyperDualNumbers.Hyper{Float64}(1.5, 1.0, 1.0, 0.0)
+t1 = HyperDualNumbers.Hyper{Float64}(4.4816890703380645, 4.4816890703380645, 4.4816890703380645, 4.4816890703380645)
+t2 = HyperDualNumbers.Hyper{Float64}(0.9974949866040544, 0.0707372016677029, 0.0707372016677029, -0.9974949866040544)
+t3 = HyperDualNumbers.Hyper{Float64}(0.9925037693693152, 0.21114975082386195, 0.21114975082386195, -2.947564004699509)
+t4 = HyperDualNumbers.Hyper{Float64}(0.0707372016677029, -0.9974949866040544, -0.9974949866040544, -0.0707372016677029)
+t5 = HyperDualNumbers.Hyper{Float64}(0.000353951393082256, -0.014973651704218029, -0.014973651704218029, 0.42123764746847714)
+t5a = HyperDualNumbers.Hyper{Float64}(0.000353951393082256, -0.014973651704218029, -0.014973651704218029, 0.42123764746847714)
+t6 = HyperDualNumbers.Hyper{Float64}(0.9928577207623974, 0.19617609911964393, 0.19617609911964393, -2.526326357231032)
+t7 = HyperDualNumbers.Hyper{Float64}(1.0035903837494204, -0.0991483686337086, -0.0991483686337086, 1.3062034995890381)
+t8 = HyperDualNumbers.Hyper{Float64}(4.497780053946162, 4.053427893898621, 4.053427893898621, 9.463073681596603)
 
-f(t0) = 4.497780053946162 + 4.05342789389862ϵ1 + 4.05342789389862ϵ2 + 9.463073681596601ϵ1ϵ2
+f(t0) = HyperDualNumbers.Hyper{Float64}(4.497780053946162, 4.05342789389862, 4.05342789389862, 9.463073681596601)
+
+
+
+  * test_Erf_example.jl *
+24.274806105338804   = 24.274806105338804
+0.841601975531715   = 0.8416019755317149
+0.008545857737238427   = 0.00854585773723843
+Test Erf Passed
 
 
 
