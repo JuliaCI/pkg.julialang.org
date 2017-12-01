@@ -4,10 +4,10 @@ INFO: Cloning cache of Matcha from https://github.com/SimonDanisch/Matcha.jl.git
 INFO: Cloning cache of Sugar from https://github.com/SimonDanisch/Sugar.jl.git
 INFO: Cloning cache of Transpiler from https://github.com/SimonDanisch/Transpiler.jl.git
 INFO: Installing BinDeps v0.6.0
-INFO: Installing CLBLAS v1.1.3
+INFO: Installing CLBLAS v1.1.4
 INFO: Installing CLFFT v0.5.1
 INFO: Installing CUBLAS v0.1.0
-INFO: Installing CUDAapi v0.1.2
+INFO: Installing CUDAapi v0.1.3
 INFO: Installing CUDAdrv v0.5.4
 INFO: Installing CUDArt v0.4.1
 INFO: Installing CUFFT v0.0.4
@@ -20,6 +20,7 @@ INFO: Installing Matcha v0.0.2
 INFO: Installing OpenCL v0.6.1
 INFO: Installing Primes v0.2.0
 INFO: Installing SHA v0.3.3
+INFO: Installing SpecialFunctions v0.2.0
 INFO: Installing StaticArrays v0.3.1
 INFO: Installing Sugar v0.2.0
 INFO: Installing Transpiler v0.0.1
@@ -31,10 +32,11 @@ INFO: Downloading file https://github.com/clMathLibraries/clBLAS/releases/downlo
 INFO: Done downloading file https://github.com/clMathLibraries/clBLAS/releases/download/v2.12/clBLAS-2.12.0-Linux-x64.tar.gz
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.5/CLBLAS
 INFO: Directory /home/vagrant/.julia/v0.5/CLBLAS already created
+INFO: Path /home/vagrant/.julia/v0.5/CLBLAS/deps/clBLAS-2.12.0-Linux-x64 already created
 ===============================[ ERROR: CLBLAS ]================================
 
-LoadError: Path /home/vagrant/.julia/v0.5/CLBLAS/deps/package was not created successfully (Tried to run `tar xzf /home/vagrant/.julia/v0.5/CLBLAS/deps/downloads/clBLAS-2.12.0-Linux-x64.tar.gz --directory=/home/vagrant/.julia/v0.5/CLBLAS/deps` )
-while loading /home/vagrant/.julia/v0.5/CLBLAS/deps/build.jl, in expression starting on line 43
+LoadError: Provider BinDeps.Binaries failed to satisfy dependency libCLBLAS
+while loading /home/vagrant/.julia/v0.5/CLBLAS/deps/build.jl, in expression starting on line 45
 
 ================================================================================
 INFO: Building CLFFT
@@ -42,8 +44,8 @@ INFO: Attempting to Create directory /home/vagrant/.julia/v0.5/CLFFT/deps/downlo
 INFO: Downloading file https://github.com/clMathLibraries/clFFT/releases/download/v2.12.2/clFFT-2.12.2-Linux-x64.tar.gz
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   619    0   619    0     0   3227      0 --:--:-- --:--:-- --:--:--  3240
-  2  544k    2 16360    0     0  36120      0  0:00:15 --:--:--  0:00:15 36120100  544k  100  544k    0     0   910k      0 --:--:-- --:--:-- --:--:-- 3668k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   619    0   619    0     0   2435      0 --:--:-- --:--:-- --:--:--  2437
+100  544k  100  544k    0     0   823k      0 --:--:-- --:--:-- --:--:--  823k
 INFO: Done downloading file https://github.com/clMathLibraries/clFFT/releases/download/v2.12.2/clFFT-2.12.2-Linux-x64.tar.gz
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.5/CLFFT
 INFO: Directory /home/vagrant/.julia/v0.5/CLFFT already created
@@ -120,8 +122,6 @@ WARNING: CUDArt, CUDAdrv, CLBLAS and CLFFT had build errors.
 
 ================================================================================
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of GPUArrays
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("GPUArrays")' log
 Julia Version 0.5.2
@@ -131,14 +131,14 @@ Platform Info:
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-132-generic #181-Ubuntu SMP Wed Sep 13 13:25:03 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (1351.8203125 MB free)
-Uptime: 42325.0 sec
-Load Avg:  1.125  1.01416015625  0.9697265625
+  uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
+Memory: 2.93927001953125 GB (1444.75390625 MB free)
+Uptime: 51014.0 sec
+Load Avg:  0.9638671875  0.90185546875  0.74365234375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    2570460 s       1753 s     211532 s     916600 s         26 s
-#2  3500 MHz     920597 s       6674 s     101234 s    3084058 s          0 s
+#1  3500 MHz    3137212 s       4527 s     281439 s    1087500 s        117 s
+#2  3500 MHz    1062031 s       3307 s     130556 s    3772594 s          4 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -155,20 +155,19 @@ Package Directory: /home/vagrant/.julia/v0.5
 2 required packages:
  - GPUArrays                     0.0.2
  - JSON                          0.14.0
-23 additional packages:
+22 additional packages:
  - BinDeps                       0.6.0
- - CLBLAS                        1.1.3
+ - CLBLAS                        1.1.4
  - CLFFT                         0.5.1
  - CUBLAS                        0.1.0
- - CUDAapi                       0.1.2
+ - CUDAapi                       0.1.3
  - CUDAdrv                       0.5.4
  - CUDArt                        0.4.1
  - CUFFT                         0.0.4
  - ColorTypes                    0.5.2
- - Compat                        0.32.0
+ - Compat                        0.37.0
  - DataStructures                0.6.1
  - FixedPointNumbers             0.3.9
- - HyperDualNumbers              1.0.0+             master
  - MacroTools                    0.3.7
  - Matcha                        0.0.2
  - OpenCL                        0.6.1

@@ -5,25 +5,38 @@ INFO: Installing LIBLINEAR v0.3.0
 INFO: Installing LIBSVM v0.1.0
 INFO: Installing ScikitLearnBase v0.3.0
 INFO: Building LIBLINEAR
+if [ "Linux" = "Darwin" ]; then \
+		SHARED_LIB_FLAG="-dynamiclib -Wl,-install_name,liblinear.so.3"; \
+	else \
+		SHARED_LIB_FLAG="-shared -Wl,-soname,liblinear.so.3"; \
+	fi; \
+	g++ ${SHARED_LIB_FLAG} linear.o tron.o blas/blas.a -o liblinear.so.3
 INFO: Building LIBSVM
+g++ -Wall -Wconversion -O3 -fPIC -c svm.cpp
+if [ "Linux" = "Darwin" ]; then \
+		SHARED_LIB_FLAG="-dynamiclib -Wl,-install_name,libsvm.so.2"; \
+	else \
+		SHARED_LIB_FLAG="-shared -Wl,-soname,libsvm.so.2"; \
+	fi; \
+	g++ ${SHARED_LIB_FLAG} svm.o -o libsvm.so.2
 INFO: Package database updated
 
 >>> 'Pkg.test("LIBSVM")' log
-Julia Version 0.6.0
-Commit 9036443 (2017-06-19 13:05 UTC)
+Julia Version 0.6.1
+Commit 0d7248e2ff (2017-10-24 22:15 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-132-generic #181-Ubuntu SMP Wed Sep 13 13:25:03 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (753.109375 MB free)
-Uptime: 4846.0 sec
-Load Avg:  0.93115234375  1.19677734375  1.34765625
+  uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
+Memory: 2.93927001953125 GB (798.5390625 MB free)
+Uptime: 6255.0 sec
+Load Avg:  1.0029296875  1.09912109375  1.2529296875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3504 MHz     293282 s         65 s      17572 s      97588 s          3 s
-#2  3504 MHz      52024 s        111 s       7867 s     418831 s          0 s
+#1  3499 MHz     380534 s         55 s      21846 s     139732 s          5 s
+#2  3499 MHz      65486 s        120 s       9360 s     543356 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -38,28 +51,32 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
- - JSON                          0.14.0
+ - JSON                          0.16.1
  - LIBSVM                        0.1.0
 3 additional packages:
- - Compat                        0.32.0
+ - Compat                        0.37.0
  - LIBLINEAR                     0.3.0
  - ScikitLearnBase               0.3.0
 INFO: Computing test dependencies for LIBSVM...
+INFO: Cloning cache of CodecZlib from https://github.com/bicycle1885/CodecZlib.jl.git
 INFO: Cloning cache of RData from https://github.com/JuliaStats/RData.jl.git
 INFO: Cloning cache of RDatasets from https://github.com/johnmyleswhite/RDatasets.jl.git
+INFO: Cloning cache of TranscodingStreams from https://github.com/bicycle1885/TranscodingStreams.jl.git
 INFO: Installing BinDeps v0.6.0
+INFO: Installing CodecZlib v0.4.1
 INFO: Installing DataArrays v0.6.2
 INFO: Installing DataFrames v0.10.1
 INFO: Installing DataStructures v0.7.2
-INFO: Installing FileIO v0.5.2
+INFO: Installing FileIO v0.6.0
 INFO: Installing GZip v0.3.0
-INFO: Installing RData v0.1.0
+INFO: Installing RData v0.2.0
 INFO: Installing RDatasets v0.2.0
 INFO: Installing Reexport v0.0.3
-INFO: Installing SHA v0.5.1
-INFO: Installing SortingAlgorithms v0.1.1
-INFO: Installing SpecialFunctions v0.3.3
-INFO: Installing StatsBase v0.19.0
+INFO: Installing SHA v0.5.2
+INFO: Installing SortingAlgorithms v0.2.0
+INFO: Installing SpecialFunctions v0.3.5
+INFO: Installing StatsBase v0.19.1
+INFO: Installing TranscodingStreams v0.4.0
 INFO: Installing URIParser v0.2.0
 INFO: Building SpecialFunctions
 INFO: Testing LIBSVM
@@ -98,8 +115,8 @@ Total nSV = 30
 WARNING: @test_approx_eq is deprecated, use `@test sum(yeps - y) ≈ 7.455509045783046` instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
- [2] @test_approx_eq(::ANY, ::ANY) at ./deprecated.jl:1052
- [3] include_from_node1(::String) at ./loading.jl:569
+ [2] @test_approx_eq(::ANY, ::ANY) at ./deprecated.jl:1061
+ [3] include_from_node1(::String) at ./loading.jl:576
  [4] include(::String) at ./sysimg.jl:14
  [5] process_options(::Base.JLOptions) at ./client.jl:305
  [6] _start() at ./client.jl:371
@@ -107,8 +124,8 @@ while loading /home/vagrant/.julia/v0.6/LIBSVM/test/runtests.jl, in expression s
 WARNING: @test_approx_eq is deprecated, use `@test sum(ynu1 - y) ≈ 14.184665717092` instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
- [2] @test_approx_eq(::ANY, ::ANY) at ./deprecated.jl:1052
- [3] include_from_node1(::String) at ./loading.jl:569
+ [2] @test_approx_eq(::ANY, ::ANY) at ./deprecated.jl:1061
+ [3] include_from_node1(::String) at ./loading.jl:576
  [4] include(::String) at ./sysimg.jl:14
  [5] process_options(::Base.JLOptions) at ./client.jl:305
  [6] _start() at ./client.jl:371
@@ -116,26 +133,28 @@ while loading /home/vagrant/.julia/v0.6/LIBSVM/test/runtests.jl, in expression s
 WARNING: @test_approx_eq is deprecated, use `@test sum(ynu2 - y) ≈ 6.686819661799177` instead
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
- [2] @test_approx_eq(::ANY, ::ANY) at ./deprecated.jl:1052
- [3] include_from_node1(::String) at ./loading.jl:569
+ [2] @test_approx_eq(::ANY, ::ANY) at ./deprecated.jl:1061
+ [3] include_from_node1(::String) at ./loading.jl:576
  [4] include(::String) at ./sysimg.jl:14
  [5] process_options(::Base.JLOptions) at ./client.jl:305
  [6] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/LIBSVM/test/runtests.jl, in expression starting on line 45
 INFO: LIBSVM tests passed
 INFO: Removing BinDeps v0.6.0
+INFO: Removing CodecZlib v0.4.1
 INFO: Removing DataArrays v0.6.2
 INFO: Removing DataFrames v0.10.1
 INFO: Removing DataStructures v0.7.2
-INFO: Removing FileIO v0.5.2
+INFO: Removing FileIO v0.6.0
 INFO: Removing GZip v0.3.0
-INFO: Removing RData v0.1.0
+INFO: Removing RData v0.2.0
 INFO: Removing RDatasets v0.2.0
 INFO: Removing Reexport v0.0.3
-INFO: Removing SHA v0.5.1
-INFO: Removing SortingAlgorithms v0.1.1
-INFO: Removing SpecialFunctions v0.3.3
-INFO: Removing StatsBase v0.19.0
+INFO: Removing SHA v0.5.2
+INFO: Removing SortingAlgorithms v0.2.0
+INFO: Removing SpecialFunctions v0.3.5
+INFO: Removing StatsBase v0.19.1
+INFO: Removing TranscodingStreams v0.4.0
 INFO: Removing URIParser v0.2.0
 
 >>> End of log

@@ -1,8 +1,6 @@
 >>> 'Pkg.add("TransformUtils")' log
-INFO: Installing TransformUtils v0.0.6
+INFO: Installing TransformUtils v0.0.7
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of TransformUtils
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("TransformUtils")' log
 Julia Version 0.5.2
@@ -12,14 +10,14 @@ Platform Info:
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-132-generic #181-Ubuntu SMP Wed Sep 13 13:25:03 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (414.08203125 MB free)
-Uptime: 46574.0 sec
-Load Avg:  0.98876953125  0.9853515625  1.01318359375
+  uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
+Memory: 2.93927001953125 GB (786.03125 MB free)
+Uptime: 57993.0 sec
+Load Avg:  0.9990234375  0.98291015625  0.9560546875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3496 MHz    3029463 s       2797 s     250472 s     768502 s         26 s
-#2  3496 MHz     782966 s       4935 s     104650 s    3674914 s          0 s
+#1  3500 MHz    3591506 s       4646 s     372894 s    1152729 s         89 s
+#2  3500 MHz    1085268 s       1842 s     148788 s    4429723 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -35,27 +33,31 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.5
 2 required packages:
  - JSON                          0.14.0
- - TransformUtils                0.0.6
+ - TransformUtils                0.0.7
 1 additional packages:
- - Compat                        0.32.0
+ - Compat                        0.37.0
 INFO: Testing TransformUtils
+WARNING: Method definition *(TransformUtils.SO3, TransformUtils.so3) in module TransformUtils at /home/vagrant/.julia/v0.5/TransformUtils/src/TransformUtils.jl:204 overwritten at /home/vagrant/.julia/v0.5/TransformUtils/src/TransformUtils.jl:231.
+WARNING: Method definition *(TransformUtils.so3, TransformUtils.SO3) in module TransformUtils at /home/vagrant/.julia/v0.5/TransformUtils/src/TransformUtils.jl:207 overwritten at /home/vagrant/.julia/v0.5/TransformUtils/src/TransformUtils.jl:232.
+WARNING: Method definition compare(TransformUtils.SE3, TransformUtils.SE3) in module TransformUtils at /home/vagrant/.julia/v0.5/TransformUtils/src/TransformUtils.jl:262 overwritten at /home/vagrant/.julia/v0.5/TransformUtils/src/TransformUtils.jl:275.
+WARNING: Method definition #compare(Array{Any, 1}, TransformUtils.#compare, TransformUtils.SE3, TransformUtils.SE3) in module TransformUtils overwritten.
 [TEST] constructors SO3, Quaternion, AngleAxis... [SUCCESS]
 [TEST] comparison functions for SO3, Quaternion, AngleAxis... [SUCCESS]
 [TEST] trivial case quaterion -> SO3 -> Euler -> quaternion... [SUCCESS]
 [TEST] convert functions 
 WARNING: Need better coverage on convert function tests
 [TEST] compare SO3 and quaternion rotations... dAA = TransformUtils.AngleAxis(0.7853981633974483,[1.0,0.0,0.0])
-dAA = TransformUtils.so3([0.0 0.0599667 0.0311664; -0.0599667 0.0 -0.0739948; -0.0311664 0.0739948 0.0])
-dAA = TransformUtils.so3([0.0 0.020912 -0.187699; -0.020912 0.0 -0.00164383; 0.187699 0.00164383 0.0])
-dAA = TransformUtils.so3([0.0 0.00857702 -0.0582913; -0.00857702 0.0 -0.174815; 0.0582913 0.174815 0.0])
-dAA = TransformUtils.Quaternion(0.9946443460917852,[0.0511832,-0.0868625,0.0227553])
-dAA = TransformUtils.SO3([0.982769 -0.116089 0.143834; 0.080934 0.969869 0.229792; -0.166177 -0.214192 0.962552])
+dAA = TransformUtils.so3([0.0 -0.0326249 -0.178292; 0.0326249 0.0 0.236655; 0.178292 -0.236655 0.0])
+dAA = TransformUtils.so3([0.0 -0.0800052 -0.0764844; 0.0800052 0.0 -0.0917317; 0.0764844 0.0917317 0.0])
+dAA = TransformUtils.so3([0.0 -0.11178 -0.0365835; 0.11178 0.0 -0.0661809; 0.0365835 0.0661809 0.0])
+dAA = TransformUtils.Quaternion(0.9967118069078674,[-0.0730636,-0.0111397,0.0332144])
+dAA = TransformUtils.SO3([0.998325 -0.0086256 0.0572059; 0.0193734 0.981575 -0.19009; -0.0545122 0.19088 0.980099])
 [SUCCESS]
 [TEST] basic SE3 mechanics... [SUCCESS]
 [TEST] SE3 ⊕ and ⊖ mechanics... Compare operations on two different SE3 transforms
-xi = TransformUtils.SE3(TransformUtils.SO3([0.97468 -0.160707 0.155472; 0.157279 0.986962 0.0341889; -0.15894 -0.00887072 0.987248]),[-0.868258,0.309015,0.757163])
-xj = TransformUtils.SE3(TransformUtils.SO3([0.993377 -0.114799 0.00476867; 0.111819 0.956386 -0.269855; 0.0264183 0.268601 0.962889]),[1.33174,1.10905,-0.687046])
-Dx = TransformUtils.SE3(TransformUtils.SO3([0.981613 -0.00416404 -0.190836; -0.049516 0.959983 -0.275645; 0.184347 0.280026 0.942126]),[2.49966,0.448856,-1.0564])
+xi = TransformUtils.SE3(TransformUtils.SO3([0.982255 0.171995 0.0747903; -0.185909 0.945554 0.267142; -0.0247713 -0.276306 0.96075]),[-0.21339,-0.418433,1.19768])
+xj = TransformUtils.SE3(TransformUtils.SO3([0.982748 0.181713 -0.0344597; -0.182523 0.982955 -0.0220223; 0.0298706 0.0279321 0.999163]),[1.29758,-0.57315,0.0700558])
+Dx = TransformUtils.SE3(TransformUtils.SO3([0.998501 -0.00494372 -0.0545046; -0.0118118 0.952973 -0.302825; 0.0534385 0.303015 0.951486]),[1.54085,0.425156,-1.01169])
 [SUCCESS]
 [TEST] previous discovered issues
 TransformUtils.convert(Euler,q) = TransformUtils.Euler(0.7853981633974484,0.0,1.5707963267948963,TransformUtils.Quaternion(1.0,[0.0,0.0,0.0]))

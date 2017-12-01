@@ -1,26 +1,24 @@
 >>> 'Pkg.add("Documenter")' log
 INFO: Installing DocStringExtensions v0.4.1
-INFO: Installing Documenter v0.11.2
+INFO: Installing Documenter v0.12.3
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of Documenter
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Documenter")' log
-Julia Version 0.6.0
-Commit 9036443 (2017-06-19 13:05 UTC)
+Julia Version 0.6.1
+Commit 0d7248e2ff (2017-10-24 22:15 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-132-generic #181-Ubuntu SMP Wed Sep 13 13:25:03 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (1498.453125 MB free)
-Uptime: 51170.0 sec
-Load Avg:  1.0029296875  1.0712890625  1.138671875
+  uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
+Memory: 2.93927001953125 GB (1879.234375 MB free)
+Uptime: 61098.0 sec
+Load Avg:  1.0029296875  1.0361328125  1.123046875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3498 MHz    3364013 s       5409 s     152856 s     804042 s         10 s
-#2  3498 MHz     862112 s        408 s      96583 s    4041002 s          0 s
+#1  3499 MHz    3979986 s       6681 s     178981 s    1031358 s         48 s
+#2  3499 MHz    1112891 s         94 s     118505 s    4732276 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -35,13 +33,11 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
- - Documenter                    0.11.2
- - JSON                          0.15.1
+ - Documenter                    0.12.3
+ - JSON                          0.16.1
 2 additional packages:
- - Compat                        0.32.0
+ - Compat                        0.37.0
  - DocStringExtensions           0.4.1
-INFO: Computing test dependencies for Documenter...
-INFO: Installing BaseTestNext v0.2.2
 INFO: Testing Documenter
 Documenter: setting up build directory.
 Documenter: expanding markdown templates.
@@ -62,10 +58,9 @@ Documenter: running document checks.
    - lib/public.md
    - lib/internals/mdflatten.md
    - man/examples.md
+      200 https://evizero.github.io/Augmentor.jl/
       200 https://stephenbnicar.github.io/BeaData.jl/latest/
-      301 https://biojulia.github.io/Bio.jl/latest/
-       -> http://biojulia.net/Bio.jl/latest/
-
+      200 http://biojulia.net/Bio.jl/latest/
       200 http://juliacontrol.github.io/ControlSystems.jl/latest/
       200 https://juliafinance.github.io/Currencies.jl/latest/
       200 http://docs.juliadiffeq.org/latest/
@@ -78,6 +73,7 @@ Documenter: running document checks.
       200 https://michaelhatherly.github.io/MergedMethods.jl/latest/
       200 http://anthofflab.berkeley.edu/Mimi.jl/stable/
       200 https://michaelhatherly.github.io/NumericSuffixes.jl/latest/
+      200 http://joshday.github.io/OnlineStats.jl/latest/
       200 http://juliapomdp.github.io/POMDPs.jl/latest/
       200 http://crsl4.github.io/PhyloNetworks.jl/latest/
       200 https://michaelhatherly.github.io/PrivateModules.jl/latest/
@@ -151,68 +147,26 @@ Documenter: running document checks.
 > Code block:
 
 ```jldoctest
-julia> type T end
+julia> struct Point end;
 
-julia> t = T()
-T()
+julia> println(Point)
+Point
 
-julia> fullname(current_module())
-()
+julia> sqrt(100)
+10.0
 
-julia> fullname(Base.Pkg)
-(:Base,:Pkg)
-
-julia> current_module()
-Main
+julia> sqrt = 4
+ERROR: cannot assign variable Base.sqrt from module Main
 ```
 
 > Subexpression:
 
-    fullname(Base.Pkg)
+    sqrt = 4
 
 > Output Diff (REQUIRES COLOR):
 
-(:Base,:Pkg)(:Base, :Pkg)
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: src/man/tutorial.md
-
-> Code block:
-
-```jldoctest
-julia> # First definition.
-       function f(x, y)
-           x + y
-       end
-       #
-       # Second definition.
-       #
-       type T
-           x
-       end
-
-julia> isdefined(:f), isdefined(:T) # Check for both definitions.
-(true,true)
-
-julia> import Base
-
-julia> using Base.Meta
-
-julia> r = isexpr(:(using Base.Meta), :using); # Discarded result.
-
-julia> !r
-false
-```
-
-> Subexpression:
-
-    isdefined(:f), isdefined(:T) # Check for both definitions.
-
-> Output Diff (REQUIRES COLOR):
-
-(true,true)(true, true)
+ERROR: cannot assign variable Base.sqrt from WARNING: imported binding for sqrt overwritten in module MainMain
+4
 
 =====[End Error]===============================
  > checking footnote links.
@@ -665,11 +619,11 @@ Documenter: running document checks.
 Documenter: populating indices.
 Documenter: rendering document.
 Documenter: copying assets to build directory.
-INFO: Deploying documentation to /tmp/tmpLBCFAy/docs
-INFO: Generating .gitignore at /tmp/tmpLBCFAy/docs/.gitignore
-INFO: Generating make.jl at /tmp/tmpLBCFAy/docs/make.jl
-INFO: Generating mkdocs.yml at /tmp/tmpLBCFAy/docs/mkdocs.yml
-INFO: Generating src/index.md at /tmp/tmpLBCFAy/docs/src/index.md
+INFO: Deploying documentation to /tmp/tmpl8ZFRy/docs
+INFO: Generating .gitignore at /tmp/tmpl8ZFRy/docs/.gitignore
+INFO: Generating make.jl at /tmp/tmpl8ZFRy/docs/make.jl
+INFO: Generating mkdocs.yml at /tmp/tmpl8ZFRy/docs/mkdocs.yml
+INFO: Generating src/index.md at /tmp/tmpl8ZFRy/docs/src/index.md
 INFO: Building Documenter's docs with LaTeX.
 Documenter: setting up build directory.
 Documenter: expanding markdown templates.
@@ -682,8 +636,7 @@ Documenter: populating indices.
 Documenter: rendering document.
  !! `latexmk` and `lualatex` required for PDF generation.
 Test Summary: | Pass  Total
-Documenter    |  306    306
+Documenter    |  311    311
 INFO: Documenter tests passed
-INFO: Removing BaseTestNext v0.2.2
 
 >>> End of log

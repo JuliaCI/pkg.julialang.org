@@ -1,15 +1,23 @@
 >>> 'Pkg.add("XGBoost")' log
 INFO: Cloning cache of XGBoost from https://github.com/dmlc/XGBoost.jl.git
 INFO: Installing BinDeps v0.6.0
-INFO: Installing SHA v0.5.1
+INFO: Installing SHA v0.5.2
 INFO: Installing URIParser v0.2.0
 INFO: Installing XGBoost v0.2.0
 INFO: Building XGBoost
 Cloning into 'xgboost'...
+Submodule 'cub' (https://github.com/NVlabs/cub) registered for path 'cub'
+Submodule 'dmlc-core' (https://github.com/dmlc/dmlc-core) registered for path 'dmlc-core'
+Submodule 'nccl' (https://github.com/dmlc/nccl) registered for path 'nccl'
+Submodule 'rabit' (https://github.com/dmlc/rabit) registered for path 'rabit'
 Cloning into 'cub'...
+Submodule path 'cub': checked out 'b20808b1b04ec3d6a625e51fbc1eb76f337754ad'
 Cloning into 'dmlc-core'...
+Submodule path 'dmlc-core': checked out 'b5bec5481df86e8e6728d8bd80a61d87ef3b2cd5'
 Cloning into 'nccl'...
+Submodule path 'nccl': checked out 'faeac8333cec3ed7474dc9f1c35088dcd6eea60b'
 Cloning into 'rabit'...
+Submodule path 'rabit': checked out 'a764d45cfb438cc9f15cf47ce586c02ff2c65d0f'
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.6/XGBoost/deps/usr
 INFO: Attempting to Create directory /home/vagrant/.julia/v0.6/XGBoost/deps/usr/lib
 INFO: Changing Directory to xgboost
@@ -29,26 +37,41 @@ do so (now or later) by using -b with the checkout command again. Example:
   git checkout -b new_branch_name
 
 HEAD is now at 0dc68b1... Update CHANGES.md
+g++ -c -Wall -O3 -msse2  -Wno-unknown-pragmas -funroll-loops -fopenmp -fPIC -o updater.o src/tree/updater.cpp
+g++ -c -Wall -O3 -msse2  -Wno-unknown-pragmas -funroll-loops -fopenmp -fPIC -o gbm.o src/gbm/gbm.cpp
+g++ -c -Wall -O3 -msse2  -Wno-unknown-pragmas -funroll-loops -fopenmp -fPIC -o io.o src/io/io.cpp
+g++ -c -Wall -O3 -msse2  -Wno-unknown-pragmas -funroll-loops -fopenmp -fPIC -o main.o src/xgboost_main.cpp
+cd subtree/rabit;make lib/librabit.a; cd ../..
+make[1]: Entering directory `/home/vagrant/.julia/v0.6/XGBoost/deps/xgboost/subtree/rabit'
+g++ -c -O3 -msse2 -Wall -Wextra -Wno-unused-parameter -Wno-unknown-pragmas -std=c++0x -fPIC -o allreduce_base.o src/allreduce_base.cc
+g++ -c -O3 -msse2 -Wall -Wextra -Wno-unused-parameter -Wno-unknown-pragmas -std=c++0x -fPIC -o allreduce_robust.o src/allreduce_robust.cc
+g++ -c -O3 -msse2 -Wall -Wextra -Wno-unused-parameter -Wno-unknown-pragmas -std=c++0x -fPIC -o engine.o src/engine.cc
+ar cr lib/librabit.a allreduce_base.o allreduce_robust.o engine.o
+make[1]: Leaving directory `/home/vagrant/.julia/v0.6/XGBoost/deps/xgboost/subtree/rabit'
+g++ -c -Wall -O3 -msse2  -Wno-unknown-pragmas -funroll-loops -fopenmp -fPIC -o dmlc_simple.o src/io/dmlc_simple.cpp
+g++ -Wall -O3 -msse2  -Wno-unknown-pragmas -funroll-loops -fopenmp -fPIC -fPIC -o xgboost updater.o gbm.o io.o main.o subtree/rabit/lib/librabit.a dmlc_simple.o -pthread -lm -lrt
+g++ -Wall -O3 -msse2  -Wno-unknown-pragmas -funroll-loops -fopenmp -fPIC -fPIC -shared -o wrapper/libxgboostwrapper.so wrapper/xgboost_wrapper.cpp updater.o gbm.o io.o subtree/rabit/lib/librabit.a dmlc_simple.o -pthread -lm -lrt 
+Successfully build multi-thread xgboost
 INFO: Package database updated
 INFO: METADATA is out-of-date — you may not have the latest version of XGBoost
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("XGBoost")' log
-Julia Version 0.6.0
-Commit 9036443 (2017-06-19 13:05 UTC)
+Julia Version 0.6.1
+Commit 0d7248e2ff (2017-10-24 22:15 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-132-generic #181-Ubuntu SMP Wed Sep 13 13:25:03 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (1725.93359375 MB free)
-Uptime: 83836.0 sec
-Load Avg:  0.95947265625  1.0234375  1.0087890625
+  uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
+Memory: 2.93927001953125 GB (1781.45703125 MB free)
+Uptime: 103024.0 sec
+Load Avg:  1.2431640625  0.9990234375  0.96728515625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3504 MHz    5632708 s         71 s     250291 s    1008821 s         21 s
-#2  3504 MHz     861148 s       6088 s     113118 s    7296059 s          0 s
+#1  3499 MHz    6880042 s         59 s     303163 s    1449358 s         82 s
+#2  3499 MHz    1402235 s       6487 s     137370 s    8590379 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -63,23 +86,23 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
- - JSON                          0.14.0
+ - JSON                          0.16.1
  - XGBoost                       0.2.0
 4 additional packages:
  - BinDeps                       0.6.0
- - Compat                        0.32.0
- - SHA                           0.5.1
+ - Compat                        0.37.0
+ - SHA                           0.5.2
  - URIParser                     0.2.0
 INFO: Computing test dependencies for XGBoost...
 INFO: Installing FactCheck v0.4.3
 INFO: Testing XGBoost
 ERROR: LoadError: LoadError: LoadError: LoadError: UndefVarError: ASCIIString not defined
 Stacktrace:
- [1] include_from_node1(::String) at ./loading.jl:569
+ [1] include_from_node1(::String) at ./loading.jl:576
  [2] include(::String) at ./sysimg.jl:14
- [3] include_from_node1(::String) at ./loading.jl:569
+ [3] include_from_node1(::String) at ./loading.jl:576
  [4] include(::String) at ./sysimg.jl:14
- [5] include_from_node1(::String) at ./loading.jl:569
+ [5] include_from_node1(::String) at ./loading.jl:576
 while loading /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_wrapper_h.jl, in expression starting on line 17
 while loading /home/vagrant/.julia/v0.6/XGBoost/src/xgboost_lib.jl, in expression starting on line 1
 while loading /home/vagrant/.julia/v0.6/XGBoost/src/XGBoost.jl, in expression starting on line 3
