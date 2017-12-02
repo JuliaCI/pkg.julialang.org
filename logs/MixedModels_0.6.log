@@ -5,7 +5,7 @@ INFO: Cloning cache of MixedModels from https://github.com/dmbates/MixedModels.j
 INFO: Cloning cache of NLopt from https://github.com/JuliaOpt/NLopt.jl.git
 INFO: Cloning cache of StatsModels from https://github.com/JuliaStats/StatsModels.jl.git
 INFO: Installing ArgCheck v0.4.1
-INFO: Installing BinDeps v0.6.0
+INFO: Installing BinDeps v0.8.0
 INFO: Installing BlockArrays v0.2.0
 INFO: Installing Calculus v0.2.2
 INFO: Installing CategoricalArrays v0.3.0
@@ -33,7 +33,7 @@ INFO: Installing Showoff v0.1.1
 INFO: Installing SortingAlgorithms v0.2.0
 INFO: Installing SpecialFunctions v0.3.5
 INFO: Installing StaticArrays v0.6.6
-INFO: Installing StatsBase v0.19.1
+INFO: Installing StatsBase v0.19.2
 INFO: Installing StatsFuns v0.5.0
 INFO: Installing StatsModels v0.1.0
 INFO: Installing URIParser v0.2.0
@@ -41,8 +41,6 @@ INFO: Installing WeakRefStrings v0.4.0
 INFO: Building SpecialFunctions
 INFO: Building Rmath
 INFO: Building NLopt
-WARNING: Compat.ASCIIString is deprecated, use String instead.
-  likely near /home/vagrant/.julia/v0.6/NLopt/deps/build.jl:56
 Installing dependency libnlopt0 via `sudo apt-get install libnlopt0`:
 Reading package lists...
 Building dependency tree...
@@ -54,7 +52,7 @@ Need to get 161 kB of archives.
 After this operation, 468 kB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu/ trusty/universe libnlopt0 amd64 2.4.1+dfsg-1ubuntu1 [161 kB]
 dpkg-preconfigure: unable to re-open stdin: No such file or directory
-Fetched 161 kB in 1s (113 kB/s)
+Fetched 161 kB in 0s (1,077 kB/s)
 Selecting previously unselected package libnlopt0:amd64.
 (Reading database ... 74383 files and directories currently installed.)
 Preparing to unpack .../libnlopt0_2.4.1+dfsg-1ubuntu1_amd64.deb ...
@@ -62,6 +60,8 @@ Unpacking libnlopt0:amd64 (2.4.1+dfsg-1ubuntu1) ...
 Setting up libnlopt0:amd64 (2.4.1+dfsg-1ubuntu1) ...
 Processing triggers for libc-bin (2.19-0ubuntu6.13) ...
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of MixedModels
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("MixedModels")' log
 Julia Version 0.6.1
@@ -72,13 +72,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (1075.98046875 MB free)
-Uptime: 22884.0 sec
-Load Avg:  0.90185546875  1.009765625  1.03759765625
+Memory: 2.93927001953125 GB (1061.2890625 MB free)
+Uptime: 22626.0 sec
+Load Avg:  0.92919921875  1.01123046875  1.0400390625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1490660 s         55 s      70416 s     359661 s         18 s
-#2  3499 MHz     256273 s       6482 s      33938 s    1959853 s          0 s
+#1  3500 MHz    1472572 s       7043 s      66414 s     366913 s         12 s
+#2  3500 MHz     289675 s         82 s      33419 s    1902419 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -97,7 +97,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - MixedModels                   0.14.1
 34 additional packages:
  - ArgCheck                      0.4.1
- - BinDeps                       0.6.0
+ - BinDeps                       0.8.0
  - BlockArrays                   0.2.0
  - Calculus                      0.2.2
  - CategoricalArrays             0.3.0
@@ -125,7 +125,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - SortingAlgorithms             0.2.0
  - SpecialFunctions              0.3.5
  - StaticArrays                  0.6.6
- - StatsBase                     0.19.1
+ - StatsBase                     0.19.2
  - StatsFuns                     0.5.0
  - StatsModels                   0.1.0
  - URIParser                     0.2.0
@@ -134,7 +134,7 @@ INFO: Computing test dependencies for MixedModels...
 INFO: Installing CodecZlib v0.4.1
 INFO: Installing FileIO v0.6.0
 INFO: Installing RData v0.3.0
-INFO: Installing TranscodingStreams v0.4.0
+INFO: Installing TranscodingStreams v0.4.1
 INFO: Building SpecialFunctions
 INFO: Testing MixedModels
 WARNING: Method definition model_response(StatsModels.ModelFrame) in module StatsModels at /home/vagrant/.julia/v0.6/StatsModels/src/modelframe.jl:179 overwritten in module MixedModels at /home/vagrant/.julia/v0.6/MixedModels/src/pls.jl:61.
@@ -149,6 +149,7 @@ Test Summary: | Pass  Total
 scalarRe      |   41     41
 Test Summary: | Pass  Total
 vectorRe      |   25     25
+WARNING: both StatsModels and StatsBase export "coefnames"; uses of it in module MixedModels must be qualified
 WARNING: Array(::Type{T}, d::NTuple{N, Int}) where {T, N} is deprecated, use Array{T}(d) instead.
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
@@ -167,239 +168,35 @@ Stacktrace:
  [14] process_options(::Base.JLOptions) at ./client.jl:305
  [15] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/MixedModels/test/pls.jl, in expression starting on line 8
-Test Summary: | Pass  Total
-Dyestuff      |   28     28
-WARNING: Array(::Type{T}, d::NTuple{N, Int}) where {T, N} is deprecated, use Array{T}(d) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
- [2] Array(::Type{Bool}, ::Tuple{Int64,Int64}) at ./deprecated.jl:57
- [3] droprandomeffects(::StatsModels.Terms) at /home/vagrant/.julia/v0.6/StatsModels/src/modelmatrix.jl:96
- [4] StatsModels.ModelMatrix{Array{Float64,2}}(::StatsModels.ModelFrame) at /home/vagrant/.julia/v0.6/StatsModels/src/modelmatrix.jl:144
- [5] #lmm#16(::Array{Any,1}, ::Dict{Any,Any}, ::Distributions.Normal{Float64}, ::Function, ::StatsModels.Formula, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/MixedModels/src/pls.jl:84
- [6] lmm(::StatsModels.Formula, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/MixedModels/src/pls.jl:83
- [7] macro expansion at /home/vagrant/.julia/v0.6/MixedModels/test/pls.jl:55 [inlined]
- [8] macro expansion at ./test.jl:860 [inlined]
- [9] anonymous at ./<missing>:?
- [10] include_from_node1(::String) at ./loading.jl:576
- [11] include(::String) at ./sysimg.jl:14
- [12] include_from_node1(::String) at ./loading.jl:576
- [13] include(::String) at ./sysimg.jl:14
- [14] process_options(::Base.JLOptions) at ./client.jl:305
- [15] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/MixedModels/test/pls.jl, in expression starting on line 54
-f_1: 170.9011 [1.0]
-f_2: 176.53963 [1.75]
-f_3: 163.75167 [0.25]
-f_4: 162.87304 [0.0]
-f_5: 162.9539 [0.075]
-f_6: 162.87385 [0.0075]
-f_7: 162.87304 [0.00075]
-f_8: 162.87304 [7.5e-5]
-f_9: 162.87304 [7.5e-6]
-f_10: 162.87304 [7.5e-7]
-f_11: 162.87304 [7.5e-8]
-f_12: 162.87304 [7.5e-9]
-f_13: 162.87304 [8.66025e-10]
-f_14: 162.87304 [4.33013e-10]
-f_15: 162.87304 [2.16506e-10]
-f_16: 162.87304 [1.0e-10]
-f_17: 162.87304 [5.0e-11]
-f_18: 162.87304 [1.0e-10]
-f_19: 162.87304 [0.0]
-Test Summary: | Pass  Total
-Dyestuff2     |    9      9
-WARNING: Array(::Type{T}, d::NTuple{N, Int}) where {T, N} is deprecated, use Array{T}(d) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
- [2] Array(::Type{Bool}, ::Tuple{Int64,Int64}) at ./deprecated.jl:57
- [3] droprandomeffects(::StatsModels.Terms) at /home/vagrant/.julia/v0.6/StatsModels/src/modelmatrix.jl:96
- [4] StatsModels.ModelMatrix{Array{Float64,2}}(::StatsModels.ModelFrame) at /home/vagrant/.julia/v0.6/StatsModels/src/modelmatrix.jl:144
- [5] #lmm#16(::Array{Any,1}, ::Dict{Any,Any}, ::Distributions.Normal{Float64}, ::Function, ::StatsModels.Formula, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/MixedModels/src/pls.jl:84
- [6] lmm(::StatsModels.Formula, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/MixedModels/src/pls.jl:83
- [7] macro expansion at /home/vagrant/.julia/v0.6/MixedModels/test/pls.jl:71 [inlined]
- [8] macro expansion at ./test.jl:860 [inlined]
- [9] anonymous at ./<missing>:?
- [10] include_from_node1(::String) at ./loading.jl:576
- [11] include(::String) at ./sysimg.jl:14
- [12] include_from_node1(::String) at ./loading.jl:576
- [13] include(::String) at ./sysimg.jl:14
- [14] process_options(::Base.JLOptions) at ./client.jl:305
- [15] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/MixedModels/test/pls.jl, in expression starting on line 70
-Test Summary: | Pass  Total
-penicillin    |   14     14
-WARNING: Array(::Type{T}, d::NTuple{N, Int}) where {T, N} is deprecated, use Array{T}(d) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
- [2] Array(::Type{Bool}, ::Tuple{Int64,Int64}) at ./deprecated.jl:57
- [3] droprandomeffects(::StatsModels.Terms) at /home/vagrant/.julia/v0.6/StatsModels/src/modelmatrix.jl:96
- [4] StatsModels.ModelMatrix{Array{Float64,2}}(::StatsModels.ModelFrame) at /home/vagrant/.julia/v0.6/StatsModels/src/modelmatrix.jl:144
- [5] #lmm#16(::Array{Any,1}, ::Dict{Any,Any}, ::Distributions.Normal{Float64}, ::Function, ::StatsModels.Formula, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/MixedModels/src/pls.jl:84
- [6] lmm(::StatsModels.Formula, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/MixedModels/src/pls.jl:83
- [7] macro expansion at /home/vagrant/.julia/v0.6/MixedModels/test/pls.jl:94 [inlined]
- [8] macro expansion at ./test.jl:860 [inlined]
- [9] anonymous at ./<missing>:?
- [10] include_from_node1(::String) at ./loading.jl:576
- [11] include(::String) at ./sysimg.jl:14
- [12] include_from_node1(::String) at ./loading.jl:576
- [13] include(::String) at ./sysimg.jl:14
- [14] process_options(::Base.JLOptions) at ./client.jl:305
- [15] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/MixedModels/test/pls.jl, in expression starting on line 93
-Test Summary: | Pass  Total
-pastes        |   13     13
-WARNING: !(A::AbstractArray{Bool}) is deprecated, use .!(A) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
- [2] !(::Array{Bool,1}) at ./deprecated.jl:57
- [3] droprandomeffects(::StatsModels.Terms) at /home/vagrant/.julia/v0.6/StatsModels/src/modelmatrix.jl:100
- [4] StatsModels.ModelMatrix{Array{Float64,2}}(::StatsModels.ModelFrame) at /home/vagrant/.julia/v0.6/StatsModels/src/modelmatrix.jl:144
- [5] #lmm#16(::Array{Any,1}, ::Dict{Any,Any}, ::Distributions.Normal{Float64}, ::Function, ::StatsModels.Formula, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/MixedModels/src/pls.jl:84
- [6] lmm(::StatsModels.Formula, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/MixedModels/src/pls.jl:83
- [7] macro expansion at /home/vagrant/.julia/v0.6/MixedModels/test/pls.jl:114 [inlined]
- [8] macro expansion at ./test.jl:860 [inlined]
- [9] anonymous at ./<missing>:?
- [10] include_from_node1(::String) at ./loading.jl:576
- [11] include(::String) at ./sysimg.jl:14
- [12] include_from_node1(::String) at ./loading.jl:576
- [13] include(::String) at ./sysimg.jl:14
- [14] process_options(::Base.JLOptions) at ./client.jl:305
- [15] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/MixedModels/test/pls.jl, in expression starting on line 113
-Test Summary: | Pass  Total
-InstEval      |   10     10
-WARNING: !(A::AbstractArray{Bool}) is deprecated, use .!(A) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
- [2] !(::Array{Bool,1}) at ./deprecated.jl:57
- [3] droprandomeffects(::StatsModels.Terms) at /home/vagrant/.julia/v0.6/StatsModels/src/modelmatrix.jl:100
- [4] StatsModels.ModelMatrix{Array{Float64,2}}(::StatsModels.ModelFrame) at /home/vagrant/.julia/v0.6/StatsModels/src/modelmatrix.jl:144
- [5] #lmm#16(::Array{Any,1}, ::Dict{Any,Any}, ::Distributions.Normal{Float64}, ::Function, ::StatsModels.Formula, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/MixedModels/src/pls.jl:84
- [6] lmm(::StatsModels.Formula, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/MixedModels/src/pls.jl:83
- [7] macro expansion at /home/vagrant/.julia/v0.6/MixedModels/test/pls.jl:135 [inlined]
- [8] macro expansion at ./test.jl:860 [inlined]
- [9] anonymous at ./<missing>:?
- [10] include_from_node1(::String) at ./loading.jl:576
- [11] include(::String) at ./sysimg.jl:14
- [12] include_from_node1(::String) at ./loading.jl:576
- [13] include(::String) at ./sysimg.jl:14
- [14] process_options(::Base.JLOptions) at ./client.jl:305
- [15] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/MixedModels/test/pls.jl, in expression starting on line 134
-Test Summary: | Pass  Total
-sleep         |   41     41
-WARNING: !(A::AbstractArray{Bool}) is deprecated, use .!(A) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
- [2] !(::Array{Bool,1}) at ./deprecated.jl:57
- [3] droprandomeffects(::StatsModels.Terms) at /home/vagrant/.julia/v0.6/StatsModels/src/modelmatrix.jl:100
- [4] StatsModels.ModelMatrix{Array{Float64,2}}(::StatsModels.ModelFrame) at /home/vagrant/.julia/v0.6/StatsModels/src/modelmatrix.jl:144
- [5] #lmm#16(::Array{Any,1}, ::Dict{Any,Any}, ::Distributions.Normal{Float64}, ::Function, ::StatsModels.Formula, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/MixedModels/src/pls.jl:84
- [6] lmm(::StatsModels.Formula, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/MixedModels/src/pls.jl:83
- [7] macro expansion at /home/vagrant/.julia/v0.6/MixedModels/test/pls.jl:205 [inlined]
- [8] macro expansion at ./test.jl:860 [inlined]
- [9] anonymous at ./<missing>:?
- [10] include_from_node1(::String) at ./loading.jl:576
- [11] include(::String) at ./sysimg.jl:14
- [12] include_from_node1(::String) at ./loading.jl:576
- [13] include(::String) at ./sysimg.jl:14
- [14] process_options(::Base.JLOptions) at ./client.jl:305
- [15] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/MixedModels/test/pls.jl, in expression starting on line 204
-Test Summary: | Pass  Total
-d3            |    5      5
-WARNING: Array(::Type{T}, d::NTuple{N, Int}) where {T, N} is deprecated, use Array{T}(d) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
- [2] Array(::Type{Bool}, ::Tuple{Int64,Int64}) at ./deprecated.jl:57
- [3] droprandomeffects(::StatsModels.Terms) at /home/vagrant/.julia/v0.6/StatsModels/src/modelmatrix.jl:96
- [4] StatsModels.ModelMatrix{Array{Float64,2}}(::StatsModels.ModelFrame) at /home/vagrant/.julia/v0.6/StatsModels/src/modelmatrix.jl:144
- [5] #lmm#16(::Array{Any,1}, ::Dict{Any,Any}, ::Distributions.Normal{Float64}, ::Function, ::StatsModels.Formula, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/MixedModels/src/pls.jl:84
- [6] lmm(::StatsModels.Formula, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/MixedModels/src/pls.jl:83
- [7] macro expansion at /home/vagrant/.julia/v0.6/MixedModels/test/pls.jl:216 [inlined]
- [8] macro expansion at ./test.jl:860 [inlined]
- [9] anonymous at ./<missing>:?
- [10] include_from_node1(::String) at ./loading.jl:576
- [11] include(::String) at ./sysimg.jl:14
- [12] include_from_node1(::String) at ./loading.jl:576
- [13] include(::String) at ./sysimg.jl:14
- [14] process_options(::Base.JLOptions) at ./client.jl:305
- [15] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/MixedModels/test/pls.jl, in expression starting on line 214
-Test Summary: | Pass  Total
-simulate!     |    6      6
-WARNING: !(A::AbstractArray{Bool}) is deprecated, use .!(A) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
- [2] !(::Array{Bool,1}) at ./deprecated.jl:57
- [3] droprandomeffects(::StatsModels.Terms) at /home/vagrant/.julia/v0.6/StatsModels/src/modelmatrix.jl:100
- [4] StatsModels.ModelMatrix{Array{Float64,2}}(::StatsModels.ModelFrame) at /home/vagrant/.julia/v0.6/StatsModels/src/modelmatrix.jl:144
- [5] #lmm#16(::Array{Any,1}, ::Dict{Any,Any}, ::Distributions.Bernoulli{Float64}, ::Function, ::StatsModels.Formula, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/MixedModels/src/pls.jl:84
- [6] (::MixedModels.#kw##lmm)(::Array{Any,1}, ::MixedModels.#lmm, ::StatsModels.Formula, ::DataFrames.DataFrame) at ./<missing>:0
- [7] #glmm#43(::Array{Any,1}, ::Array{Any,1}, ::Dict{Any,Any}, ::Function, ::StatsModels.Formula, ::DataFrames.DataFrame, ::Distributions.Bernoulli{Float64}, ::GLM.LogitLink) at /home/vagrant/.julia/v0.6/MixedModels/src/PIRLS.jl:15
- [8] (::MixedModels.#kw##glmm)(::Array{Any,1}, ::MixedModels.#glmm, ::StatsModels.Formula, ::DataFrames.DataFrame, ::Distributions.Bernoulli{Float64}, ::GLM.LogitLink) at ./<missing>:0
- [9] glmm(::StatsModels.Formula, ::DataFrames.DataFrame, ::Distributions.Bernoulli{Float64}) at /home/vagrant/.julia/v0.6/MixedModels/src/PIRLS.jl:34
- [10] macro expansion at /home/vagrant/.julia/v0.6/MixedModels/test/pirls.jl:12 [inlined]
- [11] macro expansion at ./test.jl:860 [inlined]
- [12] anonymous at ./<missing>:?
- [13] include_from_node1(::String) at ./loading.jl:576
- [14] include(::String) at ./sysimg.jl:14
- [15] include_from_node1(::String) at ./loading.jl:576
- [16] include(::String) at ./sysimg.jl:14
- [17] process_options(::Base.JLOptions) at ./client.jl:305
- [18] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/MixedModels/test/pirls.jl, in expression starting on line 8
-Test Summary: | Pass  Total
-contra        |    9      9
-WARNING: !(A::AbstractArray{Bool}) is deprecated, use .!(A) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
- [2] !(::Array{Bool,1}) at ./deprecated.jl:57
- [3] droprandomeffects(::StatsModels.Terms) at /home/vagrant/.julia/v0.6/StatsModels/src/modelmatrix.jl:100
- [4] StatsModels.ModelMatrix{Array{Float64,2}}(::StatsModels.ModelFrame) at /home/vagrant/.julia/v0.6/StatsModels/src/modelmatrix.jl:144
- [5] #lmm#16(::Array{Float64,1}, ::Dict{Any,Any}, ::Distributions.Binomial{Float64}, ::Function, ::StatsModels.Formula, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/MixedModels/src/pls.jl:84
- [6] (::MixedModels.#kw##lmm)(::Array{Any,1}, ::MixedModels.#lmm, ::StatsModels.Formula, ::DataFrames.DataFrame) at ./<missing>:0
- [7] #glmm#43(::Array{Float64,1}, ::Array{Any,1}, ::Dict{Any,Any}, ::Function, ::StatsModels.Formula, ::DataFrames.DataFrame, ::Distributions.Binomial{Float64}, ::GLM.LogitLink) at /home/vagrant/.julia/v0.6/MixedModels/src/PIRLS.jl:15
- [8] (::MixedModels.#kw##glmm)(::Array{Any,1}, ::MixedModels.#glmm, ::StatsModels.Formula, ::DataFrames.DataFrame, ::Distributions.Binomial{Float64}, ::GLM.LogitLink) at ./<missing>:0 (repeats 2 times)
- [9] macro expansion at /home/vagrant/.julia/v0.6/MixedModels/test/pirls.jl:32 [inlined]
- [10] macro expansion at ./test.jl:860 [inlined]
- [11] anonymous at ./<missing>:?
- [12] include_from_node1(::String) at ./loading.jl:576
- [13] include(::String) at ./sysimg.jl:14
- [14] include_from_node1(::String) at ./loading.jl:576
- [15] include(::String) at ./sysimg.jl:14
- [16] process_options(::Base.JLOptions) at ./client.jl:305
- [17] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/MixedModels/test/pirls.jl, in expression starting on line 29
-Test Summary: | Pass  Total
-cbpp          |    7      7
-WARNING: !(A::AbstractArray{Bool}) is deprecated, use .!(A) instead.
-Stacktrace:
- [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
- [2] !(::Array{Bool,1}) at ./deprecated.jl:57
- [3] droprandomeffects(::StatsModels.Terms) at /home/vagrant/.julia/v0.6/StatsModels/src/modelmatrix.jl:100
- [4] StatsModels.ModelMatrix{Array{Float64,2}}(::StatsModels.ModelFrame) at /home/vagrant/.julia/v0.6/StatsModels/src/modelmatrix.jl:144
- [5] #lmm#16(::Array{Any,1}, ::Dict{Any,Any}, ::Distributions.Bernoulli{Float64}, ::Function, ::StatsModels.Formula, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/MixedModels/src/pls.jl:84
- [6] (::MixedModels.#kw##lmm)(::Array{Any,1}, ::MixedModels.#lmm, ::StatsModels.Formula, ::DataFrames.DataFrame) at ./<missing>:0
- [7] #glmm#43(::Array{Any,1}, ::Array{Any,1}, ::Dict{Any,Any}, ::Function, ::StatsModels.Formula, ::DataFrames.DataFrame, ::Distributions.Bernoulli{Float64}, ::GLM.LogitLink) at /home/vagrant/.julia/v0.6/MixedModels/src/PIRLS.jl:15
- [8] (::MixedModels.#kw##glmm)(::Array{Any,1}, ::MixedModels.#glmm, ::StatsModels.Formula, ::DataFrames.DataFrame, ::Distributions.Bernoulli{Float64}, ::GLM.LogitLink) at ./<missing>:0
- [9] glmm(::StatsModels.Formula, ::DataFrames.DataFrame, ::Distributions.Bernoulli{Float64}) at /home/vagrant/.julia/v0.6/MixedModels/src/PIRLS.jl:34
- [10] macro expansion at /home/vagrant/.julia/v0.6/MixedModels/test/pirls.jl:45 [inlined]
- [11] macro expansion at ./test.jl:860 [inlined]
- [12] anonymous at ./<missing>:?
- [13] include_from_node1(::String) at ./loading.jl:576
- [14] include(::String) at ./sysimg.jl:14
- [15] include_from_node1(::String) at ./loading.jl:576
- [16] include(::String) at ./sysimg.jl:14
- [17] process_options(::Base.JLOptions) at ./client.jl:305
- [18] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/MixedModels/test/pirls.jl, in expression starting on line 43
-Test Summary: | Pass  Total
-verbagg       |    4      4
-INFO: MixedModels tests passed
+Dyestuff: Error During Test
+  Got an exception of type UndefVarError outside of a @test
+  UndefVarError: coefnames not defined
+  Stacktrace:
+   [1] #lmm#16(::Array{Any,1}, ::Dict{Any,Any}, ::Distributions.Normal{Float64}, ::Function, ::StatsModels.Formula, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/MixedModels/src/pls.jl:124
+   [2] lmm(::StatsModels.Formula, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/MixedModels/src/pls.jl:83
+   [3] macro expansion at /home/vagrant/.julia/v0.6/MixedModels/test/pls.jl:9 [inlined]
+   [4] macro expansion at ./test.jl:860 [inlined]
+   [5] anonymous at ./<missing>:?
+   [6] include_from_node1(::String) at ./loading.jl:576
+   [7] include(::String) at ./sysimg.jl:14
+   [8] include_from_node1(::String) at ./loading.jl:576
+   [9] include(::String) at ./sysimg.jl:14
+   [10] process_options(::Base.JLOptions) at ./client.jl:305
+   [11] _start() at ./client.jl:371
+Test Summary: | Error  Total
+Dyestuff      |     1      1
+ERROR: LoadError: LoadError: Some tests did not pass: 0 passed, 0 failed, 1 errored, 0 broken.
+while loading /home/vagrant/.julia/v0.6/MixedModels/test/pls.jl, in expression starting on line 8
+while loading /home/vagrant/.julia/v0.6/MixedModels/test/runtests.jl, in expression starting on line 9
+=============================[ ERROR: MixedModels ]=============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/MixedModels/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing CodecZlib v0.4.1
 INFO: Removing FileIO v0.6.0
 INFO: Removing RData v0.3.0
-INFO: Removing TranscodingStreams v0.4.0
+INFO: Removing TranscodingStreams v0.4.1
+ERROR: MixedModels had test errors
 
 >>> End of log
