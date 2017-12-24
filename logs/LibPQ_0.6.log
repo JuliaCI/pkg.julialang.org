@@ -1,33 +1,55 @@
 >>> 'Pkg.add("LibPQ")' log
 INFO: Cloning cache of LibPQ from https://github.com/invenia/LibPQ.jl.git
 INFO: Cloning cache of Memento from https://github.com/invenia/Memento.jl.git
-INFO: Cloning cache of Mocking from https://github.com/invenia/Mocking.jl.git
-INFO: Installing DataStreams v0.3.1
+INFO: Cloning cache of Syslogs from https://github.com/invenia/Syslogs.jl.git
+INFO: Installing BinDeps v0.8.2
+INFO: Installing DataStreams v0.3.4
 INFO: Installing DocStringExtensions v0.4.1
-INFO: Installing LibPQ v0.0.1
-INFO: Installing Memento v0.3.1
-INFO: Installing Missings v0.2.2
-INFO: Installing Mocking v0.4.2
+INFO: Installing LibPQ v0.0.2
+INFO: Installing Memento v0.4.0
+INFO: Installing Missings v0.2.4
 INFO: Installing NamedTuples v4.0.0
+INFO: Installing SHA v0.5.2
+INFO: Installing Syslogs v0.0.1
+INFO: Installing URIParser v0.3.0
 INFO: Installing WeakRefStrings v0.4.0
+INFO: Building LibPQ
+Installing dependency libpq5 via `sudo apt-get install libpq5`:
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following NEW packages will be installed:
+  libpq5
+0 upgraded, 1 newly installed, 0 to remove and 4 not upgraded.
+Need to get 77.9 kB of archives.
+After this operation, 274 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu/ trusty-updates/main libpq5 amd64 9.3.20-0ubuntu0.14.04 [77.9 kB]
+dpkg-preconfigure: unable to re-open stdin: No such file or directory
+Fetched 77.9 kB in 0s (194 kB/s)
+Selecting previously unselected package libpq5.
+(Reading database ... 74108 files and directories currently installed.)
+Preparing to unpack .../libpq5_9.3.20-0ubuntu0.14.04_amd64.deb ...
+Unpacking libpq5 (9.3.20-0ubuntu0.14.04) ...
+Setting up libpq5 (9.3.20-0ubuntu0.14.04) ...
+Processing triggers for libc-bin (2.19-0ubuntu6.13) ...
 INFO: Package database updated
 
 >>> 'Pkg.test("LibPQ")' log
-Julia Version 0.6.1
-Commit 0d7248e2ff (2017-10-24 22:15 UTC)
+Julia Version 0.6.2
+Commit d386e40c17 (2017-12-13 18:08 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (542.30859375 MB free)
-Uptime: 5834.0 sec
-Load Avg:  0.9228515625  1.32421875  1.39404296875
+Memory: 2.93927001953125 GB (549.01953125 MB free)
+Uptime: 7225.0 sec
+Load Avg:  0.89599609375  1.349609375  1.45263671875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz     342313 s         73 s      18831 s     139737 s          4 s
-#2  3500 MHz      79808 s         82 s       9154 s     481091 s          0 s
+#1  3499 MHz     376307 s        100 s      21518 s     232996 s         18 s
+#2  3499 MHz     103389 s         45 s      11518 s     593609 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -42,38 +64,345 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
- - JSON                          0.16.1
- - LibPQ                         0.0.1
-8 additional packages:
- - Compat                        0.37.0
- - DataStreams                   0.3.1
+ - JSON                          0.16.3
+ - LibPQ                         0.0.2
+12 additional packages:
+ - BinDeps                       0.8.2
+ - Compat                        0.41.0
+ - DataStreams                   0.3.4
  - DocStringExtensions           0.4.1
- - Memento                       0.3.1
- - Missings                      0.2.2
- - Mocking                       0.4.2
+ - Memento                       0.4.0
+ - Missings                      0.2.4
  - NamedTuples                   4.0.0
+ - Nullables                     0.0.1
+ - SHA                           0.5.2
+ - Syslogs                       0.0.1
+ - URIParser                     0.3.0
  - WeakRefStrings                0.4.0
-INFO: Computing test dependencies for LibPQ...
-INFO: Cloning cache of DeepDiffs from https://github.com/ssfrr/DeepDiffs.jl.git
-INFO: Cloning cache of TestSetExtensions from https://github.com/ssfrr/TestSetExtensions.jl.git
-INFO: Installing DeepDiffs v1.0.1
-INFO: Installing TestSetExtensions v1.0.0
 INFO: Testing LibPQ
-ERROR: LoadError: error compiling anonymous: error compiling Type: error compiling PQconnectdb: could not load library "libpq"
-libpq.so: cannot open shared object file: No such file or directory
+Example SELECT: Test Failed
+  Expression: status(conn) == LibPQ.libpq_c.CONNECTION_OK
+   Evaluated: CONNECTION_BAD::LibPQ.libpq_c.ConnStatusType = 1 == CONNECTION_OK::LibPQ.libpq_c.ConnStatusType = 0
 Stacktrace:
- [1] include_from_node1(::String) at ./loading.jl:576
- [2] include(::String) at ./sysimg.jl:14
- [3] process_options(::Base.JLOptions) at ./client.jl:305
- [4] _start() at ./client.jl:371
+ [1] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:28 [inlined]
+ [2] macro expansion at ./test.jl:860 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:24 [inlined]
+ [4] macro expansion at ./test.jl:860 [inlined]
+ [5] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:21 [inlined]
+ [6] macro expansion at ./test.jl:860 [inlined]
+ [7] anonymous at ./<missing>:?
+Example SELECT: Test Failed
+  Expression: status(result) == LibPQ.libpq_c.PGRES_TUPLES_OK
+   Evaluated: PGRES_FATAL_ERROR::LibPQ.libpq_c.ExecStatusType = 7 == PGRES_TUPLES_OK::LibPQ.libpq_c.ExecStatusType = 2
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:41 [inlined]
+ [2] macro expansion at ./test.jl:860 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:24 [inlined]
+ [4] macro expansion at ./test.jl:860 [inlined]
+ [5] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:21 [inlined]
+ [6] macro expansion at ./test.jl:860 [inlined]
+ [7] anonymous at ./<missing>:?
+Example SELECT: Test Failed
+  Expression: LibPQ.num_columns(result) == 1
+   Evaluated: 0 == 1
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:43 [inlined]
+ [2] macro expansion at ./test.jl:860 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:24 [inlined]
+ [4] macro expansion at ./test.jl:860 [inlined]
+ [5] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:21 [inlined]
+ [6] macro expansion at ./test.jl:860 [inlined]
+ [7] anonymous at ./<missing>:?
+Example SELECT: Test Failed
+  Expression: LibPQ.num_rows(result) == 1
+   Evaluated: 0 == 1
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:44 [inlined]
+ [2] macro expansion at ./test.jl:860 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:24 [inlined]
+ [4] macro expansion at ./test.jl:860 [inlined]
+ [5] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:21 [inlined]
+ [6] macro expansion at ./test.jl:860 [inlined]
+ [7] anonymous at ./<missing>:?
+Example SELECT: Error During Test
+  Test threw an exception of type ArgumentError
+  Expression: LibPQ.column_name(result, 1) == "typname"
+  ArgumentError: cannot convert NULL to string
+  Stacktrace:
+   [1] unsafe_string at ./strings/string.jl:39 [inlined]
+   [2] unsafe_string at ./c.jl:96 [inlined]
+   [3] column_name(::LibPQ.Result, ::Int64) at /home/vagrant/.julia/v0.6/LibPQ/src/LibPQ.jl:573
+   [4] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:45 [inlined]
+   [5] macro expansion at ./test.jl:860 [inlined]
+   [6] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:24 [inlined]
+   [7] macro expansion at ./test.jl:860 [inlined]
+   [8] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:21 [inlined]
+   [9] macro expansion at ./test.jl:860 [inlined]
+   [10] anonymous at ./<missing>:?
+Example SELECT: Test Failed
+  Expression: LibPQ.column_number(result, "typname") == 1
+   Evaluated: 0 == 1
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:46 [inlined]
+ [2] macro expansion at ./test.jl:860 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:24 [inlined]
+ [4] macro expansion at ./test.jl:860 [inlined]
+ [5] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:21 [inlined]
+ [6] macro expansion at ./test.jl:860 [inlined]
+ [7] anonymous at ./<missing>:?
+Example SELECT: Error During Test
+  Test threw an exception of type ErrorException
+  Expression: (data[:typname])[1] == "bool"
+  type _NT_ has no field typname
+  Stacktrace:
+   [1] getindex(::NamedTuples._NT_, ::Symbol) at /home/vagrant/.julia/v0.6/NamedTuples/src/NamedTuples.jl:31
+   [2] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:50 [inlined]
+   [3] macro expansion at ./test.jl:860 [inlined]
+   [4] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:24 [inlined]
+   [5] macro expansion at ./test.jl:860 [inlined]
+   [6] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:21 [inlined]
+   [7] macro expansion at ./test.jl:860 [inlined]
+   [8] anonymous at ./<missing>:?
+Example SELECT: Test Failed
+  Expression: status(result) == LibPQ.libpq_c.PGRES_TUPLES_OK
+   Evaluated: PGRES_FATAL_ERROR::LibPQ.libpq_c.ExecStatusType = 7 == PGRES_TUPLES_OK::LibPQ.libpq_c.ExecStatusType = 2
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:63 [inlined]
+ [2] macro expansion at ./test.jl:860 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:24 [inlined]
+ [4] macro expansion at ./test.jl:860 [inlined]
+ [5] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:21 [inlined]
+ [6] macro expansion at ./test.jl:860 [inlined]
+ [7] anonymous at ./<missing>:?
+Example SELECT: Test Failed
+  Expression: LibPQ.num_columns(result) == 1
+   Evaluated: 0 == 1
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:65 [inlined]
+ [2] macro expansion at ./test.jl:860 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:24 [inlined]
+ [4] macro expansion at ./test.jl:860 [inlined]
+ [5] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:21 [inlined]
+ [6] macro expansion at ./test.jl:860 [inlined]
+ [7] anonymous at ./<missing>:?
+Example SELECT: Test Failed
+  Expression: LibPQ.num_rows(result) == 1
+   Evaluated: 0 == 1
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:66 [inlined]
+ [2] macro expansion at ./test.jl:860 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:24 [inlined]
+ [4] macro expansion at ./test.jl:860 [inlined]
+ [5] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:21 [inlined]
+ [6] macro expansion at ./test.jl:860 [inlined]
+ [7] anonymous at ./<missing>:?
+Example SELECT: Error During Test
+  Test threw an exception of type ArgumentError
+  Expression: LibPQ.column_name(result, 1) == "typname"
+  ArgumentError: cannot convert NULL to string
+  Stacktrace:
+   [1] unsafe_string at ./strings/string.jl:39 [inlined]
+   [2] unsafe_string at ./c.jl:96 [inlined]
+   [3] column_name(::LibPQ.Result, ::Int64) at /home/vagrant/.julia/v0.6/LibPQ/src/LibPQ.jl:573
+   [4] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:67 [inlined]
+   [5] macro expansion at ./test.jl:860 [inlined]
+   [6] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:24 [inlined]
+   [7] macro expansion at ./test.jl:860 [inlined]
+   [8] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:21 [inlined]
+   [9] macro expansion at ./test.jl:860 [inlined]
+   [10] anonymous at ./<missing>:?
+Example SELECT: Error During Test
+  Test threw an exception of type ErrorException
+  Expression: (data[:typname])[1] == "bool"
+  type _NT_ has no field typname
+  Stacktrace:
+   [1] getindex(::NamedTuples._NT_, ::Symbol) at /home/vagrant/.julia/v0.6/NamedTuples/src/NamedTuples.jl:31
+   [2] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:71 [inlined]
+   [3] macro expansion at ./test.jl:860 [inlined]
+   [4] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:24 [inlined]
+   [5] macro expansion at ./test.jl:860 [inlined]
+   [6] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:21 [inlined]
+   [7] macro expansion at ./test.jl:860 [inlined]
+   [8] anonymous at ./<missing>:?
+Example SELECT: Error During Test
+  Got an exception of type ErrorException outside of a @test
+  
+  Stacktrace:
+   [1] #handle_result#6(::Bool, ::Function, ::LibPQ.Result) at /home/vagrant/.julia/v0.6/LibPQ/src/LibPQ.jl:462
+   [2] (::LibPQ.#kw##handle_result)(::Array{Any,1}, ::LibPQ.#handle_result, ::LibPQ.Result) at ./<missing>:0
+   [3] #execute#8(::Bool, ::Function, ::LibPQ.Connection, ::String, ::Array{String,1}) at /home/vagrant/.julia/v0.6/LibPQ/src/LibPQ.jl:506
+   [4] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:77 [inlined]
+   [5] macro expansion at ./test.jl:860 [inlined]
+   [6] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:24 [inlined]
+   [7] macro expansion at ./test.jl:860 [inlined]
+   [8] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:21 [inlined]
+   [9] macro expansion at ./test.jl:860 [inlined]
+   [10] anonymous at ./<missing>:?
+   [11] include_from_node1(::String) at ./loading.jl:576
+   [12] include(::String) at ./sysimg.jl:14
+   [13] process_options(::Base.JLOptions) at ./client.jl:305
+   [14] _start() at ./client.jl:371
+Example INSERT: Error During Test
+  Got an exception of type ErrorException outside of a @test
+  could not connect to server: No such file or directory
+  	Is the server running locally and accepting
+  	connections on Unix domain socket "/var/run/postgresql/.s.PGSQL.5432"?
+  
+  Stacktrace:
+   [1] #handle_new_connection#1(::Bool, ::Function, ::LibPQ.Connection) at /home/vagrant/.julia/v0.6/LibPQ/src/LibPQ.jl:75
+   [2] (::LibPQ.#kw##handle_new_connection)(::Array{Any,1}, ::LibPQ.#handle_new_connection, ::LibPQ.Connection) at ./<missing>:0
+   [3] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:94 [inlined]
+   [4] macro expansion at ./test.jl:860 [inlined]
+   [5] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:93 [inlined]
+   [6] macro expansion at ./test.jl:860 [inlined]
+   [7] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:21 [inlined]
+   [8] macro expansion at ./test.jl:860 [inlined]
+   [9] anonymous at ./<missing>:?
+   [10] include_from_node1(::String) at ./loading.jl:576
+   [11] include(::String) at ./sysimg.jl:14
+   [12] process_options(::Base.JLOptions) at ./client.jl:305
+   [13] _start() at ./client.jl:371
+Encoding: Error During Test
+  Got an exception of type ErrorException outside of a @test
+  could not connect to server: No such file or directory
+  	Is the server running locally and accepting
+  	connections on Unix domain socket "/var/run/postgresql/.s.PGSQL.5432"?
+  
+  Stacktrace:
+   [1] #handle_new_connection#1(::Bool, ::Function, ::LibPQ.Connection) at /home/vagrant/.julia/v0.6/LibPQ/src/LibPQ.jl:75
+   [2] (::LibPQ.#kw##handle_new_connection)(::Array{Any,1}, ::LibPQ.#handle_new_connection, ::LibPQ.Connection) at ./<missing>:0
+   [3] (::Core.#kw#Type)(::Array{Any,1}, ::Type{LibPQ.Connection}, ::String) at ./<missing>:0
+   [4] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:157 [inlined]
+   [5] macro expansion at ./test.jl:860 [inlined]
+   [6] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:156 [inlined]
+   [7] macro expansion at ./test.jl:860 [inlined]
+   [8] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:155 [inlined]
+   [9] macro expansion at ./test.jl:860 [inlined]
+   [10] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:21 [inlined]
+   [11] macro expansion at ./test.jl:860 [inlined]
+   [12] anonymous at ./<missing>:?
+   [13] include_from_node1(::String) at ./loading.jl:576
+   [14] include(::String) at ./sysimg.jl:14
+   [15] process_options(::Base.JLOptions) at ./client.jl:305
+   [16] _start() at ./client.jl:371
+Nulls: Error During Test
+  Got an exception of type ErrorException outside of a @test
+  could not connect to server: No such file or directory
+  	Is the server running locally and accepting
+  	connections on Unix domain socket "/var/run/postgresql/.s.PGSQL.5432"?
+  
+  Stacktrace:
+   [1] #handle_new_connection#1(::Bool, ::Function, ::LibPQ.Connection) at /home/vagrant/.julia/v0.6/LibPQ/src/LibPQ.jl:75
+   [2] (::LibPQ.#kw##handle_new_connection)(::Array{Any,1}, ::LibPQ.#handle_new_connection, ::LibPQ.Connection) at ./<missing>:0
+   [3] (::Core.#kw#Type)(::Array{Any,1}, ::Type{LibPQ.Connection}, ::String) at ./<missing>:0
+   [4] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:217 [inlined]
+   [5] macro expansion at ./test.jl:860 [inlined]
+   [6] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:216 [inlined]
+   [7] macro expansion at ./test.jl:860 [inlined]
+   [8] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:215 [inlined]
+   [9] macro expansion at ./test.jl:860 [inlined]
+   [10] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:21 [inlined]
+   [11] macro expansion at ./test.jl:860 [inlined]
+   [12] anonymous at ./<missing>:?
+   [13] include_from_node1(::String) at ./loading.jl:576
+   [14] include(::String) at ./sysimg.jl:14
+   [15] process_options(::Base.JLOptions) at ./client.jl:305
+   [16] _start() at ./client.jl:371
+Syntax Errors: Error During Test
+  Got an exception of type ErrorException outside of a @test
+  could not connect to server: No such file or directory
+  	Is the server running locally and accepting
+  	connections on Unix domain socket "/var/run/postgresql/.s.PGSQL.5432"?
+  
+  Stacktrace:
+   [1] #handle_new_connection#1(::Bool, ::Function, ::LibPQ.Connection) at /home/vagrant/.julia/v0.6/LibPQ/src/LibPQ.jl:75
+   [2] (::LibPQ.#kw##handle_new_connection)(::Array{Any,1}, ::LibPQ.#handle_new_connection, ::LibPQ.Connection) at ./<missing>:0
+   [3] (::Core.#kw#Type)(::Array{Any,1}, ::Type{LibPQ.Connection}, ::String) at ./<missing>:0
+   [4] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:282 [inlined]
+   [5] macro expansion at ./test.jl:860 [inlined]
+   [6] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:281 [inlined]
+   [7] macro expansion at ./test.jl:860 [inlined]
+   [8] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:280 [inlined]
+   [9] macro expansion at ./test.jl:860 [inlined]
+   [10] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:215 [inlined]
+   [11] macro expansion at ./test.jl:860 [inlined]
+   [12] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:21 [inlined]
+   [13] macro expansion at ./test.jl:860 [inlined]
+   [14] anonymous at ./<missing>:?
+   [15] include_from_node1(::String) at ./loading.jl:576
+   [16] include(::String) at ./sysimg.jl:14
+   [17] process_options(::Base.JLOptions) at ./client.jl:305
+   [18] _start() at ./client.jl:371
+Wrong No. Parameters: Error During Test
+  Got an exception of type ErrorException outside of a @test
+  could not connect to server: No such file or directory
+  	Is the server running locally and accepting
+  	connections on Unix domain socket "/var/run/postgresql/.s.PGSQL.5432"?
+  
+  Stacktrace:
+   [1] #handle_new_connection#1(::Bool, ::Function, ::LibPQ.Connection) at /home/vagrant/.julia/v0.6/LibPQ/src/LibPQ.jl:75
+   [2] (::LibPQ.#kw##handle_new_connection)(::Array{Any,1}, ::LibPQ.#handle_new_connection, ::LibPQ.Connection) at ./<missing>:0
+   [3] (::Core.#kw#Type)(::Array{Any,1}, ::Type{LibPQ.Connection}, ::String) at ./<missing>:0
+   [4] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:300 [inlined]
+   [5] macro expansion at ./test.jl:860 [inlined]
+   [6] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:299 [inlined]
+   [7] macro expansion at ./test.jl:860 [inlined]
+   [8] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:280 [inlined]
+   [9] macro expansion at ./test.jl:860 [inlined]
+   [10] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:215 [inlined]
+   [11] macro expansion at ./test.jl:860 [inlined]
+   [12] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:21 [inlined]
+   [13] macro expansion at ./test.jl:860 [inlined]
+   [14] anonymous at ./<missing>:?
+   [15] include_from_node1(::String) at ./loading.jl:576
+   [16] include(::String) at ./sysimg.jl:14
+   [17] process_options(::Base.JLOptions) at ./client.jl:305
+   [18] _start() at ./client.jl:371
+Interface Errors: Error During Test
+  Got an exception of type ErrorException outside of a @test
+  could not connect to server: No such file or directory
+  	Is the server running locally and accepting
+  	connections on Unix domain socket "/var/run/postgresql/.s.PGSQL.5432"?
+  
+  Stacktrace:
+   [1] #handle_new_connection#1(::Bool, ::Function, ::LibPQ.Connection) at /home/vagrant/.julia/v0.6/LibPQ/src/LibPQ.jl:75
+   [2] (::LibPQ.#kw##handle_new_connection)(::Array{Any,1}, ::LibPQ.#handle_new_connection, ::LibPQ.Connection) at ./<missing>:0
+   [3] (::Core.#kw#Type)(::Array{Any,1}, ::Type{LibPQ.Connection}, ::String) at ./<missing>:0
+   [4] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:324 [inlined]
+   [5] macro expansion at ./test.jl:860 [inlined]
+   [6] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:323 [inlined]
+   [7] macro expansion at ./test.jl:860 [inlined]
+   [8] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:215 [inlined]
+   [9] macro expansion at ./test.jl:860 [inlined]
+   [10] macro expansion at /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl:21 [inlined]
+   [11] macro expansion at ./test.jl:860 [inlined]
+   [12] anonymous at ./<missing>:?
+   [13] include_from_node1(::String) at ./loading.jl:576
+   [14] include(::String) at ./sysimg.jl:14
+   [15] process_options(::Base.JLOptions) at ./client.jl:305
+   [16] _start() at ./client.jl:371
+Test Summary:                | Pass  Fail  Error  Total
+LibPQ                        |   31     8     11     50
+  ConninfoDisplay            |    4                   4
+  Online                     |   27     8     11     46
+    Example SELECT           |   11     8      5     24
+    Example INSERT           |                 1      1
+    Connection               |   16            1     17
+      Encoding               |                 1      1
+      Bad Connection         |   16                  16
+    Results                  |                 4      4
+      Nulls                  |                 1      1
+      Query Errors           |                 2      2
+        Syntax Errors        |                 1      1
+        Wrong No. Parameters |                 1      1
+      Interface Errors       |                 1      1
+ERROR: LoadError: Some tests did not pass: 31 passed, 8 failed, 11 errored, 0 broken.
 while loading /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl, in expression starting on line 12
 ================================[ ERROR: LibPQ ]================================
 
 failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/LibPQ/test/runtests.jl`, ProcessExited(1)) [1]
 
 ================================================================================
-INFO: Removing DeepDiffs v1.0.1
-INFO: Removing TestSetExtensions v1.0.0
 ERROR: LibPQ had test errors
 
 >>> End of log
