@@ -1,0 +1,86 @@
+>>> 'Pkg.add("PDMats")' log
+[ Info: Installing PDMats v0.8.0 @ Base.Pkg.Entry entry.jl:543
+[ Info: Package database updated @ Base.Pkg.Entry entry.jl:32
+┌ Info: METADATA is out-of-date — you may not have the latest version of PDMats
+│ Use `Pkg.update()` to get the latest versions of your packages
+└ @ Base.Pkg.Entry entry.jl:74
+
+>>> 'Pkg.test("PDMats")' log
+Julia Version 0.7.0-DEV.3246
+Commit 2138144d3a (2018-01-04 02:34 UTC)
+Platform Info:
+  OS: Linux (x86_64-pc-linux-gnu)
+      Ubuntu 14.04.5 LTS
+  uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
+  CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
+              speed         user         nice          sys         idle          irq
+       #1  3507 MHz    3038332 s        116 s     151118 s     808527 s         59 s
+       #2  3507 MHz     786711 s         67 s      68177 s    3699420 s          1 s
+       
+  Memory: 2.93927001953125 GB (779.90625 MB free)
+  Uptime: 46598.0 sec
+  Load Avg:  1.00830078125  0.9912109375  0.96337890625
+  WORD_SIZE: 64
+  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
+  LAPACK: libopenblas64_
+  LIBM: libopenlibm
+  LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
+Environment:
+  TERM = vt100
+  LD_LIBRARY_PATH = :/usr/local/lib/
+  PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/vagrant/julia/bin/
+  JAVA_HOME = /usr/lib/jvm/java-8-openjdk-amd64
+  HOME = /home/vagrant
+Packages:
+  Package Directory: /home/vagrant/.julia/v0.7
+  Package Status:
+2 required packages:
+ - JSON                          0.16.3
+ - PDMats                        0.8.0
+2 additional packages:
+ - Compat                        0.42.0
+ - Nullables                     0.0.2
+[ Info: Testing PDMats @ Base.Pkg.Entry entry.jl:723
+Running tests ...
+* pdmtypes 
+┌ Warning: `eye(T::Type, m::Integer)` has been deprecated in favor of `I` and `Matrix` constructors. For a direct replacement, consider `Matrix{T}(I, m, m)`. If `T` element type is not necessary, consider the shorter `Matrix(I, m, m)`(with default `eltype(I)` `Bool`)
+│   caller = top-level scope at <missing>:9
+└ @ Core <missing>:9
+┌ Warning: `full(A::Symmetric)` (and `full` in general) has been deprecated. To replace `full(A::Symmetric)`, as appropriate consider `Matrix(A)`, `Array(A)`, `SparseMatrixCSC(A)`, `sparse(A)`, `copyto!(similar(parent(A)), A)`, or `Base.LinAlg.copytri!(copy(parent(A)), A.uplo)`.
+│   caller = PDMat(::Symmetric{Float64,Array{Float64,2}}) at pdmat.jl:17
+└ @ PDMats pdmat.jl:17
+┌ Warning: `full(F::Cholesky)` (and `full` in general) has been deprecated. To replace `full(F::Cholesky)`, consider `Matrix(F)`, `AbstractMatrix(F)` or, if those options are too narrow, `Array(F)` or `AbstractArray(F)`.
+│   caller = PDMat(::Base.LinAlg.Cholesky{Float64,Array{Float64,2}}) at pdmat.jl:18
+└ @ PDMats pdmat.jl:18
+┌ Warning: `ones(a::AbstractArray)` is deprecated, consider `fill(1, size(a))`, `fill!(copy(a), 1)`, or `fill!(similar(a), 1)`. Where necessary, use `fill!(similar(a), one(eltype(a)))`.
+│   caller = PDiagMat(::Array{Float64,1}) at pdiagmat.jl:15
+└ @ PDMats pdiagmat.jl:15
+┌ Warning: `speye(T, m::Integer, n::Integer)` has been deprecated in favor of `I`, `sparse`, and `SparseMatrixCSC` constructor methods. For a direct replacement, consider `sparse(T(1)I, m, n)` if `T` is concrete or `SparseMatrixCSC{T}(I, m, n)` if `T` is either concrete or abstract. If element type `T` is not necessary, consider the shorter `sparse(I, m, n)` or `SparseMatrixCSC(I, m, n)` (with default `eltype(I)` of `Bool`).
+│   caller = top-level scope at <missing>:15
+└ @ Core <missing>:15
+Error During Test at /home/vagrant/.julia/v0.7/PDMats/test/pdmtypes.jl:16
+  Test threw an exception of type UndefVarError
+  Expression: (PDSparseMat(s, cholfact(s))).mat == (PDSparseMat(s)).mat == (PDSparseMat(cholfact(s))).mat
+  UndefVarError: PDSparseMat not defined
+  Stacktrace:
+   [1] top-level scope at ./<missing>:16
+   [2] include at ./boot.jl:295 [inlined]
+   [3] include_relative(::Module, ::String) at ./loading.jl:521
+   [4] include(::Module, ::String) at ./sysimg.jl:26
+   [5] include(::String) at ./sysimg.jl:65
+   [6] top-level scope at ./<missing>:6
+   [7] include at ./boot.jl:295 [inlined]
+   [8] include_relative(::Module, ::String) at ./loading.jl:521
+   [9] include(::Module, ::String) at ./sysimg.jl:26
+   [10] process_options(::Base.JLOptions) at ./client.jl:323
+   [11] _start() at ./client.jl:374
+ERROR: LoadError: LoadError: There was an error during testing
+in expression starting at /home/vagrant/.julia/v0.7/PDMats/test/pdmtypes.jl:7
+in expression starting at /home/vagrant/.julia/v0.7/PDMats/test/runtests.jl:4
+┌ Error: ------------------------------------------------------------
+│ # Testing failed for PDMats
+│   exception = ErrorException("failed process: Process(`/home/vagrant/julia/bin/julia -Cnative -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --code-coverage=none --color=no --compiled-modules=yes --check-bounds=yes --warn-overwrite=yes --startup-file=yes /home/vagrant/.julia/v0.7/PDMats/test/runtests.jl`, ProcessExited(1)) [1]")
+└ @ Base.Pkg.Entry entry.jl:739
+ERROR: PDMats had test errors
+
+>>> End of log
