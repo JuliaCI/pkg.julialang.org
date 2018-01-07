@@ -5,20 +5,20 @@
 └ @ Base.Pkg.Entry entry.jl:74
 
 >>> 'Pkg.test("JSON")' log
-Julia Version 0.7.0-DEV.3246
-Commit 2138144d3a (2018-01-04 02:34 UTC)
+Julia Version 0.7.0-DEV.3299
+Commit fb527308bb (2018-01-05 19:41 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3499 MHz    6196260 s        140 s     311176 s    1319261 s         64 s
-       #2  3499 MHz    1113308 s         55 s     117177 s    7947777 s          0 s
+       #1  3500 MHz    1825133 s         97 s      93640 s     502977 s          7 s
+       #2  3500 MHz     337789 s         71 s      36362 s    2433204 s          0 s
        
-  Memory: 2.93927001953125 GB (1578.5546875 MB free)
-  Uptime: 93094.0 sec
-  Load Avg:  0.9970703125  1.0078125  0.9990234375
+  Memory: 2.93927001953125 GB (1475.50390625 MB free)
+  Uptime: 28476.0 sec
+  Load Avg:  0.9970703125  0.9853515625  0.95458984375
   WORD_SIZE: 64
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -39,7 +39,7 @@ Packages:
  - Compat                        0.42.0
  - Nullables                     0.0.2
 [ Info: Computing test dependencies for JSON... @ Base.Pkg.Entry entry.jl:713
-[ Info: Installing DataStructures v0.7.3 @ Base.Pkg.Entry entry.jl:543
+[ Info: Installing DataStructures v0.7.4 @ Base.Pkg.Entry entry.jl:543
 [ Info: Installing FixedPointNumbers v0.4.3 @ Base.Pkg.Entry entry.jl:543
 [ Info: Installing OffsetArrays v0.4.2 @ Base.Pkg.Entry entry.jl:543
 [ Info: Testing JSON @ Base.Pkg.Entry entry.jl:723
@@ -164,26 +164,49 @@ Arrays: Error During Test at /home/vagrant/.julia/v0.7/JSON/test/standard-serial
    [8] #show_json#3 at /home/vagrant/.julia/v0.7/JSON/src/Writer.jl:333 [inlined]
    [9] show_json at /home/vagrant/.julia/v0.7/JSON/src/Writer.jl:332 [inlined]
    [10] print(::Base.GenericIOBuffer{Array{UInt8,1}}, ::OffsetArray{Int64,2,Array{Int64,2}}) at /home/vagrant/.julia/v0.7/JSON/src/Writer.jl:341
-   [11] #sprint#312(::Nothing, ::Int64, ::Function, ::Function, ::OffsetArray{Int64,2,Array{Int64,2}}, ::Vararg{OffsetArray{Int64,2,Array{Int64,2}},N} where N) at ./strings/io.jl:91
+   [11] #sprint#313(::Nothing, ::Int64, ::Function, ::Function, ::OffsetArray{Int64,2,Array{Int64,2}}, ::Vararg{OffsetArray{Int64,2,Array{Int64,2}},N} where N) at ./strings/io.jl:91
    [12] sprint at ./strings/io.jl:84 [inlined]
    [13] json(::OffsetArray{Int64,2,Array{Int64,2}}) at /home/vagrant/.julia/v0.7/JSON/src/Writer.jl:346
    [14] macro expansion at /home/vagrant/.julia/v0.7/JSON/test/standard-serializer.jl:61 [inlined]
    [15] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:980 [inlined]
    [16] top-level scope at /home/vagrant/.julia/v0.7/JSON/test/standard-serializer.jl:56
-┌ Warning: Vector{UInt8}(s::String) will copy data in the future. To avoid copying, use `unsafe_wrap` or `codeunits` instead.
-│   caller = #parse#1(::Type{Dict{String,Any}}, ::Type{Int64}, ::Function, ::String) at Parser.jl:386
-└ @ JSON.Parser Parser.jl:386
-┌ Warning: `unsafe_copy!(dest, args...)` is deprecated, use `unsafe_copyto!(dest, args...)` instead.
-│   caller = parse_string(::JSON.Parser.MemoryParserState) at specialized.jl:15
-└ @ JSON.Parser specialized.jl:15
-┌ Warning: Constructors no longer fall back to `convert`. A constructor `Float64(::FixedPointNumbers.Fixed{Int16,15})` should be defined instead.
-│   caller = lower at Writer.jl:62 [inlined]
-└ @ Core Writer.jl:62
-┌ Warning: Constructors no longer fall back to `convert`. A constructor `Float64(::FixedPointNumbers.Fixed{Int16,15})` should be defined instead.
-│   caller = top-level scope
-└ @ Core :0
+ERROR: LoadError: UndefVarError: promote_sys_size not defined
+Stacktrace:
+ [1] getproperty(::Module, ::Symbol) at ./sysimg.jl:14
+ [2] top-level scope at /home/vagrant/.julia/v0.7/FixedPointNumbers/src/FixedPointNumbers.jl:140
+ [3] include at ./boot.jl:295 [inlined]
+ [4] include_relative(::Module, ::String) at ./loading.jl:521
+ [5] include(::Module, ::String) at ./sysimg.jl:26
+ [6] top-level scope
+ [7] eval at ./boot.jl:298 [inlined]
+ [8] top-level scope at ./<missing>:2
+in expression starting at /home/vagrant/.julia/v0.7/FixedPointNumbers/src/FixedPointNumbers.jl:140
+Lowering: Error During Test at /home/vagrant/.julia/v0.7/JSON/test/runtests.jl:45
+  Got an exception of type LoadError outside of a @test
+  LoadError: Failed to precompile FixedPointNumbers to /home/vagrant/.julia/lib/v0.7/FixedPointNumbers.ji.
+  Stacktrace:
+   [1] error at ./error.jl:33 [inlined]
+   [2] compilecache(::String) at ./loading.jl:648
+   [3] compilecache at ./loading.jl:605 [inlined]
+   [4] _require(::Symbol) at ./loading.jl:460
+   [5] require(::Symbol) at ./loading.jl:333
+   [6] include at ./boot.jl:295 [inlined]
+   [7] include_relative(::Module, ::String) at ./loading.jl:521
+   [8] include(::Module, ::String) at ./sysimg.jl:26
+   [9] include(::String) at ./sysimg.jl:65
+   [10] macro expansion at /home/vagrant/.julia/v0.7/JSON/test/runtests.jl:46 [inlined]
+   [11] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:980 [inlined]
+   [12] macro expansion at /home/vagrant/.julia/v0.7/JSON/test/runtests.jl:46 [inlined]
+   [13] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:980 [inlined]
+   [14] top-level scope at /home/vagrant/.julia/v0.7/JSON/test/runtests.jl:41
+   [15] include at ./boot.jl:295 [inlined]
+   [16] include_relative(::Module, ::String) at ./loading.jl:521
+   [17] include(::Module, ::String) at ./sysimg.jl:26
+   [18] process_options(::Base.JLOptions) at ./client.jl:323
+   [19] _start() at ./client.jl:374
+  in expression starting at /home/vagrant/.julia/v0.7/JSON/test/lowering.jl:6
 Test Summary:         | Pass  Error  Total
-Serializer            |   44      1     45
+Serializer            |   36      2     38
   Standard Serializer |   30      1     31
     Symbol            |    1             1
     Floats            |    2             2
@@ -197,15 +220,15 @@ Serializer            |   44      1     45
     Arrays            |    3      1      4
     Pairs             |    4             4
     Sets              |    2             2
-  Lowering            |    8             8
+  Lowering            |           1      1
   Custom Serializer   |    6             6
-ERROR: LoadError: Some tests did not pass: 44 passed, 0 failed, 1 errored, 0 broken.
+ERROR: LoadError: Some tests did not pass: 36 passed, 0 failed, 2 errored, 0 broken.
 in expression starting at /home/vagrant/.julia/v0.7/JSON/test/runtests.jl:40
 ┌ Error: ------------------------------------------------------------
 │ # Testing failed for JSON
 │   exception = ErrorException("failed process: Process(`/home/vagrant/julia/bin/julia -Cnative -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --code-coverage=none --color=no --compiled-modules=yes --check-bounds=yes --warn-overwrite=yes --startup-file=yes /home/vagrant/.julia/v0.7/JSON/test/runtests.jl`, ProcessExited(1)) [1]")
 └ @ Base.Pkg.Entry entry.jl:739
-[ Info: Removing DataStructures v0.7.3 @ Base.Pkg.Entry entry.jl:546
+[ Info: Removing DataStructures v0.7.4 @ Base.Pkg.Entry entry.jl:546
 [ Info: Removing FixedPointNumbers v0.4.3 @ Base.Pkg.Entry entry.jl:546
 [ Info: Removing OffsetArrays v0.4.2 @ Base.Pkg.Entry entry.jl:546
 ERROR: JSON had test errors

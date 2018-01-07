@@ -30,13 +30,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (800.80859375 MB free)
-Uptime: 70630.0 sec
-Load Avg:  0.97998046875  1.05126953125  1.05224609375
+Memory: 2.93927001953125 GB (786.203125 MB free)
+Uptime: 68715.0 sec
+Load Avg:  1.0029296875  1.09619140625  1.1044921875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3516 MHz    4570796 s         97 s     196313 s    1256792 s         58 s
-#2  3516 MHz    1320771 s         60 s     123118 s    5463316 s          1 s
+#1  3499 MHz    4398872 s         78 s     192840 s    1204014 s         33 s
+#2  3499 MHz     970438 s         78 s      94289 s    5705025 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -101,8 +101,8 @@ Stacktrace:
 while loading /home/vagrant/.julia/v0.6/Etcd/test/runtests.jl, in expression starting on line 12
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   620    0   620    0     0   4339      0 --:--:-- --:--:-- --:--:--  4335
-100 8347k  100 8347k    0     0  9387k      0 --:--:-- --:--:-- --:--:-- 9387k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   620    0   620    0     0   4660      0 --:--:-- --:--:-- --:--:--  4696
+  0 8347k    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 8347k  100 8347k    0     0  6908k      0  0:00:01  0:00:01 --:--:-- 9529k
 etcd-v2.3.7-linux-amd64/
 etcd-v2.3.7-linux-amd64/Documentation/
 etcd-v2.3.7-linux-amd64/Documentation/runtime-configuration.md
@@ -181,22 +181,15 @@ while loading /home/vagrant/.julia/v0.6/Etcd/test/runtests.jl, in expression sta
 [error] EtcdError: Key already exists (105).
 [error] EtcdError: Key not found (100).
 [error] EtcdError: Key not found (100).
-ERROR (unhandled task failure): schedule: Task not runnable
+ERROR (unhandled task failure): MethodError: no method matching (::Etcd.#retry_cond#2)(::Tuple{Int64,Float64}, ::InterruptException)
+Closest candidates are:
+  retry_cond(::Any) at /home/vagrant/.julia/v0.6/Etcd/src/requests.jl:60
 Stacktrace:
- [1] enq_work(::Task) at ./event.jl:82
- [2] #schedule#295(::Bool, ::Function, ::Task, ::IPv4) at ./event.jl:127
- [3] schedule(::Task, ::IPv4) at ./event.jl:122
- [4] notify(::Condition, ::IPv4, ::Bool, ::Bool) at ./event.jl:49
- [5] (::Base.##352#353{Condition})(::IPv4) at ./socket.jl:642
- [6] uv_getaddrinfocb(::Ptr{Void}, ::Int32, ::Ptr{Void}) at ./socket.jl:602
- [7] process_events at ./libuv.jl:84 [inlined]
- [8] wait() at ./event.jl:241
- [9] wait(::Condition) at ./event.jl:27
- [10] stream_wait(::TCPSocket, ::Condition, ::Vararg{Condition,N} where N) at ./stream.jl:42
- [11] close(::TCPSocket) at ./stream.jl:326
- [12] close(::Requests.ResponseStream{TCPSocket}) at /home/vagrant/.julia/v0.6/Requests/src/streaming.jl:148
- [13] macro expansion at /home/vagrant/.julia/v0.6/Requests/src/Requests.jl:394 [inlined]
- [14] (::Requests.##24#25)() at ./event.jl:73
+ [1] (::Base.###49#50#52{ExponentialBackOff,Etcd.#retry_cond#2,Etcd.#retry_func#3{Base.#get,String,Dict{String,Any}}})(::Array{Any,1}, ::Function) at ./error.jl:143
+ [2] #request#1(::Int64, ::Float64, ::Function, ::Base.#get, ::String, ::Dict{String,Any}) at /home/vagrant/.julia/v0.6/Etcd/src/requests.jl:67
+ [3] #get#5(::Bool, ::Bool, ::Function, ::Etcd.Client, ::String, ::Dict{String,Any}) at /home/vagrant/.julia/v0.6/Etcd/src/api/keys.jl:20
+ [4] macro expansion at /home/vagrant/.julia/v0.6/Etcd/src/api/watch.jl:53 [inlined]
+ [5] (::Etcd.##28#31{Bool,##2#5,Etcd.Client,String,Etcd.##29#32})() at ./task.jl:335
 Test Summary: | Pass  Total
 Etcd          |  114    114
 INFO: Etcd tests passed

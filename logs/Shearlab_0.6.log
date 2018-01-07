@@ -15,7 +15,7 @@ INFO: Installing ComputationalResources v0.2.0
 INFO: Installing Conda v0.7.1
 INFO: Installing CoordinateTransformations v0.4.1
 INFO: Installing CustomUnitRanges v0.1.0
-INFO: Installing DataStructures v0.7.3
+INFO: Installing DataStructures v0.7.4
 INFO: Installing DualNumbers v0.3.0
 INFO: Installing FFTViews v0.1.0
 INFO: Installing FFTW v0.0.4
@@ -55,7 +55,7 @@ INFO: Installing SimpleTraits v0.5.1
 INFO: Installing SortingAlgorithms v0.2.0
 INFO: Installing SpecialFunctions v0.3.6
 INFO: Installing StaticArrays v0.6.6
-INFO: Installing StatsBase v0.19.4
+INFO: Installing StatsBase v0.19.5
 INFO: Installing TexExtensions v0.1.0
 INFO: Installing TiledIteration v0.1.0
 INFO: Installing URIParser v0.3.0
@@ -90,13 +90,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (1943.2421875 MB free)
-Uptime: 85320.0 sec
-Load Avg:  0.955078125  0.9853515625  1.00634765625
+Memory: 2.93927001953125 GB (1962.59375 MB free)
+Uptime: 45622.0 sec
+Load Avg:  0.9638671875  0.998046875  0.9599609375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    5660773 s       4997 s     250458 s    1314822 s         42 s
-#2  3500 MHz    1409690 s         57 s     124214 s    6830478 s          1 s
+#1  3497 MHz    2880934 s        114 s     127742 s     837900 s         21 s
+#2  3497 MHz     653731 s         48 s      62381 s    3748550 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -129,7 +129,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Conda                         0.7.1
  - CoordinateTransformations     0.4.1
  - CustomUnitRanges              0.1.0
- - DataStructures                0.7.3
+ - DataStructures                0.7.4
  - DualNumbers                   0.3.0
  - FFTViews                      0.1.0
  - FFTW                          0.0.4
@@ -169,7 +169,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - SortingAlgorithms             0.2.0
  - SpecialFunctions              0.3.6
  - StaticArrays                  0.6.6
- - StatsBase                     0.19.4
+ - StatsBase                     0.19.5
  - TexExtensions                 0.1.0
  - TiledIteration                0.1.0
  - URIParser                     0.3.0
@@ -179,20 +179,47 @@ INFO: Computing test dependencies for Shearlab...
 INFO: No packages to install, update or remove
 INFO: Testing Shearlab
 WARNING: No working GUI backend found for matplotlib
-ERROR: LoadError: error compiling __init__: could not load library "libaf"
-libaf.so: cannot open shared object file: No such file or directory
+ERROR: LoadError: LoadError: InitError: PyError (ccall(@pysym(:PyImport_ImportModule), PyPtr, (Cstring,), name)
+
+The Python package matplotlib.pyplot could not be found by pyimport. Usually this means
+that you did not install matplotlib.pyplot in the Python version being used by PyCall.
+
+PyCall is currently configured to use the Julia-specific Python distribution
+installed by the Conda.jl package.  To install the matplotlib.pyplot module, you can
+use `pyimport_conda("matplotlib.pyplot", PKG)`, where PKG is the Anaconda
+package the contains the module matplotlib.pyplot, or alternatively you can use the
+Conda package directly (via `using Conda` followed by `Conda.add` etcetera).
+
+Alternatively, if you want to use a different Python distribution on your
+system, such as a system-wide Python (as opposed to the Julia-specific Python),
+you can re-configure PyCall with that Python.   As explained in the PyCall
+documentation, set ENV["PYTHON"] to the path/name of the python executable
+you want to use, run Pkg.build("PyCall"), and re-launch Julia.
+
+) <type 'exceptions.ImportError'>
+ImportError("/lib/x86_64-linux-gnu/libz.so.1: version `ZLIB_1.2.9' not found (required by /home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/matplotlib/../../.././libpng16.so.16)",)
+  File "/home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/matplotlib/pyplot.py", line 32, in <module>
+    import matplotlib.colorbar
+  File "/home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/matplotlib/colorbar.py", line 36, in <module>
+    import matplotlib.contour as contour
+  File "/home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/matplotlib/contour.py", line 21, in <module>
+    import matplotlib.font_manager as font_manager
+  File "/home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/matplotlib/font_manager.py", line 58, in <module>
+    from matplotlib import afm, cbook, ft2font, rcParams, get_cachedir
+
 Stacktrace:
- [1] include_from_node1(::String) at ./loading.jl:576
- [2] include(::String) at ./sysimg.jl:14
- [3] anonymous at ./<missing>:2
-while loading /home/vagrant/.julia/v0.6/ArrayFire/src/ArrayFire.jl, in expression starting on line 12
-ERROR: LoadError: LoadError: Failed to precompile ArrayFire to /home/vagrant/.julia/lib/v0.6/ArrayFire.ji.
-Stacktrace:
- [1] compilecache(::String) at ./loading.jl:710
- [2] _require(::Symbol) at ./loading.jl:497
- [3] require(::Symbol) at ./loading.jl:405
- [4] include_from_node1(::String) at ./loading.jl:576
-while loading /home/vagrant/.julia/v0.6/Shearlab/src/Shearlab.jl, in expression starting on line 6
+ [1] pyerr_check at /home/vagrant/.julia/v0.6/PyCall/src/exception.jl:56 [inlined]
+ [2] pyerr_check at /home/vagrant/.julia/v0.6/PyCall/src/exception.jl:61 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/PyCall/src/exception.jl:81 [inlined]
+ [4] pyimport(::String) at /home/vagrant/.julia/v0.6/PyCall/src/PyCall.jl:374
+ [5] __init__() at /home/vagrant/.julia/v0.6/PyPlot/src/init.jl:184
+ [6] _include_from_serialized(::String) at ./loading.jl:157
+ [7] _require_from_serialized(::Int64, ::Symbol, ::String, ::Bool) at ./loading.jl:200
+ [8] _require(::Symbol) at ./loading.jl:464
+ [9] require(::Symbol) at ./loading.jl:405
+ [10] include_from_node1(::String) at ./loading.jl:576
+during initialization of module PyPlot
+while loading /home/vagrant/.julia/v0.6/Shearlab/src/Shearlab.jl, in expression starting on line 5
 while loading /home/vagrant/.julia/v0.6/Shearlab/test/runtests.jl, in expression starting on line 3
 ==============================[ ERROR: Shearlab ]===============================
 

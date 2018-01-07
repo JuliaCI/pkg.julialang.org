@@ -1,5 +1,6 @@
 >>> 'Pkg.add("HeadlessChromium")' log
 INFO: Cloning cache of HeadlessChromium from https://github.com/fredo-dedup/HeadlessChromium.jl.git
+INFO: Cloning cache of WebSockets from https://github.com/JuliaWeb/WebSockets.jl.git
 INFO: Installing BinDeps v0.8.2
 INFO: Installing Codecs v0.4.0
 INFO: Installing HTTP v0.5.7
@@ -22,7 +23,7 @@ INFO: Directory /home/vagrant/.julia/v0.6/HeadlessChromium/deps/downloads alread
 INFO: Downloading file https://storage.googleapis.com/chromium-browser-snapshots/Linux_x64/511134/chrome-linux.zip
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  5 95.6M    5 5678k    0     0  3004k      0  0:00:32  0:00:01  0:00:31 3006k 13 95.6M   13 13.3M    0     0  6853k      0  0:00:14  0:00:01  0:00:13 6853k 18 95.6M   18 17.4M    0     0  5002k      0  0:00:19  0:00:03  0:00:16 5003k 18 95.6M   18 17.7M    0     0  3974k      0  0:00:24  0:00:04  0:00:20 3975k 20 95.6M   20 19.9M    0     0  3660k      0  0:00:26  0:00:05  0:00:21 3661k 23 95.6M   23 22.8M    0     0  3563k      0  0:00:27  0:00:06  0:00:21 3788k 43 95.6M   43 41.4M    0     0  6071k      0  0:00:16  0:00:06  0:00:10 5760k 97 95.6M   97 93.6M    0     0  11.7M      0  0:00:08  0:00:07  0:00:01 17.2M100 95.6M  100 95.6M    0     0  11.9M      0  0:00:08  0:00:08 --:--:-- 22.5M
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 10 95.6M   10 10.2M    0     0  15.7M      0  0:00:06 --:--:--  0:00:06 15.7M 22 95.6M   22 21.9M    0     0  12.7M      0  0:00:07  0:00:01  0:00:06 12.7M 67 95.6M   67 64.9M    0     0  24.5M      0  0:00:03  0:00:02  0:00:01 24.5M100 95.6M  100 95.6M    0     0  28.4M      0  0:00:03  0:00:03 --:--:-- 28.4M
 INFO: Done downloading file https://storage.googleapis.com/chromium-browser-snapshots/Linux_x64/511134/chrome-linux.zip
 INFO: Attempting to create directory /home/vagrant/.julia/v0.6/HeadlessChromium/deps/usr
 Archive:  /home/vagrant/.julia/v0.6/HeadlessChromium/deps/downloads/chromium.zip
@@ -418,13 +419,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (424.71875 MB free)
-Uptime: 89793.0 sec
-Load Avg:  0.923828125  0.9697265625  0.9501953125
+Memory: 2.93927001953125 GB (329.75 MB free)
+Uptime: 16364.0 sec
+Load Avg:  0.91357421875  0.7705078125  0.89501953125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3516 MHz    5834985 s         99 s     253550 s    1488343 s         60 s
-#2  3516 MHz    1469508 s         60 s     143544 s    7185583 s          1 s
+#1  3500 MHz     963206 s        103 s      49802 s     383812 s          8 s
+#2  3500 MHz     211657 s         40 s      26697 s    1371320 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -456,89 +457,50 @@ Package Directory: /home/vagrant/.julia/v0.6
  - URIParser                     0.3.0
  - WebSockets                    0.4.0
 INFO: Testing HeadlessChromium
+ERROR: LoadError: could not establish connection to chromium, HTTP.ConnectError:
+Exception: connect: connection refused (ECONNREFUSED)
 
-signal (11): Segmentation fault
+Stacktrace:
+ [1] try_yieldto(::Base.##296#297{Task}, ::Task) at ./event.jl:189
+ [2] wait() at ./event.jl:234
+ [3] wait(::Condition) at ./event.jl:27
+ [4] stream_wait(::TCPSocket, ::Condition, ::Vararg{Condition,N} where N) at ./stream.jl:42
+ [5] wait_connected(::TCPSocket) at ./stream.jl:258
+ [6] connect at ./stream.jl:983 [inlined]
+ [7] connect(::IPv4, ::Int64) at ./socket.jl:742
+ [8] macro expansion at /home/vagrant/.julia/v0.6/HTTP/src/utils.jl:55 [inlined]
+ [9] macro expansion at /home/vagrant/.julia/v0.6/HTTP/src/client.jl:194 [inlined]
+ [10] macro expansion at /home/vagrant/.julia/v0.6/HTTP/src/utils.jl:198 [inlined]
+ [11] connect(::HTTP.Client, ::Type{T} where T, ::String, ::String, ::HTTP.RequestOptions, ::Bool) at /home/vagrant/.julia/v0.6/HTTP/src/client.jl:159
+ [12] connectandsend(::HTTP.Client, ::Type{HTTP.http}, ::String, ::String, ::HTTP.Request, ::HTTP.RequestOptions, ::Bool) at /home/vagrant/.julia/v0.6/HTTP/src/client.jl:231
+ [13] macro expansion at /home/vagrant/.julia/v0.6/HTTP/src/utils.jl:33 [inlined]
+ [14] request(::HTTP.Client, ::HTTP.Request, ::HTTP.RequestOptions, ::Bool, ::Array{HTTP.Response,1}, ::Int64, ::Bool) at /home/vagrant/.julia/v0.6/HTTP/src/client.jl:326
+ [15] #request#43(::HTTP.RequestOptions, ::Bool, ::Array{HTTP.Response,1}, ::Int64, ::Bool, ::Array{Any,1}, ::Function, ::HTTP.Client, ::HTTP.Request) at /home/vagrant/.julia/v0.6/HTTP/src/client.jl:363
+ [16] (::HTTP.#kw##request)(::Array{Any,1}, ::HTTP.#request, ::HTTP.Client, ::HTTP.Request) at ./<missing>:0
+ [17] #request#44(::Dict{String,String}, ::HTTP.FIFOBuffers.FIFOBuffer, ::Bool, ::Bool, ::Array{Any,1}, ::Function, ::HTTP.Client, ::HTTP.Method, ::HTTP.URIs.URI) at /home/vagrant/.julia/v0.6/HTTP/src/client.jl:377
+ [18] (::HTTP.#kw##request)(::Array{Any,1}, ::HTTP.#request, ::HTTP.Client, ::HTTP.Method, ::HTTP.URIs.URI) at ./<missing>:0
+ [19] #get#49(::Bool, ::String, ::Array{Any,1}, ::Function, ::String) at /home/vagrant/.julia/v0.6/HTTP/src/client.jl:511
+ [20] get(::String) at /home/vagrant/.julia/v0.6/HTTP/src/client.jl:511
+ [21] (::Base.###49#50#52{Array{Int64,1},Void,HTTP.#get})(::Array{Any,1}, ::Function, ::String, ::Vararg{String,N} where N) at ./error.jl:139
+ [22] startChromium() at /home/vagrant/.julia/v0.6/HeadlessChromium/src/communication.jl:89
+ [23] HeadlessChromium.Target(::String, ::Void) at /home/vagrant/.julia/v0.6/HeadlessChromium/src/communication.jl:137
+ [24] HeadlessChromium.Target(::String) at /home/vagrant/.julia/v0.6/HeadlessChromium/src/communication.jl:136
+ [25] include_from_node1(::String) at ./loading.jl:576
+ [26] include(::String) at ./sysimg.jl:14
+ [27] process_options(::Base.JLOptions) at ./client.jl:305
+ [28] _start() at ./client.jl:371
+Stacktrace:
+ [1] startChromium() at /home/vagrant/.julia/v0.6/HeadlessChromium/src/communication.jl:106
+ [2] HeadlessChromium.Target(::String, ::Void) at /home/vagrant/.julia/v0.6/HeadlessChromium/src/communication.jl:137
+ [3] HeadlessChromium.Target(::String) at /home/vagrant/.julia/v0.6/HeadlessChromium/src/communication.jl:136
+ [4] include_from_node1(::String) at ./loading.jl:576
+ [5] include(::String) at ./sysimg.jl:14
+ [6] process_options(::Base.JLOptions) at ./client.jl:305
+ [7] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/HeadlessChromium/test/runtests.jl, in expression starting on line 6
-unknown function (ip: 0x7f56c5f34c7f)
-emit_invoke at /buildworker/worker/package_linux64/build/src/codegen.cpp:3400 [inlined]
-emit_expr at /buildworker/worker/package_linux64/build/src/codegen.cpp:4135
-emit_jlcall at /buildworker/worker/package_linux64/build/src/codegen.cpp:3245
-emit_invoke at /buildworker/worker/package_linux64/build/src/codegen.cpp:3419 [inlined]
-emit_expr at /buildworker/worker/package_linux64/build/src/codegen.cpp:4135
-emit_assignment at /buildworker/worker/package_linux64/build/src/codegen.cpp:3759 [inlined]
-emit_expr at /buildworker/worker/package_linux64/build/src/codegen.cpp:4159
-emit_stmtpos at /buildworker/worker/package_linux64/build/src/codegen.cpp:4064 [inlined]
-emit_function at /buildworker/worker/package_linux64/build/src/codegen.cpp:6248
-jl_compile_linfo at /buildworker/worker/package_linux64/build/src/codegen.cpp:1256
-emit_invoke at /buildworker/worker/package_linux64/build/src/codegen.cpp:3400 [inlined]
-emit_expr at /buildworker/worker/package_linux64/build/src/codegen.cpp:4135
-emit_function at /buildworker/worker/package_linux64/build/src/codegen.cpp:6101
-jl_compile_linfo at /buildworker/worker/package_linux64/build/src/codegen.cpp:1256
-emit_invoke at /buildworker/worker/package_linux64/build/src/codegen.cpp:3400 [inlined]
-emit_expr at /buildworker/worker/package_linux64/build/src/codegen.cpp:4135
-emit_function at /buildworker/worker/package_linux64/build/src/codegen.cpp:6101
-jl_compile_linfo at /buildworker/worker/package_linux64/build/src/codegen.cpp:1256
-jl_compile_for_dispatch at /buildworker/worker/package_linux64/build/src/gf.c:1668
-jl_compile_method_internal at /buildworker/worker/package_linux64/build/src/julia_internal.h:307 [inlined]
-jl_call_method_internal at /buildworker/worker/package_linux64/build/src/julia_internal.h:354 [inlined]
-jl_apply_generic at /buildworker/worker/package_linux64/build/src/gf.c:1926
-#URL at ./<missing>:0
-#get#49 at /home/vagrant/.julia/v0.6/HTTP/src/client.jl:511
-unknown function (ip: 0x7f56b2c54a49)
-jl_call_fptr_internal at /buildworker/worker/package_linux64/build/src/julia_internal.h:339 [inlined]
-jl_call_method_internal at /buildworker/worker/package_linux64/build/src/julia_internal.h:358 [inlined]
-jl_apply_generic at /buildworker/worker/package_linux64/build/src/gf.c:1926
-jl_apply at /buildworker/worker/package_linux64/build/src/julia.h:1424 [inlined]
-jl_invoke at /buildworker/worker/package_linux64/build/src/gf.c:51
-get at /home/vagrant/.julia/v0.6/HTTP/src/client.jl:511
-unknown function (ip: 0x7f56b2c545f2)
-jl_call_fptr_internal at /buildworker/worker/package_linux64/build/src/julia_internal.h:339 [inlined]
-jl_call_method_internal at /buildworker/worker/package_linux64/build/src/julia_internal.h:358 [inlined]
-jl_apply_generic at /buildworker/worker/package_linux64/build/src/gf.c:1926
-jl_apply at /buildworker/worker/package_linux64/build/src/julia.h:1424 [inlined]
-jl_f__apply at /buildworker/worker/package_linux64/build/src/builtins.c:426
-##49#50 at ./error.jl:139
-jl_call_fptr_internal at /buildworker/worker/package_linux64/build/src/julia_internal.h:339 [inlined]
-jl_call_method_internal at /buildworker/worker/package_linux64/build/src/julia_internal.h:358 [inlined]
-jl_apply_generic at /buildworker/worker/package_linux64/build/src/gf.c:1926
-startChromium at /home/vagrant/.julia/v0.6/HeadlessChromium/src/communication.jl:89
-Type at /home/vagrant/.julia/v0.6/HeadlessChromium/src/communication.jl:137
-Type at /home/vagrant/.julia/v0.6/HeadlessChromium/src/communication.jl:136
-jl_call_fptr_internal at /buildworker/worker/package_linux64/build/src/julia_internal.h:339 [inlined]
-jl_call_method_internal at /buildworker/worker/package_linux64/build/src/julia_internal.h:358 [inlined]
-jl_apply_generic at /buildworker/worker/package_linux64/build/src/gf.c:1926
-do_call at /buildworker/worker/package_linux64/build/src/interpreter.c:75
-eval at /buildworker/worker/package_linux64/build/src/interpreter.c:242
-eval_body at /buildworker/worker/package_linux64/build/src/interpreter.c:543
-jl_interpret_toplevel_thunk at /buildworker/worker/package_linux64/build/src/interpreter.c:692
-jl_toplevel_eval_flex at /buildworker/worker/package_linux64/build/src/toplevel.c:592
-jl_parse_eval_all at /buildworker/worker/package_linux64/build/src/ast.c:873
-jl_load at /buildworker/worker/package_linux64/build/src/toplevel.c:616
-include_from_node1 at ./loading.jl:576
-unknown function (ip: 0x7f56c267a38b)
-jl_call_fptr_internal at /buildworker/worker/package_linux64/build/src/julia_internal.h:339 [inlined]
-jl_call_method_internal at /buildworker/worker/package_linux64/build/src/julia_internal.h:358 [inlined]
-jl_apply_generic at /buildworker/worker/package_linux64/build/src/gf.c:1926
-include at ./sysimg.jl:14
-unknown function (ip: 0x7f56c25129eb)
-jl_call_fptr_internal at /buildworker/worker/package_linux64/build/src/julia_internal.h:339 [inlined]
-jl_call_method_internal at /buildworker/worker/package_linux64/build/src/julia_internal.h:358 [inlined]
-jl_apply_generic at /buildworker/worker/package_linux64/build/src/gf.c:1926
-process_options at ./client.jl:305
-_start at ./client.jl:371
-unknown function (ip: 0x7f56c2688d28)
-jl_call_fptr_internal at /buildworker/worker/package_linux64/build/src/julia_internal.h:339 [inlined]
-jl_call_method_internal at /buildworker/worker/package_linux64/build/src/julia_internal.h:358 [inlined]
-jl_apply_generic at /buildworker/worker/package_linux64/build/src/gf.c:1926
-jl_apply at /buildworker/worker/package_linux64/build/ui/../src/julia.h:1424 [inlined]
-true_main at /buildworker/worker/package_linux64/build/ui/repl.c:127
-main at /buildworker/worker/package_linux64/build/ui/repl.c:264
-__libc_start_main at /lib/x86_64-linux-gnu/libc.so.6 (unknown line)
-unknown function (ip: 0x4016bc)
-Allocations: 8445526 (Pool: 8443464; Big: 2062); GC: 17
 ==========================[ ERROR: HeadlessChromium ]===========================
 
-failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/HeadlessChromium/test/runtests.jl`, ProcessSignaled(11)) [0]
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/HeadlessChromium/test/runtests.jl`, ProcessExited(1)) [1]
 
 ================================================================================
 ERROR: HeadlessChromium had test errors

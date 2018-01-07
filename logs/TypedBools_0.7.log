@@ -6,20 +6,20 @@
 └ @ Base.Pkg.Entry entry.jl:74
 
 >>> 'Pkg.test("TypedBools")' log
-Julia Version 0.7.0-DEV.3246
-Commit 2138144d3a (2018-01-04 02:34 UTC)
+Julia Version 0.7.0-DEV.3299
+Commit fb527308bb (2018-01-05 19:41 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3507 MHz    6364180 s        155 s     316142 s    1307476 s         75 s
-       #2  3507 MHz    1210304 s       5804 s     121165 s    8012194 s          1 s
+       #1  3500 MHz    4127396 s       6541 s     198328 s     949984 s         29 s
+       #2  3500 MHz     745329 s        276 s      78043 s    5296446 s          0 s
        
-  Memory: 2.93927001953125 GB (677.48828125 MB free)
-  Uptime: 95273.0 sec
-  Load Avg:  0.9921875  0.9853515625  1.03466796875
+  Memory: 2.93927001953125 GB (663.52734375 MB free)
+  Uptime: 62306.0 sec
+  Load Avg:  1.02880859375  1.001953125  1.03466796875
   WORD_SIZE: 64
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -40,7 +40,7 @@ Packages:
 3 additional packages:
  - Compat                        0.42.0
  - Nullables                     0.0.2
- - tmpPOOpwT                     0.0.0-             non-repo (unregistered)
+ - tmp6B2J9N                     0.0.0-             non-repo (unregistered)
 [ Info: Computing test dependencies for TypedBools... @ Base.Pkg.Entry entry.jl:713
 [ Info: Installing DocStringExtensions v0.4.1 @ Base.Pkg.Entry entry.jl:543
 [ Info: Installing Documenter v0.12.5 @ Base.Pkg.Entry entry.jl:543
@@ -229,6 +229,9 @@ WARNING: Base.Void is deprecated, use Nothing instead.
 ┌ Warning: `replace(s::AbstractString, pat, f)` is deprecated, use `replace(s, pat => f)` instead.
 │   caller = doctest(::Base.Markdown.Code, ::Dict{Symbol,Any}, ::Documenter.Documents.Document, ::Documenter.Documents.Page) at DocChecks.jl:130
 └ @ Documenter.DocChecks DocChecks.jl:130
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
+│   caller = doctest(::Base.Markdown.Code, ::Dict{Symbol,Any}, ::Documenter.Documents.Document, ::Documenter.Documents.Page) at DocChecks.jl:136
+└ @ Documenter.DocChecks DocChecks.jl:136
 WARNING: Base.Void is deprecated, use Nothing instead.
   likely near /home/vagrant/.julia/v0.7/TypedBools/test/runtests.jl:4
 WARNING: Base.Void is deprecated, use Nothing instead.
@@ -236,6 +239,9 @@ WARNING: Base.Void is deprecated, use Nothing instead.
 ┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
 │   caller = repl_splitter(::String) at DocChecks.jl:354
 └ @ Documenter.DocChecks DocChecks.jl:354
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
+│   caller = takeuntil!(::Regex, ::Base.GenericIOBuffer{Array{UInt8,1}}, ::Array{SubString{String},1}) at DocChecks.jl:387
+└ @ Documenter.DocChecks DocChecks.jl:387
 ┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
 │   caller = takeuntil!(::Regex, ::Base.GenericIOBuffer{Array{UInt8,1}}, ::Array{SubString{String},1}) at DocChecks.jl:388
 └ @ Documenter.DocChecks DocChecks.jl:388
@@ -290,85 +296,9 @@ WARNING: Base.Test is deprecated, run `using Test` instead.
   likely near /home/vagrant/.julia/v0.7/TypedBools/test/runtests.jl:4
 
 =====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.7/TypedBools/src/TypedBools.jl
-
-> Code block:
-
-```jldoctest
-julia> using TypedBools, Base.Test
-
-julia> if_unstable(x) = Bool(x) ? 1 : "a";
-
-julia> ifelse_unstable(x) = ifelse(x, 1, "a");
-
-julia> @inferred if_unstable(!(True() & True() & False()))
-1
-
-julia> @inferred if_unstable(False() & False() & True())
-"a"
-
-julia> @inferred ifelse_unstable(!(True() | True() | False()))
-"a"
-
-julia> @inferred ifelse_unstable(False() | False() | True())
-1
-
-julia> @inferred if_unstable(typed(true) & typed(false))
-"a"
-```
-
-> Subexpression:
-
-    if_unstable(x) = Bool(x) ? 1 : "a";
-
-> Output Diff (REQUIRES COLOR):
-
-if_unstable (generic function with 1 method)
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.7/TypedBools/src/TypedBools.jl
-
-> Code block:
-
-```jldoctest
-julia> using TypedBools, Base.Test
-
-julia> if_unstable(x) = Bool(x) ? 1 : "a";
-
-julia> ifelse_unstable(x) = ifelse(x, 1, "a");
-
-julia> @inferred if_unstable(!(True() & True() & False()))
-1
-
-julia> @inferred if_unstable(False() & False() & True())
-"a"
-
-julia> @inferred ifelse_unstable(!(True() | True() | False()))
-"a"
-
-julia> @inferred ifelse_unstable(False() | False() | True())
-1
-
-julia> @inferred if_unstable(typed(true) & typed(false))
-"a"
-```
-
-> Subexpression:
-
-    ifelse_unstable(x) = ifelse(x, 1, "a");
-
-> Output Diff (REQUIRES COLOR):
-
-ifelse_unstable (generic function with 1 method)
-
-=====[End Error]===============================
 ┌ Warning: Constructors no longer fall back to `convert`. A constructor `Bool(::True)` should be defined instead.
 │   caller = if_unstable(::True) at none:1
-└ @ Main.##doctest-#1633 none:1
+└ @ Main.##doctest-#1683 none:1
 ┌ Warning: `replace(s::AbstractString, pat, f)` is deprecated, use `replace(s, pat => f)` instead.
 │   caller = checkresult(::Module, ::Documenter.DocChecks.Result, ::Dict{Symbol,Any}, ::Documenter.Documents.Document) at DocChecks.jl:248
 └ @ Documenter.DocChecks DocChecks.jl:248
@@ -424,7 +354,7 @@ Stacktrace:
 =====[End Error]===============================
 ┌ Warning: Constructors no longer fall back to `convert`. A constructor `Bool(::False)` should be defined instead.
 │   caller = if_unstable(::False) at none:1
-└ @ Main.##doctest-#1633 none:1
+└ @ Main.##doctest-#1683 none:1
 =====[Test Error]==============================
 
 > File: /home/vagrant/.julia/v0.7/TypedBools/src/TypedBools.jl

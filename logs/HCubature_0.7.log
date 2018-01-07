@@ -1,10 +1,10 @@
 >>> 'Pkg.add("HCubature")' log
 [ Info: Cloning cache of HCubature from https://github.com/stevengj/HCubature.jl.git @ Base.Pkg.Cache cache.jl:43
 [ Info: Installing Combinatorics v0.5.0 @ Base.Pkg.Entry entry.jl:543
-[ Info: Installing DataStructures v0.7.3 @ Base.Pkg.Entry entry.jl:543
+[ Info: Installing DataStructures v0.7.4 @ Base.Pkg.Entry entry.jl:543
 [ Info: Installing HCubature v1.0.1 @ Base.Pkg.Entry entry.jl:543
 [ Info: Installing IterTools v0.2.0 @ Base.Pkg.Entry entry.jl:543
-[ Info: Installing Polynomials v0.1.6 @ Base.Pkg.Entry entry.jl:543
+[ Info: Installing Polynomials v0.2.0 @ Base.Pkg.Entry entry.jl:543
 [ Info: Installing QuadGK v0.2.0 @ Base.Pkg.Entry entry.jl:543
 [ Info: Installing StaticArrays v0.6.6 @ Base.Pkg.Entry entry.jl:543
 [ Info: Package database updated @ Base.Pkg.Entry entry.jl:32
@@ -13,20 +13,20 @@
 └ @ Base.Pkg.Entry entry.jl:74
 
 >>> 'Pkg.test("HCubature")' log
-Julia Version 0.7.0-DEV.3246
-Commit 2138144d3a (2018-01-04 02:34 UTC)
+Julia Version 0.7.0-DEV.3299
+Commit fb527308bb (2018-01-05 19:41 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3499 MHz    5355403 s        129 s     268400 s    1218426 s         64 s
-       #2  3499 MHz    1022876 s         52 s     104726 s    6839977 s          0 s
+       #1  3500 MHz     805840 s         87 s      42832 s     282479 s          4 s
+       #2  3500 MHz     148894 s         66 s      17087 s    1120873 s          0 s
        
-  Memory: 2.93927001953125 GB (1063.46484375 MB free)
-  Uptime: 80853.0 sec
-  Load Avg:  1.01318359375  0.99462890625  1.0185546875
+  Memory: 2.93927001953125 GB (798.44140625 MB free)
+  Uptime: 13051.0 sec
+  Load Avg:  1.0029296875  1.001953125  0.97607421875
   WORD_SIZE: 64
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -47,10 +47,10 @@ Packages:
 8 additional packages:
  - Combinatorics                 0.5.0
  - Compat                        0.42.0
- - DataStructures                0.7.3
+ - DataStructures                0.7.4
  - IterTools                     0.2.0
  - Nullables                     0.0.2
- - Polynomials                   0.1.6
+ - Polynomials                   0.2.0
  - QuadGK                        0.2.0
  - StaticArrays                  0.6.6
 [ Info: Testing HCubature @ Base.Pkg.Entry entry.jl:723
@@ -62,35 +62,31 @@ WARNING: Base.Test is deprecated, run `using Test` instead.
 ┌ Warning: `Array{T}(m::Int) where T` is deprecated, use `Array{T}(uninitialized, m)` instead.
 │   caller = combos(::Int64, ::Float64, ::Type{Val{2}}) at genz-malik.jl:14
 └ @ HCubature genz-malik.jl:14
-┌ Warning: `Array{T}(m::Int) where T` is deprecated, use `Array{T}(uninitialized, m)` instead.
-│   caller = signcombos(::Int64, ::Float64, ::Type{Val{2}}) at genz-malik.jl:34
-└ @ HCubature genz-malik.jl:34
 simple: Error During Test at /home/vagrant/.julia/v0.7/HCubature/test/runtests.jl:5
-  Test threw an exception of type MethodError
+  Test threw an exception of type UndefVarError
   Expression: (hcubature((x->begin
                 cos(x[1]) * cos(x[2])
             end), [0, 0], [1, 1]))[1] ≈ sin(1) ^ 2 ≈ (#= /home/vagrant/.julia/v0.7/HCubature/test/runtests.jl:6 =# @inferred(hcubature((x->begin
                     cos(x[1]) * cos(x[2])
                 end), (0, 0), (1, 1))))[1]
-  MethodError: no method matching result_style(::Type{StaticArray})
-  Closest candidates are:
-    result_style(::Any, !Matched::Any) at broadcast.jl:264
-    result_style(!Matched::Base.Broadcast.BroadcastStyle) at broadcast.jl:261
-    result_style(!Matched::S<:Base.Broadcast.BroadcastStyle, !Matched::S<:Base.Broadcast.BroadcastStyle) where S<:Base.Broadcast.BroadcastStyle at broadcast.jl:262
+  UndefVarError: data_pointer_from_objref not defined
   Stacktrace:
-   [1] combine_styles(::SVector{2,Float64}) at ./broadcast.jl:256
-   [2] combine_styles at ./broadcast.jl:257 [inlined]
-   [3] broadcast at ./broadcast.jl:615 [inlined]
-   [4] * at /home/vagrant/.julia/v0.7/StaticArrays/src/linalg.jl:26 [inlined]
-   [5] GenzMalik at /home/vagrant/.julia/v0.7/HCubature/src/genz-malik.jl:117 [inlined]
-   [6] hcubature_(::Function, ::SVector{2,Float64}, ::SVector{2,Float64}, ::typeof(vecnorm), ::Int64, ::Int64, ::Int64) at /home/vagrant/.julia/v0.7/HCubature/src/HCubature.jl:56
-   [7] hcubature_(::Function, ::SVector{2,Int64}, ::SVector{2,Int64}, ::Function, ::Int64, ::Int64, ::Int64) at /home/vagrant/.julia/v0.7/HCubature/src/HCubature.jl:101
-   [8] hcubature_(::Function, ::Array{Int64,1}, ::Array{Int64,1}, ::Function, ::Int64, ::Int64, ::Int64) at /home/vagrant/.julia/v0.7/HCubature/src/HCubature.jl:104
-   [9] #hcubature#5(::Function, ::Int64, ::Int64, ::Int64, ::Function, ::Function, ::Array{Int64,1}, ::Array{Int64,1}) at /home/vagrant/.julia/v0.7/HCubature/src/HCubature.jl:153
-   [10] hcubature(::Function, ::Array{Int64,1}, ::Array{Int64,1}) at /home/vagrant/.julia/v0.7/HCubature/src/HCubature.jl:153
-   [11] macro expansion at /home/vagrant/.julia/v0.7/HCubature/test/runtests.jl:5 [inlined]
-   [12] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:980 [inlined]
-   [13] top-level scope at /home/vagrant/.julia/v0.7/HCubature/test/runtests.jl:5
+   [1] setindex! at /home/vagrant/.julia/v0.7/StaticArrays/src/MVector.jl:46 [inlined]
+   [2] setindex! at /home/vagrant/.julia/v0.7/StaticArrays/src/MVector.jl:39 [inlined]
+   [3] @generated body at /home/vagrant/.julia/v0.7/StaticArrays/src/indexing.jl:118 [inlined]
+   [4] _setindex! at /home/vagrant/.julia/v0.7/StaticArrays/src/indexing.jl:115 [inlined]
+   [5] setindex! at /home/vagrant/.julia/v0.7/StaticArrays/src/indexing.jl:110 [inlined]
+   [6] combos(::Int64, ::Float64, ::Type{Val{2}}) at /home/vagrant/.julia/v0.7/HCubature/src/genz-malik.jl:17
+   [7] HCubature.GenzMalik(::Type{Val{2}}, ::Type{Float64}) at /home/vagrant/.julia/v0.7/HCubature/src/genz-malik.jl:96
+   [8] cubrule at /home/vagrant/.julia/v0.7/HCubature/src/HCubature.jl:38 [inlined]
+   [9] hcubature_(::Function, ::SVector{2,Float64}, ::SVector{2,Float64}, ::typeof(vecnorm), ::Any, ::Any, ::Int64) at /home/vagrant/.julia/v0.7/HCubature/src/HCubature.jl:55
+   [10] hcubature_(::Function, ::SVector{2,Int64}, ::SVector{2,Int64}, ::Function, ::Any, ::Any, ::Int64) at /home/vagrant/.julia/v0.7/HCubature/src/HCubature.jl:101
+   [11] hcubature_(::Function, ::Array{Int64,1}, ::Array{Int64,1}, ::Function, ::Any, ::Any, ::Int64) at /home/vagrant/.julia/v0.7/HCubature/src/HCubature.jl:104
+   [12] #hcubature#5(::Function, ::Int64, ::Int64, ::Int64, ::Any, ::Function, ::Array{Int64,1}, ::Array{Int64,1}) at /home/vagrant/.julia/v0.7/HCubature/src/HCubature.jl:153
+   [13] hcubature(::Function, ::Array{Int64,1}, ::Array{Int64,1}) at /home/vagrant/.julia/v0.7/HCubature/src/HCubature.jl:153
+   [14] macro expansion at /home/vagrant/.julia/v0.7/HCubature/test/runtests.jl:5 [inlined]
+   [15] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:980 [inlined]
+   [16] top-level scope at /home/vagrant/.julia/v0.7/HCubature/test/runtests.jl:5
 Test Summary: | Pass  Error  Total
 simple        |    3      1      4
 ERROR: LoadError: Some tests did not pass: 3 passed, 0 failed, 1 errored, 0 broken.

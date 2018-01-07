@@ -6,20 +6,20 @@
 └ @ Base.Pkg.Entry entry.jl:74
 
 >>> 'Pkg.test("NumberedLines")' log
-Julia Version 0.7.0-DEV.3246
-Commit 2138144d3a (2018-01-04 02:34 UTC)
+Julia Version 0.7.0-DEV.3299
+Commit fb527308bb (2018-01-05 19:41 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3507 MHz    2387501 s        110 s     122108 s     646973 s         31 s
-       #2  3507 MHz     640541 s         62 s      56942 s    2904928 s          0 s
+       #1  3500 MHz    4652333 s        114 s     222258 s    1007551 s         27 s
+       #2  3500 MHz     974670 s         75 s      86610 s    5740604 s          0 s
        
-  Memory: 2.93927001953125 GB (706.75 MB free)
-  Uptime: 36846.0 sec
-  Load Avg:  0.9970703125  0.9853515625  1.029296875
+  Memory: 2.93927001953125 GB (658.7578125 MB free)
+  Uptime: 69030.0 sec
+  Load Avg:  1.09326171875  1.0185546875  1.0078125
   WORD_SIZE: 64
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -214,6 +214,18 @@ WARNING: Base.Void is deprecated, use Nothing instead.
   likely near /home/vagrant/.julia/v0.7/NumberedLines/test/runtests.jl:4
 WARNING: Base.Void is deprecated, use Nothing instead.
   likely near /home/vagrant/.julia/v0.7/NumberedLines/test/runtests.jl:4
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
+│   caller = iscode at Expanders.jl:563 [inlined]
+└ @ Core Expanders.jl:563
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
+│   caller = iscode at Expanders.jl:563 [inlined]
+└ @ Core Expanders.jl:563
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
+│   caller = iscode at Expanders.jl:563 [inlined]
+└ @ Core Expanders.jl:563
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
+│   caller = iscode at Expanders.jl:563 [inlined]
+└ @ Core Expanders.jl:563
 ┌ Warning: `parse(str::AbstractString, pos::Int; kwargs...)` is deprecated, use `Meta.parse(str, pos; kwargs...)` instead.
 │   caller = #parseblock#1(::Int64, ::Bool, ::Function, ::String, ::Documenter.Documents.Document, ::Documenter.Documents.Page) at Utilities.jl:133
 └ @ Documenter.Utilities Utilities.jl:133
@@ -254,6 +266,9 @@ WARNING: Base.Void is deprecated, use Nothing instead.
 ┌ Warning: `replace(s::AbstractString, pat, f)` is deprecated, use `replace(s, pat => f)` instead.
 │   caller = doctest(::Base.Markdown.Code, ::Dict{Symbol,Any}, ::Documenter.Documents.Document, ::Documenter.Documents.Page) at DocChecks.jl:130
 └ @ Documenter.DocChecks DocChecks.jl:130
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
+│   caller = doctest(::Base.Markdown.Code, ::Dict{Symbol,Any}, ::Documenter.Documents.Document, ::Documenter.Documents.Page) at DocChecks.jl:136
+└ @ Documenter.DocChecks DocChecks.jl:136
 WARNING: Base.Void is deprecated, use Nothing instead.
   likely near /home/vagrant/.julia/v0.7/NumberedLines/test/runtests.jl:4
 WARNING: Base.Void is deprecated, use Nothing instead.
@@ -261,6 +276,9 @@ WARNING: Base.Void is deprecated, use Nothing instead.
 ┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
 │   caller = repl_splitter(::String) at DocChecks.jl:354
 └ @ Documenter.DocChecks DocChecks.jl:354
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
+│   caller = takeuntil!(::Regex, ::Base.GenericIOBuffer{Array{UInt8,1}}, ::Array{SubString{String},1}) at DocChecks.jl:387
+└ @ Documenter.DocChecks DocChecks.jl:387
 ┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
 │   caller = takeuntil!(::Regex, ::Base.GenericIOBuffer{Array{UInt8,1}}, ::Array{SubString{String},1}) at DocChecks.jl:388
 └ @ Documenter.DocChecks DocChecks.jl:388
@@ -276,184 +294,6 @@ WARNING: Base.Void is deprecated, use Nothing instead.
 ┌ Warning: `replace(s::AbstractString, pat, f)` is deprecated, use `replace(s, pat => f)` instead.
 │   caller = checkresult(::Module, ::Documenter.DocChecks.Result, ::Dict{Symbol,Any}, ::Documenter.Documents.Document) at DocChecks.jl:264
 └ @ Documenter.DocChecks DocChecks.jl:264
-=====[Test Error]==============================
-
-> File: src/index.md
-
-> Code block:
-
-```jldoctest
-julia> using NumberedLines
-
-julia> link(head, tail::Expr) = Expr(:let, tail, Expr( :(=), :_, wrap(head) ) );
-
-julia> link(head, tail::NumberedLine) = without_line_number(tail) do tail
-           link(head, tail)
-       end;
-
-julia> simple_chain(e) = with_numbered_lines(e) do e
-           foldl(link, e.args) |> wrap
-       end;
-
-julia> macro simple_chain(e)
-           simple_chain(e)
-       end;
-
-julia> @simple_chain begin
-           1
-           vcat(2,_)
-           vcat(_,3)
-       end
-3-element Array{Int64,1}:
- 2
- 1
- 3
-```
-
-> Subexpression:
-
-    link(head, tail::Expr) = Expr(:let, tail, Expr( :(=), :_, wrap(head) ) );
-
-> Output Diff (REQUIRES COLOR):
-
-link (generic function with 1 method)
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: src/index.md
-
-> Code block:
-
-```jldoctest
-julia> using NumberedLines
-
-julia> link(head, tail::Expr) = Expr(:let, tail, Expr( :(=), :_, wrap(head) ) );
-
-julia> link(head, tail::NumberedLine) = without_line_number(tail) do tail
-           link(head, tail)
-       end;
-
-julia> simple_chain(e) = with_numbered_lines(e) do e
-           foldl(link, e.args) |> wrap
-       end;
-
-julia> macro simple_chain(e)
-           simple_chain(e)
-       end;
-
-julia> @simple_chain begin
-           1
-           vcat(2,_)
-           vcat(_,3)
-       end
-3-element Array{Int64,1}:
- 2
- 1
- 3
-```
-
-> Subexpression:
-
-    link(head, tail::NumberedLine) = without_line_number(tail) do tail
-        link(head, tail)
-    end;
-
-> Output Diff (REQUIRES COLOR):
-
-link (generic function with 2 methods)
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: src/index.md
-
-> Code block:
-
-```jldoctest
-julia> using NumberedLines
-
-julia> link(head, tail::Expr) = Expr(:let, tail, Expr( :(=), :_, wrap(head) ) );
-
-julia> link(head, tail::NumberedLine) = without_line_number(tail) do tail
-           link(head, tail)
-       end;
-
-julia> simple_chain(e) = with_numbered_lines(e) do e
-           foldl(link, e.args) |> wrap
-       end;
-
-julia> macro simple_chain(e)
-           simple_chain(e)
-       end;
-
-julia> @simple_chain begin
-           1
-           vcat(2,_)
-           vcat(_,3)
-       end
-3-element Array{Int64,1}:
- 2
- 1
- 3
-```
-
-> Subexpression:
-
-    simple_chain(e) = with_numbered_lines(e) do e
-        foldl(link, e.args) |> wrap
-    end;
-
-> Output Diff (REQUIRES COLOR):
-
-simple_chain (generic function with 1 method)
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: src/index.md
-
-> Code block:
-
-```jldoctest
-julia> using NumberedLines
-
-julia> link(head, tail::Expr) = Expr(:let, tail, Expr( :(=), :_, wrap(head) ) );
-
-julia> link(head, tail::NumberedLine) = without_line_number(tail) do tail
-           link(head, tail)
-       end;
-
-julia> simple_chain(e) = with_numbered_lines(e) do e
-           foldl(link, e.args) |> wrap
-       end;
-
-julia> macro simple_chain(e)
-           simple_chain(e)
-       end;
-
-julia> @simple_chain begin
-           1
-           vcat(2,_)
-           vcat(_,3)
-       end
-3-element Array{Int64,1}:
- 2
- 1
- 3
-```
-
-> Subexpression:
-
-    macro simple_chain(e)
-        simple_chain(e)
-    end;
-
-> Output Diff (REQUIRES COLOR):
-
-@simple_chain (macro with 1 method)
-
-=====[End Error]===============================
 ┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
 │   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:152
 └ @ NumberedLines numbered_lines.jl:152
@@ -639,56 +479,6 @@ end
 
 > Subexpression:
 
-    e = quote
-        a = 1
-        if a == 1
-            2
-        end
-    end |> attach_line_numbers;
-
-> Output Diff (REQUIRES COLOR):
-
-quote
-    #= none:2 =#
-    a = 1
-    #= none:3 =#
-    if a == 1
-        #= none:4 =#
-        2
-    end
-end
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl
-
-> Code block:
-
-```jldoctest
-julia> using NumberedLines
-
-julia> e = quote
-           a = 1
-           if a == 1
-               2
-           end
-       end |> attach_line_numbers;
-
-julia> NumberedLines.pretty_number(e) # renumber for reproducibility
-quote
-     # line 1:
-    a = 1
-     # line 2:
-    if a == 1
-         # line 3:
-        2
-    end
-end
-```
-
-> Subexpression:
-
     NumberedLines.pretty_number(e) # renumber for reproducibility
 
 > Output Diff (REQUIRES COLOR):
@@ -707,119 +497,6 @@ quote
         3 =#
         2
     end
-end
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl
-
-> Code block:
-
-```jldoctest
-julia> using NumberedLines
-
-julia> e_attached = quote
-           1
-       end |> attach_line_numbers;
-
-julia> e_attached == attach_line_numbers(e_attached)
-true
-```
-
-> Subexpression:
-
-    e_attached = quote
-        1
-    end |> attach_line_numbers;
-
-> Output Diff (REQUIRES COLOR):
-
-quote
-    #= none:2 =#
-    1
-end
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl
-
-> Code block:
-
-```jldoctest
-julia> using NumberedLines
-
-julia> e = quote
-           a = 1
-           if a == 1
-               2
-           end
-       end;
-
-julia> e |> attach_line_numbers |> detach_line_numbers == e
-true
-```
-
-> Subexpression:
-
-    e = quote
-        a = 1
-        if a == 1
-            2
-        end
-    end;
-
-> Output Diff (REQUIRES COLOR):
-
-quote
-    #= none:2 =#
-    a = 1
-    #= none:3 =#
-    if a == 1
-        #= none:4 =#
-        2
-    end
-end
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl
-
-> Code block:
-
-```jldoctest
-julia> using NumberedLines
-
-julia> e = quote
-            a = 1
-            b = 2
-        end;
-
-julia> insert_line_number(attach_line_numbers(e), LineNumberNode(1))
-quote
-     # line 1:
-    a = 1
-     # line 1:
-    b = 2
-end
-```
-
-> Subexpression:
-
-    e = quote
-         a = 1
-         b = 2
-     end;
-
-> Output Diff (REQUIRES COLOR):
-
-quote
-    #= none:2 =#
-    a = 1
-    #= none:3 =#
-    b = 2
 end
 
 =====[End Error]===============================
@@ -886,38 +563,6 @@ end
 
 > Subexpression:
 
-    e = :(a = 1; b = 2);
-
-> Output Diff (REQUIRES COLOR):
-
-quote
-    a = 1
-    b = 2
-end
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl
-
-> Code block:
-
-```jldoctest
-julia> using NumberedLines
-
-julia> e = :(a = 1; b = 2);
-
-julia> insert_line_number(e, LineNumberNode(1))
-quote
-     # line 1:
-    a = 1
-     # line 1:
-    b = 2
-end
-```
-
-> Subexpression:
-
     insert_line_number(e, LineNumberNode(1))
 
 > Output Diff (REQUIRES COLOR):
@@ -932,174 +577,6 @@ quote
     1 =#
     b = 2
 end
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl
-
-> Code block:
-
-```jldoctest
-julia> using NumberedLines
-
-julia> is_line_number(1)
-false
-
-julia> node = LineNumberNode(1);
-
-julia> is_line_number(node)
-true
-
-julia> is_line_number( NumberedLine(1, node))
-false
-```
-
-> Subexpression:
-
-    node = LineNumberNode(1);
-
-> Output Diff (REQUIRES COLOR):
-
-:(#= line 1 =#)
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl
-
-> Code block:
-
-```jldoctest
-julia> using NumberedLines
-
-julia> reverse_lines(e) = Expr(e.head, e.args[2], e.args[1]);
-
-julia> e = quote
-           1
-           2
-       end;
-
-julia> result = with_numbered_lines(reverse_lines, e);
-
-julia> (2, 1) == ( result.args[2], result.args[4] )
-true
-```
-
-> Subexpression:
-
-    reverse_lines(e) = Expr(e.head, e.args[2], e.args[1]);
-
-> Output Diff (REQUIRES COLOR):
-
-reverse_lines (generic function with 1 method)
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl
-
-> Code block:
-
-```jldoctest
-julia> using NumberedLines
-
-julia> reverse_lines(e) = Expr(e.head, e.args[2], e.args[1]);
-
-julia> e = quote
-           1
-           2
-       end;
-
-julia> result = with_numbered_lines(reverse_lines, e);
-
-julia> (2, 1) == ( result.args[2], result.args[4] )
-true
-```
-
-> Subexpression:
-
-    e = quote
-        1
-        2
-    end;
-
-> Output Diff (REQUIRES COLOR):
-
-quote
-    #= none:2 =#
-    1
-    #= none:3 =#
-    2
-end
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl
-
-> Code block:
-
-```jldoctest
-julia> using NumberedLines
-
-julia> reverse_lines(e) = Expr(e.head, e.args[2], e.args[1]);
-
-julia> e = quote
-           1
-           2
-       end;
-
-julia> result = with_numbered_lines(reverse_lines, e);
-
-julia> (2, 1) == ( result.args[2], result.args[4] )
-true
-```
-
-> Subexpression:
-
-    result = with_numbered_lines(reverse_lines, e);
-
-> Output Diff (REQUIRES COLOR):
-
-quote
-    #= none:3 =#
-    2
-    #= none:2 =#
-    1
-end
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl
-
-> Code block:
-
-```jldoctest
-julia> using NumberedLines
-
-julia> add_one(a) = :($a + 1);
-
-julia> without_line_number(add_one, 1)
-:(1 + 1)
-
-julia> n = NumberedLine(LineNumberNode(1), 1)
-:( # line 1:
-    1)
-
-julia> without_line_number(add_one, n)
-:( # line 1:
-    1 + 1)
-```
-
-> Subexpression:
-
-    add_one(a) = :($a + 1);
-
-> Output Diff (REQUIRES COLOR):
-
-add_one (generic function with 1 method)
 
 =====[End Error]===============================
 =====[Test Error]==============================
