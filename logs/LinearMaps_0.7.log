@@ -1,25 +1,25 @@
 >>> 'Pkg.add("LinearMaps")' log
-[ Info: Installing LinearMaps v1.0.4 @ Base.Pkg.Entry entry.jl:543
-[ Info: Package database updated @ Base.Pkg.Entry entry.jl:32
+[ Info: Installing LinearMaps v1.0.4               @ Base.Pkg.Entry entry.jl:543
+[ Info: Package database updated                    @ Base.Pkg.Entry entry.jl:32
 ┌ Info: METADATA is out-of-date — you may not have the latest version of LinearMaps
 │ Use `Pkg.update()` to get the latest versions of your packages
-└ @ Base.Pkg.Entry entry.jl:74
+└                                                   @ Base.Pkg.Entry entry.jl:74
 
 >>> 'Pkg.test("LinearMaps")' log
-Julia Version 0.7.0-DEV.3309
-Commit b96097b66f (2018-01-07 00:26 UTC)
+Julia Version 0.7.0-DEV.3351
+Commit 09f7213c94 (2018-01-09 01:31 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3500 MHz    2627286 s        104 s     135572 s     649306 s         14 s
-       #2  3500 MHz     529189 s         80 s      53318 s    3401005 s          0 s
+       #1  3500 MHz    2705307 s        126 s     142435 s     726537 s         15 s
+       #2  3500 MHz     574312 s       6808 s      57204 s    3517614 s          0 s
        
-  Memory: 2.93927001953125 GB (678.171875 MB free)
-  Uptime: 40456.0 sec
-  Load Avg:  0.99267578125  0.9853515625  1.03515625
+  Memory: 2.93927001953125 GB (666.3125 MB free)
+  Uptime: 42282.0 sec
+  Load Avg:  1.02880859375  1.0283203125  1.04541015625
   WORD_SIZE: 64
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -40,37 +40,142 @@ Packages:
 2 additional packages:
  - Compat                        0.43.0
  - Nullables                     0.0.2
-[ Info: Testing LinearMaps @ Base.Pkg.Entry entry.jl:723
+[ Info: Testing LinearMaps                         @ Base.Pkg.Entry entry.jl:723
 WARNING: Base.Complex128 is deprecated, use ComplexF64 instead.
   likely near /home/vagrant/.julia/v0.7/LinearMaps/test/runtests.jl:23
 WARNING: Base.Complex128 is deprecated, use ComplexF64 instead.
   likely near /home/vagrant/.julia/v0.7/LinearMaps/test/runtests.jl:24
 WARNING: Base.Complex128 is deprecated, use ComplexF64 instead.
   likely near /home/vagrant/.julia/v0.7/LinearMaps/test/runtests.jl:25
-Error During Test at /home/vagrant/.julia/v0.7/LinearMaps/test/runtests.jl:32
-  Test threw an exception of type MethodError
-  Expression: M' * w == A' * w
-  MethodError: no method matching size(::Adjoint{Complex{Float64},LinearMaps.WrappedMap{Complex{Float64},Array{Complex{Float64},2}}})
-  Closest candidates are:
-    size(::AbstractArray{T,N}, !Matched::Any) where {T, N} at abstractarray.jl:43
-    size(::Any, !Matched::Integer, !Matched::Integer, !Matched::Integer...) where N at abstractarray.jl:44
-    size(!Matched::BitArray{1}) at bitarray.jl:70
-    ...
-  Stacktrace:
-   [1] size(::Adjoint{Complex{Float64},LinearMaps.WrappedMap{Complex{Float64},Array{Complex{Float64},2}}}, ::Int64) at ./abstractarray.jl:43
-   [2] *(::Adjoint{Complex{Float64},LinearMaps.WrappedMap{Complex{Float64},Array{Complex{Float64},2}}}, ::Array{Complex{Float64},1}) at ./linalg/matmul.jl:80
-   [3] top-level scope
-   [4] include at ./boot.jl:295 [inlined]
-   [5] include_relative(::Module, ::String) at ./loading.jl:521
-   [6] include(::Module, ::String) at ./sysimg.jl:26
-   [7] process_options(::Base.JLOptions) at ./client.jl:324
-   [8] _start() at ./client.jl:375
-ERROR: LoadError: There was an error during testing
-in expression starting at /home/vagrant/.julia/v0.7/LinearMaps/test/runtests.jl:32
-┌ Error: ------------------------------------------------------------
-│ # Testing failed for LinearMaps
-│   exception = ErrorException("failed process: Process(`/home/vagrant/julia/bin/julia -Cnative -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --code-coverage=none --color=no --compiled-modules=yes --check-bounds=yes --warn-overwrite=yes --startup-file=yes /home/vagrant/.julia/v0.7/LinearMaps/test/runtests.jl`, ProcessExited(1)) [1]")
-└ @ Base.Pkg.Entry entry.jl:739
-ERROR: LinearMaps had test errors
+┌ Warning: `Ac_mul_B(A::StridedMatrix{T}, x::StridedVector{S}) where {T <: BlasFloat, S}` is deprecated, use `adjoint(A) * x` instead.
+│   caller = Ac_mul_B at wrappedmap.jl:35 [inlined]
+└                                                        @ Core wrappedmap.jl:35
+┌ Warning: The syntax `.'` for transposition is deprecated, and the special lowering of `.'` in multiplication (`*`), left-division (`\`), and right-division (`/`) operations, for example `A.'*B` lowering to `At_mul_B(A, B)`, `A\B.'` lowering to `A_ldiv_Bt(A, B)`, and `A.'/B.'` lowering to `At_rdiv_Bt(A, B)`, has been removed in favor of a lazy `Transpose` wrapper type and dispatch on that type. Two rewrites for `A.'` for matrix `A` exist: eager or materializing `transpose(A)`, which constructs a freshly allocated matrix of `A`'s type and containing the transpose of `A`, and lazy `Transpose(A)`, which wraps `A` in a `Transpose` view type. Which rewrite is appropriate depends on context: If `A.'` appears in a multiplication, left-division, or right-division operation that was formerly specially lowered to an `A_mul_B`-like call, then the lazy `Tranpose(A)` is the correct replacement and will result in dispatch to a method equivalent to the former `A_mul_B`-like call. For example, `A.'*B`, formerly yielding `At_mul_B(A, B)`, should be rewritten `Transpose(A)*B`, which will dispatch to a method equivalent to the former `At_mul_B(A, B)` method. If `A.'` appears outside such an operation, then `transpose(A)` is the correct rewrite. For vector `A`, `A.'` already transposed lazily to a `RowVector`, so `Transpose(A)`. which now yields a `Transpose`-wrapped vector behaviorally equivalent to the former `RowVector` is always the correct rewrite for vectors. For more information, see issue #5332 on Julia's issue tracker on GitHub.
+└                                                               @ nothing none:0
+┌ Warning: The syntax `.'` for transposition is deprecated, and the special lowering of `.'` in multiplication (`*`), left-division (`\`), and right-division (`/`) operations, for example `A.'*B` lowering to `At_mul_B(A, B)`, `A\B.'` lowering to `A_ldiv_Bt(A, B)`, and `A.'/B.'` lowering to `At_rdiv_Bt(A, B)`, has been removed in favor of a lazy `Transpose` wrapper type and dispatch on that type. Two rewrites for `A.'` for matrix `A` exist: eager or materializing `transpose(A)`, which constructs a freshly allocated matrix of `A`'s type and containing the transpose of `A`, and lazy `Transpose(A)`, which wraps `A` in a `Transpose` view type. Which rewrite is appropriate depends on context: If `A.'` appears in a multiplication, left-division, or right-division operation that was formerly specially lowered to an `A_mul_B`-like call, then the lazy `Tranpose(A)` is the correct replacement and will result in dispatch to a method equivalent to the former `A_mul_B`-like call. For example, `A.'*B`, formerly yielding `At_mul_B(A, B)`, should be rewritten `Transpose(A)*B`, which will dispatch to a method equivalent to the former `At_mul_B(A, B)` method. If `A.'` appears outside such an operation, then `transpose(A)` is the correct rewrite. For vector `A`, `A.'` already transposed lazily to a `RowVector`, so `Transpose(A)`. which now yields a `Transpose`-wrapped vector behaviorally equivalent to the former `RowVector` is always the correct rewrite for vectors. For more information, see issue #5332 on Julia's issue tracker on GitHub.
+└                                                               @ nothing none:0
+┌ Warning: `At_mul_B(A::StridedMatrix{T}, x::StridedVector{S}) where {T <: BlasFloat, S}` is deprecated, use `transpose(A) * x` instead.
+│   caller = At_mul_B at wrappedmap.jl:30 [inlined]
+└                                                        @ Core wrappedmap.jl:30
+┌ Warning: `A_mul_B!(y::StridedVector{T}, A::StridedVecOrMat{T}, x::StridedVector{T}) where T <: BlasFloat` is deprecated, use `mul!(y, A, x)` instead.
+│   caller = A_mul_B! at wrappedmap.jl:25 [inlined]
+└                                                        @ Core wrappedmap.jl:25
+┌ Warning: `Ac_mul_B!(y::StridedVector{T}, A::StridedVecOrMat{T}, x::StridedVector{T}) where T <: BlasComplex` is deprecated, use `mul!(y, adjoint(A), x)` instead.
+│   caller = Ac_mul_B! at wrappedmap.jl:33 [inlined]
+└                                                        @ Core wrappedmap.jl:33
+┌ Warning: The syntax `.'` for transposition is deprecated, and the special lowering of `.'` in multiplication (`*`), left-division (`\`), and right-division (`/`) operations, for example `A.'*B` lowering to `At_mul_B(A, B)`, `A\B.'` lowering to `A_ldiv_Bt(A, B)`, and `A.'/B.'` lowering to `At_rdiv_Bt(A, B)`, has been removed in favor of a lazy `Transpose` wrapper type and dispatch on that type. Two rewrites for `A.'` for matrix `A` exist: eager or materializing `transpose(A)`, which constructs a freshly allocated matrix of `A`'s type and containing the transpose of `A`, and lazy `Transpose(A)`, which wraps `A` in a `Transpose` view type. Which rewrite is appropriate depends on context: If `A.'` appears in a multiplication, left-division, or right-division operation that was formerly specially lowered to an `A_mul_B`-like call, then the lazy `Tranpose(A)` is the correct replacement and will result in dispatch to a method equivalent to the former `A_mul_B`-like call. For example, `A.'*B`, formerly yielding `At_mul_B(A, B)`, should be rewritten `Transpose(A)*B`, which will dispatch to a method equivalent to the former `At_mul_B(A, B)` method. If `A.'` appears outside such an operation, then `transpose(A)` is the correct rewrite. For vector `A`, `A.'` already transposed lazily to a `RowVector`, so `Transpose(A)`. which now yields a `Transpose`-wrapped vector behaviorally equivalent to the former `RowVector` is always the correct rewrite for vectors. For more information, see issue #5332 on Julia's issue tracker on GitHub.
+└                                                               @ nothing none:0
+┌ Warning: The syntax `.'` for transposition is deprecated, and the special lowering of `.'` in multiplication (`*`), left-division (`\`), and right-division (`/`) operations, for example `A.'*B` lowering to `At_mul_B(A, B)`, `A\B.'` lowering to `A_ldiv_Bt(A, B)`, and `A.'/B.'` lowering to `At_rdiv_Bt(A, B)`, has been removed in favor of a lazy `Transpose` wrapper type and dispatch on that type. Two rewrites for `A.'` for matrix `A` exist: eager or materializing `transpose(A)`, which constructs a freshly allocated matrix of `A`'s type and containing the transpose of `A`, and lazy `Transpose(A)`, which wraps `A` in a `Transpose` view type. Which rewrite is appropriate depends on context: If `A.'` appears in a multiplication, left-division, or right-division operation that was formerly specially lowered to an `A_mul_B`-like call, then the lazy `Tranpose(A)` is the correct replacement and will result in dispatch to a method equivalent to the former `A_mul_B`-like call. For example, `A.'*B`, formerly yielding `At_mul_B(A, B)`, should be rewritten `Transpose(A)*B`, which will dispatch to a method equivalent to the former `At_mul_B(A, B)` method. If `A.'` appears outside such an operation, then `transpose(A)` is the correct rewrite. For vector `A`, `A.'` already transposed lazily to a `RowVector`, so `Transpose(A)`. which now yields a `Transpose`-wrapped vector behaviorally equivalent to the former `RowVector` is always the correct rewrite for vectors. For more information, see issue #5332 on Julia's issue tracker on GitHub.
+└                                                               @ nothing none:0
+┌ Warning: `At_mul_B!(y::StridedVector{T}, A::StridedVecOrMat{T}, x::StridedVector{T}) where T <: BlasFloat` is deprecated, use `mul!(y, transpose(A), x)` instead.
+│   caller = At_mul_B! at wrappedmap.jl:28 [inlined]
+└                                                        @ Core wrappedmap.jl:28
+┌ Warning: `Array{T, 1}(m::Int) where T` is deprecated, use `Array{T, 1}(uninitialized, m)` instead.
+│   caller = sparse(::LinearMaps.WrappedMap{Complex{Float64},Array{Complex{Float64},2}}) at LinearMaps.jl:97
+└                                                  @ LinearMaps LinearMaps.jl:97
+┌ Warning: In the future `find(A)` will only work on boolean collections. Use `find(x->x!=0, A)` instead.
+│   caller = sparse(::LinearMaps.WrappedMap{Complex{Float64},Array{Complex{Float64},2}}) at LinearMaps.jl:103
+└                                                 @ LinearMaps LinearMaps.jl:103
+┌ Warning: `copy!(dst::AbstractArray, src::AbstractArray)` is deprecated. You can either use `copyto!(dst, src)` or `Future.copy!(dst, src)` instead.
+│   caller = A_mul_B!(::SubArray{Float64,1,Array{Float64,2},Tuple{Base.Slice{Base.OneTo{Int64}},Int64},true}, ::LinearMaps.FunctionMap{Float64,typeof(cumsum),Nothing}, ::Array{Float64,1}) at functionmap.jl:38
+└                                                 @ LinearMaps functionmap.jl:38
+WARNING: Base.Complex128 is deprecated, use ComplexF64 instead.
+  likely near /home/vagrant/.julia/v0.7/LinearMaps/test/runtests.jl:52
+┌ Warning: `copy!(dst::AbstractArray, src::AbstractArray)` is deprecated. You can either use `copyto!(dst, src)` or `Future.copy!(dst, src)` instead.
+│   caller = A_mul_B!(::SubArray{Complex{Float64},1,Array{Complex{Float64},2},Tuple{Base.Slice{Base.OneTo{Int64}},Int64},true}, ::LinearMaps.FunctionMap{Complex{Float64},typeof(myft),Nothing}, ::Array{Complex{Float64},1}) at functionmap.jl:38
+└                                                 @ LinearMaps functionmap.jl:38
+┌ Warning: `eye(m::Integer)` has been deprecated in favor of `I` and `Matrix` constructors. For a direct replacement, consider `Matrix(1.0I, m, m)` or `Matrix{Float64}(I, m, m)`. If `Float64` element type is not necessary, consider the shorter `Matrix(I, m, m)` (with default `eltype(I)` `Bool`).
+│   caller = top-level scope
+└                                                                      @ Core :0
+┌ Warning: `copy!(dst::AbstractArray, src::AbstractArray)` is deprecated. You can either use `copyto!(dst, src)` or `Future.copy!(dst, src)` instead.
+│   caller = At_mul_B!(::Array{Float64,1}, ::LinearMaps.FunctionMap{Float64,getfield(, Symbol("##3#5")),getfield(, Symbol("##4#6"))}, ::Array{Float64,1}) at functionmap.jl:59
+└                                                 @ LinearMaps functionmap.jl:59
+WARNING: Base.Complex128 is deprecated, use ComplexF64 instead.
+  likely near /home/vagrant/.julia/v0.7/LinearMaps/test/runtests.jl:66
+WARNING: Base.Complex128 is deprecated, use ComplexF64 instead.
+  likely near /home/vagrant/.julia/v0.7/LinearMaps/test/runtests.jl:68
+┌ Warning: `A_mul_B!(y::StridedVector{T}, A::StridedVecOrMat{T}, x::StridedVector{T}) where T <: BlasFloat` is deprecated, use `mul!(y, A, x)` instead.
+│   caller = A_mul_B! at wrappedmap.jl:25 [inlined]
+└                                                        @ Core wrappedmap.jl:25
+┌ Warning: `A_mul_B!(y::StridedVector{T}, A::StridedVecOrMat{T}, x::StridedVector{T}) where T <: BlasFloat` is deprecated, use `mul!(y, A, x)` instead.
+│   caller = A_mul_B! at wrappedmap.jl:25 [inlined]
+└                                                        @ Core wrappedmap.jl:25
+┌ Warning: `A_mul_B!(y::StridedVector{T}, A::StridedVecOrMat{T}, x::StridedVector{T}) where T <: BlasFloat` is deprecated, use `mul!(y, A, x)` instead.
+│   caller = A_mul_B! at wrappedmap.jl:25 [inlined]
+└                                                        @ Core wrappedmap.jl:25
+┌ Warning: `A_mul_B!(y::StridedVector{T}, A::StridedVecOrMat{T}, x::StridedVector{T}) where T <: BlasFloat` is deprecated, use `mul!(y, A, x)` instead.
+│   caller = A_mul_B! at wrappedmap.jl:25 [inlined]
+└                                                        @ Core wrappedmap.jl:25
+┌ Warning: `Ac_mul_B!(y::StridedVector{T}, A::StridedVecOrMat{T}, x::StridedVector{T}) where T <: BlasComplex` is deprecated, use `mul!(y, adjoint(A), x)` instead.
+│   caller = Ac_mul_B! at wrappedmap.jl:33 [inlined]
+└                                                        @ Core wrappedmap.jl:33
+┌ Warning: `copy!(dst::AbstractArray, src::AbstractArray)` is deprecated. You can either use `copyto!(dst, src)` or `Future.copy!(dst, src)` instead.
+│   caller = A_mul_B!(::Array{Complex{Float64},1}, ::LinearMaps.FunctionMap{Float64,typeof(cumsum),Nothing}, ::Array{Complex{Float64},1}) at functionmap.jl:38
+└                                                 @ LinearMaps functionmap.jl:38
+┌ Warning: `Ac_mul_B!(y::StridedVector{T}, A::StridedVecOrMat{T}, x::StridedVector{T}) where T <: BlasComplex` is deprecated, use `mul!(y, adjoint(A), x)` instead.
+│   caller = Ac_mul_B! at wrappedmap.jl:33 [inlined]
+└                                                        @ Core wrappedmap.jl:33
+┌ Warning: `copy!(dst::AbstractArray, src::AbstractArray)` is deprecated. You can either use `copyto!(dst, src)` or `Future.copy!(dst, src)` instead.
+│   caller = A_mul_B!(::Array{Complex{Float64},1}, ::LinearMaps.IdentityMap{Int64}, ::Array{Complex{Float64},1}) at identitymap.jl:19
+└                                                 @ LinearMaps identitymap.jl:19
+┌ Warning: `Array{T}(m::Int) where T` is deprecated, use `Array{T}(uninitialized, m)` instead.
+│   caller = A_mul_B!(::Array{Complex{Float64},1}, ::LinearMaps.CompositeMap{Float64,Tuple{LinearMaps.FunctionMap{Float64,typeof(cumsum),Nothing},LinearMaps.FunctionMap{Float64,typeof(cumsum),Nothing}}}, ::Array{Complex{Float64},1}) at composition.jl:86
+└                                                 @ LinearMaps composition.jl:86
+┌ Warning: `Array{T}(m::Int) where T` is deprecated, use `Array{T}(uninitialized, m)` instead.
+│   caller = A_mul_B!(::Array{Complex{Float64},1}, ::LinearMaps.CompositeMap{Complex{Float64},Tuple{LinearMaps.WrappedMap{Complex{Float64},Array{Complex{Float64},2}},LinearMaps.FunctionMap{Float64,typeof(cumsum),Nothing}}}, ::Array{Complex{Float64},1}) at composition.jl:86
+└                                                 @ LinearMaps composition.jl:86
+┌ Warning: `A_mul_B!(y::StridedVector{T}, A::StridedVecOrMat{T}, x::StridedVector{T}) where T <: BlasFloat` is deprecated, use `mul!(y, A, x)` instead.
+│   caller = A_mul_B! at wrappedmap.jl:25 [inlined]
+└                                                        @ Core wrappedmap.jl:25
+┌ Warning: The syntax `.'` for transposition is deprecated, and the special lowering of `.'` in multiplication (`*`), left-division (`\`), and right-division (`/`) operations, for example `A.'*B` lowering to `At_mul_B(A, B)`, `A\B.'` lowering to `A_ldiv_Bt(A, B)`, and `A.'/B.'` lowering to `At_rdiv_Bt(A, B)`, has been removed in favor of a lazy `Transpose` wrapper type and dispatch on that type. Two rewrites for `A.'` for matrix `A` exist: eager or materializing `transpose(A)`, which constructs a freshly allocated matrix of `A`'s type and containing the transpose of `A`, and lazy `Transpose(A)`, which wraps `A` in a `Transpose` view type. Which rewrite is appropriate depends on context: If `A.'` appears in a multiplication, left-division, or right-division operation that was formerly specially lowered to an `A_mul_B`-like call, then the lazy `Tranpose(A)` is the correct replacement and will result in dispatch to a method equivalent to the former `A_mul_B`-like call. For example, `A.'*B`, formerly yielding `At_mul_B(A, B)`, should be rewritten `Transpose(A)*B`, which will dispatch to a method equivalent to the former `At_mul_B(A, B)` method. If `A.'` appears outside such an operation, then `transpose(A)` is the correct rewrite. For vector `A`, `A.'` already transposed lazily to a `RowVector`, so `Transpose(A)`. which now yields a `Transpose`-wrapped vector behaviorally equivalent to the former `RowVector` is always the correct rewrite for vectors. For more information, see issue #5332 on Julia's issue tracker on GitHub.
+└                                                               @ nothing none:0
+┌ Warning: The syntax `.'` for transposition is deprecated, and the special lowering of `.'` in multiplication (`*`), left-division (`\`), and right-division (`/`) operations, for example `A.'*B` lowering to `At_mul_B(A, B)`, `A\B.'` lowering to `A_ldiv_Bt(A, B)`, and `A.'/B.'` lowering to `At_rdiv_Bt(A, B)`, has been removed in favor of a lazy `Transpose` wrapper type and dispatch on that type. Two rewrites for `A.'` for matrix `A` exist: eager or materializing `transpose(A)`, which constructs a freshly allocated matrix of `A`'s type and containing the transpose of `A`, and lazy `Transpose(A)`, which wraps `A` in a `Transpose` view type. Which rewrite is appropriate depends on context: If `A.'` appears in a multiplication, left-division, or right-division operation that was formerly specially lowered to an `A_mul_B`-like call, then the lazy `Tranpose(A)` is the correct replacement and will result in dispatch to a method equivalent to the former `A_mul_B`-like call. For example, `A.'*B`, formerly yielding `At_mul_B(A, B)`, should be rewritten `Transpose(A)*B`, which will dispatch to a method equivalent to the former `At_mul_B(A, B)` method. If `A.'` appears outside such an operation, then `transpose(A)` is the correct rewrite. For vector `A`, `A.'` already transposed lazily to a `RowVector`, so `Transpose(A)`. which now yields a `Transpose`-wrapped vector behaviorally equivalent to the former `RowVector` is always the correct rewrite for vectors. For more information, see issue #5332 on Julia's issue tracker on GitHub.
+└                                                               @ nothing none:0
+┌ Warning: `Array{T}(m::Int) where T` is deprecated, use `Array{T}(uninitialized, m)` instead.
+│   caller = A_mul_B!(::SubArray{Complex{Float64},1,Array{Complex{Float64},2},Tuple{Base.Slice{Base.OneTo{Int64}},Int64},true}, ::LinearMaps.CompositeMap{Complex{Float64},Tuple{LinearMaps.TransposeMap{Complex{Float64},LinearMaps.WrappedMap{Complex{Float64},Array{Complex{Float64},2}}},LinearMaps.WrappedMap{Complex{Float64},Array{Complex{Float64},2}}}}, ::Array{Complex{Float64},1}) at composition.jl:86
+└                                                 @ LinearMaps composition.jl:86
+┌ Warning: `At_mul_B!(y::StridedVector{T}, A::StridedVecOrMat{T}, x::StridedVector{T}) where T <: BlasFloat` is deprecated, use `mul!(y, transpose(A), x)` instead.
+│   caller = At_mul_B! at wrappedmap.jl:28 [inlined]
+└                                                        @ Core wrappedmap.jl:28
+┌ Warning: `A_mul_B!(y::StridedVector{T}, A::StridedVecOrMat{T}, x::StridedVector{T}) where T <: BlasFloat` is deprecated, use `mul!(y, A, x)` instead.
+│   caller = A_mul_B! at wrappedmap.jl:25 [inlined]
+└                                                        @ Core wrappedmap.jl:25
+┌ Warning: The syntax `.'` for transposition is deprecated, and the special lowering of `.'` in multiplication (`*`), left-division (`\`), and right-division (`/`) operations, for example `A.'*B` lowering to `At_mul_B(A, B)`, `A\B.'` lowering to `A_ldiv_Bt(A, B)`, and `A.'/B.'` lowering to `At_rdiv_Bt(A, B)`, has been removed in favor of a lazy `Transpose` wrapper type and dispatch on that type. Two rewrites for `A.'` for matrix `A` exist: eager or materializing `transpose(A)`, which constructs a freshly allocated matrix of `A`'s type and containing the transpose of `A`, and lazy `Transpose(A)`, which wraps `A` in a `Transpose` view type. Which rewrite is appropriate depends on context: If `A.'` appears in a multiplication, left-division, or right-division operation that was formerly specially lowered to an `A_mul_B`-like call, then the lazy `Tranpose(A)` is the correct replacement and will result in dispatch to a method equivalent to the former `A_mul_B`-like call. For example, `A.'*B`, formerly yielding `At_mul_B(A, B)`, should be rewritten `Transpose(A)*B`, which will dispatch to a method equivalent to the former `At_mul_B(A, B)` method. If `A.'` appears outside such an operation, then `transpose(A)` is the correct rewrite. For vector `A`, `A.'` already transposed lazily to a `RowVector`, so `Transpose(A)`. which now yields a `Transpose`-wrapped vector behaviorally equivalent to the former `RowVector` is always the correct rewrite for vectors. For more information, see issue #5332 on Julia's issue tracker on GitHub.
+└                                                               @ nothing none:0
+┌ Warning: The syntax `.'` for transposition is deprecated, and the special lowering of `.'` in multiplication (`*`), left-division (`\`), and right-division (`/`) operations, for example `A.'*B` lowering to `At_mul_B(A, B)`, `A\B.'` lowering to `A_ldiv_Bt(A, B)`, and `A.'/B.'` lowering to `At_rdiv_Bt(A, B)`, has been removed in favor of a lazy `Transpose` wrapper type and dispatch on that type. Two rewrites for `A.'` for matrix `A` exist: eager or materializing `transpose(A)`, which constructs a freshly allocated matrix of `A`'s type and containing the transpose of `A`, and lazy `Transpose(A)`, which wraps `A` in a `Transpose` view type. Which rewrite is appropriate depends on context: If `A.'` appears in a multiplication, left-division, or right-division operation that was formerly specially lowered to an `A_mul_B`-like call, then the lazy `Tranpose(A)` is the correct replacement and will result in dispatch to a method equivalent to the former `A_mul_B`-like call. For example, `A.'*B`, formerly yielding `At_mul_B(A, B)`, should be rewritten `Transpose(A)*B`, which will dispatch to a method equivalent to the former `At_mul_B(A, B)` method. If `A.'` appears outside such an operation, then `transpose(A)` is the correct rewrite. For vector `A`, `A.'` already transposed lazily to a `RowVector`, so `Transpose(A)`. which now yields a `Transpose`-wrapped vector behaviorally equivalent to the former `RowVector` is always the correct rewrite for vectors. For more information, see issue #5332 on Julia's issue tracker on GitHub.
+└                                                               @ nothing none:0
+┌ Warning: The syntax `.'` for transposition is deprecated, and the special lowering of `.'` in multiplication (`*`), left-division (`\`), and right-division (`/`) operations, for example `A.'*B` lowering to `At_mul_B(A, B)`, `A\B.'` lowering to `A_ldiv_Bt(A, B)`, and `A.'/B.'` lowering to `At_rdiv_Bt(A, B)`, has been removed in favor of a lazy `Transpose` wrapper type and dispatch on that type. Two rewrites for `A.'` for matrix `A` exist: eager or materializing `transpose(A)`, which constructs a freshly allocated matrix of `A`'s type and containing the transpose of `A`, and lazy `Transpose(A)`, which wraps `A` in a `Transpose` view type. Which rewrite is appropriate depends on context: If `A.'` appears in a multiplication, left-division, or right-division operation that was formerly specially lowered to an `A_mul_B`-like call, then the lazy `Tranpose(A)` is the correct replacement and will result in dispatch to a method equivalent to the former `A_mul_B`-like call. For example, `A.'*B`, formerly yielding `At_mul_B(A, B)`, should be rewritten `Transpose(A)*B`, which will dispatch to a method equivalent to the former `At_mul_B(A, B)` method. If `A.'` appears outside such an operation, then `transpose(A)` is the correct rewrite. For vector `A`, `A.'` already transposed lazily to a `RowVector`, so `Transpose(A)`. which now yields a `Transpose`-wrapped vector behaviorally equivalent to the former `RowVector` is always the correct rewrite for vectors. For more information, see issue #5332 on Julia's issue tracker on GitHub.
+└                                                               @ nothing none:0
+┌ Warning: The syntax `.'` for transposition is deprecated, and the special lowering of `.'` in multiplication (`*`), left-division (`\`), and right-division (`/`) operations, for example `A.'*B` lowering to `At_mul_B(A, B)`, `A\B.'` lowering to `A_ldiv_Bt(A, B)`, and `A.'/B.'` lowering to `At_rdiv_Bt(A, B)`, has been removed in favor of a lazy `Transpose` wrapper type and dispatch on that type. Two rewrites for `A.'` for matrix `A` exist: eager or materializing `transpose(A)`, which constructs a freshly allocated matrix of `A`'s type and containing the transpose of `A`, and lazy `Transpose(A)`, which wraps `A` in a `Transpose` view type. Which rewrite is appropriate depends on context: If `A.'` appears in a multiplication, left-division, or right-division operation that was formerly specially lowered to an `A_mul_B`-like call, then the lazy `Tranpose(A)` is the correct replacement and will result in dispatch to a method equivalent to the former `A_mul_B`-like call. For example, `A.'*B`, formerly yielding `At_mul_B(A, B)`, should be rewritten `Transpose(A)*B`, which will dispatch to a method equivalent to the former `At_mul_B(A, B)` method. If `A.'` appears outside such an operation, then `transpose(A)` is the correct rewrite. For vector `A`, `A.'` already transposed lazily to a `RowVector`, so `Transpose(A)`. which now yields a `Transpose`-wrapped vector behaviorally equivalent to the former `RowVector` is always the correct rewrite for vectors. For more information, see issue #5332 on Julia's issue tracker on GitHub.
+└                                                               @ nothing none:0
+┌ Warning: The syntax `.'` for transposition is deprecated, and the special lowering of `.'` in multiplication (`*`), left-division (`\`), and right-division (`/`) operations, for example `A.'*B` lowering to `At_mul_B(A, B)`, `A\B.'` lowering to `A_ldiv_Bt(A, B)`, and `A.'/B.'` lowering to `At_rdiv_Bt(A, B)`, has been removed in favor of a lazy `Transpose` wrapper type and dispatch on that type. Two rewrites for `A.'` for matrix `A` exist: eager or materializing `transpose(A)`, which constructs a freshly allocated matrix of `A`'s type and containing the transpose of `A`, and lazy `Transpose(A)`, which wraps `A` in a `Transpose` view type. Which rewrite is appropriate depends on context: If `A.'` appears in a multiplication, left-division, or right-division operation that was formerly specially lowered to an `A_mul_B`-like call, then the lazy `Tranpose(A)` is the correct replacement and will result in dispatch to a method equivalent to the former `A_mul_B`-like call. For example, `A.'*B`, formerly yielding `At_mul_B(A, B)`, should be rewritten `Transpose(A)*B`, which will dispatch to a method equivalent to the former `At_mul_B(A, B)` method. If `A.'` appears outside such an operation, then `transpose(A)` is the correct rewrite. For vector `A`, `A.'` already transposed lazily to a `RowVector`, so `Transpose(A)`. which now yields a `Transpose`-wrapped vector behaviorally equivalent to the former `RowVector` is always the correct rewrite for vectors. For more information, see issue #5332 on Julia's issue tracker on GitHub.
+└                                                               @ nothing none:0
+┌ Warning: `Array{T}(m::Int) where T` is deprecated, use `Array{T}(uninitialized, m)` instead.
+│   caller = A_mul_B!(::SubArray{Complex{Float64},1,Array{Complex{Float64},2},Tuple{Base.Slice{Base.OneTo{Int64}},Int64},true}, ::LinearMaps.CompositeMap{Complex{Float64},Tuple{LinearMaps.FunctionMap{Float64,typeof(cumsum),Nothing},LinearMaps.AdjointMap{Complex{Float64},LinearMaps.WrappedMap{Complex{Float64},Array{Complex{Float64},2}}},LinearMaps.FunctionMap{Float64,typeof(cumsum),Nothing}}}, ::Array{Complex{Float64},1}) at composition.jl:86
+└                                                 @ LinearMaps composition.jl:86
+┌ Warning: `Array{T}(m::Int) where T` is deprecated, use `Array{T}(uninitialized, m)` instead.
+│   caller = A_mul_B!(::SubArray{Complex{Float64},1,Array{Complex{Float64},2},Tuple{Base.Slice{Base.OneTo{Int64}},Int64},true}, ::LinearMaps.CompositeMap{Complex{Float64},Tuple{LinearMaps.FunctionMap{Float64,typeof(cumsum),Nothing},LinearMaps.AdjointMap{Complex{Float64},LinearMaps.WrappedMap{Complex{Float64},Array{Complex{Float64},2}}},LinearMaps.FunctionMap{Float64,typeof(cumsum),Nothing}}}, ::Array{Complex{Float64},1}) at composition.jl:90
+└                                                 @ LinearMaps composition.jl:90
+┌ Warning: `Ac_mul_B!(y::StridedVector{T}, A::StridedVecOrMat{T}, x::StridedVector{T}) where T <: BlasComplex` is deprecated, use `mul!(y, adjoint(A), x)` instead.
+│   caller = Ac_mul_B! at wrappedmap.jl:33 [inlined]
+└                                                        @ Core wrappedmap.jl:33
+┌ Warning: `copy!(dst::AbstractArray, src::AbstractArray)` is deprecated. You can either use `copyto!(dst, src)` or `Future.copy!(dst, src)` instead.
+│   caller = A_mul_B!(::SubArray{Complex{Float64},1,Array{Complex{Float64},2},Tuple{Base.Slice{Base.OneTo{Int64}},Int64},true}, ::LinearMaps.FunctionMap{Float64,typeof(cumsum),Nothing}, ::Array{Complex{Float64},1}) at functionmap.jl:38
+└                                                 @ LinearMaps functionmap.jl:38
+┌ Warning: `A_mul_B!(y::StridedVector{T}, A::StridedVecOrMat{T}, x::StridedVector{T}) where T <: BlasFloat` is deprecated, use `mul!(y, A, x)` instead.
+│   caller = A_mul_B!(::Array{Complex{Float64},1}, ::LinearMaps.WrappedMap{Complex{Float64},Array{Complex{Float64},2}}, ::Array{Complex{Float64},1}) at wrappedmap.jl:25
+└                                                  @ LinearMaps wrappedmap.jl:25
+┌ Warning: `Array{T}(m::Int) where T` is deprecated, use `Array{T}(uninitialized, m)` instead.
+│   caller = A_mul_B!(::Array{Complex{Float64},1}, ::LinearMaps.CompositeMap{Complex{Float64},Tuple{LinearMaps.FunctionMap{Float64,typeof(cumsum),Nothing},LinearMaps.AdjointMap{Complex{Float64},LinearMaps.WrappedMap{Complex{Float64},Array{Complex{Float64},2}}},LinearMaps.FunctionMap{Float64,typeof(cumsum),Nothing}}}, ::Array{Complex{Float64},1}) at composition.jl:86
+└                                                 @ LinearMaps composition.jl:86
+┌ Warning: `Array{T}(m::Int) where T` is deprecated, use `Array{T}(uninitialized, m)` instead.
+│   caller = A_mul_B!(::Array{Complex{Float64},1}, ::LinearMaps.CompositeMap{Complex{Float64},Tuple{LinearMaps.FunctionMap{Float64,typeof(cumsum),Nothing},LinearMaps.AdjointMap{Complex{Float64},LinearMaps.WrappedMap{Complex{Float64},Array{Complex{Float64},2}}},LinearMaps.FunctionMap{Float64,typeof(cumsum),Nothing}}}, ::Array{Complex{Float64},1}) at composition.jl:90
+└                                                 @ LinearMaps composition.jl:90
+┌ Warning: `copy!(dst::AbstractArray, src::AbstractArray)` is deprecated. You can either use `copyto!(dst, src)` or `Future.copy!(dst, src)` instead.
+│   caller = A_mul_B!(::Array{Complex{Float64},1}, ::SimpleFunctionMap, ::Array{Complex{Float64},1}) at LinearMaps.jl:36
+└                                                  @ LinearMaps LinearMaps.jl:36
+┌ Warning: The syntax `.'` for transposition is deprecated, and the special lowering of `.'` in multiplication (`*`), left-division (`\`), and right-division (`/`) operations, for example `A.'*B` lowering to `At_mul_B(A, B)`, `A\B.'` lowering to `A_ldiv_Bt(A, B)`, and `A.'/B.'` lowering to `At_rdiv_Bt(A, B)`, has been removed in favor of a lazy `Transpose` wrapper type and dispatch on that type. Two rewrites for `A.'` for matrix `A` exist: eager or materializing `transpose(A)`, which constructs a freshly allocated matrix of `A`'s type and containing the transpose of `A`, and lazy `Transpose(A)`, which wraps `A` in a `Transpose` view type. Which rewrite is appropriate depends on context: If `A.'` appears in a multiplication, left-division, or right-division operation that was formerly specially lowered to an `A_mul_B`-like call, then the lazy `Tranpose(A)` is the correct replacement and will result in dispatch to a method equivalent to the former `A_mul_B`-like call. For example, `A.'*B`, formerly yielding `At_mul_B(A, B)`, should be rewritten `Transpose(A)*B`, which will dispatch to a method equivalent to the former `At_mul_B(A, B)` method. If `A.'` appears outside such an operation, then `transpose(A)` is the correct rewrite. For vector `A`, `A.'` already transposed lazily to a `RowVector`, so `Transpose(A)`. which now yields a `Transpose`-wrapped vector behaviorally equivalent to the former `RowVector` is always the correct rewrite for vectors. For more information, see issue #5332 on Julia's issue tracker on GitHub.
+└                                                               @ nothing none:0
+[ Info: LinearMaps tests passed                    @ Base.Pkg.Entry entry.jl:737
 
 >>> End of log
