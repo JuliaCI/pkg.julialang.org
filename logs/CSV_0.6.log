@@ -1,9 +1,9 @@
 >>> 'Pkg.add("CSV")' log
 INFO: Installing BinDeps v0.8.2
-INFO: Installing CSV v0.2.0
+INFO: Installing CSV v0.2.1
 INFO: Installing CategoricalArrays v0.3.3
 INFO: Installing CodecZlib v0.4.2
-INFO: Installing DataFrames v0.11.3
+INFO: Installing DataFrames v0.11.4
 INFO: Installing DataStreams v0.3.4
 INFO: Installing DataStructures v0.7.4
 INFO: Installing Missings v0.2.4
@@ -30,13 +30,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (725.0703125 MB free)
-Uptime: 41769.0 sec
-Load Avg:  1.0029296875  1.0146484375  1.04052734375
+Memory: 2.93927001953125 GB (728.68359375 MB free)
+Uptime: 37651.0 sec
+Load Avg:  0.9970703125  0.9853515625  1.0322265625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    2580050 s       1290 s     125695 s     808484 s         22 s
-#2  3499 MHz     546052 s       5653 s      60162 s    3479144 s          0 s
+#1  3499 MHz    2259472 s       6476 s     107786 s     750800 s          7 s
+#2  3499 MHz     514124 s        609 s      56153 s    3123933 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -51,14 +51,14 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
- - CSV                           0.2.0
+ - CSV                           0.2.1
  - JSON                          0.16.3
 18 additional packages:
  - BinDeps                       0.8.2
  - CategoricalArrays             0.3.3
  - CodecZlib                     0.4.2
- - Compat                        0.43.0
- - DataFrames                    0.11.3
+ - Compat                        0.44.0
+ - DataFrames                    0.11.4
  - DataStreams                   0.3.4
  - DataStructures                0.7.4
  - Missings                      0.2.4
@@ -92,32 +92,59 @@ Test Summary: | Pass  Total
 WeakRefString |   29     29
 Test Summary:    | Pass  Total
 String Custom IO |   30     30
-Date: Error During Test
-  Got an exception of type ErrorException outside of a @test
-  you must implement endof(WeakRefString{UInt8})
-  Stacktrace:
-   [1] parse at ./dates/parse.jl:269 [inlined]
-   [2] Date(::WeakRefString{UInt8}, ::DateFormat{Symbol("yyyy-mm-dd"),Tuple{Base.Dates.DatePart{'y'},Base.Dates.Delim{Char,1},Base.Dates.DatePart{'m'},Base.Dates.Delim{Char,1},Base.Dates.DatePart{'d'}}}) at ./dates/io.jl:440
-   [3] macro expansion at /home/vagrant/.julia/v0.6/CSV/test/parsefields.jl:1003 [inlined]
-   [4] macro expansion at ./test.jl:860 [inlined]
-   [5] anonymous at ./<missing>:?
-   [6] include_from_node1(::String) at ./loading.jl:576
-   [7] include(::String) at ./sysimg.jl:14
-   [8] include_from_node1(::String) at ./loading.jl:576
-   [9] include(::String) at ./sysimg.jl:14
-   [10] process_options(::Base.JLOptions) at ./client.jl:305
-   [11] _start() at ./client.jl:371
-Test Summary: | Pass  Error  Total
-Date          |    8      1      9
-ERROR: LoadError: LoadError: Some tests did not pass: 8 passed, 0 failed, 1 errored, 0 broken.
-while loading /home/vagrant/.julia/v0.6/CSV/test/parsefields.jl, in expression starting on line 971
-while loading /home/vagrant/.julia/v0.6/CSV/test/runtests.jl, in expression starting on line 4
-=================================[ ERROR: CSV ]=================================
-
-failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/CSV/test/runtests.jl`, ProcessExited(1)) [1]
-
-================================================================================
+Test Summary: | Pass  Total
+Date          |   19     19
+Test Summary:  | Pass  Total
+Date Custom IO |   17     17
+Test Summary: | Pass  Total
+DateTime      |   18     18
+Test Summary:      | Pass  Total
+DateTime Custom IO |   18     18
+Test Summary: | Pass  Total
+Char          |   27     27
+Test Summary: | Pass  Total
+Bool          |   23     23
+Test Summary: | Pass  Total
+All types     |   19     19
+Test Summary: | Pass  Total
+empty fields  |    1      1
+Test Summary:          | Pass  Total
+misformatted CSV lines |    4      4
+Test Summary:    | Pass  Total
+Basic CSV.Source |   60     60
+f = CSV.Source: /home/vagrant/.julia/v0.6/CSV/test/test_files/test_basic_pipe.csv
+    CSV.Options:
+        delim: '|'
+        quotechar: '"'
+        escapechar: '\\'
+        null: ""
+        dateformat: nothing
+        decimal: '.'
+        truestring: 'true'
+        falsestring: 'false'
+Data.Schema:
+rows: 2  cols: 3
+Columns:
+ "col1"  Int64
+ "col2"  Int64
+ "col3"  Int64
+f = CSV.Sink{Void,DataType}(    CSV.Options:
+        delim: ','
+        quotechar: '"'
+        escapechar: '\\'
+        null: ""
+        dateformat: nothing
+        decimal: '.'
+        truestring: 'true'
+        falsestring: 'false', IOBuffer(data=UInt8[...], readable=true, writable=true, seekable=true, append=false, size=0, maxsize=Inf, ptr=1, mark=-1), "/tmp/juliakjdh0Q", 0, false, String[], 0, false, Val{false})
+Test Summary:                | Pass  Total
+CSV.Source keyword arguments |  104    104
+  0.604201 seconds (5.14 M allocations: 121.267 MiB, 10.45% gc time)
+Test Summary:            | Pass  Total
+CSV.Source various files |   44     44
+Test Summary:        | Pass  Total
+CSV.TransposedSource |   12     12
+INFO: CSV tests passed
 INFO: Removing DecFP v0.4.1
-ERROR: CSV had test errors
 
 >>> End of log

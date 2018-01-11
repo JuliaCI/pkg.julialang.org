@@ -15,6 +15,8 @@ cc    -o constants constants.c
 ./constants > constants.jl
 INFO: Building LibCURL
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of HORIZONS
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("HORIZONS")' log
 Julia Version 0.6.2
@@ -25,13 +27,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (1513.0078125 MB free)
-Uptime: 17386.0 sec
-Load Avg:  0.90673828125  0.96923828125  1.029296875
+Memory: 2.93927001953125 GB (1638.625 MB free)
+Uptime: 16371.0 sec
+Load Avg:  1.0244140625  1.01123046875  1.0419921875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1040260 s       7002 s      59708 s     368863 s          8 s
-#2  3499 MHz     252135 s        278 s      29494 s    1426574 s          0 s
+#1  3500 MHz     919244 s        106 s      53048 s     369767 s          7 s
+#2  3500 MHz     218858 s         38 s      27582 s    1364677 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -50,7 +52,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - JSON                          0.16.3
 8 additional packages:
  - BinDeps                       0.8.2
- - Compat                        0.43.0
+ - Compat                        0.44.0
  - Expect                        0.2.3
  - FTPClient                     0.2.1
  - LibCURL                       0.2.2
@@ -65,10 +67,32 @@ Test Summary:                | Pass  Total
 Test for erroneous arguments |   17     17
 Test Summary:                    | Pass  Total
 Vector table generation: vec_tbl |   29     29
-Test Summary:                                    | Pass  Total
-Vector table generation and write output to file |    4      4
-Test Summary:                                        | Pass  Total
-Vector table generation with CSV format: vec_tbl_csv |   10     10
-INFO: HORIZONS tests passed
+Vector table generation and write output to file: Error During Test
+  Got an exception of type FTPClient.FTPClientError outside of a @test
+  Failed to connect. :: LibCURL error #7
+  Stacktrace:
+   [1] ftp_command(::FTPClient.ConnContext, ::String) at /home/vagrant/.julia/v0.6/FTPClient/src/FTPC.jl:174
+   [2] ftp_connect(::FTPClient.RequestOptions) at /home/vagrant/.julia/v0.6/FTPClient/src/FTPC.jl:494
+   [3] (::FTPClient.##call#11#12)(::String, ::Bool, ::Bool, ::Bool, ::Bool, ::String, ::String, ::Type{T} where T) at /home/vagrant/.julia/v0.6/FTPClient/src/FTPObject.jl:27
+   [4] (::Core.#kw#Type)(::Array{Any,1}, ::Type{FTPClient.FTP}) at ./<missing>:0
+   [5] #vec_tbl#2(::String, ::Array{Any,1}, ::Function, ::String, ::String, ::Date, ::Date, ::Base.Dates.Year) at /home/vagrant/.julia/v0.6/HORIZONS/src/vec_tbl.jl:71
+   [6] (::HORIZONS.#kw##vec_tbl)(::Array{Any,1}, ::HORIZONS.#vec_tbl, ::String, ::String, ::Date, ::Date, ::Base.Dates.Year) at ./<missing>:0
+   [7] macro expansion at /home/vagrant/.julia/v0.6/HORIZONS/test/runtests.jl:109 [inlined]
+   [8] macro expansion at ./test.jl:860 [inlined]
+   [9] anonymous at ./<missing>:?
+   [10] include_from_node1(::String) at ./loading.jl:576
+   [11] include(::String) at ./sysimg.jl:14
+   [12] process_options(::Base.JLOptions) at ./client.jl:305
+   [13] _start() at ./client.jl:371
+Test Summary:                                    | Error  Total
+Vector table generation and write output to file |     1      1
+ERROR: LoadError: Some tests did not pass: 0 passed, 0 failed, 1 errored, 0 broken.
+while loading /home/vagrant/.julia/v0.6/HORIZONS/test/runtests.jl, in expression starting on line 104
+==============================[ ERROR: HORIZONS ]===============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/HORIZONS/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: HORIZONS had test errors
 
 >>> End of log
