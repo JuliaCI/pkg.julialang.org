@@ -9,7 +9,7 @@
 └                                                   @ Base.Pkg.Cache cache.jl:43
 ┌ Info: Cloning cache of ParallelAccelerator from https://github.com/IntelLabs/ParallelAccelerator.jl.git
 └                                                   @ Base.Pkg.Cache cache.jl:43
-[ Info: Installing BinDeps v0.8.2                  @ Base.Pkg.Entry entry.jl:543
+[ Info: Installing BinDeps v0.8.3                  @ Base.Pkg.Entry entry.jl:543
 [ Info: Installing CompilerTools v0.3.1            @ Base.Pkg.Entry entry.jl:543
 [ Info: Installing DataStructures v0.7.4           @ Base.Pkg.Entry entry.jl:543
 [ Info: Installing DocOpt v0.2.1                   @ Base.Pkg.Entry entry.jl:543
@@ -96,12 +96,40 @@ WARNING: importing deprecated binding Base.Associative into BinDeps.
 WARNING: Base.Associative is deprecated, use AbstractDict instead.
   likely near /home/vagrant/.julia/v0.7/SpecialFunctions/deps/binaries.jl:44
 in @install at /home/vagrant/.julia/v0.7/BinDeps/src/dependencies.jl
-┌ Warning: `unshift!` is deprecated, use `pushfirst!` instead.
-│   caller = #_find_library#48(::Type, ::Function, ::BinDeps.LibraryDependency) at dependencies.jl:652
-└                                                  @ BinDeps dependencies.jl:652
-┌ Warning: `unshift!` is deprecated, use `pushfirst!` instead.
-│   caller = #_find_library#48(::DataType, ::Function, ::BinDeps.LibraryDependency) at dependencies.jl:652
-└                                                  @ BinDeps dependencies.jl:652
+┌ Error: ------------------------------------------------------------
+│ # Build failed for SpecialFunctions
+│   exception =
+│    LoadError: LoadError: UndefVarError: pushfront! not defined
+│    Stacktrace:
+│     [1] #_find_library#48(::Type, ::Function, ::BinDeps.LibraryDependency) at /home/vagrant/.julia/v0.7/BinDeps/src/dependencies.jl:652
+│     [2] _find_library at /home/vagrant/.julia/v0.7/BinDeps/src/dependencies.jl:641 [inlined]
+│     [3] satisfy!(::BinDeps.LibraryDependency, ::Array{DataType,1}) at /home/vagrant/.julia/v0.7/BinDeps/src/dependencies.jl:920 (repeats 2 times)
+│     [4] top-level scope at /home/vagrant/.julia/v0.7/BinDeps/src/dependencies.jl:975
+│     [5] include at ./boot.jl:293 [inlined]
+│     [6] include_relative(::Module, ::String) at ./loading.jl:521
+│     [7] include at ./sysimg.jl:26 [inlined]
+│     [8] include at ./loading.jl:555 [inlined]
+│     [9] top-level scope at ./<missing>:31
+│     [10] include at ./boot.jl:293 [inlined]
+│     [11] include_relative(::Module, ::String) at ./loading.jl:521
+│     [12] include at ./sysimg.jl:26 [inlined]
+│     [13] include(::String) at ./loading.jl:555
+│     [14] top-level scope
+│     [15] eval at ./boot.jl:296 [inlined]
+│     [16] eval at ./sysimg.jl:71 [inlined]
+│     [17] evalfile(::String, ::Array{String,1}) at ./loading.jl:550 (repeats 2 times)
+│     [18] #2 at ./none:12 [inlined]
+│     [19] cd(::getfield(, Symbol("##2#5")){String}, ::String) at ./file.jl:70
+│     [20] (::getfield(, Symbol("##1#3")))(::IOStream) at ./none:11
+│     [21] open(::getfield(, Symbol("##1#3")), ::String, ::String) at ./iostream.jl:310
+│     [22] top-level scope
+│     [23] eval at ./boot.jl:296 [inlined]
+│     [24] eval(::Module, ::Expr) at ./sysimg.jl:71
+│     [25] process_options(::Base.JLOptions) at ./client.jl:301
+│     [26] _start() at ./client.jl:375
+│    in expression starting at /home/vagrant/.julia/v0.7/SpecialFunctions/deps/binaries.jl:975
+│    in expression starting at /home/vagrant/.julia/v0.7/SpecialFunctions/deps/build.jl:6
+└                                                                 @ Main none:15
 [ Info: Building ParallelAccelerator                              @ Main none:10
 ParallelAccelerator: build.jl begin.
 ParallelAccelerator: Building j2c-array shared library
@@ -117,16 +145,13 @@ ParallelAccelerator: build.jl done.
 ┌ Warning: ------------------------------------------------------------
 │ # Build error summary
 │ 
-│ MPI had build errors.
+│ MPI and SpecialFunctions had build errors.
 │ 
 │  - packages with build errors remain installed in /home/vagrant/.julia/v0.7
-│  - build the package(s) and all dependencies with `Pkg.build("MPI")`
+│  - build the package(s) and all dependencies with `Pkg.build("MPI", "SpecialFunctions")`
 │  - build a single package by running its `deps/build.jl` script
 └                                                  @ Base.Pkg.Entry entry.jl:656
 [ Info: Package database updated                    @ Base.Pkg.Entry entry.jl:32
-┌ Info: METADATA is out-of-date — you may not have the latest version of HPAT
-│ Use `Pkg.update()` to get the latest versions of your packages
-└                                                   @ Base.Pkg.Entry entry.jl:74
 
 >>> 'Pkg.test("HPAT")' log
 Julia Version 0.7.0-DEV.3354
@@ -137,12 +162,12 @@ Platform Info:
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3499 MHz     908778 s         52 s      51165 s     259253 s          2 s
-       #2  3499 MHz     137192 s         96 s      18262 s    1284167 s          0 s
+       #1  3499 MHz    1015823 s        109 s      56409 s     343913 s          9 s
+       #2  3499 MHz     196155 s         42 s      22274 s    1416155 s          0 s
        
-  Memory: 2.93927001953125 GB (699.69140625 MB free)
-  Uptime: 14603.0 sec
-  Load Avg:  0.83740234375  0.94091796875  1.0078125
+  Memory: 2.93927001953125 GB (701.171875 MB free)
+  Uptime: 16606.0 sec
+  Load Avg:  0.9873046875  0.97119140625  1.01318359375
   WORD_SIZE: 64
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -161,13 +186,13 @@ Packages:
  - HPAT                          0.0.4
  - JSON                          0.16.3
 11 additional packages:
- - BinDeps                       0.8.2
- - Compat                        0.44.0
+ - BinDeps                       0.8.3
+ - Compat                        0.45.0
  - CompilerTools                 0.3.1
  - DataStructures                0.7.4
  - DocOpt                        0.2.1
  - MPI                           0.6.0
- - Nullables                     0.0.2
+ - Nullables                     0.0.3
  - ParallelAccelerator           0.3.2
  - SHA                           0.5.2
  - SpecialFunctions              0.3.7
@@ -324,534 +349,44 @@ WARNING: Base.Void is deprecated, use Nothing instead.
 ┌ Warning: Deprecated syntax `type` at /home/vagrant/.julia/v0.7/ParallelAccelerator/src/ParallelAccelerator.jl:280.
 │ Use `mutable struct` instead.
 └                                           @ nothing ParallelAccelerator.jl:280
-┌ Warning: Deprecated syntax `parametric method syntax setindex!{T}(A::DenseArray{T}, args...)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:38.
-│ Use `setindex!(A::DenseArray{T}, args...) where T` instead.
-└                                                            @ nothing api.jl:38
-┌ Warning: Deprecated syntax `parametric method syntax getindex{T}(A::DenseArray{T}, args...)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:46.
-│ Use `getindex(A::DenseArray{T}, args...) where T` instead.
-└                                                            @ nothing api.jl:46
-┌ Warning: Deprecated syntax `parametric method syntax getindex{T}(A::Type{T}, X...)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:50.
-│ Use `getindex(A::Type{T}, X...) where T` instead.
-└                                                            @ nothing api.jl:50
-┌ Warning: Deprecated syntax `parametric method syntax reshape{T}(A::DenseArray{T}, args)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:58.
-│ Use `reshape(A::DenseArray{T}, args) where T` instead.
-└                                                            @ nothing api.jl:58
-┌ Warning: Deprecated syntax `parametric method syntax reshape{T}(A::DenseArray{T}, args...)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:63.
-│ Use `reshape(A::DenseArray{T}, args...) where T` instead.
-└                                                            @ nothing api.jl:63
-┌ Warning: Deprecated syntax `parametric method syntax sum{T <: Number}(A::DenseArray{T}, x::Int)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:123.
-│ Use `sum(A::DenseArray{T}, x::Int) where T <: Number` instead.
-└                                                           @ nothing api.jl:123
-┌ Warning: Deprecated syntax `parametric method syntax prod{T <: Number}(A::DenseArray{T}, x::Int)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:123.
-│ Use `prod(A::DenseArray{T}, x::Int) where T <: Number` instead.
-└                                                           @ nothing api.jl:123
-┌ Warning: Deprecated syntax `parametric method syntax minimum{T <: Number}(A::DenseArray{T}, x::Int)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:123.
-│ Use `minimum(A::DenseArray{T}, x::Int) where T <: Number` instead.
-└                                                           @ nothing api.jl:123
-┌ Warning: Deprecated syntax `parametric method syntax maximum{T <: Number}(A::DenseArray{T}, x::Int)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:123.
-│ Use `maximum(A::DenseArray{T}, x::Int) where T <: Number` instead.
-└                                                           @ nothing api.jl:123
-┌ Warning: Deprecated syntax `parametric method syntax any{T <: Number}(A::DenseArray{T}, x::Int)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:123.
-│ Use `any(A::DenseArray{T}, x::Int) where T <: Number` instead.
-└                                                           @ nothing api.jl:123
-┌ Warning: Deprecated syntax `parametric method syntax all{T <: Number}(A::DenseArray{T}, x::Int)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:123.
-│ Use `all(A::DenseArray{T}, x::Int) where T <: Number` instead.
-└                                                           @ nothing api.jl:123
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_sub{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `pa_api_sub(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_add{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `pa_api_add(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax acos{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `acos(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax acosh{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `acosh(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax angle{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `angle(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax asin{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `asin(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax asinh{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `asinh(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax atan{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `atan(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax atanh{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `atanh(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax cbrt{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `cbrt(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax cis{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `cis(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax cos{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `cos(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax cosh{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `cosh(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax exp10{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `exp10(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax exp2{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `exp2(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax exp{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `exp(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax expm1{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `expm1(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax lgamma{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `lgamma(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax log10{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `log10(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax log1p{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `log1p(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax log2{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `log2(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax log{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `log(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax sin{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `sin(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax sinh{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `sinh(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax sqrt{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `sqrt(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax tan{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `tan(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax tanh{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `tanh(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax abs{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `abs(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax isnan{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `isnan(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax erf{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `erf(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax sum{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `sum(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax prod{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `prod(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax minimum{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `minimum(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax maximum{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `maximum(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax any{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `any(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax all{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `all(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax copy{T <: Number}(A::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:132.
-│ Use `copy(A::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:132
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_sub{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `pa_api_sub(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_add{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `pa_api_add(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax acos{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `acos(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax acosh{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `acosh(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax angle{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `angle(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax asin{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `asin(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax asinh{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `asinh(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax atan{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `atan(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax atanh{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `atanh(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax cbrt{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `cbrt(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax cis{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `cis(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax cos{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `cos(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax cosh{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `cosh(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax exp10{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `exp10(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax exp2{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `exp2(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax exp{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `exp(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax expm1{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `expm1(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax lgamma{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `lgamma(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax log10{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `log10(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax log1p{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `log1p(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax log2{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `log2(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax log{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `log(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax sin{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `sin(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax sinh{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `sinh(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax sqrt{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `sqrt(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax tan{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `tan(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax tanh{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `tanh(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax abs{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `abs(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax isnan{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:148.
-│ Use `isnan(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:148
-┌ Warning: Deprecated syntax `parametric method syntax erf{T <: Number}(A::T)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:158.
-│ Use `erf(A::T) where T <: Number` instead.
-└                                                           @ nothing api.jl:158
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_gt{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `pa_api_elem_gt(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_gt{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:192.
-│ Use `pa_api_elem_gt(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:192
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_gt{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:207.
-│ Use `pa_api_elem_gt(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:207
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_lt{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `pa_api_elem_lt(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_lt{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:192.
-│ Use `pa_api_elem_lt(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:192
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_lt{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:207.
-│ Use `pa_api_elem_lt(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:207
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_lte{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `pa_api_elem_lte(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_lte{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:192.
-│ Use `pa_api_elem_lte(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:192
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_lte{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:207.
-│ Use `pa_api_elem_lte(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:207
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_gte{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `pa_api_elem_gte(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_gte{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:192.
-│ Use `pa_api_elem_gte(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:192
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_gte{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:207.
-│ Use `pa_api_elem_gte(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:207
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_equal{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `pa_api_elem_equal(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_equal{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:192.
-│ Use `pa_api_elem_equal(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:192
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_equal{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:207.
-│ Use `pa_api_elem_equal(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:207
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_mul{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `pa_api_mul(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_mul{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:186.
-│ Use `pa_api_mul(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:186
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_div{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `pa_api_div(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_div{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:186.
-│ Use `pa_api_div(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:186
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_sub{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `pa_api_sub(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_sub{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:186.
-│ Use `pa_api_sub(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:186
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_sub{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:201.
-│ Use `pa_api_sub(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:201
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_add{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `pa_api_add(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_add{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:186.
-│ Use `pa_api_add(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:186
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_add{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:201.
-│ Use `pa_api_add(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:201
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_add{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `pa_api_elem_add(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_add{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:192.
-│ Use `pa_api_elem_add(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:192
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_add{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:207.
-│ Use `pa_api_elem_add(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:207
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_sub{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `pa_api_elem_sub(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_sub{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:192.
-│ Use `pa_api_elem_sub(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:192
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_sub{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:207.
-│ Use `pa_api_elem_sub(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:207
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_mul{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `pa_api_elem_mul(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_mul{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:192.
-│ Use `pa_api_elem_mul(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:192
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_mul{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:207.
-│ Use `pa_api_elem_mul(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:207
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_div{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `pa_api_elem_div(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_div{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:192.
-│ Use `pa_api_elem_div(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:192
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_div{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:207.
-│ Use `pa_api_elem_div(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:207
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_back{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `pa_api_elem_back(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_back{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:192.
-│ Use `pa_api_elem_back(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:192
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_back{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:207.
-│ Use `pa_api_elem_back(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:207
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_mod{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `pa_api_elem_mod(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_mod{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:192.
-│ Use `pa_api_elem_mod(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:192
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_mod{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:207.
-│ Use `pa_api_elem_mod(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:207
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_lshift{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `pa_api_elem_lshift(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_lshift{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:192.
-│ Use `pa_api_elem_lshift(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:192
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_lshift{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:207.
-│ Use `pa_api_elem_lshift(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:207
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_rshift{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `pa_api_elem_rshift(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_rshift{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:192.
-│ Use `pa_api_elem_rshift(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:192
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_rshift{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:207.
-│ Use `pa_api_elem_rshift(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:207
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_carat{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `pa_api_elem_carat(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_carat{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:192.
-│ Use `pa_api_elem_carat(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:192
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_elem_carat{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:207.
-│ Use `pa_api_elem_carat(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:207
-┌ Warning: Deprecated syntax `parametric method syntax div{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `div(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax div{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:186.
-│ Use `div(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:186
-┌ Warning: Deprecated syntax `parametric method syntax div{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:201.
-│ Use `div(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:201
-┌ Warning: Deprecated syntax `parametric method syntax mod{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `mod(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax mod{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:186.
-│ Use `mod(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:186
-┌ Warning: Deprecated syntax `parametric method syntax mod{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:201.
-│ Use `mod(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:201
-┌ Warning: Deprecated syntax `parametric method syntax rem{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `rem(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax rem{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:186.
-│ Use `rem(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:186
-┌ Warning: Deprecated syntax `parametric method syntax rem{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:201.
-│ Use `rem(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:201
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_ampersand{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `pa_api_ampersand(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_ampersand{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:186.
-│ Use `pa_api_ampersand(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:186
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_ampersand{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:201.
-│ Use `pa_api_ampersand(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:201
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_pipe{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `pa_api_pipe(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_pipe{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:186.
-│ Use `pa_api_pipe(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:186
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_pipe{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:201.
-│ Use `pa_api_pipe(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:201
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_dollar{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `pa_api_dollar(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_dollar{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:186.
-│ Use `pa_api_dollar(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:186
-┌ Warning: Deprecated syntax `parametric method syntax pa_api_dollar{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:201.
-│ Use `pa_api_dollar(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:201
-┌ Warning: Deprecated syntax `parametric method syntax min{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `min(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax min{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:186.
-│ Use `min(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:186
-┌ Warning: Deprecated syntax `parametric method syntax min{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:201.
-│ Use `min(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:201
-┌ Warning: Deprecated syntax `parametric method syntax max{T1 <: Number, T2 <: Number}(A::T1, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:179.
-│ Use `max(A::T1, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:179
-┌ Warning: Deprecated syntax `parametric method syntax max{T1 <: Number, T2 <: Number}(B::DenseArray{T1}, A::T2)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:186.
-│ Use `max(B::DenseArray{T1}, A::T2) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:186
-┌ Warning: Deprecated syntax `parametric method syntax max{T1 <: Number, T2 <: Number}(A::DenseArray{T1}, B::DenseArray{T2})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:201.
-│ Use `max(A::DenseArray{T1}, B::DenseArray{T2}) where {T1 <: Number, T2 <: Number}` instead.
-└                                                           @ nothing api.jl:201
-┌ Warning: Deprecated syntax `parametric method syntax cartesianarray{T}(body, ::Type{Tuple{T}}, ndims)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:265.
-│ Use `cartesianarray(body, #unused#::Type{Tuple{T}}, ndims) where T` instead.
-└                                                           @ nothing api.jl:265
-┌ Warning: Deprecated syntax `parametric method syntax cartesianarray{T1, T2}(body, ::Type{Tuple{T1, T2}}, ndims)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:273.
-│ Use `cartesianarray(body, #unused#::Type{Tuple{T1, T2}}, ndims) where {T1, T2}` instead.
-└                                                           @ nothing api.jl:273
-┌ Warning: Deprecated syntax `parametric method syntax cartesianarray{T1, T2, T3}(body, ::Type{Tuple{T1, T2, T3}}, ndims)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:284.
-│ Use `cartesianarray(body, #unused#::Type{Tuple{T1, T2, T3}}, ndims) where {T1, T2, T3}` instead.
-└                                                           @ nothing api.jl:284
-┌ Warning: Deprecated syntax `parametric method syntax map{T <: Number}(f::Function, a::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:301.
-│ Use `map(f::Function, a::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:301
-┌ Warning: Deprecated syntax `parametric method syntax map{T <: Number}(f::Function, a::DenseArray{T}, b...)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:305.
-│ Use `map(f::Function, a::DenseArray{T}, b...) where T <: Number` instead.
-└                                                           @ nothing api.jl:305
-┌ Warning: Deprecated syntax `parametric method syntax map{T <: Array}(f::Function, a::Array{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:309.
-│ Use `map(f::Function, a::Array{T}) where T <: Array` instead.
-└                                                           @ nothing api.jl:309
-┌ Warning: Deprecated syntax `parametric method syntax map{T <: Array}(f::Function, a::Array{T}, b...)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:313.
-│ Use `map(f::Function, a::Array{T}, b...) where T <: Array` instead.
-└                                                           @ nothing api.jl:313
-WARNING: importing deprecated binding Base.Range into API.
-WARNING: Base.Range is deprecated, use AbstractRange instead.
-  likely near /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:316
-WARNING: Base.Range is deprecated, use AbstractRange instead.
-  likely near /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:320
-┌ Warning: Deprecated syntax `parametric method syntax map!{T <: Number}(f::Function, a::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:329.
-│ Use `map!(f::Function, a::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:329
-┌ Warning: Deprecated syntax `parametric method syntax map!{T <: Number}(f::Function, a::DenseArray{T}, b...)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:333.
-│ Use `map!(f::Function, a::DenseArray{T}, b...) where T <: Number` instead.
-└                                                           @ nothing api.jl:333
-┌ Warning: Deprecated syntax `parametric method syntax reduce{T <: Number}(f::Function, v::T, a::DenseArray{T})` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:341.
-│ Use `reduce(f::Function, v::T, a::DenseArray{T}) where T <: Number` instead.
-└                                                           @ nothing api.jl:341
-┌ Warning: Deprecated syntax `parametric method syntax reduce{T <: Number}(f::Function, v::T, a::DenseArray{T}, b...)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:345.
-│ Use `reduce(f::Function, v::T, a::DenseArray{T}, b...) where T <: Number` instead.
-└                                                           @ nothing api.jl:345
-┌ Warning: Deprecated syntax `parametric method syntax broadcast{T <: Number}(f::Function, a::DenseArray{T}, b...)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:353.
-│ Use `broadcast(f::Function, a::DenseArray{T}, b...) where T <: Number` instead.
-└                                                           @ nothing api.jl:353
-┌ Warning: Deprecated syntax `parametric method syntax broadcast{T <: Number}(f::Function, a::T, b...)` around /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:357.
-│ Use `broadcast(f::Function, a::T, b...) where T <: Number` instead.
-└                                                           @ nothing api.jl:357
-ERROR: LoadError: LoadError: LoadError: LoadError: UndefVarError: include not defined
+ERROR: LoadError: SpecialFunctions is not properly installed. Please run Pkg.build("SpecialFunctions") and restart Julia.
 Stacktrace:
- [1] top-level scope
- [2] include at ./boot.jl:293 [inlined]
- [3] include_relative(::Module, ::String) at ./loading.jl:521
- [4] include at ./sysimg.jl:26 [inlined]
- [5] include(::String) at /home/vagrant/.julia/v0.7/ParallelAccelerator/src/ParallelAccelerator.jl:28
+ [1] error(::String) at ./error.jl:33
+ [2] top-level scope at /home/vagrant/.julia/v0.7/SpecialFunctions/src/SpecialFunctions.jl:12
+ [3] include at ./boot.jl:293 [inlined]
+ [4] include_relative(::Module, ::String) at ./loading.jl:521
+ [5] include(::Module, ::String) at ./sysimg.jl:26
  [6] top-level scope
+ [7] eval at ./boot.jl:296 [inlined]
+ [8] top-level scope at ./<missing>:2
+in expression starting at /home/vagrant/.julia/v0.7/SpecialFunctions/src/SpecialFunctions.jl:12
+ERROR: LoadError: LoadError: LoadError: LoadError: Failed to precompile SpecialFunctions to /home/vagrant/.julia/lib/v0.7/SpecialFunctions.ji.
+Stacktrace:
+ [1] error at ./error.jl:33 [inlined]
+ [2] compilecache(::String) at ./loading.jl:648
+ [3] compilecache at ./loading.jl:605 [inlined]
+ [4] _require(::Symbol) at ./loading.jl:460
+ [5] require(::Symbol) at ./loading.jl:333
+ [6] top-level scope at /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:32
  [7] include at ./boot.jl:293 [inlined]
  [8] include_relative(::Module, ::String) at ./loading.jl:521
- [9] _require(::Symbol) at ./loading.jl:453
- [10] require(::Symbol) at ./loading.jl:333
- [11] include at ./boot.jl:293 [inlined]
- [12] include_relative(::Module, ::String) at ./loading.jl:521
- [13] _require(::Symbol) at ./loading.jl:453
- [14] require(::Symbol) at ./loading.jl:333
- [15] include at ./boot.jl:293 [inlined]
- [16] include_relative(::Module, ::String) at ./loading.jl:521
- [17] include(::Module, ::String) at ./sysimg.jl:26
- [18] process_options(::Base.JLOptions) at ./client.jl:324
- [19] _start() at ./client.jl:375
-in expression starting at /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:371
+ [9] include at ./sysimg.jl:26 [inlined]
+ [10] include(::String) at /home/vagrant/.julia/v0.7/ParallelAccelerator/src/ParallelAccelerator.jl:28
+ [11] top-level scope
+ [12] include at ./boot.jl:293 [inlined]
+ [13] include_relative(::Module, ::String) at ./loading.jl:521
+ [14] _require(::Symbol) at ./loading.jl:453
+ [15] require(::Symbol) at ./loading.jl:333
+ [16] include at ./boot.jl:293 [inlined]
+ [17] include_relative(::Module, ::String) at ./loading.jl:521
+ [18] _require(::Symbol) at ./loading.jl:453
+ [19] require(::Symbol) at ./loading.jl:333
+ [20] include at ./boot.jl:293 [inlined]
+ [21] include_relative(::Module, ::String) at ./loading.jl:521
+ [22] include(::Module, ::String) at ./sysimg.jl:26
+ [23] process_options(::Base.JLOptions) at ./client.jl:324
+ [24] _start() at ./client.jl:375
+in expression starting at /home/vagrant/.julia/v0.7/ParallelAccelerator/src/api.jl:32
 in expression starting at /home/vagrant/.julia/v0.7/ParallelAccelerator/src/ParallelAccelerator.jl:291
 in expression starting at /home/vagrant/.julia/v0.7/HPAT/src/HPAT.jl:37
 in expression starting at /home/vagrant/.julia/v0.7/HPAT/test/runtests.jl:1
