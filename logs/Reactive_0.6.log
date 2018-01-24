@@ -12,13 +12,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (778.07421875 MB free)
-Uptime: 30399.0 sec
-Load Avg:  0.9970703125  0.9853515625  0.95458984375
+Memory: 2.93927001953125 GB (779.125 MB free)
+Uptime: 30006.0 sec
+Load Avg:  0.95361328125  0.9853515625  0.95751953125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1812534 s       2522 s      84034 s     694358 s         13 s
-#2  3499 MHz     359518 s       4533 s      38047 s    2585005 s          0 s
+#1  3499 MHz    1779094 s       7026 s      87334 s     671680 s         14 s
+#2  3499 MHz     393319 s        391 s      39982 s    2523146 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -36,7 +36,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - JSON                          0.16.4
  - Reactive                      0.6.0
 3 additional packages:
- - Compat                        0.48.0
+ - Compat                        0.49.0
  - DataStructures                0.7.4
  - Nullables                     0.0.3
 INFO: Computing test dependencies for Reactive...
@@ -105,28 +105,34 @@ Flatten
 30 facts verified.
 Timing functions
   > fpswhen
-dt = 1.053560599
+dt = 1.084267898
   > every
   > throttle
-z got 3
+z got 2
+z got 2
+z got 5
+z′ got [1, 2, 3, 4, 5]
 z got 6
-z′ got [1, 2, 3, 4, 5, 6]
-z got 7
-z got 10
-z′ got [7, 8, 9, 10, 11]
+z got 9
+z′ got [6, 7, 8, 9, 10, 11]
 z got 11
 i = 11
-dt = 2.264570951461792
+dt = 2.336751937866211
 ydt = 0.5
 y′dt = 1.1
 zcount = 5.0
 z′count = 3.0
 value(y) = 11
-value(y′) = [7, 8, 9, 10, 11]
-value(z) = 5
+value(y′) = [6, 7, 8, 9, 10, 11]
+value(z) = 6
 value(z′) = 2
+    Failure :: (line:272) :: throttle :: fact was false
+      Expression: length(value(y′)) --> less_than(i / (z′count - 1))
+        Expected: 6 < 5.5
   > debounce
-28 facts verified.
+Out of 28 total facts:
+  Verified: 27
+  Failed:   1
 Async
   > async_map
 5 facts verified.
@@ -135,7 +141,20 @@ Queue runner
   > Multiple queue restarts during a single action
   > Queue restarts after more than one push!
 24 facts verified.
-INFO: Reactive tests passed
+ERROR: LoadError: FactCheck finished with 1 non-successful tests.
+Stacktrace:
+ [1] exitstatus() at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:568
+ [2] include_from_node1(::String) at ./loading.jl:576
+ [3] include(::String) at ./sysimg.jl:14
+ [4] process_options(::Base.JLOptions) at ./client.jl:305
+ [5] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/Reactive/test/runtests.jl, in expression starting on line 27
+==============================[ ERROR: Reactive ]===============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Reactive/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing FactCheck v0.4.3
+ERROR: Reactive had test errors
 
 >>> End of log
