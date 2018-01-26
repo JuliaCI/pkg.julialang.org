@@ -14,13 +14,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (1529.65625 MB free)
-Uptime: 74900.0 sec
-Load Avg:  0.9765625  0.97607421875  1.1328125
+Memory: 2.93927001953125 GB (1560.41015625 MB free)
+Uptime: 75759.0 sec
+Load Avg:  0.94482421875  0.95849609375  1.12548828125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    4876766 s       1277 s     234640 s    1254767 s         48 s
-#2  3500 MHz    1172571 s       5581 s      97095 s    6096074 s          2 s
+#1  3499 MHz    4911539 s       6095 s     230676 s    1283878 s         44 s
+#2  3499 MHz    1207384 s       1354 s      94227 s    6145969 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -52,7 +52,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Reexport                      0.1.0
  - Requires                      0.4.3
  - Rsvg                          0.2.0
- - SHA                           0.5.3
+ - SHA                           0.5.6
  - URIParser                     0.3.0
  - VegaLite                      0.1.0              ecb31725 (dirty)
 INFO: Computing test dependencies for NBTesting...
@@ -79,13 +79,66 @@ INFO: Testing NBTesting
 INFO: Testing Water_Analysis.ipynb
 # Top title
 WARNING: No working GUI backend found for matplotlib
-### Basic Arithmetic
-#### Some plot
-INFO: NBTesting tests passed
+ERROR: LoadError: LoadError: InitError: PyError (ccall(@pysym(:PyImport_ImportModule), PyPtr, (Cstring,), name)
+
+The Python package matplotlib.pyplot could not be found by pyimport. Usually this means
+that you did not install matplotlib.pyplot in the Python version being used by PyCall.
+
+PyCall is currently configured to use the Julia-specific Python distribution
+installed by the Conda.jl package.  To install the matplotlib.pyplot module, you can
+use `pyimport_conda("matplotlib.pyplot", PKG)`, where PKG is the Anaconda
+package the contains the module matplotlib.pyplot, or alternatively you can use the
+Conda package directly (via `using Conda` followed by `Conda.add` etcetera).
+
+Alternatively, if you want to use a different Python distribution on your
+system, such as a system-wide Python (as opposed to the Julia-specific Python),
+you can re-configure PyCall with that Python.   As explained in the PyCall
+documentation, set ENV["PYTHON"] to the path/name of the python executable
+you want to use, run Pkg.build("PyCall"), and re-launch Julia.
+
+) <type 'exceptions.ImportError'>
+ImportError("/lib/x86_64-linux-gnu/libz.so.1: version `ZLIB_1.2.9' not found (required by /home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/matplotlib/../../.././libpng16.so.16)",)
+  File "/home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/matplotlib/pyplot.py", line 32, in <module>
+    import matplotlib.colorbar
+  File "/home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/matplotlib/colorbar.py", line 36, in <module>
+    import matplotlib.contour as contour
+  File "/home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/matplotlib/contour.py", line 21, in <module>
+    import matplotlib.font_manager as font_manager
+  File "/home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/matplotlib/font_manager.py", line 58, in <module>
+    from matplotlib import afm, cbook, ft2font, rcParams, get_cachedir
+
+Stacktrace:
+ [1] pyerr_check at /home/vagrant/.julia/v0.6/PyCall/src/exception.jl:56 [inlined]
+ [2] pyerr_check at /home/vagrant/.julia/v0.6/PyCall/src/exception.jl:61 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/PyCall/src/exception.jl:81 [inlined]
+ [4] pyimport(::String) at /home/vagrant/.julia/v0.6/PyCall/src/PyCall.jl:374
+ [5] __init__() at /home/vagrant/.julia/v0.6/PyPlot/src/init.jl:184
+ [6] _include_from_serialized(::String) at ./loading.jl:157
+ [7] _require_from_serialized(::Int64, ::Symbol, ::String, ::Bool) at ./loading.jl:200
+ [8] _require_search_from_serialized(::Int64, ::Symbol, ::String, ::Bool) at ./loading.jl:236
+ [9] _require(::Symbol) at ./loading.jl:441
+ [10] require(::Symbol) at ./loading.jl:405
+ [11] include_from_node1(::String) at ./loading.jl:576
+ [12] include(::String) at ./sysimg.jl:14
+ [13] #nbtest#6(::Int64, ::Array{Any,1}, ::Function, ::String) at /home/vagrant/.julia/v0.6/NBTesting/src/NBTesting.jl:109
+ [14] nbtest(::String) at /home/vagrant/.julia/v0.6/NBTesting/src/NBTesting.jl:106
+ [15] include_from_node1(::String) at ./loading.jl:576
+ [16] include(::String) at ./sysimg.jl:14
+ [17] process_options(::Base.JLOptions) at ./client.jl:305
+ [18] _start() at ./client.jl:371
+during initialization of module PyPlot
+while loading /home/vagrant/.julia/v0.6/NBTesting/test/NBTest_Water_Analysis.jl, in expression starting on line 12
+while loading /home/vagrant/.julia/v0.6/NBTesting/test/runtests.jl, in expression starting on line 4
+==============================[ ERROR: NBTesting ]==============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/NBTesting/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing Conda v0.7.1
 INFO: Removing LaTeXStrings v0.3.0
 INFO: Removing MacroTools v0.4.0
 INFO: Removing PyCall v1.15.0
 INFO: Removing PyPlot v2.3.2
+ERROR: NBTesting had test errors
 
 >>> End of log
