@@ -6,20 +6,20 @@
 [ Info: Package database updated
 
 >>> 'Pkg.test("AxisArrays")' log
-Julia Version 0.7.0-DEV.3563
-Commit cf6303abe0 (2018-01-24 23:08 UTC)
+Julia Version 0.7.0-DEV.3583
+Commit 7d3991f784 (2018-01-26 19:00 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3500 MHz     616992 s        100 s      38094 s     383005 s          5 s
-       #2  3500 MHz     122519 s         46 s      17372 s    1025142 s          0 s
+       #1  3500 MHz     634016 s         74 s      41214 s     191254 s          6 s
+       #2  3500 MHz     149212 s         95 s      19551 s     822988 s          0 s
        
-  Memory: 2.93927001953125 GB (834.53515625 MB free)
-  Uptime: 11782.0 sec
-  Load Avg:  0.9970703125  0.9853515625  0.95458984375
+  Memory: 2.93927001953125 GB (817.8203125 MB free)
+  Uptime: 10097.0 sec
+  Load Avg:  1.00634765625  0.9921875  0.9755859375
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -332,6 +332,9 @@ Indexing: Error During Test at /home/vagrant/.julia/v0.7/AxisArrays/test/indexin
 ┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
 │   caller = _size at core.jl:562 [inlined]
 └ @ Core core.jl:562
+┌ Warning: `find` is deprecated, use `findall` instead.
+│   caller = @generated body at indexing.jl:0 [inlined]
+└ @ Core indexing.jl:0
 ┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
 │   caller = _size at core.jl:562 [inlined]
 └ @ Core core.jl:562
@@ -391,8 +394,8 @@ INFO: partial linear indexing deprecation warning is expected
 │   caller = getindex(::AxisArray{Int64,3,Base.ReshapedArray{Int64,3,UnitRange{Int64},Tuple{}},Tuple{Axis{:row,StepRangeLen{Float64,Base.TwicePrecision{Float64},Base.TwicePrecision{Float64}}},Axis{:col,StepRangeLen{Float64,Base.TwicePrecision{Float64},Base.TwicePrecision{Float64}}},Axis{:page,StepRangeLen{Float64,Base.TwicePrecision{Float64},Base.TwicePrecision{Float64}}}}}, ::UnitRange{Int64}, ::Colon) at indexing.jl:106
 └ @ AxisArrays indexing.jl:106
 ┌ Warning: omitting indices for non-singleton trailing dimensions is deprecated. Add `1` as trailing indices or use `reshape` to make the dimensionality of the array match the number of indices.
-│   caller = macro expansion at multidimensional.jl:658 [inlined]
-└ @ Core multidimensional.jl:658
+│   caller = macro expansion at multidimensional.jl:657 [inlined]
+└ @ Core multidimensional.jl:657
 ┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
 │   caller = _size at core.jl:562 [inlined]
 └ @ Core core.jl:562
@@ -424,54 +427,278 @@ Indexing: Error During Test at /home/vagrant/.julia/v0.7/AxisArrays/test/runtest
 ┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
 │   caller = _size at core.jl:562 [inlined]
 └ @ Core core.jl:562
-SortedVector: Error During Test at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:21
-  Got an exception of type LoadError outside of a @test
-  LoadError: Base.srand has been moved to the standard library package Random.
-  Restart Julia and then run `using Random` to load it.
+WARNING: Base.srand is deprecated: it has been moved to the standard library package `Random`.
+Add a `using Random` to your imports..
+  likely near /home/vagrant/.julia/v0.7/AxisArrays/test/sortedvector.jl:10
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = _size at core.jl:562 [inlined]
+└ @ Core core.jl:562
+SortedVector: Test Failed at /home/vagrant/.julia/v0.7/AxisArrays/test/sortedvector.jl:15
+  Expression: A[:b, :] == A[5:12, :]
+   Evaluated: [16.0 36.0; 1.0 21.0; … ; 6.0 26.0; 9.0 29.0] == [19.0 39.0; 10.0 30.0; … ; 3.0 23.0; 2.0 22.0]
+Stacktrace:
+ [1] top-level scope
+ [2] include at ./boot.jl:292 [inlined]
+ [3] include_relative(::Module, ::String) at ./loading.jl:1012
+ [4] include(::Module, ::String) at ./sysimg.jl:26
+ [5] include(::String) at ./sysimg.jl:65
+ [6] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:22 [inlined]
+ [7] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [8] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:22 [inlined]
+ [9] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [10] top-level scope at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:7
+SortedVector: Test Failed at /home/vagrant/.julia/v0.7/AxisArrays/test/sortedvector.jl:16
+  Expression: A[[:a, :c], :] == A[[1:4; 13:end], :]
+   Evaluated: [7.0 27.0; 12.0 32.0; … ; 11.0 31.0; 18.0 38.0] == [7.0 27.0; 12.0 32.0; … ; 11.0 31.0; 18.0 38.0]
+Stacktrace:
+ [1] top-level scope
+ [2] include at ./boot.jl:292 [inlined]
+ [3] include_relative(::Module, ::String) at ./loading.jl:1012
+ [4] include(::Module, ::String) at ./sysimg.jl:26
+ [5] include(::String) at ./sysimg.jl:65
+ [6] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:22 [inlined]
+ [7] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [8] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:22 [inlined]
+ [9] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [10] top-level scope at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:7
+SortedVector: Test Failed at /home/vagrant/.julia/v0.7/AxisArrays/test/sortedvector.jl:17
+  Expression: A[(:a, :y), :] == A[2:4, :]
+   Evaluated: [19.0 39.0; 10.0 30.0; 14.0 34.0; 20.0 40.0] == [12.0 32.0; 13.0 33.0; 15.0 35.0]
+Stacktrace:
+ [1] top-level scope
+ [2] include at ./boot.jl:292 [inlined]
+ [3] include_relative(::Module, ::String) at ./loading.jl:1012
+ [4] include(::Module, ::String) at ./sysimg.jl:26
+ [5] include(::String) at ./sysimg.jl:65
+ [6] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:22 [inlined]
+ [7] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [8] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:22 [inlined]
+ [9] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [10] top-level scope at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:7
+SortedVector: Test Failed at /home/vagrant/.julia/v0.7/AxisArrays/test/sortedvector.jl:18
+  Expression: A[(:c, :y, :y), :] == A[16:end, :]
+   Evaluated: [11.0 31.0; 18.0 38.0] == [9.0 29.0; 17.0 37.0; … ; 11.0 31.0; 18.0 38.0]
+Stacktrace:
+ [1] top-level scope
+ [2] include at ./boot.jl:292 [inlined]
+ [3] include_relative(::Module, ::String) at ./loading.jl:1012
+ [4] include(::Module, ::String) at ./sysimg.jl:26
+ [5] include(::String) at ./sysimg.jl:65
+ [6] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:22 [inlined]
+ [7] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [8] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:22 [inlined]
+ [9] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [10] top-level scope at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:7
+SortedVector: Test Failed at /home/vagrant/.julia/v0.7/AxisArrays/test/sortedvector.jl:19
+  Expression: A[ClosedInterval(:a, :b), :] == A[1:12, :]
+   Evaluated: [7.0 27.0; 12.0 32.0; … ; 6.0 26.0; 9.0 29.0] == [7.0 27.0; 12.0 32.0; … ; 3.0 23.0; 2.0 22.0]
+Stacktrace:
+ [1] top-level scope
+ [2] include at ./boot.jl:292 [inlined]
+ [3] include_relative(::Module, ::String) at ./loading.jl:1012
+ [4] include(::Module, ::String) at ./sysimg.jl:26
+ [5] include(::String) at ./sysimg.jl:65
+ [6] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:22 [inlined]
+ [7] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [8] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:22 [inlined]
+ [9] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [10] top-level scope at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:7
+SortedVector: Test Failed at /home/vagrant/.julia/v0.7/AxisArrays/test/sortedvector.jl:20
+  Expression: A[ClosedInterval((:a, :x), (:b, :x)), :] == A[1:9, :]
+   Evaluated: [7.0 27.0; 12.0 32.0; … ; 1.0 21.0; 3.0 23.0] == [7.0 27.0; 12.0 32.0; … ; 20.0 40.0; 16.0 36.0]
+Stacktrace:
+ [1] top-level scope
+ [2] include at ./boot.jl:292 [inlined]
+ [3] include_relative(::Module, ::String) at ./loading.jl:1012
+ [4] include(::Module, ::String) at ./sysimg.jl:26
+ [5] include(::String) at ./sysimg.jl:65
+ [6] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:22 [inlined]
+ [7] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [8] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:22 [inlined]
+ [9] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [10] top-level scope at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:7
+SortedVector: Test Failed at /home/vagrant/.julia/v0.7/AxisArrays/test/sortedvector.jl:21
+  Expression: A[[ClosedInterval((:a, :x), (:b, :x)), :c], :] == A[[1:9; 13:end], :]
+   Evaluated: [7.0 27.0; 12.0 32.0; … ; 11.0 31.0; 18.0 38.0] == [7.0 27.0; 12.0 32.0; … ; 11.0 31.0; 18.0 38.0]
+Stacktrace:
+ [1] top-level scope
+ [2] include at ./boot.jl:292 [inlined]
+ [3] include_relative(::Module, ::String) at ./loading.jl:1012
+ [4] include(::Module, ::String) at ./sysimg.jl:26
+ [5] include(::String) at ./sysimg.jl:65
+ [6] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:22 [inlined]
+ [7] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [8] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:22 [inlined]
+ [9] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [10] top-level scope at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:7
+WARNING: Base.srand is deprecated: it has been moved to the standard library package `Random`.
+Add a `using Random` to your imports..
+  likely near /home/vagrant/.julia/v0.7/AxisArrays/test/categoricalvector.jl:2
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = _size at core.jl:562 [inlined]
+└ @ Core core.jl:562
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = indices at categoricalvector.jl:56 [inlined]
+└ @ Core categoricalvector.jl:56
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = _size at core.jl:562 [inlined]
+└ @ Core core.jl:562
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = _size at core.jl:562 [inlined]
+└ @ Core core.jl:562
+CategoricalVector: Test Failed at /home/vagrant/.julia/v0.7/AxisArrays/test/categoricalvector.jl:7
+  Expression: A[:b, :] == A[5:12, :]
+   Evaluated: [16.0 36.0; 1.0 21.0; … ; 6.0 26.0; 9.0 29.0] == [19.0 39.0; 10.0 30.0; … ; 3.0 23.0; 2.0 22.0]
+Stacktrace:
+ [1] top-level scope
+ [2] include at ./boot.jl:292 [inlined]
+ [3] include_relative(::Module, ::String) at ./loading.jl:1012
+ [4] include(::Module, ::String) at ./sysimg.jl:26
+ [5] include(::String) at ./sysimg.jl:65
+ [6] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:26 [inlined]
+ [7] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [8] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:26 [inlined]
+ [9] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [10] top-level scope at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:7
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = indices at categoricalvector.jl:56 [inlined]
+└ @ Core categoricalvector.jl:56
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = indices at categoricalvector.jl:56 [inlined]
+└ @ Core categoricalvector.jl:56
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = _size at core.jl:562 [inlined]
+└ @ Core core.jl:562
+CategoricalVector: Test Failed at /home/vagrant/.julia/v0.7/AxisArrays/test/categoricalvector.jl:8
+  Expression: A[[:a, :c], :] == A[[1:4; 13:end], :]
+   Evaluated: [7.0 27.0; 12.0 32.0; … ; 11.0 31.0; 18.0 38.0] == [7.0 27.0; 12.0 32.0; … ; 11.0 31.0; 18.0 38.0]
+Stacktrace:
+ [1] top-level scope
+ [2] include at ./boot.jl:292 [inlined]
+ [3] include_relative(::Module, ::String) at ./loading.jl:1012
+ [4] include(::Module, ::String) at ./sysimg.jl:26
+ [5] include(::String) at ./sysimg.jl:65
+ [6] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:26 [inlined]
+ [7] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [8] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:26 [inlined]
+ [9] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [10] top-level scope at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:7
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = indices at categoricalvector.jl:56 [inlined]
+└ @ Core categoricalvector.jl:56
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = _size at core.jl:562 [inlined]
+└ @ Core core.jl:562
+CategoricalVector: Test Failed at /home/vagrant/.julia/v0.7/AxisArrays/test/categoricalvector.jl:9
+  Expression: A[(:a, :y), :] == A[2:4, :]
+   Evaluated: [19.0 39.0; 10.0 30.0; 14.0 34.0; 20.0 40.0] == [12.0 32.0; 13.0 33.0; 15.0 35.0]
+Stacktrace:
+ [1] top-level scope
+ [2] include at ./boot.jl:292 [inlined]
+ [3] include_relative(::Module, ::String) at ./loading.jl:1012
+ [4] include(::Module, ::String) at ./sysimg.jl:26
+ [5] include(::String) at ./sysimg.jl:65
+ [6] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:26 [inlined]
+ [7] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [8] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:26 [inlined]
+ [9] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [10] top-level scope at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:7
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = indices at categoricalvector.jl:56 [inlined]
+└ @ Core categoricalvector.jl:56
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = _size at core.jl:562 [inlined]
+└ @ Core core.jl:562
+CategoricalVector: Test Failed at /home/vagrant/.julia/v0.7/AxisArrays/test/categoricalvector.jl:10
+  Expression: A[(:c, :y, :y), :] == A[16:end, :]
+   Evaluated: [11.0 31.0; 18.0 38.0] == [9.0 29.0; 17.0 37.0; … ; 11.0 31.0; 18.0 38.0]
+Stacktrace:
+ [1] top-level scope
+ [2] include at ./boot.jl:292 [inlined]
+ [3] include_relative(::Module, ::String) at ./loading.jl:1012
+ [4] include(::Module, ::String) at ./sysimg.jl:26
+ [5] include(::String) at ./sysimg.jl:65
+ [6] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:26 [inlined]
+ [7] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [8] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:26 [inlined]
+ [9] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+ [10] top-level scope at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:7
+WARNING: both AxisArrays and Base export "axes"; uses of it in module Main must be qualified
+CategoricalVector: Error During Test at /home/vagrant/.julia/v0.7/AxisArrays/test/categoricalvector.jl:11
+  Test threw an exception of type UndefVarError
+  Expression: AxisArrays.axistrait((axes(A))[1]) <: AxisArrays.Categorical
+  UndefVarError: axes not defined
   Stacktrace:
-   [1] error(::Function, ::String, ::String, ::String, ::String, ::String, ::String) at ./error.jl:42
-   [2] #srand#941(::Base.Iterators.IndexValue{Union{},Union{},Tuple{},NamedTuple{(),Tuple{}}}, ::Function, ::Int64, ::Vararg{Int64,N} where N) at ./deprecated.jl:138
-   [3] srand(::Int64, ::Vararg{Int64,N} where N) at ./deprecated.jl:138
-   [4] top-level scope
-   [5] include at ./boot.jl:292 [inlined]
-   [6] include_relative(::Module, ::String) at ./loading.jl:1012
-   [7] include(::Module, ::String) at ./sysimg.jl:26
-   [8] include(::String) at ./sysimg.jl:65
-   [9] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:22 [inlined]
-   [10] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
-   [11] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:22 [inlined]
-   [12] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
-   [13] top-level scope at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:7
-   [14] include at ./boot.jl:292 [inlined]
-   [15] include_relative(::Module, ::String) at ./loading.jl:1012
-   [16] include(::Module, ::String) at ./sysimg.jl:26
-   [17] process_options(::Base.JLOptions) at ./client.jl:334
-   [18] _start() at ./client.jl:386
-  in expression starting at /home/vagrant/.julia/v0.7/AxisArrays/test/sortedvector.jl:10
-CategoricalVector: Error During Test at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:25
-  Got an exception of type LoadError outside of a @test
-  LoadError: Base.srand has been moved to the standard library package Random.
-  Restart Julia and then run `using Random` to load it.
+   [1] top-level scope
+   [2] include at ./boot.jl:292 [inlined]
+   [3] include_relative(::Module, ::String) at ./loading.jl:1012
+   [4] include(::Module, ::String) at ./sysimg.jl:26
+   [5] include(::String) at ./sysimg.jl:65
+   [6] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:26 [inlined]
+   [7] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+   [8] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:26 [inlined]
+   [9] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+   [10] top-level scope at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:7
+CategoricalVector: Error During Test at /home/vagrant/.julia/v0.7/AxisArrays/test/categoricalvector.jl:14
+  Test threw an exception of type UndefVarError
+  Expression: AxisArrays.axistrait((axes(A))[1]) <: AxisArrays.Categorical
+  UndefVarError: axes not defined
   Stacktrace:
-   [1] error(::Function, ::String, ::String, ::String, ::String, ::String, ::String) at ./error.jl:42
-   [2] #srand#941(::Base.Iterators.IndexValue{Union{},Union{},Tuple{},NamedTuple{(),Tuple{}}}, ::Function, ::Int64, ::Vararg{Int64,N} where N) at ./deprecated.jl:138
-   [3] srand(::Int64, ::Vararg{Int64,N} where N) at ./deprecated.jl:138
-   [4] top-level scope
-   [5] include at ./boot.jl:292 [inlined]
-   [6] include_relative(::Module, ::String) at ./loading.jl:1012
-   [7] include(::Module, ::String) at ./sysimg.jl:26
-   [8] include(::String) at ./sysimg.jl:65
-   [9] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:26 [inlined]
-   [10] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
-   [11] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:26 [inlined]
-   [12] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
-   [13] top-level scope at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:7
-   [14] include at ./boot.jl:292 [inlined]
-   [15] include_relative(::Module, ::String) at ./loading.jl:1012
-   [16] include(::Module, ::String) at ./sysimg.jl:26
-   [17] process_options(::Base.JLOptions) at ./client.jl:334
-   [18] _start() at ./client.jl:386
-  in expression starting at /home/vagrant/.julia/v0.7/AxisArrays/test/categoricalvector.jl:2
+   [1] top-level scope
+   [2] include at ./boot.jl:292 [inlined]
+   [3] include_relative(::Module, ::String) at ./loading.jl:1012
+   [4] include(::Module, ::String) at ./sysimg.jl:26
+   [5] include(::String) at ./sysimg.jl:65
+   [6] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:26 [inlined]
+   [7] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+   [8] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:26 [inlined]
+   [9] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+   [10] top-level scope at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:7
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = _size at core.jl:562 [inlined]
+└ @ Core core.jl:562
+┌ Warning: `findfirst(A, v)` is deprecated, use `findfirst(equalto(v), A)` instead.
+│   caller = axisdim(::Type{AxisArray{Int64,2,Base.ReshapedArray{Int64,2,UnitRange{Int64},Tuple{}},Tuple{Axis{:row,AxisArrays.CategoricalVector{Int64,Array{Int64,1}}},Axis{:col,Array{Symbol,1}}}}}, ::Type{Axis{:row,AxisArrays.CategoricalVector{Int64,Array{Int64,1}}}}) at core.jl:243
+└ @ AxisArrays core.jl:243
+┌ Warning: `findin(a, b)` is deprecated, use `findall(occursin(b), a)` instead.
+│   caller = axisindexes(::Type{AxisArrays.Categorical}, ::AxisArrays.CategoricalVector{Int64,Array{Int64,1}}, ::AxisArrays.CategoricalVector{Int64,Array{Int64,1}}) at indexing.jl:298
+└ @ AxisArrays indexing.jl:298
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = _size at core.jl:562 [inlined]
+└ @ Core core.jl:562
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = _size at core.jl:562 [inlined]
+└ @ Core core.jl:562
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = _size at core.jl:562 [inlined]
+└ @ Core core.jl:562
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = _size at core.jl:562 [inlined]
+└ @ Core core.jl:562
+┌ Warning: `findfirst(A, v)` is deprecated, use `findfirst(equalto(v), A)` instead.
+│   caller = axisindexes(::Type{AxisArrays.Categorical}, ::AxisArrays.CategoricalVector{Int64,Array{Int64,1}}, ::AxisArrays.TolValue{Int64}) at indexing.jl:292
+└ @ AxisArrays indexing.jl:292
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = _size at core.jl:562 [inlined]
+└ @ Core core.jl:562
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = _size at core.jl:562 [inlined]
+└ @ Core core.jl:562
+CategoricalVector: Error During Test at /home/vagrant/.julia/v0.7/AxisArrays/test/categoricalvector.jl:21
+  Test threw an exception of type UndefVarError
+  Expression: AxisArrays.axistrait((axes(A))[1]) <: AxisArrays.Categorical
+  UndefVarError: axes not defined
+  Stacktrace:
+   [1] top-level scope
+   [2] include at ./boot.jl:292 [inlined]
+   [3] include_relative(::Module, ::String) at ./loading.jl:1012
+   [4] include(::Module, ::String) at ./sysimg.jl:26
+   [5] include(::String) at ./sysimg.jl:65
+   [6] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:26 [inlined]
+   [7] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+   [8] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:26 [inlined]
+   [9] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+   [10] top-level scope at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:7
 ┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
 │   caller = _size at core.jl:562 [inlined]
 └ @ Core core.jl:562
@@ -622,7 +849,6 @@ CategoricalVector: Error During Test at /home/vagrant/.julia/v0.7/AxisArrays/tes
 ┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
 │   caller = _size at core.jl:562 [inlined]
 └ @ Core core.jl:562
-WARNING: both AxisArrays and Base export "axes"; uses of it in module Main must be qualified
 Combine: Error During Test at /home/vagrant/.julia/v0.7/AxisArrays/test/combine.jl:57
   Test threw an exception of type UndefVarError
   Expression: #= /home/vagrant/.julia/v0.7/AxisArrays/test/combine.jl:57 =# @inferred(collapse(Val{2}, A1)) == AxisArray(reshape(A1.data, size(A1)..., 1), axes(A1)..., Axis{:collapsed}(AxisArrays.CategoricalVector([(1,)])))
@@ -771,56 +997,116 @@ WARNING: importing deprecated binding Base.vecnorm into Unitful.
 WARNING: Base.LinAlg is deprecated, run `using LinearAlgebra` instead.
   likely near /home/vagrant/.julia/v0.7/Unitful/src/Unitful.jl:21
 WARNING: importing deprecated binding Base.Diagonal into Unitful.
-ERROR: LoadError: LoadError: ArgumentError: invalid type for argument A in method definition for ustrip at /home/vagrant/.julia/v0.7/Unitful/src/utils.jl:67
-Stacktrace:
- [1] top-level scope
- [2] include at ./boot.jl:292 [inlined]
- [3] include_relative(::Module, ::String) at ./loading.jl:1012
- [4] include at ./sysimg.jl:26 [inlined]
- [5] include(::String) at /home/vagrant/.julia/v0.7/Unitful/src/Unitful.jl:2
- [6] top-level scope
- [7] include at ./boot.jl:292 [inlined]
- [8] include_relative(::Module, ::String) at ./loading.jl:1012
- [9] include(::Module, ::String) at ./sysimg.jl:26
- [10] top-level scope
- [11] eval at ./boot.jl:295 [inlined]
- [12] top-level scope at ./<missing>:3
-in expression starting at /home/vagrant/.julia/v0.7/Unitful/src/utils.jl:60
-in expression starting at /home/vagrant/.julia/v0.7/Unitful/src/Unitful.jl:38
+WARNING: Base.Diagonal is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/Unitful/src/utils.jl:60
+WARNING: Base.Diagonal is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/Unitful/src/utils.jl:60
+WARNING: importing deprecated binding Base.Bidiagonal into Unitful.
+WARNING: Base.Bidiagonal is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/Unitful/src/utils.jl:69
+WARNING: importing deprecated binding Base.Tridiagonal into Unitful.
+WARNING: Base.Tridiagonal is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/Unitful/src/utils.jl:73
+WARNING: importing deprecated binding Base.SymTridiagonal into Unitful.
+WARNING: Base.SymTridiagonal is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/Unitful/src/utils.jl:74
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/Unitful/src/quantities.jl:285
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/Unitful/src/quantities.jl:285
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/Unitful/src/quantities.jl:285
+WARNING: Base.Random is deprecated, run `using Random` instead.
+  likely near /home/vagrant/.julia/v0.7/Unitful/src/quantities.jl:351
+WARNING: importing deprecated binding Base.AbstractRNG into Unitful.
+WARNING: Base.AbstractRNG is deprecated: it has been moved to the standard library package `Random`.
+Add a `using Random` to your imports..
+  likely near /home/vagrant/.julia/v0.7/Unitful/src/quantities.jl:351
+WARNING: importing deprecated binding Base.TypeOrder into Unitful.
+WARNING: importing deprecated binding Base.TypeArithmetic into Unitful.
+WARNING: importing deprecated binding Base.HasOrder into Unitful.
+WARNING: importing deprecated binding Base.ArithmeticOverflows into Unitful.
+WARNING: Base.TypeOrder is deprecated, use OrderStyle instead.
+  likely near /home/vagrant/.julia/v0.7/Unitful/src/range.jl:43
+WARNING: Base.TypeArithmetic is deprecated, use ArithmeticStyle instead.
+  likely near /home/vagrant/.julia/v0.7/Unitful/src/range.jl:44
+WARNING: Base.TypeArithmetic is deprecated, use ArithmeticStyle instead.
+  likely near /home/vagrant/.julia/v0.7/Unitful/src/range.jl:46
+WARNING: Base.HasOrder is deprecated, use Ordered instead.
+  likely near /home/vagrant/.julia/v0.7/Unitful/src/range.jl:51
+WARNING: Base.HasOrder is deprecated, use Ordered instead.
+  likely near /home/vagrant/.julia/v0.7/Unitful/src/range.jl:52
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = _size at core.jl:562 [inlined]
+└ @ Core core.jl:562
+┌ Warning: `findfirst(A, v)` is deprecated, use `findfirst(equalto(v), A)` instead.
+│   caller = axisdim(::Type{AxisArray{Float64,2,Array{Float64,2},Tuple{Axis{:time,StepRangeLen{Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}},Base.TwicePrecision{Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}}},Base.TwicePrecision{Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}}}}},Axis{:chan,Array{Symbol,1}}}}}, ::Type{Axis{:time,Int64}}) at core.jl:243
+└ @ AxisArrays core.jl:243
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = _size at core.jl:562 [inlined]
+└ @ Core core.jl:562
+┌ Warning: `findfirst(A, v)` is deprecated, use `findfirst(equalto(v), A)` instead.
+│   caller = axisdim(::Type{AxisArray{Float64,2,Array{Float64,2},Tuple{Axis{:time,StepRangeLen{Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}},Base.TwicePrecision{Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}}},Base.TwicePrecision{Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}}}}},Axis{:chan,Array{Symbol,1}}}}}, ::Type{Axis{:chan,Symbol}}) at core.jl:243
+└ @ AxisArrays core.jl:243
+┌ Warning: `findfirst(A, v)` is deprecated, use `findfirst(equalto(v), A)` instead.
+│   caller = axisdim(::Type{AxisArray{Float64,2,Array{Float64,2},Tuple{Axis{:time,StepRangeLen{Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}},Base.TwicePrecision{Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}}},Base.TwicePrecision{Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}}}}},Axis{:chan,Array{Symbol,1}}}}}, ::Type{Axis{:time,UnitRange{Int64}}}) at core.jl:243
+└ @ AxisArrays core.jl:243
+┌ Warning: `findfirst(A, v)` is deprecated, use `findfirst(equalto(v), A)` instead.
+│   caller = axisindexes(::Type{AxisArrays.Categorical}, ::Array{Symbol,1}, ::Symbol) at indexing.jl:286
+└ @ AxisArrays indexing.jl:286
+┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
+│   caller = _size at core.jl:562 [inlined]
+└ @ Core core.jl:562
 README: Error During Test at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:37
   Got an exception of type LoadError outside of a @test
-  LoadError: Failed to precompile Unitful to /home/vagrant/.julia/lib/v0.7/Unitful.ji.
+  LoadError: DimensionError: s and 5.0e-5 s^2 are not dimensionally compatible.
   Stacktrace:
-   [1] error at ./error.jl:33 [inlined]
-   [2] compilecache(::Base.PkgId) at ./loading.jl:1156
-   [3] _require(::Base.PkgId) at ./loading.jl:949
-   [4] require(::Module, ::Symbol) at ./loading.jl:820
-   [5] include at ./boot.jl:292 [inlined]
-   [6] include_relative(::Module, ::String) at ./loading.jl:1012
-   [7] include(::Module, ::String) at ./sysimg.jl:26
-   [8] include(::String) at ./sysimg.jl:65
-   [9] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:38 [inlined]
-   [10] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
-   [11] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:38 [inlined]
-   [12] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
-   [13] top-level scope at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:7
-   [14] include at ./boot.jl:292 [inlined]
-   [15] include_relative(::Module, ::String) at ./loading.jl:1012
-   [16] include(::Module, ::String) at ./sysimg.jl:26
-   [17] process_options(::Base.JLOptions) at ./client.jl:334
-   [18] _start() at ./client.jl:386
-  in expression starting at /home/vagrant/.julia/v0.7/AxisArrays/test/readme.jl:3
-Test Summary:       | Pass  Error  Total
-AxisArrays          |  139     11    150
-  Core              |           1      1
-  Intervals         |   60            60
-  Indexing          |   19      5     24
-  SortedVector      |    3      1      4
-  CategoricalVector |           1      1
-  Search            |   26            26
-  Combine           |   30      2     32
-  README            |           1      1
-ERROR: LoadError: Some tests did not pass: 139 passed, 0 failed, 11 errored, 0 broken.
+   [1] convert(::Type{Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}}}, ::Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(2//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 2//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(2//1),)}}}) at /home/vagrant/.julia/v0.7/Unitful/src/conversion.jl:93
+   [2] Type at ./twiceprecision.jl:185 [inlined]
+   [3] *(::Base.TwicePrecision{Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}}}, ::Base.TwicePrecision{Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}}}) at ./twiceprecision.jl:295
+   [4] * at ./twiceprecision.jl:283 [inlined]
+   [5] * at ./twiceprecision.jl:291 [inlined]
+   [6] getindex(::StepRangeLen{Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}},Base.TwicePrecision{Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}}},Base.TwicePrecision{Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}}}}, ::UnitRange{Int64}) at ./twiceprecision.jl:472
+   [7] _new_axes at /home/vagrant/.julia/v0.7/AxisArrays/src/indexing.jl:86 [inlined]
+   [8] _reaxis at /home/vagrant/.julia/v0.7/AxisArrays/src/indexing.jl:82 [inlined]
+   [9] reaxis at /home/vagrant/.julia/v0.7/AxisArrays/src/indexing.jl:53 [inlined]
+   [10] getindex(::AxisArray{Float64,2,Array{Float64,2},Tuple{Axis{:time,StepRangeLen{Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}},Base.TwicePrecision{Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}}},Base.TwicePrecision{Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}}}}},Axis{:chan,Array{Symbol,1}}}}, ::UnitRange{Int64}, ::Int64) at /home/vagrant/.julia/v0.7/AxisArrays/src/indexing.jl:106
+   [11] getindex(::AxisArray{Float64,2,Array{Float64,2},Tuple{Axis{:time,StepRangeLen{Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}},Base.TwicePrecision{Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}}},Base.TwicePrecision{Quantity{Float64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(0, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}}}}},Axis{:chan,Array{Symbol,1}}}}, ::ClosedInterval{Quantity{Int64,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)},Unitful.FreeUnits{(Unitful.Unit{:Second,Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}(-6, 1//1),),Unitful.Dimensions{(Unitful.Dimension{:Time}(1//1),)}}}}, ::Symbol) at /home/vagrant/.julia/v0.7/AxisArrays/src/indexing.jl:123
+   [12] top-level scope
+   [13] include at ./boot.jl:292 [inlined]
+   [14] include_relative(::Module, ::String) at ./loading.jl:1012
+   [15] include(::Module, ::String) at ./sysimg.jl:26
+   [16] include(::String) at ./sysimg.jl:65
+   [17] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:38 [inlined]
+   [18] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+   [19] macro expansion at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:38 [inlined]
+   [20] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+   [21] top-level scope at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:7
+   [22] include at ./boot.jl:292 [inlined]
+   [23] include_relative(::Module, ::String) at ./loading.jl:1012
+   [24] include(::Module, ::String) at ./sysimg.jl:26
+   [25] process_options(::Base.JLOptions) at ./client.jl:334
+   [26] _start() at ./client.jl:386
+  in expression starting at /home/vagrant/.julia/v0.7/AxisArrays/test/readme.jl:20
+Test Summary:       | Pass  Fail  Error  Total
+AxisArrays          |  143    11     12    166
+  Core              |                 1      1
+  Intervals         |   60                  60
+  Indexing          |   19            5     24
+  SortedVector      |    3     7            10
+  CategoricalVector |    4     4      3     11
+  Search            |   26                  26
+  Combine           |   30            2     32
+  README            |                 1      1
+ERROR: LoadError: Some tests did not pass: 143 passed, 11 failed, 12 errored, 0 broken.
 in expression starting at /home/vagrant/.julia/v0.7/AxisArrays/test/runtests.jl:6
 ┌ Error: ------------------------------------------------------------
 │ # Testing failed for AxisArrays

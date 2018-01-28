@@ -40,7 +40,7 @@ After this operation, 9,126 kB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu/ trusty/main libgsl0ldbl amd64 1.16+dfsg-1ubuntu1 [878 kB]
 Get:2 http://archive.ubuntu.com/ubuntu/ trusty/main libgsl0-dev amd64 1.16+dfsg-1ubuntu1 [982 kB]
 dpkg-preconfigure: unable to re-open stdin: No such file or directory
-Fetched 1,860 kB in 1s (1,165 kB/s)
+Fetched 1,860 kB in 0s (2,258 kB/s)
 Selecting previously unselected package libgsl0ldbl.
 (Reading database ... 73869 files and directories currently installed.)
 Preparing to unpack .../libgsl0ldbl_1.16+dfsg-1ubuntu1_amd64.deb ...
@@ -53,22 +53,24 @@ Setting up libgsl0ldbl (1.16+dfsg-1ubuntu1) ...
 Setting up libgsl0-dev (1.16+dfsg-1ubuntu1) ...
 Processing triggers for libc-bin (2.19-0ubuntu6.14) ...
 [ Info: Package database updated
+┌ Info: METADATA is out-of-date — you may not have the latest version of GSL
+└ Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("GSL")' log
-Julia Version 0.7.0-DEV.3563
-Commit cf6303abe0 (2018-01-24 23:08 UTC)
+Julia Version 0.7.0-DEV.3583
+Commit 7d3991f784 (2018-01-26 19:00 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3500 MHz     702743 s        104 s      39905 s     260511 s          6 s
-       #2  3500 MHz     123658 s         42 s      13100 s    1031689 s          0 s
+       #1  3500 MHz     816016 s        105 s      45432 s     264298 s          8 s
+       #2  3500 MHz     162426 s         54 s      18620 s    1116460 s          0 s
        
-  Memory: 2.93927001953125 GB (950.67578125 MB free)
-  Uptime: 11815.0 sec
-  Load Avg:  0.9150390625  0.9716796875  0.95458984375
+  Memory: 2.93927001953125 GB (916.12109375 MB free)
+  Uptime: 13182.0 sec
+  Load Avg:  0.92041015625  0.9658203125  0.95068359375
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -964,19 +966,33 @@ in __init__ at /home/vagrant/.julia/v0.7/GSL/src/GSL.jl
 ┌ Warning: `cfunction(f, r, a::Tuple)` is deprecated, use `cfunction(f, r, Tuple{a...})` instead.
 │   caller = __init__() at GSL.jl:45
 └ @ GSL GSL.jl:45
-ERROR: LoadError: Base.srand has been moved to the standard library package Random.
-Restart Julia and then run `using Random` to load it.
+WARNING: Base.srand is deprecated: it has been moved to the standard library package `Random`.
+Add a `using Random` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GSL/test/runtests.jl:6
+┌ Warning: `isdefined(:symbol)` is deprecated, use `@isdefined symbol` instead
+│   caller = ip:0x0
+└ @ Core :-1
+WARNING: Base.Test is deprecated, run `using Test` instead.
+  likely near /home/vagrant/.julia/v0.7/GSL/test/testfunctions.jl:1
+┌ Warning: @test_approx_eq_eps is deprecated, use `@test u ≈ v.val atol=max(eps(), 2 * v.err)` instead
+│   caller = eval at boot.jl:295 [inlined]
+└ @ Core boot.jl:295
+GSL.sf_airy_Ai(0.2972879845354616, 1)	0.2794716295968169	gsl_sf_result(0.2794716295968169, 6.983680842345751e-17)
+ERROR: LoadError: LoadError: LoadError: MethodError: no method matching linearindices(::Float64)
+Closest candidates are:
+  linearindices(!Matched::SimpleVector) at essentials.jl:535
+  linearindices(!Matched::AbstractArray{T,1} where T) at abstractarray.jl:116
+  linearindices(!Matched::AbstractArray) at abstractarray.jl:115
+  ...
 Stacktrace:
- [1] error(::Function, ::String, ::String, ::String, ::String, ::String, ::String) at ./error.jl:42
- [2] #srand#941(::Base.Iterators.IndexValue{Union{},Union{},Tuple{},NamedTuple{(),Tuple{}}}, ::Function, ::Int64, ::Vararg{Int64,N} where N) at ./deprecated.jl:138
- [3] srand(::Int64, ::Vararg{Int64,N} where N) at ./deprecated.jl:138
- [4] top-level scope
- [5] include at ./boot.jl:292 [inlined]
- [6] include_relative(::Module, ::String) at ./loading.jl:1012
- [7] include(::Module, ::String) at ./sysimg.jl:26
- [8] process_options(::Base.JLOptions) at ./client.jl:334
- [9] _start() at ./client.jl:386
-in expression starting at /home/vagrant/.julia/v0.7/GSL/test/runtests.jl:6
+ [1] test_approx_eq(::Float64, ::Float64, ::Float64, ::String, ::String) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1512
+ [2] top-level scope at /home/vagrant/.julia/v0.7/GSL/test/testfunctions.jl:11
+ [3] eval at ./boot.jl:295 [inlined]
+ [4] eval(::Module, ::Expr) at ./sysimg.jl:71
+ [5] @sf_test(::LineNumberNode, ::Module, ::Any, ::Vararg{Any,N} where N) at /home/vagrant/.julia/v0.7/GSL/test/testfunctions.jl:6
+in expression starting at /home/vagrant/.julia/v0.7/GSL/test/basic.jl:23
+in expression starting at /home/vagrant/.julia/v0.7/GSL/test/basic.jl:23
+in expression starting at /home/vagrant/.julia/v0.7/GSL/test/runtests.jl:7
 ┌ Error: ------------------------------------------------------------
 │ # Testing failed for GSL
 │   exception =

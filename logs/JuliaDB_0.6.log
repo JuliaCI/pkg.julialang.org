@@ -37,13 +37,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (577.95703125 MB free)
-Uptime: 33588.0 sec
-Load Avg:  0.9951171875  0.95556640625  0.95458984375
+Memory: 2.93927001953125 GB (611.26171875 MB free)
+Uptime: 33426.0 sec
+Load Avg:  0.9951171875  0.9619140625  0.9970703125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    2075374 s       6095 s      94663 s     667803 s         14 s
-#2  3499 MHz     455555 s       1354 s      44298 s    2807070 s          0 s
+#1  3500 MHz    2161442 s       3672 s     100336 s     526911 s         21 s
+#2  3500 MHz     430974 s       3883 s      46459 s    2797100 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -162,8 +162,40 @@ Test Summary: | Pass  Total
 Load          |   24     24
 Test Summary: | Pass  Total
 save          |    4      4
-Test Summary: | Pass  Total
-online stats  |    4      4
-INFO: JuliaDB tests passed
+online stats: Error During Test
+  Got an exception of type CapturedException outside of a @test
+  On worker 2:
+  UndefRefError: access to undefined reference
+  unsafe_convert at ./refpointer.jl:59 [inlined]
+  unsafe_convert at ./refpointer.jl:34 [inlined]
+  unsafe_read at ./io.jl:361
+  read at ./io.jl:363 [inlined]
+  fast_read at /home/vagrant/.julia/v0.6/MemPool/src/io.jl:175
+  mmread at /home/vagrant/.julia/v0.6/MemPool/src/io.jl:63
+  deserialize at /home/vagrant/.julia/v0.6/MemPool/src/io.jl:10
+  handle_deserialize at ./serialize.jl:685
+  mmread at /home/vagrant/.julia/v0.6/JuliaDB/src/serialize.jl:72 [inlined]
+  deserialize at /home/vagrant/.julia/v0.6/MemPool/src/io.jl:10
+  handle_deserialize at ./serialize.jl:685
+  deserialize_msg at ./distributed/messages.jl:98
+  message_handler_loop at ./distributed/process_messages.jl:161
+  process_tcp_streams at ./distributed/process_messages.jl:118
+  #99 at ./event.jl:73
+  #remotecall_fetch#141(::Array{Any,1}, ::Function, ::Function, ::Base.Distributed.Worker, ::Dagger.Context, ::Vararg{Any,N} where N) at ./distributed/remotecall.jl:354
+  remotecall_fetch(::Function, ::Base.Distributed.Worker, ::Dagger.Context, ::Vararg{Any,N} where N) at ./distributed/remotecall.jl:346
+  #remotecall_fetch#144(::Array{Any,1}, ::Function, ::Function, ::Int64, ::Dagger.Context, ::Vararg{Any,N} where N) at ./distributed/remotecall.jl:367
+  macro expansion at /home/vagrant/.julia/v0.6/Dagger/src/compute.jl:332 [inlined]
+  (::Dagger.##69#70{Dagger.Context,Dagger.OSProc,Int64,JuliaDB.#mergechunk#274,Tuple{Dagger.Chunk{IndexedTables.NDSparse{OnlineStats.Series{0,Tuple{OnlineStats.Mean},OnlineStatsBase.EqualWeight},Tuple{Int64},IndexedTables.Columns{Tuple{Int64},Tuple{Array{Int64,1}}},Array{OnlineStats.Series{0,Tuple{OnlineStats.Mean},OnlineStatsBase.EqualWeight},1}},MemPool.DRef},Dagger.Chunk{IndexedTables.NDSparse{OnlineStats.Series{0,Tuple{OnlineStats.Mean},OnlineStatsBase.EqualWeight},Tuple{Int64},IndexedTables.Columns{Tuple{Int64},Tuple{Array{Int64,1}}},Array{OnlineStats.Series{0,Tuple{OnlineStats.Mean},OnlineStatsBase.EqualWeight},1}},MemPool.DRef}},Channel{Any},Bool,Bool,Bool})() at ./event.jl:73
+Test Summary: | Pass  Error  Total
+online stats  |    3      1      4
+ERROR: LoadError: LoadError: Some tests did not pass: 3 passed, 0 failed, 1 errored, 0 broken.
+while loading /home/vagrant/.julia/v0.6/JuliaDB/test/test_onlinestats.jl, in expression starting on line 5
+while loading /home/vagrant/.julia/v0.6/JuliaDB/test/runtests.jl, in expression starting on line 18
+===============================[ ERROR: JuliaDB ]===============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/JuliaDB/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: JuliaDB had test errors
 
 >>> End of log
