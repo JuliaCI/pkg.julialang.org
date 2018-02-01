@@ -1,7 +1,47 @@
 >>> 'Pkg.add("TaylorIntegration")' log
 INFO: Cloning cache of TaylorIntegration from https://github.com/PerezHz/TaylorIntegration.jl.git
-INFO: Installing TaylorIntegration v0.2.0
+INFO: Installing DiffEqBase v3.1.0
+INFO: Installing FunctionWrappers v0.1.0
+INFO: Installing LinearMaps v1.0.4
+INFO: Installing MacroTools v0.4.0
+INFO: Installing RecipesBase v0.2.3
+INFO: Installing RecursiveArrayTools v0.14.5
+INFO: Installing Reexport v0.1.0
+INFO: Installing Requires v0.4.3
+INFO: Installing SimpleTraits v0.5.1
+INFO: Installing StaticArrays v0.6.6
+INFO: Installing TaylorIntegration v0.2.1
 INFO: Installing TaylorSeries v0.7.1
+INFO: Building DiffEqBase
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 INFO: Package database updated
 INFO: METADATA is out-of-date — you may not have the latest version of TaylorIntegration
 INFO: Use `Pkg.update()` to get the latest versions of your packages
@@ -15,13 +55,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (420.734375 MB free)
-Uptime: 65237.0 sec
-Load Avg:  1.0029296875  1.0146484375  0.96533203125
+Memory: 2.93927001953125 GB (453.09375 MB free)
+Uptime: 66807.0 sec
+Load Avg:  1.0029296875  1.00146484375  0.99267578125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3498 MHz    4209748 s        108 s     175756 s    1166761 s         44 s
-#2  3498 MHz    1023806 s       6944 s      86553 s    5296763 s          1 s
+#1  3499 MHz    4296504 s       2634 s     180079 s    1180466 s         48 s
+#2  3499 MHz    1051351 s       3521 s      84801 s    5416319 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -37,41 +77,116 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - JSON                          0.16.4
- - TaylorIntegration             0.2.0
-3 additional packages:
+ - TaylorIntegration             0.2.1
+13 additional packages:
  - Compat                        0.49.0
+ - DiffEqBase                    3.1.0
+ - FunctionWrappers              0.1.0
+ - LinearMaps                    1.0.4
+ - MacroTools                    0.4.0
  - Nullables                     0.0.3
+ - RecipesBase                   0.2.3
+ - RecursiveArrayTools           0.14.5
+ - Reexport                      0.1.0
+ - Requires                      0.4.3
+ - SimpleTraits                  0.5.1
+ - StaticArrays                  0.6.6
  - TaylorSeries                  0.7.1
 INFO: Computing test dependencies for TaylorIntegration...
-INFO: No packages to install, update or remove
+INFO: Cloning cache of Elliptic from https://github.com/nolta/Elliptic.jl.git
+INFO: Installing Elliptic v0.4.1
 INFO: Testing TaylorIntegration
-Tests: dot{x}=x^2, x(0) = 1: Error During Test
-  Got an exception of type BoundsError outside of a @test
-  BoundsError: attempt to access 1-element Array{Float64,1} at index [2]
-  Stacktrace:
-   [1] jetcoeffs!(::#eqs_mov#1, ::TaylorSeries.Taylor1{Float64}, ::TaylorSeries.Taylor1{Float64}) at /home/vagrant/.julia/v0.6/TaylorIntegration/src/explicitode.jl:39
-   [2] macro expansion at /home/vagrant/.julia/v0.6/TaylorIntegration/test/one_ode.jl:16 [inlined]
-   [3] macro expansion at ./test.jl:860 [inlined]
-   [4] anonymous at ./<missing>:?
-   [5] include_from_node1(::String) at ./loading.jl:576
-   [6] include(::String) at ./sysimg.jl:14
-   [7] macro expansion at /home/vagrant/.julia/v0.6/TaylorIntegration/test/runtests.jl:13 [inlined]
-   [8] anonymous at ./<missing>:?
-   [9] include_from_node1(::String) at ./loading.jl:576
-   [10] include(::String) at ./sysimg.jl:14
-   [11] process_options(::Base.JLOptions) at ./client.jl:305
-   [12] _start() at ./client.jl:371
-Test Summary:               | Error  Total
-Tests: dot{x}=x^2, x(0) = 1 |     1      1
-ERROR: LoadError: LoadError: Some tests did not pass: 0 passed, 0 failed, 1 errored, 0 broken.
-while loading /home/vagrant/.julia/v0.6/TaylorIntegration/test/one_ode.jl, in expression starting on line 10
-while loading /home/vagrant/.julia/v0.6/TaylorIntegration/test/runtests.jl, in expression starting on line 12
-==========================[ ERROR: TaylorIntegration ]==========================
-
-failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/TaylorIntegration/test/runtests.jl`, ProcessExited(1)) [1]
-
-================================================================================
-INFO: No packages to install, update or remove
-ERROR: TaylorIntegration had test errors
+WARNING: Maximum number of integration steps reached; exiting.
+WARNING: Maximum number of integration steps reached; exiting.
+WARNING: Maximum number of integration steps reached; exiting.
+Test Summary:               | Pass  Total
+Tests: dot{x}=x^2, x(0) = 1 |   18     18
+Test Summary:                                   | Pass  Total
+Tests: dot{x}=x^2, x(0) = 3; nsteps <= maxsteps |   42     42
+Test Summary:                              | Pass  Total
+Test non-autonomous ODE (1): dot{x}=cos(t) |    9      9
+WARNING: redefining constant tT
+WARNING: Maximum number of integration steps reached; exiting.
+WARNING: Maximum number of integration steps reached; exiting.
+WARNING: Maximum number of integration steps reached; exiting.
+Test Summary:                        | Pass  Total
+Tests: dot{x}=x.^2, x(0) = [3.0,1.0] |   24     24
+Test Summary:                              | Pass  Total
+Test non-autonomous ODE (2): dot{x}=cos(t) |   18     18
+WARNING: Maximum number of integration steps reached; exiting.
+WARNING: Maximum number of integration steps reached; exiting.
+Test Summary:                                                | Pass  Total
+Test integration of ODE with complex dependent variables (1) |   17     17
+WARNING: Maximum number of integration steps reached; exiting.
+WARNING: Maximum number of integration steps reached; exiting.
+Test Summary:                                                | Pass  Total
+Test integration of ODE with complex dependent variables (2) |   15     15
+WARNING: Maximum number of integration steps reached; exiting.
+WARNING: Maximum number of integration steps reached; exiting.
+Test Summary:                                                | Pass  Total
+Test integration of ODE with complex dependent variables (3) |   20     20
+WARNING: Maximum number of integration steps reached; exiting.
+WARNING: Maximum number of integration steps reached; exiting.
+Test Summary:                                     | Pass  Total
+Test Taylor1 jet transport (t0, tmax): 1-dim case |   54     54
+WARNING: Maximum number of integration steps reached; exiting.
+WARNING: Maximum number of integration steps reached; exiting.
+Test Summary:                                     | Pass  Total
+Test TaylorN jet transport (t0, tmax): 1-dim case |   54     54
+WARNING: Maximum number of integration steps reached; exiting.
+WARNING: Maximum number of integration steps reached; exiting.
+Test Summary:                                   | Pass  Total
+Test Taylor1 jet transport (trange): 1-dim case |   35     35
+WARNING: Maximum number of integration steps reached; exiting.
+WARNING: Maximum number of integration steps reached; exiting.
+Test Summary:                                   | Pass  Total
+Test TaylorN jet transport (trange): 1-dim case |   35     35
+WARNING: Maximum number of integration steps reached; exiting.
+Test Summary:                                             | Pass  Total
+Test Taylor1 jet transport (t0,tmax): harmonic oscillator |   29     29
+WARNING: Maximum number of integration steps reached; exiting.
+WARNING: Maximum number of integration steps reached; exiting.
+Test Summary:                                            | Pass  Total
+Test Taylor1 jet transport (trange): harmonic oscillator |   27     27
+WARNING: Maximum number of integration steps reached; exiting.
+Test Summary:                                             | Pass  Total
+Test TaylorN jet transport (t0,tmax): harmonic oscillator |    9      9
+WARNING: Maximum number of integration steps reached; exiting.
+WARNING: Maximum number of integration steps reached; exiting.
+Test Summary:                                        | Pass  Total
+Test TaylorN jet transport (trange): simple pendulum |   16     16
+Test Summary:           | Pass  Total
+Test `stabilitymatrix!` |   10     10
+Test Summary:       | Pass  Total
+Test `classicalGS!` |    9      9
+WARNING: Maximum number of integration steps reached; exiting.
+Test Summary:                                               | Pass  Total
+Test Lyapunov spectrum integrator (t0, tmax): Lorenz system |   12     12
+WARNING: Maximum number of integration steps reached; exiting.
+Test Summary:                                             | Pass  Total
+Test Lyapunov spectrum integrator (trange): Lorenz system |   20     20
+WARNING: redefining constant _order
+WARNING: redefining constant _abstol
+WARNING: Maximum number of integration steps reached; exiting.
+Test Summary:                                        | Pass  Total
+Test ODE integration with BigFloats: simple pendulum |   13     13
+Test Summary:                                            | Pass  Total
+Test integration of ODE with numbers in common interface |    1      1
+Test Summary:                                                    | Pass  Total
+Test integration of ODE with abstract arrays in common interface |    1      1
+WARNING: redefining constant _order
+WARNING: redefining constant _abstol
+WARNING: Maximum number of integration steps reached; exiting.
+WARNING: Maximum number of integration steps reached; exiting.
+WARNING: Maximum number of integration steps reached; exiting.
+WARNING: Newton-Raphson did not converge for prescribed tolerance and maximum allowed iterations.
+WARNING: Newton-Raphson did not converge for prescribed tolerance and maximum allowed iterations.
+WARNING: Newton-Raphson did not converge for prescribed tolerance and maximum allowed iterations.
+WARNING: Newton-Raphson did not converge for prescribed tolerance and maximum allowed iterations.
+WARNING: Newton-Raphson did not converge for prescribed tolerance and maximum allowed iterations.
+Test Summary:                                                   | Pass  Total
+Test intersection of surfaces and root-finding: simple pendulum |   65     65
+INFO: TaylorIntegration tests passed
+INFO: Removing Elliptic v0.4.1
 
 >>> End of log

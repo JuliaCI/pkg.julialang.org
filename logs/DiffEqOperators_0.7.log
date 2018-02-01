@@ -1,34 +1,75 @@
 >>> 'Pkg.add("DiffEqOperators")' log
+WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
+ in module Main
 [ Info: Cloning cache of DiffEqOperators from https://github.com/JuliaDiffEq/DiffEqOperators.jl.git
-[ Info: Installing DiffEqBase v3.0.4
+[ Info: Installing DiffEqBase v3.1.0
 [ Info: Installing DiffEqOperators v1.0.0
 [ Info: Installing FunctionWrappers v0.1.0
 [ Info: Installing LinearMaps v1.0.4
 [ Info: Installing MacroTools v0.4.0
 [ Info: Installing RecipesBase v0.2.3
-[ Info: Installing RecursiveArrayTools v0.14.3
+[ Info: Installing RecursiveArrayTools v0.14.5
 [ Info: Installing Requires v0.4.3
 [ Info: Installing SimpleTraits v0.5.1
 [ Info: Installing StaticArrays v0.6.6
+[ Info: Building DiffEqBase
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = top-level scope
+└ @ Core :0
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 [ Info: Package database updated
 ┌ Info: METADATA is out-of-date — you may not have the latest version of DiffEqOperators
 └ Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("DiffEqOperators")' log
-Julia Version 0.7.0-DEV.3583
-Commit 7d3991f784 (2018-01-26 19:00 UTC)
+WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
+Add a `using InteractiveUtils` to your imports..
+ in module Main
+WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
+Add a `using InteractiveUtils` to your imports..
+ in module Main
+Julia Version 0.7.0-DEV.3664
+Commit 9d5aebb07a (2018-01-30 22:46 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3500 MHz    3486604 s       6513 s     173918 s    1095905 s         40 s
-       #2  3500 MHz     960646 s       1748 s      78716 s    4381245 s          1 s
+       #1  3499 MHz    3573026 s       7076 s     181572 s    1187643 s         54 s
+       #2  3499 MHz    1039002 s         41 s      80646 s    4531288 s          0 s
        
-  Memory: 2.93927001953125 GB (1461.08984375 MB free)
-  Uptime: 55463.0 sec
-  Load Avg:  0.923828125  0.96923828125  0.9599609375
+  Memory: 2.93927001953125 GB (1477.95703125 MB free)
+  Uptime: 57724.0 sec
+  Load Avg:  1.0361328125  1.00634765625  0.96875
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -46,16 +87,18 @@ Packages:
  - JSON                          0.16.4
 11 additional packages:
  - Compat                        0.49.0
- - DiffEqBase                    3.0.4
+ - DiffEqBase                    3.1.0
  - FunctionWrappers              0.1.0
  - LinearMaps                    1.0.4
  - MacroTools                    0.4.0
  - Nullables                     0.0.3
  - RecipesBase                   0.2.3
- - RecursiveArrayTools           0.14.3
+ - RecursiveArrayTools           0.14.5
  - Requires                      0.4.3
  - SimpleTraits                  0.5.1
  - StaticArrays                  0.6.6
+WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
+ in module Main
 [ Info: Computing test dependencies for DiffEqOperators...
 [ Info: Cloning cache of SpecialMatrices from https://github.com/jiahao/SpecialMatrices.jl.git
 [ Info: Installing BinDeps v0.8.6
@@ -66,7 +109,7 @@ Packages:
 [ Info: Installing DiffResults v0.0.3
 [ Info: Installing DiffRules v0.0.3
 [ Info: Installing Distances v0.5.0
-[ Info: Installing ForwardDiff v0.7.2
+[ Info: Installing ForwardDiff v0.7.3
 [ Info: Installing GenericSVD v0.1.0
 [ Info: Installing Juno v0.4.0
 [ Info: Installing LineSearches v3.2.5
@@ -74,9 +117,9 @@ Packages:
 [ Info: Installing Missings v0.2.5
 [ Info: Installing MuladdMacro v0.0.2
 [ Info: Installing NLSolversBase v4.2.0
-[ Info: Installing NLsolve v0.14.1
+[ Info: Installing NLsolve v1.0.0
 [ Info: Installing NaNMath v0.3.0
-[ Info: Installing OrdinaryDiffEq v3.0.1
+[ Info: Installing OrdinaryDiffEq v3.0.2
 [ Info: Installing Parameters v0.8.1
 [ Info: Installing Reexport v0.1.0
 [ Info: Installing Roots v0.5.0
@@ -98,6 +141,39 @@ WARNING: importing deprecated binding Base.Associative into BinDeps.
 WARNING: Base.Associative is deprecated, use AbstractDict instead.
   likely near /home/vagrant/.julia/v0.7/SpecialFunctions/deps/binaries.jl:44
 in @install at /home/vagrant/.julia/v0.7/BinDeps/src/dependencies.jl
+[ Info: Building DiffEqBase
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = top-level scope
+└ @ Core :0
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 [ Info: Testing DiffEqOperators
 WARNING: Method definition __init__() in module Requires at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9 overwritten in module RecursiveArrayTools at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9.
 WARNING: Method definition __init__() in module RecursiveArrayTools at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9 overwritten in module DiffEqBase at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9.
@@ -411,21 +487,21 @@ Full and Sparse functions:: Error During Test at /home/vagrant/.julia/v0.7/DiffE
    [1] full(::DerivativeOperator{Float64,SVector{3,Float64},:Dirichlet0,:Dirichlet0}, ::Int64) at /home/vagrant/.julia/v0.7/DiffEqOperators/src/derivative_operators/derivative_operator.jl:621
    [2] full(::DerivativeOperator{Float64,SVector{3,Float64},:Dirichlet0,:Dirichlet0}) at /home/vagrant/.julia/v0.7/DiffEqOperators/src/derivative_operators/derivative_operator.jl:612
    [3] macro expansion at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:9 [inlined]
-   [4] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+   [4] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1008 [inlined]
    [5] top-level scope at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:3
    [6] include at ./boot.jl:292 [inlined]
    [7] include_relative(::Module, ::String) at ./loading.jl:1012
    [8] include(::Module, ::String) at ./sysimg.jl:26
    [9] include(::String) at ./sysimg.jl:65
    [10] macro expansion at /home/vagrant/.julia/v0.7/DiffEqOperators/test/runtests.jl:6 [inlined]
-   [11] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+   [11] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1008 [inlined]
    [12] macro expansion at /home/vagrant/.julia/v0.7/DiffEqOperators/test/runtests.jl:6 [inlined]
    [13] top-level scope at ./<missing>:169
    [14] include at ./boot.jl:292 [inlined]
    [15] include_relative(::Module, ::String) at ./loading.jl:1012
    [16] include(::Module, ::String) at ./sysimg.jl:26
-   [17] process_options(::Base.JLOptions) at ./client.jl:334
-   [18] _start() at ./client.jl:386
+   [17] exec_options(::Base.JLOptions) at ./client.jl:332
+   [18] _start() at ./client.jl:447
 WARNING: Base.A_mul_B! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:36
@@ -456,7 +532,7 @@ Indexing tests: Error During Test at /home/vagrant/.julia/v0.7/DiffEqOperators/t
    [1] full(::DerivativeOperator{Float64,SVector{13,Float64},:Dirichlet0,:Dirichlet0}, ::Int64) at /home/vagrant/.julia/v0.7/DiffEqOperators/src/derivative_operators/derivative_operator.jl:621
    [2] full(::DerivativeOperator{Float64,SVector{13,Float64},:Dirichlet0,:Dirichlet0}) at /home/vagrant/.julia/v0.7/DiffEqOperators/src/derivative_operators/derivative_operator.jl:612
    [3] macro expansion at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:43 [inlined]
-   [4] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+   [4] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1008 [inlined]
    [5] top-level scope at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:37
 Indexing tests: Error During Test at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:36
   Got an exception of type UndefVarError outside of a @test
@@ -465,21 +541,21 @@ Indexing tests: Error During Test at /home/vagrant/.julia/v0.7/DiffEqOperators/t
    [1] full(::DerivativeOperator{Float64,SVector{3,Float64},:Dirichlet0,:Dirichlet0}, ::Int64) at /home/vagrant/.julia/v0.7/DiffEqOperators/src/derivative_operators/derivative_operator.jl:621
    [2] full(::DerivativeOperator{Float64,SVector{3,Float64},:Dirichlet0,:Dirichlet0}) at /home/vagrant/.julia/v0.7/DiffEqOperators/src/derivative_operators/derivative_operator.jl:612
    [3] macro expansion at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:56 [inlined]
-   [4] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+   [4] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1008 [inlined]
    [5] top-level scope at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:37
    [6] include at ./boot.jl:292 [inlined]
    [7] include_relative(::Module, ::String) at ./loading.jl:1012
    [8] include(::Module, ::String) at ./sysimg.jl:26
    [9] include(::String) at ./sysimg.jl:65
    [10] macro expansion at /home/vagrant/.julia/v0.7/DiffEqOperators/test/runtests.jl:6 [inlined]
-   [11] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+   [11] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1008 [inlined]
    [12] macro expansion at /home/vagrant/.julia/v0.7/DiffEqOperators/test/runtests.jl:6 [inlined]
    [13] top-level scope at ./<missing>:169
    [14] include at ./boot.jl:292 [inlined]
    [15] include_relative(::Module, ::String) at ./loading.jl:1012
    [16] include(::Module, ::String) at ./sysimg.jl:26
-   [17] process_options(::Base.JLOptions) at ./client.jl:334
-   [18] _start() at ./client.jl:386
+   [17] exec_options(::Base.JLOptions) at ./client.jl:332
+   [18] _start() at ./client.jl:447
 WARNING: Base.A_mul_B! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:64
@@ -494,7 +570,7 @@ test set: Error During Test at /home/vagrant/.julia/v0.7/DiffEqOperators/test/de
    [1] A_mul_B!(::Array{Float64,2}, ::DerivativeOperator{Float64,SVector{3,Float64},:None,:None}, ::Array{Float64,2}) at /home/vagrant/.julia/v0.7/DiffEqOperators/src/derivative_operators/derivative_operator.jl:584
    [2] *(::DerivativeOperator{Float64,SVector{3,Float64},:None,:None}, ::Array{Float64,2}) at /home/vagrant/.julia/v0.7/DiffEqOperators/src/derivative_operators/derivative_operator.jl:22
    [3] macro expansion at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:79 [inlined]
-   [4] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+   [4] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1008 [inlined]
    [5] top-level scope at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:64
 WARNING: Base.A_mul_B! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
@@ -510,7 +586,7 @@ test set: Error During Test at /home/vagrant/.julia/v0.7/DiffEqOperators/test/de
    [1] A_mul_B!(::Array{Float64,2}, ::DerivativeOperator{Float64,SVector{3,Float64},:None,:None}, ::Array{Float64,2}) at /home/vagrant/.julia/v0.7/DiffEqOperators/src/derivative_operators/derivative_operator.jl:584
    [2] *(::Array{Float64,2}, ::DerivativeOperator{Float64,SVector{3,Float64},:None,:None}) at /home/vagrant/.julia/v0.7/DiffEqOperators/src/derivative_operators/derivative_operator.jl:34
    [3] macro expansion at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:80 [inlined]
-   [4] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+   [4] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1008 [inlined]
    [5] top-level scope at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:64
 test set: Error During Test at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:81
   Test threw an exception of type UndefVarError
@@ -521,7 +597,7 @@ test set: Error During Test at /home/vagrant/.julia/v0.7/DiffEqOperators/test/de
    [2] * at /home/vagrant/.julia/v0.7/DiffEqOperators/src/derivative_operators/derivative_operator.jl:22 [inlined]
    [3] *(::DerivativeOperator{Float64,SVector{3,Float64},:None,:None}, ::Array{Float64,2}, ::DerivativeOperator{Float64,SVector{3,Float64},:None,:None}) at ./operators.jl:434
    [4] macro expansion at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:81 [inlined]
-   [5] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+   [5] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1008 [inlined]
    [6] top-level scope at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:64
 test set: Error During Test at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:85
   Test threw an exception of type UndefVarError
@@ -531,7 +607,7 @@ test set: Error During Test at /home/vagrant/.julia/v0.7/DiffEqOperators/test/de
    [1] A_mul_B!(::Array{Float64,2}, ::DerivativeOperator{Float64,SVector{3,Float64},:None,:None}, ::Array{Float64,2}) at /home/vagrant/.julia/v0.7/DiffEqOperators/src/derivative_operators/derivative_operator.jl:584
    [2] *(::DerivativeOperator{Float64,SVector{3,Float64},:None,:None}, ::Array{Float64,2}) at /home/vagrant/.julia/v0.7/DiffEqOperators/src/derivative_operators/derivative_operator.jl:22
    [3] macro expansion at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:85 [inlined]
-   [4] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+   [4] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1008 [inlined]
    [5] top-level scope at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:64
 test set: Error During Test at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:86
   Test threw an exception of type UndefVarError
@@ -541,7 +617,7 @@ test set: Error During Test at /home/vagrant/.julia/v0.7/DiffEqOperators/test/de
    [1] A_mul_B!(::Array{Float64,2}, ::DerivativeOperator{Float64,SVector{3,Float64},:None,:None}, ::Array{Float64,2}) at /home/vagrant/.julia/v0.7/DiffEqOperators/src/derivative_operators/derivative_operator.jl:584
    [2] *(::Array{Float64,2}, ::DerivativeOperator{Float64,SVector{3,Float64},:None,:None}) at /home/vagrant/.julia/v0.7/DiffEqOperators/src/derivative_operators/derivative_operator.jl:34
    [3] macro expansion at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:86 [inlined]
-   [4] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+   [4] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1008 [inlined]
    [5] top-level scope at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:64
 test set: Error During Test at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:87
   Test threw an exception of type UndefVarError
@@ -552,7 +628,7 @@ test set: Error During Test at /home/vagrant/.julia/v0.7/DiffEqOperators/test/de
    [2] * at /home/vagrant/.julia/v0.7/DiffEqOperators/src/derivative_operators/derivative_operator.jl:22 [inlined]
    [3] *(::DerivativeOperator{Float64,SVector{3,Float64},:None,:None}, ::Array{Float64,2}, ::DerivativeOperator{Float64,SVector{3,Float64},:None,:None}) at ./operators.jl:434
    [4] macro expansion at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:87 [inlined]
-   [5] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
+   [5] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1008 [inlined]
    [6] top-level scope at /home/vagrant/.julia/v0.7/DiffEqOperators/test/derivative_operators_interface.jl:64
 Test Summary:                  | Pass  Error  Total
 Derivative Operators Interface | 1002      9   1011
@@ -569,24 +645,24 @@ in expression starting at /home/vagrant/.julia/v0.7/DiffEqOperators/test/runtest
 │     [1] error(::String, ::Base.Process, ::String, ::Int64, ::String) at ./error.jl:42
 │     [2] pipeline_error(::Base.Process) at ./process.jl:698
 │     [3] run(::Cmd) at ./process.jl:660
-│     [4] (::getfield(Base.Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}})() at ./pkg/entry.jl:729
-│     [5] cd(::getfield(Base.Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:70
-│     [6] #test!#88(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./pkg/entry.jl:717
-│     [7] (::getfield(Base.Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
-│     [8] #test#96(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:756
-│     [9] (::getfield(Base.Pkg.Entry, Symbol("#kw##test")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Entry.test), ::Array{AbstractString,1}) at ./<missing>:0
-│     [10] (::getfield(Base.Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Base.Pkg.Entry.test),Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:36
-│     [11] cd(::getfield(Base.Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Base.Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:70
-│     [12] #cd#1(::Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./pkg/dir.jl:36
-│     [13] (::getfield(Base.Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
-│     [14] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at ./pkg/pkg.jl:274
-│     [15] test(::String, ::Vararg{String,N} where N) at ./pkg/pkg.jl:274
+│     [4] (::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:731
+│     [5] cd(::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:70
+│     [6] #test!#88(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:719
+│     [7] (::getfield(Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
+│     [8] #test#96(::Bool, ::Function, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:758
+│     [9] (::getfield(Pkg.Entry, Symbol("#kw##test")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test), ::Array{AbstractString,1}) at ./<missing>:0
+│     [10] (::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [11] cd(::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:70
+│     [12] #cd#1(::Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [13] (::getfield(Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
+│     [14] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
+│     [15] test(::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
 │     [16] top-level scope
 │     [17] eval at ./boot.jl:295 [inlined]
 │     [18] eval(::Module, ::Expr) at ./sysimg.jl:71
-│     [19] process_options(::Base.JLOptions) at ./client.jl:311
-│     [20] _start() at ./client.jl:386
-└ @ Base.Pkg.Entry entry.jl:732
+│     [19] exec_options(::Base.JLOptions) at ./client.jl:309
+│     [20] _start() at ./client.jl:447
+└ @ Pkg.Entry entry.jl:734
 [ Info: Removing BinDeps v0.8.6
 [ Info: Removing CommonSubexpressions v0.0.1
 [ Info: Removing DataStructures v0.7.4
@@ -595,7 +671,7 @@ in expression starting at /home/vagrant/.julia/v0.7/DiffEqOperators/test/runtest
 [ Info: Removing DiffResults v0.0.3
 [ Info: Removing DiffRules v0.0.3
 [ Info: Removing Distances v0.5.0
-[ Info: Removing ForwardDiff v0.7.2
+[ Info: Removing ForwardDiff v0.7.3
 [ Info: Removing GenericSVD v0.1.0
 [ Info: Removing Juno v0.4.0
 [ Info: Removing LineSearches v3.2.5
@@ -603,9 +679,9 @@ in expression starting at /home/vagrant/.julia/v0.7/DiffEqOperators/test/runtest
 [ Info: Removing Missings v0.2.5
 [ Info: Removing MuladdMacro v0.0.2
 [ Info: Removing NLSolversBase v4.2.0
-[ Info: Removing NLsolve v0.14.1
+[ Info: Removing NLsolve v1.0.0
 [ Info: Removing NaNMath v0.3.0
-[ Info: Removing OrdinaryDiffEq v3.0.1
+[ Info: Removing OrdinaryDiffEq v3.0.2
 [ Info: Removing Parameters v0.8.1
 [ Info: Removing Reexport v0.1.0
 [ Info: Removing Roots v0.5.0

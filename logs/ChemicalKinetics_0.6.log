@@ -6,11 +6,11 @@ INFO: Installing Calculus v0.2.2
 INFO: Installing ChemicalKinetics v0.2.0
 INFO: Installing CommonSubexpressions v0.0.1
 INFO: Installing DataStructures v0.7.4
-INFO: Installing DiffEqBase v3.0.4
+INFO: Installing DiffEqBase v3.1.0
 INFO: Installing DiffResults v0.0.3
 INFO: Installing DiffRules v0.0.3
 INFO: Installing Distributions v0.15.0
-INFO: Installing ForwardDiff v0.7.2
+INFO: Installing ForwardDiff v0.7.3
 INFO: Installing FunctionWrappers v0.1.0
 INFO: Installing LinearMaps v1.0.4
 INFO: Installing MacroTools v0.4.0
@@ -19,7 +19,7 @@ INFO: Installing NaNMath v0.3.0
 INFO: Installing PDMats v0.8.0
 INFO: Installing QuadGK v0.2.0
 INFO: Installing RecipesBase v0.2.3
-INFO: Installing RecursiveArrayTools v0.14.3
+INFO: Installing RecursiveArrayTools v0.14.5
 INFO: Installing Reexport v0.1.0
 INFO: Installing Requires v0.4.3
 INFO: Installing Rmath v0.3.2
@@ -35,6 +35,36 @@ INFO: Installing Sundials v1.1.0
 INFO: Installing URIParser v0.3.0
 INFO: Building SpecialFunctions
 INFO: Building Rmath
+INFO: Building DiffEqBase
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 INFO: Building Sundials
 INFO: Found a valid dl path libsundials_arkode.so while looking for libsundials_nvecserial
 INFO: Found a valid dl path libsundials_arkode.so.2 while looking for libsundials_nvecserial

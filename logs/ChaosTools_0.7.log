@@ -1,22 +1,24 @@
 >>> 'Pkg.add("ChaosTools")' log
+WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
+ in module Main
 [ Info: Cloning cache of ChaosTools from https://github.com/JuliaDynamics/ChaosTools.jl.git
 [ Info: Cloning cache of DynamicalSystemsBase from https://github.com/JuliaDynamics/DynamicalSystemsBase.jl.git
 [ Info: Installing BinDeps v0.8.6
 [ Info: Installing Calculus v0.2.2
-[ Info: Installing ChaosTools v0.4.3
+[ Info: Installing ChaosTools v0.5.0
 [ Info: Installing Combinatorics v0.5.0
 [ Info: Installing CommonSubexpressions v0.0.1
 [ Info: Installing DataStructures v0.7.4
 [ Info: Installing DiffBase v0.3.2
-[ Info: Installing DiffEqBase v2.10.2
-[ Info: Installing DiffEqCallbacks v0.8.0
-[ Info: Installing DiffEqDiffTools v0.2.1
+[ Info: Installing DiffEqBase v3.1.0
+[ Info: Installing DiffEqCallbacks v1.0.0
+[ Info: Installing DiffEqDiffTools v0.3.0
 [ Info: Installing DiffResults v0.0.3
 [ Info: Installing DiffRules v0.0.3
 [ Info: Installing Distances v0.5.0
 [ Info: Installing Distributions v0.15.0
-[ Info: Installing DynamicalSystemsBase v0.4.1
-[ Info: Installing ForwardDiff v0.7.2
+[ Info: Installing DynamicalSystemsBase v0.5.1
+[ Info: Installing ForwardDiff v0.7.3
 [ Info: Installing FunctionWrappers v0.1.0
 [ Info: Installing GenericSVD v0.1.0
 [ Info: Installing IterTools v0.2.1
@@ -28,18 +30,18 @@
 [ Info: Installing Media v0.3.0
 [ Info: Installing Missings v0.2.5
 [ Info: Installing MuladdMacro v0.0.2
-[ Info: Installing NLSolversBase v3.1.0
-[ Info: Installing NLsolve v0.13.0
+[ Info: Installing NLSolversBase v4.2.0
+[ Info: Installing NLsolve v1.0.0
 [ Info: Installing NaNMath v0.3.0
 [ Info: Installing NearestNeighbors v0.3.0
 [ Info: Installing OptimBase v1.0.0
-[ Info: Installing OrdinaryDiffEq v2.37.0
+[ Info: Installing OrdinaryDiffEq v3.0.2
 [ Info: Installing PDMats v0.8.0
 [ Info: Installing Parameters v0.8.1
 [ Info: Installing Polynomials v0.2.1
 [ Info: Installing QuadGK v0.2.0
 [ Info: Installing RecipesBase v0.2.3
-[ Info: Installing RecursiveArrayTools v0.14.3
+[ Info: Installing RecursiveArrayTools v0.14.5
 [ Info: Installing Reexport v0.1.0
 [ Info: Installing Requires v0.4.3
 [ Info: Installing Rmath v0.3.2
@@ -66,6 +68,63 @@ WARNING: importing deprecated binding Base.Associative into BinDeps.
 WARNING: Base.Associative is deprecated, use AbstractDict instead.
   likely near /home/vagrant/.julia/v0.7/SpecialFunctions/deps/binaries.jl:44
 in @install at /home/vagrant/.julia/v0.7/BinDeps/src/dependencies.jl
+[ Info: Building DiffEqBase
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = top-level scope
+└ @ Core :0
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
+[ Info: Building DynamicalSystemsBase
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = top-level scope
+└ @ Core :0
+INFO: ~~~ DynamicalSystemsBase.jl update message ~~~
+
+We have changed the fundamental way users define
+equations of motion and Jacobians
+for all subtypes of `DynamicalSystem`!
+In short, parameters are now directly passed
+into the equations of motion function, e.g.
+`f(du, u, p, t)`. These updates are in-line
+with DifferentialEquations v4.0 release.
+
+Notice that the same changes happened for
+discrete systems as well. For example, the
+e.o.m. for `DiscreteDS` are now expected
+in the form `eom(x, p)`.
+
+Please see the documentation strings of the system types you are using!
+
+Also, be sure to visit the updated documentation here:
+https://juliadynamics.github.io/DynamicalSystems.jl/latest/
+
 [ Info: Building Rmath
 ┌ Warning: `isalnum(c::Char)` is deprecated, use `isalpha(c) || isnumeric(c)` instead.
 │   caller = is_userinfo_char at parser.jl:4 [inlined]
@@ -85,20 +144,26 @@ in @install at /home/vagrant/.julia/v0.7/BinDeps/src/dependencies.jl
 └ Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("ChaosTools")' log
-Julia Version 0.7.0-DEV.3583
-Commit 7d3991f784 (2018-01-26 19:00 UTC)
+WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
+Add a `using InteractiveUtils` to your imports..
+ in module Main
+WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
+Add a `using InteractiveUtils` to your imports..
+ in module Main
+Julia Version 0.7.0-DEV.3664
+Commit 9d5aebb07a (2018-01-30 22:46 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3500 MHz    1559548 s       6506 s      85387 s     424406 s         16 s
-       #2  3500 MHz     359995 s       1742 s      40130 s    1984927 s          0 s
+       #1  3499 MHz    1629341 s       7068 s      90021 s     439090 s         24 s
+       #2  3499 MHz     365230 s         41 s      40139 s    2100773 s          0 s
        
-  Memory: 2.93927001953125 GB (899.66015625 MB free)
-  Uptime: 24340.0 sec
-  Load Avg:  0.9970703125  0.998046875  1.037109375
+  Memory: 2.93927001953125 GB (939.796875 MB free)
+  Uptime: 25475.0 sec
+  Load Avg:  0.890625  0.98291015625  1.03466796875
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -112,7 +177,7 @@ Packages:
   Package Directory: /home/vagrant/.julia/v0.7
   Package Status:
 2 required packages:
- - ChaosTools                    0.4.3
+ - ChaosTools                    0.5.0
  - JSON                          0.16.4
 52 additional packages:
  - BinDeps                       0.8.6
@@ -122,15 +187,15 @@ Packages:
  - Compat                        0.49.0
  - DataStructures                0.7.4
  - DiffBase                      0.3.2
- - DiffEqBase                    2.10.2
- - DiffEqCallbacks               0.8.0
- - DiffEqDiffTools               0.2.1
+ - DiffEqBase                    3.1.0
+ - DiffEqCallbacks               1.0.0
+ - DiffEqDiffTools               0.3.0
  - DiffResults                   0.0.3
  - DiffRules                     0.0.3
  - Distances                     0.5.0
  - Distributions                 0.15.0
- - DynamicalSystemsBase          0.4.1
- - ForwardDiff                   0.7.2
+ - DynamicalSystemsBase          0.5.1
+ - ForwardDiff                   0.7.3
  - FunctionWrappers              0.1.0
  - GenericSVD                    0.1.0
  - IterTools                     0.2.1
@@ -142,19 +207,19 @@ Packages:
  - Media                         0.3.0
  - Missings                      0.2.5
  - MuladdMacro                   0.0.2
- - NLSolversBase                 3.1.0
- - NLsolve                       0.13.0
+ - NLSolversBase                 4.2.0
+ - NLsolve                       1.0.0
  - NaNMath                       0.3.0
  - NearestNeighbors              0.3.0
  - Nullables                     0.0.3
  - OptimBase                     1.0.0
- - OrdinaryDiffEq                2.37.0
+ - OrdinaryDiffEq                3.0.2
  - PDMats                        0.8.0
  - Parameters                    0.8.1
  - Polynomials                   0.2.1
  - QuadGK                        0.2.0
  - RecipesBase                   0.2.3
- - RecursiveArrayTools           0.14.3
+ - RecursiveArrayTools           0.14.5
  - Reexport                      0.1.0
  - Requires                      0.4.3
  - Rmath                         0.3.2
@@ -167,6 +232,8 @@ Packages:
  - StatsBase                     0.19.5
  - StatsFuns                     0.5.0
  - URIParser                     0.3.0
+WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
+ in module Main
 [ Info: Computing test dependencies for ChaosTools...
 [ Info: No packages to install, update or remove
 [ Info: Testing ChaosTools
@@ -188,57 +255,335 @@ WARNING: Base.Range is deprecated, use AbstractRange instead.
 WARNING: Method definition __init__() in module Requires at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9 overwritten in module DynamicalSystemsBase at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9.
 WARNING: Base.svd is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/DynamicalSystemsBase/src/dataset.jl:284
-┌ Warning: Deprecated syntax `type` at /home/vagrant/.julia/v0.7/DynamicalSystemsBase/src/reconstruction.jl:45.
+  likely near /home/vagrant/.julia/v0.7/DynamicalSystemsBase/src/dataset.jl:279
+┌ Warning: Deprecated syntax `type` at /home/vagrant/.julia/v0.7/DynamicalSystemsBase/src/reconstruction.jl:44.
 │ Use `mutable struct` instead.
-└ @ nothing reconstruction.jl:45
-WARNING: importing deprecated binding Base.logdet into PDMats.
-WARNING: importing deprecated binding Base.diag into PDMats.
-WARNING: importing deprecated binding Base.diagm into PDMats.
-WARNING: importing deprecated binding Base.eigmax into PDMats.
-WARNING: importing deprecated binding Base.eigmin into PDMats.
-WARNING: Base.BLAS is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+└ @ nothing reconstruction.jl:44
+WARNING: Method definition __init__() in module DynamicalSystemsBase at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9 overwritten at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9.
+WARNING: Method definition __init__() in module Requires at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9 overwritten in module RecursiveArrayTools at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9.
+WARNING: Method definition __init__() in module RecursiveArrayTools at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9 overwritten in module DiffEqBase at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9.
+WARNING: importing deprecated binding Base.SVD into GenericSVD.
+WARNING: Base.LinAlg is deprecated, run `using LinearAlgebra` instead.
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/utils.jl:1
+WARNING: importing deprecated binding Base.A_mul_B! into GenericSVD.
+WARNING: importing deprecated binding Base.A_mul_Bc! into GenericSVD.
+WARNING: importing deprecated binding Base.A_ldiv_B! into GenericSVD.
+WARNING: Base.A_mul_B! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/PDMats/src/PDMats.jl:39
-ERROR: LoadError: UndefVarError: LAPACK not defined
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/utils.jl:26
+WARNING: importing deprecated binding Base.LinAlg into GenericSVD.
+WARNING: Base.LinAlg is deprecated, run `using LinearAlgebra` instead.
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/utils.jl:26
+WARNING: importing deprecated binding Base.Void into GenericSVD.
+WARNING: Base.Void is deprecated, use Nothing instead.
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/utils.jl:26
+WARNING: Base.A_mul_B! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/utils.jl:26
+WARNING: Base.A_mul_Bc! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/utils.jl:27
+WARNING: Base.LinAlg is deprecated, run `using LinearAlgebra` instead.
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/utils.jl:27
+WARNING: Base.Void is deprecated, use Nothing instead.
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/utils.jl:27
+WARNING: Base.A_mul_Bc! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/utils.jl:27
+┌ Warning: Deprecated syntax `immutable` at /home/vagrant/.julia/v0.7/GenericSVD/src/bidiagonalize.jl:8.
+│ Use `struct` instead.
+└ @ nothing bidiagonalize.jl:8
+WARNING: importing deprecated binding Base.Factorization into GenericSVD.
+WARNING: Base.Factorization is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/bidiagonalize.jl:1
+┌ Warning: Deprecated syntax `parametric method syntax bidiagonalize_tall!{T}(A::Matrix{T}, B::Bidiagonal)` around /home/vagrant/.julia/v0.7/GenericSVD/src/bidiagonalize.jl:19.
+│ Use `bidiagonalize_tall!(A::Matrix{T}, B::Bidiagonal) where T` instead.
+└ @ nothing bidiagonalize.jl:19
+WARNING: importing deprecated binding Base.Bidiagonal into GenericSVD.
+WARNING: Base.Bidiagonal is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/bidiagonalize.jl:13
+WARNING: Base.Bidiagonal is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/bidiagonalize.jl:13
+┌ Warning: Deprecated syntax `parametric method syntax bidiagonalize_tall!{T}(A::Matrix{T})` around /home/vagrant/.julia/v0.7/GenericSVD/src/bidiagonalize.jl:47.
+│ Use `bidiagonalize_tall!(A::Matrix{T}) where T` instead.
+└ @ nothing bidiagonalize.jl:47
+┌ Warning: Deprecated syntax `parametric method syntax Base.full{T}(P::PackedUVt{T},; thin = true)` around /home/vagrant/.julia/v0.7/GenericSVD/src/bidiagonalize.jl:54.
+│ Use `Base.full(P::PackedUVt{T},; thin = true) where T` instead.
+└ @ nothing bidiagonalize.jl:54
+WARNING: Base.svdfact! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/GenericSVD.jl:9
+WARNING: Base.svdfact! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/GenericSVD.jl:9
+WARNING: Base.svdfact! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/GenericSVD.jl:9
+WARNING: Base.svdvals! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/GenericSVD.jl:10
+WARNING: Base.Bidiagonal is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/GenericSVD.jl:56
+WARNING: Base.Bidiagonal is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/GenericSVD.jl:56
+┌ Warning: Deprecated syntax `parametric method syntax svd!{T <: Real}(B::Bidiagonal{T}, U = nothing, Vt = nothing, ε = eps(T))` around /home/vagrant/.julia/v0.7/GenericSVD/src/GenericSVD.jl:99.
+│ Use `svd!(B::Bidiagonal{T}, U = nothing, Vt = nothing, ε = eps(T)) where T <: Real` instead.
+└ @ nothing GenericSVD.jl:99
+WARNING: Base.Bidiagonal is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/GenericSVD.jl:74
+WARNING: Base.Bidiagonal is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/GenericSVD.jl:74
+WARNING: Base.Bidiagonal is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/GenericSVD.jl:74
+WARNING: Base.Bidiagonal is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/GenericSVD.jl:74
+WARNING: Base.Bidiagonal is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/GenericSVD.jl:74
+WARNING: Base.Bidiagonal is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/GenericSVD.jl:74
+WARNING: Base.Bidiagonal is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/GenericSVD.jl:74
+WARNING: Base.Bidiagonal is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/GenericSVD.jl:74
+┌ Warning: Deprecated syntax `parametric method syntax svd_gk!{T <: Real}(B::Bidiagonal{T}, U, Vt, n₁, n₂, shift)` around /home/vagrant/.julia/v0.7/GenericSVD/src/GenericSVD.jl:222.
+│ Use `svd_gk!(B::Bidiagonal{T}, U, Vt, n₁, n₂, shift) where T <: Real` instead.
+└ @ nothing GenericSVD.jl:222
+WARNING: Base.Bidiagonal is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/GenericSVD.jl:213
+WARNING: Base.Bidiagonal is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/GenericSVD/src/GenericSVD.jl:213
+WARNING: importing deprecated binding Base.gradient into NLSolversBase.
+WARNING: importing deprecated binding Base.clear! into NLSolversBase.
+WARNING: importing deprecated binding Base.Void into NLSolversBase.
+WARNING: Base.Void is deprecated, use Nothing instead.
+  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/objective_types/incomplete.jl:44
+WARNING: Base.gradient is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:20
+WARNING: Base.gradient is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:20
+WARNING: Base.gradient is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:72
+WARNING: Base.gradient is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:72
+WARNING: Base.gradient is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:74
+WARNING: Base.gradient is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:74
+WARNING: Base.clear! is deprecated: it has been moved to the standard library package `Distributed`.
+Add a `using Distributed` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:154
+WARNING: Base.clear! is deprecated: it has been moved to the standard library package `Distributed`.
+Add a `using Distributed` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:154
+WARNING: Base.clear! is deprecated: it has been moved to the standard library package `Distributed`.
+Add a `using Distributed` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:156
+WARNING: Base.clear! is deprecated: it has been moved to the standard library package `Distributed`.
+Add a `using Distributed` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:156
+WARNING: Base.clear! is deprecated: it has been moved to the standard library package `Distributed`.
+Add a `using Distributed` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:161
+WARNING: Base.clear! is deprecated: it has been moved to the standard library package `Distributed`.
+Add a `using Distributed` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:161
+WARNING: Base.clear! is deprecated: it has been moved to the standard library package `Distributed`.
+Add a `using Distributed` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:167
+WARNING: Base.clear! is deprecated: it has been moved to the standard library package `Distributed`.
+Add a `using Distributed` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:167
+WARNING: importing deprecated binding Base.clear! into LineSearches.
+WARNING: Base.clear! is deprecated: it has been moved to the standard library package `Distributed`.
+Add a `using Distributed` to your imports..
+  likely near /home/vagrant/.julia/v0.7/LineSearches/src/types.jl:20
+WARNING: Base.clear! is deprecated: it has been moved to the standard library package `Distributed`.
+Add a `using Distributed` to your imports..
+  likely near /home/vagrant/.julia/v0.7/LineSearches/src/types.jl:20
+WARNING: importing deprecated binding Base.Associative into LineSearches.
+WARNING: Base.Associative is deprecated, use AbstractDict instead.
+  likely near /home/vagrant/.julia/v0.7/LineSearches/src/backtracking.jl:446
+WARNING: Base.Associative is deprecated, use AbstractDict instead.
+  likely near /home/vagrant/.julia/v0.7/LineSearches/src/strongwolfe.jl:446
+WARNING: Base.Associative is deprecated, use AbstractDict instead.
+  likely near /home/vagrant/.julia/v0.7/LineSearches/src/morethuente.jl:446
+WARNING: Base.Associative is deprecated, use AbstractDict instead.
+  likely near /home/vagrant/.julia/v0.7/LineSearches/src/hagerzhang.jl:446
+WARNING: importing deprecated binding Base.@sprintf into LineSearches.
+WARNING: Base.@sprintf is deprecated: it has been moved to the standard library package `Printf`.
+Add a `using Printf` to your imports..
+  likely near /home/vagrant/.julia/v0.7/LineSearches/src/hagerzhang.jl:319
+WARNING: Base.Associative is deprecated, use AbstractDict instead.
+  likely near /home/vagrant/.julia/v0.7/LineSearches/src/hagerzhang.jl:446
+WARNING: Base.Associative is deprecated, use AbstractDict instead.
+  likely near /home/vagrant/.julia/v0.7/LineSearches/src/static.jl:446
+WARNING: Base.Associative is deprecated, use AbstractDict instead.
+  likely near /home/vagrant/.julia/v0.7/LineSearches/src/initialguess.jl:446
+WARNING: Base.Associative is deprecated, use AbstractDict instead.
+  likely near /home/vagrant/.julia/v0.7/LineSearches/src/initialguess.jl:446
+WARNING: Base.Associative is deprecated, use AbstractDict instead.
+  likely near /home/vagrant/.julia/v0.7/LineSearches/src/initialguess.jl:446
+WARNING: Base.Associative is deprecated, use AbstractDict instead.
+  likely near /home/vagrant/.julia/v0.7/LineSearches/src/initialguess.jl:446
+┌ Warning: Deprecated syntax `parametric method syntax newton_{T}(df::OnceDifferentiable, initial_x::AbstractArray{T}, xtol::T, ftol::T, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, linesearch, cache = NewtonCache(df))` around /home/vagrant/.julia/v0.7/NLsolve/src/solvers/newton.jl:54.
+│ Use `newton_(df::OnceDifferentiable, initial_x::AbstractArray{T}, xtol::T, ftol::T, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, linesearch, cache = NewtonCache(df)) where T` instead.
+└ @ nothing newton.jl:54
+┌ Warning: Deprecated syntax `parametric method syntax newton{T}(df::OnceDifferentiable, initial_x::AbstractArray{T}, xtol::Real, ftol::Real, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, linesearch, cache = NewtonCache(df))` around /home/vagrant/.julia/v0.7/NLsolve/src/solvers/newton.jl:145.
+│ Use `newton(df::OnceDifferentiable, initial_x::AbstractArray{T}, xtol::Real, ftol::Real, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, linesearch, cache = NewtonCache(df)) where T` instead.
+└ @ nothing newton.jl:145
+┌ Warning: Deprecated syntax `1./` at /home/vagrant/.julia/v0.7/NLsolve/src/solvers/trust_region.jl:56.
+│ Use `1 ./` instead.
+└ @ nothing trust_region.jl:56
+┌ Warning: Deprecated syntax `parametric method syntax dogleg!{T}(p::AbstractArray{T}, p_c::AbstractArray{T}, p_i, r::AbstractArray{T}, d::AbstractArray{T}, J::AbstractMatrix{T}, delta::Real)` around /home/vagrant/.julia/v0.7/NLsolve/src/solvers/trust_region.jl:49.
+│ Use `dogleg!(p::AbstractArray{T}, p_c::AbstractArray{T}, p_i, r::AbstractArray{T}, d::AbstractArray{T}, J::AbstractMatrix{T}, delta::Real) where T` instead.
+└ @ nothing trust_region.jl:49
+┌ Warning: Deprecated syntax `parametric method syntax trust_region_{T}(df::OnceDifferentiable, initial_x::AbstractArray{T}, xtol::T, ftol::T, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, factor::T, autoscale::Bool, cache = NewtonTrustRegionCache(df))` around /home/vagrant/.julia/v0.7/NLsolve/src/solvers/trust_region.jl:116.
+│ Use `trust_region_(df::OnceDifferentiable, initial_x::AbstractArray{T}, xtol::T, ftol::T, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, factor::T, autoscale::Bool, cache = NewtonTrustRegionCache(df)) where T` instead.
+└ @ nothing trust_region.jl:116
+┌ Warning: Deprecated syntax `parametric method syntax trust_region{T}(df::OnceDifferentiable, initial_x::AbstractArray{T}, xtol::Real, ftol::Real, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, factor::Real, autoscale::Bool, cache = NewtonTrustRegionCache(df))` around /home/vagrant/.julia/v0.7/NLsolve/src/solvers/trust_region.jl:227.
+│ Use `trust_region(df::OnceDifferentiable, initial_x::AbstractArray{T}, xtol::Real, ftol::Real, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, factor::Real, autoscale::Bool, cache = NewtonTrustRegionCache(df)) where T` instead.
+└ @ nothing trust_region.jl:227
+┌ Warning: Deprecated syntax `parametric method syntax anderson_{T}(df::OnceDifferentiable, x0::AbstractArray{T}, xtol::T, ftol::T, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, m::Integer, β::Real, cache = AndersonCache(df, Anderson(m, β)))` around /home/vagrant/.julia/v0.7/NLsolve/src/solvers/anderson.jl:44.
+│ Use `anderson_(df::OnceDifferentiable, x0::AbstractArray{T}, xtol::T, ftol::T, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, m::Integer, β::Real, cache = AndersonCache(df, Anderson(m, β))) where T` instead.
+└ @ nothing anderson.jl:44
+┌ Warning: Use of final value of loop variable `n` around /home/vagrant/.julia/v0.7/NLsolve/src/solvers/anderson.jl:105 is deprecated. In the future the variable will be local to the loop instead.
+└ @ nothing anderson.jl:105
+┌ Warning: Deprecated syntax `parametric method syntax anderson{T}(df::OnceDifferentiable, initial_x::AbstractArray{T}, xtol::Real, ftol::Real, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, m::Integer, beta::Real, cache = AndersonCache(df, Anderson(m, beta)))` around /home/vagrant/.julia/v0.7/NLsolve/src/solvers/anderson.jl:122.
+│ Use `anderson(df::OnceDifferentiable, initial_x::AbstractArray{T}, xtol::Real, ftol::Real, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, m::Integer, beta::Real, cache = AndersonCache(df, Anderson(m, beta))) where T` instead.
+└ @ nothing anderson.jl:122
+┌ Warning: Deprecated syntax `parametric method syntax mcpsolve{T}(f, j, lower::Vector, upper::Vector, initial_x::AbstractArray{T}; method::Symbol = :trust_region, reformulation::Symbol = :smooth, xtol::Real = zero(T), ftol::Real = convert(T, 1e-08), iterations::Integer = 1000, store_trace::Bool = false, show_trace::Bool = false, extended_trace::Bool = false, linesearch = LineSearches.BackTracking(), factor::Real = one(T), autoscale = true, inplace = true)` around /home/vagrant/.julia/v0.7/NLsolve/src/solvers/mcp_func_defs.jl:56.
+│ Use `mcpsolve(f, j, lower::Vector, upper::Vector, initial_x::AbstractArray{T}; method::Symbol = :trust_region, reformulation::Symbol = :smooth, xtol::Real = zero(T), ftol::Real = convert(T, 1e-08), iterations::Integer = 1000, store_trace::Bool = false, show_trace::Bool = false, extended_trace::Bool = false, linesearch = LineSearches.BackTracking(), factor::Real = one(T), autoscale = true, inplace = true) where T` instead.
+└ @ nothing mcp_func_defs.jl:56
+┌ Warning: Deprecated syntax `parametric method syntax mcpsolve{T}(f, lower::Vector, upper::Vector, initial_x::AbstractArray{T}; method::Symbol = :trust_region, reformulation::Symbol = :smooth, xtol::Real = zero(T), ftol::Real = convert(T, 1e-08), iterations::Integer = 1000, store_trace::Bool = false, show_trace::Bool = false, extended_trace::Bool = false, linesearch = LineSearches.BackTracking(), factor::Real = one(T), autoscale::Bool = true, autodiff = :central, inplace = true)` around /home/vagrant/.julia/v0.7/NLsolve/src/solvers/mcp_func_defs.jl:86.
+│ Use `mcpsolve(f, lower::Vector, upper::Vector, initial_x::AbstractArray{T}; method::Symbol = :trust_region, reformulation::Symbol = :smooth, xtol::Real = zero(T), ftol::Real = convert(T, 1e-08), iterations::Integer = 1000, store_trace::Bool = false, show_trace::Bool = false, extended_trace::Bool = false, linesearch = LineSearches.BackTracking(), factor::Real = one(T), autoscale::Bool = true, autodiff = :central, inplace = true) where T` instead.
+└ @ nothing mcp_func_defs.jl:86
+┌ Warning: Deprecated syntax `1.-` at /home/vagrant/.julia/v0.7/NLsolve/src/solvers/mcp.jl:58.
+│ Use `1 .-` instead.
+└ @ nothing mcp.jl:58
+┌ Warning: Deprecated syntax `parametric method syntax SolverState{T <: Real}(i::Integer, fnorm::T, stepnorm::T)` around /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:13.
+│ Use `SolverState(i::Integer, fnorm::T, stepnorm::T) where T <: Real` instead.
+└ @ nothing solver_state_results.jl:13
+WARNING: importing deprecated binding Base.@printf into NLsolve.
+WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
+Add a `using Printf` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:22
+WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
+Add a `using Printf` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:22
+WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
+Add a `using Printf` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:42
+WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
+Add a `using Printf` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:42
+WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
+Add a `using Printf` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
+WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
+Add a `using Printf` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
+WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
+Add a `using Printf` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
+WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
+Add a `using Printf` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
+WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
+Add a `using Printf` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
+WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
+Add a `using Printf` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
+WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
+Add a `using Printf` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
+WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
+Add a `using Printf` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
+WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
+Add a `using Printf` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
+WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
+Add a `using Printf` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
+WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
+Add a `using Printf` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
+WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
+Add a `using Printf` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/nlsolve.jl:1
+WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
+Add a `using Printf` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/nlsolve.jl:1
+┌ Warning: Deprecated syntax `parametric method syntax nlsolve{T}(f, initial_x::AbstractArray{T}; method::Symbol = :trust_region, xtol::Real = zero(T), ftol::Real = convert(T, 1e-08), iterations::Integer = 1000, store_trace::Bool = false, show_trace::Bool = false, extended_trace::Bool = false, linesearch = LineSearches.Static(), factor::Real = one(T), autoscale::Bool = true, m::Integer = 0, beta::Real = 1.0, autodiff = :central, inplace = true)` around /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/nlsolve.jl:53.
+│ Use `nlsolve(f, initial_x::AbstractArray{T}; method::Symbol = :trust_region, xtol::Real = zero(T), ftol::Real = convert(T, 1e-08), iterations::Integer = 1000, store_trace::Bool = false, show_trace::Bool = false, extended_trace::Bool = false, linesearch = LineSearches.Static(), factor::Real = one(T), autoscale::Bool = true, m::Integer = 0, beta::Real = 1.0, autodiff = :central, inplace = true) where T` instead.
+└ @ nothing nlsolve.jl:53
+┌ Warning: Deprecated syntax `parametric method syntax wdot{T}(wx::AbstractArray{T}, x::AbstractArray{T}, wy::AbstractArray{T}, y::AbstractArray{T})` around /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/utils.jl:3.
+│ Use `wdot(wx::AbstractArray{T}, x::AbstractArray{T}, wy::AbstractArray{T}, y::AbstractArray{T}) where T` instead.
+└ @ nothing utils.jl:3
+┌ Warning: Deprecated syntax `parametric method syntax wnorm{T}(w::AbstractArray{T}, x::AbstractArray{T})` around /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/utils.jl:10.
+│ Use `wnorm(w::AbstractArray{T}, x::AbstractArray{T}) where T` instead.
+└ @ nothing utils.jl:10
+┌ Warning: Deprecated syntax ``const` declaration on local variable` around /home/vagrant/.julia/v0.7/Roots/src/bracketing.jl:532.
+└ @ nothing bracketing.jl:532
+┌ Warning: Deprecated syntax `immutable` at /home/vagrant/.julia/v0.7/OrdinaryDiffEq/src/misc_utils.jl:3.
+│ Use `struct` instead.
+└ @ nothing misc_utils.jl:3
+┌ Warning: Deprecated syntax `parametric method syntax DiffCache{chunk_size}(T, size, ::Type{Val{chunk_size}})` around /home/vagrant/.julia/v0.7/OrdinaryDiffEq/src/misc_utils.jl:9.
+│ Use `DiffCache(T, size, #unused#::Type{Val{chunk_size}}) where chunk_size` instead.
+└ @ nothing misc_utils.jl:9
+┌ Warning: Deprecated syntax `parametric method syntax DiffCache{CS}(u::AbstractArray, T::Type{Val{CS}})` around /home/vagrant/.julia/v0.7/OrdinaryDiffEq/src/misc_utils.jl:14.
+│ Use `DiffCache(u::AbstractArray, T::Type{Val{CS}}) where CS` instead.
+└ @ nothing misc_utils.jl:14
+┌ Warning: Deprecated syntax `parametric method syntax get_du{T <: Dual}(dc::DiffCache, ::Type{T})` around /home/vagrant/.julia/v0.7/OrdinaryDiffEq/src/misc_utils.jl:16.
+│ Use `get_du(dc::DiffCache, #unused#::Type{T}) where T <: Dual` instead.
+└ @ nothing misc_utils.jl:16
+┌ Warning: Deprecated syntax `parametric method syntax (p::NLSOLVEJL_SETUP{CS, AD}){CS, AD}(::Type{Val{:init}}, f, u0_prototype)` around /home/vagrant/.julia/v0.7/OrdinaryDiffEq/src/misc_utils.jl:34.
+│ Use `(p::NLSOLVEJL_SETUP{CS, AD})(#unused#::Type{Val{:init}}, f, u0_prototype) where {CS, AD}` instead.
+└ @ nothing misc_utils.jl:34
+┌ Warning: Deprecated syntax `parametric method syntax get_chunksize{CS, AD}(x::NLSOLVEJL_SETUP{CS, AD})` around /home/vagrant/.julia/v0.7/OrdinaryDiffEq/src/misc_utils.jl:40.
+│ Use `get_chunksize(x::NLSOLVEJL_SETUP{CS, AD}) where {CS, AD}` instead.
+└ @ nothing misc_utils.jl:40
+ERROR: LoadError: LoadError: syntax: invalid escape sequence
 Stacktrace:
  [1] include at ./boot.jl:292 [inlined]
  [2] include_relative(::Module, ::String) at ./loading.jl:1012
- [3] include(::Module, ::String) at ./sysimg.jl:26
- [4] top-level scope
- [5] eval at ./boot.jl:295 [inlined]
- [6] top-level scope at ./<missing>:3
-in expression starting at /home/vagrant/.julia/v0.7/PDMats/src/PDMats.jl:40
-ERROR: LoadError: Failed to precompile PDMats to /home/vagrant/.julia/lib/v0.7/PDMats.ji.
+ [3] include at ./sysimg.jl:26 [inlined]
+ [4] include(::String) at /home/vagrant/.julia/v0.7/OrdinaryDiffEq/src/OrdinaryDiffEq.jl:3
+ [5] top-level scope
+ [6] include at ./boot.jl:292 [inlined]
+ [7] include_relative(::Module, ::String) at ./loading.jl:1012
+ [8] include(::Module, ::String) at ./sysimg.jl:26
+ [9] top-level scope
+ [10] eval at ./boot.jl:295 [inlined]
+ [11] top-level scope at ./<missing>:3
+in expression starting at /home/vagrant/.julia/v0.7/OrdinaryDiffEq/src/misc_utils.jl:50
+in expression starting at /home/vagrant/.julia/v0.7/OrdinaryDiffEq/src/OrdinaryDiffEq.jl:45
+ERROR: LoadError: LoadError: Failed to precompile OrdinaryDiffEq to /home/vagrant/.julia/lib/v0.7/OrdinaryDiffEq.ji.
 Stacktrace:
  [1] error at ./error.jl:33 [inlined]
- [2] compilecache(::Base.PkgId) at ./loading.jl:1156
- [3] _require(::Base.PkgId) at ./loading.jl:920
- [4] require(::Module, ::Symbol) at ./loading.jl:820
- [5] include at ./boot.jl:292 [inlined]
- [6] include_relative(::Module, ::String) at ./loading.jl:1012
- [7] include(::Module, ::String) at ./sysimg.jl:26
- [8] top-level scope
- [9] eval at ./boot.jl:295 [inlined]
- [10] top-level scope at ./<missing>:3
-in expression starting at /home/vagrant/.julia/v0.7/Distributions/src/Distributions.jl:5
-ERROR: LoadError: Failed to precompile Distributions to /home/vagrant/.julia/lib/v0.7/Distributions.ji.
-Stacktrace:
- [1] error at ./error.jl:33 [inlined]
- [2] compilecache(::Base.PkgId) at ./loading.jl:1156
- [3] _require(::Base.PkgId) at ./loading.jl:920
- [4] require(::Module, ::Symbol) at ./loading.jl:820
- [5] include at ./boot.jl:292 [inlined]
- [6] include_relative(::Module, ::String) at ./loading.jl:1012
- [7] include(::Module, ::String) at ./sysimg.jl:26
- [8] top-level scope
- [9] eval at ./boot.jl:295 [inlined]
- [10] top-level scope at ./<missing>:3
-in expression starting at /home/vagrant/.julia/v0.7/LsqFit/src/LsqFit.jl:8
-ERROR: LoadError: LoadError: Failed to precompile LsqFit to /home/vagrant/.julia/lib/v0.7/LsqFit.ji.
-Stacktrace:
- [1] error at ./error.jl:33 [inlined]
- [2] compilecache(::Base.PkgId) at ./loading.jl:1156
+ [2] compilecache(::Base.PkgId) at ./loading.jl:1157
  [3] _require(::Base.PkgId) at ./loading.jl:920
  [4] require(::Module, ::Symbol) at ./loading.jl:820
  [5] include at ./boot.jl:292 [inlined]
@@ -252,12 +597,12 @@ Stacktrace:
  [13] top-level scope
  [14] eval at ./boot.jl:295 [inlined]
  [15] top-level scope at ./<missing>:3
-in expression starting at /home/vagrant/.julia/v0.7/DynamicalSystemsBase/src/reconstruction.jl:2
-in expression starting at /home/vagrant/.julia/v0.7/DynamicalSystemsBase/src/DynamicalSystemsBase.jl:14
+in expression starting at /home/vagrant/.julia/v0.7/DynamicalSystemsBase/src/continuous.jl:1
+in expression starting at /home/vagrant/.julia/v0.7/DynamicalSystemsBase/src/DynamicalSystemsBase.jl:18
 ERROR: LoadError: Failed to precompile DynamicalSystemsBase to /home/vagrant/.julia/lib/v0.7/DynamicalSystemsBase.ji.
 Stacktrace:
  [1] error at ./error.jl:33 [inlined]
- [2] compilecache(::Base.PkgId) at ./loading.jl:1156
+ [2] compilecache(::Base.PkgId) at ./loading.jl:1157
  [3] _require(::Base.PkgId) at ./loading.jl:920
  [4] require(::Module, ::Symbol) at ./loading.jl:820
  [5] include at ./boot.jl:292 [inlined]
@@ -270,14 +615,14 @@ in expression starting at /home/vagrant/.julia/v0.7/ChaosTools/src/ChaosTools.jl
 ERROR: LoadError: Failed to precompile ChaosTools to /home/vagrant/.julia/lib/v0.7/ChaosTools.ji.
 Stacktrace:
  [1] error at ./error.jl:33 [inlined]
- [2] compilecache(::Base.PkgId) at ./loading.jl:1156
+ [2] compilecache(::Base.PkgId) at ./loading.jl:1157
  [3] _require(::Base.PkgId) at ./loading.jl:949
  [4] require(::Module, ::Symbol) at ./loading.jl:820
  [5] include at ./boot.jl:292 [inlined]
  [6] include_relative(::Module, ::String) at ./loading.jl:1012
  [7] include(::Module, ::String) at ./sysimg.jl:26
- [8] process_options(::Base.JLOptions) at ./client.jl:334
- [9] _start() at ./client.jl:386
+ [8] exec_options(::Base.JLOptions) at ./client.jl:332
+ [9] _start() at ./client.jl:447
 in expression starting at /home/vagrant/.julia/v0.7/ChaosTools/test/runtests.jl:1
 ┌ Error: ------------------------------------------------------------
 │ # Testing failed for ChaosTools
@@ -287,24 +632,24 @@ in expression starting at /home/vagrant/.julia/v0.7/ChaosTools/test/runtests.jl:
 │     [1] error(::String, ::Base.Process, ::String, ::Int64, ::String) at ./error.jl:42
 │     [2] pipeline_error(::Base.Process) at ./process.jl:698
 │     [3] run(::Cmd) at ./process.jl:660
-│     [4] (::getfield(Base.Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}})() at ./pkg/entry.jl:729
-│     [5] cd(::getfield(Base.Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:70
-│     [6] #test!#88(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./pkg/entry.jl:717
-│     [7] (::getfield(Base.Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
-│     [8] #test#96(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:756
-│     [9] (::getfield(Base.Pkg.Entry, Symbol("#kw##test")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Entry.test), ::Array{AbstractString,1}) at ./<missing>:0
-│     [10] (::getfield(Base.Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Base.Pkg.Entry.test),Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:36
-│     [11] cd(::getfield(Base.Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Base.Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:70
-│     [12] #cd#1(::Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./pkg/dir.jl:36
-│     [13] (::getfield(Base.Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
-│     [14] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at ./pkg/pkg.jl:274
-│     [15] test(::String, ::Vararg{String,N} where N) at ./pkg/pkg.jl:274
+│     [4] (::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:731
+│     [5] cd(::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:70
+│     [6] #test!#88(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:719
+│     [7] (::getfield(Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
+│     [8] #test#96(::Bool, ::Function, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:758
+│     [9] (::getfield(Pkg.Entry, Symbol("#kw##test")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test), ::Array{AbstractString,1}) at ./<missing>:0
+│     [10] (::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [11] cd(::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:70
+│     [12] #cd#1(::Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [13] (::getfield(Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
+│     [14] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
+│     [15] test(::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
 │     [16] top-level scope
 │     [17] eval at ./boot.jl:295 [inlined]
 │     [18] eval(::Module, ::Expr) at ./sysimg.jl:71
-│     [19] process_options(::Base.JLOptions) at ./client.jl:311
-│     [20] _start() at ./client.jl:386
-└ @ Base.Pkg.Entry entry.jl:732
+│     [19] exec_options(::Base.JLOptions) at ./client.jl:309
+│     [20] _start() at ./client.jl:447
+└ @ Pkg.Entry entry.jl:734
 [ Info: No packages to install, update or remove
 ERROR: ChaosTools had test errors
 

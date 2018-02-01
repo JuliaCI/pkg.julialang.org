@@ -1,43 +1,38 @@
 >>> 'Pkg.add("DynamicalSystemsBase")' log
+WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
+ in module Main
 [ Info: Installing BinDeps v0.8.6
-[ Info: Installing Calculus v0.2.2
 [ Info: Installing CommonSubexpressions v0.0.1
 [ Info: Installing DataStructures v0.7.4
 [ Info: Installing DiffBase v0.3.2
-[ Info: Installing DiffEqBase v2.10.2
-[ Info: Installing DiffEqCallbacks v0.8.0
-[ Info: Installing DiffEqDiffTools v0.2.1
+[ Info: Installing DiffEqBase v3.1.0
+[ Info: Installing DiffEqCallbacks v1.0.0
+[ Info: Installing DiffEqDiffTools v0.3.0
 [ Info: Installing DiffResults v0.0.3
 [ Info: Installing DiffRules v0.0.3
 [ Info: Installing Distances v0.5.0
-[ Info: Installing Distributions v0.15.0
-[ Info: Installing DynamicalSystemsBase v0.4.1
-[ Info: Installing ForwardDiff v0.7.2
+[ Info: Installing DynamicalSystemsBase v0.5.1
+[ Info: Installing ForwardDiff v0.7.3
 [ Info: Installing FunctionWrappers v0.1.0
 [ Info: Installing GenericSVD v0.1.0
 [ Info: Installing IterTools v0.2.1
 [ Info: Installing Juno v0.4.0
 [ Info: Installing LineSearches v3.2.5
 [ Info: Installing LinearMaps v1.0.4
-[ Info: Installing LsqFit v0.3.0
 [ Info: Installing MacroTools v0.4.0
 [ Info: Installing Media v0.3.0
 [ Info: Installing Missings v0.2.5
 [ Info: Installing MuladdMacro v0.0.2
-[ Info: Installing NLSolversBase v3.1.0
-[ Info: Installing NLsolve v0.13.0
+[ Info: Installing NLSolversBase v4.2.0
+[ Info: Installing NLsolve v1.0.0
 [ Info: Installing NaNMath v0.3.0
 [ Info: Installing NearestNeighbors v0.3.0
-[ Info: Installing OptimBase v1.0.0
-[ Info: Installing OrdinaryDiffEq v2.37.0
-[ Info: Installing PDMats v0.8.0
+[ Info: Installing OrdinaryDiffEq v3.0.2
 [ Info: Installing Parameters v0.8.1
-[ Info: Installing QuadGK v0.2.0
 [ Info: Installing RecipesBase v0.2.3
-[ Info: Installing RecursiveArrayTools v0.14.3
+[ Info: Installing RecursiveArrayTools v0.14.5
 [ Info: Installing Reexport v0.1.0
 [ Info: Installing Requires v0.4.3
-[ Info: Installing Rmath v0.3.2
 [ Info: Installing Roots v0.5.0
 [ Info: Installing SHA v0.5.6
 [ Info: Installing SimpleTraits v0.5.1
@@ -45,8 +40,40 @@
 [ Info: Installing SpecialFunctions v0.3.8
 [ Info: Installing StaticArrays v0.6.6
 [ Info: Installing StatsBase v0.19.5
-[ Info: Installing StatsFuns v0.5.0
 [ Info: Installing URIParser v0.3.0
+[ Info: Building DiffEqBase
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = top-level scope
+└ @ Core :0
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 [ Info: Building SpecialFunctions
 ┌ Warning: `isalnum(c::Char)` is deprecated, use `isalpha(c) || isnumeric(c)` instead.
 │   caller = is_userinfo_char at parser.jl:4 [inlined]
@@ -61,39 +88,55 @@ WARNING: importing deprecated binding Base.Associative into BinDeps.
 WARNING: Base.Associative is deprecated, use AbstractDict instead.
   likely near /home/vagrant/.julia/v0.7/SpecialFunctions/deps/binaries.jl:44
 in @install at /home/vagrant/.julia/v0.7/BinDeps/src/dependencies.jl
-[ Info: Building Rmath
-┌ Warning: `isalnum(c::Char)` is deprecated, use `isalpha(c) || isnumeric(c)` instead.
-│   caller = is_userinfo_char at parser.jl:4 [inlined]
-└ @ Core parser.jl:4
-┌ Warning: `isalnum(c::Char)` is deprecated, use `isalpha(c) || isnumeric(c)` instead.
-│   caller = is_host_char at parser.jl:8 [inlined]
-└ @ Core parser.jl:8
-┌ Warning: `isalnum(c::Char)` is deprecated, use `isalpha(c) || isnumeric(c)` instead.
-│   caller = is_host_char at parser.jl:8 [inlined]
-└ @ Core parser.jl:8
-WARNING: importing deprecated binding Base.Associative into BinDeps.
-WARNING: Base.Associative is deprecated, use AbstractDict instead.
-  likely near /home/vagrant/.julia/v0.7/Rmath/deps/build.jl:47
-in @install at /home/vagrant/.julia/v0.7/BinDeps/src/dependencies.jl
+[ Info: Building DynamicalSystemsBase
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = top-level scope
+└ @ Core :0
+INFO: ~~~ DynamicalSystemsBase.jl update message ~~~
+
+We have changed the fundamental way users define
+equations of motion and Jacobians
+for all subtypes of `DynamicalSystem`!
+In short, parameters are now directly passed
+into the equations of motion function, e.g.
+`f(du, u, p, t)`. These updates are in-line
+with DifferentialEquations v4.0 release.
+
+Notice that the same changes happened for
+discrete systems as well. For example, the
+e.o.m. for `DiscreteDS` are now expected
+in the form `eom(x, p)`.
+
+Please see the documentation strings of the system types you are using!
+
+Also, be sure to visit the updated documentation here:
+https://juliadynamics.github.io/DynamicalSystems.jl/latest/
+
 [ Info: Package database updated
 ┌ Info: METADATA is out-of-date — you may not have the latest version of DynamicalSystemsBase
 └ Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("DynamicalSystemsBase")' log
-Julia Version 0.7.0-DEV.3583
-Commit 7d3991f784 (2018-01-26 19:00 UTC)
+WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
+Add a `using InteractiveUtils` to your imports..
+ in module Main
+WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
+Add a `using InteractiveUtils` to your imports..
+ in module Main
+Julia Version 0.7.0-DEV.3664
+Commit 9d5aebb07a (2018-01-30 22:46 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3500 MHz    4054597 s       6520 s     196124 s    1293352 s         51 s
-       #2  3500 MHz    1127543 s       1750 s      87032 s    5106729 s          1 s
+       #1  3499 MHz    4163404 s       7080 s     204625 s    1355128 s         62 s
+       #2  3499 MHz    1182353 s         44 s      89162 s    5294748 s          0 s
        
-  Memory: 2.93927001953125 GB (1199.01171875 MB free)
-  Uptime: 64679.0 sec
-  Load Avg:  0.9169921875  0.97021484375  0.95068359375
+  Memory: 2.93927001953125 GB (1302.609375 MB free)
+  Uptime: 67032.0 sec
+  Load Avg:  0.93212890625  0.9853515625  0.95458984375
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -107,49 +150,42 @@ Packages:
   Package Directory: /home/vagrant/.julia/v0.7
   Package Status:
 2 required packages:
- - DynamicalSystemsBase          0.4.1
+ - DynamicalSystemsBase          0.5.1
  - JSON                          0.16.4
-49 additional packages:
+41 additional packages:
  - BinDeps                       0.8.6
- - Calculus                      0.2.2
  - CommonSubexpressions          0.0.1
  - Compat                        0.49.0
  - DataStructures                0.7.4
  - DiffBase                      0.3.2
- - DiffEqBase                    2.10.2
- - DiffEqCallbacks               0.8.0
- - DiffEqDiffTools               0.2.1
+ - DiffEqBase                    3.1.0
+ - DiffEqCallbacks               1.0.0
+ - DiffEqDiffTools               0.3.0
  - DiffResults                   0.0.3
  - DiffRules                     0.0.3
  - Distances                     0.5.0
- - Distributions                 0.15.0
- - ForwardDiff                   0.7.2
+ - ForwardDiff                   0.7.3
  - FunctionWrappers              0.1.0
  - GenericSVD                    0.1.0
  - IterTools                     0.2.1
  - Juno                          0.4.0
  - LineSearches                  3.2.5
  - LinearMaps                    1.0.4
- - LsqFit                        0.3.0
  - MacroTools                    0.4.0
  - Media                         0.3.0
  - Missings                      0.2.5
  - MuladdMacro                   0.0.2
- - NLSolversBase                 3.1.0
- - NLsolve                       0.13.0
+ - NLSolversBase                 4.2.0
+ - NLsolve                       1.0.0
  - NaNMath                       0.3.0
  - NearestNeighbors              0.3.0
  - Nullables                     0.0.3
- - OptimBase                     1.0.0
- - OrdinaryDiffEq                2.37.0
- - PDMats                        0.8.0
+ - OrdinaryDiffEq                3.0.2
  - Parameters                    0.8.1
- - QuadGK                        0.2.0
  - RecipesBase                   0.2.3
- - RecursiveArrayTools           0.14.3
+ - RecursiveArrayTools           0.14.5
  - Reexport                      0.1.0
  - Requires                      0.4.3
- - Rmath                         0.3.2
  - Roots                         0.5.0
  - SHA                           0.5.6
  - SimpleTraits                  0.5.1
@@ -157,8 +193,9 @@ Packages:
  - SpecialFunctions              0.3.8
  - StaticArrays                  0.6.6
  - StatsBase                     0.19.5
- - StatsFuns                     0.5.0
  - URIParser                     0.3.0
+WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
+ in module Main
 [ Info: Testing DynamicalSystemsBase
 WARNING: Base.iteratorsize is deprecated, use IteratorSize instead.
   likely near /home/vagrant/.julia/v0.7/DynamicalSystemsBase/src/dataset.jl:14
@@ -178,57 +215,50 @@ WARNING: Base.Range is deprecated, use AbstractRange instead.
 WARNING: Method definition __init__() in module Requires at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9 overwritten in module DynamicalSystemsBase at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9.
 WARNING: Base.svd is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/DynamicalSystemsBase/src/dataset.jl:284
-┌ Warning: Deprecated syntax `type` at /home/vagrant/.julia/v0.7/DynamicalSystemsBase/src/reconstruction.jl:45.
+  likely near /home/vagrant/.julia/v0.7/DynamicalSystemsBase/src/dataset.jl:279
+┌ Warning: Deprecated syntax `type` at /home/vagrant/.julia/v0.7/DynamicalSystemsBase/src/reconstruction.jl:44.
 │ Use `mutable struct` instead.
-└ @ nothing reconstruction.jl:45
-WARNING: importing deprecated binding Base.logdet into PDMats.
-WARNING: importing deprecated binding Base.diag into PDMats.
-WARNING: importing deprecated binding Base.diagm into PDMats.
-WARNING: importing deprecated binding Base.eigmax into PDMats.
-WARNING: importing deprecated binding Base.eigmin into PDMats.
-WARNING: Base.BLAS is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/PDMats/src/PDMats.jl:39
-ERROR: LoadError: UndefVarError: LAPACK not defined
+└ @ nothing reconstruction.jl:44
+WARNING: Method definition __init__() in module DynamicalSystemsBase at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9 overwritten at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9.
+WARNING: Method definition __init__() in module Requires at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9 overwritten in module RecursiveArrayTools at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9.
+WARNING: Method definition __init__() in module RecursiveArrayTools at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9 overwritten in module DiffEqBase at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9.
+┌ Warning: Deprecated syntax `immutable` at /home/vagrant/.julia/v0.7/OrdinaryDiffEq/src/misc_utils.jl:3.
+│ Use `struct` instead.
+└ @ nothing misc_utils.jl:3
+┌ Warning: Deprecated syntax `parametric method syntax DiffCache{chunk_size}(T, size, ::Type{Val{chunk_size}})` around /home/vagrant/.julia/v0.7/OrdinaryDiffEq/src/misc_utils.jl:9.
+│ Use `DiffCache(T, size, #unused#::Type{Val{chunk_size}}) where chunk_size` instead.
+└ @ nothing misc_utils.jl:9
+┌ Warning: Deprecated syntax `parametric method syntax DiffCache{CS}(u::AbstractArray, T::Type{Val{CS}})` around /home/vagrant/.julia/v0.7/OrdinaryDiffEq/src/misc_utils.jl:14.
+│ Use `DiffCache(u::AbstractArray, T::Type{Val{CS}}) where CS` instead.
+└ @ nothing misc_utils.jl:14
+┌ Warning: Deprecated syntax `parametric method syntax get_du{T <: Dual}(dc::DiffCache, ::Type{T})` around /home/vagrant/.julia/v0.7/OrdinaryDiffEq/src/misc_utils.jl:16.
+│ Use `get_du(dc::DiffCache, #unused#::Type{T}) where T <: Dual` instead.
+└ @ nothing misc_utils.jl:16
+┌ Warning: Deprecated syntax `parametric method syntax (p::NLSOLVEJL_SETUP{CS, AD}){CS, AD}(::Type{Val{:init}}, f, u0_prototype)` around /home/vagrant/.julia/v0.7/OrdinaryDiffEq/src/misc_utils.jl:34.
+│ Use `(p::NLSOLVEJL_SETUP{CS, AD})(#unused#::Type{Val{:init}}, f, u0_prototype) where {CS, AD}` instead.
+└ @ nothing misc_utils.jl:34
+┌ Warning: Deprecated syntax `parametric method syntax get_chunksize{CS, AD}(x::NLSOLVEJL_SETUP{CS, AD})` around /home/vagrant/.julia/v0.7/OrdinaryDiffEq/src/misc_utils.jl:40.
+│ Use `get_chunksize(x::NLSOLVEJL_SETUP{CS, AD}) where {CS, AD}` instead.
+└ @ nothing misc_utils.jl:40
+ERROR: LoadError: LoadError: syntax: invalid escape sequence
 Stacktrace:
  [1] include at ./boot.jl:292 [inlined]
  [2] include_relative(::Module, ::String) at ./loading.jl:1012
- [3] include(::Module, ::String) at ./sysimg.jl:26
- [4] top-level scope
- [5] eval at ./boot.jl:295 [inlined]
- [6] top-level scope at ./<missing>:3
-in expression starting at /home/vagrant/.julia/v0.7/PDMats/src/PDMats.jl:40
-ERROR: LoadError: Failed to precompile PDMats to /home/vagrant/.julia/lib/v0.7/PDMats.ji.
+ [3] include at ./sysimg.jl:26 [inlined]
+ [4] include(::String) at /home/vagrant/.julia/v0.7/OrdinaryDiffEq/src/OrdinaryDiffEq.jl:3
+ [5] top-level scope
+ [6] include at ./boot.jl:292 [inlined]
+ [7] include_relative(::Module, ::String) at ./loading.jl:1012
+ [8] include(::Module, ::String) at ./sysimg.jl:26
+ [9] top-level scope
+ [10] eval at ./boot.jl:295 [inlined]
+ [11] top-level scope at ./<missing>:3
+in expression starting at /home/vagrant/.julia/v0.7/OrdinaryDiffEq/src/misc_utils.jl:50
+in expression starting at /home/vagrant/.julia/v0.7/OrdinaryDiffEq/src/OrdinaryDiffEq.jl:45
+ERROR: LoadError: LoadError: Failed to precompile OrdinaryDiffEq to /home/vagrant/.julia/lib/v0.7/OrdinaryDiffEq.ji.
 Stacktrace:
  [1] error at ./error.jl:33 [inlined]
- [2] compilecache(::Base.PkgId) at ./loading.jl:1156
- [3] _require(::Base.PkgId) at ./loading.jl:920
- [4] require(::Module, ::Symbol) at ./loading.jl:820
- [5] include at ./boot.jl:292 [inlined]
- [6] include_relative(::Module, ::String) at ./loading.jl:1012
- [7] include(::Module, ::String) at ./sysimg.jl:26
- [8] top-level scope
- [9] eval at ./boot.jl:295 [inlined]
- [10] top-level scope at ./<missing>:3
-in expression starting at /home/vagrant/.julia/v0.7/Distributions/src/Distributions.jl:5
-ERROR: LoadError: Failed to precompile Distributions to /home/vagrant/.julia/lib/v0.7/Distributions.ji.
-Stacktrace:
- [1] error at ./error.jl:33 [inlined]
- [2] compilecache(::Base.PkgId) at ./loading.jl:1156
- [3] _require(::Base.PkgId) at ./loading.jl:920
- [4] require(::Module, ::Symbol) at ./loading.jl:820
- [5] include at ./boot.jl:292 [inlined]
- [6] include_relative(::Module, ::String) at ./loading.jl:1012
- [7] include(::Module, ::String) at ./sysimg.jl:26
- [8] top-level scope
- [9] eval at ./boot.jl:295 [inlined]
- [10] top-level scope at ./<missing>:3
-in expression starting at /home/vagrant/.julia/v0.7/LsqFit/src/LsqFit.jl:8
-ERROR: LoadError: LoadError: Failed to precompile LsqFit to /home/vagrant/.julia/lib/v0.7/LsqFit.ji.
-Stacktrace:
- [1] error at ./error.jl:33 [inlined]
- [2] compilecache(::Base.PkgId) at ./loading.jl:1156
+ [2] compilecache(::Base.PkgId) at ./loading.jl:1157
  [3] _require(::Base.PkgId) at ./loading.jl:920
  [4] require(::Module, ::Symbol) at ./loading.jl:820
  [5] include at ./boot.jl:292 [inlined]
@@ -242,19 +272,19 @@ Stacktrace:
  [13] top-level scope
  [14] eval at ./boot.jl:295 [inlined]
  [15] top-level scope at ./<missing>:3
-in expression starting at /home/vagrant/.julia/v0.7/DynamicalSystemsBase/src/reconstruction.jl:2
-in expression starting at /home/vagrant/.julia/v0.7/DynamicalSystemsBase/src/DynamicalSystemsBase.jl:14
+in expression starting at /home/vagrant/.julia/v0.7/DynamicalSystemsBase/src/continuous.jl:1
+in expression starting at /home/vagrant/.julia/v0.7/DynamicalSystemsBase/src/DynamicalSystemsBase.jl:18
 ERROR: LoadError: Failed to precompile DynamicalSystemsBase to /home/vagrant/.julia/lib/v0.7/DynamicalSystemsBase.ji.
 Stacktrace:
  [1] error at ./error.jl:33 [inlined]
- [2] compilecache(::Base.PkgId) at ./loading.jl:1156
+ [2] compilecache(::Base.PkgId) at ./loading.jl:1157
  [3] _require(::Base.PkgId) at ./loading.jl:949
  [4] require(::Module, ::Symbol) at ./loading.jl:820
  [5] include at ./boot.jl:292 [inlined]
  [6] include_relative(::Module, ::String) at ./loading.jl:1012
  [7] include(::Module, ::String) at ./sysimg.jl:26
- [8] process_options(::Base.JLOptions) at ./client.jl:334
- [9] _start() at ./client.jl:386
+ [8] exec_options(::Base.JLOptions) at ./client.jl:332
+ [9] _start() at ./client.jl:447
 in expression starting at /home/vagrant/.julia/v0.7/DynamicalSystemsBase/test/runtests.jl:1
 ┌ Error: ------------------------------------------------------------
 │ # Testing failed for DynamicalSystemsBase
@@ -264,24 +294,24 @@ in expression starting at /home/vagrant/.julia/v0.7/DynamicalSystemsBase/test/ru
 │     [1] error(::String, ::Base.Process, ::String, ::Int64, ::String) at ./error.jl:42
 │     [2] pipeline_error(::Base.Process) at ./process.jl:698
 │     [3] run(::Cmd) at ./process.jl:660
-│     [4] (::getfield(Base.Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}})() at ./pkg/entry.jl:729
-│     [5] cd(::getfield(Base.Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:70
-│     [6] #test!#88(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./pkg/entry.jl:717
-│     [7] (::getfield(Base.Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
-│     [8] #test#96(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:756
-│     [9] (::getfield(Base.Pkg.Entry, Symbol("#kw##test")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Entry.test), ::Array{AbstractString,1}) at ./<missing>:0
-│     [10] (::getfield(Base.Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Base.Pkg.Entry.test),Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:36
-│     [11] cd(::getfield(Base.Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Base.Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:70
-│     [12] #cd#1(::Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./pkg/dir.jl:36
-│     [13] (::getfield(Base.Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
-│     [14] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at ./pkg/pkg.jl:274
-│     [15] test(::String, ::Vararg{String,N} where N) at ./pkg/pkg.jl:274
+│     [4] (::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:731
+│     [5] cd(::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:70
+│     [6] #test!#88(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:719
+│     [7] (::getfield(Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
+│     [8] #test#96(::Bool, ::Function, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:758
+│     [9] (::getfield(Pkg.Entry, Symbol("#kw##test")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test), ::Array{AbstractString,1}) at ./<missing>:0
+│     [10] (::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [11] cd(::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:70
+│     [12] #cd#1(::Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [13] (::getfield(Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
+│     [14] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
+│     [15] test(::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
 │     [16] top-level scope
 │     [17] eval at ./boot.jl:295 [inlined]
 │     [18] eval(::Module, ::Expr) at ./sysimg.jl:71
-│     [19] process_options(::Base.JLOptions) at ./client.jl:311
-│     [20] _start() at ./client.jl:386
-└ @ Base.Pkg.Entry entry.jl:732
+│     [19] exec_options(::Base.JLOptions) at ./client.jl:309
+│     [20] _start() at ./client.jl:447
+└ @ Pkg.Entry entry.jl:734
 ERROR: DynamicalSystemsBase had test errors
 
 >>> End of log

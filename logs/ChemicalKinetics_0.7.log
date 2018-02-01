@@ -1,4 +1,6 @@
 >>> 'Pkg.add("ChemicalKinetics")' log
+WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
+ in module Main
 [ Info: Cloning cache of ChemicalKinetics from https://github.com/scidom/ChemicalKinetics.jl.git
 [ Info: Installing BinDeps v0.8.6
 [ Info: Installing BinaryProvider v0.1.3
@@ -6,11 +8,11 @@
 [ Info: Installing ChemicalKinetics v0.2.0
 [ Info: Installing CommonSubexpressions v0.0.1
 [ Info: Installing DataStructures v0.7.4
-[ Info: Installing DiffEqBase v3.0.4
+[ Info: Installing DiffEqBase v3.1.0
 [ Info: Installing DiffResults v0.0.3
 [ Info: Installing DiffRules v0.0.3
 [ Info: Installing Distributions v0.15.0
-[ Info: Installing ForwardDiff v0.7.2
+[ Info: Installing ForwardDiff v0.7.3
 [ Info: Installing FunctionWrappers v0.1.0
 [ Info: Installing LinearMaps v1.0.4
 [ Info: Installing MacroTools v0.4.0
@@ -19,7 +21,7 @@
 [ Info: Installing PDMats v0.8.0
 [ Info: Installing QuadGK v0.2.0
 [ Info: Installing RecipesBase v0.2.3
-[ Info: Installing RecursiveArrayTools v0.14.3
+[ Info: Installing RecursiveArrayTools v0.14.5
 [ Info: Installing Reexport v0.1.0
 [ Info: Installing Requires v0.4.3
 [ Info: Installing Rmath v0.3.2
@@ -61,6 +63,39 @@ WARNING: importing deprecated binding Base.Associative into BinDeps.
 WARNING: Base.Associative is deprecated, use AbstractDict instead.
   likely near /home/vagrant/.julia/v0.7/Rmath/deps/build.jl:47
 in @install at /home/vagrant/.julia/v0.7/BinDeps/src/dependencies.jl
+[ Info: Building DiffEqBase
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = top-level scope
+└ @ Core :0
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 [ Info: Building Sundials
 WARNING: Base.Libdl is deprecated, run `using Libdl` instead.
   likely near /home/vagrant/.julia/v0.7/Sundials/deps/build.jl:1

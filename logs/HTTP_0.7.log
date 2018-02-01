@@ -1,4 +1,6 @@
 >>> 'Pkg.add("HTTP")' log
+WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
+ in module Main
 [ Info: Installing BinDeps v0.8.6
 [ Info: Installing HTTP v0.6.1
 [ Info: Installing IniFile v0.3.1
@@ -16,20 +18,26 @@ in @install at /home/vagrant/.julia/v0.7/BinDeps/src/dependencies.jl
 └ Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("HTTP")' log
-Julia Version 0.7.0-DEV.3583
-Commit 7d3991f784 (2018-01-26 19:00 UTC)
+WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
+Add a `using InteractiveUtils` to your imports..
+ in module Main
+WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
+Add a `using InteractiveUtils` to your imports..
+ in module Main
+Julia Version 0.7.0-DEV.3664
+Commit 9d5aebb07a (2018-01-30 22:46 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3500 MHz    1198199 s        110 s      66967 s     322404 s         14 s
-       #2  3500 MHz     239693 s         54 s      30005 s    1565991 s          0 s
+       #1  3503 MHz    1180264 s         62 s      67348 s     325386 s         11 s
+       #2  3503 MHz     267201 s        100 s      30727 s    1514343 s          0 s
        
-  Memory: 2.93927001953125 GB (563.109375 MB free)
-  Uptime: 18639.0 sec
-  Load Avg:  0.9716796875  0.998046875  1.0400390625
+  Memory: 2.93927001953125 GB (583.6171875 MB free)
+  Uptime: 18465.0 sec
+  Load Avg:  0.9970703125  0.9853515625  1.0419921875
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -53,6 +61,8 @@ Packages:
  - Nullables                     0.0.3
  - SHA                           0.5.6
  - URIParser                     0.3.0
+WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
+ in module Main
 [ Info: Computing test dependencies for HTTP...
 [ Info: Cloning cache of XMLDict from https://github.com/samoconnor/XMLDict.jl.git
 [ Info: Installing DataStructures v0.7.4
@@ -143,10 +153,10 @@ TEST - uri.jl: complex URL from node js url parser doc
 TEST - uri.jl: complex URL with basic auth from node js url parser doc
 TEST - uri.jl: double @
 TEST - uri.jl: proxy empty host
+TEST - uri.jl: proxy empty port
 ┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
 │   caller = ensurevalid(::HTTP.URIs.URI) at URIs.jl:168
 └ @ HTTP.URIs URIs.jl:168
-TEST - uri.jl: proxy empty port
 TEST - uri.jl: CONNECT with basic auth
 TEST - uri.jl: CONNECT empty host
 TEST - uri.jl: CONNECT empty port
@@ -360,7 +370,7 @@ HTTP.URLParsingError: Invalid URI host: ０Ｘｃ０．０２５０．０１ htt
 
 24. http://192.168.0.257/ 
 25. http://[google.com.]/ 
-HTTP.URLParsingError: Invalid URI path: [google.com.]/
+HTTP.URLParsingError: Invalid URI host:  http://[google.com.]/
 
 26. http://т( 
 HTTP.URLParsingError: Invalid URI host: т( http://т(
@@ -386,7 +396,8 @@ HTTP.URLParsingError: Invalid URI host: \\ http://\\/
 HTTP.URLParsingError: Invalid URI host: \. http://\./
 
 34. http:////:@/ 
-AssertionError("function failed to ensure uristring(uri) == str\nuristring(uri) = \"http://:@/\"\nstr = \"http:////:@/\"")
+HTTP.URLParsingError: Invalid URI host:  http:////:@/
+
 35. http://\google.com/foo 
 HTTP.URLParsingError: Invalid URI host: \google.com http://\google.com/foo
 
@@ -394,22 +405,27 @@ HTTP.URLParsingError: Invalid URI host: \google.com http://\google.com/foo
 HTTP.URLParsingError: Invalid URI host: \\google.com http://\\google.com/foo
 
 37. http:////asdf@/ 
-AssertionError("function failed to ensure uristring(uri) == str\nuristring(uri) = \"http://asdf@/\"\nstr = \"http:////asdf@/\"")
+HTTP.URLParsingError: Invalid URI host:  http:////asdf@/
+
 38. http:////:81/ 
-AssertionError("function failed to ensure uristring(uri) == str\nuristring(uri) = \"http://:81/\"\nstr = \"http:////:81/\"")
+HTTP.URLParsingError: Invalid URI host:  http:////:81/
+
 39. http://:// 
-AssertionError("function failed to ensure uristring(uri) == str\nuristring(uri) = \"http://\"\nstr = \"http://://\"")
+HTTP.URLParsingError: Invalid URI host:  http://://
+
 40. http://c:/ 
-AssertionError("function failed to ensure uristring(uri) == str\nuristring(uri) = \"http://c/\"\nstr = \"http://c:/\"")
+HTTP.URLParsingError: Invalid URI port: 
+
 41. http://xxxx:/ 
-AssertionError("function failed to ensure uristring(uri) == str\nuristring(uri) = \"http://xxxx/\"\nstr = \"http://xxxx:/\"")
+HTTP.URLParsingError: Invalid URI port: 
+
 42. http://.:./ 
 HTTP.URLParsingError: Invalid URI port: .
 
 43. http://////@google.com/ 
-AssertionError("function failed to ensure uristring(uri) == str\nuristring(uri) = \"http:////@google.com/\"\nstr = \"http://////@google.com/\"")
+HTTP.URLParsingError: Invalid URI host:  http://////@google.com/
+
 44. http://@google.com/ 
-AssertionError("function failed to ensure uristring(uri) == str\nuristring(uri) = \"http://google.com/\"\nstr = \"http://@google.com/\"")
 45. http://c|/ A URL with a pipe character in the hostname.
 HTTP.URLParsingError: Invalid URI host: c| http://c|/
 
@@ -610,26 +626,26 @@ HTTP.URLParsingError: Invalid URI host: 192.168.0.1 hello http://192.168.0.1 hel
 53. http://0.00.0x.0x0/ 
 ipv6
 1. http://[/ 
-HTTP.URLParsingError: Invalid URI path: [/
+HTTP.URLParsingError: Invalid URI host:  http://[/
 
 2. http://[:/ 
-HTTP.URLParsingError: Invalid URI path: [:/
+HTTP.URLParsingError: Invalid URI host:  http://[:/
 
 3. http://]/ 
 HTTP.URLParsingError: Invalid URI host: ] http://]/
 
 4. http://:]/ 
-HTTP.URLParsingError: Invalid URI port: ]
+HTTP.URLParsingError: Invalid URI host:  http://:]/
 
 5. http://[]/ 
-HTTP.URLParsingError: Invalid URI path: []/
+HTTP.URLParsingError: Invalid URI host:  http://[]/
 
 6. http://[:]/ 
 7. http://2001:db8::1/ 
 HTTP.URLParsingError: Invalid URI port: db8::1
 
 8. http://[2001:db8::1/ 
-HTTP.URLParsingError: Invalid URI path: [2001:db8::1/
+HTTP.URLParsingError: Invalid URI host:  http://[2001:db8::1/
 
 9. http://2001:db8::1]/ 
 HTTP.URLParsingError: Invalid URI port: db8::1]
@@ -673,7 +689,7 @@ HTTP.URLParsingError: Invalid URI host: 1::%eth0.
 HTTP.URLParsingError: Invalid URI host: 1::%.
 
 42. http://[%.]/ 
-HTTP.URLParsingError: Invalid URI path: [%.]/
+HTTP.URLParsingError: Invalid URI host:  http://[%.]/
 
 43. http://[::%:.]/ 
 HTTP.URLParsingError: Invalid URI host: ::%:.
@@ -701,7 +717,6 @@ HTTP.URLParsingError: Invalid URI path: addr1, addr2
 HTTP.URLParsingError: Invalid URI path: 𐌀
 
 9. mailto:addr1? 
-AssertionError("function failed to ensure uristring(uri) == str\nuristring(uri) = \"mailto:addr1\"\nstr = \"mailto:addr1?\"")
 path-url
 1. javascript: 
 2. JavaScript:Foo 
@@ -776,7 +791,8 @@ HTTP.URLParsingError: Invalid URI port: -2
 3. http://www.example.com:80/ 
 4. http://www.example.com:8080/ 
 5. http://www.example.com:/ 
-AssertionError("function failed to ensure uristring(uri) == str\nuristring(uri) = \"http://www.example.com/\"\nstr = \"http://www.example.com:/\"")
+HTTP.URLParsingError: Invalid URI port: 
+
 6. http://www.example.com:፩/ 
 HTTP.URLParsingError: Invalid URI port: ፩
 
@@ -802,16 +818,17 @@ segments-from-data-url
 segments
 standard-url
 1. http://www.google.com/foo?bar=baz# 
-AssertionError("function failed to ensure uristring(uri) == str\nuristring(uri) = \"http://www.google.com/foo?bar=baz\"\nstr = \"http://www.google.com/foo?bar=baz#\"")
 2. http://[www.google.com]/ 
-HTTP.URLParsingError: Invalid URI path: [www.google.com]/
+HTTP.URLParsingError: Invalid URI host:  http://[www.google.com]/
 
 3. http:////////user:@google.com:99?foo 
-AssertionError("function failed to ensure uristring(uri) == str\nuristring(uri) = \"http://////user:@google.com:99?foo\"\nstr = \"http:////////user:@google.com:99?foo\"")
+HTTP.URLParsingError: Invalid URI host:  http:////////user:@google.com:99?foo
+
 4. http://192.0x00A80001 
 5. http://www/foo%2Ehtml 
 6. http://user:pass@/ 
-AssertionError("function failed to ensure uristring(uri) == str\nuristring(uri) = \"http:user:pass@/\"\nstr = \"http://user:pass@/\"")
+HTTP.URLParsingError: Invalid URI host:  http://user:pass@/
+
 7. http://%25DOMAIN:foobar@foodomain.com/ 
 8. http:\\\\www.google.com\\foo 
 HTTP.URLParsingError: Invalid URI path: \\\\www.google.com\\foo
@@ -879,7 +896,8 @@ HTTP.URLParsingError: Invalid URI host: user%40example.com
 HTTP.URLParsingError: Invalid URI host: user%3Ainfo%40
 
 3. http://user@/ 
-AssertionError("function failed to ensure uristring(uri) == str\nuristring(uri) = \"http:user@/\"\nstr = \"http://user@/\"")
+HTTP.URLParsingError: Invalid URI host:  http://user@/
+
 4. $:foo/bar 
 HTTP.URLParsingError: Invalid URI scheme: $
 
@@ -1827,31 +1845,38 @@ ConnectionPool[
 📡  GET /delay3 HTTP/1.1
 📡  GET /delay4 HTTP/1.1
 📡  GET /delay5 HTTP/1.1
-t = 2.6972429752349854
+t = 3.449079990386963
 📡  GET /delay1 HTTP/1.1
 📡  GET /delay2 HTTP/1.1
 📡  GET /delay3 HTTP/1.1
 📡  GET /delay4 HTTP/1.1
 📡  GET /delay5 HTTP/1.1
-t = 1.0023818016052246
+t = 1.1216769218444824
+loopback: Test Failed at /home/vagrant/.julia/v0.7/HTTP/test/loopback.jl:313
+  Expression: server_events == ["Request: GET /delay1 HTTP/1.1", "Request: GET /delay2 HTTP/1.1", "Response: HTTP/1.1 200 OK <= (GET /delay1 HTTP/1.1)", "Request: GET /delay3 HTTP/1.1", "Response: HTTP/1.1 200 OK <= (GET /delay2 HTTP/1.1)", "Request: GET /delay4 HTTP/1.1", "Response: HTTP/1.1 200 OK <= (GET /delay3 HTTP/1.1)", "Request: GET /delay5 HTTP/1.1", "Response: HTTP/1.1 200 OK <= (GET /delay4 HTTP/1.1)", "Response: HTTP/1.1 200 OK <= (GET /delay5 HTTP/1.1)"]
+   Evaluated: Any["Request: GET /delay1 HTTP/1.1", "Request: GET /delay2 HTTP/1.1", "Response: HTTP/1.1 200 OK <= (GET /delay1 HTTP/1.1)", "Response: HTTP/1.1 200 OK <= (GET /delay2 HTTP/1.1)", "Request: GET /delay3 HTTP/1.1", "Request: GET /delay4 HTTP/1.1", "Response: HTTP/1.1 200 OK <= (GET /delay3 HTTP/1.1)", "Request: GET /delay5 HTTP/1.1", "Response: HTTP/1.1 200 OK <= (GET /delay4 HTTP/1.1)", "Response: HTTP/1.1 200 OK <= (GET /delay5 HTTP/1.1)"] == ["Request: GET /delay1 HTTP/1.1", "Request: GET /delay2 HTTP/1.1", "Response: HTTP/1.1 200 OK <= (GET /delay1 HTTP/1.1)", "Request: GET /delay3 HTTP/1.1", "Response: HTTP/1.1 200 OK <= (GET /delay2 HTTP/1.1)", "Request: GET /delay4 HTTP/1.1", "Response: HTTP/1.1 200 OK <= (GET /delay3 HTTP/1.1)", "Request: GET /delay5 HTTP/1.1", "Response: HTTP/1.1 200 OK <= (GET /delay4 HTTP/1.1)", "Response: HTTP/1.1 200 OK <= (GET /delay5 HTTP/1.1)"]
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.7/HTTP/test/loopback.jl:313 [inlined]
+ [2] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1008 [inlined]
+ [3] top-level scope at /home/vagrant/.julia/v0.7/HTTP/test/loopback.jl:164
 📡  GET /delay1 HTTP/1.1
 📡  GET /delay2 HTTP/1.1
 📡  GET /delay3 HTTP/1.1
 📡  GET /delay4 HTTP/1.1
 📡  GET /delay5 HTTP/1.1
-t = 0.7942690849304199
+t = 0.7764430046081543
 📡  GET /delay1 HTTP/1.1
 📡  GET /delay2 HTTP/1.1
 📡  GET /delay3 HTTP/1.1
 📡  GET /delay4 HTTP/1.1
 📡  GET /delay5 HTTP/1.1
-t = 0.6731140613555908
+t = 0.7380468845367432
 📡  GET /delay1 HTTP/1.1
 📡  GET /delay2 HTTP/1.1
 📡  GET /delay3 HTTP/1.1
 📡  GET /delay4 HTTP/1.1
 📡  GET /delay5 HTTP/1.1
-t = 0.9738049507141113
+t = 0.7641839981079102
 📡  POST /delay1 HTTP/1.1
 📡  GET /delay2 HTTP/1.1
 📡  GET /delay3 HTTP/1.1
@@ -1943,16 +1968,17 @@ asynchronous client request body
 client redirect following
 client basic auth
 high-level client request methods
-[ Info: Listening on: localhost:8763
+[ Info: Listening on: localhost:8987
 ┌ Warning: accept: software caused connection abort (ECONNABORTED)
 └ @ HTTP.Servers Servers.jl:308
-[ Info: Listening on: localhost:8763
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
+[ Info: Listening on: localhost:8987
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
 │ GET //1/1 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Warning: `convert(::Type{String}, v::Vector{UInt8})` is deprecated, use `String(v)` instead.
@@ -1961,52 +1987,49 @@ high-level client request methods
 ┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
 │   caller = macro expansion at server.jl:59 [inlined]
 └ @ Core server.jl:59
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
-│ GET /1/5/2 HTTP/1.1
+│ GET /1/5/1 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
 └ """
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
-│ GET /1/5/1 HTTP/1.1
+│ GET /1/5/2 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10000
 │ 
 └ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
 │ GET /1/5/3 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
+│ Content-Length: 0
 │ 
 └ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
-│ GET /1/5/8 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
+│ GET /1/5/5 HTTP/1.1
 │ Host: 127.0.0.1
-│ Content-Length: 10000
+│ Content-Length: 0
 │ 
 └ """
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
-│ GET /1/5/4 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
+│ GET /1/5/6 HTTP/1.1
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 0
 │ 
 └ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
 │ GET /1/5/9 HTTP/1.1
@@ -2031,40 +2054,18 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /1/5/14 HTTP/1.1
+│ GET /1/5/4 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /1/5/16 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/5/12 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/5/5 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/5/6 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
@@ -2077,21 +2078,7 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /1/5/19 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/5/18 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/5/15 HTTP/1.1
+│ GET /1/5/8 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10
@@ -2099,9 +2086,10 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /1/5/13 HTTP/1.1
+│ GET /1/5/12 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
@@ -2114,29 +2102,7 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /1/5/20 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/1/1 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/1/9 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/1/18 HTTP/1.1
+│ GET /1/5/18 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10000
@@ -2144,39 +2110,7 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/1/2 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/1/3 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/1/13 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/1/14 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/1/4 HTTP/1.1
+│ GET /1/5/19 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10
@@ -2184,10 +2118,70 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/1/5 HTTP/1.1
+│ GET /1/5/15 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/5/14 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/5/13 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/5/20 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/1/1 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/1/2 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/1/3 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/1/4 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/1/5 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -2203,7 +2197,7 @@ high-level client request methods
 │ GET /2/1/7 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
@@ -2211,35 +2205,19 @@ high-level client request methods
 │ GET /2/1/8 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/1/20 HTTP/1.1
+│ GET /2/1/10 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/1/10 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/1/15 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/1/11 HTTP/1.1
+│ GET /2/1/9 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 1000
@@ -2254,17 +2232,56 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
+│ GET /2/1/13 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
 │ GET /2/1/16 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/1/15 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/1/11 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/1/14 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/1/17 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/1/17 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
+│ GET /2/1/18 HTTP/1.1
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -2276,9 +2293,17 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/2/1 HTTP/1.1
+│ GET /2/1/20 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/2/1 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
@@ -2286,15 +2311,14 @@ high-level client request methods
 │ GET /2/2/2 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /2/2/3 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -2307,8 +2331,9 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /2/2/5 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
@@ -2316,14 +2341,15 @@ high-level client request methods
 │ GET /2/2/6 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /2/2/7 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
@@ -2331,28 +2357,23 @@ high-level client request methods
 │ GET /2/2/8 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /2/2/10 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/2/12 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /2/2/9 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
@@ -2365,14 +2386,6 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/2/13 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
 │ GET /2/2/14 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
@@ -2381,9 +2394,8 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /2/2/16 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -2391,27 +2403,19 @@ high-level client request methods
 │ GET /2/2/15 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/2/18 HTTP/1.1
+│ GET /2/2/13 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/2/17 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/2/19 HTTP/1.1
+│ GET /2/2/12 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
@@ -2426,9 +2430,32 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/3/1 HTTP/1.1
+│ GET /2/2/17 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/2/18 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/2/19 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/3/1 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
@@ -2441,17 +2468,33 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/3/3 HTTP/1.1
+│ GET /2/3/14 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/3/13 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/3/3 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /2/3/4 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -2465,17 +2508,15 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /2/3/6 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /2/3/7 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -2487,7 +2528,7 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/3/9 HTTP/1.1
+│ GET /2/3/10 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10000
@@ -2495,9 +2536,10 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/3/10 HTTP/1.1
+│ GET /2/3/12 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
@@ -2509,15 +2551,14 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/3/14 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
+│ GET /2/3/9 HTTP/1.1
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/3/12 HTTP/1.1
+│ GET /2/3/15 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
@@ -2525,30 +2566,6 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /2/3/16 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/3/13 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/3/15 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/3/18 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
@@ -2562,17 +2579,26 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
+│ GET /2/3/18 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
 │ GET /2/3/19 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /2/3/20 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
@@ -2593,25 +2619,10 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/4/13 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/4/12 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
 │ GET /2/4/3 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
@@ -2625,9 +2636,8 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /2/4/5 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -2640,15 +2650,17 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /2/4/7 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /2/4/8 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
@@ -2660,23 +2672,10 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/4/11 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
 │ GET /2/4/9 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/4/15 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
@@ -2684,22 +2683,46 @@ high-level client request methods
 │ GET /2/4/16 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/4/11 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/4/13 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/4/12 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /2/4/14 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/4/19 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
+│ GET /2/4/15 HTTP/1.1
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -2715,7 +2738,15 @@ high-level client request methods
 │ GET /2/4/18 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/4/19 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
@@ -2727,10 +2758,25 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/5/1 HTTP/1.1
+│ GET /2/5/7 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/5/8 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/5/1 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -2742,37 +2788,7 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/5/4 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
 │ GET /2/5/3 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/5/5 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/5/9 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/5/11 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10
@@ -2780,7 +2796,47 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
+│ GET /2/5/4 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/5/5 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/5/6 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
 │ GET /2/5/10 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/5/9 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/5/12 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 1000
@@ -2789,6 +2845,21 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /2/5/14 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/5/16 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /2/5/15 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 1000
@@ -2804,15 +2875,7 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/5/6 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/5/7 HTTP/1.1
+│ GET /2/5/11 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10
@@ -2820,22 +2883,7 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/5/8 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
 │ GET /2/5/17 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/5/20 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
@@ -2850,33 +2898,17 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/5/12 HTTP/1.1
+│ GET /2/5/19 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /2/5/16 HTTP/1.1
+│ GET /2/5/20 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/5/15 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /2/5/19 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
@@ -2890,15 +2922,17 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /3/1/2 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /3/1/3 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
@@ -2906,7 +2940,7 @@ high-level client request methods
 │ GET /3/1/4 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
@@ -2914,7 +2948,7 @@ high-level client request methods
 │ GET /3/1/5 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
@@ -2922,7 +2956,7 @@ high-level client request methods
 │ GET /3/1/6 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
@@ -2930,23 +2964,14 @@ high-level client request methods
 │ GET /3/1/7 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /3/1/8 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/1/10 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -2958,21 +2983,14 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/1/16 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/1/14 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
 │ GET /3/1/13 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/1/10 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10000
@@ -2980,7 +2998,7 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/1/15 HTTP/1.1
+│ GET /3/1/16 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 1000
@@ -2988,14 +3006,30 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/1/12 HTTP/1.1
+│ GET /3/1/15 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
+│ GET /3/1/14 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
 │ GET /3/1/11 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/1/12 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
@@ -3010,16 +3044,16 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /3/1/18 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /3/1/20 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
@@ -3027,53 +3061,15 @@ high-level client request methods
 │ GET /3/1/19 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/2/1 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/2/2 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
 │ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/2/3 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/2/4 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/2/5 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /3/2/6 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
@@ -3088,30 +3084,43 @@ high-level client request methods
 │ GET /3/2/8 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/2/10 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
 │ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/2/9 HTTP/1.1
+│ GET /3/2/1 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/2/3 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/2/11 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
+│ GET /3/2/4 HTTP/1.1
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/2/5 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/2/2 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -3124,21 +3133,45 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/2/14 HTTP/1.1
+│ GET /3/2/13 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/2/11 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/2/9 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/2/10 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/2/14 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /3/2/16 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/2/13 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10
@@ -3149,30 +3182,15 @@ high-level client request methods
 │ GET /3/2/15 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /3/2/17 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/2/19 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/2/20 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
@@ -3185,7 +3203,14 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/3/7 HTTP/1.1
+│ GET /3/2/20 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/2/19 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10
@@ -3193,18 +3218,9 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/3/8 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
 │ GET /3/3/1 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -3212,7 +3228,7 @@ high-level client request methods
 │ GET /3/3/2 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
@@ -3227,7 +3243,7 @@ high-level client request methods
 │ GET /3/3/4 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
@@ -3241,6 +3257,35 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /3/3/6 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/3/7 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/3/8 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/3/10 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/3/11 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 1000
@@ -3255,25 +3300,10 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/3/10 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/3/11 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
 │ GET /3/3/12 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
@@ -3281,15 +3311,14 @@ high-level client request methods
 │ GET /3/3/14 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/3/15 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
+│ GET /3/3/16 HTTP/1.1
 │ Host: 127.0.0.1
-│ Content-Length: 10000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -3301,17 +3330,34 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/3/16 HTTP/1.1
+│ GET /3/3/15 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/3/18 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /3/3/17 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/3/20 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
@@ -3324,15 +3370,7 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/3/18 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/3/20 HTTP/1.1
+│ GET /3/4/1 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10
@@ -3340,29 +3378,7 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/4/1 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
 │ GET /3/4/2 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/4/3 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/4/10 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10000
@@ -3370,9 +3386,10 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/4/11 HTTP/1.1
+│ GET /3/4/3 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
@@ -3380,7 +3397,7 @@ high-level client request methods
 │ GET /3/4/4 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
@@ -3394,15 +3411,17 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /3/4/6 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /3/4/7 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
@@ -3410,21 +3429,7 @@ high-level client request methods
 │ GET /3/4/8 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/4/15 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/4/17 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
@@ -3437,7 +3442,53 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
+│ GET /3/4/13 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/4/11 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
 │ GET /3/4/9 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/4/15 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/4/14 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/4/16 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/4/10 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
@@ -3447,19 +3498,19 @@ high-level client request methods
 │ GET /3/4/19 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/4/16 HTTP/1.1
+│ GET /3/4/17 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/4/13 HTTP/1.1
+│ GET /3/4/18 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10
@@ -3467,7 +3518,15 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/4/14 HTTP/1.1
+│ GET /3/4/20 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/5/1 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 1000
@@ -3475,39 +3534,16 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/4/18 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/4/20 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/5/1 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
 │ GET /3/5/2 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /3/5/3 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -3528,8 +3564,9 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /3/5/6 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
@@ -3549,7 +3586,15 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/5/10 HTTP/1.1
+│ GET /3/5/11 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/5/12 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
@@ -3564,30 +3609,15 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/5/12 HTTP/1.1
+│ GET /3/5/10 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/5/11 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /3/5/15 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/5/16 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10000
@@ -3596,8 +3626,25 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /3/5/14 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/5/13 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /3/5/16 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
@@ -3609,34 +3656,24 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/5/13 HTTP/1.1
+│ GET /3/5/18 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /3/5/19 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /3/5/20 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /3/5/18 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
+│ GET /3/5/19 HTTP/1.1
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -3655,60 +3692,10 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/1/3 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/1/4 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/1/5 HTTP/1.1
+│ GET /4/1/9 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/1/6 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/1/7 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/1/8 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/1/9 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/1/13 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
@@ -3720,17 +3707,56 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/1/15 HTTP/1.1
+│ GET /4/1/3 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/1/4 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/1/5 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/1/6 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/1/7 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/1/8 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/1/14 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
+│ GET /4/1/17 HTTP/1.1
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -3743,22 +3769,22 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/1/12 HTTP/1.1
+│ GET /4/1/20 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/1/16 HTTP/1.1
+│ GET /4/1/15 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/1/18 HTTP/1.1
+│ GET /4/1/13 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10000
@@ -3766,9 +3792,33 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/1/17 HTTP/1.1
+│ GET /4/1/16 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/1/12 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/1/14 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/1/18 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
@@ -3781,16 +3831,10 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/1/20 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
 │ GET /4/2/1 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
@@ -3803,9 +3847,8 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /4/2/3 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -3825,37 +3868,6 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /4/2/6 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/2/10 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/2/9 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/2/12 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/2/11 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
@@ -3878,10 +3890,25 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/2/15 HTTP/1.1
+│ GET /4/2/10 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/2/9 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/2/11 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
@@ -3893,15 +3920,7 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/2/17 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/2/18 HTTP/1.1
+│ GET /4/2/12 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10000
@@ -3909,14 +3928,7 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/2/20 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/2/19 HTTP/1.1
+│ GET /4/2/16 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
@@ -3931,7 +3943,7 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/2/16 HTTP/1.1
+│ GET /4/2/15 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 1000
@@ -3939,16 +3951,49 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/3/1 HTTP/1.1
+│ GET /4/2/17 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/2/18 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/3/2 HTTP/1.1
+│ GET /4/2/19 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/2/20 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/3/1 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/3/2 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
@@ -3963,22 +4008,22 @@ high-level client request methods
 │ GET /4/3/4 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /4/3/5 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /4/3/6 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -3986,28 +4031,26 @@ high-level client request methods
 │ GET /4/3/7 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/3/8 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/3/12 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
 │ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
 │ """
+│ GET /4/3/8 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
 │ GET /4/3/9 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/3/10 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
@@ -4022,7 +4065,7 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/3/10 HTTP/1.1
+│ GET /4/3/15 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10000
@@ -4033,7 +4076,15 @@ high-level client request methods
 │ GET /4/3/16 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/3/12 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
@@ -4048,15 +4099,15 @@ high-level client request methods
 │ GET /4/3/14 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/3/15 HTTP/1.1
+│ GET /4/3/18 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
@@ -4070,14 +4121,6 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /4/3/20 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/3/18 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
@@ -4085,8 +4128,9 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /4/3/19 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
@@ -4099,13 +4143,6 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/4/13 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
 │ GET /4/4/2 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
@@ -4114,9 +4151,8 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /4/4/3 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -4129,17 +4165,15 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /4/4/5 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /4/4/6 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -4152,38 +4186,35 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /4/4/8 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/4/11 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/4/10 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/4/9 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /4/4/12 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/4/14 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/4/9 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/4/10 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 1000
@@ -4192,16 +4223,23 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /4/4/15 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/4/11 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/4/14 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
+│ GET /4/4/13 HTTP/1.1
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -4209,7 +4247,7 @@ high-level client request methods
 │ GET /4/4/16 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
@@ -4217,14 +4255,23 @@ high-level client request methods
 │ GET /4/4/20 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/4/19 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /4/4/18 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
@@ -4237,17 +4284,9 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/4/19 HTTP/1.1
+│ GET /4/5/1 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/5/1 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
@@ -4260,34 +4299,6 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /4/5/3 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/5/10 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/5/11 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/5/4 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/5/5 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10
@@ -4295,7 +4306,7 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/5/6 HTTP/1.1
+│ GET /4/5/4 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 1000
@@ -4303,10 +4314,24 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/5/7 HTTP/1.1
+│ GET /4/5/5 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/5/6 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/5/7 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -4319,6 +4344,44 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
+│ GET /4/5/12 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/5/10 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/5/9 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/5/11 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/5/15 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
 │ GET /4/5/13 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
@@ -4326,7 +4389,14 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/5/18 HTTP/1.1
+│ GET /4/5/14 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/5/16 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10000
@@ -4341,7 +4411,7 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/5/9 HTTP/1.1
+│ GET /4/5/18 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 1000
@@ -4349,50 +4419,16 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /4/5/19 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/5/16 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/5/12 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/5/15 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /4/5/14 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
 │ GET /4/5/20 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /4/5/19 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -4400,7 +4436,7 @@ high-level client request methods
 │ GET /5/1/1 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
@@ -4408,36 +4444,12 @@ high-level client request methods
 │ GET /5/1/2 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/1/3 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/1/14 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
 │ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/1/16 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/1/15 HTTP/1.1
+│ GET /5/1/3 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
@@ -4447,7 +4459,7 @@ high-level client request methods
 │ GET /5/1/4 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
@@ -4461,37 +4473,13 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /5/1/6 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/1/7 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/1/8 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/1/20 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/1/9 HTTP/1.1
+│ GET /5/1/7 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10
@@ -4499,7 +4487,15 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/1/11 HTTP/1.1
+│ GET /5/1/8 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/1/9 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
@@ -4513,7 +4509,7 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/1/13 HTTP/1.1
+│ GET /5/1/16 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10
@@ -4528,7 +4524,7 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/1/18 HTTP/1.1
+│ GET /5/1/11 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10
@@ -4536,10 +4532,32 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/1/19 HTTP/1.1
+│ GET /5/1/13 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/1/14 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/1/15 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/1/18 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -4547,22 +4565,38 @@ high-level client request methods
 │ GET /5/1/17 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/1/20 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/1/19 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /5/2/1 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /5/2/2 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
@@ -4575,7 +4609,30 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
+│ GET /5/2/9 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
 │ GET /5/2/4 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/2/5 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/2/6 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10000
@@ -4583,23 +4640,10 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/2/5 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/2/6 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
 │ GET /5/2/7 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
@@ -4607,29 +4651,23 @@ high-level client request methods
 │ GET /5/2/8 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/2/11 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
 │ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/2/9 HTTP/1.1
+│ GET /5/2/16 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/2/12 HTTP/1.1
+│ GET /5/2/13 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
@@ -4637,12 +4675,12 @@ high-level client request methods
 │ GET /5/2/10 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/2/13 HTTP/1.1
+│ GET /5/2/17 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10000
@@ -4651,46 +4689,38 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /5/2/15 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/2/16 HTTP/1.1
+│ GET /5/2/12 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /5/2/14 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/2/18 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/2/17 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/2/19 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
+│ GET /5/2/11 HTTP/1.1
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/2/18 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -4698,7 +4728,14 @@ high-level client request methods
 │ GET /5/2/20 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/2/19 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -4713,7 +4750,7 @@ high-level client request methods
 │ GET /5/3/2 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
@@ -4721,14 +4758,7 @@ high-level client request methods
 │ GET /5/3/3 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/3/11 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
@@ -4736,34 +4766,12 @@ high-level client request methods
 │ GET /5/3/4 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /5/3/5 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/3/6 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/3/7 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/3/8 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10
@@ -4771,14 +4779,91 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/3/12 HTTP/1.1
+│ GET /5/3/6 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/3/7 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
+│ GET /5/3/8 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/3/11 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/3/10 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/3/9 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/3/15 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/3/12 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
 │ GET /5/3/13 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/3/16 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/3/14 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/3/17 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
@@ -4792,17 +4877,10 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/3/10 HTTP/1.1
+│ GET /5/3/19 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/3/9 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
@@ -4815,65 +4893,17 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/3/15 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/3/16 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/3/14 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/3/17 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/3/19 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
 │ GET /5/4/1 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/4/16 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /5/4/2 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -4881,7 +4911,7 @@ high-level client request methods
 │ GET /5/4/3 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
@@ -4889,15 +4919,14 @@ high-level client request methods
 │ GET /5/4/4 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /5/4/5 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -4905,14 +4934,15 @@ high-level client request methods
 │ GET /5/4/6 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /5/4/7 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
@@ -4931,29 +4961,7 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/4/9 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/4/14 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/4/12 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/4/15 HTTP/1.1
+│ GET /5/4/11 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
@@ -4967,7 +4975,31 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/4/11 HTTP/1.1
+│ GET /5/4/12 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/4/15 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/4/16 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/4/9 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
@@ -4977,7 +5009,22 @@ high-level client request methods
 │ GET /5/4/17 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/4/19 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/4/14 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -4996,13 +5043,6 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/4/19 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
 │ GET /5/5/1 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
@@ -5011,24 +5051,23 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /5/5/2 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/5/3 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/5/3 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
 │ GET /5/5/4 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -5036,22 +5075,22 @@ high-level client request methods
 │ GET /5/5/5 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /5/5/6 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /5/5/7 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -5059,15 +5098,28 @@ high-level client request methods
 │ GET /5/5/8 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
 │ GET /5/5/11 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/5/12 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /5/5/10 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -5080,33 +5132,10 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/5/10 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/5/14 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
 │ GET /5/5/16 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /5/5/12 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -5119,16 +5148,16 @@ high-level client request methods
 ┌ Info: Request:
 │ """
 │ GET /5/5/13 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/5/19 HTTP/1.1
+│ GET /5/5/14 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
@@ -5140,10 +5169,9 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /5/5/20 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
+│ GET /5/5/19 HTTP/1.1
 │ Host: 127.0.0.1
-│ Content-Length: 10000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -5154,9 +5182,16 @@ high-level client request methods
 │ Content-Length: 1000
 │ 
 └ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
+┌ Info: Request:
+│ """
+│ GET /5/5/20 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
 │ GET /1/2/1 HTTP/1.1
@@ -5164,27 +5199,30 @@ high-level client request methods
 │ Content-Length: 0
 │ 
 └ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
-│ GET /1/3/2 HTTP/1.1
+│ GET /1/1/1 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
 └ """
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
 │ GET /1/3/1 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 1000
 │ 
 └ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
 │ GET /1/4/1 HTTP/1.1
@@ -5192,22 +5230,20 @@ high-level client request methods
 │ Content-Length: 0
 │ 
 └ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-┌ Info: Request:
-│ """
-│ GET /1/1/1 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
 │ GET /1/1/2 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/3/2 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
 │ 
 └ """
 ┌ Warning: `convert(::Type{String}, v::Vector{UInt8})` is deprecated, use `String(v)` instead.
@@ -5218,57 +5254,40 @@ high-level client request methods
 │ GET /1/2/2 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Warning: `convert(::Type{String}, v::Vector{UInt8})` is deprecated, use `String(v)` instead.
-│   caller = setproperty! at sysimg.jl:9 [inlined]
-└ @ Core sysimg.jl:9
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-┌ Warning: `convert(::Type{String}, v::Vector{UInt8})` is deprecated, use `String(v)` instead.
-│   caller = setproperty! at sysimg.jl:9 [inlined]
-└ @ Core sysimg.jl:9
-┌ Info: Request:
-│ """
-│ GET /1/4/2 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
 │ Content-Length: 1000
 │ 
 └ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
+┌ Warning: `convert(::Type{String}, v::Vector{UInt8})` is deprecated, use `String(v)` instead.
+│   caller = setproperty! at sysimg.jl:9 [inlined]
+└ @ Core sysimg.jl:9
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
 │ GET /1/2/3 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 0
 │ 
 └ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
+┌ Warning: `convert(::Type{String}, v::Vector{UInt8})` is deprecated, use `String(v)` instead.
+│   caller = setproperty! at sysimg.jl:9 [inlined]
+└ @ Core sysimg.jl:9
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
 │ GET /1/2/4 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
+│ Content-Length: 1000
 │ 
 └ """
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
 │ GET /1/2/6 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-┌ Info: Request:
-│ """
-│ GET /1/2/8 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
@@ -5278,36 +5297,8 @@ high-level client request methods
 │ Content-Length: 0
 │ 
 └ """
-┌ Info: Request:
-│ """
-│ GET /1/2/10 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/2/15 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/2/12 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/2/16 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
 │ GET /1/2/5 HTTP/1.1
@@ -5317,7 +5308,29 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
+│ GET /1/2/11 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/2/10 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
 │ GET /1/2/7 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/2/8 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 1000
@@ -5332,10 +5345,17 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /1/2/14 HTTP/1.1
+│ GET /1/2/19 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/2/12 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -5347,26 +5367,40 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /1/2/19 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
 │ GET /1/2/13 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /1/2/11 HTTP/1.1
+│ GET /1/2/15 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 1000
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/2/16 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/2/14 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/2/20 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Warning: `convert(::Type{String}, v::Vector{UInt8})` is deprecated, use `String(v)` instead.
@@ -5374,17 +5408,10 @@ high-level client request methods
 └ @ Core sysimg.jl:9
 ┌ Info: Request:
 │ """
-│ GET /1/2/20 HTTP/1.1
+│ GET /1/4/2 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-┌ Info: Request:
-│ """
-│ GET /1/3/3 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
@@ -5394,23 +5421,38 @@ high-level client request methods
 │ Content-Length: 0
 │ 
 └ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
 ┌ Info: Request:
 │ """
-│ GET /1/3/7 HTTP/1.1
+│ GET /1/3/3 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
+┌ Info: Request:
+│ """
+│ GET /1/3/6 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
 └ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
+┌ Info: Request:
+│ """
+│ GET /1/3/8 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
 ┌ Info: Request:
 │ """
 │ GET /1/3/9 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10000
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -5418,12 +5460,35 @@ high-level client request methods
 │ GET /1/3/10 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/3/15 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/3/5 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
 │ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /1/3/11 HTTP/1.1
+│ GET /1/3/7 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/3/13 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
@@ -5437,52 +5502,7 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /1/3/5 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/3/6 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/3/8 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/3/13 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/3/18 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
 │ GET /1/3/17 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/3/16 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
@@ -5492,7 +5512,31 @@ high-level client request methods
 │ GET /1/3/19 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/3/16 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
 │ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/3/20 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/3/11 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
 │ 
 └ """
 ┌ Info: Request:
@@ -5504,7 +5548,41 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /1/3/15 HTTP/1.1
+│ GET /1/3/18 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10000
+│ 
+└ """
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
+┌ Info: Request:
+│ """
+│ GET /1/1/3 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
+┌ Info: Request:
+│ """
+│ GET /1/1/4 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
+┌ Info: Request:
+│ """
+│ GET /1/1/7 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
+┌ Info: Request:
+│ """
+│ GET /1/1/11 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10
@@ -5512,29 +5590,134 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /1/3/20 HTTP/1.1
+│ GET /1/1/9 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
+┌ Info: Request:
+│ """
+│ GET /1/1/12 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/1/5 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/1/18 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/1/19 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/1/15 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/1/6 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10000
 │ 
 └ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
+┌ Info: Request:
+│ """
+│ GET /1/1/16 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/1/8 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/1/10 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/1/20 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/1/13 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/1/14 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/1/17 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
+│ Content-Length: 10
+│ 
+└ """
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
 │ GET /1/4/3 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 1000
 │ 
 └ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
 │ GET /1/4/4 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10
 │ 
 └ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
 │ GET /1/4/6 HTTP/1.1
@@ -5542,19 +5725,10 @@ high-level client request methods
 │ Content-Length: 0
 │ 
 └ """
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
-│ GET /1/4/9 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-┌ Info: Request:
-│ """
-│ GET /1/4/11 HTTP/1.1
+│ GET /1/4/8 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
@@ -5564,12 +5738,20 @@ high-level client request methods
 │ GET /1/4/5 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
+│ Content-Length: 1000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/4/9 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
+│ Host: 127.0.0.1
 │ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /1/4/13 HTTP/1.1
+│ GET /1/4/7 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10
@@ -5577,17 +5759,9 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /1/4/18 HTTP/1.1
+│ GET /1/4/10 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/4/19 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
 │ 
 └ """
 ┌ Info: Request:
@@ -5600,31 +5774,18 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
-│ GET /1/4/7 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/4/8 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/4/10 HTTP/1.1
+│ GET /1/4/12 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /1/4/12 HTTP/1.1
+│ GET /1/4/11 HTTP/1.1
+│ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 0
+│ Content-Length: 10000
 │ 
 └ """
 ┌ Info: Request:
@@ -5632,7 +5793,14 @@ high-level client request methods
 │ GET /1/4/15 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
-│ Content-Length: 10
+│ Content-Length: 10000
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/4/17 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
@@ -5644,166 +5812,37 @@ high-level client request methods
 └ """
 ┌ Info: Request:
 │ """
+│ GET /1/4/18 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
+│ GET /1/4/13 HTTP/1.1
+│ Host: 127.0.0.1
+│ Content-Length: 0
+│ 
+└ """
+┌ Info: Request:
+│ """
 │ GET /1/4/20 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/4/17 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/1/3 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-┌ Info: Request:
-│ """
-│ GET /1/1/4 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-┌ Info: Request:
-│ """
-│ GET /1/1/7 HTTP/1.1
 │ Host: 127.0.0.1
 │ Content-Length: 0
 │ 
 └ """
 ┌ Info: Request:
 │ """
-│ GET /1/1/8 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
-┌ Info: Request:
-│ """
-│ GET /1/1/10 HTTP/1.1
+│ GET /1/4/19 HTTP/1.1
 │ Content-Type: text/plain; charset=utf-8
 │ Host: 127.0.0.1
 │ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/1/11 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/1/5 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/1/6 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/1/14 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/1/16 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/1/9 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/1/13 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/1/18 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/1/12 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 10
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/1/19 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/1/15 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/1/17 HTTP/1.1
-│ Content-Type: text/plain; charset=utf-8
-│ Host: 127.0.0.1
-│ Content-Length: 1000
-│ 
-└ """
-┌ Info: Request:
-│ """
-│ GET /1/1/20 HTTP/1.1
-│ Host: 127.0.0.1
-│ Content-Length: 0
 │ 
 └ """
 ┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
-│   caller = (::getfield(, Symbol("##105#112")))(::SubString{String}) at <missing>:0
-└ @ Main <missing>:0
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
+│   caller = #105 at <missing>:0 [inlined]
+└ @ Core <missing>:0
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
 │ GET / HTTP/1.1
@@ -5811,12 +5850,12 @@ high-level client request methods
 │ Content-Length: 0
 │ 
 └ """
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
 │   caller = macro expansion at server.jl:86 [inlined]
 └ @ Core server.jl:86
-[ Info: Closed:  💀    0↑     1↓    localhost:8763:8763 ≣16
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
+[ Info: Closed:  💀    0↑     1↓    localhost:8987:8987 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Error: HTTP.ParsingError: invalid HTTP version, es_req_first_http_major, 0
 │ "GET / HTP/1.1"
 │             ^
@@ -5824,8 +5863,8 @@ high-level client request methods
 ┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
 │   caller = macro expansion at server.jl:92 [inlined]
 └ @ Core server.jl:92
-[ Info: Closed:  💀    0↑     1↓    localhost:8763:8763 ≣16
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
+[ Info: Closed:  💀    0↑     1↓    localhost:8987:8987 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Error: HTTP.ParsingError: invalid HTTP request target, es_req_line_almost_done, 0
 │ "SOMEMETHOD HTTP/1.1"
 │                     ^
@@ -5833,11 +5872,11 @@ high-level client request methods
 ┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
 │   caller = macro expansion at server.jl:102 [inlined]
 └ @ Core server.jl:102
-[ Info: Closed:  💀    0↑     1↓    localhost:8763:8763 ≣16
+[ Info: Closed:  💀    0↑     1↓    localhost:8987:8987 ≣16
 ┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
 │   caller = macro expansion at server.jl:103 [inlined]
 └ @ Core server.jl:103
-[ Info: Accept:  🔗    0↑     0↓    localhost:8763:8763 ≣16
+[ Info: Accept:  🔗    0↑     0↓    localhost:8987:8987 ≣16
 ┌ Info: Request:
 │ """
 │ POST / HTTP/1.1
@@ -5854,14 +5893,14 @@ Body of Request
 0
 
 
-[ Info: Listening on: 127.0.0.1:8764
+[ Info: Listening on: 127.0.0.1:8988
 ┌ Warning: accept: software caused connection abort (ECONNABORTED)
 └ @ HTTP.Servers Servers.jl:308
-[ Info: Accept:  🔗    0↑     0↓    127.0.0.1:8764:8764 ≣16
+[ Info: Accept:  🔗    0↑     0↓    127.0.0.1:8988:8988 ≣16
 ┌ Info: Request:
 │ """
 │ GET / HTTP/1.0
-│ Host: 127.0.0.1:8764
+│ Host: 127.0.0.1:8988
 │ Content-Length: 0
 │ 
 └ """
@@ -5869,117 +5908,161 @@ Body of Request
 │   caller = ip:0x0
 └ @ Core :-1
 async tests
-[ Info: Closed:  💀    1↑     1↓🔒   localhost:8763:8763 ≣16
-[ Info: Closed:  💀    1↑     1↓🔒   127.0.0.1:8764:8764 ≣16
+[ Info: Closed:  💀    1↑     1↓🔒   127.0.0.1:8988:8988 ≣16
 ┌ Warning: Deprecated syntax `implicit assignment to global variable `config``.
 │ Use `global config` instead.
 └ @ nothing none:0
 [ Info: Listening on: 127.0.0.1:8081
-┌ Warning: Loop variable `config` around /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1094 overwrites a variable in an enclosing scope. In the future the variable will be local to the loop instead.
-└ @ nothing Test.jl:1094
+┌ Warning: Loop variable `config` around /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1095 overwrites a variable in an enclosing scope. In the future the variable will be local to the loop instead.
+└ @ nothing Test.jl:1095
+[ Info: Closed:  💀    1↑     1↓🔒   localhost:8987:8987 ≣16 inactive 5.5s
 running async 1, 1:100, Pair{Symbol,Int64}[:verbose=>0], http A
 ConnectionPool[
-   ⏸    4↑     4↓    example.com:80:34140 ≣16
-   🔗   41↑    41↓    httpbin.org:443:58060 ≣16
-   ⏸    1↑     1↓    127.0.0.1:8763:47948 ≣16
-   🔗    1↑     1↓    127.0.0.1:8764:39615 ≣16
-   ⏸   14↑    14↓    httpbin.org:80:47821 ≣16
-   ⏸   14↑    14↓    httpbin.org:80:47822 ≣16
-   ⏸   13↑    13↓    httpbin.org:80:47823 ≣16
-   ⏸   12↑    12↓    httpbin.org:80:47824 ≣16
-   ⏸   12↑    12↓    httpbin.org:80:47825 ≣16
-   ⏸   12↑    12↓    httpbin.org:80:47826 ≣16
-   ⏸   12↑    12↓    httpbin.org:80:47827 ≣16
-   ⏸   11↑    11↓    httpbin.org:80:47828 ≣16
+   ⏸    4↑     4↓    example.com:80:57034 ≣16
+   🔗   41↑    41↓    httpbin.org:443:49427 ≣16
+   ⏸    1↑     1↓    127.0.0.1:8987:60110 ≣16
+   🔗    1↑     1↓    127.0.0.1:8988:55072 ≣16
+   ⏸   14↑    14↓    httpbin.org:80:55926 ≣16
+   ⏸   14↑    14↓    httpbin.org:80:55927 ≣16
+   ⏸   13↑    13↓    httpbin.org:80:55928 ≣16
+   ⏸   13↑    13↓    httpbin.org:80:55929 ≣16
+   ⏸   12↑    12↓    httpbin.org:80:55930 ≣16
+   ⏸   12↑    12↓    httpbin.org:80:55931 ≣16
+   ⏸   12↑    12↓    httpbin.org:80:55932 ≣16
+   ⏸   10↑    10↓    httpbin.org:80:55933 ≣16
 ]
 
-[ Info: Closed:  💀    1↑     1↓🔒   localhost:8763:8763 ≣16 inactive 25.2s
+[ Info: Closed:  💀    1↑     1↓🔒   localhost:8987:8987 ≣16 inactive 23.5s
 running async 1, 1:100, Pair{Symbol,Int64}[:verbose=>0], http B
 ConnectionPool[
-   ⏸   13↑    13↓    httpbin.org:80:47829 ≣16
-   ⏸   13↑    13↓    httpbin.org:80:47830 ≣16
-   ⏸   13↑    13↓    httpbin.org:80:47831 ≣16
-   ⏸   13↑    13↓    httpbin.org:80:47832 ≣16
-   ⏸   13↑    13↓    httpbin.org:80:47833 ≣16
-   ⏸   12↑    12↓    httpbin.org:80:47834 ≣16
-   ⏸   12↑    12↓    httpbin.org:80:47835 ≣16
-   ⏸   11↑    11↓    httpbin.org:80:47836 ≣16
+   ⏸   13↑    13↓    httpbin.org:80:55934 ≣16
+   ⏸   13↑    13↓    httpbin.org:80:55935 ≣16
+   ⏸   13↑    13↓    httpbin.org:80:55936 ≣16
+   ⏸   13↑    13↓    httpbin.org:80:55937 ≣16
+   ⏸   13↑    13↓    httpbin.org:80:55938 ≣16
+   ⏸   12↑    12↓    httpbin.org:80:55939 ≣16
+   ⏸   12↑    12↓    httpbin.org:80:55940 ≣16
+   ⏸   11↑    11↓    httpbin.org:80:55941 ≣16
 ]
 
 running async 1, 1:100, Pair{Symbol,Int64}[:verbose=>0], http C
 Couldn't get a file descriptor referring to the console
 ConnectionPool[
-   🔁    2↑🔒    2↓🔒   httpbin.org:80:47837 ≣16
-   🔁    3↑🔒    2↓🔒   httpbin.org:80:47838 ≣16
-   🔁    2↑🔒    1↓🔒   httpbin.org:80:47839 ≣16
-   🔁    1↑🔒    1↓🔒   httpbin.org:80:47840 ≣16
-   🔁    1↑🔒    1↓🔒   httpbin.org:80:47841 ≣16
-   🔁    1↑🔒    1↓🔒   httpbin.org:80:47842 ≣16
-   🔁    2↑     0↓🔒   httpbin.org:80:47843 ≣16
-   🔁    1↑     0↓🔒   httpbin.org:80:47844 ≣16
+   🔁    2↑🔒    2↓🔒   httpbin.org:80:55943 ≣16
+   🔁    1↑🔒    1↓🔒   httpbin.org:80:55944 ≣16
+   🔁    2↑🔒    1↓🔒   httpbin.org:80:55945 ≣16
+   🔁    3↑     1↓🔒   httpbin.org:80:55946 ≣16
+   🔁    1↑🔒    1↓🔒   httpbin.org:80:55947 ≣16
+   🔁    1↑🔒    1↓🔒   httpbin.org:80:55948 ≣16
+   🔁    0↑🔒    0↓🔒   httpbin.org:80:55949 ≣16
+   🔁    0↑🔒    0↓🔒   httpbin.org:80:55950 ≣16
 ]
 
 ConnectionPool[
-   ⏸   12↑    12↓    httpbin.org:80:47837 ≣16
-   ⏸   15↑    15↓    httpbin.org:80:47838 ≣16
-   ⏸   11↑    11↓    httpbin.org:80:47839 ≣16
-   ⏸   11↑    11↓    httpbin.org:80:47840 ≣16
-   ⏸   10↑    10↓    httpbin.org:80:47841 ≣16
-   ⏸   12↑    12↓    httpbin.org:80:47842 ≣16
-   ⏸   14↑    14↓    httpbin.org:80:47843 ≣16
-   ⏸   15↑    15↓    httpbin.org:80:47844 ≣16
+   ⏸   14↑    14↓    httpbin.org:80:55943 ≣16
+   ⏸   14↑    14↓    httpbin.org:80:55944 ≣16
+   ⏸   12↑    12↓    httpbin.org:80:55945 ≣16
+   ⏸   15↑    15↓    httpbin.org:80:55946 ≣16
+   ⏸   10↑    10↓    httpbin.org:80:55947 ≣16
+   ⏸   11↑    11↓    httpbin.org:80:55948 ≣16
+   ⏸   10↑    10↓    httpbin.org:80:55949 ≣16
+   ⏸   14↑    14↓    httpbin.org:80:55950 ≣16
 ]
 
 ConnectionPool[
 ]
 
 async tests done
-Test Summary: |   Pass  Broken   Total
-HTTP          | 414632       4  414636
-[ Info: Closed:  💀   55↑    55↓🔒   localhost:8763:8763 ≣16 inactive 47.7s
-[ Info: Closed:  💀   52↑    52↓🔒   localhost:8763:8763 ≣16 inactive 47.8s
-[ Info: Closed:  💀   52↑    52↓🔒   localhost:8763:8763 ≣16 inactive 47.9s
-[ Info: Closed:  💀   50↑    50↓🔒   localhost:8763:8763 ≣16 inactive 47.8s
-[ Info: Closed:  💀   50↑    50↓🔒   localhost:8763:8763 ≣16 inactive 47.9s
-[ Info: Closed:  💀   55↑    55↓🔒   localhost:8763:8763 ≣16 inactive 47.8s
-[ Info: Closed:  💀    2↑     2↓🔒   localhost:8763:8763 ≣16 inactive 32.0s
-[ Info: Closed:  💀    2↑     2↓🔒   localhost:8763:8763 ≣16 inactive 32.0s
-[ Info: Closed:  💀    2↑     2↓🔒   localhost:8763:8763 ≣16 inactive 32.0s
-[ Info: Closed:  💀    2↑     2↓🔒   localhost:8763:8763 ≣16 inactive 32.0s
-[ Info: Closed:  💀    1↑     1↓🔒   localhost:8763:8763 ≣16 inactive 32.3s
-[ Info: Closed:  💀    2↑     2↓🔒   localhost:8763:8763 ≣16 inactive 32.3s
-[ Info: Closed:  💀    2↑     2↓🔒   localhost:8763:8763 ≣16 inactive 32.3s
-[ Info: Closed:  💀    3↑     3↓🔒   localhost:8763:8763 ≣16 inactive 32.2s
-[ Info: Closed:  💀    3↑     3↓🔒   localhost:8763:8763 ≣16 inactive 33.0s
-[ Info: Closed:  💀    3↑     3↓🔒   localhost:8763:8763 ≣16 inactive 33.0s
-[ Info: Closed:  💀    2↑     2↓🔒   localhost:8763:8763 ≣16 inactive 33.1s
-[ Info: Closed:  💀    3↑     3↓🔒   localhost:8763:8763 ≣16 inactive 33.0s
-[ Info: Closed:  💀    2↑     2↓🔒   localhost:8763:8763 ≣16 inactive 32.8s
-[ Info: Closed:  💀    4↑     4↓🔒   localhost:8763:8763 ≣16 inactive 32.8s
-[ Info: Closed:  💀    3↑     3↓🔒   localhost:8763:8763 ≣16 inactive 32.8s
-[ Info: Closed:  💀    3↑     3↓🔒   localhost:8763:8763 ≣16 inactive 32.8s
-[ Info: Closed:  💀    3↑     3↓🔒   localhost:8763:8763 ≣16 inactive 32.2s
-[ Info: Closed:  💀    3↑     3↓🔒   localhost:8763:8763 ≣16 inactive 32.2s
-[ Info: Closed:  💀    3↑     3↓🔒   localhost:8763:8763 ≣16 inactive 32.2s
-[ Info: Closed:  💀    3↑     3↓🔒   localhost:8763:8763 ≣16 inactive 32.3s
-[ Info: Closed:  💀    2↑     2↓🔒   localhost:8763:8763 ≣16 inactive 32.1s
-[ Info: Closed:  💀    3↑     3↓🔒   localhost:8763:8763 ≣16 inactive 32.0s
-[ Info: Closed:  💀    3↑     3↓🔒   localhost:8763:8763 ≣16 inactive 32.0s
-[ Info: Closed:  💀    4↑     4↓🔒   localhost:8763:8763 ≣16 inactive 32.0s
-[ Info: Closed:  💀    2↑     2↓🔒   localhost:8763:8763 ≣16 inactive 33.1s
-[ Info: Closed:  💀    2↑     2↓🔒   localhost:8763:8763 ≣16 inactive 33.1s
-[ Info: Closed:  💀    2↑     2↓🔒   localhost:8763:8763 ≣16 inactive 33.1s
-[ Info: Closed:  💀    3↑     3↓🔒   localhost:8763:8763 ≣16 inactive 33.1s
-[ Info: Closed:  💀   55↑    55↓🔒   localhost:8763:8763 ≣16 inactive 48.2s
-[ Info: Closed:  💀   52↑    52↓🔒   localhost:8763:8763 ≣16 inactive 48.2s
-[ Info: Closed:  💀    2↑     2↓🔒   localhost:8763:8763 ≣16 inactive 32.8s
-[ Info: Closed:  💀    2↑     2↓🔒   localhost:8763:8763 ≣16 inactive 32.8s
-[ Info: Closed:  💀    2↑     2↓🔒   localhost:8763:8763 ≣16 inactive 32.8s
-[ Info: Closed:  💀    2↑     2↓🔒   localhost:8763:8763 ≣16 inactive 32.9s
-[ Info: HTTP tests passed
+Test Summary:                                         |   Pass  Fail  Broken   Total
+HTTP                                                  | 414631     1       4  414636
+  utils.jl                                            |    173                   173
+  FIFOBuffer                                          |     97                    97
+  HTTP.sniff                                          |     20                    20
+  HTTP.isjson                                         |     28                    28
+  HTTP.isjson                                         |     27                    27
+  HTTP.URI                                            |    114                   114
+  HTTP.URL                                            |     12                    12
+  Cookies                                             |     57                    57
+  HTTP.parse                                          | 413451                413451
+  loopback                                            |     52     1              53
+  WebSockets                                          |      6                     6
+  HTTP.Messages                                       |    133                   133
+  HTTP.Client                                         |    126             4     130
+  HTTP.Handler                                        |     17                    17
+  HTTP.Servers.serve                                  |     18                    18
+  async 1, 100, Pair{Symbol,Int64}[:verbose=>0], http |    300                   300
+ERROR: LoadError: Some tests did not pass: 414631 passed, 1 failed, 0 errored, 4 broken.
+in expression starting at /home/vagrant/.julia/v0.7/HTTP/test/runtests.jl:11
+[ Info: Closed:  💀   55↑    55↓🔒   localhost:8987:8987 ≣16 inactive 47.4s
+[ Info: Closed:  💀   52↑    52↓🔒   localhost:8987:8987 ≣16 inactive 47.4s
+[ Info: Closed:  💀   51↑    51↓🔒   localhost:8987:8987 ≣16 inactive 47.4s
+[ Info: Closed:  💀   52↑    52↓🔒   localhost:8987:8987 ≣16 inactive 47.4s
+[ Info: Closed:  💀   52↑    52↓🔒   localhost:8987:8987 ≣16 inactive 47.4s
+[ Info: Closed:  💀   49↑    49↓🔒   localhost:8987:8987 ≣16 inactive 47.5s
+[ Info: Closed:  💀    2↑     2↓🔒   localhost:8987:8987 ≣16 inactive 31.0s
+[ Info: Closed:  💀    2↑     2↓🔒   localhost:8987:8987 ≣16 inactive 31.0s
+[ Info: Closed:  💀    2↑     2↓🔒   localhost:8987:8987 ≣16 inactive 31.0s
+[ Info: Closed:  💀    2↑     2↓🔒   localhost:8987:8987 ≣16 inactive 31.1s
+[ Info: Closed:  💀    2↑     2↓🔒   localhost:8987:8987 ≣16 inactive 32.3s
+[ Info: Closed:  💀    1↑     1↓🔒   localhost:8987:8987 ≣16 inactive 31.3s
+[ Info: Closed:  💀    2↑     2↓🔒   localhost:8987:8987 ≣16 inactive 31.3s
+[ Info: Closed:  💀    2↑     2↓🔒   localhost:8987:8987 ≣16 inactive 31.3s
+[ Info: Closed:  💀    2↑     2↓🔒   localhost:8987:8987 ≣16 inactive 31.2s
+[ Info: Closed:  💀    2↑     2↓🔒   localhost:8987:8987 ≣16 inactive 31.8s
+[ Info: Closed:  💀    2↑     2↓🔒   localhost:8987:8987 ≣16 inactive 31.8s
+[ Info: Closed:  💀    3↑     3↓🔒   localhost:8987:8987 ≣16 inactive 31.8s
+[ Info: Closed:  💀    2↑     2↓🔒   localhost:8987:8987 ≣16 inactive 32.5s
+[ Info: Closed:  💀    2↑     2↓🔒   localhost:8987:8987 ≣16 inactive 32.5s
+[ Info: Closed:  💀    2↑     2↓🔒   localhost:8987:8987 ≣16 inactive 32.5s
+[ Info: Closed:  💀   53↑    53↓🔒   localhost:8987:8987 ≣16 inactive 47.7s
+[ Info: Closed:  💀   57↑    57↓🔒   localhost:8987:8987 ≣16 inactive 47.7s
+[ Info: Closed:  💀    1↑     1↓🔒   localhost:8987:8987 ≣16 inactive 31.8s
+[ Info: Closed:  💀    3↑     3↓🔒   localhost:8987:8987 ≣16 inactive 31.8s
+[ Info: Closed:  💀    2↑     2↓🔒   localhost:8987:8987 ≣16 inactive 31.8s
+[ Info: Closed:  💀    4↑     4↓🔒   localhost:8987:8987 ≣16 inactive 31.7s
+[ Info: Closed:  💀    3↑     3↓🔒   localhost:8987:8987 ≣16 inactive 31.7s
+[ Info: Closed:  💀    2↑     2↓🔒   localhost:8987:8987 ≣16 inactive 32.5s
+[ Info: Closed:  💀    3↑     3↓🔒   localhost:8987:8987 ≣16 inactive 32.5s
+[ Info: Closed:  💀    4↑     4↓🔒   localhost:8987:8987 ≣16 inactive 32.5s
+[ Info: Closed:  💀    3↑     3↓🔒   localhost:8987:8987 ≣16 inactive 32.5s
+[ Info: Closed:  💀    3↑     3↓🔒   localhost:8987:8987 ≣16 inactive 31.4s
+[ Info: Closed:  💀    3↑     3↓🔒   localhost:8987:8987 ≣16 inactive 31.5s
+[ Info: Closed:  💀    3↑     3↓🔒   localhost:8987:8987 ≣16 inactive 31.4s
+[ Info: Closed:  💀    2↑     2↓🔒   localhost:8987:8987 ≣16 inactive 31.3s
+[ Info: Closed:  💀    4↑     4↓🔒   localhost:8987:8987 ≣16 inactive 31.3s
+[ Info: Closed:  💀    2↑     2↓🔒   localhost:8987:8987 ≣16 inactive 31.4s
+[ Info: Closed:  💀    4↑     4↓🔒   localhost:8987:8987 ≣16 inactive 31.3s
+[ Info: Closed:  💀    4↑     4↓🔒   localhost:8987:8987 ≣16 inactive 31.4s
+┌ Error: ------------------------------------------------------------
+│ # Testing failed for HTTP
+│   exception =
+│    failed process: Process(`/home/vagrant/julia/bin/julia -Cnative -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --code-coverage=none --color=no --compiled-modules=yes --check-bounds=yes --warn-overwrite=yes --startup-file=yes /home/vagrant/.julia/v0.7/HTTP/test/runtests.jl`, ProcessExited(1)) [1]
+│    Stacktrace:
+│     [1] error(::String, ::Base.Process, ::String, ::Int64, ::String) at ./error.jl:42
+│     [2] pipeline_error(::Base.Process) at ./process.jl:698
+│     [3] run(::Cmd) at ./process.jl:660
+│     [4] (::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:731
+│     [5] cd(::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:70
+│     [6] #test!#88(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:719
+│     [7] (::getfield(Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
+│     [8] #test#96(::Bool, ::Function, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:758
+│     [9] (::getfield(Pkg.Entry, Symbol("#kw##test")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test), ::Array{AbstractString,1}) at ./<missing>:0
+│     [10] (::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [11] cd(::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:70
+│     [12] #cd#1(::Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [13] (::getfield(Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
+│     [14] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
+│     [15] test(::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
+│     [16] top-level scope
+│     [17] eval at ./boot.jl:295 [inlined]
+│     [18] eval(::Module, ::Expr) at ./sysimg.jl:71
+│     [19] exec_options(::Base.JLOptions) at ./client.jl:309
+│     [20] _start() at ./client.jl:447
+└ @ Pkg.Entry entry.jl:734
 [ Info: Removing DataStructures v0.7.4
 [ Info: Removing IterTools v0.2.1
 [ Info: Removing LightXML v0.5.0
 [ Info: Removing XMLDict v0.1.3
+ERROR: HTTP had test errors
 
 >>> End of log

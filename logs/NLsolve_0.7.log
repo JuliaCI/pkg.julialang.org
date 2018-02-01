@@ -1,4 +1,6 @@
 >>> 'Pkg.add("NLsolve")' log
+WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
+ in module Main
 [ Info: Installing BinDeps v0.8.6
 [ Info: Installing CommonSubexpressions v0.0.1
 [ Info: Installing DataStructures v0.7.4
@@ -7,10 +9,10 @@
 [ Info: Installing DiffResults v0.0.3
 [ Info: Installing DiffRules v0.0.3
 [ Info: Installing Distances v0.5.0
-[ Info: Installing ForwardDiff v0.7.2
+[ Info: Installing ForwardDiff v0.7.3
 [ Info: Installing LineSearches v3.2.5
 [ Info: Installing NLSolversBase v4.2.0
-[ Info: Installing NLsolve v0.14.1
+[ Info: Installing NLsolve v1.0.0
 [ Info: Installing NaNMath v0.3.0
 [ Info: Installing Parameters v0.8.1
 [ Info: Installing SHA v0.5.6
@@ -36,20 +38,26 @@ in @install at /home/vagrant/.julia/v0.7/BinDeps/src/dependencies.jl
 └ Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("NLsolve")' log
-Julia Version 0.7.0-DEV.3583
-Commit 7d3991f784 (2018-01-26 19:00 UTC)
+WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
+Add a `using InteractiveUtils` to your imports..
+ in module Main
+WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
+Add a `using InteractiveUtils` to your imports..
+ in module Main
+Julia Version 0.7.0-DEV.3664
+Commit 9d5aebb07a (2018-01-30 22:46 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3500 MHz    4909894 s       7649 s     242293 s    1280803 s         99 s
-       #2  3500 MHz    1284681 s        192 s     112000 s    5984386 s          3 s
+       #1  3503 MHz    5022141 s       4026 s     249658 s    1166587 s        102 s
+       #2  3503 MHz    1191871 s       3516 s     109240 s    6097508 s          2 s
        
-  Memory: 2.93927001953125 GB (893.96875 MB free)
-  Uptime: 75214.0 sec
-  Load Avg:  1.0029296875  0.98681640625  1.0400390625
+  Memory: 2.93927001953125 GB (947.86328125 MB free)
+  Uptime: 75612.0 sec
+  Load Avg:  0.9384765625  0.99853515625  1.0400390625
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -64,7 +72,7 @@ Packages:
   Package Status:
 2 required packages:
  - JSON                          0.16.4
- - NLsolve                       0.14.1
+ - NLsolve                       1.0.0
 19 additional packages:
  - BinDeps                       0.8.6
  - CommonSubexpressions          0.0.1
@@ -75,7 +83,7 @@ Packages:
  - DiffResults                   0.0.3
  - DiffRules                     0.0.3
  - Distances                     0.5.0
- - ForwardDiff                   0.7.2
+ - ForwardDiff                   0.7.3
  - LineSearches                  3.2.5
  - NLSolversBase                 4.2.0
  - NaNMath                       0.3.0
@@ -85,338 +93,54 @@ Packages:
  - SpecialFunctions              0.3.8
  - StaticArrays                  0.6.6
  - URIParser                     0.3.0
+WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
+ in module Main
 [ Info: Computing test dependencies for NLsolve...
-[ Info: Installing DiffEqBase v3.0.4
+[ Info: Installing DiffEqBase v3.1.0
 [ Info: Installing FunctionWrappers v0.1.0
 [ Info: Installing LinearMaps v1.0.4
 [ Info: Installing MacroTools v0.4.0
 [ Info: Installing RecipesBase v0.2.3
-[ Info: Installing RecursiveArrayTools v0.14.3
+[ Info: Installing RecursiveArrayTools v0.14.5
 [ Info: Installing Requires v0.4.3
 [ Info: Installing SimpleTraits v0.5.1
+[ Info: Building DiffEqBase
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = top-level scope
+└ @ Core :0
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 [ Info: Testing NLsolve
 ┌ Warning: Deprecated syntax `type` at /home/vagrant/.julia/v0.7/NLsolve/test/runtests.jl:8.
 │ Use `mutable struct` instead.
 └ @ nothing runtests.jl:8
-WARNING: importing deprecated binding Base.gradient into NLSolversBase.
-WARNING: importing deprecated binding Base.clear! into NLSolversBase.
-WARNING: importing deprecated binding Base.Void into NLSolversBase.
-WARNING: Base.Void is deprecated, use Nothing instead.
-  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/objective_types/incomplete.jl:44
-WARNING: Base.gradient is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:20
-WARNING: Base.gradient is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:20
-WARNING: Base.gradient is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:72
-WARNING: Base.gradient is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:72
-WARNING: Base.gradient is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:74
-WARNING: Base.gradient is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:74
-WARNING: Base.clear! is deprecated: it has been moved to the standard library package `Distributed`.
-Add a `using Distributed` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:154
-WARNING: Base.clear! is deprecated: it has been moved to the standard library package `Distributed`.
-Add a `using Distributed` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:154
-WARNING: Base.clear! is deprecated: it has been moved to the standard library package `Distributed`.
-Add a `using Distributed` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:156
-WARNING: Base.clear! is deprecated: it has been moved to the standard library package `Distributed`.
-Add a `using Distributed` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:156
-WARNING: Base.clear! is deprecated: it has been moved to the standard library package `Distributed`.
-Add a `using Distributed` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:161
-WARNING: Base.clear! is deprecated: it has been moved to the standard library package `Distributed`.
-Add a `using Distributed` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:161
-WARNING: Base.clear! is deprecated: it has been moved to the standard library package `Distributed`.
-Add a `using Distributed` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:167
-WARNING: Base.clear! is deprecated: it has been moved to the standard library package `Distributed`.
-Add a `using Distributed` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLSolversBase/src/interface.jl:167
-WARNING: importing deprecated binding Base.clear! into LineSearches.
-WARNING: Base.clear! is deprecated: it has been moved to the standard library package `Distributed`.
-Add a `using Distributed` to your imports..
-  likely near /home/vagrant/.julia/v0.7/LineSearches/src/types.jl:20
-WARNING: Base.clear! is deprecated: it has been moved to the standard library package `Distributed`.
-Add a `using Distributed` to your imports..
-  likely near /home/vagrant/.julia/v0.7/LineSearches/src/types.jl:20
-WARNING: importing deprecated binding Base.Associative into LineSearches.
-WARNING: Base.Associative is deprecated, use AbstractDict instead.
-  likely near /home/vagrant/.julia/v0.7/LineSearches/src/backtracking.jl:446
-WARNING: Base.Associative is deprecated, use AbstractDict instead.
-  likely near /home/vagrant/.julia/v0.7/LineSearches/src/strongwolfe.jl:446
-WARNING: Base.Associative is deprecated, use AbstractDict instead.
-  likely near /home/vagrant/.julia/v0.7/LineSearches/src/morethuente.jl:446
-WARNING: Base.Associative is deprecated, use AbstractDict instead.
-  likely near /home/vagrant/.julia/v0.7/LineSearches/src/hagerzhang.jl:446
-WARNING: importing deprecated binding Base.@sprintf into LineSearches.
-WARNING: Base.@sprintf is deprecated: it has been moved to the standard library package `Printf`.
-Add a `using Printf` to your imports..
-  likely near /home/vagrant/.julia/v0.7/LineSearches/src/hagerzhang.jl:319
-WARNING: Base.Associative is deprecated, use AbstractDict instead.
-  likely near /home/vagrant/.julia/v0.7/LineSearches/src/hagerzhang.jl:446
-WARNING: Base.Associative is deprecated, use AbstractDict instead.
-  likely near /home/vagrant/.julia/v0.7/LineSearches/src/static.jl:446
-WARNING: Base.Associative is deprecated, use AbstractDict instead.
-  likely near /home/vagrant/.julia/v0.7/LineSearches/src/initialguess.jl:446
-WARNING: Base.Associative is deprecated, use AbstractDict instead.
-  likely near /home/vagrant/.julia/v0.7/LineSearches/src/initialguess.jl:446
-WARNING: Base.Associative is deprecated, use AbstractDict instead.
-  likely near /home/vagrant/.julia/v0.7/LineSearches/src/initialguess.jl:446
-WARNING: Base.Associative is deprecated, use AbstractDict instead.
-  likely near /home/vagrant/.julia/v0.7/LineSearches/src/initialguess.jl:446
-WARNING: importing deprecated binding Base.Void into DiffEqDiffTools.
-WARNING: Base.Void is deprecated, use Nothing instead.
-  likely near /home/vagrant/.julia/v0.7/DiffEqDiffTools/src/derivatives.jl:5
-WARNING: Base.Void is deprecated, use Nothing instead.
-  likely near /home/vagrant/.julia/v0.7/DiffEqDiffTools/src/derivatives.jl:5
-WARNING: Base.Void is deprecated, use Nothing instead.
-  likely near /home/vagrant/.julia/v0.7/DiffEqDiffTools/src/derivatives.jl:5
-WARNING: Base.Void is deprecated, use Nothing instead.
-  likely near /home/vagrant/.julia/v0.7/DiffEqDiffTools/src/derivatives.jl:5
-WARNING: Base.Void is deprecated, use Nothing instead.
-  likely near /home/vagrant/.julia/v0.7/DiffEqDiffTools/src/derivatives.jl:5
-WARNING: Base.Void is deprecated, use Nothing instead.
-  likely near /home/vagrant/.julia/v0.7/DiffEqDiffTools/src/derivatives.jl:13
-WARNING: Base.Void is deprecated, use Nothing instead.
-  likely near /home/vagrant/.julia/v0.7/DiffEqDiffTools/src/derivatives.jl:13
-WARNING: Base.Void is deprecated, use Nothing instead.
-  likely near /home/vagrant/.julia/v0.7/DiffEqDiffTools/src/derivatives.jl:13
-WARNING: Base.Void is deprecated, use Nothing instead.
-  likely near /home/vagrant/.julia/v0.7/DiffEqDiffTools/src/derivatives.jl:13
-WARNING: Base.Void is deprecated, use Nothing instead.
-  likely near /home/vagrant/.julia/v0.7/DiffEqDiffTools/src/derivatives.jl:13
-WARNING: Base.Void is deprecated, use Nothing instead.
-  likely near /home/vagrant/.julia/v0.7/DiffEqDiffTools/src/derivatives.jl:178
-WARNING: Base.Void is deprecated, use Nothing instead.
-  likely near /home/vagrant/.julia/v0.7/DiffEqDiffTools/src/derivatives.jl:195
-WARNING: Base.Void is deprecated, use Nothing instead.
-  likely near /home/vagrant/.julia/v0.7/DiffEqDiffTools/src/derivatives.jl:199
-WARNING: Base.Void is deprecated, use Nothing instead.
-  likely near /home/vagrant/.julia/v0.7/DiffEqDiffTools/src/derivatives.jl:203
-WARNING: Base.Void is deprecated, use Nothing instead.
-  likely near /home/vagrant/.julia/v0.7/DiffEqDiffTools/src/derivatives.jl:207
-┌ Warning: Deprecated syntax `parametric method syntax newton_{T}(df::OnceDifferentiable, initial_x::AbstractArray{T}, xtol::T, ftol::T, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, linesearch)` around /home/vagrant/.julia/v0.7/NLsolve/src/solvers/newton.jl:41.
-│ Use `newton_(df::OnceDifferentiable, initial_x::AbstractArray{T}, xtol::T, ftol::T, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, linesearch) where T` instead.
-└ @ nothing newton.jl:41
-┌ Warning: Deprecated syntax `parametric method syntax newton{T}(df::OnceDifferentiable, initial_x::AbstractArray{T}, xtol::Real, ftol::Real, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, linesearch)` around /home/vagrant/.julia/v0.7/NLsolve/src/solvers/newton.jl:143.
-│ Use `newton(df::OnceDifferentiable, initial_x::AbstractArray{T}, xtol::Real, ftol::Real, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, linesearch) where T` instead.
-└ @ nothing newton.jl:143
-┌ Warning: Deprecated syntax `1./` at /home/vagrant/.julia/v0.7/NLsolve/src/solvers/trust_region.jl:35.
-│ Use `1 ./` instead.
-└ @ nothing trust_region.jl:35
-┌ Warning: Deprecated syntax `parametric method syntax dogleg!{T}(p::AbstractArray{T}, r::AbstractArray{T}, d::AbstractArray{T}, J::AbstractMatrix{T}, delta::Real)` around /home/vagrant/.julia/v0.7/NLsolve/src/solvers/trust_region.jl:27.
-│ Use `dogleg!(p::AbstractArray{T}, r::AbstractArray{T}, d::AbstractArray{T}, J::AbstractMatrix{T}, delta::Real) where T` instead.
-└ @ nothing trust_region.jl:27
-┌ Warning: Deprecated syntax `parametric method syntax trust_region_{T}(df::OnceDifferentiable, initial_x::AbstractArray{T}, xtol::T, ftol::T, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, factor::T, autoscale::Bool)` around /home/vagrant/.julia/v0.7/NLsolve/src/solvers/trust_region.jl:94.
-│ Use `trust_region_(df::OnceDifferentiable, initial_x::AbstractArray{T}, xtol::T, ftol::T, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, factor::T, autoscale::Bool) where T` instead.
-└ @ nothing trust_region.jl:94
-┌ Warning: Deprecated syntax `parametric method syntax trust_region{T}(df::OnceDifferentiable, initial_x::AbstractArray{T}, xtol::Real, ftol::Real, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, factor::Real, autoscale::Bool)` around /home/vagrant/.julia/v0.7/NLsolve/src/solvers/trust_region.jl:199.
-│ Use `trust_region(df::OnceDifferentiable, initial_x::AbstractArray{T}, xtol::Real, ftol::Real, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, factor::Real, autoscale::Bool) where T` instead.
-└ @ nothing trust_region.jl:199
-┌ Warning: Deprecated syntax `parametric method syntax anderson_{T}(df::OnceDifferentiable, x0::AbstractArray{T}, xtol::T, ftol::T, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, m::Integer, β::Real)` around /home/vagrant/.julia/v0.7/NLsolve/src/solvers/anderson.jl:15.
-│ Use `anderson_(df::OnceDifferentiable, x0::AbstractArray{T}, xtol::T, ftol::T, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, m::Integer, β::Real) where T` instead.
-└ @ nothing anderson.jl:15
-┌ Warning: Use of final value of loop variable `n` around /home/vagrant/.julia/v0.7/NLsolve/src/solvers/anderson.jl:78 is deprecated. In the future the variable will be local to the loop instead.
-└ @ nothing anderson.jl:78
-┌ Warning: Deprecated syntax `parametric method syntax anderson{T}(df::OnceDifferentiable, initial_x::AbstractArray{T}, xtol::Real, ftol::Real, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, m::Integer, beta::Real)` around /home/vagrant/.julia/v0.7/NLsolve/src/solvers/anderson.jl:94.
-│ Use `anderson(df::OnceDifferentiable, initial_x::AbstractArray{T}, xtol::Real, ftol::Real, iterations::Integer, store_trace::Bool, show_trace::Bool, extended_trace::Bool, m::Integer, beta::Real) where T` instead.
-└ @ nothing anderson.jl:94
-┌ Warning: Deprecated syntax `parametric method syntax mcpsolve{T}(f!, j!, lower::Vector, upper::Vector, initial_x::AbstractArray{T}; method::Symbol = :trust_region, reformulation::Symbol = :smooth, xtol::Real = zero(T), ftol::Real = convert(T, 1e-08), iterations::Integer = 1000, store_trace::Bool = false, show_trace::Bool = false, extended_trace::Bool = false, linesearch = LineSearches.BackTracking(), factor::Real = one(T), autoscale::Bool = true)` around /home/vagrant/.julia/v0.7/NLsolve/src/solvers/mcp_func_defs.jl:55.
-│ Use `mcpsolve(f!, j!, lower::Vector, upper::Vector, initial_x::AbstractArray{T}; method::Symbol = :trust_region, reformulation::Symbol = :smooth, xtol::Real = zero(T), ftol::Real = convert(T, 1e-08), iterations::Integer = 1000, store_trace::Bool = false, show_trace::Bool = false, extended_trace::Bool = false, linesearch = LineSearches.BackTracking(), factor::Real = one(T), autoscale::Bool = true) where T` instead.
-└ @ nothing mcp_func_defs.jl:55
-┌ Warning: Deprecated syntax `parametric method syntax mcpsolve{T}(f!, lower::Vector, upper::Vector, initial_x::AbstractArray{T}; method::Symbol = :trust_region, reformulation::Symbol = :smooth, xtol::Real = zero(T), ftol::Real = convert(T, 1e-08), iterations::Integer = 1000, store_trace::Bool = false, show_trace::Bool = false, extended_trace::Bool = false, linesearch = LineSearches.BackTracking(), factor::Real = one(T), autoscale::Bool = true, autodiff::Bool = false)` around /home/vagrant/.julia/v0.7/NLsolve/src/solvers/mcp_func_defs.jl:80.
-│ Use `mcpsolve(f!, lower::Vector, upper::Vector, initial_x::AbstractArray{T}; method::Symbol = :trust_region, reformulation::Symbol = :smooth, xtol::Real = zero(T), ftol::Real = convert(T, 1e-08), iterations::Integer = 1000, store_trace::Bool = false, show_trace::Bool = false, extended_trace::Bool = false, linesearch = LineSearches.BackTracking(), factor::Real = one(T), autoscale::Bool = true, autodiff::Bool = false) where T` instead.
-└ @ nothing mcp_func_defs.jl:80
-┌ Warning: Deprecated syntax `1.-` at /home/vagrant/.julia/v0.7/NLsolve/src/solvers/mcp.jl:58.
-│ Use `1 .-` instead.
-└ @ nothing mcp.jl:58
-┌ Warning: Deprecated syntax `parametric method syntax SolverState{T <: Real}(i::Integer, fnorm::T, stepnorm::T)` around /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:13.
-│ Use `SolverState(i::Integer, fnorm::T, stepnorm::T) where T <: Real` instead.
-└ @ nothing solver_state_results.jl:13
-WARNING: importing deprecated binding Base.@printf into NLsolve.
-WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
-Add a `using Printf` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:22
-WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
-Add a `using Printf` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:22
-WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
-Add a `using Printf` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:42
-WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
-Add a `using Printf` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:42
-WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
-Add a `using Printf` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
-WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
-Add a `using Printf` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
-WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
-Add a `using Printf` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
-WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
-Add a `using Printf` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
-WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
-Add a `using Printf` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
-WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
-Add a `using Printf` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
-WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
-Add a `using Printf` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
-WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
-Add a `using Printf` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
-WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
-Add a `using Printf` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
-WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
-Add a `using Printf` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
-WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
-Add a `using Printf` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/solver_state_results.jl:87
-WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
-Add a `using Printf` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/nlsolve.jl:1
-WARNING: Base.@printf is deprecated: it has been moved to the standard library package `Printf`.
-Add a `using Printf` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/nlsolve.jl:1
-┌ Warning: Deprecated syntax `parametric method syntax nlsolve{T}(f, initial_x::AbstractArray{T}; method::Symbol = :trust_region, xtol::Real = zero(T), ftol::Real = convert(T, 1e-08), iterations::Integer = 1000, store_trace::Bool = false, show_trace::Bool = false, extended_trace::Bool = false, linesearch = no_linesearch, factor::Real = one(T), autoscale::Bool = true, m::Integer = 0, beta::Real = 1.0, autodiff = :forward, inplace = true)` around /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/nlsolve.jl:53.
-│ Use `nlsolve(f, initial_x::AbstractArray{T}; method::Symbol = :trust_region, xtol::Real = zero(T), ftol::Real = convert(T, 1e-08), iterations::Integer = 1000, store_trace::Bool = false, show_trace::Bool = false, extended_trace::Bool = false, linesearch = no_linesearch, factor::Real = one(T), autoscale::Bool = true, m::Integer = 0, beta::Real = 1.0, autodiff = :forward, inplace = true) where T` instead.
-└ @ nothing nlsolve.jl:53
-┌ Warning: Deprecated syntax `parametric method syntax wdot{T}(wx::AbstractArray{T}, x::AbstractArray{T}, wy::AbstractArray{T}, y::AbstractArray{T})` around /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/utils.jl:3.
-│ Use `wdot(wx::AbstractArray{T}, x::AbstractArray{T}, wy::AbstractArray{T}, y::AbstractArray{T}) where T` instead.
-└ @ nothing utils.jl:3
-┌ Warning: Deprecated syntax `parametric method syntax wnorm{T}(w::AbstractArray{T}, x::AbstractArray{T})` around /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/utils.jl:10.
-│ Use `wnorm(w::AbstractArray{T}, x::AbstractArray{T}) where T` instead.
-└ @ nothing utils.jl:10
-WARNING: Method definition __init__() in module Requires at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9 overwritten in module RecursiveArrayTools at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9.
-WARNING: importing deprecated binding Base.A_ldiv_B! into DiffEqBase.
-┌ Warning: Deprecated syntax `parametric method syntax realtype{T}(::Type{T})` around /home/vagrant/.julia/v0.7/DiffEqBase/src/utils.jl:41.
-│ Use `realtype(#unused#::Type{T}) where T` instead.
-└ @ nothing utils.jl:41
-┌ Warning: Deprecated syntax `parametric method syntax realtype{T}(::Type{Complex{T}})` around /home/vagrant/.julia/v0.7/DiffEqBase/src/utils.jl:42.
-│ Use `realtype(#unused#::Type{Complex{T}}) where T` instead.
-└ @ nothing utils.jl:42
-┌ Warning: Deprecated syntax `parametric method syntax check_first_arg{F}(::Type{F}, T::Type)` around /home/vagrant/.julia/v0.7/DiffEqBase/src/extended_functions.jl:20.
-│ Use `check_first_arg(#unused#::Type{F}, T::Type) where F` instead.
-└ @ nothing extended_functions.jl:20
-┌ Warning: Deprecated syntax `parametric method syntax SimpleTraits.trait{F}(::Type{HasJac{F}})` around /home/vagrant/.julia/v0.7/DiffEqBase/src/extended_functions.jl:33.
-│ Use `SimpleTraits.trait(#unused#::Type{HasJac{F}}) where F` instead.
-└ @ nothing extended_functions.jl:33
-┌ Warning: Deprecated syntax `parametric method syntax SimpleTraits.trait{F}(::Type{HastGrad{F}})` around /home/vagrant/.julia/v0.7/DiffEqBase/src/extended_functions.jl:34.
-│ Use `SimpleTraits.trait(#unused#::Type{HastGrad{F}}) where F` instead.
-└ @ nothing extended_functions.jl:34
-┌ Warning: Deprecated syntax `parametric method syntax SimpleTraits.trait{F}(::Type{HasExpJac{F}})` around /home/vagrant/.julia/v0.7/DiffEqBase/src/extended_functions.jl:47.
-│ Use `SimpleTraits.trait(#unused#::Type{HasExpJac{F}}) where F` instead.
-└ @ nothing extended_functions.jl:47
-┌ Warning: Deprecated syntax `parametric method syntax SimpleTraits.trait{F}(::Type{HasInvJac{F}})` around /home/vagrant/.julia/v0.7/DiffEqBase/src/extended_functions.jl:48.
-│ Use `SimpleTraits.trait(#unused#::Type{HasInvJac{F}}) where F` instead.
-└ @ nothing extended_functions.jl:48
-┌ Warning: Deprecated syntax `parametric method syntax SimpleTraits.trait{F}(::Type{HasInvW{F}})` around /home/vagrant/.julia/v0.7/DiffEqBase/src/extended_functions.jl:49.
-│ Use `SimpleTraits.trait(#unused#::Type{HasInvW{F}}) where F` instead.
-└ @ nothing extended_functions.jl:49
-┌ Warning: Deprecated syntax `parametric method syntax SimpleTraits.trait{F}(::Type{HasInvW_t{F}})` around /home/vagrant/.julia/v0.7/DiffEqBase/src/extended_functions.jl:50.
-│ Use `SimpleTraits.trait(#unused#::Type{HasInvW_t{F}}) where F` instead.
-└ @ nothing extended_functions.jl:50
-┌ Warning: Deprecated syntax `parametric method syntax SimpleTraits.trait{F}(::Type{HasHes{F}})` around /home/vagrant/.julia/v0.7/DiffEqBase/src/extended_functions.jl:61.
-│ Use `SimpleTraits.trait(#unused#::Type{HasHes{F}}) where F` instead.
-└ @ nothing extended_functions.jl:61
-┌ Warning: Deprecated syntax `parametric method syntax SimpleTraits.trait{F}(::Type{HasInvHes{F}})` around /home/vagrant/.julia/v0.7/DiffEqBase/src/extended_functions.jl:62.
-│ Use `SimpleTraits.trait(#unused#::Type{HasInvHes{F}}) where F` instead.
-└ @ nothing extended_functions.jl:62
-┌ Warning: Deprecated syntax `parametric method syntax SimpleTraits.trait{F}(::Type{HasParamDeriv{F}})` around /home/vagrant/.julia/v0.7/DiffEqBase/src/extended_functions.jl:71.
-│ Use `SimpleTraits.trait(#unused#::Type{HasParamDeriv{F}}) where F` instead.
-└ @ nothing extended_functions.jl:71
-┌ Warning: Deprecated syntax `parametric method syntax SimpleTraits.trait{F}(::Type{HasParamJac{F}})` around /home/vagrant/.julia/v0.7/DiffEqBase/src/extended_functions.jl:72.
-│ Use `SimpleTraits.trait(#unused#::Type{HasParamJac{F}}) where F` instead.
-└ @ nothing extended_functions.jl:72
-┌ Warning: Deprecated syntax `parametric method syntax SimpleTraits.trait{F}(::Type{HasSyms{F}})` around /home/vagrant/.julia/v0.7/DiffEqBase/src/extended_functions.jl:79.
-│ Use `SimpleTraits.trait(#unused#::Type{HasSyms{F}}) where F` instead.
-└ @ nothing extended_functions.jl:79
-┌ Warning: Deprecated syntax `parametric method syntax SimpleTraits.trait{F}(::Type{HasAnalytic{F}})` around /home/vagrant/.julia/v0.7/DiffEqBase/src/extended_functions.jl:85.
-│ Use `SimpleTraits.trait(#unused#::Type{HasAnalytic{F}}) where F` instead.
-└ @ nothing extended_functions.jl:85
-┌ Warning: Deprecated syntax `(size(ArrayPartition(prob.u0))...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/solutions/steady_state_solutions.jl:15.
-│ Use `(size(ArrayPartition(prob.u0))...,)` instead.
-└ @ nothing steady_state_solutions.jl:15
-┌ Warning: Deprecated syntax `(size(prob.u0)...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/solutions/steady_state_solutions.jl:17.
-│ Use `(size(prob.u0)...,)` instead.
-└ @ nothing steady_state_solutions.jl:17
-┌ Warning: Deprecated syntax `(x...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/solutions/solution_interface.jl:51.
-│ Use `(x...,)` instead.
-└ @ nothing solution_interface.jl:51
-┌ Warning: Deprecated syntax `(plot_vecs...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/solutions/solution_interface.jl:193.
-│ Use `(plot_vecs...,)` instead.
-└ @ nothing solution_interface.jl:193
-┌ Warning: Deprecated syntax `((I for i = 1:length(f))...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/problems/ode_problems.jl:17.
-│ Use `((I for i = 1:length(f))...,)` instead.
-└ @ nothing ode_problems.jl:17
-┌ Warning: Deprecated syntax `((I for i = 1:length(f))...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/problems/sde_problems.jl:20.
-│ Use `((I for i = 1:length(f))...,)` instead.
-└ @ nothing sde_problems.jl:20
-WARNING: importing deprecated binding Base.Void into DiffEqBase.
-WARNING: Base.Void is deprecated, use Nothing instead.
-  likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/interpolation.jl:15
-WARNING: Base.Void is deprecated, use Nothing instead.
-  likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/callbacks.jl:65
-WARNING: Base.Void is deprecated, use Nothing instead.
-  likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/callbacks.jl:68
-WARNING: Base.Void is deprecated, use Nothing instead.
-  likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/callbacks.jl:71
-┌ Warning: Deprecated syntax `(plot_vecs...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/integrator_interface.jl:181.
-│ Use `(plot_vecs...,)` instead.
-└ @ nothing integrator_interface.jl:181
-WARNING: Base.expm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/diffeq_operator.jl:46
-WARNING: importing deprecated binding Base.lufact! into DiffEqBase.
-WARNING: Base.lufact! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/linear_nonlinear.jl:12
-WARNING: Base.A_ldiv_B! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/data_array.jl:76
-WARNING: importing deprecated binding Base.Factorization into DiffEqBase.
-WARNING: Base.Factorization is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/data_array.jl:76
-WARNING: Base.A_ldiv_B! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/data_array.jl:77
-WARNING: Base.Factorization is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/data_array.jl:77
-WARNING: Base.A_ldiv_B! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/data_array.jl:78
-WARNING: Base.Factorization is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/data_array.jl:78
-┌ Warning: `current_module()` is deprecated, use `@__MODULE__` instead.
-│   caller = @require(::LineNumberNode, ::Module, ::Any, ::Any) at require.jl:51
-└ @ Requires require.jl:51
-┌ Warning: `isdefined(:symbol)` is deprecated, use `@isdefined symbol` instead
-│   caller = ip:0x0
-└ @ Core :-1
-WARNING: Method definition __init__() in module RecursiveArrayTools at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9 overwritten in module DiffEqBase at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9.
 WARNING: Method definition __init__() in module Requires at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9 overwritten in module RecursiveArrayTools at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9.
 WARNING: Method definition __init__() in module RecursiveArrayTools at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9 overwritten in module DiffEqBase at /home/vagrant/.julia/v0.7/Requires/src/init.jl:9.
 WARNING: Base.Test is deprecated, run `using Test` instead.
@@ -494,11 +218,21 @@ WARNING: importing deprecated binding Base.vecdot into NLsolve.
 WARNING: Base.vecdot is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
-WARNING: Base.vecdot is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+WARNING: importing deprecated binding Base.vecnorm into LineSearches.
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
 ┌ Warning: `Array{T}(d::NTuple{N, Int}) where {T, N}` is deprecated, use `Array{T}(uninitialized, d)` instead.
-│   caller = #s168#222(::Type, ::Type, ::Type{T} where T<:Tuple, ::Any) at broadcast.jl:80
+│   caller = #s168#222(::Type, ::Type, ::Type{T} where T<:Tuple, ::Tuple{DataType}) at broadcast.jl:80
 └ @ StaticArrays broadcast.jl:80
 WARNING: Base.norm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
@@ -527,9 +261,6 @@ Add a `using LinearAlgebra` to your imports..
 WARNING: Base.vecdot is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
-WARNING: Base.vecdot is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
 WARNING: importing deprecated binding Base.vecnorm into NLsolve.
 WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
@@ -546,9 +277,6 @@ Add a `using LinearAlgebra` to your imports..
 WARNING: Base.vecdot is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
-WARNING: Base.vecdot is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
 WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
@@ -567,19 +295,13 @@ Add a `using LinearAlgebra` to your imports..
 WARNING: Base.vecdot is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
-WARNING: Base.vecdot is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
 WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
-WARNING: Base.norm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
 WARNING: Base.eye is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
-WARNING: Base.vecdot is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+WARNING: Base.norm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
 WARNING: Base.vecdot is deprecated: it has been moved to the standard library package `LinearAlgebra`.
@@ -592,6 +314,9 @@ WARNING: Base.scale! is deprecated: it has been moved to the standard library pa
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
 WARNING: Base.scale! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
 WARNING: Base.norm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
@@ -635,13 +360,13 @@ Add a `using LinearAlgebra` to your imports..
 WARNING: Base.scale! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
-WARNING: Base.diagm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+WARNING: Base.scale! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
 WARNING: Base.svd is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
-WARNING: Base.scale! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+WARNING: Base.diagm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
 WARNING: Base.scale! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
@@ -659,6 +384,9 @@ Add a `using LinearAlgebra` to your imports..
 WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
 WARNING: Base.norm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
@@ -671,10 +399,19 @@ Add a `using LinearAlgebra` to your imports..
 WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
 WARNING: Base.norm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
 WARNING: Base.norm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
 WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
@@ -724,7 +461,22 @@ Add a `using Distributed` to your imports..
 WARNING: Base.vecdot is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
-WARNING: Base.vecdot is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
 WARNING: Base.norm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
@@ -743,9 +495,6 @@ WARNING: Base.norm is deprecated: it has been moved to the standard library pack
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
 WARNING: Base.eye is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
-WARNING: Base.vecdot is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
 WARNING: Base.vecdot is deprecated: it has been moved to the standard library package `LinearAlgebra`.
@@ -772,10 +521,7 @@ Add a `using LinearAlgebra` to your imports..
 WARNING: Base.vecdot is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
-WARNING: Base.vecdot is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
-WARNING: Base.vecdot is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
 WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
@@ -823,6 +569,9 @@ Add a `using LinearAlgebra` to your imports..
 WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
 WARNING: Base.norm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
@@ -847,15 +596,36 @@ Add a `using LinearAlgebra` to your imports..
 WARNING: Base.norm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
+WARNING: Base.scale! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
+in newton_ at /home/vagrant/.julia/v0.7/NLsolve/src/solvers/newton.jl
+WARNING: Base.clear! is deprecated: it has been moved to the standard library package `Distributed`.
+Add a `using Distributed` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
+in newton_ at /home/vagrant/.julia/v0.7/NLsolve/src/solvers/newton.jl
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
+in newton_ at /home/vagrant/.julia/v0.7/NLsolve/src/solvers/newton.jl
+WARNING: Base.LinAlg is deprecated, run `using LinearAlgebra` instead.
+  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
+in newton_ at /home/vagrant/.julia/v0.7/NLsolve/src/solvers/newton.jl
 WARNING: Base.norm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
-WARNING: Base.norm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+in newton_ at /home/vagrant/.julia/v0.7/NLsolve/src/solvers/newton.jl
+WARNING: Base.LinAlg is deprecated, run `using LinearAlgebra` instead.
+  likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
+in newton_ at /home/vagrant/.julia/v0.7/NLsolve/src/solvers/newton.jl
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
-WARNING: Base.norm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+in newton_ at /home/vagrant/.julia/v0.7/NLsolve/src/solvers/newton.jl
+WARNING: Base.vecnorm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
+in trust_region_ at /home/vagrant/.julia/v0.7/NLsolve/src/solvers/trust_region.jl
 WARNING: Base.scale! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
@@ -879,26 +649,29 @@ Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:3
 in trust_region_ at /home/vagrant/.julia/v0.7/NLsolve/src/solvers/trust_region.jl
 ┌ Warning: `copy!(dst::AbstractArray, src::AbstractArray)` is deprecated. You can either use `copyto!(dst, src)` or `Future.copy!(dst, src)` instead.
+│   caller = trust_region_(::OnceDifferentiable{Array{Float64,1},Array{Float64,2},Array{Float64,1},Val{false}}, ::Array{Float64,1}, ::Float64, ::Float64, ::Int64, ::Bool, ::Bool, ::Bool, ::Float64, ::Bool, ::NLsolve.NewtonTrustRegionCache{Array{Float64,1}}) at trust_region.jl:116
+└ @ NLsolve trust_region.jl:116
+┌ Warning: `copy!(dst::AbstractArray, src::AbstractArray)` is deprecated. You can either use `copyto!(dst, src)` or `Future.copy!(dst, src)` instead.
 │   caller = value_jacobian!!(::OnceDifferentiable{Array{Float64,1},Array{Float64,2},Array{Float64,1},Val{false}}, ::Array{Float64,1}, ::Array{Float64,2}, ::Array{Float64,1}) at interface.jl:90
 └ @ NLSolversBase interface.jl:90
 ┌ Warning: `copy!(dst::AbstractArray, src::AbstractArray)` is deprecated. You can either use `copyto!(dst, src)` or `Future.copy!(dst, src)` instead.
 │   caller = value_jacobian!!(::OnceDifferentiable{Array{Float64,1},Array{Float64,2},Array{Float64,1},Val{false}}, ::Array{Float64,1}, ::Array{Float64,2}, ::Array{Float64,1}) at interface.jl:91
 └ @ NLSolversBase interface.jl:91
-┌ Warning: `find` is deprecated, use `findall` instead.
-│   caller = check_isfinite(::Array{Float64,1}) at utils.jl:33
-└ @ NLsolve utils.jl:33
 ┌ Warning: `Array{T}(m::Int) where T` is deprecated, use `Array{T}(uninitialized, m)` instead.
 │   caller = Type at solver_state_results.jl:20 [inlined]
 └ @ Core solver_state_results.jl:20
+┌ Warning: `copy!(dst::AbstractArray, src::AbstractArray)` is deprecated. You can either use `copyto!(dst, src)` or `Future.copy!(dst, src)` instead.
+│   caller = dogleg!(::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,2}, ::Float64) at trust_region.jl:50
+└ @ NLsolve trust_region.jl:50
 ┌ Warning: `scale!(A::AbstractArray, b::Number)` is deprecated, use `mul1!(A, b)` instead.
-│   caller = dogleg!(::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,2}, ::Float64) at trust_region.jl:41
-└ @ NLsolve trust_region.jl:41
+│   caller = dogleg!(::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,2}, ::Float64) at trust_region.jl:62
+└ @ NLsolve trust_region.jl:62
 ┌ Warning: `copy!(dst::AbstractArray, src::AbstractArray)` is deprecated. You can either use `copyto!(dst, src)` or `Future.copy!(dst, src)` instead.
-│   caller = dogleg!(::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,2}, ::Float64) at trust_region.jl:45
-└ @ NLsolve trust_region.jl:45
+│   caller = dogleg!(::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,1}, ::Array{Float64,2}, ::Float64) at trust_region.jl:66
+└ @ NLsolve trust_region.jl:66
 ┌ Warning: `copy!(dst::AbstractArray, src::AbstractArray)` is deprecated. You can either use `copyto!(dst, src)` or `Future.copy!(dst, src)` instead.
-│   caller = trust_region_(::OnceDifferentiable{Array{Float64,1},Array{Float64,2},Array{Float64,1},Val{false}}, ::Array{Float64,1}, ::Float64, ::Float64, ::Int64, ::Bool, ::Bool, ::Bool, ::Float64, ::Bool) at trust_region.jl:140
-└ @ NLsolve trust_region.jl:140
+│   caller = trust_region_(::OnceDifferentiable{Array{Float64,1},Array{Float64,2},Array{Float64,1},Val{false}}, ::Array{Float64,1}, ::Float64, ::Float64, ::Int64, ::Bool, ::Bool, ::Bool, ::Float64, ::Bool, ::NLsolve.NewtonTrustRegionCache{Array{Float64,1}}) at trust_region.jl:167
+└ @ NLsolve trust_region.jl:167
 ┌ Warning: `copy!(dst::AbstractArray, src::AbstractArray)` is deprecated. You can either use `copyto!(dst, src)` or `Future.copy!(dst, src)` instead.
 │   caller = value!!(::OnceDifferentiable{Array{Float64,1},Array{Float64,2},Array{Float64,1},Val{false}}, ::Array{Float64,1}, ::Array{Float64,1}) at interface.jl:121
 └ @ NLSolversBase interface.jl:121
@@ -906,23 +679,24 @@ in trust_region_ at /home/vagrant/.julia/v0.7/NLsolve/src/solvers/trust_region.j
   Got an exception of type UndefVarError outside of a @test
   UndefVarError: A_mul_B! not defined
   Stacktrace:
-   [1] trust_region_(::OnceDifferentiable{Array{Float64,1},Array{Float64,2},Array{Float64,1},Val{false}}, ::Array{Float64,1}, ::Float64, ::Float64, ::Int64, ::Bool, ::Bool, ::Bool, ::Float64, ::Bool) at /home/vagrant/.julia/v0.7/NLsolve/src/solvers/trust_region.jl:145
-   [2] trust_region at /home/vagrant/.julia/v0.7/NLsolve/src/solvers/trust_region.jl:199 [inlined]
-   [3] #nlsolve#38(::Symbol, ::Float64, ::Float64, ::Int64, ::Bool, ::Bool, ::Bool, ::Function, ::Float64, ::Bool, ::Int64, ::Float64, ::typeof(nlsolve), ::OnceDifferentiable{Array{Float64,1},Array{Float64,2},Array{Float64,1},Val{false}}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/nlsolve.jl:26
-   [4] (::getfield(NLsolve, Symbol("#kw##nlsolve")))(::NamedTuple{(:method, :autoscale),Tuple{Symbol,Bool}}, ::typeof(nlsolve), ::OnceDifferentiable{Array{Float64,1},Array{Float64,2},Array{Float64,1},Val{false}}, ::Array{Float64,1}) at ./<missing>:0
-   [5] macro expansion at /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:22 [inlined]
-   [6] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1007 [inlined]
-   [7] top-level scope at /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:6
-   [8] include at ./boot.jl:292 [inlined]
-   [9] include_relative(::Module, ::String) at ./loading.jl:1012
-   [10] include(::Module, ::String) at ./sysimg.jl:26
-   [11] include(::String) at ./sysimg.jl:65
-   [12] top-level scope at ./<missing>:37
-   [13] include at ./boot.jl:292 [inlined]
-   [14] include_relative(::Module, ::String) at ./loading.jl:1012
-   [15] include(::Module, ::String) at ./sysimg.jl:26
-   [16] process_options(::Base.JLOptions) at ./client.jl:334
-   [17] _start() at ./client.jl:386
+   [1] trust_region_(::OnceDifferentiable{Array{Float64,1},Array{Float64,2},Array{Float64,1},Val{false}}, ::Array{Float64,1}, ::Float64, ::Float64, ::Int64, ::Bool, ::Bool, ::Bool, ::Float64, ::Bool, ::NLsolve.NewtonTrustRegionCache{Array{Float64,1}}) at /home/vagrant/.julia/v0.7/NLsolve/src/solvers/trust_region.jl:172
+   [2] trust_region_ at /home/vagrant/.julia/v0.7/NLsolve/src/solvers/trust_region.jl:116 [inlined]
+   [3] trust_region at /home/vagrant/.julia/v0.7/NLsolve/src/solvers/trust_region.jl:227 [inlined] (repeats 2 times)
+   [4] #nlsolve#38(::Symbol, ::Float64, ::Float64, ::Int64, ::Bool, ::Bool, ::Bool, ::LineSearches.Static{Float64}, ::Float64, ::Bool, ::Int64, ::Float64, ::typeof(nlsolve), ::OnceDifferentiable{Array{Float64,1},Array{Float64,2},Array{Float64,1},Val{false}}, ::Array{Float64,1}) at /home/vagrant/.julia/v0.7/NLsolve/src/nlsolve/nlsolve.jl:26
+   [5] (::getfield(NLsolve, Symbol("#kw##nlsolve")))(::NamedTuple{(:method, :autoscale),Tuple{Symbol,Bool}}, ::typeof(nlsolve), ::OnceDifferentiable{Array{Float64,1},Array{Float64,2},Array{Float64,1},Val{false}}, ::Array{Float64,1}) at ./<missing>:0
+   [6] macro expansion at /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:22 [inlined]
+   [7] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1008 [inlined]
+   [8] top-level scope at /home/vagrant/.julia/v0.7/NLsolve/test/2by2.jl:6
+   [9] include at ./boot.jl:292 [inlined]
+   [10] include_relative(::Module, ::String) at ./loading.jl:1012
+   [11] include(::Module, ::String) at ./sysimg.jl:26
+   [12] include(::String) at ./sysimg.jl:65
+   [13] top-level scope at ./<missing>:37
+   [14] include at ./boot.jl:292 [inlined]
+   [15] include_relative(::Module, ::String) at ./loading.jl:1012
+   [16] include(::Module, ::String) at ./sysimg.jl:26
+   [17] exec_options(::Base.JLOptions) at ./client.jl:332
+   [18] _start() at ./client.jl:447
 Test Summary: | Error  Total
 2by2          |     1      1
 ERROR: LoadError: LoadError: Some tests did not pass: 0 passed, 0 failed, 1 errored, 0 broken.
@@ -936,30 +710,30 @@ in expression starting at /home/vagrant/.julia/v0.7/NLsolve/test/runtests.jl:36
 │     [1] error(::String, ::Base.Process, ::String, ::Int64, ::String) at ./error.jl:42
 │     [2] pipeline_error(::Base.Process) at ./process.jl:698
 │     [3] run(::Cmd) at ./process.jl:660
-│     [4] (::getfield(Base.Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}})() at ./pkg/entry.jl:729
-│     [5] cd(::getfield(Base.Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:70
-│     [6] #test!#88(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./pkg/entry.jl:717
-│     [7] (::getfield(Base.Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
-│     [8] #test#96(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:756
-│     [9] (::getfield(Base.Pkg.Entry, Symbol("#kw##test")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Entry.test), ::Array{AbstractString,1}) at ./<missing>:0
-│     [10] (::getfield(Base.Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Base.Pkg.Entry.test),Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:36
-│     [11] cd(::getfield(Base.Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Base.Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:70
-│     [12] #cd#1(::Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./pkg/dir.jl:36
-│     [13] (::getfield(Base.Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
-│     [14] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at ./pkg/pkg.jl:274
-│     [15] test(::String, ::Vararg{String,N} where N) at ./pkg/pkg.jl:274
+│     [4] (::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:731
+│     [5] cd(::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:70
+│     [6] #test!#88(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:719
+│     [7] (::getfield(Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
+│     [8] #test#96(::Bool, ::Function, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:758
+│     [9] (::getfield(Pkg.Entry, Symbol("#kw##test")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test), ::Array{AbstractString,1}) at ./<missing>:0
+│     [10] (::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [11] cd(::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:70
+│     [12] #cd#1(::Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [13] (::getfield(Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
+│     [14] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
+│     [15] test(::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
 │     [16] top-level scope
 │     [17] eval at ./boot.jl:295 [inlined]
 │     [18] eval(::Module, ::Expr) at ./sysimg.jl:71
-│     [19] process_options(::Base.JLOptions) at ./client.jl:311
-│     [20] _start() at ./client.jl:386
-└ @ Base.Pkg.Entry entry.jl:732
-[ Info: Removing DiffEqBase v3.0.4
+│     [19] exec_options(::Base.JLOptions) at ./client.jl:309
+│     [20] _start() at ./client.jl:447
+└ @ Pkg.Entry entry.jl:734
+[ Info: Removing DiffEqBase v3.1.0
 [ Info: Removing FunctionWrappers v0.1.0
 [ Info: Removing LinearMaps v1.0.4
 [ Info: Removing MacroTools v0.4.0
 [ Info: Removing RecipesBase v0.2.3
-[ Info: Removing RecursiveArrayTools v0.14.3
+[ Info: Removing RecursiveArrayTools v0.14.5
 [ Info: Removing Requires v0.4.3
 [ Info: Removing SimpleTraits v0.5.1
 ERROR: NLsolve had test errors

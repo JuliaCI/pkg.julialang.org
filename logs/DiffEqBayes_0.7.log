@@ -1,4 +1,6 @@
 >>> 'Pkg.add("DiffEqBayes")' log
+WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
+ in module Main
 [ Info: Cloning cache of DiffEqBayes from https://github.com/JuliaDiffEq/DiffEqBayes.jl.git
 [ Info: Cloning cache of Mamba from https://github.com/brian-j-smith/Mamba.jl.git
 [ Info: Cloning cache of Stan from https://github.com/goedman/Stan.jl.git
@@ -17,7 +19,7 @@
 [ Info: Installing DataArrays v0.6.2
 [ Info: Installing DataFrames v0.10.1
 [ Info: Installing DataStructures v0.7.4
-[ Info: Installing DiffEqBase v3.0.4
+[ Info: Installing DiffEqBase v3.1.0
 [ Info: Installing DiffEqBayes v0.1.0
 [ Info: Installing DiffResults v0.0.3
 [ Info: Installing DiffRules v0.0.3
@@ -28,7 +30,7 @@
 [ Info: Installing DualNumbers v0.3.0
 [ Info: Installing FileIO v0.6.1
 [ Info: Installing FixedPointNumbers v0.4.3
-[ Info: Installing ForwardDiff v0.7.2
+[ Info: Installing ForwardDiff v0.7.3
 [ Info: Installing FunctionWrappers v0.1.0
 [ Info: Installing GZip v0.3.0
 [ Info: Installing Gadfly v0.6.4
@@ -56,7 +58,7 @@
 [ Info: Installing QuadGK v0.2.0
 [ Info: Installing Ratios v0.2.0
 [ Info: Installing RecipesBase v0.2.3
-[ Info: Installing RecursiveArrayTools v0.14.3
+[ Info: Installing RecursiveArrayTools v0.14.5
 [ Info: Installing Reexport v0.1.0
 [ Info: Installing Requires v0.4.3
 [ Info: Installing Rmath v0.3.2
@@ -143,6 +145,39 @@ WARNING: importing deprecated binding Base.Associative into BinDeps.
 WARNING: Base.Associative is deprecated, use AbstractDict instead.
   likely near /home/vagrant/.julia/v0.7/SpecialFunctions/deps/binaries.jl:44
 in @install at /home/vagrant/.julia/v0.7/BinDeps/src/dependencies.jl
+[ Info: Building DiffEqBase
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = top-level scope
+└ @ Core :0
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 [ Info: Building Stan
 [ Info: Building Rmath
 ┌ Warning: `isalnum(c::Char)` is deprecated, use `isalpha(c) || isnumeric(c)` instead.
@@ -168,8 +203,8 @@ Stacktrace:
  [1] include at ./boot.jl:292 [inlined]
  [2] include_relative(::Module, ::String) at ./loading.jl:1012
  [3] include(::Module, ::String) at ./sysimg.jl:26
- [4] process_options(::Base.JLOptions) at ./client.jl:334
- [5] _start() at ./client.jl:386
+ [4] exec_options(::Base.JLOptions) at ./client.jl:332
+ [5] _start() at ./client.jl:447
 ┌ Warning: `is_windows` is deprecated, use `Sys.iswindows` instead.
 │   caller = top-level scope
 └ @ Core :0
@@ -179,16 +214,16 @@ Stacktrace:
  [1] include at ./boot.jl:292 [inlined]
  [2] include_relative(::Module, ::String) at ./loading.jl:1012
  [3] include(::Module, ::String) at ./sysimg.jl:26
- [4] process_options(::Base.JLOptions) at ./client.jl:334
- [5] _start() at ./client.jl:386
+ [4] exec_options(::Base.JLOptions) at ./client.jl:332
+ [5] _start() at ./client.jl:447
 ERROR: UndefVarError: JULIA_HOME not defined
 ERROR: could not open file /julia-config.jl
 Stacktrace:
  [1] include at ./boot.jl:292 [inlined]
  [2] include_relative(::Module, ::String) at ./loading.jl:1012
  [3] include(::Module, ::String) at ./sysimg.jl:26
- [4] process_options(::Base.JLOptions) at ./client.jl:334
- [5] _start() at ./client.jl:386
+ [4] exec_options(::Base.JLOptions) at ./client.jl:332
+ [5] _start() at ./client.jl:447
 gcc  -std=gnu99   -O2 -shared -fPIC task.c   -o libtask.so
 task.c:6:19: fatal error: julia.h: No such file or directory
  #include "julia.h"
@@ -212,18 +247,18 @@ make: *** [task] Error 1
 │     [10] eval at ./boot.jl:295 [inlined]
 │     [11] eval at ./sysimg.jl:71 [inlined]
 │     [12] evalfile(::String, ::Array{String,1}) at ./loading.jl:1041 (repeats 2 times)
-│     [13] #2 at ./none:14 [inlined]
+│     [13] #2 at ./none:15 [inlined]
 │     [14] cd(::getfield(, Symbol("##2#5")){String}, ::String) at ./file.jl:70
-│     [15] (::getfield(, Symbol("##1#3")))(::IOStream) at ./none:13
+│     [15] (::getfield(, Symbol("##1#3")))(::IOStream) at ./none:14
 │     [16] #open#318(::Base.Iterators.IndexValue{Union{},Union{},Tuple{},NamedTuple{(),Tuple{}}}, ::Function, ::getfield(, Symbol("##1#3")), ::String, ::Vararg{String,N} where N) at ./iostream.jl:369
 │     [17] open(::Function, ::String, ::String) at ./iostream.jl:367
 │     [18] top-level scope
 │     [19] eval at ./boot.jl:295 [inlined]
 │     [20] eval(::Module, ::Expr) at ./sysimg.jl:71
-│     [21] process_options(::Base.JLOptions) at ./client.jl:311
-│     [22] _start() at ./client.jl:386
+│     [21] exec_options(::Base.JLOptions) at ./client.jl:309
+│     [22] _start() at ./client.jl:447
 │    in expression starting at /home/vagrant/.julia/v0.7/Turing/deps/build.jl:1
-└ @ Main none:17
+└ @ Main none:18
 ┌ Warning: ------------------------------------------------------------
 │ # Build error summary
 │ 
@@ -232,26 +267,32 @@ make: *** [task] Error 1
 │  - packages with build errors remain installed in /home/vagrant/.julia/v0.7
 │  - build the package(s) and all dependencies with `Pkg.build("Turing")`
 │  - build a single package by running its `deps/build.jl` script
-└ @ Base.Pkg.Entry entry.jl:649
+└ @ Pkg.Entry entry.jl:651
 [ Info: Package database updated
 ┌ Info: METADATA is out-of-date — you may not have the latest version of DiffEqBayes
 └ Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("DiffEqBayes")' log
-Julia Version 0.7.0-DEV.3583
-Commit 7d3991f784 (2018-01-26 19:00 UTC)
+WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
+Add a `using InteractiveUtils` to your imports..
+ in module Main
+WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
+Add a `using InteractiveUtils` to your imports..
+ in module Main
+Julia Version 0.7.0-DEV.3664
+Commit 9d5aebb07a (2018-01-30 22:46 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3500 MHz    3394666 s       6513 s     169804 s    1076685 s         40 s
-       #2  3500 MHz     942193 s       1748 s      77317 s    4267936 s          1 s
+       #1  3499 MHz    3478853 s       7076 s     177404 s    1166436 s         53 s
+       #2  3499 MHz    1018695 s         41 s      79153 s    4415918 s          0 s
        
-  Memory: 2.93927001953125 GB (1480.3828125 MB free)
-  Uptime: 54110.0 sec
-  Load Avg:  1.08935546875  1.001953125  0.96533203125
+  Memory: 2.93927001953125 GB (1494.2109375 MB free)
+  Uptime: 56328.0 sec
+  Load Avg:  0.88916015625  0.93994140625  0.9443359375
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -283,7 +324,7 @@ Packages:
  - DataArrays                    0.6.2
  - DataFrames                    0.10.1
  - DataStructures                0.7.4
- - DiffEqBase                    3.0.4
+ - DiffEqBase                    3.1.0
  - DiffResults                   0.0.3
  - DiffRules                     0.0.3
  - Distances                     0.5.0
@@ -293,7 +334,7 @@ Packages:
  - DualNumbers                   0.3.0
  - FileIO                        0.6.1
  - FixedPointNumbers             0.4.3
- - ForwardDiff                   0.7.2
+ - ForwardDiff                   0.7.3
  - FunctionWrappers              0.1.0
  - GZip                          0.3.0
  - Gadfly                        0.6.4
@@ -322,7 +363,7 @@ Packages:
  - QuadGK                        0.2.0
  - Ratios                        0.2.0
  - RecipesBase                   0.2.3
- - RecursiveArrayTools           0.14.3
+ - RecursiveArrayTools           0.14.5
  - Reexport                      0.1.0
  - Requires                      0.4.3
  - Rmath                         0.3.2
@@ -340,6 +381,8 @@ Packages:
  - Turing                        0.4.0
  - URIParser                     0.3.0
  - WoodburyMatrices              0.2.2
+WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
+ in module Main
 [ Info: Computing test dependencies for DiffEqBayes...
 [ Info: Installing Conda v0.7.1
 [ Info: Installing DiffBase v0.3.2
@@ -347,8 +390,8 @@ Packages:
 [ Info: Installing GenericSVD v0.1.0
 [ Info: Installing Missings v0.2.5
 [ Info: Installing MuladdMacro v0.0.2
-[ Info: Installing NLsolve v0.14.1
-[ Info: Installing OrdinaryDiffEq v3.0.1
+[ Info: Installing NLsolve v1.0.0
+[ Info: Installing OrdinaryDiffEq v3.0.2
 [ Info: Installing ParameterizedFunctions v3.0.0
 [ Info: Installing Roots v0.5.0
 [ Info: Installing SymEngine v0.3.0
@@ -373,6 +416,39 @@ WARNING: importing deprecated binding Base.Associative into BinDeps.
 WARNING: Base.Associative is deprecated, use AbstractDict instead.
   likely near /home/vagrant/.julia/v0.7/SpecialFunctions/deps/binaries.jl:44
 in @install at /home/vagrant/.julia/v0.7/BinDeps/src/dependencies.jl
+[ Info: Building DiffEqBase
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = top-level scope
+└ @ Core :0
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 [ Info: Building SymEngine
 ┌ Warning: `is_windows` is deprecated, use `Sys.iswindows` instead.
 │   caller = top-level scope
@@ -443,7 +519,7 @@ in expression starting at /home/vagrant/.julia/v0.7/PDMats/src/PDMats.jl:40
 ERROR: LoadError: Failed to precompile PDMats to /home/vagrant/.julia/lib/v0.7/PDMats.ji.
 Stacktrace:
  [1] error at ./error.jl:33 [inlined]
- [2] compilecache(::Base.PkgId) at ./loading.jl:1156
+ [2] compilecache(::Base.PkgId) at ./loading.jl:1157
  [3] _require(::Base.PkgId) at ./loading.jl:920
  [4] require(::Module, ::Symbol) at ./loading.jl:820
  [5] include at ./boot.jl:292 [inlined]
@@ -456,7 +532,7 @@ in expression starting at /home/vagrant/.julia/v0.7/Distributions/src/Distributi
 ERROR: LoadError: LoadError: LoadError: Failed to precompile Distributions to /home/vagrant/.julia/lib/v0.7/Distributions.ji.
 Stacktrace:
  [1] error at ./error.jl:33 [inlined]
- [2] compilecache(::Base.PkgId) at ./loading.jl:1156
+ [2] compilecache(::Base.PkgId) at ./loading.jl:1157
  [3] _require(::Base.PkgId) at ./loading.jl:949
  [4] require(::Module, ::Symbol) at ./loading.jl:820
  [5] include at ./boot.jl:292 [inlined]
@@ -470,8 +546,8 @@ Stacktrace:
  [13] include at ./boot.jl:292 [inlined]
  [14] include_relative(::Module, ::String) at ./loading.jl:1012
  [15] include(::Module, ::String) at ./sysimg.jl:26
- [16] process_options(::Base.JLOptions) at ./client.jl:334
- [17] _start() at ./client.jl:386
+ [16] exec_options(::Base.JLOptions) at ./client.jl:332
+ [17] _start() at ./client.jl:447
 in expression starting at /home/vagrant/.julia/v0.7/Mamba/src/Mamba.jl:1
 in expression starting at /home/vagrant/.julia/v0.7/DiffEqBayes/src/DiffEqBayes.jl:2
 in expression starting at /home/vagrant/.julia/v0.7/DiffEqBayes/test/runtests.jl:1
@@ -483,32 +559,32 @@ in expression starting at /home/vagrant/.julia/v0.7/DiffEqBayes/test/runtests.jl
 │     [1] error(::String, ::Base.Process, ::String, ::Int64, ::String) at ./error.jl:42
 │     [2] pipeline_error(::Base.Process) at ./process.jl:698
 │     [3] run(::Cmd) at ./process.jl:660
-│     [4] (::getfield(Base.Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}})() at ./pkg/entry.jl:729
-│     [5] cd(::getfield(Base.Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:70
-│     [6] #test!#88(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./pkg/entry.jl:717
-│     [7] (::getfield(Base.Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
-│     [8] #test#96(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:756
-│     [9] (::getfield(Base.Pkg.Entry, Symbol("#kw##test")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Entry.test), ::Array{AbstractString,1}) at ./<missing>:0
-│     [10] (::getfield(Base.Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Base.Pkg.Entry.test),Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:36
-│     [11] cd(::getfield(Base.Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Base.Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:70
-│     [12] #cd#1(::Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./pkg/dir.jl:36
-│     [13] (::getfield(Base.Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
-│     [14] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at ./pkg/pkg.jl:274
-│     [15] test(::String, ::Vararg{String,N} where N) at ./pkg/pkg.jl:274
+│     [4] (::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:731
+│     [5] cd(::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:70
+│     [6] #test!#88(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:719
+│     [7] (::getfield(Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
+│     [8] #test#96(::Bool, ::Function, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:758
+│     [9] (::getfield(Pkg.Entry, Symbol("#kw##test")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test), ::Array{AbstractString,1}) at ./<missing>:0
+│     [10] (::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [11] cd(::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:70
+│     [12] #cd#1(::Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [13] (::getfield(Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
+│     [14] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
+│     [15] test(::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
 │     [16] top-level scope
 │     [17] eval at ./boot.jl:295 [inlined]
 │     [18] eval(::Module, ::Expr) at ./sysimg.jl:71
-│     [19] process_options(::Base.JLOptions) at ./client.jl:311
-│     [20] _start() at ./client.jl:386
-└ @ Base.Pkg.Entry entry.jl:732
+│     [19] exec_options(::Base.JLOptions) at ./client.jl:309
+│     [20] _start() at ./client.jl:447
+└ @ Pkg.Entry entry.jl:734
 [ Info: Removing Conda v0.7.1
 [ Info: Removing DiffBase v0.3.2
 [ Info: Removing DiffEqDiffTools v0.3.0
 [ Info: Removing GenericSVD v0.1.0
 [ Info: Removing Missings v0.2.5
 [ Info: Removing MuladdMacro v0.0.2
-[ Info: Removing NLsolve v0.14.1
-[ Info: Removing OrdinaryDiffEq v3.0.1
+[ Info: Removing NLsolve v1.0.0
+[ Info: Removing OrdinaryDiffEq v3.0.2
 [ Info: Removing ParameterizedFunctions v3.0.0
 [ Info: Removing Roots v0.5.0
 [ Info: Removing SymEngine v0.3.0

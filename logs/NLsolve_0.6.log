@@ -6,10 +6,10 @@ INFO: Installing DiffEqDiffTools v0.3.0
 INFO: Installing DiffResults v0.0.3
 INFO: Installing DiffRules v0.0.3
 INFO: Installing Distances v0.5.0
-INFO: Installing ForwardDiff v0.7.2
+INFO: Installing ForwardDiff v0.7.3
 INFO: Installing LineSearches v3.2.5
 INFO: Installing NLSolversBase v4.2.0
-INFO: Installing NLsolve v0.14.1
+INFO: Installing NLsolve v1.0.0
 INFO: Installing Parameters v0.8.1
 INFO: Installing SpecialFunctions v0.3.8
 INFO: Installing StaticArrays v0.6.6
@@ -27,13 +27,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (759.09765625 MB free)
-Uptime: 80854.0 sec
-Load Avg:  0.94091796875  0.9833984375  0.96533203125
+Memory: 2.93927001953125 GB (750.2734375 MB free)
+Uptime: 78673.0 sec
+Load Avg:  0.98681640625  0.9794921875  0.95458984375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    5292164 s       3680 s     238520 s    1299891 s         67 s
-#2  3500 MHz    1272326 s       3883 s     110323 s    6527349 s          0 s
+#1  3511 MHz    5242187 s       7196 s     248974 s    1167971 s         52 s
+#2  3511 MHz    1193692 s         66 s     103672 s    6445510 s          2 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -49,7 +49,7 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - JSON                          0.16.4
- - NLsolve                       0.14.1
+ - NLsolve                       1.0.0
 30 additional packages:
  - BinDeps                       0.8.6
  - Cairo                         0.4.0
@@ -64,7 +64,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - DiffRules                     0.0.3
  - Distances                     0.5.0
  - FixedPointNumbers             0.4.3
- - ForwardDiff                   0.7.2
+ - ForwardDiff                   0.7.3
  - Graphics                      0.2.0
  - Gtk                           0.13.1
  - LineSearches                  3.2.5
@@ -82,13 +82,43 @@ Package Directory: /home/vagrant/.julia/v0.6
  - URIParser                     0.3.0
  - VegaLite                      0.1.0              ecb31725 (dirty)
 INFO: Computing test dependencies for NLsolve...
-INFO: Installing DiffEqBase v3.0.4
+INFO: Installing DiffEqBase v3.1.0
 INFO: Installing FunctionWrappers v0.1.0
 INFO: Installing LinearMaps v1.0.4
 INFO: Installing MacroTools v0.4.0
 INFO: Installing RecipesBase v0.2.3
-INFO: Installing RecursiveArrayTools v0.14.3
+INFO: Installing RecursiveArrayTools v0.14.5
 INFO: Installing SimpleTraits v0.5.1
+INFO: Building DiffEqBase
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 INFO: Testing NLsolve
 Running tests:
 Test Summary: | Pass  Total
@@ -97,74 +127,74 @@ Test Summary:     | Pass  Total
 finite_difference |    1      1
 Function                                          Dim    NFEV    NJEV   Final inf-norm     total time
 --------------------------------------------------------------------------------------
-Rosenbrock-trust_region                             2      30      17     0.000000e+00   2.509955e-02
-Rosenbrock-trust_region-AD                          2      30      17     0.000000e+00   2.509955e-02
-Rosenbrock-newton                                   2      33      19     8.881784e-15   1.080235e-01
-Rosenbrock-newton-AD                                2       3       2     8.881784e-15   1.080235e-01
-Powell singular-trust_region                        4      17      17     2.945101e-09   3.850403e-02
-Powell singular-trust_region-AD                     4      17      17     2.945101e-09   3.850403e-02
-Powell singular-newton                              4      34      33     2.945101e-09   9.912300e-05
-Powell singular-newton-AD                           4      17      16     2.945101e-09   9.912300e-05
-Powell badly scaled-trust_region                    2      15      14     7.051582e-12   2.693733e-02
-Powell badly scaled-trust_region-AD                 2      15      14     7.051582e-12   2.693733e-02
-Powell badly scaled-newton                          2      28      26     1.573341e-11   9.353900e-05
-Powell badly scaled-newton-AD                       2      13      12     1.573341e-11   9.353900e-05
-Wood-trust_region                                   4      19      15     1.152565e-10   5.766540e-02
-Wood-trust_region-AD                                4      19      15     1.152340e-10   5.766540e-02
-Wood-newton                                         4      34      29     6.972201e-14   8.512100e-05
-Wood-newton-AD                                      4      15      14     4.884981e-14   8.512100e-05
-Helical Valley-trust_region                         3      10       9     1.110223e-14   4.053523e-02
-Helical Valley-trust_region-AD                      3      10       9     1.110223e-14   4.053523e-02
-Helical Valley-newton                               3      21      19     1.145685e-14   8.901300e-05
-Helical Valley-newton-AD                            3      11      10     1.145685e-14   8.901300e-05
-Watson-trust_region                                 6      18      16     2.893814e-13   1.448900e-01
-Watson-trust_region-AD                              6      18      16     2.888384e-13   1.448900e-01
-Watson-newton                                       6      31      28     3.212777e-13   1.503210e-04
-Watson-newton-AD                                    6      13      12     3.186063e-13   1.503210e-04
-Watson-trust_region                                 9      17      17     1.599139e-12   2.846170e-04
-Watson-trust_region-AD                              9      17      17     1.606506e-12   2.846170e-04
-Watson-newton                                       9      31      30     8.726530e-15   1.815200e-04
-Watson-newton-AD                                    9      14      13     6.129168e-14   1.815200e-04
-Chebyquad-trust_region                              5       6       5     9.143861e-09   7.041380e-02
-Chebyquad-trust_region-AD                           5       6       5     9.143861e-09   7.041380e-02
-Chebyquad-trust_region                              6      12       8     6.383782e-16   5.323600e-05
-Chebyquad-trust_region-AD                           6      12       8     6.383782e-16   5.323600e-05
-Chebyquad-trust_region                              7       8       6     6.329061e-10   1.675630e-04
-Chebyquad-trust_region-AD                           7       8       6     6.329061e-10   1.675630e-04
-Chebyquad-trust_region                              9      13       8     1.631681e-14   7.062300e-05
-Chebyquad-trust_region-AD                           9      13       8     1.631681e-14   7.062300e-05
-Brown almost-linear-trust_region                   10       5       5     3.382331e-09   1.487419e-01
-Brown almost-linear-trust_region-AD                10       5       5     3.382331e-09   1.487419e-01
-Brown almost-linear-trust_region                   30       4       4     8.883263e-09   2.637180e-03
-Brown almost-linear-trust_region-AD                30       4       4     8.883263e-09   2.637180e-03
-Brown almost-linear-trust_region                   40       4       4     1.570839e-09   2.891050e-04
-Brown almost-linear-trust_region-AD                40       4       4     1.570839e-09   2.891050e-04
-Discrete boundary value-trust_region               10       4       4     2.636780e-16   6.530536e-02
-Discrete boundary value-trust_region-AD            10       4       4     2.636780e-16   6.530536e-02
-Discrete boundary value-newton                     10       8       7     2.636780e-16   1.116000e-04
-Discrete boundary value-newton-AD                  10       4       3     2.636780e-16   1.116000e-04
-Discrete integral equation-trust_region             1       4       4     8.537615e-14   4.151366e-02
-Discrete integral equation-trust_region-AD          1       4       4     8.537615e-14   4.151366e-02
-Discrete integral equation-newton                   1       8       7     8.537615e-14   1.679400e-04
-Discrete integral equation-newton-AD                1       4       3     8.537615e-14   1.679400e-04
-Discrete integral equation-trust_region            10       4       4     2.747802e-15   2.016260e-04
-Discrete integral equation-trust_region-AD         10       4       4     2.747802e-15   2.016260e-04
-Discrete integral equation-newton                  10       8       7     2.747802e-15   4.888700e-05
-Discrete integral equation-newton-AD               10       4       3     2.747802e-15   4.888700e-05
-Trigonometric-trust_region                         10      14       8     1.204299e-10   3.163945e-02
-Trigonometric-trust_region-AD                      10      14       8     1.204299e-10   3.163945e-02
-Variably dimensioned-trust_region                  10      15      15     1.323497e-12   4.472016e-02
-Variably dimensioned-trust_region-AD               10      15      15     1.323497e-12   4.472016e-02
-Variably dimensioned-newton                        10      30      29     1.323497e-12   1.361590e-04
-Variably dimensioned-newton-AD                     10      15      14     1.323497e-12   1.361590e-04
-Broyden tridiagonal-trust_region                   10       5       5     7.548402e-10   4.155379e-02
-Broyden tridiagonal-trust_region-AD                10       5       5     7.548402e-10   4.155379e-02
-Broyden tridiagonal-newton                         10      10       9     7.548402e-10   2.310430e-04
-Broyden tridiagonal-newton-AD                      10       5       4     7.548402e-10   2.310430e-04
-Broyden banded-trust_region                        10       6       6     9.359466e-09   6.518692e-02
-Broyden banded-trust_region-AD                     10       6       6     9.359466e-09   6.518692e-02
-Broyden banded-newton                              10      12      11     9.359466e-09   2.738130e-04
-Broyden banded-newton-AD                           10       6       5     9.359466e-09   2.738130e-04
+Rosenbrock-trust_region                             2      30      17     0.000000e+00   1.602334e-02
+Rosenbrock-trust_region-AD                          2      30      17     0.000000e+00   1.602334e-02
+Rosenbrock-newton                                   2      33      19     8.881784e-15   7.286300e-05
+Rosenbrock-newton-AD                                2       3       2     8.881784e-15   7.286300e-05
+Powell singular-trust_region                        4      17      17     2.945101e-09   3.677881e-02
+Powell singular-trust_region-AD                     4      17      17     2.945101e-09   3.677881e-02
+Powell singular-newton                              4      34      33     2.945101e-09   1.939980e-04
+Powell singular-newton-AD                           4      17      16     2.945101e-09   1.939980e-04
+Powell badly scaled-trust_region                    2      15      14     7.051582e-12   2.870799e-02
+Powell badly scaled-trust_region-AD                 2      15      14     7.051582e-12   2.870799e-02
+Powell badly scaled-newton                          2      28      26     1.573341e-11   1.657720e-04
+Powell badly scaled-newton-AD                       2      13      12     1.573341e-11   1.657720e-04
+Wood-trust_region                                   4      19      15     1.152565e-10   3.061269e-02
+Wood-trust_region-AD                                4      19      15     1.152340e-10   3.061269e-02
+Wood-newton                                         4      34      29     6.972201e-14   3.062500e-04
+Wood-newton-AD                                      4      15      14     4.884981e-14   3.062500e-04
+Helical Valley-trust_region                         3      10       9     1.110223e-14   3.145889e-02
+Helical Valley-trust_region-AD                      3      10       9     1.110223e-14   3.145889e-02
+Helical Valley-newton                               3      21      19     1.145685e-14   1.957800e-04
+Helical Valley-newton-AD                            3      11      10     1.145685e-14   1.957800e-04
+Watson-trust_region                                 6      18      16     2.893814e-13   1.096103e-01
+Watson-trust_region-AD                              6      18      16     2.888384e-13   1.096103e-01
+Watson-newton                                       6      31      28     3.212777e-13   4.884200e-05
+Watson-newton-AD                                    6      13      12     3.186063e-13   4.884200e-05
+Watson-trust_region                                 9      17      17     1.599139e-12   2.738240e-04
+Watson-trust_region-AD                              9      17      17     1.606506e-12   2.738240e-04
+Watson-newton                                       9      31      30     8.726530e-15   1.621620e-04
+Watson-newton-AD                                    9      14      13     6.129168e-14   1.621620e-04
+Chebyquad-trust_region                              5       6       5     9.143861e-09   5.590700e-02
+Chebyquad-trust_region-AD                           5       6       5     9.143861e-09   5.590700e-02
+Chebyquad-trust_region                              6      12       8     6.383782e-16   1.894850e-04
+Chebyquad-trust_region-AD                           6      12       8     6.383782e-16   1.894850e-04
+Chebyquad-trust_region                              7       8       6     6.329061e-10   2.011790e-04
+Chebyquad-trust_region-AD                           7       8       6     6.329061e-10   2.011790e-04
+Chebyquad-trust_region                              9      13       8     1.631681e-14   2.533350e-04
+Chebyquad-trust_region-AD                           9      13       8     1.631681e-14   2.533350e-04
+Brown almost-linear-trust_region                   10       5       5     3.382331e-09   1.020906e-01
+Brown almost-linear-trust_region-AD                10       5       5     3.382331e-09   1.020906e-01
+Brown almost-linear-trust_region                   30       4       4     8.883263e-09   2.830720e-04
+Brown almost-linear-trust_region-AD                30       4       4     8.883263e-09   2.830720e-04
+Brown almost-linear-trust_region                   40       4       4     1.570839e-09   2.185380e-04
+Brown almost-linear-trust_region-AD                40       4       4     1.570839e-09   2.185380e-04
+Discrete boundary value-trust_region               10       4       4     2.636780e-16   6.039874e-02
+Discrete boundary value-trust_region-AD            10       4       4     2.636780e-16   6.039874e-02
+Discrete boundary value-newton                     10       8       7     2.636780e-16   2.181270e-04
+Discrete boundary value-newton-AD                  10       4       3     2.636780e-16   2.181270e-04
+Discrete integral equation-trust_region             1       4       4     8.537615e-14   7.609193e-02
+Discrete integral equation-trust_region-AD          1       4       4     8.537615e-14   7.609193e-02
+Discrete integral equation-newton                   1       8       7     8.537615e-14   1.126550e-04
+Discrete integral equation-newton-AD                1       4       3     8.537615e-14   1.126550e-04
+Discrete integral equation-trust_region            10       4       4     2.747802e-15   6.687300e-05
+Discrete integral equation-trust_region-AD         10       4       4     2.747802e-15   6.687300e-05
+Discrete integral equation-newton                  10       8       7     2.747802e-15   1.201540e-04
+Discrete integral equation-newton-AD               10       4       3     2.747802e-15   1.201540e-04
+Trigonometric-trust_region                         10      14       8     1.204299e-10   5.358498e-02
+Trigonometric-trust_region-AD                      10      14       8     1.204299e-10   5.358498e-02
+Variably dimensioned-trust_region                  10      15      15     1.323497e-12   6.940404e-02
+Variably dimensioned-trust_region-AD               10      15      15     1.323497e-12   6.940404e-02
+Variably dimensioned-newton                        10      30      29     1.323497e-12   3.445570e-04
+Variably dimensioned-newton-AD                     10      15      14     1.323497e-12   3.445570e-04
+Broyden tridiagonal-trust_region                   10       5       5     7.548402e-10   4.860525e-02
+Broyden tridiagonal-trust_region-AD                10       5       5     7.548402e-10   4.860525e-02
+Broyden tridiagonal-newton                         10      10       9     7.548402e-10   6.745700e-05
+Broyden tridiagonal-newton-AD                      10       5       4     7.548402e-10   6.745700e-05
+Broyden banded-trust_region                        10       6       6     9.359466e-09   4.504434e-02
+Broyden banded-trust_region-AD                     10       6       6     9.359466e-09   4.504434e-02
+Broyden banded-newton                              10      12      11     9.359466e-09   1.141200e-04
+Broyden banded-newton-AD                           10       6       5     9.359466e-09   1.141200e-04
 Test Summary: | Pass  Total
 minpack       |   68     68
 Test Summary: | Pass  Total
@@ -188,12 +218,12 @@ no linesearch |    1      1
 Test Summary: | Pass  Total
 abstractarray |   42     42
 INFO: NLsolve tests passed
-INFO: Removing DiffEqBase v3.0.4
+INFO: Removing DiffEqBase v3.1.0
 INFO: Removing FunctionWrappers v0.1.0
 INFO: Removing LinearMaps v1.0.4
 INFO: Removing MacroTools v0.4.0
 INFO: Removing RecipesBase v0.2.3
-INFO: Removing RecursiveArrayTools v0.14.3
+INFO: Removing RecursiveArrayTools v0.14.5
 INFO: Removing SimpleTraits v0.5.1
 
 >>> End of log

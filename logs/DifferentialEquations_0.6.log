@@ -1,45 +1,40 @@
 >>> 'Pkg.add("DifferentialEquations")' log
-INFO: Installing AlgebraicDiffEq v0.1.0
 INFO: Installing BandedMatrices v0.3.1
 INFO: Installing BinDeps v0.8.6
 INFO: Installing BinaryProvider v0.1.3
-INFO: Installing BoundaryValueDiffEq v0.3.0
+INFO: Installing BoundaryValueDiffEq v1.0.0
 INFO: Installing Calculus v0.2.2
 INFO: Installing ChunkedArrays v0.1.1
-INFO: Installing Combinatorics v0.5.0
 INFO: Installing CommonSubexpressions v0.0.1
 INFO: Installing Conda v0.7.1
 INFO: Installing DataStructures v0.7.4
-INFO: Installing DelayDiffEq v1.12.0
+INFO: Installing DelayDiffEq v2.0.0
 INFO: Installing DiffBase v0.3.2
-INFO: Installing DiffEqBase v2.10.2
-INFO: Installing DiffEqBiological v0.3.0
-INFO: Installing DiffEqCallbacks v0.8.0
-INFO: Installing DiffEqDevTools v0.11.3
-INFO: Installing DiffEqDiffTools v0.2.1
-INFO: Installing DiffEqFinancial v0.3.0
-INFO: Installing DiffEqJump v0.7.0
-INFO: Installing DiffEqMonteCarlo v0.9.1
-INFO: Installing DiffEqNoiseProcess v0.8.1
-INFO: Installing DiffEqPDEBase v0.3.5
-INFO: Installing DiffEqParamEstim v0.8.0
-INFO: Installing DiffEqPhysics v0.3.0
-INFO: Installing DiffEqSensitivity v0.5.1
+INFO: Installing DiffEqBase v3.1.0
+INFO: Installing DiffEqBiological v1.0.0
+INFO: Installing DiffEqCallbacks v1.0.0
+INFO: Installing DiffEqDevTools v1.0.0
+INFO: Installing DiffEqDiffTools v0.3.0
+INFO: Installing DiffEqFinancial v1.0.0
+INFO: Installing DiffEqJump v1.0.0
+INFO: Installing DiffEqMonteCarlo v0.10.0
+INFO: Installing DiffEqNoiseProcess v1.0.0
+INFO: Installing DiffEqPDEBase v0.4.0
+INFO: Installing DiffEqParamEstim v1.0.0
+INFO: Installing DiffEqPhysics v1.0.0
+INFO: Installing DiffEqSensitivity v1.0.0
 INFO: Installing DiffEqUncertainty v0.1.0
 INFO: Installing DiffResults v0.0.3
 INFO: Installing DiffRules v0.0.3
-INFO: Installing DifferentialEquations v3.1.0
+INFO: Installing DifferentialEquations v4.0.0
 INFO: Installing DimensionalPlotRecipes v0.0.2
 INFO: Installing Distances v0.5.0
 INFO: Installing DistributedArrays v0.4.0
 INFO: Installing Distributions v0.15.0
 INFO: Installing EllipsisNotation v0.3.0
-INFO: Installing FiniteElementDiffEq v0.4.0
-INFO: Installing ForwardDiff v0.7.2
+INFO: Installing ForwardDiff v0.7.3
 INFO: Installing FunctionWrappers v0.1.0
 INFO: Installing GenericSVD v0.1.0
-INFO: Installing IterTools v0.2.1
-INFO: Installing IterativeSolvers v0.4.2
 INFO: Installing Juno v0.4.0
 INFO: Installing LearnBase v0.1.6
 INFO: Installing LineSearches v3.2.5
@@ -50,24 +45,23 @@ INFO: Installing MacroTools v0.4.0
 INFO: Installing Media v0.3.0
 INFO: Installing Missings v0.2.5
 INFO: Installing MuladdMacro v0.0.2
-INFO: Installing MultiScaleArrays v0.5.0
-INFO: Installing NLSolversBase v3.1.0
-INFO: Installing NLsolve v0.13.0
+INFO: Installing MultiScaleArrays v0.6.0
+INFO: Installing NLSolversBase v4.2.0
+INFO: Installing NLsolve v1.0.0
 INFO: Installing NaNMath v0.3.0
-INFO: Installing Optim v0.11.0
+INFO: Installing Optim v0.12.0
 INFO: Installing OptimBase v1.0.0
-INFO: Installing OrdinaryDiffEq v2.37.0
+INFO: Installing OrdinaryDiffEq v3.0.2
 INFO: Installing PDMats v0.8.0
 INFO: Installing ParameterizedFunctions v3.0.0
 INFO: Installing Parameters v0.8.1
 INFO: Installing PenaltyFunctions v0.0.2
-INFO: Installing Polynomials v0.2.1
 INFO: Installing PositiveFactorizations v0.1.0
 INFO: Installing Primes v0.2.0
 INFO: Installing QuadGK v0.2.0
 INFO: Installing RandomNumbers v0.1.1
 INFO: Installing RecipesBase v0.2.3
-INFO: Installing RecursiveArrayTools v0.14.3
+INFO: Installing RecursiveArrayTools v0.14.5
 INFO: Installing Reexport v0.1.0
 INFO: Installing Requires v0.4.3
 INFO: Installing ResettableStacks v0.3.1
@@ -80,15 +74,43 @@ INFO: Installing SpecialFunctions v0.3.8
 INFO: Installing StaticArrays v0.6.6
 INFO: Installing StatsBase v0.19.5
 INFO: Installing StatsFuns v0.5.0
-INFO: Installing SteadyStateDiffEq v0.1.0
-INFO: Installing StochasticDiffEq v2.23.4
-INFO: Installing SugarBLAS v0.0.4
+INFO: Installing SteadyStateDiffEq v0.2.0
+INFO: Installing StochasticDiffEq v3.0.0
 INFO: Installing Sundials v1.1.0
 INFO: Installing SymEngine v0.3.0
 INFO: Installing URIParser v0.3.0
-INFO: Installing UnicodePlots v0.2.6
 INFO: Installing VectorizedRoutines v0.0.2
 INFO: Building SpecialFunctions
+INFO: Building DiffEqBase
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 INFO: Building Conda
 INFO: Building RandomNumbers
 WARNING: AES-NI will not be compiled.
@@ -960,13 +982,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (1656.765625 MB free)
-Uptime: 60572.0 sec
+Memory: 2.93927001953125 GB (1650.01171875 MB free)
+Uptime: 60631.0 sec
 Load Avg:  0.9970703125  0.9853515625  1.029296875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    3932278 s       7695 s     179772 s    1064186 s         36 s
-#2  3499 MHz    1204932 s         98 s     103040 s    4640223 s          1 s
+#1  3499 MHz    3954370 s       5852 s     170795 s    1068519 s         39 s
+#2  3499 MHz    1187034 s        466 s     109503 s    4645893 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -981,36 +1003,34 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
- - DifferentialEquations         3.1.0
+ - DifferentialEquations         4.0.0
  - JSON                          0.16.4
-90 additional packages:
- - AlgebraicDiffEq               0.1.0
+82 additional packages:
  - BandedMatrices                0.3.1
  - BinDeps                       0.8.6
  - BinaryProvider                0.1.3
- - BoundaryValueDiffEq           0.3.0
+ - BoundaryValueDiffEq           1.0.0
  - Calculus                      0.2.2
  - ChunkedArrays                 0.1.1
- - Combinatorics                 0.5.0
  - CommonSubexpressions          0.0.1
  - Compat                        0.49.0
  - Conda                         0.7.1
  - DataStructures                0.7.4
- - DelayDiffEq                   1.12.0
+ - DelayDiffEq                   2.0.0
  - DiffBase                      0.3.2
- - DiffEqBase                    2.10.2
- - DiffEqBiological              0.3.0
- - DiffEqCallbacks               0.8.0
- - DiffEqDevTools                0.11.3
- - DiffEqDiffTools               0.2.1
- - DiffEqFinancial               0.3.0
- - DiffEqJump                    0.7.0
- - DiffEqMonteCarlo              0.9.1
- - DiffEqNoiseProcess            0.8.1
- - DiffEqPDEBase                 0.3.5
- - DiffEqParamEstim              0.8.0
- - DiffEqPhysics                 0.3.0
- - DiffEqSensitivity             0.5.1
+ - DiffEqBase                    3.1.0
+ - DiffEqBiological              1.0.0
+ - DiffEqCallbacks               1.0.0
+ - DiffEqDevTools                1.0.0
+ - DiffEqDiffTools               0.3.0
+ - DiffEqFinancial               1.0.0
+ - DiffEqJump                    1.0.0
+ - DiffEqMonteCarlo              0.10.0
+ - DiffEqNoiseProcess            1.0.0
+ - DiffEqPDEBase                 0.4.0
+ - DiffEqParamEstim              1.0.0
+ - DiffEqPhysics                 1.0.0
+ - DiffEqSensitivity             1.0.0
  - DiffEqUncertainty             0.1.0
  - DiffResults                   0.0.3
  - DiffRules                     0.0.3
@@ -1019,12 +1039,9 @@ Package Directory: /home/vagrant/.julia/v0.6
  - DistributedArrays             0.4.0
  - Distributions                 0.15.0
  - EllipsisNotation              0.3.0
- - FiniteElementDiffEq           0.4.0
- - ForwardDiff                   0.7.2
+ - ForwardDiff                   0.7.3
  - FunctionWrappers              0.1.0
  - GenericSVD                    0.1.0
- - IterTools                     0.2.1
- - IterativeSolvers              0.4.2
  - Juno                          0.4.0
  - LearnBase                     0.1.6
  - LineSearches                  3.2.5
@@ -1035,25 +1052,24 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Media                         0.3.0
  - Missings                      0.2.5
  - MuladdMacro                   0.0.2
- - MultiScaleArrays              0.5.0
- - NLSolversBase                 3.1.0
- - NLsolve                       0.13.0
+ - MultiScaleArrays              0.6.0
+ - NLSolversBase                 4.2.0
+ - NLsolve                       1.0.0
  - NaNMath                       0.3.0
  - Nullables                     0.0.3
- - Optim                         0.11.0
+ - Optim                         0.12.0
  - OptimBase                     1.0.0
- - OrdinaryDiffEq                2.37.0
+ - OrdinaryDiffEq                3.0.2
  - PDMats                        0.8.0
  - ParameterizedFunctions        3.0.0
  - Parameters                    0.8.1
  - PenaltyFunctions              0.0.2
- - Polynomials                   0.2.1
  - PositiveFactorizations        0.1.0
  - Primes                        0.2.0
  - QuadGK                        0.2.0
  - RandomNumbers                 0.1.1
  - RecipesBase                   0.2.3
- - RecursiveArrayTools           0.14.3
+ - RecursiveArrayTools           0.14.5
  - Reexport                      0.1.0
  - Requires                      0.4.3
  - ResettableStacks              0.3.1
@@ -1066,62 +1082,97 @@ Package Directory: /home/vagrant/.julia/v0.6
  - StaticArrays                  0.6.6
  - StatsBase                     0.19.5
  - StatsFuns                     0.5.0
- - SteadyStateDiffEq             0.1.0
- - StochasticDiffEq              2.23.4
- - SugarBLAS                     0.0.4
+ - SteadyStateDiffEq             0.2.0
+ - StochasticDiffEq              3.0.0
  - Sundials                      1.1.0
  - SymEngine                     0.3.0
  - URIParser                     0.3.0
- - UnicodePlots                  0.2.6
  - VectorizedRoutines            0.0.2
 INFO: Computing test dependencies for DifferentialEquations...
-INFO: Installing DiffEqProblemLibrary v0.11.0
+INFO: Installing DiffEqProblemLibrary v1.0.0
 INFO: Building Conda
 INFO: Building SymEngine
+INFO: Building DiffEqBase
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 INFO: Building SpecialFunctions
 INFO: Building Rmath
 INFO: Testing DifferentialEquations
 Starting tests
 Test Summary:              | Pass  Total
 Default Discrete Algorithm |    1      1
-  4.602629 seconds (2.00 M allocations: 111.144 MiB, 1.50% gc time)
-ERROR: LoadError: LoadError: The syntax for ParameterizedFunctions has changed. Simply list the parameters at the end, i.e. `a b c d`, instead of `a=5.0 b=>3.0 ...`. Parameters are defined in the problem type. See the documentation for more information.
-Stacktrace:
- [1] include_from_node1(::String) at ./loading.jl:576
- [2] include(::String) at ./sysimg.jl:14
- [3] include_from_node1(::String) at ./loading.jl:576
- [4] include(::String) at ./sysimg.jl:14
- [5] anonymous at ./<missing>:2
-while loading /home/vagrant/.julia/v0.6/DiffEqProblemLibrary/src/ode_premade_problems.jl, in expression starting on line 129
-while loading /home/vagrant/.julia/v0.6/DiffEqProblemLibrary/src/DiffEqProblemLibrary.jl, in expression starting on line 7
-Default ODE Algorithm: Error During Test
+  3.836722 seconds (2.06 M allocations: 114.488 MiB, 1.70% gc time)
+Test Summary:         | Pass  Total
+Default ODE Algorithm |   16     16
+ 81.490477 seconds (44.46 M allocations: 2.950 GiB, 1.65% gc time)
+Test Summary:                  | Pass  Total
+Default Steady State Algorithm |    1      1
+ 15.874043 seconds (10.80 M allocations: 508.296 MiB, 1.54% gc time)
+Test Summary:         | Pass  Total
+Default SDE Algorithm |    6      6
+ 38.881710 seconds (62.60 M allocations: 23.656 GiB, 10.12% gc time)
+Test Summary:          | Pass  Total
+Default RODE Algorithm |    1      1
+  6.004824 seconds (12.17 M allocations: 4.714 GiB, 12.62% gc time)
+Default DDE Algorithm: Error During Test
   Got an exception of type LoadError outside of a @test
-  LoadError: Failed to precompile DiffEqProblemLibrary to /home/vagrant/.julia/lib/v0.6/DiffEqProblemLibrary.ji.
+  LoadError: MethodError: objects of type Float64 are not callable
   Stacktrace:
-   [1] compilecache(::String) at ./loading.jl:710
-   [2] _require(::Symbol) at ./loading.jl:463
-   [3] require(::Symbol) at ./loading.jl:405
-   [4] include_from_node1(::String) at ./loading.jl:576
-   [5] include(::String) at ./sysimg.jl:14
-   [6] macro expansion at /home/vagrant/.julia/v0.6/DifferentialEquations/test/runtests.jl:6 [inlined]
-   [7] macro expansion at ./test.jl:860 [inlined]
-   [8] macro expansion at ./util.jl:237 [inlined]
-   [9] anonymous at ./<missing>:?
-   [10] include_from_node1(::String) at ./loading.jl:576
-   [11] include(::String) at ./sysimg.jl:14
-   [12] process_options(::Base.JLOptions) at ./client.jl:305
-   [13] _start() at ./client.jl:371
-  while loading /home/vagrant/.julia/v0.6/DifferentialEquations/test/default_ode_alg_test.jl, in expression starting on line 1
+   [1] (::DiffEqBase.#kw##init)(::Array{Any,1}, ::DiffEqBase.#init, ::DiffEqBase.DDEProblem{##15#16,Float64,Array{Any,1},Array{Any,1},false,Array{Float64,1},Void,##13#14,Float64,Void,UniformScaling{Int64}}, ::DelayDiffEq.MethodOfSteps{OrdinaryDiffEq.Tsit5,Void,Void,Void,false}, ::Array{##15#16,1}, ::Array{Float64,1}, ::Array{Any,1}) at ./<missing>:0
+   [2] #solve#51(::Array{Any,1}, ::Function, ::DiffEqBase.DDEProblem{##15#16,Float64,Array{Any,1},Array{Any,1},false,Array{Float64,1},Void,##13#14,Float64,Void,UniformScaling{Int64}}, ::DelayDiffEq.MethodOfSteps{OrdinaryDiffEq.Tsit5,Void,Void,Void,false}, ::Array{##15#16,1}, ::Array{Float64,1}, ::Array{Any,1}) at /home/vagrant/.julia/v0.6/DelayDiffEq/src/solve.jl:346
+   [3] (::DiffEqBase.#kw##solve)(::Array{Any,1}, ::DiffEqBase.#solve, ::DiffEqBase.DDEProblem{##15#16,Float64,Array{Any,1},Array{Any,1},false,Array{Float64,1},Void,##13#14,Float64,Void,UniformScaling{Int64}}, ::DelayDiffEq.MethodOfSteps{OrdinaryDiffEq.Tsit5,Void,Void,Void,false}, ::Array{##15#16,1}, ::Array{Float64,1}, ::Array{Any,1}) at ./<missing>:0 (repeats 2 times)
+   [4] #solve#2(::Bool, ::Array{Any,1}, ::Function, ::DiffEqBase.DDEProblem{##15#16,Float64,Array{Any,1},Array{Any,1},false,Array{Float64,1},Void,##13#14,Float64,Void,UniformScaling{Int64}}, ::Void) at /home/vagrant/.julia/v0.6/DifferentialEquations/src/default_solve.jl:14
+   [5] (::DiffEqBase.#kw##solve)(::Array{Any,1}, ::DiffEqBase.#solve, ::DiffEqBase.DDEProblem{##15#16,Float64,Array{Any,1},Array{Any,1},false,Array{Float64,1},Void,##13#14,Float64,Void,UniformScaling{Int64}}, ::Void) at ./<missing>:0
+   [6] #solve#1(::Bool, ::Array{Any,1}, ::Function, ::DiffEqBase.DDEProblem{##15#16,Float64,Array{Any,1},Array{Any,1},false,Array{Float64,1},Void,##13#14,Float64,Void,UniformScaling{Int64}}) at /home/vagrant/.julia/v0.6/DifferentialEquations/src/default_solve.jl:5
+   [7] solve(::DiffEqBase.DDEProblem{##15#16,Float64,Array{Any,1},Array{Any,1},false,Array{Float64,1},Void,##13#14,Float64,Void,UniformScaling{Int64}}) at /home/vagrant/.julia/v0.6/DifferentialEquations/src/default_solve.jl:2
+   [8] include_from_node1(::String) at ./loading.jl:576
+   [9] include(::String) at ./sysimg.jl:14
+   [10] macro expansion at /home/vagrant/.julia/v0.6/DifferentialEquations/test/runtests.jl:10 [inlined]
+   [11] macro expansion at ./test.jl:860 [inlined]
+   [12] macro expansion at ./util.jl:237 [inlined]
+   [13] anonymous at ./<missing>:?
+   [14] include_from_node1(::String) at ./loading.jl:576
+   [15] include(::String) at ./sysimg.jl:14
+   [16] process_options(::Base.JLOptions) at ./client.jl:305
+   [17] _start() at ./client.jl:371
+  while loading /home/vagrant/.julia/v0.6/DifferentialEquations/test/default_dde_alg_test.jl, in expression starting on line 13
 Test Summary:         | Error  Total
-Default ODE Algorithm |     1      1
+Default DDE Algorithm |     1      1
 ERROR: LoadError: Some tests did not pass: 0 passed, 0 failed, 1 errored, 0 broken.
-while loading /home/vagrant/.julia/v0.6/DifferentialEquations/test/runtests.jl, in expression starting on line 6
+while loading /home/vagrant/.julia/v0.6/DifferentialEquations/test/runtests.jl, in expression starting on line 10
 ========================[ ERROR: DifferentialEquations ]========================
 
 failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/DifferentialEquations/test/runtests.jl`, ProcessExited(1)) [1]
 
 ================================================================================
-INFO: Removing DiffEqProblemLibrary v0.11.0
+INFO: Removing DiffEqProblemLibrary v1.0.0
 ERROR: DifferentialEquations had test errors
 
 >>> End of log

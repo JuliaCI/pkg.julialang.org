@@ -8,13 +8,13 @@ INFO: Cloning cache of SymEngine from https://github.com/symengine/SymEngine.jl.
 INFO: Installing BinDeps v0.8.6
 INFO: Installing Conda v0.7.1
 INFO: Installing DataStructures v0.7.4
-INFO: Installing DiffEqBase v3.0.4
+INFO: Installing DiffEqBase v3.1.0
 INFO: Installing FunctionWrappers v0.1.0
 INFO: Installing LinearMaps v1.0.4
 INFO: Installing MacroTools v0.4.0
 INFO: Installing ParameterizedFunctions v3.0.0
 INFO: Installing RecipesBase v0.2.3
-INFO: Installing RecursiveArrayTools v0.14.3
+INFO: Installing RecursiveArrayTools v0.14.5
 INFO: Installing Requires v0.4.3
 INFO: Installing SHA v0.5.6
 INFO: Installing SimpleTraits v0.5.1
@@ -22,27 +22,46 @@ INFO: Installing StaticArrays v0.6.6
 INFO: Installing SymEngine v0.3.0
 INFO: Installing URIParser v0.3.0
 INFO: Building Conda
+INFO: Building DiffEqBase
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 INFO: Building SymEngine
 Solving environment: ...working... done
-
-
-==> WARNING: A newer version of conda exists. <==
-  current version: 4.4.7
-  latest version: 4.4.8
-
-Please update conda by running
-
-    $ conda update -n base conda
-
-
 certifi 2017.11.5:            |   0% certifi 2017.11.5: 6          |   6% certifi 2017.11.5: #######5   |  75% certifi 2017.11.5: ########## | 100% 
 ca-certificates 2017.11.5:            |   0% ca-certificates 2017.11.5: 8          |   8% ca-certificates 2017.11.5: ########## | 100% 
 mpc 1.0.3:            |   0% mpc 1.0.3: #3         |  14% mpc 1.0.3: ########## | 100% 
-symengine 0.3.0:            |   0% symengine 0.3.0: 1          |   1% symengine 0.3.0: ###1       |  31% symengine 0.3.0: #######5   |  75% symengine 0.3.0: ########## | 100% 
-conda 4.3.33:            |   0% conda 4.3.33: 2          |   2% conda 4.3.33: ######6    |  66% conda 4.3.33: ########5  |  86% conda 4.3.33: ########## | 100% 
-openssl 1.0.2n:            |   0% openssl 1.0.2n:            |   0% openssl 1.0.2n: 8          |   9% openssl 1.0.2n: ###3       |  34% openssl 1.0.2n: #######5   |  75% openssl 1.0.2n: ########2  |  82% openssl 1.0.2n: ########8  |  89% openssl 1.0.2n: #########5 |  96% openssl 1.0.2n: ########## | 100% 
-gmp 6.1.2:            |   0% gmp 6.1.2: 1          |   2% gmp 6.1.2: ###4       |  34% gmp 6.1.2: #######5   |  75% gmp 6.1.2: #########8 |  98% gmp 6.1.2: ########## | 100% 
-mpfr 3.1.5:            |   0% mpfr 3.1.5: 2          |   3% mpfr 3.1.5: #####9     |  59% mpfr 3.1.5: #######6   |  77% mpfr 3.1.5: ########## | 100% 
+symengine 0.3.0:            |   0% symengine 0.3.0: 1          |   1% symengine 0.3.0: ##8        |  28% symengine 0.3.0: #######5   |  75% symengine 0.3.0: ########## | 100% 
+conda 4.3.33:            |   0% conda 4.3.33: 2          |   2% conda 4.3.33: ####7      |  47% conda 4.3.33: #######5   |  75% conda 4.3.33: #########2 |  92% conda 4.3.33: ########## | 100% 
+openssl 1.0.2n:            |   0% openssl 1.0.2n:            |   0% openssl 1.0.2n: 7          |   8% openssl 1.0.2n: ##8        |  29% openssl 1.0.2n: #######5   |  75% openssl 1.0.2n: ########1  |  82% openssl 1.0.2n: ########7  |  87% openssl 1.0.2n: #########2 |  93% openssl 1.0.2n: #########7 |  98% openssl 1.0.2n: ########## | 100% 
+gmp 6.1.2:            |   0% gmp 6.1.2: 1          |   2% gmp 6.1.2: ##6        |  27% gmp 6.1.2: #######5   |  75% gmp 6.1.2: #########  |  90% gmp 6.1.2: ########## | 100% 
+mpfr 3.1.5:            |   0% mpfr 3.1.5: 2          |   3% mpfr 3.1.5: #######3   |  74% mpfr 3.1.5: #########5 |  96% mpfr 3.1.5: ########## | 100% 
 
 ## Package Plan ##
 
@@ -82,29 +101,13 @@ The following packages will be UPDATED:
 The following packages will be DOWNGRADED:
 
     certifi:         2018.1.18-py27_0                  --> 2017.11.5-py27_0 conda-forge
-    conda:           4.4.7-py27_0                      --> 4.3.33-py27_0    conda-forge
+    conda:           4.4.8-py27_0                      --> 4.3.33-py27_0    conda-forge
 
 
 Downloading and Extracting Packages
 Preparing transaction: ...working... done
 Verifying transaction: ...working... done
 Executing transaction: ...working... done
-==============================[ ERROR: SymEngine ]==============================
-
-LoadError: failed process: Process(setenv(`/home/vagrant/.julia/v0.6/Conda/deps/usr/bin/conda install -y symengine=0.3.0`,String["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/vagrant/julia/bin/", "PWD=/vagrant/0.6PZ", "SHELL=/bin/bash", "SSH_CONNECTION=10.0.2.2 48000 10.0.2.15 22", "LD_LIBRARY_PATH=:/usr/local/lib/", "CONDARC=/home/vagrant/.julia/v0.6/Conda/deps/usr/condarc-julia.yml", "MAIL=/var/mail/vagrant", "LANG=en_US.UTF-8", "SHLVL=3", "LOGNAME=vagrant", "XDG_RUNTIME_DIR=/run/user/1000", "XDG_SESSION_ID=3", "CONDA_PREFIX=/home/vagrant/.julia/v0.6/Conda/deps/usr", "OLDPWD=/home/vagrant", "SSH_CLIENT=10.0.2.2 48000 22", "_=/usr/bin/timeout", "CONDA_DEFAULT_ENV=/home/vagrant/.julia/v0.6/Conda/deps/usr", "USER=vagrant", "TERM=vt100", "HOME=/home/vagrant", "OPENBLAS_MAIN_FREE=1", "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64"]), ProcessSignaled(11)) [0]
-while loading /home/vagrant/.julia/v0.6/SymEngine/deps/build.jl, in expression starting on line 50
-
-================================================================================
-
-================================[ BUILD ERRORS ]================================
-
-WARNING: SymEngine had build errors.
-
- - packages with build errors remain installed in /home/vagrant/.julia/v0.6
- - build the package(s) and all dependencies with `Pkg.build("SymEngine")`
- - build a single package by running its `deps/build.jl` script
-
-================================================================================
 INFO: Package database updated
 
 >>> 'Pkg.test("ParameterizedFunctions")' log
@@ -116,13 +119,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (735.7734375 MB free)
-Uptime: 4529.0 sec
-Load Avg:  0.95361328125  0.9775390625  1.029296875
+Memory: 2.93927001953125 GB (742.5703125 MB free)
+Uptime: 4194.0 sec
+Load Avg:  0.7626953125  0.9296875  1.0078125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3498 MHz     213209 s        105 s      15009 s     170271 s          4 s
-#2  3498 MHz      93198 s         42 s       9274 s     340438 s          0 s
+#1  3499 MHz     234445 s         99 s      15078 s     107823 s          6 s
+#2  3499 MHz      66667 s         38 s       9027 s     335442 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -144,13 +147,13 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Compat                        0.49.0
  - Conda                         0.7.1
  - DataStructures                0.7.4
- - DiffEqBase                    3.0.4
+ - DiffEqBase                    3.1.0
  - FunctionWrappers              0.1.0
  - LinearMaps                    1.0.4
  - MacroTools                    0.4.0
  - Nullables                     0.0.3
  - RecipesBase                   0.2.3
- - RecursiveArrayTools           0.14.3
+ - RecursiveArrayTools           0.14.5
  - Requires                      0.4.3
  - SHA                           0.5.6
  - SimpleTraits                  0.5.1
@@ -188,8 +191,9 @@ INFO: Attempting to create directory /home/vagrant/.julia/v0.6/Rmath/deps/downlo
 INFO: Downloading file https://github.com/JuliaLang/Rmath-julia/archive/v0.2.0.tar.gz
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   129    0   129    0     0   1055      0 --:--:-- --:--:-- --:--:--  1057
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0  155k    0     0   307k      0 --:--:-- --:--:-- --:--:--  601k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   129    0   129    0     0   1235      0 --:--:-- --:--:-- --:--:--  1240
+  0     0    0   130    0     0    627      0 --:--:-- --:--:-- --:--:--   627
+100  155k  100  155k    0     0   346k      0 --:--:-- --:--:-- --:--:--  346k
 INFO: Done downloading file https://github.com/JuliaLang/Rmath-julia/archive/v0.2.0.tar.gz
 INFO: Attempting to create directory /home/vagrant/.julia/v0.6/Rmath/deps/src
 INFO: Attempting to create directory /home/vagrant/.julia/v0.6/Rmath/deps
@@ -321,6 +325,36 @@ rm -f libRmath-julia.so
 gcc   -shared -o libRmath-julia.so bd0.o bessel_i.o bessel_j.o bessel_k.o bessel_y.o beta.o callback.o chebyshev.o choose.o cospi.o d1mach.o dbeta.o dbinom.o dcauchy.o dchisq.o dexp.o df.o dgamma.o dgeom.o dhyper.o dlnorm.o dlogis.o dnbeta.o dnbinom.o dnchisq.o dnf.o dnorm.o dnt.o dpois.o dt.o dunif.o dweibull.o expm1.o fmax2.o fmin2.o fprec.o fround.o fsign.o ftrunc.o gamma.o gamma_cody.o gammalims.o i1mach.o imax2.o imin2.o lbeta.o lgamma.o lgammacor.o log1p.o mlutils.o pbeta.o pbinom.o pcauchy.o pchisq.o pexp.o pf.o pgamma.o pgeom.o phyper.o plnorm.o plogis.o pnbeta.o pnbinom.o pnchisq.o pnf.o pnorm.o pnt.o polygamma.o ppois.o pt.o ptukey.o punif.o pweibull.o qbeta.o qbinom.o qcauchy.o qchisq.o qexp.o qf.o qgamma.o qgeom.o qhyper.o qlnorm.o qlogis.o qnbeta.o qnbinom.o qnchisq.o qnf.o qnorm.o qnt.o qpois.o qt.o qtukey.o qunif.o qweibull.o rbeta.o rbinom.o rcauchy.o rchisq.o rexp.o rf.o rgamma.o rgeom.o rhyper.o rlnorm.o rlogis.o rmultinom.o rnbinom.o rnchisq.o rnorm.o rpois.o rt.o runif.o rweibull.o sign.o signrank.o stirlerr.o toms708.o wilcox.o
 make[1]: Leaving directory `/home/vagrant/.julia/v0.6/Rmath/deps/src/Rmath-julia-0.2.0/src'
 INFO: Changing directory to /home/vagrant/.julia/v0.6/Rmath/deps/src/Rmath-julia-0.2.0
+INFO: Building DiffEqBase
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 INFO: Building Conda
 INFO: Building SymEngine
 INFO: Testing ParameterizedFunctions

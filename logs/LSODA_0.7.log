@@ -1,20 +1,55 @@
 >>> 'Pkg.add("LSODA")' log
+WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
+ in module Main
 [ Info: Cloning cache of LSODA from https://github.com/rveltz/LSODA.jl.git
 [ Info: Installing BinDeps v0.8.6
 [ Info: Installing DataStructures v0.7.4
-[ Info: Installing DiffEqBase v3.0.4
+[ Info: Installing DiffEqBase v3.1.0
 [ Info: Installing FunctionWrappers v0.1.0
 [ Info: Installing LSODA v0.3.0
 [ Info: Installing LinearMaps v1.0.4
 [ Info: Installing MacroTools v0.4.0
 [ Info: Installing Parameters v0.8.1
 [ Info: Installing RecipesBase v0.2.3
-[ Info: Installing RecursiveArrayTools v0.14.3
+[ Info: Installing RecursiveArrayTools v0.14.5
 [ Info: Installing Requires v0.4.3
 [ Info: Installing SHA v0.5.6
 [ Info: Installing SimpleTraits v0.5.1
 [ Info: Installing StaticArrays v0.6.6
 [ Info: Installing URIParser v0.3.0
+[ Info: Building DiffEqBase
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = top-level scope
+└ @ Core :0
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 [ Info: Building LSODA
 ┌ Warning: `isalnum(c::Char)` is deprecated, use `isalpha(c) || isnumeric(c)` instead.
 │   caller = is_userinfo_char at parser.jl:4 [inlined]
@@ -42,8 +77,8 @@ INFO: Attempting to create directory /home/vagrant/.julia/v0.7/LSODA/deps/downlo
 INFO: Downloading file https://github.com/sdwfrost/liblsoda/archive/v0.1.1.tar.gz
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   125    0   125    0     0    858      0 --:--:-- --:--:-- --:--:--   862
-  0     0    0 27473    0     0  19853      0 --:--:--  0:00:01 --:--:-- 19853  0     0    0  110k    0     0  81193      0 --:--:--  0:00:01 --:--:-- 8370k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   125    0   125    0     0   1025      0 --:--:-- --:--:-- --:--:--  1033
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0  110k    0     0   269k      0 --:--:-- --:--:-- --:--:--  431k
 ┌ Warning: `info()` is deprecated, use `@info` instead.
 │   caller = (::getfield(BinDeps, Symbol("##16#18")){BinDeps.FileDownloader})() at BinDeps.jl:362
 └ @ BinDeps BinDeps.jl:362
@@ -96,20 +131,26 @@ INFO: Changing directory to /home/vagrant/.julia/v0.7/LSODA/deps/src/liblsoda-0.
 └ Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("LSODA")' log
-Julia Version 0.7.0-DEV.3583
-Commit 7d3991f784 (2018-01-26 19:00 UTC)
+WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
+Add a `using InteractiveUtils` to your imports..
+ in module Main
+WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
+Add a `using InteractiveUtils` to your imports..
+ in module Main
+Julia Version 0.7.0-DEV.3664
+Commit 9d5aebb07a (2018-01-30 22:46 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3500 MHz    3298530 s       7636 s     167504 s     918659 s         58 s
-       #2  3500 MHz     803264 s        192 s      78815 s    4169725 s          2 s
+       #1  3503 MHz    3376932 s       4016 s     172157 s     832557 s         52 s
+       #2  3503 MHz     739894 s       3513 s      76009 s    4236026 s          1 s
        
-  Memory: 2.93927001953125 GB (1042.421875 MB free)
-  Uptime: 51403.0 sec
-  Load Avg:  1.01513671875  1.02294921875  1.0400390625
+  Memory: 2.93927001953125 GB (1035.4453125 MB free)
+  Uptime: 51547.0 sec
+  Load Avg:  0.93505859375  0.9853515625  1.02392578125
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -129,19 +170,21 @@ Packages:
  - BinDeps                       0.8.6
  - Compat                        0.49.0
  - DataStructures                0.7.4
- - DiffEqBase                    3.0.4
+ - DiffEqBase                    3.1.0
  - FunctionWrappers              0.1.0
  - LinearMaps                    1.0.4
  - MacroTools                    0.4.0
  - Nullables                     0.0.3
  - Parameters                    0.8.1
  - RecipesBase                   0.2.3
- - RecursiveArrayTools           0.14.3
+ - RecursiveArrayTools           0.14.5
  - Requires                      0.4.3
  - SHA                           0.5.6
  - SimpleTraits                  0.5.1
  - StaticArrays                  0.6.6
  - URIParser                     0.3.0
+WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
+ in module Main
 [ Info: Computing test dependencies for LSODA...
 [ Info: Cloning cache of ChunkedArrays from https://github.com/ChrisRackauckas/ChunkedArrays.jl.git
 [ Info: Cloning cache of DiffEqPDEBase from https://github.com/JuliaDiffEq/DiffEqPDEBase.jl.git
@@ -199,6 +242,39 @@ WARNING: importing deprecated binding Base.Associative into BinDeps.
 WARNING: Base.Associative is deprecated, use AbstractDict instead.
   likely near /home/vagrant/.julia/v0.7/Rmath/deps/build.jl:47
 in @install at /home/vagrant/.julia/v0.7/BinDeps/src/dependencies.jl
+[ Info: Building DiffEqBase
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = top-level scope
+└ @ Core :0
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 [ Info: Building SymEngine
 ┌ Warning: `is_windows` is deprecated, use `Sys.iswindows` instead.
 │   caller = top-level scope
@@ -279,12 +355,12 @@ WARNING: importing deprecated binding Base.A_ldiv_B! into DiffEqBase.
 ┌ Warning: Deprecated syntax `(plot_vecs...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/solutions/solution_interface.jl:193.
 │ Use `(plot_vecs...,)` instead.
 └ @ nothing solution_interface.jl:193
-┌ Warning: Deprecated syntax `((I for i = 1:length(f))...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/problems/ode_problems.jl:17.
+┌ Warning: Deprecated syntax `((I for i = 1:length(f))...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/problems/ode_problems.jl:19.
 │ Use `((I for i = 1:length(f))...,)` instead.
-└ @ nothing ode_problems.jl:17
-┌ Warning: Deprecated syntax `((I for i = 1:length(f))...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/problems/sde_problems.jl:20.
+└ @ nothing ode_problems.jl:19
+┌ Warning: Deprecated syntax `((I for i = 1:length(f))...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/problems/sde_problems.jl:22.
 │ Use `((I for i = 1:length(f))...,)` instead.
-└ @ nothing sde_problems.jl:20
+└ @ nothing sde_problems.jl:22
 WARNING: importing deprecated binding Base.Void into DiffEqBase.
 WARNING: Base.Void is deprecated, use Nothing instead.
   likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/interpolation.jl:15
@@ -429,7 +505,7 @@ at t =   4.0000e+07 y=   5.179804e-05   2.072027e-10   9.999482e-01
 at t =   4.0000e+08 y=   5.283686e-06   2.113485e-11   9.999947e-01
 at t =   4.0000e+09 y=   4.658646e-07   1.863459e-12   9.999995e-01
 at t =   4.0000e+10 y=   1.431680e-08   5.726724e-14   1.000000e+00
-  0.082480 seconds (25.05 k allocations: 1.352 MiB)
+  0.078114 seconds (25.03 k allocations: 1.351 MiB)
 Done!
 
 --> test2 =============
@@ -463,7 +539,7 @@ at t =   4.0000e+07 y=   5.179804e-05   2.072027e-10   9.999482e-01
 at t =   4.0000e+08 y=   5.283686e-06   2.113485e-11   9.999947e-01
 at t =   4.0000e+09 y=   4.658646e-07   1.863459e-12   9.999995e-01
 at t =   4.0000e+10 y=   1.431680e-08   5.726724e-14   1.000000e+00
-  1.475370 seconds (974.25 k allocations: 52.727 MiB, 1.25% gc time)
+  1.550395 seconds (790.16 k allocations: 43.584 MiB, 1.62% gc time)
 at t =   4.0000e-01 y=   9.851712e-01   3.386380e-05   1.479493e-02
 at t =   4.0000e+00 y=   9.055333e-01   2.240655e-05   9.444430e-02
 at t =   4.0000e+01 y=   7.158403e-01   9.186334e-06   2.841505e-01
@@ -476,7 +552,7 @@ at t =   4.0000e+07 y=   5.179804e-05   2.072027e-10   9.999482e-01
 at t =   4.0000e+08 y=   5.283686e-06   2.113485e-11   9.999947e-01
 at t =   4.0000e+09 y=   4.658646e-07   1.863459e-12   9.999995e-01
 at t =   4.0000e+10 y=   1.431680e-08   5.726724e-14   1.000000e+00
-  0.029054 seconds (3.50 k allocations: 191.766 KiB)
+  0.029437 seconds (3.49 k allocations: 191.656 KiB)
 
 ####################################
 --> Use of a vector of times where output is required
@@ -492,7 +568,7 @@ at t =   4.0000e+10 y=   1.431680e-08   5.726724e-14   1.000000e+00
 ┌ Warning: `cfunction(f, r, a::Tuple)` is deprecated, use `cfunction(f, r, Tuple{a...})` instead.
 │   caller = #lsoda#31(::Nothing, ::Float64, ::Array{Float64,1}, ::Int64, ::Type, ::Function, ::Array{Float64,1}, ::Array{Float64,1}) at solver.jl:99
 └ @ LSODA solver.jl:99
-  0.001391 seconds (2.52 k allocations: 170.078 KiB)
+  0.002098 seconds (2.52 k allocations: 170.063 KiB)
 [1.0 0.0 0.0; 0.91175 2.31366e-5 0.0882271; 0.716857 9.22566e-6 0.283133; 0.45065 3.22455e-6 0.549347; 0.183207 8.94234e-7 0.816792; 0.0389876 1.62195e-7 0.961012; 0.00493637 1.98422e-8 0.995064; 0.000516183 2.06579e-9 0.999484; 5.17981e-5 2.07203e-10 0.999948; 5.28364e-6 2.11347e-11 0.999995; 4.65874e-7 1.8635e-12 1.0; 1.42919e-8 5.71677e-14 1.0]
 
 ####################################
@@ -505,11 +581,11 @@ WARNING: Method definition __init__() in module RecursiveArrayTools at /home/vag
 signal (11): Segmentation fault
 in expression starting at /home/vagrant/.julia/v0.7/ParameterizedFunctions/src/ParameterizedFunctions.jl:11
 _ZN4llvm5Value16DoPHITranslationEPKNS_10BasicBlockES3_ at /home/vagrant/julia/bin/../lib/julia/libLLVM-3.9.so (unknown line)
-Allocations: 1138555 (Pool: 1137926; Big: 629); GC: 1
+Allocations: 1167103 (Pool: 1166428; Big: 675); GC: 2
 ERROR: LoadError: Failed to precompile ParameterizedFunctions to /home/vagrant/.julia/lib/v0.7/ParameterizedFunctions.ji.
 Stacktrace:
  [1] error at ./error.jl:33 [inlined]
- [2] compilecache(::Base.PkgId) at ./loading.jl:1156
+ [2] compilecache(::Base.PkgId) at ./loading.jl:1157
  [3] _require(::Base.PkgId) at ./loading.jl:920
  [4] require(::Module, ::Symbol) at ./loading.jl:820
  [5] include at ./boot.jl:292 [inlined]
@@ -522,7 +598,7 @@ in expression starting at /home/vagrant/.julia/v0.7/DiffEqProblemLibrary/src/Dif
 ERROR: LoadError: LoadError: Failed to precompile DiffEqProblemLibrary to /home/vagrant/.julia/lib/v0.7/DiffEqProblemLibrary.ji.
 Stacktrace:
  [1] error at ./error.jl:33 [inlined]
- [2] compilecache(::Base.PkgId) at ./loading.jl:1156
+ [2] compilecache(::Base.PkgId) at ./loading.jl:1157
  [3] _require(::Base.PkgId) at ./loading.jl:949
  [4] require(::Module, ::Symbol) at ./loading.jl:820
  [5] include at ./boot.jl:292 [inlined]
@@ -533,8 +609,8 @@ Stacktrace:
  [10] include at ./boot.jl:292 [inlined]
  [11] include_relative(::Module, ::String) at ./loading.jl:1012
  [12] include(::Module, ::String) at ./sysimg.jl:26
- [13] process_options(::Base.JLOptions) at ./client.jl:334
- [14] _start() at ./client.jl:386
+ [13] exec_options(::Base.JLOptions) at ./client.jl:332
+ [14] _start() at ./client.jl:447
 in expression starting at /home/vagrant/.julia/v0.7/LSODA/test/test_common.jl:1
 in expression starting at /home/vagrant/.julia/v0.7/LSODA/test/runtests.jl:10
 ┌ Error: ------------------------------------------------------------
@@ -545,24 +621,24 @@ in expression starting at /home/vagrant/.julia/v0.7/LSODA/test/runtests.jl:10
 │     [1] error(::String, ::Base.Process, ::String, ::Int64, ::String) at ./error.jl:42
 │     [2] pipeline_error(::Base.Process) at ./process.jl:698
 │     [3] run(::Cmd) at ./process.jl:660
-│     [4] (::getfield(Base.Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}})() at ./pkg/entry.jl:729
-│     [5] cd(::getfield(Base.Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:70
-│     [6] #test!#88(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./pkg/entry.jl:717
-│     [7] (::getfield(Base.Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
-│     [8] #test#96(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:756
-│     [9] (::getfield(Base.Pkg.Entry, Symbol("#kw##test")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Entry.test), ::Array{AbstractString,1}) at ./<missing>:0
-│     [10] (::getfield(Base.Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Base.Pkg.Entry.test),Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:36
-│     [11] cd(::getfield(Base.Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Base.Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:70
-│     [12] #cd#1(::Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./pkg/dir.jl:36
-│     [13] (::getfield(Base.Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
-│     [14] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at ./pkg/pkg.jl:274
-│     [15] test(::String, ::Vararg{String,N} where N) at ./pkg/pkg.jl:274
+│     [4] (::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:731
+│     [5] cd(::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:70
+│     [6] #test!#88(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:719
+│     [7] (::getfield(Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
+│     [8] #test#96(::Bool, ::Function, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:758
+│     [9] (::getfield(Pkg.Entry, Symbol("#kw##test")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test), ::Array{AbstractString,1}) at ./<missing>:0
+│     [10] (::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [11] cd(::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:70
+│     [12] #cd#1(::Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [13] (::getfield(Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
+│     [14] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
+│     [15] test(::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
 │     [16] top-level scope
 │     [17] eval at ./boot.jl:295 [inlined]
 │     [18] eval(::Module, ::Expr) at ./sysimg.jl:71
-│     [19] process_options(::Base.JLOptions) at ./client.jl:311
-│     [20] _start() at ./client.jl:386
-└ @ Base.Pkg.Entry entry.jl:732
+│     [19] exec_options(::Base.JLOptions) at ./client.jl:309
+│     [20] _start() at ./client.jl:447
+└ @ Pkg.Entry entry.jl:734
 [ Info: Removing Calculus v0.2.2
 [ Info: Removing ChunkedArrays v0.1.1
 [ Info: Removing Conda v0.7.1

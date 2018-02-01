@@ -1,19 +1,21 @@
 >>> 'Pkg.add("Sundials")' log
+WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
+ in module Main
 [ Info: Installing BinDeps v0.8.6
 [ Info: Installing BinaryProvider v0.1.3
 [ Info: Installing CommonSubexpressions v0.0.1
 [ Info: Installing DataStructures v0.7.4
-[ Info: Installing DiffEqBase v3.0.4
+[ Info: Installing DiffEqBase v3.1.0
 [ Info: Installing DiffResults v0.0.3
 [ Info: Installing DiffRules v0.0.3
-[ Info: Installing ForwardDiff v0.7.2
+[ Info: Installing ForwardDiff v0.7.3
 [ Info: Installing FunctionWrappers v0.1.0
 [ Info: Installing LinearMaps v1.0.4
 [ Info: Installing MacroTools v0.4.0
 [ Info: Installing Missings v0.2.5
 [ Info: Installing NaNMath v0.3.0
 [ Info: Installing RecipesBase v0.2.3
-[ Info: Installing RecursiveArrayTools v0.14.3
+[ Info: Installing RecursiveArrayTools v0.14.5
 [ Info: Installing Reexport v0.1.0
 [ Info: Installing Requires v0.4.3
 [ Info: Installing Roots v0.5.0
@@ -23,6 +25,39 @@
 [ Info: Installing StaticArrays v0.6.6
 [ Info: Installing Sundials v1.1.0
 [ Info: Installing URIParser v0.3.0
+[ Info: Building DiffEqBase
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = top-level scope
+└ @ Core :0
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 [ Info: Building SpecialFunctions
 ┌ Warning: `isalnum(c::Char)` is deprecated, use `isalpha(c) || isnumeric(c)` instead.
 │   caller = is_userinfo_char at parser.jl:4 [inlined]
@@ -970,20 +1005,26 @@ INFO: /home/vagrant/.julia/v0.7/Sundials/deps/usr/lib/libsundials_arkode.so matc
 └ Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Sundials")' log
-Julia Version 0.7.0-DEV.3583
-Commit 7d3991f784 (2018-01-26 19:00 UTC)
+WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
+Add a `using InteractiveUtils` to your imports..
+ in module Main
+WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
+Add a `using InteractiveUtils` to your imports..
+ in module Main
+Julia Version 0.7.0-DEV.3664
+Commit 9d5aebb07a (2018-01-30 22:46 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3499 MHz    3633476 s         98 s     177808 s     966793 s         52 s
-       #2  3499 MHz     826641 s       7450 s      69875 s    4615126 s          0 s
+       #1  3500 MHz    3643464 s       6809 s     178340 s    1073298 s         53 s
+       #2  3500 MHz     908319 s        110 s      72874 s    4634657 s          1 s
        
-  Memory: 2.93927001953125 GB (862.4765625 MB free)
-  Uptime: 56079.0 sec
-  Load Avg:  0.9814453125  0.99951171875  0.96533203125
+  Memory: 2.93927001953125 GB (945.890625 MB free)
+  Uptime: 57172.0 sec
+  Load Avg:  0.9970703125  1.00146484375  0.9814453125
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -1005,10 +1046,10 @@ Packages:
  - CommonSubexpressions          0.0.1
  - Compat                        0.49.0
  - DataStructures                0.7.4
- - DiffEqBase                    3.0.4
+ - DiffEqBase                    3.1.0
  - DiffResults                   0.0.3
  - DiffRules                     0.0.3
- - ForwardDiff                   0.7.2
+ - ForwardDiff                   0.7.3
  - FunctionWrappers              0.1.0
  - LinearMaps                    1.0.4
  - MacroTools                    0.4.0
@@ -1016,7 +1057,7 @@ Packages:
  - NaNMath                       0.3.0
  - Nullables                     0.0.3
  - RecipesBase                   0.2.3
- - RecursiveArrayTools           0.14.3
+ - RecursiveArrayTools           0.14.5
  - Reexport                      0.1.0
  - Requires                      0.4.3
  - Roots                         0.5.0
@@ -1025,7 +1066,9 @@ Packages:
  - SpecialFunctions              0.3.8
  - StaticArrays                  0.6.6
  - URIParser                     0.3.0
- - tmpJpLd7f                     0.0.0-             non-repo (unregistered)
+ - tmp8ZAgRW                     0.0.0-             non-repo (unregistered)
+WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
+ in module Main
 [ Info: Computing test dependencies for Sundials...
 [ Info: Installing Calculus v0.2.2
 [ Info: Installing ChunkedArrays v0.1.1
@@ -1078,6 +1121,39 @@ WARNING: importing deprecated binding Base.Associative into BinDeps.
 WARNING: Base.Associative is deprecated, use AbstractDict instead.
   likely near /home/vagrant/.julia/v0.7/Rmath/deps/build.jl:47
 in @install at /home/vagrant/.julia/v0.7/BinDeps/src/dependencies.jl
+[ Info: Building DiffEqBase
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = top-level scope
+└ @ Core :0
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 [ Info: Building SymEngine
 ┌ Warning: `is_windows` is deprecated, use `Sys.iswindows` instead.
 │   caller = top-level scope
@@ -1152,12 +1228,12 @@ WARNING: importing deprecated binding Base.A_ldiv_B! into DiffEqBase.
 ┌ Warning: Deprecated syntax `(plot_vecs...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/solutions/solution_interface.jl:193.
 │ Use `(plot_vecs...,)` instead.
 └ @ nothing solution_interface.jl:193
-┌ Warning: Deprecated syntax `((I for i = 1:length(f))...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/problems/ode_problems.jl:17.
+┌ Warning: Deprecated syntax `((I for i = 1:length(f))...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/problems/ode_problems.jl:19.
 │ Use `((I for i = 1:length(f))...,)` instead.
-└ @ nothing ode_problems.jl:17
-┌ Warning: Deprecated syntax `((I for i = 1:length(f))...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/problems/sde_problems.jl:20.
+└ @ nothing ode_problems.jl:19
+┌ Warning: Deprecated syntax `((I for i = 1:length(f))...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/problems/sde_problems.jl:22.
 │ Use `((I for i = 1:length(f))...,)` instead.
-└ @ nothing sde_problems.jl:20
+└ @ nothing sde_problems.jl:22
 WARNING: importing deprecated binding Base.Void into DiffEqBase.
 WARNING: Base.Void is deprecated, use Nothing instead.
   likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/interpolation.jl:15
@@ -1970,37 +2046,44 @@ roots=Int32[0, 1]
 T=0.4, Y=[0.985164, 3.38624e-5, 0.014802]
 T=4.0, Y=[0.90551, 2.24034e-5, 0.0944679]
 T=40.0, Y=[0.715802, 9.18504e-6, 0.284189]
-
-signal (11): Segmentation fault
-in expression starting at /home/vagrant/.julia/v0.7/Sundials/test/cvode_Roberts_dns.jl:76
-unknown function (ip: 0xffffffffffffffff)
-Allocations: 12669769 (Pool: 12662182; Big: 7587); GC: 29
+T=400.0, Y=[0.450521, 3.22283e-6, 0.549476]
+T=4000.0, Y=[0.183222, 8.94352e-7, 0.816777]
+Roberts CVODE Direct: Error During Test at /home/vagrant/.julia/v0.7/Sundials/test/runtests.jl:6
+  Got an exception of type LoadError outside of a @test
+  LoadError: ReadOnlyMemoryError()
+  in expression starting at /home/vagrant/.julia/v0.7/Sundials/test/cvode_Roberts_dns.jl:76
+Test Summary:              | Error  Total
+CVODE                      |     1      1
+  Roberts CVODE Simplified |        No tests
+  Roberts CVODE Direct     |     1      1
+ERROR: LoadError: Some tests did not pass: 0 passed, 0 failed, 1 errored, 0 broken.
+in expression starting at /home/vagrant/.julia/v0.7/Sundials/test/runtests.jl:4
 ┌ Error: ------------------------------------------------------------
 │ # Testing failed for Sundials
 │   exception =
-│    failed process: Process(`/home/vagrant/julia/bin/julia -Cnative -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --code-coverage=none --color=no --compiled-modules=yes --check-bounds=yes --warn-overwrite=yes --startup-file=yes /home/vagrant/.julia/v0.7/Sundials/test/runtests.jl`, ProcessSignaled(11)) [0]
+│    failed process: Process(`/home/vagrant/julia/bin/julia -Cnative -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --code-coverage=none --color=no --compiled-modules=yes --check-bounds=yes --warn-overwrite=yes --startup-file=yes /home/vagrant/.julia/v0.7/Sundials/test/runtests.jl`, ProcessExited(1)) [1]
 │    Stacktrace:
 │     [1] error(::String, ::Base.Process, ::String, ::Int64, ::String) at ./error.jl:42
 │     [2] pipeline_error(::Base.Process) at ./process.jl:698
 │     [3] run(::Cmd) at ./process.jl:660
-│     [4] (::getfield(Base.Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}})() at ./pkg/entry.jl:729
-│     [5] cd(::getfield(Base.Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:70
-│     [6] #test!#88(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./pkg/entry.jl:717
-│     [7] (::getfield(Base.Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
-│     [8] #test#96(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:756
-│     [9] (::getfield(Base.Pkg.Entry, Symbol("#kw##test")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Entry.test), ::Array{AbstractString,1}) at ./<missing>:0
-│     [10] (::getfield(Base.Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Base.Pkg.Entry.test),Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:36
-│     [11] cd(::getfield(Base.Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Base.Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:70
-│     [12] #cd#1(::Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./pkg/dir.jl:36
-│     [13] (::getfield(Base.Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
-│     [14] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at ./pkg/pkg.jl:274
-│     [15] test(::String, ::Vararg{String,N} where N) at ./pkg/pkg.jl:274
+│     [4] (::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:731
+│     [5] cd(::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:70
+│     [6] #test!#88(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:719
+│     [7] (::getfield(Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
+│     [8] #test#96(::Bool, ::Function, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:758
+│     [9] (::getfield(Pkg.Entry, Symbol("#kw##test")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test), ::Array{AbstractString,1}) at ./<missing>:0
+│     [10] (::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [11] cd(::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:70
+│     [12] #cd#1(::Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [13] (::getfield(Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
+│     [14] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
+│     [15] test(::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
 │     [16] top-level scope
 │     [17] eval at ./boot.jl:295 [inlined]
 │     [18] eval(::Module, ::Expr) at ./sysimg.jl:71
-│     [19] process_options(::Base.JLOptions) at ./client.jl:311
-│     [20] _start() at ./client.jl:386
-└ @ Base.Pkg.Entry entry.jl:732
+│     [19] exec_options(::Base.JLOptions) at ./client.jl:309
+│     [20] _start() at ./client.jl:447
+└ @ Pkg.Entry entry.jl:734
 [ Info: Removing Calculus v0.2.2
 [ Info: Removing ChunkedArrays v0.1.1
 [ Info: Removing Conda v0.7.1

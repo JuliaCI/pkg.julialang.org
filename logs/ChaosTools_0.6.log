@@ -3,20 +3,20 @@ INFO: Cloning cache of ChaosTools from https://github.com/JuliaDynamics/ChaosToo
 INFO: Cloning cache of DynamicalSystemsBase from https://github.com/JuliaDynamics/DynamicalSystemsBase.jl.git
 INFO: Installing BinDeps v0.8.6
 INFO: Installing Calculus v0.2.2
-INFO: Installing ChaosTools v0.4.3
+INFO: Installing ChaosTools v0.5.0
 INFO: Installing Combinatorics v0.5.0
 INFO: Installing CommonSubexpressions v0.0.1
 INFO: Installing DataStructures v0.7.4
 INFO: Installing DiffBase v0.3.2
-INFO: Installing DiffEqBase v2.10.2
-INFO: Installing DiffEqCallbacks v0.8.0
-INFO: Installing DiffEqDiffTools v0.2.1
+INFO: Installing DiffEqBase v3.1.0
+INFO: Installing DiffEqCallbacks v1.0.0
+INFO: Installing DiffEqDiffTools v0.3.0
 INFO: Installing DiffResults v0.0.3
 INFO: Installing DiffRules v0.0.3
 INFO: Installing Distances v0.5.0
 INFO: Installing Distributions v0.15.0
-INFO: Installing DynamicalSystemsBase v0.4.1
-INFO: Installing ForwardDiff v0.7.2
+INFO: Installing DynamicalSystemsBase v0.5.1
+INFO: Installing ForwardDiff v0.7.3
 INFO: Installing FunctionWrappers v0.1.0
 INFO: Installing GenericSVD v0.1.0
 INFO: Installing IterTools v0.2.1
@@ -28,18 +28,18 @@ INFO: Installing MacroTools v0.4.0
 INFO: Installing Media v0.3.0
 INFO: Installing Missings v0.2.5
 INFO: Installing MuladdMacro v0.0.2
-INFO: Installing NLSolversBase v3.1.0
-INFO: Installing NLsolve v0.13.0
+INFO: Installing NLSolversBase v4.2.0
+INFO: Installing NLsolve v1.0.0
 INFO: Installing NaNMath v0.3.0
 INFO: Installing NearestNeighbors v0.3.0
 INFO: Installing OptimBase v1.0.0
-INFO: Installing OrdinaryDiffEq v2.37.0
+INFO: Installing OrdinaryDiffEq v3.0.2
 INFO: Installing PDMats v0.8.0
 INFO: Installing Parameters v0.8.1
 INFO: Installing Polynomials v0.2.1
 INFO: Installing QuadGK v0.2.0
 INFO: Installing RecipesBase v0.2.3
-INFO: Installing RecursiveArrayTools v0.14.3
+INFO: Installing RecursiveArrayTools v0.14.5
 INFO: Installing Reexport v0.1.0
 INFO: Installing Requires v0.4.3
 INFO: Installing Rmath v0.3.2
@@ -53,6 +53,57 @@ INFO: Installing StatsBase v0.19.5
 INFO: Installing StatsFuns v0.5.0
 INFO: Installing URIParser v0.3.0
 INFO: Building SpecialFunctions
+INFO: Building DiffEqBase
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
+INFO: Building DynamicalSystemsBase
+INFO: ~~~ DynamicalSystemsBase.jl update message ~~~
+
+We have changed the fundamental way users define
+equations of motion and Jacobians
+for all subtypes of `DynamicalSystem`!
+In short, parameters are now directly passed
+into the equations of motion function, e.g.
+`f(du, u, p, t)`. These updates are in-line
+with DifferentialEquations v4.0 release.
+
+Notice that the same changes happened for
+discrete systems as well. For example, the
+e.o.m. for `DiscreteDS` are now expected
+in the form `eom(x, p)`.
+
+Please see the documentation strings of the system types you are using!
+
+Also, be sure to visit the updated documentation here:
+https://juliadynamics.github.io/DynamicalSystems.jl/latest/
+
 INFO: Building Rmath
 INFO: Package database updated
 INFO: METADATA is out-of-date — you may not have the latest version of ChaosTools
@@ -67,13 +118,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (1046.6875 MB free)
-Uptime: 26538.0 sec
-Load Avg:  1.01953125  1.03662109375  1.04541015625
+Memory: 2.93927001953125 GB (1025.01171875 MB free)
+Uptime: 26700.0 sec
+Load Avg:  1.01220703125  1.015625  1.02392578125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1641532 s       7695 s      75075 s     527931 s         14 s
-#2  3499 MHz     364459 s         98 s      38684 s    2213075 s          0 s
+#1  3499 MHz    1627815 s       5852 s      76866 s     569247 s         17 s
+#2  3499 MHz     400819 s        466 s      37947 s    2184324 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -88,7 +139,7 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
- - ChaosTools                    0.4.3
+ - ChaosTools                    0.5.0
  - JSON                          0.16.4
 52 additional packages:
  - BinDeps                       0.8.6
@@ -98,15 +149,15 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Compat                        0.49.0
  - DataStructures                0.7.4
  - DiffBase                      0.3.2
- - DiffEqBase                    2.10.2
- - DiffEqCallbacks               0.8.0
- - DiffEqDiffTools               0.2.1
+ - DiffEqBase                    3.1.0
+ - DiffEqCallbacks               1.0.0
+ - DiffEqDiffTools               0.3.0
  - DiffResults                   0.0.3
  - DiffRules                     0.0.3
  - Distances                     0.5.0
  - Distributions                 0.15.0
- - DynamicalSystemsBase          0.4.1
- - ForwardDiff                   0.7.2
+ - DynamicalSystemsBase          0.5.1
+ - ForwardDiff                   0.7.3
  - FunctionWrappers              0.1.0
  - GenericSVD                    0.1.0
  - IterTools                     0.2.1
@@ -118,19 +169,19 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Media                         0.3.0
  - Missings                      0.2.5
  - MuladdMacro                   0.0.2
- - NLSolversBase                 3.1.0
- - NLsolve                       0.13.0
+ - NLSolversBase                 4.2.0
+ - NLsolve                       1.0.0
  - NaNMath                       0.3.0
  - NearestNeighbors              0.3.0
  - Nullables                     0.0.3
  - OptimBase                     1.0.0
- - OrdinaryDiffEq                2.37.0
+ - OrdinaryDiffEq                3.0.2
  - PDMats                        0.8.0
  - Parameters                    0.8.1
  - Polynomials                   0.2.1
  - QuadGK                        0.2.0
  - RecipesBase                   0.2.3
- - RecursiveArrayTools           0.14.3
+ - RecursiveArrayTools           0.14.5
  - Reexport                      0.1.0
  - Requires                      0.4.3
  - Rmath                         0.3.2
@@ -155,7 +206,7 @@ Logistic Map  |    5      5
 Test Summary: | Pass  Total
 Henon Map     |    8      8
 Test Summary:         | Pass  Total
-Coupled Standard Maps |    6      6
+Coupled Standard Maps |    7      7
 
 Testing continuous system lyapunov exponents...
 Test Summary: | Pass  Total
@@ -172,6 +223,10 @@ Generalized Dimensions |    7      7
 Testing dimension calls (all names)...
 Test Summary:   | Pass  Total
 Dimension calls |    3      3
+
+Testing permutation entropy...
+Test Summary:       | Pass  Total
+Permutation Entropy |    8      8
 
 Testing nonlinear timeseries analysis...
 Test Summary:        | Pass  Total
@@ -198,7 +253,7 @@ Test Summary: | Pass  Total
 Stroboscopic  |    1      1
 
 Test took total time of:
-191.713 seconds or 3.195 minutes
+247.76 seconds or 4.129 minutes
 INFO: ChaosTools tests passed
 INFO: No packages to install, update or remove
 

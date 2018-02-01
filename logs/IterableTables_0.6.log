@@ -18,13 +18,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (1856.296875 MB free)
-Uptime: 30143.0 sec
-Load Avg:  1.0361328125  1.001953125  1.03466796875
+Memory: 2.93927001953125 GB (1857.7265625 MB free)
+Uptime: 29028.0 sec
+Load Avg:  0.98046875  0.97607421875  1.02392578125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    1933180 s       3672 s      91856 s     497569 s         20 s
-#2  3500 MHz     406672 s       3883 s      44071 s    2499674 s          0 s
+#1  3511 MHz    1882716 s       7192 s      90434 s     457119 s         11 s
+#2  3511 MHz     396522 s         64 s      43666 s    2419899 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -78,14 +78,14 @@ INFO: Installing Compose v0.5.4
 INFO: Installing Conda v0.7.1
 INFO: Installing Contour v0.4.0
 INFO: Installing CoupledFields v0.0.1
-INFO: Installing Dagger v0.5.1
+INFO: Installing Dagger v0.5.2
 INFO: Installing DataArrays v0.6.2
 INFO: Installing DataFrames v0.10.1
 INFO: Installing DataStreams v0.1.3
 INFO: Installing DataStructures v0.7.4
 INFO: Installing DataTables v0.0.3
 INFO: Installing DiffBase v0.3.2
-INFO: Installing DiffEqBase v3.0.4
+INFO: Installing DiffEqBase v3.1.0
 INFO: Installing DiffEqDiffTools v0.3.0
 INFO: Installing DiffResults v0.0.3
 INFO: Installing DiffRules v0.0.3
@@ -96,7 +96,7 @@ INFO: Installing Feather v0.2.5
 INFO: Installing FileIO v0.6.1
 INFO: Installing FixedPointNumbers v0.4.3
 INFO: Installing FlatBuffers v0.2.0
-INFO: Installing ForwardDiff v0.7.2
+INFO: Installing ForwardDiff v0.7.3
 INFO: Installing FunctionWrappers v0.1.0
 INFO: Installing GLM v0.8.1
 INFO: Installing GZip v0.3.0
@@ -108,7 +108,7 @@ INFO: Installing Gtk v0.13.1
 INFO: Installing Hexagons v0.1.0
 INFO: Installing HttpCommon v0.3.0
 INFO: Installing HttpParser v0.3.0
-INFO: Installing IndexedTables v0.5.0
+INFO: Installing IndexedTables v0.5.1
 INFO: Installing Interpolations v0.7.3
 INFO: Installing IterTools v0.2.1
 INFO: Installing JuliaDB v0.5.0
@@ -130,14 +130,14 @@ INFO: Installing MemPool v0.0.5
 INFO: Installing Missings v0.2.5
 INFO: Installing MuladdMacro v0.0.2
 INFO: Installing NLSolversBase v4.2.0
-INFO: Installing NLsolve v0.14.1
+INFO: Installing NLsolve v1.0.0
 INFO: Installing NaNMath v0.3.0
 INFO: Installing NodeJS v0.2.0
 INFO: Installing NullableArrays v0.1.2
 INFO: Installing OnlineStats v0.15.0
 INFO: Installing OnlineStatsBase v0.4.1
 INFO: Installing Optim v0.12.0
-INFO: Installing OrdinaryDiffEq v3.0.1
+INFO: Installing OrdinaryDiffEq v3.0.2
 INFO: Installing PDMats v0.8.0
 INFO: Installing ParameterizedFunctions v3.0.0
 INFO: Installing Parameters v0.8.1
@@ -147,7 +147,7 @@ INFO: Installing PositiveFactorizations v0.1.0
 INFO: Installing QuadGK v0.2.0
 INFO: Installing Ratios v0.2.0
 INFO: Installing RecipesBase v0.2.3
-INFO: Installing RecursiveArrayTools v0.14.3
+INFO: Installing RecursiveArrayTools v0.14.5
 INFO: Installing Reexport v0.1.0
 INFO: Installing Requests v0.5.1
 INFO: Installing Rmath v0.3.2
@@ -178,6 +178,36 @@ INFO: Installing WoodburyMatrices v0.2.2
 INFO: Building SpecialFunctions
 INFO: Building Cairo
 INFO: Building Conda
+INFO: Building DiffEqBase
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 INFO: Building Rmath
 INFO: Building Gtk
 INFO: Building HttpParser
@@ -187,17 +217,17 @@ INFO: Building NodeJS
 INFO: Downloading Node.js binary
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  9 10.8M    9 1071k    0     0  4022k      0  0:00:02 --:--:--  0:00:02 4014k100 10.8M  100 10.8M    0     0  22.2M      0 --:--:-- --:--:-- --:--:-- 22.2M
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 10.8M  100 10.8M    0     0  28.9M      0 --:--:-- --:--:-- --:--:-- 28.9M
 INFO: Extracting Node.js binary
 INFO: Building SymEngine
 Solving environment: ...working... done
 certifi 2017.11.5:            |   0% certifi 2017.11.5: 6          |   6% certifi 2017.11.5: #######5   |  75% certifi 2017.11.5: ########## | 100% 
 ca-certificates 2017.11.5:            |   0% ca-certificates 2017.11.5: 8          |   8% ca-certificates 2017.11.5: ########## | 100% 
 mpc 1.0.3:            |   0% mpc 1.0.3: #3         |  14% mpc 1.0.3: ########## | 100% 
-symengine 0.3.0:            |   0% symengine 0.3.0: 1          |   1% symengine 0.3.0: ###5       |  35% symengine 0.3.0: #######5   |  75% symengine 0.3.0: ########## | 100% 
-conda 4.3.33:            |   0% conda 4.3.33: 2          |   2% conda 4.3.33: #######5   |  75% conda 4.3.33: #########1 |  92% conda 4.3.33: ########## | 100% 
-openssl 1.0.2n:            |   0% openssl 1.0.2n:            |   0% openssl 1.0.2n: 7          |   7% openssl 1.0.2n: ##8        |  29% openssl 1.0.2n: #######5   |  75% openssl 1.0.2n: ########1  |  82% openssl 1.0.2n: ########7  |  88% openssl 1.0.2n: #########3 |  94% openssl 1.0.2n: #########9 |  99% openssl 1.0.2n: ########## | 100% 
-mpfr 3.1.5:            |   0% mpfr 3.1.5: 2          |   3% mpfr 3.1.5: #####9     |  59% mpfr 3.1.5: #######6   |  77% mpfr 3.1.5: ########## | 100% 
+symengine 0.3.0:            |   0% symengine 0.3.0: 1          |   1% symengine 0.3.0: ###9       |  39% symengine 0.3.0: #######5   |  75% symengine 0.3.0: ########## | 100% 
+conda 4.3.33:            |   0% conda 4.3.33: 2          |   2% conda 4.3.33: #######5   |  75% conda 4.3.33: #########2 |  92% conda 4.3.33: ########## | 100% 
+openssl 1.0.2n:            |   0% openssl 1.0.2n:            |   0% openssl 1.0.2n: 7          |   8% openssl 1.0.2n: ###7       |  38% openssl 1.0.2n: ####8      |  49% openssl 1.0.2n: #####7     |  58% openssl 1.0.2n: #######5   |  75% openssl 1.0.2n: #######9   |  80% openssl 1.0.2n: ########5  |  85% openssl 1.0.2n: #########  |  90% openssl 1.0.2n: #########8 |  98% openssl 1.0.2n: ########## | 100% 
+mpfr 3.1.5:            |   0% mpfr 3.1.5: 2          |   3% mpfr 3.1.5: ######4    |  65% mpfr 3.1.5: ########3  |  84% mpfr 3.1.5: ########## | 100% 
 
 ## Package Plan ##
 
@@ -258,7 +288,7 @@ Need to get 88.3 kB of archives.
 After this operation, 418 kB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu/ trusty/main librsvg2-2 amd64 2.40.2-1 [88.3 kB]
 dpkg-preconfigure: unable to re-open stdin: No such file or directory
-Fetched 88.3 kB in 0s (193 kB/s)
+Fetched 88.3 kB in 0s (182 kB/s)
 Selecting previously unselected package librsvg2-2:amd64.
 (Reading database ... 74114 files and directories currently installed.)
 Preparing to unpack .../librsvg2-2_2.40.2-1_amd64.deb ...
@@ -289,24 +319,24 @@ npm WARN optional SKIPPING OPTIONAL DEPENDENCY: canvas-prebuilt@1.6.0 (node_modu
 npm WARN optional SKIPPING OPTIONAL DEPENDENCY: canvas-prebuilt@1.6.0 install: `node-pre-gyp install`
 npm WARN optional SKIPPING OPTIONAL DEPENDENCY: spawn ENOENT
 
-added 243 packages in 8.507s
+added 243 packages in 8.869s
 INFO: Testing IterableTables
-WARNING: Method definition ==(Base.Nullable{S}, Base.Nullable{T}) in module Base at nullable.jl:238 overwritten in module NullableArrays at /home/vagrant/.julia/v0.6/NullableArrays/src/operators.jl:99.
-WARNING: Method definition ==(Base.Nullable{S}, Base.Nullable{T}) in module Base at nullable.jl:238 overwritten in module NullableArrays at /home/vagrant/.julia/v0.6/NullableArrays/src/operators.jl:99.
 WARNING: Method definition ==(Base.Nullable{S}, Base.Nullable{T}) in module Base at nullable.jl:238 overwritten in module NullableArrays at /home/vagrant/.julia/v0.6/NullableArrays/src/operators.jl:99.
 WARNING: Method definition ==(Base.Nullable{S}, Base.Nullable{T}) in module Base at nullable.jl:238 overwritten in module NullableArrays at /home/vagrant/.julia/v0.6/NullableArrays/src/operators.jl:99.
 WARNING: Method definition describe(AbstractArray{T, N} where N where T) in module StatsBase at /home/vagrant/.julia/v0.6/StatsBase/src/scalarstats.jl:559 overwritten in module DataTables at /home/vagrant/.julia/v0.6/DataTables/src/abstractdatatable/abstractdatatable.jl:381.
 
 WARNING: deprecated syntax "inner constructor DataTableJoiner(...) around /home/vagrant/.julia/v0.6/DataTables/src/abstractdatatable/join.jl:27".
 Use "DataTableJoiner{DT1,DT2}(...) where {DT1,DT2}" instead.
+WARNING: Method definition ==(Base.Nullable{S}, Base.Nullable{T}) in module Base at nullable.jl:238 overwritten in module NullableArrays at /home/vagrant/.julia/v0.6/NullableArrays/src/operators.jl:99.
 WARNING: Method definition append!(NullableArrays.NullableArray{WeakRefStrings.WeakRefString{T}, 1}, NullableArrays.NullableArray{WeakRefStrings.WeakRefString{T}, 1}) in module Data at /home/vagrant/.julia/v0.6/DataStreams/src/DataStreams.jl:344 overwritten in module DataTables at /home/vagrant/.julia/v0.6/DataTables/src/abstractdatatable/io.jl:318.
-WARNING: Method definition append!(NullableArrays.NullableArray{WeakRefStrings.WeakRefString{T}, 1}, NullableArrays.NullableArray{WeakRefStrings.WeakRefString{T}, 1}) in module Data at /home/vagrant/.julia/v0.6/DataStreams/src/DataStreams.jl:344 overwritten in module DataTables at /home/vagrant/.julia/v0.6/DataTables/src/abstractdatatable/io.jl:318.
+WARNING: Method definition ==(Base.Nullable{S}, Base.Nullable{T}) in module Base at nullable.jl:238 overwritten in module NullableArrays at /home/vagrant/.julia/v0.6/NullableArrays/src/operators.jl:99.
 WARNING: Method definition describe(AbstractArray{T, N} where N where T) in module StatsBase at /home/vagrant/.julia/v0.6/StatsBase/src/scalarstats.jl:559 overwritten in module DataTables at /home/vagrant/.julia/v0.6/DataTables/src/abstractdatatable/abstractdatatable.jl:381.
-WARNING: Method definition ==(Base.Nullable{S}, Base.Nullable{T}) in module Base at nullable.jl:238 overwritten in module NullableArrays at /home/vagrant/.julia/v0.6/NullableArrays/src/operators.jl:99.
-WARNING: Method definition ==(Base.Nullable{S}, Base.Nullable{T}) in module Base at nullable.jl:238 overwritten in module NullableArrays at /home/vagrant/.julia/v0.6/NullableArrays/src/operators.jl:99.
-WARNING: Method definition ==(Base.Nullable{S}, Base.Nullable{T}) in module Base at nullable.jl:238 overwritten in module NullableArrays at /home/vagrant/.julia/v0.6/NullableArrays/src/operators.jl:99.
 WARNING: Method definition append!(NullableArrays.NullableArray{WeakRefStrings.WeakRefString{T}, 1}, NullableArrays.NullableArray{WeakRefStrings.WeakRefString{T}, 1}) in module Data at /home/vagrant/.julia/v0.6/DataStreams/src/DataStreams.jl:344 overwritten in module DataTables at /home/vagrant/.julia/v0.6/DataTables/src/abstractdatatable/io.jl:318.
+WARNING: Method definition ==(Base.Nullable{S}, Base.Nullable{T}) in module Base at nullable.jl:238 overwritten in module NullableArrays at /home/vagrant/.julia/v0.6/NullableArrays/src/operators.jl:99.
+WARNING: Method definition ==(Base.Nullable{S}, Base.Nullable{T}) in module Base at nullable.jl:238 overwritten in module NullableArrays at /home/vagrant/.julia/v0.6/NullableArrays/src/operators.jl:99.
+WARNING: Method definition ==(Base.Nullable{S}, Base.Nullable{T}) in module Base at nullable.jl:238 overwritten in module NullableArrays at /home/vagrant/.julia/v0.6/NullableArrays/src/operators.jl:99.
 WARNING: Method definition describe(AbstractArray{T, N} where N where T) in module StatsBase at /home/vagrant/.julia/v0.6/StatsBase/src/scalarstats.jl:559 overwritten in module DataTables at /home/vagrant/.julia/v0.6/DataTables/src/abstractdatatable/abstractdatatable.jl:381.
+WARNING: Method definition append!(NullableArrays.NullableArray{WeakRefStrings.WeakRefString{T}, 1}, NullableArrays.NullableArray{WeakRefStrings.WeakRefString{T}, 1}) in module Data at /home/vagrant/.julia/v0.6/DataStreams/src/DataStreams.jl:344 overwritten in module DataTables at /home/vagrant/.julia/v0.6/DataTables/src/abstractdatatable/io.jl:318.
 
 WARNING: deprecated syntax "abstract AbstractContrasts" at /home/vagrant/.julia/v0.6/StatsModels/src/contrasts.jl:83.
 Use "abstract type AbstractContrasts end" instead.
@@ -352,14 +382,14 @@ INFO: Removing Compose v0.5.4
 INFO: Removing Conda v0.7.1
 INFO: Removing Contour v0.4.0
 INFO: Removing CoupledFields v0.0.1
-INFO: Removing Dagger v0.5.1
+INFO: Removing Dagger v0.5.2
 INFO: Removing DataArrays v0.6.2
 INFO: Removing DataFrames v0.10.1
 INFO: Removing DataStreams v0.1.3
 INFO: Removing DataStructures v0.7.4
 INFO: Removing DataTables v0.0.3
 INFO: Removing DiffBase v0.3.2
-INFO: Removing DiffEqBase v3.0.4
+INFO: Removing DiffEqBase v3.1.0
 INFO: Removing DiffEqDiffTools v0.3.0
 INFO: Removing DiffResults v0.0.3
 INFO: Removing DiffRules v0.0.3
@@ -369,7 +399,7 @@ INFO: Removing DualNumbers v0.3.0
 INFO: Removing Feather v0.2.5
 INFO: Removing FileIO v0.6.1
 INFO: Removing FlatBuffers v0.2.0
-INFO: Removing ForwardDiff v0.7.2
+INFO: Removing ForwardDiff v0.7.3
 INFO: Removing FunctionWrappers v0.1.0
 INFO: Removing GLM v0.8.1
 INFO: Removing GZip v0.3.0
@@ -379,7 +409,7 @@ INFO: Removing Glob v1.1.1
 INFO: Removing Hexagons v0.1.0
 INFO: Removing HttpCommon v0.3.0
 INFO: Removing HttpParser v0.3.0
-INFO: Removing IndexedTables v0.5.0
+INFO: Removing IndexedTables v0.5.1
 INFO: Removing Interpolations v0.7.3
 INFO: Removing IterTools v0.2.1
 INFO: Removing JuliaDB v0.5.0
@@ -401,12 +431,12 @@ INFO: Removing MemPool v0.0.5
 INFO: Removing Missings v0.2.5
 INFO: Removing MuladdMacro v0.0.2
 INFO: Removing NLSolversBase v4.2.0
-INFO: Removing NLsolve v0.14.1
+INFO: Removing NLsolve v1.0.0
 INFO: Removing NullableArrays v0.1.2
 INFO: Removing OnlineStats v0.15.0
 INFO: Removing OnlineStatsBase v0.4.1
 INFO: Removing Optim v0.12.0
-INFO: Removing OrdinaryDiffEq v3.0.1
+INFO: Removing OrdinaryDiffEq v3.0.2
 INFO: Removing PDMats v0.8.0
 INFO: Removing ParameterizedFunctions v3.0.0
 INFO: Removing Parameters v0.8.1
@@ -416,7 +446,7 @@ INFO: Removing PositiveFactorizations v0.1.0
 INFO: Removing QuadGK v0.2.0
 INFO: Removing Ratios v0.2.0
 INFO: Removing RecipesBase v0.2.3
-INFO: Removing RecursiveArrayTools v0.14.3
+INFO: Removing RecursiveArrayTools v0.14.5
 INFO: Removing Requests v0.5.1
 INFO: Removing Rmath v0.3.2
 INFO: Removing Roots v0.5.0

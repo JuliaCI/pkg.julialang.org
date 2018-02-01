@@ -1,4 +1,6 @@
 >>> 'Pkg.add("Sims")' log
+WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
+ in module Main
 [ Info: Cloning cache of Sims from https://github.com/tshort/Sims.jl.git
 [ Info: Cloning cache of Sundials from https://github.com/JuliaDiffEq/Sundials.jl.git
 [ Info: Installing BinDeps v0.8.6
@@ -9,13 +11,13 @@
 [ Info: Installing CommonSubexpressions v0.0.1
 [ Info: Installing Contour v0.4.0
 [ Info: Installing DataStructures v0.7.4
-[ Info: Installing DiffEqBase v3.0.4
+[ Info: Installing DiffEqBase v3.1.0
 [ Info: Installing DiffResults v0.0.3
 [ Info: Installing DiffRules v0.0.3
 [ Info: Installing DocStringExtensions v0.4.3
 [ Info: Installing Documenter v0.13.1
 [ Info: Installing FixedPointNumbers v0.4.3
-[ Info: Installing ForwardDiff v0.7.2
+[ Info: Installing ForwardDiff v0.7.3
 [ Info: Installing FunctionWrappers v0.1.0
 [ Info: Installing Ipopt v0.2.6
 [ Info: Installing JuMP v0.18.0
@@ -30,7 +32,7 @@
 [ Info: Installing Plots v0.15.0
 [ Info: Installing ReactiveBasics v0.2.1
 [ Info: Installing RecipesBase v0.2.3
-[ Info: Installing RecursiveArrayTools v0.14.3
+[ Info: Installing RecursiveArrayTools v0.14.5
 [ Info: Installing Reexport v0.1.0
 [ Info: Installing Requires v0.4.3
 [ Info: Installing ReverseDiffSparse v0.8.1
@@ -45,6 +47,39 @@
 [ Info: Installing StatsBase v0.19.5
 [ Info: Installing Sundials v1.1.0
 [ Info: Installing URIParser v0.3.0
+[ Info: Building DiffEqBase
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = top-level scope
+└ @ Core :0
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 [ Info: Building SpecialFunctions
 ┌ Warning: `isalnum(c::Char)` is deprecated, use `isalpha(c) || isnumeric(c)` instead.
 │   caller = is_userinfo_char at parser.jl:4 [inlined]
@@ -175,7 +210,13 @@ INFO: Directory /home/vagrant/.julia/v0.7/Sundials/deps/usr/lib does not exist!
 │   caller = #download#89(::Bool, ::Function, ::String, ::String) at PlatformEngines.jl:419
 └ @ BinaryProvider PlatformEngines.jl:419
 INFO: Downloading https://github.com/JuliaDiffEq/SundialsBuilder/releases/download/dummy-0.0.3/Sundials.x86_64-linux-gnu.tar.gz to /home/vagrant/.julia/v0.7/Sundials/deps/usr/downloads/Sundials.x86_64-linux-gnu.tar.gz...
-[12:48:59] [12:49:00] ######################################################################## 100.0%[12:49:00] ######################################################################## 100.0%[12:49:00] #                                                                          2.0%[12:49:00] #############                                                             18.5%[12:49:00] #########################################################                 80.4%[12:49:00] ######################################################################## 100.0%
+┌ Warning: `print_with_color(color, args...; kwargs...)` is deprecated, use `printstyled(args...; kwargs..., color=color)` instead.
+│   caller = ip:0x0
+└ @ Core :-1
+[13:04:20] ┌ Warning: `print_with_color(color, args...; kwargs...)` is deprecated, use `printstyled(args...; kwargs..., color=color)` instead.
+│   caller = (::getfield(BinaryProvider, Symbol("#print_next_line#16")){Array{Tuple{Float64,String},1},Array{Tuple{Float64,String},1},Base.PipeEndpoint})() at OutputCollector.jl:313
+└ @ BinaryProvider OutputCollector.jl:313
+[13:04:21] ######################################################################## 100.0%[13:04:21] ######################################################################## 100.0%[13:04:21] ##                                                                         3.0%[13:04:21] ####################                                                      28.8%[13:04:21] ######################################################################## 100.0%
 ┌ Warning: `info()` is deprecated, use `@info` instead.
 │   caller = #verify#111(::Bool, ::Function, ::String, ::String) at Prefix.jl:471
 └ @ BinaryProvider Prefix.jl:471
@@ -672,20 +713,26 @@ Warning: Deleted feature: ASSIGN statement at (1)
 └ Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Sims")' log
-Julia Version 0.7.0-DEV.3583
-Commit 7d3991f784 (2018-01-26 19:00 UTC)
+WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
+Add a `using InteractiveUtils` to your imports..
+ in module Main
+WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
+Add a `using InteractiveUtils` to your imports..
+ in module Main
+Julia Version 0.7.0-DEV.3664
+Commit 9d5aebb07a (2018-01-30 22:46 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3499 MHz    2761624 s         92 s     139815 s     695425 s         27 s
-       #2  3499 MHz     573043 s       7450 s      53343 s    3539447 s          0 s
+       #1  3500 MHz    2777100 s       6807 s     139543 s     764770 s         37 s
+       #2  3500 MHz     620938 s        108 s      56371 s    3577500 s          1 s
        
-  Memory: 2.93927001953125 GB (625.96484375 MB free)
-  Uptime: 42372.0 sec
-  Load Avg:  0.9970703125  0.978515625  0.95458984375
+  Memory: 2.93927001953125 GB (645.01953125 MB free)
+  Uptime: 43282.0 sec
+  Load Avg:  0.974609375  0.998046875  0.9599609375
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -711,13 +758,13 @@ Packages:
  - Compat                        0.49.0
  - Contour                       0.4.0
  - DataStructures                0.7.4
- - DiffEqBase                    3.0.4
+ - DiffEqBase                    3.1.0
  - DiffResults                   0.0.3
  - DiffRules                     0.0.3
  - DocStringExtensions           0.4.3
  - Documenter                    0.13.1
  - FixedPointNumbers             0.4.3
- - ForwardDiff                   0.7.2
+ - ForwardDiff                   0.7.3
  - FunctionWrappers              0.1.0
  - Ipopt                         0.2.6
  - JuMP                          0.18.0
@@ -733,7 +780,7 @@ Packages:
  - Plots                         0.15.0
  - ReactiveBasics                0.2.1
  - RecipesBase                   0.2.3
- - RecursiveArrayTools           0.14.3
+ - RecursiveArrayTools           0.14.5
  - Reexport                      0.1.0
  - Requires                      0.4.3
  - ReverseDiffSparse             0.8.1
@@ -747,7 +794,9 @@ Packages:
  - StatsBase                     0.19.5
  - Sundials                      1.1.0
  - URIParser                     0.3.0
- - tmpJpLd7f                     0.0.0-             non-repo (unregistered)
+ - tmp8ZAgRW                     0.0.0-             non-repo (unregistered)
+WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
+ in module Main
 [ Info: Testing Sims
 ┌ Warning: Deprecated syntax `type` at /home/vagrant/.julia/v0.7/ReactiveBasics/src/ReactiveBasics.jl:43.
 │ Use `mutable struct` instead.
@@ -790,8 +839,8 @@ Stacktrace:
  [10] include at ./boot.jl:292 [inlined]
  [11] include_relative(::Module, ::String) at ./loading.jl:1012
  [12] include(::Module, ::String) at ./sysimg.jl:26
- [13] process_options(::Base.JLOptions) at ./client.jl:334
- [14] _start() at ./client.jl:386
+ [13] exec_options(::Base.JLOptions) at ./client.jl:332
+ [14] _start() at ./client.jl:447
 in expression starting at /home/vagrant/.julia/v0.7/Sims/src/main.jl:159
 in expression starting at /home/vagrant/.julia/v0.7/Sims/src/Sims.jl:47
 in expression starting at /home/vagrant/.julia/v0.7/Sims/test/runtests.jl:1
@@ -803,24 +852,24 @@ in expression starting at /home/vagrant/.julia/v0.7/Sims/test/runtests.jl:1
 │     [1] error(::String, ::Base.Process, ::String, ::Int64, ::String) at ./error.jl:42
 │     [2] pipeline_error(::Base.Process) at ./process.jl:698
 │     [3] run(::Cmd) at ./process.jl:660
-│     [4] (::getfield(Base.Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}})() at ./pkg/entry.jl:729
-│     [5] cd(::getfield(Base.Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:70
-│     [6] #test!#88(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./pkg/entry.jl:717
-│     [7] (::getfield(Base.Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
-│     [8] #test#96(::Bool, ::Function, ::Array{AbstractString,1}) at ./pkg/entry.jl:756
-│     [9] (::getfield(Base.Pkg.Entry, Symbol("#kw##test")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Entry.test), ::Array{AbstractString,1}) at ./<missing>:0
-│     [10] (::getfield(Base.Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Base.Pkg.Entry.test),Tuple{Array{AbstractString,1}}})() at ./pkg/dir.jl:36
-│     [11] cd(::getfield(Base.Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Base.Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:70
-│     [12] #cd#1(::Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./pkg/dir.jl:36
-│     [13] (::getfield(Base.Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Base.Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
-│     [14] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at ./pkg/pkg.jl:274
-│     [15] test(::String, ::Vararg{String,N} where N) at ./pkg/pkg.jl:274
+│     [4] (::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:731
+│     [5] cd(::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:70
+│     [6] #test!#88(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:719
+│     [7] (::getfield(Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
+│     [8] #test#96(::Bool, ::Function, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:758
+│     [9] (::getfield(Pkg.Entry, Symbol("#kw##test")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test), ::Array{AbstractString,1}) at ./<missing>:0
+│     [10] (::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [11] cd(::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:70
+│     [12] #cd#1(::Base.Iterators.IndexValue{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [13] (::getfield(Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
+│     [14] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
+│     [15] test(::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
 │     [16] top-level scope
 │     [17] eval at ./boot.jl:295 [inlined]
 │     [18] eval(::Module, ::Expr) at ./sysimg.jl:71
-│     [19] process_options(::Base.JLOptions) at ./client.jl:311
-│     [20] _start() at ./client.jl:386
-└ @ Base.Pkg.Entry entry.jl:732
+│     [19] exec_options(::Base.JLOptions) at ./client.jl:309
+│     [20] _start() at ./client.jl:447
+└ @ Pkg.Entry entry.jl:734
 ERROR: Sims had test errors
 
 >>> End of log

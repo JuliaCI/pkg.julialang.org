@@ -1,15 +1,45 @@
 >>> 'Pkg.add("ODE")' log
 INFO: Cloning cache of ODE from https://github.com/JuliaDiffEq/ODE.jl.git
-INFO: Installing DiffEqBase v3.0.4
+INFO: Installing DiffEqBase v3.1.0
 INFO: Installing FunctionWrappers v0.1.0
 INFO: Installing LinearMaps v1.0.4
 INFO: Installing MacroTools v0.4.0
 INFO: Installing ODE v1.0.0
 INFO: Installing Polynomials v0.2.1
 INFO: Installing RecipesBase v0.2.3
-INFO: Installing RecursiveArrayTools v0.14.3
+INFO: Installing RecursiveArrayTools v0.14.5
 INFO: Installing SimpleTraits v0.5.1
 INFO: Installing StaticArrays v0.6.6
+INFO: Building DiffEqBase
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 INFO: Package database updated
 INFO: METADATA is out-of-date — you may not have the latest version of ODE
 INFO: Use `Pkg.update()` to get the latest versions of your packages
@@ -23,13 +53,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (904.39453125 MB free)
-Uptime: 85755.0 sec
-Load Avg:  1.0029296875  1.0146484375  1.12353515625
+Memory: 2.93927001953125 GB (1004.4140625 MB free)
+Uptime: 84047.0 sec
+Load Avg:  1.03076171875  1.03564453125  1.08203125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    5665999 s       3680 s     255502 s    1333837 s         68 s
-#2  3500 MHz    1450353 s       3883 s     122298 s    6811132 s          0 s
+#1  3511 MHz    5646978 s       7196 s     266241 s    1216663 s         54 s
+#2  3511 MHz    1391208 s         66 s     116149 s    6755987 s          2 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -52,7 +82,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - ColorTypes                    0.6.6
  - Colors                        0.8.2
  - Compat                        0.49.0
- - DiffEqBase                    3.0.4
+ - DiffEqBase                    3.1.0
  - FixedPointNumbers             0.4.3
  - FunctionWrappers              0.1.0
  - Graphics                      0.2.0
@@ -64,7 +94,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Nullables                     0.0.3
  - Polynomials                   0.2.1
  - RecipesBase                   0.2.3
- - RecursiveArrayTools           0.14.3
+ - RecursiveArrayTools           0.14.5
  - Reexport                      0.1.0
  - Requires                      0.4.3
  - Rsvg                          0.2.0
@@ -95,6 +125,36 @@ INFO: Installing VectorizedRoutines v0.0.2
 INFO: Building Conda
 INFO: Building SpecialFunctions
 INFO: Building Rmath
+INFO: Building DiffEqBase
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 INFO: Building SymEngine
 INFO: Testing ODE
 using ODE.ode1
@@ -174,14 +234,14 @@ WARNING: J::UniformScaling - x::Number is deprecated, use J.λ - x instead.
 Stacktrace:
  [1] depwarn(::String, ::Symbol) at ./deprecated.jl:70
  [2] -(::UniformScaling{Float64}, ::Float64) at ./deprecated.jl:57
- [3] #oderosenbrock#28(::Void, ::Array{Any,1}, ::Function, ::ODE.##37#40{DiffEqBase.ODEProblem{Float64,Float64,false,Void,DiffEqProblemLibrary.##1#2,Void,UniformScaling{Int64},DiffEqBase.StandardODEProblem}}, ::Float64, ::Array{Float64,1}, ::Float64, ::Array{Float64,2}, ::Array{Float64,2}, ::Array{Float64,2}) at /home/vagrant/.julia/v0.6/ODE/src/ODE.jl:386
+ [3] #oderosenbrock#28(::Void, ::Array{Any,1}, ::Function, ::ODE.##37#40{DiffEqBase.ODEProblem{Float64,Float64,false,Void,DiffEqProblemLibrary.##1#2,Void,Void,UniformScaling{Int64},DiffEqBase.StandardODEProblem}}, ::Float64, ::Array{Float64,1}, ::Float64, ::Array{Float64,2}, ::Array{Float64,2}, ::Array{Float64,2}) at /home/vagrant/.julia/v0.6/ODE/src/ODE.jl:386
  [4] (::ODE.#kw##oderosenbrock)(::Array{Any,1}, ::ODE.#oderosenbrock, ::Function, ::Float64, ::Array{Float64,1}, ::Float64, ::Array{Float64,2}, ::Array{Float64,2}, ::Array{Float64,2}) at ./<missing>:0
  [5] #ode4s_s#32(::Void, ::Array{Any,1}, ::Function, ::Function, ::Float64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/ODE/src/ODE.jl:434
  [6] (::ODE.#kw##ode4s_s)(::Array{Any,1}, ::ODE.#ode4s_s, ::Function, ::Float64, ::Array{Float64,1}) at ./<missing>:0
  [7] #ode4s#33(::Void, ::Array{Any,1}, ::Type{T} where T, ::Function, ::Float64, ::Array{Float64,1}) at /home/vagrant/.julia/v0.6/ODE/src/ODE.jl:438
  [8] (::Core.#kw#Type)(::Array{Any,1}, ::Type{ODE.ode4s}, ::Function, ::Float64, ::Array{Float64,1}) at ./<missing>:0
- [9] #solve#34(::Bool, ::Void, ::Array{Float64,1}, ::Float64, ::Float64, ::Bool, ::Bool, ::Bool, ::Void, ::Float64, ::Float64, ::Bool, ::Bool, ::Float64, ::Base.LinAlg.#vecnorm, ::Array{Any,1}, ::DiffEqBase.#solve, ::DiffEqBase.ODEProblem{Float64,Float64,false,Void,DiffEqProblemLibrary.##1#2,Void,UniformScaling{Int64},DiffEqBase.StandardODEProblem}, ::ODE.ode4s, ::Array{Any,1}, ::Array{Any,1}, ::Array{Any,1}) at /home/vagrant/.julia/v0.6/ODE/src/common.jl:90
- [10] (::DiffEqBase.#kw##solve)(::Array{Any,1}, ::DiffEqBase.#solve, ::DiffEqBase.ODEProblem{Float64,Float64,false,Void,DiffEqProblemLibrary.##1#2,Void,UniformScaling{Int64},DiffEqBase.StandardODEProblem}, ::ODE.ode4s, ::Array{Any,1}, ::Array{Any,1}, ::Array{Any,1}) at ./<missing>:0 (repeats 2 times)
+ [9] #solve#34(::Bool, ::Void, ::Array{Float64,1}, ::Float64, ::Float64, ::Bool, ::Bool, ::Bool, ::Void, ::Float64, ::Float64, ::Bool, ::Bool, ::Float64, ::Base.LinAlg.#vecnorm, ::Array{Any,1}, ::DiffEqBase.#solve, ::DiffEqBase.ODEProblem{Float64,Float64,false,Void,DiffEqProblemLibrary.##1#2,Void,Void,UniformScaling{Int64},DiffEqBase.StandardODEProblem}, ::ODE.ode4s, ::Array{Any,1}, ::Array{Any,1}, ::Array{Any,1}) at /home/vagrant/.julia/v0.6/ODE/src/common.jl:90
+ [10] (::DiffEqBase.#kw##solve)(::Array{Any,1}, ::DiffEqBase.#solve, ::DiffEqBase.ODEProblem{Float64,Float64,false,Void,DiffEqProblemLibrary.##1#2,Void,Void,UniformScaling{Int64},DiffEqBase.StandardODEProblem}, ::ODE.ode4s, ::Array{Any,1}, ::Array{Any,1}, ::Array{Any,1}) at ./<missing>:0 (repeats 2 times)
  [11] macro expansion at /home/vagrant/.julia/v0.6/ODE/test/common.jl:12 [inlined]
  [12] anonymous at ./<missing>:?
  [13] include_from_node1(::String) at ./loading.jl:576
