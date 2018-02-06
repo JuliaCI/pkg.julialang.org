@@ -5,13 +5,15 @@ WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
 [ Info: Cloning cache of SymEngine from https://github.com/symengine/SymEngine.jl.git
 [ Info: Installing BinDeps v0.8.6
 [ Info: Installing Conda v0.7.1
-[ Info: Installing DiffEqBase v2.10.2
+[ Info: Installing DiffEqBase v3.2.0
 [ Info: Installing FunctionWrappers v0.1.0
+[ Info: Installing IteratorInterfaceExtensions v0.0.2
 [ Info: Installing LaTeXStrings v0.3.0
-[ Info: Installing Latexify v0.1.1
+[ Info: Installing Latexify v0.2.0
 [ Info: Installing LinearMaps v1.0.4
 [ Info: Installing MacroTools v0.4.0
 [ Info: Installing Missings v0.2.6
+[ Info: Installing NamedTuples v4.0.0
 [ Info: Installing RecipesBase v0.2.3
 [ Info: Installing RecursiveArrayTools v0.14.6
 [ Info: Installing Requires v0.4.3
@@ -19,6 +21,7 @@ WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
 [ Info: Installing SimpleTraits v0.5.1
 [ Info: Installing StaticArrays v0.6.6
 [ Info: Installing SymEngine v0.3.0
+[ Info: Installing TableTraits v0.1.0
 [ Info: Installing URIParser v0.3.0
 [ Info: Building Conda
 ┌ Warning: `isdefined(:symbol)` is deprecated, use `@isdefined symbol` instead
@@ -27,6 +30,39 @@ WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
 ┌ Warning: `readstring(filename::AbstractString)` is deprecated, use `read(filename, String)` instead.
 │   caller = top-level scope
 └ @ Core :0
+[ Info: Building DiffEqBase
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = top-level scope
+└ @ Core :0
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 [ Info: Building SymEngine
 ┌ Warning: `is_windows` is deprecated, use `Sys.iswindows` instead.
 │   caller = top-level scope
@@ -45,10 +81,10 @@ Solving environment: ...working... done
 certifi 2017.11.5:            |   0% certifi 2017.11.5: 6          |   6% certifi 2017.11.5: #######5   |  75% certifi 2017.11.5: ########## | 100% 
 ca-certificates 2017.11.5:            |   0% ca-certificates 2017.11.5: 8          |   8% ca-certificates 2017.11.5: ########## | 100% 
 mpc 1.0.3:            |   0% mpc 1.0.3: #3         |  14% mpc 1.0.3: ########## | 100% 
-symengine 0.3.0:            |   0% symengine 0.3.0: 1          |   1% symengine 0.3.0: ####3      |  44% symengine 0.3.0: #######5   |  75% symengine 0.3.0: ########## | 100% 
-conda 4.3.33:            |   0% conda 4.3.33: 2          |   2% conda 4.3.33: #######5   |  75% conda 4.3.33: #########  |  90% conda 4.3.33: #########9 | 100% conda 4.3.33: ########## | 100% 
-openssl 1.0.2n:            |   0% openssl 1.0.2n:            |   0% openssl 1.0.2n: 8          |   8% openssl 1.0.2n: ##9        |  30% openssl 1.0.2n: ######5    |  66% openssl 1.0.2n: #######5   |  75% openssl 1.0.2n: #######9   |  80% openssl 1.0.2n: ########3  |  84% openssl 1.0.2n: ########8  |  89% openssl 1.0.2n: #########5 |  96% openssl 1.0.2n: ########## | 100% 
-mpfr 3.1.5:            |   0% mpfr 3.1.5: 2          |   3% mpfr 3.1.5: #####3     |  53% mpfr 3.1.5: #######5   |  75% mpfr 3.1.5: #########8 |  98% mpfr 3.1.5: ########## | 100% 
+symengine 0.3.0:            |   0% symengine 0.3.0: 1          |   1% symengine 0.3.0: ###2       |  32% symengine 0.3.0: #######5   |  75% symengine 0.3.0: ########## | 100% 
+conda 4.3.33:            |   0% conda 4.3.33: 2          |   2% conda 4.3.33: #######    |  71% conda 4.3.33: #########1 |  92% conda 4.3.33: ########## | 100% 
+openssl 1.0.2n:            |   0% openssl 1.0.2n:            |   0% openssl 1.0.2n: 8          |   9% openssl 1.0.2n: ###4       |  35% openssl 1.0.2n: #######5   |  75% openssl 1.0.2n: ########2  |  83% openssl 1.0.2n: ########9  |  89% openssl 1.0.2n: #########5 |  96% openssl 1.0.2n: ########## | 100% 
+mpfr 3.1.5:            |   0% mpfr 3.1.5: 2          |   3% mpfr 3.1.5: ######2    |  62% mpfr 3.1.5: ########   |  81% mpfr 3.1.5: ########## | 100% 
 
 ## Package Plan ##
 
@@ -104,20 +140,20 @@ Add a `using InteractiveUtils` to your imports..
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
 Add a `using InteractiveUtils` to your imports..
  in module Main
-Julia Version 0.7.0-DEV.3703
-Commit 358ccc2b20 (2018-02-02 20:43 UTC)
+Julia Version 0.7.0-DEV.3715
+Commit a1bec2a6e1 (2018-02-04 17:54 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3502 MHz    2563954 s       5602 s     138214 s     576268 s         27 s
-       #2  3502 MHz     482825 s       1916 s      55110 s    3278838 s          0 s
+       #1  3492 MHz    2526634 s       8016 s     136882 s     711739 s         24 s
+       #2  3492 MHz     615557 s        429 s      75933 s    3249630 s          1 s
        
-  Memory: 2.93927001953125 GB (808.19140625 MB free)
-  Uptime: 38882.0 sec
-  Load Avg:  0.80126953125  0.95361328125  0.95458984375
+  Memory: 2.93927001953125 GB (840.74609375 MB free)
+  Uptime: 40105.0 sec
+  Load Avg:  1.0029296875  1.001953125  0.97607421875
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -132,17 +168,19 @@ Packages:
   Package Status:
 2 required packages:
  - JSON                          0.16.4
- - Latexify                      0.1.1
-18 additional packages:
+ - Latexify                      0.2.0
+21 additional packages:
  - BinDeps                       0.8.6
- - Compat                        0.51.0
+ - Compat                        0.52.0
  - Conda                         0.7.1
- - DiffEqBase                    2.10.2
+ - DiffEqBase                    3.2.0
  - FunctionWrappers              0.1.0
+ - IteratorInterfaceExtensions   0.0.2
  - LaTeXStrings                  0.3.0
  - LinearMaps                    1.0.4
  - MacroTools                    0.4.0
  - Missings                      0.2.6
+ - NamedTuples                   4.0.0
  - Nullables                     0.0.3
  - RecipesBase                   0.2.3
  - RecursiveArrayTools           0.14.6
@@ -151,6 +189,7 @@ Packages:
  - SimpleTraits                  0.5.1
  - StaticArrays                  0.6.6
  - SymEngine                     0.3.0
+ - TableTraits                   0.1.0
  - URIParser                     0.3.0
 WARNING: Base.Pkg is deprecated, run `using Pkg` instead.
  in module Main
@@ -179,6 +218,39 @@ WARNING: importing deprecated binding Base.Associative into BinDeps.
 WARNING: Base.Associative is deprecated, use AbstractDict instead.
   likely near /home/vagrant/.julia/v0.7/SymEngine/deps/build.jl:50
 in @install at /home/vagrant/.julia/v0.7/BinDeps/src/dependencies.jl
+[ Info: Building DiffEqBase
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = top-level scope
+└ @ Core :0
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 [ Info: Testing Latexify
 ┌ Warning: Deprecated syntax `parametric method syntax recursive_unitless_eltype{T <: StaticArray}(a::Type{T})` around /home/vagrant/.julia/v0.7/RecursiveArrayTools/src/utils.jl:103.
 │ Use `recursive_unitless_eltype(a::Type{T}) where T <: StaticArray` instead.
@@ -709,12 +781,12 @@ WARNING: importing deprecated binding Base.A_ldiv_B! into DiffEqBase.
 ┌ Warning: Deprecated syntax `(plot_vecs...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/solutions/solution_interface.jl:193.
 │ Use `(plot_vecs...,)` instead.
 └ @ nothing solution_interface.jl:193
-┌ Warning: Deprecated syntax `((I for i = 1:length(f))...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/problems/ode_problems.jl:15.
+┌ Warning: Deprecated syntax `((I for i = 1:length(f))...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/problems/ode_problems.jl:19.
 │ Use `((I for i = 1:length(f))...,)` instead.
-└ @ nothing ode_problems.jl:15
-┌ Warning: Deprecated syntax `((I for i = 1:length(f))...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/problems/sde_problems.jl:19.
+└ @ nothing ode_problems.jl:19
+┌ Warning: Deprecated syntax `((I for i = 1:length(f))...)` at /home/vagrant/.julia/v0.7/DiffEqBase/src/problems/sde_problems.jl:22.
 │ Use `((I for i = 1:length(f))...,)` instead.
-└ @ nothing sde_problems.jl:19
+└ @ nothing sde_problems.jl:22
 WARNING: importing deprecated binding Base.Void into DiffEqBase.
 WARNING: Base.Void is deprecated, use Nothing instead.
   likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/interpolation.jl:15
@@ -736,16 +808,10 @@ Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/linear_nonlinear.jl:12
 WARNING: Base.A_ldiv_B! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/data_array.jl:75
+  likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/data_array.jl:76
 WARNING: importing deprecated binding Base.Factorization into DiffEqBase.
 WARNING: Base.Factorization is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/data_array.jl:75
-WARNING: Base.A_ldiv_B! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
-  likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/data_array.jl:76
-WARNING: Base.Factorization is deprecated: it has been moved to the standard library package `LinearAlgebra`.
-Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/data_array.jl:76
 WARNING: Base.A_ldiv_B! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
@@ -753,6 +819,12 @@ Add a `using LinearAlgebra` to your imports..
 WARNING: Base.Factorization is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add a `using LinearAlgebra` to your imports..
   likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/data_array.jl:77
+WARNING: Base.A_ldiv_B! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/data_array.jl:78
+WARNING: Base.Factorization is deprecated: it has been moved to the standard library package `LinearAlgebra`.
+Add a `using LinearAlgebra` to your imports..
+  likely near /home/vagrant/.julia/v0.7/DiffEqBase/src/data_array.jl:78
 ┌ Warning: `current_module()` is deprecated, use `@__MODULE__` instead.
 │   caller = @require(::LineNumberNode, ::Module, ::Any, ::Any) at require.jl:51
 └ @ Requires require.jl:51
@@ -1815,7 +1887,7 @@ WARNING: Operators.\ is deprecated, use Base.:\ instead.
 signal (11): Segmentation fault
 in expression starting at /home/vagrant/.julia/v0.7/Latexify/src/Latexify.jl:3
 _ZN4llvm5Value16DoPHITranslationEPKNS_10BasicBlockES3_ at /home/vagrant/julia/bin/../lib/julia/libLLVM-3.9.so (unknown line)
-Allocations: 4788202 (Pool: 4786636; Big: 1566); GC: 9
+Allocations: 4643919 (Pool: 4642231; Big: 1688); GC: 9
 ERROR: LoadError: Failed to precompile Latexify to /home/vagrant/.julia/lib/v0.7/Latexify.ji.
 Stacktrace:
  [1] error at ./error.jl:33 [inlined]

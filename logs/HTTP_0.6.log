@@ -1,6 +1,6 @@
 >>> 'Pkg.add("HTTP")' log
 INFO: Installing BinDeps v0.8.6
-INFO: Installing HTTP v0.6.1
+INFO: Installing HTTP v0.6.2
 INFO: Installing IniFile v0.3.1
 INFO: Installing MbedTLS v0.5.5
 INFO: Installing SHA v0.5.6
@@ -8,6 +8,8 @@ INFO: Installing URIParser v0.3.0
 INFO: Building MbedTLS
 Using system libraries...
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of HTTP
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("HTTP")' log
 Julia Version 0.6.2
@@ -18,13 +20,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (1285.69921875 MB free)
-Uptime: 18779.0 sec
-Load Avg:  1.01806640625  0.8408203125  0.83984375
+Memory: 2.93927001953125 GB (1265.171875 MB free)
+Uptime: 18215.0 sec
+Load Avg:  0.99072265625  0.931640625  1.0078125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3502 MHz    1126676 s        117 s      65789 s     403315 s         12 s
-#2  3502 MHz     291439 s         57 s      35638 s    1511309 s          0 s
+#1  3499 MHz    1145871 s         83 s      66073 s     330493 s          9 s
+#2  3499 MHz     264093 s         85 s      34131 s    1492008 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -39,11 +41,11 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
- - HTTP                          0.6.1
+ - HTTP                          0.6.2
  - JSON                          0.16.4
 7 additional packages:
  - BinDeps                       0.8.6
- - Compat                        0.51.0
+ - Compat                        0.52.0
  - IniFile                       0.3.1
  - MbedTLS                       0.5.5
  - Nullables                     0.0.3
@@ -128,271 +130,188 @@ anchor
 8. http://www.example.com/##asdf An extra U+0023 NUMBER SIGN at the start of fragment
 9. http://www.example.com/#a
 bc	d Extra white space characters
-HTTP.URLParsingError: URI contains invalid character
-
+HTTP.URIs.ParseError("URI contains invalid character")
 file-http-base
 file
 host
 1. http://google.com A pathless URL
 2. http://GoOgLe.CoM/ 
 3. http://Goo%20 goo%7C|.com/ 
-HTTP.URLParsingError: Invalid URI host: Goo%20 goo%7C|.com http://Goo%20 goo%7C|.com/
-
+HTTP.URIs.ParseError("Invalid URI host: Goo%20 goo%7C|.com http://Goo%20 goo%7C|.com/")
 4. http://GOO 　goo.com/ 
-HTTP.URLParsingError: Invalid URI host: GOO 　goo.com http://GOO 　goo.com/
-
+HTTP.URIs.ParseError("Invalid URI host: GOO 　goo.com http://GOO 　goo.com/")
 5. http://GOO​⁠﻿goo.com/ 
-HTTP.URLParsingError: Invalid URI host: GOO​⁠﻿goo.com http://GOO​⁠﻿goo.com/
-
+HTTP.URIs.ParseError("Invalid URI host: GOO\u200b\u2060\ufeffgoo.com http://GOO\u200b\u2060\ufeffgoo.com/")
 6. http://www.foo。bar.com/ 
-HTTP.URLParsingError: Invalid URI host: www.foo。bar.com http://www.foo。bar.com/
-
+HTTP.URIs.ParseError("Invalid URI host: www.foo。bar.com http://www.foo。bar.com/")
 7. http://﷐zyx.com/ 
-HTTP.URLParsingError: Invalid URI host: ﷐zyx.com http://﷐zyx.com/
-
+HTTP.URIs.ParseError("Invalid URI host: \ufdd0zyx.com http://\ufdd0zyx.com/")
 8. http://%ef%b7%90zyx.com/ 
-HTTP.URLParsingError: Invalid URI host: %ef%b7%90zyx.com
-
+HTTP.URIs.ParseError("Invalid URI host: %ef%b7%90zyx.com")
 9. http://Ｇｏ.com/ 
-HTTP.URLParsingError: Invalid URI host: Ｇｏ.com http://Ｇｏ.com/
-
+HTTP.URIs.ParseError("Invalid URI host: Ｇｏ.com http://Ｇｏ.com/")
 10. http://％４１.com/ 
-HTTP.URLParsingError: Invalid URI host: ％４１.com http://％４１.com/
-
+HTTP.URIs.ParseError("Invalid URI host: ％４１.com http://％４１.com/")
 11. http://%ef%bc%85%ef%bc%94%ef%bc%91.com/ 
-HTTP.URLParsingError: Invalid URI host: %ef%bc%85%ef%bc%94%ef%bc%91.com
-
+HTTP.URIs.ParseError("Invalid URI host: %ef%bc%85%ef%bc%94%ef%bc%91.com")
 12. http://％００.com/ 
-HTTP.URLParsingError: Invalid URI host: ％００.com http://％００.com/
-
+HTTP.URIs.ParseError("Invalid URI host: ％００.com http://％００.com/")
 13. http://%ef%bc%85%ef%bc%90%ef%bc%90.com/ 
-HTTP.URLParsingError: Invalid URI host: %ef%bc%85%ef%bc%90%ef%bc%90.com
-
+HTTP.URIs.ParseError("Invalid URI host: %ef%bc%85%ef%bc%90%ef%bc%90.com")
 14. http://你好你好/ 
-HTTP.URLParsingError: Invalid URI host: 你好你好 http://你好你好/
-
+HTTP.URIs.ParseError("Invalid URI host: 你好你好 http://你好你好/")
 15. http://%E4%BD%A0%E5%A5%BD你好/ 
-HTTP.URLParsingError: Invalid URI host: %E4%BD%A0%E5%A5%BD你好 http://%E4%BD%A0%E5%A5%BD你好/
-
+HTTP.URIs.ParseError("Invalid URI host: %E4%BD%A0%E5%A5%BD你好 http://%E4%BD%A0%E5%A5%BD你好/")
 16. http://%zz%66%a/ 
-HTTP.URLParsingError: Invalid URI host: %zz%66%a
-
+HTTP.URIs.ParseError("Invalid URI host: %zz%66%a")
 17. http://%25/ 
-HTTP.URLParsingError: Invalid URI host: %25
-
+HTTP.URIs.ParseError("Invalid URI host: %25")
 18. http://hello%00/ 
-HTTP.URLParsingError: Invalid URI host: hello%00
-
+HTTP.URIs.ParseError("Invalid URI host: hello%00")
 19. http://%30%78%63%30%2e%30%32%35%30.01/ 
-HTTP.URLParsingError: Invalid URI host: %30%78%63%30%2e%30%32%35%30.01
-
+HTTP.URIs.ParseError("Invalid URI host: %30%78%63%30%2e%30%32%35%30.01")
 20. http://%30%78%63%30%2e%30%32%35%30.01%2e/ 
-HTTP.URLParsingError: Invalid URI host: %30%78%63%30%2e%30%32%35%30.01%2e
-
+HTTP.URIs.ParseError("Invalid URI host: %30%78%63%30%2e%30%32%35%30.01%2e")
 21. http://%3g%78%63%30%2e%30%32%35%30%2E.01/ 
-HTTP.URLParsingError: Invalid URI host: %3g%78%63%30%2e%30%32%35%30%2E.01
-
+HTTP.URIs.ParseError("Invalid URI host: %3g%78%63%30%2e%30%32%35%30%2E.01")
 22. http://192.168.0.1 hello/ 
-HTTP.URLParsingError: Invalid URI host: 192.168.0.1 hello http://192.168.0.1 hello/
-
+HTTP.URIs.ParseError("Invalid URI host: 192.168.0.1 hello http://192.168.0.1 hello/")
 23. http://０Ｘｃ０．０２５０．０１/ 
-HTTP.URLParsingError: Invalid URI host: ０Ｘｃ０．０２５０．０１ http://０Ｘｃ０．０２５０．０１/
-
+HTTP.URIs.ParseError("Invalid URI host: ０Ｘｃ０．０２５０．０１ http://０Ｘｃ０．０２５０．０１/")
 24. http://192.168.0.257/ 
 25. http://[google.com.]/ 
-HTTP.URLParsingError: Invalid URI host:  http://[google.com.]/
-
+HTTP.URIs.ParseError("Invalid URI host:  http://[google.com.]/")
 26. http://т( 
-HTTP.URLParsingError: Invalid URI host: т( http://т(
-
+HTTP.URIs.ParseError("Invalid URI host: т( http://т(")
 27. http://go\@ogle.com/ 
 28. http://go/@ogle.com/ 
 29. http://www.lookout.net::==80::==443::/ 
-HTTP.URLParsingError: Invalid URI port: :==80::==443::
-
+HTTP.URIs.ParseError("Invalid URI port: :==80::==443::")
 30. http://www.lookout.net::80::443/ 
-HTTP.URLParsingError: Invalid URI port: :80::443
-
+HTTP.URIs.ParseError("Invalid URI port: :80::443")
 31. http://\ 
-HTTP.URLParsingError: Invalid URI host: \ http://\
-
+HTTP.URIs.ParseError("Invalid URI host: \\ http://\\")
 32. http://\\/ 
-HTTP.URLParsingError: Invalid URI host: \\ http://\\/
-
+HTTP.URIs.ParseError("Invalid URI host: \\\\ http://\\\\/")
 33. http://\./ 
-HTTP.URLParsingError: Invalid URI host: \. http://\./
-
+HTTP.URIs.ParseError("Invalid URI host: \\. http://\\./")
 34. http:////:@/ 
-HTTP.URLParsingError: Invalid URI host:  http:////:@/
-
+HTTP.URIs.ParseError("Invalid URI host:  http:////:@/")
 35. http://\google.com/foo 
-HTTP.URLParsingError: Invalid URI host: \google.com http://\google.com/foo
-
+HTTP.URIs.ParseError("Invalid URI host: \\google.com http://\\google.com/foo")
 36. http://\\google.com/foo 
-HTTP.URLParsingError: Invalid URI host: \\google.com http://\\google.com/foo
-
+HTTP.URIs.ParseError("Invalid URI host: \\\\google.com http://\\\\google.com/foo")
 37. http:////asdf@/ 
-HTTP.URLParsingError: Invalid URI host:  http:////asdf@/
-
+HTTP.URIs.ParseError("Invalid URI host:  http:////asdf@/")
 38. http:////:81/ 
-HTTP.URLParsingError: Invalid URI host:  http:////:81/
-
+HTTP.URIs.ParseError("Invalid URI host:  http:////:81/")
 39. http://:// 
-HTTP.URLParsingError: Invalid URI host:  http://://
-
+HTTP.URIs.ParseError("Invalid URI host:  http://://")
 40. http://c:/ 
-HTTP.URLParsingError: Invalid URI port: 
-
+HTTP.URIs.ParseError("Invalid URI port: ")
 41. http://xxxx:/ 
-HTTP.URLParsingError: Invalid URI port: 
-
+HTTP.URIs.ParseError("Invalid URI port: ")
 42. http://.:./ 
-HTTP.URLParsingError: Invalid URI port: .
-
+HTTP.URIs.ParseError("Invalid URI port: .")
 43. http://////@google.com/ 
-HTTP.URLParsingError: Invalid URI host:  http://////@google.com/
-
+HTTP.URIs.ParseError("Invalid URI host:  http://////@google.com/")
 44. http://@google.com/ 
 45. http://c|/ A URL with a pipe character in the hostname.
-HTTP.URLParsingError: Invalid URI host: c| http://c|/
-
+HTTP.URIs.ParseError("Invalid URI host: c| http://c|/")
 idna2003
 1. http://faß.de/ 
-HTTP.URLParsingError: Invalid URI host: faß.de http://faß.de/
-
+HTTP.URIs.ParseError("Invalid URI host: faß.de http://faß.de/")
 2. http://βόλος.com/ 
-HTTP.URLParsingError: Invalid URI host: βόλος.com http://βόλος.com/
-
+HTTP.URIs.ParseError("Invalid URI host: βόλος.com http://βόλος.com/")
 3. http://ශ්‍රී.com/ 
-HTTP.URLParsingError: Invalid URI host: ශ්‍රී.com http://ශ්‍රී.com/
-
+HTTP.URIs.ParseError("Invalid URI host: ශ්\u200dරී.com http://ශ්\u200dරී.com/")
 4. http://نامه‌ای.com/ 
-HTTP.URLParsingError: Invalid URI host: نامه‌ای.com http://نامه‌ای.com/
-
+HTTP.URIs.ParseError("Invalid URI host: نامه\u200cای.com http://نامه\u200cای.com/")
 5. http://www.looĸout.net/ 
-HTTP.URLParsingError: Invalid URI host: www.looĸout.net http://www.looĸout.net/
-
+HTTP.URIs.ParseError("Invalid URI host: www.looĸout.net http://www.looĸout.net/")
 6. http://ᗯᗯᗯ.lookout.net/ 
-HTTP.URLParsingError: Invalid URI host: ᗯᗯᗯ.lookout.net http://ᗯᗯᗯ.lookout.net/
-
+HTTP.URIs.ParseError("Invalid URI host: ᗯᗯᗯ.lookout.net http://ᗯᗯᗯ.lookout.net/")
 7. http://www.lookout.сом/ 
-HTTP.URLParsingError: Invalid URI host: www.lookout.сом http://www.lookout.сом/
-
+HTTP.URIs.ParseError("Invalid URI host: www.lookout.сом http://www.lookout.сом/")
 8. http://www.lookout.net：80/ 
-HTTP.URLParsingError: Invalid URI host: www.lookout.net：80 http://www.lookout.net：80/
-
+HTTP.URIs.ParseError("Invalid URI host: www.lookout.net：80 http://www.lookout.net：80/")
 9. http://www‥lookout.net/ 
-HTTP.URLParsingError: Invalid URI host: www‥lookout.net http://www‥lookout.net/
-
+HTTP.URIs.ParseError("Invalid URI host: www‥lookout.net http://www‥lookout.net/")
 10. http://www.lookout‧net/ 
-HTTP.URLParsingError: Invalid URI host: www.lookout‧net http://www.lookout‧net/
-
+HTTP.URIs.ParseError("Invalid URI host: www.lookout‧net http://www.lookout‧net/")
 11. http://www.looĸout.net/ 
-HTTP.URLParsingError: Invalid URI host: www.looĸout.net http://www.looĸout.net/
-
+HTTP.URIs.ParseError("Invalid URI host: www.looĸout.net http://www.looĸout.net/")
 12. http://www.lookout.net⩴80/ 
-HTTP.URLParsingError: Invalid URI host: www.lookout.net⩴80 http://www.lookout.net⩴80/
-
+HTTP.URIs.ParseError("Invalid URI host: www.lookout.net⩴80 http://www.lookout.net⩴80/")
 13. http://www .lookout.net/ 
-HTTP.URLParsingError: Invalid URI host: www .lookout.net http://www .lookout.net/
-
+HTTP.URIs.ParseError("Invalid URI host: www .lookout.net http://www .lookout.net/")
 14. http:// lookout.net/ 
-HTTP.URLParsingError: Invalid URI host:  lookout.net http:// lookout.net/
-
+HTTP.URIs.ParseError("Invalid URI host:  lookout.net http:// lookout.net/")
 15. http://lookout.net/ 
-HTTP.URLParsingError: Invalid URI host: lookout.net http://lookout.net/
-
+HTTP.URIs.ParseError("Invalid URI host: \x1flookout.net http://\x1flookout.net/")
 16. http://look۝out.net/ 
-HTTP.URLParsingError: Invalid URI host: look۝out.net http://look۝out.net/
-
+HTTP.URIs.ParseError("Invalid URI host: look\u6ddout.net http://look\u6ddout.net/")
 17. http://look᠎out.net/ 
-HTTP.URLParsingError: Invalid URI host: look᠎out.net http://look᠎out.net/
-
+HTTP.URIs.ParseError("Invalid URI host: look\u180eout.net http://look\u180eout.net/")
 18. http://look⁠out.net/ 
-HTTP.URLParsingError: Invalid URI host: look⁠out.net http://look⁠out.net/
-
+HTTP.URIs.ParseError("Invalid URI host: look\u2060out.net http://look\u2060out.net/")
 19. http://look﻿out.net/ 
-HTTP.URLParsingError: Invalid URI host: look﻿out.net http://look﻿out.net/
-
+HTTP.URIs.ParseError("Invalid URI host: look\ufeffout.net http://look\ufeffout.net/")
 20. http://look🿾out.net/ 
-HTTP.URLParsingError: Invalid URI host: look🿾out.net http://look🿾out.net/
-
+HTTP.URIs.ParseError("Invalid URI host: look\U1fffeout.net http://look\U1fffeout.net/")
 21. http://lookDEADout.net/ 
 22. http://look￺out.net/ 
-HTTP.URLParsingError: Invalid URI host: look￺out.net http://look￺out.net/
-
+HTTP.URIs.ParseError("Invalid URI host: look\ufffaout.net http://look\ufffaout.net/")
 23. http://look⿰out.net/ 
-HTTP.URLParsingError: Invalid URI host: look⿰out.net http://look⿰out.net/
-
+HTTP.URIs.ParseError("Invalid URI host: look⿰out.net http://look⿰out.net/")
 24. http://looḱout.net/ 
-HTTP.URLParsingError: Invalid URI host: looḱout.net http://looḱout.net/
-
+HTTP.URIs.ParseError("Invalid URI host: looḱout.net http://looḱout.net/")
 25. http://look‮out.net/ 
-HTTP.URLParsingError: Invalid URI host: look‮out.net http://look‮out.net/
-
+HTTP.URIs.ParseError("Invalid URI host: look\u202eout.net http://look\u202eout.net/")
 26. http://look⁫out.net/ 
-HTTP.URLParsingError: Invalid URI host: look⁫out.net http://look⁫out.net/
-
+HTTP.URIs.ParseError("Invalid URI host: look\u206bout.net http://look\u206bout.net/")
 27. http://look󠀁out.net/ 
-HTTP.URLParsingError: Invalid URI host: look󠀁out.net http://look󠀁out.net/
-
+HTTP.URIs.ParseError("Invalid URI host: look\Ue0001out.net http://look\Ue0001out.net/")
 28. http://look󠀠out.net/ 
-HTTP.URLParsingError: Invalid URI host: look󠀠out.net http://look󠀠out.net/
-
+HTTP.URIs.ParseError("Invalid URI host: look\Ue0020out.net http://look\Ue0020out.net/")
 29. http://look־out.net/ 
-HTTP.URLParsingError: Invalid URI host: look־out.net http://look־out.net/
-
+HTTP.URIs.ParseError("Invalid URI host: look־out.net http://look־out.net/")
 idna2008
 1. http://Bücher.de/ 
-HTTP.URLParsingError: Invalid URI host: Bücher.de http://Bücher.de/
-
+HTTP.URIs.ParseError("Invalid URI host: Bücher.de http://Bücher.de/")
 2. http://faß.de/ 
-HTTP.URLParsingError: Invalid URI host: faß.de http://faß.de/
-
+HTTP.URIs.ParseError("Invalid URI host: faß.de http://faß.de/")
 3. http://βόλος.com/ 
-HTTP.URLParsingError: Invalid URI host: βόλος.com http://βόλος.com/
-
+HTTP.URIs.ParseError("Invalid URI host: βόλος.com http://βόλος.com/")
 4. http://ශ්‍රී.com/ 
-HTTP.URLParsingError: Invalid URI host: ශ්‍රී.com http://ශ්‍රී.com/
-
+HTTP.URIs.ParseError("Invalid URI host: ශ්\u200dරී.com http://ශ්\u200dරී.com/")
 5. http://نامه‌ای.com/ 
-HTTP.URLParsingError: Invalid URI host: نامه‌ای.com http://نامه‌ای.com/
-
+HTTP.URIs.ParseError("Invalid URI host: نامه\u200cای.com http://نامه\u200cای.com/")
 6. http://♥.net/ 
-HTTP.URLParsingError: Invalid URI host: ♥.net http://♥.net/
-
+HTTP.URIs.ParseError("Invalid URI host: ♥.net http://♥.net/")
 7. http://͸.net/ 
-HTTP.URLParsingError: Invalid URI host: ͸.net http://͸.net/
-
+HTTP.URIs.ParseError("Invalid URI host: \u378.net http://\u378.net/")
 8. http://Ӏ.com/ 
-HTTP.URLParsingError: Invalid URI host: Ӏ.com http://Ӏ.com/
-
+HTTP.URIs.ParseError("Invalid URI host: Ӏ.com http://Ӏ.com/")
 9. http://㛼.com/ 
-HTTP.URLParsingError: Invalid URI host: 㛼.com http://㛼.com/
-
+HTTP.URIs.ParseError("Invalid URI host: 㛼.com http://㛼.com/")
 10. http://Ↄ.com/ 
-HTTP.URLParsingError: Invalid URI host: Ↄ.com http://Ↄ.com/
-
+HTTP.URIs.ParseError("Invalid URI host: Ↄ.com http://Ↄ.com/")
 11. http://look͏out.net/ 
-HTTP.URLParsingError: Invalid URI host: look͏out.net http://look͏out.net/
-
+HTTP.URIs.ParseError("Invalid URI host: look͏out.net http://look͏out.net/")
 12. http://gOoGle.com/ 
 13. http://ড়.com/ 
-HTTP.URLParsingError: Invalid URI host: ড়.com http://ড়.com/
-
+HTTP.URIs.ParseError("Invalid URI host: ড়.com http://ড়.com/")
 14. http://ẞ.com/ 
-HTTP.URLParsingError: Invalid URI host: ẞ.com http://ẞ.com/
-
+HTTP.URIs.ParseError("Invalid URI host: ẞ.com http://ẞ.com/")
 15. http://ẞ.foo.com/ 
-HTTP.URLParsingError: Invalid URI host: ẞ.foo.com http://ẞ.foo.com/
-
+HTTP.URIs.ParseError("Invalid URI host: ẞ.foo.com http://ẞ.foo.com/")
 16. http://-foo.bar.com 
 17. http://foo-.bar.com 
 18. http://ab--cd.com 
 19. http://xn--0.com 
 20. http://foò.bar.com/ 
-HTTP.URLParsingError: Invalid URI host: foò.bar.com http://foò.bar.com/
-
+HTTP.URIs.ParseError("Invalid URI host: foò.bar.com http://foò.bar.com/")
 ipv4
 1. http://./ 
 2. http://192.168.0.1/ 
@@ -413,8 +332,7 @@ ipv4
 17. http://192.168.0.0.1/ 
 18. http://192.168.0.1./ 
 19. http://192.168.0.1. hello/ 
-HTTP.URLParsingError: Invalid URI host: 192.168.0.1. hello http://192.168.0.1. hello/
-
+HTTP.URIs.ParseError("Invalid URI host: 192.168.0.1. hello http://192.168.0.1. hello/")
 20. http://192.168.0.1../ 
 21. http://192.168..1/ 
 22. http://0x100.0/ 
@@ -442,8 +360,7 @@ HTTP.URLParsingError: Invalid URI host: 192.168.0.1. hello http://192.168.0.1. h
 44. http://0X12C0a80001/ 
 45. http://276.1.2/ 
 46. http://192.168.0.1 hello/ 
-HTTP.URLParsingError: Invalid URI host: 192.168.0.1 hello http://192.168.0.1 hello/
-
+HTTP.URIs.ParseError("Invalid URI host: 192.168.0.1 hello http://192.168.0.1 hello/")
 47. http://0000000000000300.0x00000000000000fF.00000000000000001/ 
 48. http://0000000000000300.0xffffffffFFFFFFFF.3022415481470977/ 
 49. http://00000000000000000001/ 
@@ -453,30 +370,22 @@ HTTP.URLParsingError: Invalid URI host: 192.168.0.1 hello http://192.168.0.1 hel
 53. http://0.00.0x.0x0/ 
 ipv6
 1. http://[/ 
-HTTP.URLParsingError: Invalid URI host:  http://[/
-
+HTTP.URIs.ParseError("Invalid URI host:  http://[/")
 2. http://[:/ 
-HTTP.URLParsingError: Invalid URI host:  http://[:/
-
+HTTP.URIs.ParseError("Invalid URI host:  http://[:/")
 3. http://]/ 
-HTTP.URLParsingError: Invalid URI host: ] http://]/
-
+HTTP.URIs.ParseError("Invalid URI host: ] http://]/")
 4. http://:]/ 
-HTTP.URLParsingError: Invalid URI host:  http://:]/
-
+HTTP.URIs.ParseError("Invalid URI host:  http://:]/")
 5. http://[]/ 
-HTTP.URLParsingError: Invalid URI host:  http://[]/
-
+HTTP.URIs.ParseError("Invalid URI host:  http://[]/")
 6. http://[:]/ 
 7. http://2001:db8::1/ 
-HTTP.URLParsingError: Invalid URI port: db8::1
-
+HTTP.URIs.ParseError("Invalid URI port: db8::1")
 8. http://[2001:db8::1/ 
-HTTP.URLParsingError: Invalid URI host:  http://[2001:db8::1/
-
+HTTP.URIs.ParseError("Invalid URI host:  http://[2001:db8::1/")
 9. http://2001:db8::1]/ 
-HTTP.URLParsingError: Invalid URI port: db8::1]
-
+HTTP.URIs.ParseError("Invalid URI port: db8::1]")
 10. http://[::]/ 
 11. http://[::1]/ 
 12. http://[1::.]/ 
@@ -507,42 +416,33 @@ HTTP.URLParsingError: Invalid URI port: db8::1]
 37. http://[1:2:3:4:5:6:192.168.0.1:.]/ 
 38. http://[-1:2:3:4:5:6:7:8.]/ 
 39. http://[1::%1.]/ 
-HTTP.URLParsingError: Invalid URI host: 1::%1.
-
+HTTP.URIs.ParseError("Invalid URI host: 1::%1.")
 40. http://[1::%eth0.]/ 
-HTTP.URLParsingError: Invalid URI host: 1::%eth0.
-
+HTTP.URIs.ParseError("Invalid URI host: 1::%eth0.")
 41. http://[1::%.]/ 
-HTTP.URLParsingError: Invalid URI host: 1::%.
-
+HTTP.URIs.ParseError("Invalid URI host: 1::%.")
 42. http://[%.]/ 
-HTTP.URLParsingError: Invalid URI host:  http://[%.]/
-
+HTTP.URIs.ParseError("Invalid URI host:  http://[%.]/")
 43. http://[::%:.]/ 
-HTTP.URLParsingError: Invalid URI host: ::%:.
-
+HTTP.URIs.ParseError("Invalid URI host: ::%:.")
 44. http://[:0:0::0:0:8.]/ 
 45. http://[0:0::0:0:8:.]/ 
 46. http://[:0:0::0:0:8:.]/ 
 47. http://[::192.168..1.]/ 
 48. http://[::1 hello.]/ 
-HTTP.URLParsingError: Invalid URI host: ::1 hello. http://[::1 hello.]/
-
+HTTP.URIs.ParseError("Invalid URI host: ::1 hello. http://[::1 hello.]/")
 mailto
 1. mailto:addr1 
 2. mailto:addr1@foo.com 
 3. mailto:addr1 \t  
-HTTP.URLParsingError: Invalid URI path: addr1 \t 
-
+HTTP.URIs.ParseError("Invalid URI path: addr1 \\t ")
 4. mailto:addr1?to=jon 
 5. mailto:addr1,addr2 
 6. mailto:addr1, addr2 
-HTTP.URLParsingError: Invalid URI path: addr1, addr2
-
+HTTP.URIs.ParseError("Invalid URI path: addr1, addr2")
 7. mailto:addr1%2caddr2 
 8. mailto:𐌀 
-HTTP.URLParsingError: Invalid URI path: 𐌀
-
+HTTP.URIs.ParseError("Invalid URI path: 𐌀")
 9. mailto:addr1? 
 path-url
 1. javascript: 
@@ -572,60 +472,45 @@ path
 22. http://www.example.com/foo%2 
 23. http://www.example.com/foo%2zbar 
 24. http://www.example.com/foo%2Â©zbar 
-HTTP.URLParsingError: Invalid URI path: /foo%2Â©zbar
-
+HTTP.URIs.ParseError("Invalid URI path: /foo%2Â©zbar")
 25. http://www.example.com/foo%41%7a 
 26. http://www.example.com/foo	%91 
-HTTP.URLParsingError: Invalid URI path: /foo	%91
-
+HTTP.URIs.ParseError("Invalid URI path: /foo\t\u91%91")
 27. http://www.example.com/foo%00%51 
 28. http://www.example.com/(%28:%3A%29) 
 29. http://www.example.com/%3A%3a%3C%3c 
 30. http://www.example.com/foo\tbar 
-HTTP.URLParsingError: Invalid URI path: /foo\tbar
-
+HTTP.URIs.ParseError("Invalid URI path: /foo\\tbar")
 31. http://www.example.com\\foo\\bar 
-HTTP.URLParsingError: Invalid URI host: www.example.com\\foo\\bar http://www.example.com\\foo\\bar
-
+HTTP.URIs.ParseError("Invalid URI host: www.example.com\\\\foo\\\\bar http://www.example.com\\\\foo\\\\bar")
 32. http://www.example.com/%7Ffp3%3Eju%3Dduvgw%3Dd 
 33. http://www.example.com/@asdf%40 
 34. http://www.example.com/你好你好 
-HTTP.URLParsingError: Invalid URI path: /你好你好
-
+HTTP.URIs.ParseError("Invalid URI path: /你好你好")
 35. http://www.example.com/﷐zyx 
-HTTP.URLParsingError: Invalid URI path: /﷐zyx
-
+HTTP.URIs.ParseError("Invalid URI path: /\ufdd0zyx")
 36. http://www.example.com/‥/foo 
-HTTP.URLParsingError: Invalid URI path: /‥/foo
-
+HTTP.URIs.ParseError("Invalid URI path: /‥/foo")
 37. http://www.example.com/DEAD/foo 
 38. http://www.example.com/﻿/foo 
-HTTP.URLParsingError: Invalid URI path: /﻿/foo
-
+HTTP.URIs.ParseError("Invalid URI path: /\ufeff/foo")
 39. http://www.example.com/‮/foo/‭/bar 
-HTTP.URLParsingError: Invalid URI path: /‮/foo/‭/bar
-
+HTTP.URIs.ParseError("Invalid URI path: /\u202e/foo/\u202d/bar")
 40. http://www.example.com／foo/ 
-HTTP.URLParsingError: Invalid URI host: www.example.com／foo http://www.example.com／foo/
-
+HTTP.URIs.ParseError("Invalid URI host: www.example.com／foo http://www.example.com／foo/")
 port
 1. http://www.example.com:as df/ 
-HTTP.URLParsingError: Invalid URI port: as df
-
+HTTP.URIs.ParseError("Invalid URI port: as df")
 2. http://www.example.com:-2/ 
-HTTP.URLParsingError: Invalid URI port: -2
-
+HTTP.URIs.ParseError("Invalid URI port: -2")
 3. http://www.example.com:80/ 
 4. http://www.example.com:8080/ 
 5. http://www.example.com:/ 
-HTTP.URLParsingError: Invalid URI port: 
-
+HTTP.URIs.ParseError("Invalid URI port: ")
 6. http://www.example.com:፩/ 
-HTTP.URLParsingError: Invalid URI port: ፩
-
+HTTP.URIs.ParseError("Invalid URI port: ፩")
 7. http://www.example.com:𝟖/ 
-HTTP.URLParsingError: Invalid URI port: 𝟖
-
+HTTP.URIs.ParseError("Invalid URI port: 𝟖")
 query
 1. http://www.example.com/?foo=bar 
 2. http://www.example.com/?as?df 
@@ -646,27 +531,22 @@ segments
 standard-url
 1. http://www.google.com/foo?bar=baz# 
 2. http://[www.google.com]/ 
-HTTP.URLParsingError: Invalid URI host:  http://[www.google.com]/
-
+HTTP.URIs.ParseError("Invalid URI host:  http://[www.google.com]/")
 3. http:////////user:@google.com:99?foo 
-HTTP.URLParsingError: Invalid URI host:  http:////////user:@google.com:99?foo
-
+HTTP.URIs.ParseError("Invalid URI host:  http:////////user:@google.com:99?foo")
 4. http://192.0x00A80001 
 5. http://www/foo%2Ehtml 
 6. http://user:pass@/ 
-HTTP.URLParsingError: Invalid URI host:  http://user:pass@/
-
+HTTP.URIs.ParseError("Invalid URI host:  http://user:pass@/")
 7. http://%25DOMAIN:foobar@foodomain.com/ 
 8. http:\\\\www.google.com\\foo 
-HTTP.URLParsingError: Invalid URI path: \\\\www.google.com\\foo
-
+HTTP.URIs.ParseError("Invalid URI path: \\\\\\\\www.google.com\\\\foo")
 9. http://www.google.com/asdf#� 
 10. http://foo:80/ 
 11. http://foo:81/ 
 12. httpa://foo:80/ 
 13. http://foo:-80/ 
-HTTP.URLParsingError: Invalid URI port: -80
-
+HTTP.URIs.ParseError("Invalid URI port: -80")
 14. https://foo:443/ 
 15. https://foo:80/ 
 16. ftp://foo:21/ 
@@ -686,940 +566,106 @@ trivial
 normalization
 whitespace
 1. http://www.example.com/foo    bar/?   foo   =   bar     #    foo 
-HTTP.URLParsingError: Invalid URI path: /foo    bar/
-
+HTTP.URIs.ParseError("Invalid URI path: /foo    bar/")
 2. http://www.example.com/  
-HTTP.URLParsingError: Invalid URI path: / 
-
+HTTP.URIs.ParseError("Invalid URI path: / ")
 percent-encoding
 1. http://www.example.com/foo%3fbar Test if delimeters such as "?" are unencoded
 2. http://www.example.com/foo%2fbar Test if delimeters such as "/" are unencoded
 3. %68%74%74%70%3a%2f%2f%77%77%77%2e%65%78%61%6d%70%6c%65%2e%63%6f%6d%2f Test if entire string is unencoded
 4. http%3a%2f%2f%77%77%77%2e%65%78%61%6d%70%6c%65%2e%63%6f%6d%2f Test if scheme gets unencoded
 5. http://%77%77%77%2e%65%78%61%6d%70%6c%65%2e%63%6f%6d%3a%38%30 Test if authority and port gets unencoded
-HTTP.URLParsingError: Invalid URI host: %77%77%77%2e%65%78%61%6d%70%6c%65%2e%63%6f%6d%3a%38%30
-
+HTTP.URIs.ParseError("Invalid URI host: %77%77%77%2e%65%78%61%6d%70%6c%65%2e%63%6f%6d%3a%38%30")
 6. http://%A1%C1.com 
-HTTP.URLParsingError: Invalid URI host: %A1%C1.com
-
+HTTP.URIs.ParseError("Invalid URI host: %A1%C1.com")
 7. http://www.example.com/%A1%C1/?foo=%EF%BD%81 Test mixed encodings
 8. http://www.example.com/%EF%BD%81/?foo=%A1%C1 Test mixed encodings
 9. http://www.example.com/ＦＯＯ/?foo=%A1%C1 Test mixed encodings
-HTTP.URLParsingError: Invalid URI path: /ＦＯＯ/
-
+HTTP.URIs.ParseError("Invalid URI path: /ＦＯＯ/")
 10. http://www.example.com/%A1%C1/?foo=ＦＯＯ Test mixed encodings
 11. http://www.example.com/ＦＯＯ/?foo=%A1%C1 Test mixed encodings
-HTTP.URLParsingError: Invalid URI path: /ＦＯＯ/
-
+HTTP.URIs.ParseError("Invalid URI path: /ＦＯＯ/")
 12. http://www.example.com/D%FCrst The Martin Dürst test
 13. http://www.example.com/D%C3%BCrst The Martin Dürst test
 14. http://www.example.com/?D%FCrst The Martin Dürst test
 15. http://www.example.com/?D%C3%BCrst The Martin Dürst test
 miscellaneous
 1. http://user%40example.com/ 
-HTTP.URLParsingError: Invalid URI host: user%40example.com
-
+HTTP.URIs.ParseError("Invalid URI host: user%40example.com")
 2. http://user%3Ainfo%40/ 
-HTTP.URLParsingError: Invalid URI host: user%3Ainfo%40
-
+HTTP.URIs.ParseError("Invalid URI host: user%3Ainfo%40")
 3. http://user@/ 
-HTTP.URLParsingError: Invalid URI host:  http://user@/
-
+HTTP.URIs.ParseError("Invalid URI host:  http://user@/")
 4. $:foo/bar 
-HTTP.URLParsingError: Invalid URI scheme: $
-
+HTTP.URIs.ParseError("Invalid URI scheme: \$")
 5. mailto::foo@bar.com Two colons after mailto scheme
 data-scheme
 1. data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAOCAYAAAAmL5yKAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGlSURBVDhPnZDfS1NhGMfff8oLEUE0FBfqmrigi/DKrvKqiNDEKYjCUJdH3I/Q5WoLdYmlU1FP0LQoEclYOCcoMbJuDAUVA/v0vK8/QssL98AH3u97zud7Ho4ajr8i2P8sJ2JDcVSwf5BcR7sqEHpqQpF/60ro0e5Zwb1FiPyAoW14tAIVE5fjGDPKaUHYhOQhTO1DYu+Y/4mn/C0Io3oDAyasCYtHsPALRmUL5+R56j9AdwbsA4jJpnq0q6y+JyboO11ibUBt8jxpuV8VPgn6I5M7cpDRrhSETKiXf3BXuPP+X8Zlo3V5JyUs/4aZXaNIQQj12AqY0CBPL9KW+kIwbWF/b2MqW8d09iZzW27mf0aNo13lOynwpPZpTHpotstpfVOK9105oeUKnqeqiK06iWduMLbhIvG1Gvub2zjaVV09fhPqRgq5nyimYaaEptlrtCfL6Fu6TvhzJREpeZF28nLdxevNamazNcbRrvJ2WiY4/Hm4w/ncihRwO1pwVqjLWuxS2t+W0SVbWR8dDK5UGke7qsPrMyGX0a7y9fSaQy48eNjIH2VPyHZqSIx2AAAAAElFTkSuQmCC A good test that should pass.
 2. data::image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAOCAYAAAAmL5yKAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGlSURBVDhPnZDfS1NhGMfff8oLEUE0FBfqmrigi/DKrvKqiNDEKYjCUJdH3I/Q5WoLdYmlU1FP0LQoEclYOCcoMbJuDAUVA/v0vK8/QssL98AH3u97zud7Ho4ajr8i2P8sJ2JDcVSwf5BcR7sqEHpqQpF/60ro0e5Zwb1FiPyAoW14tAIVE5fjGDPKaUHYhOQhTO1DYu+Y/4mn/C0Io3oDAyasCYtHsPALRmUL5+R56j9AdwbsA4jJpnq0q6y+JyboO11ibUBt8jxpuV8VPgn6I5M7cpDRrhSETKiXf3BXuPP+X8Zlo3V5JyUs/4aZXaNIQQj12AqY0CBPL9KW+kIwbWF/b2MqW8d09iZzW27mf0aNo13lOynwpPZpTHpotstpfVOK9105oeUKnqeqiK06iWduMLbhIvG1Gvub2zjaVV09fhPqRgq5nyimYaaEptlrtCfL6Fu6TvhzJREpeZF28nLdxevNamazNcbRrvJ2WiY4/Hm4w/ncihRwO1pwVqjLWuxS2t+W0SVbWR8dDK5UGke7qsPrMyGX0a7y9fSaQy48eNjIH2VPyHZqSIx2AAAAAElFTkSuQmCC A test using two colons after scheme
 3. data:::image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAOCAYAAAAmL5yKAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGlSURBVDhPnZDfS1NhGMfff8oLEUE0FBfqmrigi/DKrvKqiNDEKYjCUJdH3I/Q5WoLdYmlU1FP0LQoEclYOCcoMbJuDAUVA/v0vK8/QssL98AH3u97zud7Ho4ajr8i2P8sJ2JDcVSwf5BcR7sqEHpqQpF/60ro0e5Zwb1FiPyAoW14tAIVE5fjGDPKaUHYhOQhTO1DYu+Y/4mn/C0Io3oDAyasCYtHsPALRmUL5+R56j9AdwbsA4jJpnq0q6y+JyboO11ibUBt8jxpuV8VPgn6I5M7cpDRrhSETKiXf3BXuPP+X8Zlo3V5JyUs/4aZXaNIQQj12AqY0CBPL9KW+kIwbWF/b2MqW8d09iZzW27mf0aNo13lOynwpPZpTHpotstpfVOK9105oeUKnqeqiK06iWduMLbhIvG1Gvub2zjaVV09fhPqRgq5nyimYaaEptlrtCfL6Fu6TvhzJREpeZF28nLdxevNamazNcbRrvJ2WiY4/Hm4w/ncihRwO1pwVqjLWuxS2t+W0SVbWR8dDK5UGke7qsPrMyGX0a7y9fSaQy48eNjIH2VPyHZqSIx2AAAAAElFTkSuQmCC A test using three colons after scheme
-TEST - parser.jl - Request -1: curl get
-TEST - parser.jl - Request 0: curl get
-TEST - parser.jl - Request 1: curl get
-TEST - parser.jl - Request 2: curl get
-TEST - parser.jl - Request 3: curl get
-TEST - parser.jl - Request 4: curl get
-TEST - parser.jl - Request 11: curl get
-TEST - parser.jl - Request 13: curl get
-TEST - parser.jl - Request 17: curl get
-TEST - parser.jl - Request 19: curl get
-TEST - parser.jl - Request 23: curl get
-TEST - parser.jl - Request 29: curl get
-TEST - parser.jl - Request 31: curl get
-TEST - parser.jl - Request 32: curl get
-TEST - parser.jl - Request -1: firefox get
-TEST - parser.jl - Request 0: firefox get
-TEST - parser.jl - Request 1: firefox get
-TEST - parser.jl - Request 2: firefox get
-TEST - parser.jl - Request 3: firefox get
-TEST - parser.jl - Request 4: firefox get
-TEST - parser.jl - Request 11: firefox get
-TEST - parser.jl - Request 13: firefox get
-TEST - parser.jl - Request 17: firefox get
-TEST - parser.jl - Request 19: firefox get
-TEST - parser.jl - Request 23: firefox get
-TEST - parser.jl - Request 29: firefox get
-TEST - parser.jl - Request 31: firefox get
-TEST - parser.jl - Request 32: firefox get
-TEST - parser.jl - Request -1: abcdefgh
-TEST - parser.jl - Request 0: abcdefgh
-TEST - parser.jl - Request 1: abcdefgh
-TEST - parser.jl - Request 2: abcdefgh
-TEST - parser.jl - Request 3: abcdefgh
-TEST - parser.jl - Request 4: abcdefgh
-TEST - parser.jl - Request 11: abcdefgh
-TEST - parser.jl - Request 13: abcdefgh
-TEST - parser.jl - Request 17: abcdefgh
-TEST - parser.jl - Request 19: abcdefgh
-TEST - parser.jl - Request 23: abcdefgh
-TEST - parser.jl - Request 29: abcdefgh
-TEST - parser.jl - Request 31: abcdefgh
-TEST - parser.jl - Request 32: abcdefgh
-TEST - parser.jl - Request -1: fragment in url
-TEST - parser.jl - Request 0: fragment in url
-TEST - parser.jl - Request 1: fragment in url
-TEST - parser.jl - Request 2: fragment in url
-TEST - parser.jl - Request 3: fragment in url
-TEST - parser.jl - Request 4: fragment in url
-TEST - parser.jl - Request 11: fragment in url
-TEST - parser.jl - Request 13: fragment in url
-TEST - parser.jl - Request 17: fragment in url
-TEST - parser.jl - Request 19: fragment in url
-TEST - parser.jl - Request 23: fragment in url
-TEST - parser.jl - Request 29: fragment in url
-TEST - parser.jl - Request 31: fragment in url
-TEST - parser.jl - Request 32: fragment in url
-TEST - parser.jl - Request -1: get no headers no body
-TEST - parser.jl - Request 0: get no headers no body
-TEST - parser.jl - Request 1: get no headers no body
-TEST - parser.jl - Request 2: get no headers no body
-TEST - parser.jl - Request 3: get no headers no body
-TEST - parser.jl - Request 4: get no headers no body
-TEST - parser.jl - Request 11: get no headers no body
-TEST - parser.jl - Request 13: get no headers no body
-TEST - parser.jl - Request 17: get no headers no body
-TEST - parser.jl - Request 19: get no headers no body
-TEST - parser.jl - Request 23: get no headers no body
-TEST - parser.jl - Request 29: get no headers no body
-TEST - parser.jl - Request 31: get no headers no body
-TEST - parser.jl - Request 32: get no headers no body
-TEST - parser.jl - Request -1: get one header no body
-TEST - parser.jl - Request 0: get one header no body
-TEST - parser.jl - Request 1: get one header no body
-TEST - parser.jl - Request 2: get one header no body
-TEST - parser.jl - Request 3: get one header no body
-TEST - parser.jl - Request 4: get one header no body
-TEST - parser.jl - Request 11: get one header no body
-TEST - parser.jl - Request 13: get one header no body
-TEST - parser.jl - Request 17: get one header no body
-TEST - parser.jl - Request 19: get one header no body
-TEST - parser.jl - Request 23: get one header no body
-TEST - parser.jl - Request 29: get one header no body
-TEST - parser.jl - Request 31: get one header no body
-TEST - parser.jl - Request 32: get one header no body
-TEST - parser.jl - Request -1: get funky content length body hello
-TEST - parser.jl - Request 0: get funky content length body hello
-TEST - parser.jl - Request 1: get funky content length body hello
-TEST - parser.jl - Request 2: get funky content length body hello
-TEST - parser.jl - Request 3: get funky content length body hello
-TEST - parser.jl - Request 4: get funky content length body hello
-TEST - parser.jl - Request 11: get funky content length body hello
-TEST - parser.jl - Request 13: get funky content length body hello
-TEST - parser.jl - Request 17: get funky content length body hello
-TEST - parser.jl - Request 19: get funky content length body hello
-TEST - parser.jl - Request 23: get funky content length body hello
-TEST - parser.jl - Request 29: get funky content length body hello
-TEST - parser.jl - Request 31: get funky content length body hello
-TEST - parser.jl - Request 32: get funky content length body hello
-TEST - parser.jl - Request -1: post identity body world
-TEST - parser.jl - Request 0: post identity body world
-TEST - parser.jl - Request 1: post identity body world
-TEST - parser.jl - Request 2: post identity body world
-TEST - parser.jl - Request 3: post identity body world
-TEST - parser.jl - Request 4: post identity body world
-TEST - parser.jl - Request 11: post identity body world
-TEST - parser.jl - Request 13: post identity body world
-TEST - parser.jl - Request 17: post identity body world
-TEST - parser.jl - Request 19: post identity body world
-TEST - parser.jl - Request 23: post identity body world
-TEST - parser.jl - Request 29: post identity body world
-TEST - parser.jl - Request 31: post identity body world
-TEST - parser.jl - Request 32: post identity body world
-TEST - parser.jl - Request -1: post - chunked body: all your base are belong to us
-TEST - parser.jl - Request 0: post - chunked body: all your base are belong to us
-TEST - parser.jl - Request 1: post - chunked body: all your base are belong to us
-TEST - parser.jl - Request 2: post - chunked body: all your base are belong to us
-TEST - parser.jl - Request 3: post - chunked body: all your base are belong to us
-TEST - parser.jl - Request 4: post - chunked body: all your base are belong to us
-TEST - parser.jl - Request 11: post - chunked body: all your base are belong to us
-TEST - parser.jl - Request 13: post - chunked body: all your base are belong to us
-TEST - parser.jl - Request 17: post - chunked body: all your base are belong to us
-TEST - parser.jl - Request 19: post - chunked body: all your base are belong to us
-TEST - parser.jl - Request 23: post - chunked body: all your base are belong to us
-TEST - parser.jl - Request 29: post - chunked body: all your base are belong to us
-TEST - parser.jl - Request 31: post - chunked body: all your base are belong to us
-TEST - parser.jl - Request 32: post - chunked body: all your base are belong to us
-TEST - parser.jl - Request -1: two chunks ; triple zero ending
-TEST - parser.jl - Request 0: two chunks ; triple zero ending
-TEST - parser.jl - Request 1: two chunks ; triple zero ending
-TEST - parser.jl - Request 2: two chunks ; triple zero ending
-TEST - parser.jl - Request 3: two chunks ; triple zero ending
-TEST - parser.jl - Request 4: two chunks ; triple zero ending
-TEST - parser.jl - Request 11: two chunks ; triple zero ending
-TEST - parser.jl - Request 13: two chunks ; triple zero ending
-TEST - parser.jl - Request 17: two chunks ; triple zero ending
-TEST - parser.jl - Request 19: two chunks ; triple zero ending
-TEST - parser.jl - Request 23: two chunks ; triple zero ending
-TEST - parser.jl - Request 29: two chunks ; triple zero ending
-TEST - parser.jl - Request 31: two chunks ; triple zero ending
-TEST - parser.jl - Request 32: two chunks ; triple zero ending
-TEST - parser.jl - Request -1: chunked with trailing headers. blech.
-TEST - parser.jl - Request 0: chunked with trailing headers. blech.
-TEST - parser.jl - Request 1: chunked with trailing headers. blech.
-TEST - parser.jl - Request 2: chunked with trailing headers. blech.
-TEST - parser.jl - Request 3: chunked with trailing headers. blech.
-TEST - parser.jl - Request 4: chunked with trailing headers. blech.
-TEST - parser.jl - Request 11: chunked with trailing headers. blech.
-TEST - parser.jl - Request 13: chunked with trailing headers. blech.
-TEST - parser.jl - Request 17: chunked with trailing headers. blech.
-TEST - parser.jl - Request 19: chunked with trailing headers. blech.
-TEST - parser.jl - Request 23: chunked with trailing headers. blech.
-TEST - parser.jl - Request 29: chunked with trailing headers. blech.
-TEST - parser.jl - Request 31: chunked with trailing headers. blech.
-TEST - parser.jl - Request 32: chunked with trailing headers. blech.
-TEST - parser.jl - Request -1: with excessss after the length
-TEST - parser.jl - Request 0: with excessss after the length
-TEST - parser.jl - Request 1: with excessss after the length
-TEST - parser.jl - Request 2: with excessss after the length
-TEST - parser.jl - Request 3: with excessss after the length
-TEST - parser.jl - Request 4: with excessss after the length
-TEST - parser.jl - Request 11: with excessss after the length
-TEST - parser.jl - Request 13: with excessss after the length
-TEST - parser.jl - Request 17: with excessss after the length
-TEST - parser.jl - Request 19: with excessss after the length
-TEST - parser.jl - Request 23: with excessss after the length
-TEST - parser.jl - Request 29: with excessss after the length
-TEST - parser.jl - Request 31: with excessss after the length
-TEST - parser.jl - Request 32: with excessss after the length
-TEST - parser.jl - Request -1: with quotes
-TEST - parser.jl - Request 0: with quotes
-TEST - parser.jl - Request 1: with quotes
-TEST - parser.jl - Request 2: with quotes
-TEST - parser.jl - Request 3: with quotes
-TEST - parser.jl - Request 4: with quotes
-TEST - parser.jl - Request 11: with quotes
-TEST - parser.jl - Request 13: with quotes
-TEST - parser.jl - Request 17: with quotes
-TEST - parser.jl - Request 19: with quotes
-TEST - parser.jl - Request 23: with quotes
-TEST - parser.jl - Request 29: with quotes
-TEST - parser.jl - Request 31: with quotes
-TEST - parser.jl - Request 32: with quotes
-TEST - parser.jl - Request -1: apachebench get
-TEST - parser.jl - Request 0: apachebench get
-TEST - parser.jl - Request 1: apachebench get
-TEST - parser.jl - Request 2: apachebench get
-TEST - parser.jl - Request 3: apachebench get
-TEST - parser.jl - Request 4: apachebench get
-TEST - parser.jl - Request 11: apachebench get
-TEST - parser.jl - Request 13: apachebench get
-TEST - parser.jl - Request 17: apachebench get
-TEST - parser.jl - Request 19: apachebench get
-TEST - parser.jl - Request 23: apachebench get
-TEST - parser.jl - Request 29: apachebench get
-TEST - parser.jl - Request 31: apachebench get
-TEST - parser.jl - Request 32: apachebench get
-TEST - parser.jl - Request -1: query url with question mark
-TEST - parser.jl - Request 0: query url with question mark
-TEST - parser.jl - Request 1: query url with question mark
-TEST - parser.jl - Request 2: query url with question mark
-TEST - parser.jl - Request 3: query url with question mark
-TEST - parser.jl - Request 4: query url with question mark
-TEST - parser.jl - Request 11: query url with question mark
-TEST - parser.jl - Request 13: query url with question mark
-TEST - parser.jl - Request 17: query url with question mark
-TEST - parser.jl - Request 19: query url with question mark
-TEST - parser.jl - Request 23: query url with question mark
-TEST - parser.jl - Request 29: query url with question mark
-TEST - parser.jl - Request 31: query url with question mark
-TEST - parser.jl - Request 32: query url with question mark
-TEST - parser.jl - Request -1: newline prefix get
-TEST - parser.jl - Request 0: newline prefix get
-TEST - parser.jl - Request 1: newline prefix get
-TEST - parser.jl - Request 2: newline prefix get
-TEST - parser.jl - Request 3: newline prefix get
-TEST - parser.jl - Request 4: newline prefix get
-TEST - parser.jl - Request 11: newline prefix get
-TEST - parser.jl - Request 13: newline prefix get
-TEST - parser.jl - Request 17: newline prefix get
-TEST - parser.jl - Request 19: newline prefix get
-TEST - parser.jl - Request 23: newline prefix get
-TEST - parser.jl - Request 29: newline prefix get
-TEST - parser.jl - Request 31: newline prefix get
-TEST - parser.jl - Request 32: newline prefix get
-TEST - parser.jl - Request -1: upgrade request
-TEST - parser.jl - Request 0: upgrade request
-TEST - parser.jl - Request 1: upgrade request
-TEST - parser.jl - Request 2: upgrade request
-TEST - parser.jl - Request 3: upgrade request
-TEST - parser.jl - Request 4: upgrade request
-TEST - parser.jl - Request 11: upgrade request
-TEST - parser.jl - Request 13: upgrade request
-TEST - parser.jl - Request 17: upgrade request
-TEST - parser.jl - Request 19: upgrade request
-TEST - parser.jl - Request 23: upgrade request
-TEST - parser.jl - Request 29: upgrade request
-TEST - parser.jl - Request 31: upgrade request
-TEST - parser.jl - Request 32: upgrade request
-TEST - parser.jl - Request -1: connect request
-TEST - parser.jl - Request 0: connect request
-TEST - parser.jl - Request 1: connect request
-TEST - parser.jl - Request 2: connect request
-TEST - parser.jl - Request 3: connect request
-TEST - parser.jl - Request 4: connect request
-TEST - parser.jl - Request 11: connect request
-TEST - parser.jl - Request 13: connect request
-TEST - parser.jl - Request 17: connect request
-TEST - parser.jl - Request 19: connect request
-TEST - parser.jl - Request 23: connect request
-TEST - parser.jl - Request 29: connect request
-TEST - parser.jl - Request 31: connect request
-TEST - parser.jl - Request 32: connect request
-TEST - parser.jl - Request -1: report request
-TEST - parser.jl - Request 0: report request
-TEST - parser.jl - Request 1: report request
-TEST - parser.jl - Request 2: report request
-TEST - parser.jl - Request 3: report request
-TEST - parser.jl - Request 4: report request
-TEST - parser.jl - Request 11: report request
-TEST - parser.jl - Request 13: report request
-TEST - parser.jl - Request 17: report request
-TEST - parser.jl - Request 19: report request
-TEST - parser.jl - Request 23: report request
-TEST - parser.jl - Request 29: report request
-TEST - parser.jl - Request 31: report request
-TEST - parser.jl - Request 32: report request
-TEST - parser.jl - Request -1: request with no http version
-TEST - parser.jl - Request 0: request with no http version
-TEST - parser.jl - Request 1: request with no http version
-TEST - parser.jl - Request 2: request with no http version
-TEST - parser.jl - Request 3: request with no http version
-TEST - parser.jl - Request 4: request with no http version
-TEST - parser.jl - Request 11: request with no http version
-TEST - parser.jl - Request 13: request with no http version
-TEST - parser.jl - Request 17: request with no http version
-TEST - parser.jl - Request 19: request with no http version
-TEST - parser.jl - Request 23: request with no http version
-TEST - parser.jl - Request 29: request with no http version
-TEST - parser.jl - Request 31: request with no http version
-TEST - parser.jl - Request 32: request with no http version
-TEST - parser.jl - Request -1: m-search request
-TEST - parser.jl - Request 0: m-search request
-TEST - parser.jl - Request 1: m-search request
-TEST - parser.jl - Request 2: m-search request
-TEST - parser.jl - Request 3: m-search request
-TEST - parser.jl - Request 4: m-search request
-TEST - parser.jl - Request 11: m-search request
-TEST - parser.jl - Request 13: m-search request
-TEST - parser.jl - Request 17: m-search request
-TEST - parser.jl - Request 19: m-search request
-TEST - parser.jl - Request 23: m-search request
-TEST - parser.jl - Request 29: m-search request
-TEST - parser.jl - Request 31: m-search request
-TEST - parser.jl - Request 32: m-search request
-TEST - parser.jl - Request -1: host terminated by a query string
-TEST - parser.jl - Request 0: host terminated by a query string
-TEST - parser.jl - Request 1: host terminated by a query string
-TEST - parser.jl - Request 2: host terminated by a query string
-TEST - parser.jl - Request 3: host terminated by a query string
-TEST - parser.jl - Request 4: host terminated by a query string
-TEST - parser.jl - Request 11: host terminated by a query string
-TEST - parser.jl - Request 13: host terminated by a query string
-TEST - parser.jl - Request 17: host terminated by a query string
-TEST - parser.jl - Request 19: host terminated by a query string
-TEST - parser.jl - Request 23: host terminated by a query string
-TEST - parser.jl - Request 29: host terminated by a query string
-TEST - parser.jl - Request 31: host terminated by a query string
-TEST - parser.jl - Request 32: host terminated by a query string
-TEST - parser.jl - Request -1: host:port terminated by a query string
-TEST - parser.jl - Request 0: host:port terminated by a query string
-TEST - parser.jl - Request 1: host:port terminated by a query string
-TEST - parser.jl - Request 2: host:port terminated by a query string
-TEST - parser.jl - Request 3: host:port terminated by a query string
-TEST - parser.jl - Request 4: host:port terminated by a query string
-TEST - parser.jl - Request 11: host:port terminated by a query string
-TEST - parser.jl - Request 13: host:port terminated by a query string
-TEST - parser.jl - Request 17: host:port terminated by a query string
-TEST - parser.jl - Request 19: host:port terminated by a query string
-TEST - parser.jl - Request 23: host:port terminated by a query string
-TEST - parser.jl - Request 29: host:port terminated by a query string
-TEST - parser.jl - Request 31: host:port terminated by a query string
-TEST - parser.jl - Request 32: host:port terminated by a query string
-TEST - parser.jl - Request -1: host:port terminated by a space
-TEST - parser.jl - Request 0: host:port terminated by a space
-TEST - parser.jl - Request 1: host:port terminated by a space
-TEST - parser.jl - Request 2: host:port terminated by a space
-TEST - parser.jl - Request 3: host:port terminated by a space
-TEST - parser.jl - Request 4: host:port terminated by a space
-TEST - parser.jl - Request 11: host:port terminated by a space
-TEST - parser.jl - Request 13: host:port terminated by a space
-TEST - parser.jl - Request 17: host:port terminated by a space
-TEST - parser.jl - Request 19: host:port terminated by a space
-TEST - parser.jl - Request 23: host:port terminated by a space
-TEST - parser.jl - Request 29: host:port terminated by a space
-TEST - parser.jl - Request 31: host:port terminated by a space
-TEST - parser.jl - Request 32: host:port terminated by a space
-TEST - parser.jl - Request -1: PATCH request
-TEST - parser.jl - Request 0: PATCH request
-TEST - parser.jl - Request 1: PATCH request
-TEST - parser.jl - Request 2: PATCH request
-TEST - parser.jl - Request 3: PATCH request
-TEST - parser.jl - Request 4: PATCH request
-TEST - parser.jl - Request 11: PATCH request
-TEST - parser.jl - Request 13: PATCH request
-TEST - parser.jl - Request 17: PATCH request
-TEST - parser.jl - Request 19: PATCH request
-TEST - parser.jl - Request 23: PATCH request
-TEST - parser.jl - Request 29: PATCH request
-TEST - parser.jl - Request 31: PATCH request
-TEST - parser.jl - Request 32: PATCH request
-TEST - parser.jl - Request -1: connect caps request
-TEST - parser.jl - Request 0: connect caps request
-TEST - parser.jl - Request 1: connect caps request
-TEST - parser.jl - Request 2: connect caps request
-TEST - parser.jl - Request 3: connect caps request
-TEST - parser.jl - Request 4: connect caps request
-TEST - parser.jl - Request 11: connect caps request
-TEST - parser.jl - Request 13: connect caps request
-TEST - parser.jl - Request 17: connect caps request
-TEST - parser.jl - Request 19: connect caps request
-TEST - parser.jl - Request 23: connect caps request
-TEST - parser.jl - Request 29: connect caps request
-TEST - parser.jl - Request 31: connect caps request
-TEST - parser.jl - Request 32: connect caps request
-TEST - parser.jl - Request -1: utf-8 path request
-TEST - parser.jl - Request 0: utf-8 path request
-TEST - parser.jl - Request 1: utf-8 path request
-TEST - parser.jl - Request 2: utf-8 path request
-TEST - parser.jl - Request 3: utf-8 path request
-TEST - parser.jl - Request 4: utf-8 path request
-TEST - parser.jl - Request 11: utf-8 path request
-TEST - parser.jl - Request 13: utf-8 path request
-TEST - parser.jl - Request 17: utf-8 path request
-TEST - parser.jl - Request 19: utf-8 path request
-TEST - parser.jl - Request 23: utf-8 path request
-TEST - parser.jl - Request 29: utf-8 path request
-TEST - parser.jl - Request 31: utf-8 path request
-TEST - parser.jl - Request 32: utf-8 path request
-TEST - parser.jl - Request -1: hostname underscore
-TEST - parser.jl - Request 0: hostname underscore
-TEST - parser.jl - Request 1: hostname underscore
-TEST - parser.jl - Request 2: hostname underscore
-TEST - parser.jl - Request 3: hostname underscore
-TEST - parser.jl - Request 4: hostname underscore
-TEST - parser.jl - Request 11: hostname underscore
-TEST - parser.jl - Request 13: hostname underscore
-TEST - parser.jl - Request 17: hostname underscore
-TEST - parser.jl - Request 19: hostname underscore
-TEST - parser.jl - Request 23: hostname underscore
-TEST - parser.jl - Request 29: hostname underscore
-TEST - parser.jl - Request 31: hostname underscore
-TEST - parser.jl - Request 32: hostname underscore
-TEST - parser.jl - Request -1: eat CRLF between requests, no "Connection: close" header
-TEST - parser.jl - Request 0: eat CRLF between requests, no "Connection: close" header
-TEST - parser.jl - Request 1: eat CRLF between requests, no "Connection: close" header
-TEST - parser.jl - Request 2: eat CRLF between requests, no "Connection: close" header
-TEST - parser.jl - Request 3: eat CRLF between requests, no "Connection: close" header
-TEST - parser.jl - Request 4: eat CRLF between requests, no "Connection: close" header
-TEST - parser.jl - Request 11: eat CRLF between requests, no "Connection: close" header
-TEST - parser.jl - Request 13: eat CRLF between requests, no "Connection: close" header
-TEST - parser.jl - Request 17: eat CRLF between requests, no "Connection: close" header
-TEST - parser.jl - Request 19: eat CRLF between requests, no "Connection: close" header
-TEST - parser.jl - Request 23: eat CRLF between requests, no "Connection: close" header
-TEST - parser.jl - Request 29: eat CRLF between requests, no "Connection: close" header
-TEST - parser.jl - Request 31: eat CRLF between requests, no "Connection: close" header
-TEST - parser.jl - Request 32: eat CRLF between requests, no "Connection: close" header
-TEST - parser.jl - Request -1: eat CRLF between requests even if "Connection: close" is set
-TEST - parser.jl - Request 0: eat CRLF between requests even if "Connection: close" is set
-TEST - parser.jl - Request 1: eat CRLF between requests even if "Connection: close" is set
-TEST - parser.jl - Request 2: eat CRLF between requests even if "Connection: close" is set
-TEST - parser.jl - Request 3: eat CRLF between requests even if "Connection: close" is set
-TEST - parser.jl - Request 4: eat CRLF between requests even if "Connection: close" is set
-TEST - parser.jl - Request 11: eat CRLF between requests even if "Connection: close" is set
-TEST - parser.jl - Request 13: eat CRLF between requests even if "Connection: close" is set
-TEST - parser.jl - Request 17: eat CRLF between requests even if "Connection: close" is set
-TEST - parser.jl - Request 19: eat CRLF between requests even if "Connection: close" is set
-TEST - parser.jl - Request 23: eat CRLF between requests even if "Connection: close" is set
-TEST - parser.jl - Request 29: eat CRLF between requests even if "Connection: close" is set
-TEST - parser.jl - Request 31: eat CRLF between requests even if "Connection: close" is set
-TEST - parser.jl - Request 32: eat CRLF between requests even if "Connection: close" is set
-TEST - parser.jl - Request -1: PURGE request
-TEST - parser.jl - Request 0: PURGE request
-TEST - parser.jl - Request 1: PURGE request
-TEST - parser.jl - Request 2: PURGE request
-TEST - parser.jl - Request 3: PURGE request
-TEST - parser.jl - Request 4: PURGE request
-TEST - parser.jl - Request 11: PURGE request
-TEST - parser.jl - Request 13: PURGE request
-TEST - parser.jl - Request 17: PURGE request
-TEST - parser.jl - Request 19: PURGE request
-TEST - parser.jl - Request 23: PURGE request
-TEST - parser.jl - Request 29: PURGE request
-TEST - parser.jl - Request 31: PURGE request
-TEST - parser.jl - Request 32: PURGE request
-TEST - parser.jl - Request -1: SEARCH request
-TEST - parser.jl - Request 0: SEARCH request
-TEST - parser.jl - Request 1: SEARCH request
-TEST - parser.jl - Request 2: SEARCH request
-TEST - parser.jl - Request 3: SEARCH request
-TEST - parser.jl - Request 4: SEARCH request
-TEST - parser.jl - Request 11: SEARCH request
-TEST - parser.jl - Request 13: SEARCH request
-TEST - parser.jl - Request 17: SEARCH request
-TEST - parser.jl - Request 19: SEARCH request
-TEST - parser.jl - Request 23: SEARCH request
-TEST - parser.jl - Request 29: SEARCH request
-TEST - parser.jl - Request 31: SEARCH request
-TEST - parser.jl - Request 32: SEARCH request
-TEST - parser.jl - Request -1: host:port and basic_auth
-TEST - parser.jl - Request 0: host:port and basic_auth
-TEST - parser.jl - Request 1: host:port and basic_auth
-TEST - parser.jl - Request 2: host:port and basic_auth
-TEST - parser.jl - Request 3: host:port and basic_auth
-TEST - parser.jl - Request 4: host:port and basic_auth
-TEST - parser.jl - Request 11: host:port and basic_auth
-TEST - parser.jl - Request 13: host:port and basic_auth
-TEST - parser.jl - Request 17: host:port and basic_auth
-TEST - parser.jl - Request 19: host:port and basic_auth
-TEST - parser.jl - Request 23: host:port and basic_auth
-TEST - parser.jl - Request 29: host:port and basic_auth
-TEST - parser.jl - Request 31: host:port and basic_auth
-TEST - parser.jl - Request 32: host:port and basic_auth
-TEST - parser.jl - Request -1: upgrade post request
-TEST - parser.jl - Request 0: upgrade post request
-TEST - parser.jl - Request 1: upgrade post request
-TEST - parser.jl - Request 2: upgrade post request
-TEST - parser.jl - Request 3: upgrade post request
-TEST - parser.jl - Request 4: upgrade post request
-TEST - parser.jl - Request 11: upgrade post request
-TEST - parser.jl - Request 13: upgrade post request
-TEST - parser.jl - Request 17: upgrade post request
-TEST - parser.jl - Request 19: upgrade post request
-TEST - parser.jl - Request 23: upgrade post request
-TEST - parser.jl - Request 29: upgrade post request
-TEST - parser.jl - Request 31: upgrade post request
-TEST - parser.jl - Request 32: upgrade post request
-TEST - parser.jl - Request -1: connect with body request
-TEST - parser.jl - Request 0: connect with body request
-TEST - parser.jl - Request 1: connect with body request
-TEST - parser.jl - Request 2: connect with body request
-TEST - parser.jl - Request 3: connect with body request
-TEST - parser.jl - Request 4: connect with body request
-TEST - parser.jl - Request 11: connect with body request
-TEST - parser.jl - Request 13: connect with body request
-TEST - parser.jl - Request 17: connect with body request
-TEST - parser.jl - Request 19: connect with body request
-TEST - parser.jl - Request 23: connect with body request
-TEST - parser.jl - Request 29: connect with body request
-TEST - parser.jl - Request 31: connect with body request
-TEST - parser.jl - Request 32: connect with body request
-TEST - parser.jl - Request -1: link request
-TEST - parser.jl - Request 0: link request
-TEST - parser.jl - Request 1: link request
-TEST - parser.jl - Request 2: link request
-TEST - parser.jl - Request 3: link request
-TEST - parser.jl - Request 4: link request
-TEST - parser.jl - Request 11: link request
-TEST - parser.jl - Request 13: link request
-TEST - parser.jl - Request 17: link request
-TEST - parser.jl - Request 19: link request
-TEST - parser.jl - Request 23: link request
-TEST - parser.jl - Request 29: link request
-TEST - parser.jl - Request 31: link request
-TEST - parser.jl - Request 32: link request
-TEST - parser.jl - Request -1: link request
-TEST - parser.jl - Request 0: link request
-TEST - parser.jl - Request 1: link request
-TEST - parser.jl - Request 2: link request
-TEST - parser.jl - Request 3: link request
-TEST - parser.jl - Request 4: link request
-TEST - parser.jl - Request 11: link request
-TEST - parser.jl - Request 13: link request
-TEST - parser.jl - Request 17: link request
-TEST - parser.jl - Request 19: link request
-TEST - parser.jl - Request 23: link request
-TEST - parser.jl - Request 29: link request
-TEST - parser.jl - Request 31: link request
-TEST - parser.jl - Request 32: link request
-TEST - parser.jl - Request -1: multiple connection header values with folding
-TEST - parser.jl - Request 0: multiple connection header values with folding
-TEST - parser.jl - Request 1: multiple connection header values with folding
-TEST - parser.jl - Request 2: multiple connection header values with folding
-TEST - parser.jl - Request 3: multiple connection header values with folding
-TEST - parser.jl - Request 4: multiple connection header values with folding
-TEST - parser.jl - Request 11: multiple connection header values with folding
-TEST - parser.jl - Request 13: multiple connection header values with folding
-TEST - parser.jl - Request 17: multiple connection header values with folding
-TEST - parser.jl - Request 19: multiple connection header values with folding
-TEST - parser.jl - Request 23: multiple connection header values with folding
-TEST - parser.jl - Request 29: multiple connection header values with folding
-TEST - parser.jl - Request 31: multiple connection header values with folding
-TEST - parser.jl - Request 32: multiple connection header values with folding
-TEST - parser.jl - Request -1: line folding in header value
-TEST - parser.jl - Request 0: line folding in header value
-TEST - parser.jl - Request 1: line folding in header value
-TEST - parser.jl - Request 2: line folding in header value
-TEST - parser.jl - Request 3: line folding in header value
-TEST - parser.jl - Request 4: line folding in header value
-TEST - parser.jl - Request 11: line folding in header value
-TEST - parser.jl - Request 13: line folding in header value
-TEST - parser.jl - Request 17: line folding in header value
-TEST - parser.jl - Request 19: line folding in header value
-TEST - parser.jl - Request 23: line folding in header value
-TEST - parser.jl - Request 29: line folding in header value
-TEST - parser.jl - Request 31: line folding in header value
-TEST - parser.jl - Request 32: line folding in header value
-TEST - parser.jl - Request -1: multiple connection header values with folding and lws
-TEST - parser.jl - Request 0: multiple connection header values with folding and lws
-TEST - parser.jl - Request 1: multiple connection header values with folding and lws
-TEST - parser.jl - Request 2: multiple connection header values with folding and lws
-TEST - parser.jl - Request 3: multiple connection header values with folding and lws
-TEST - parser.jl - Request 4: multiple connection header values with folding and lws
-TEST - parser.jl - Request 11: multiple connection header values with folding and lws
-TEST - parser.jl - Request 13: multiple connection header values with folding and lws
-TEST - parser.jl - Request 17: multiple connection header values with folding and lws
-TEST - parser.jl - Request 19: multiple connection header values with folding and lws
-TEST - parser.jl - Request 23: multiple connection header values with folding and lws
-TEST - parser.jl - Request 29: multiple connection header values with folding and lws
-TEST - parser.jl - Request 31: multiple connection header values with folding and lws
-TEST - parser.jl - Request 32: multiple connection header values with folding and lws
-TEST - parser.jl - Request -1: multiple connection header values with folding and lws
-TEST - parser.jl - Request 0: multiple connection header values with folding and lws
-TEST - parser.jl - Request 1: multiple connection header values with folding and lws
-TEST - parser.jl - Request 2: multiple connection header values with folding and lws
-TEST - parser.jl - Request 3: multiple connection header values with folding and lws
-TEST - parser.jl - Request 4: multiple connection header values with folding and lws
-TEST - parser.jl - Request 11: multiple connection header values with folding and lws
-TEST - parser.jl - Request 13: multiple connection header values with folding and lws
-TEST - parser.jl - Request 17: multiple connection header values with folding and lws
-TEST - parser.jl - Request 19: multiple connection header values with folding and lws
-TEST - parser.jl - Request 23: multiple connection header values with folding and lws
-TEST - parser.jl - Request 29: multiple connection header values with folding and lws
-TEST - parser.jl - Request 31: multiple connection header values with folding and lws
-TEST - parser.jl - Request 32: multiple connection header values with folding and lws
-TEST - parser.jl - Request -1: line folding in header value
-TEST - parser.jl - Request 0: line folding in header value
-TEST - parser.jl - Request 1: line folding in header value
-TEST - parser.jl - Request 2: line folding in header value
-TEST - parser.jl - Request 3: line folding in header value
-TEST - parser.jl - Request 4: line folding in header value
-TEST - parser.jl - Request 11: line folding in header value
-TEST - parser.jl - Request 13: line folding in header value
-TEST - parser.jl - Request 17: line folding in header value
-TEST - parser.jl - Request 19: line folding in header value
-TEST - parser.jl - Request 23: line folding in header value
-TEST - parser.jl - Request 29: line folding in header value
-TEST - parser.jl - Request 31: line folding in header value
-TEST - parser.jl - Request 32: line folding in header value
-TEST - parser.jl - Response 0: google 301
-TEST - parser.jl - Response 1: google 301
-TEST - parser.jl - Response 2: google 301
-TEST - parser.jl - Response 3: google 301
-TEST - parser.jl - Response 4: google 301
-TEST - parser.jl - Response 11: google 301
-TEST - parser.jl - Response 13: google 301
-TEST - parser.jl - Response 17: google 301
-TEST - parser.jl - Response 19: google 301
-TEST - parser.jl - Response 23: google 301
-TEST - parser.jl - Response 29: google 301
-TEST - parser.jl - Response 31: google 301
-TEST - parser.jl - Response 32: google 301
-TEST - parser.jl - Response 0: no content-length response
-TEST - parser.jl - Response 1: no content-length response
-TEST - parser.jl - Response 2: no content-length response
-TEST - parser.jl - Response 3: no content-length response
-TEST - parser.jl - Response 4: no content-length response
-TEST - parser.jl - Response 11: no content-length response
-TEST - parser.jl - Response 13: no content-length response
-TEST - parser.jl - Response 17: no content-length response
-TEST - parser.jl - Response 19: no content-length response
-TEST - parser.jl - Response 23: no content-length response
-TEST - parser.jl - Response 29: no content-length response
-TEST - parser.jl - Response 31: no content-length response
-TEST - parser.jl - Response 32: no content-length response
-TEST - parser.jl - Response 0: 404 no headers no body
-TEST - parser.jl - Response 1: 404 no headers no body
-TEST - parser.jl - Response 2: 404 no headers no body
-TEST - parser.jl - Response 3: 404 no headers no body
-TEST - parser.jl - Response 4: 404 no headers no body
-TEST - parser.jl - Response 11: 404 no headers no body
-TEST - parser.jl - Response 13: 404 no headers no body
-TEST - parser.jl - Response 17: 404 no headers no body
-TEST - parser.jl - Response 19: 404 no headers no body
-TEST - parser.jl - Response 23: 404 no headers no body
-TEST - parser.jl - Response 29: 404 no headers no body
-TEST - parser.jl - Response 31: 404 no headers no body
-TEST - parser.jl - Response 32: 404 no headers no body
-TEST - parser.jl - Response 0: 301 no response phrase
-TEST - parser.jl - Response 1: 301 no response phrase
-TEST - parser.jl - Response 2: 301 no response phrase
-TEST - parser.jl - Response 3: 301 no response phrase
-TEST - parser.jl - Response 4: 301 no response phrase
-TEST - parser.jl - Response 11: 301 no response phrase
-TEST - parser.jl - Response 13: 301 no response phrase
-TEST - parser.jl - Response 17: 301 no response phrase
-TEST - parser.jl - Response 19: 301 no response phrase
-TEST - parser.jl - Response 23: 301 no response phrase
-TEST - parser.jl - Response 29: 301 no response phrase
-TEST - parser.jl - Response 31: 301 no response phrase
-TEST - parser.jl - Response 32: 301 no response phrase
-TEST - parser.jl - Response 0: 200 trailing space on chunked body
-TEST - parser.jl - Response 1: 200 trailing space on chunked body
-TEST - parser.jl - Response 2: 200 trailing space on chunked body
-TEST - parser.jl - Response 3: 200 trailing space on chunked body
-TEST - parser.jl - Response 4: 200 trailing space on chunked body
-TEST - parser.jl - Response 11: 200 trailing space on chunked body
-TEST - parser.jl - Response 13: 200 trailing space on chunked body
-TEST - parser.jl - Response 17: 200 trailing space on chunked body
-TEST - parser.jl - Response 19: 200 trailing space on chunked body
-TEST - parser.jl - Response 23: 200 trailing space on chunked body
-TEST - parser.jl - Response 29: 200 trailing space on chunked body
-TEST - parser.jl - Response 31: 200 trailing space on chunked body
-TEST - parser.jl - Response 32: 200 trailing space on chunked body
-TEST - parser.jl - Response 0: no carriage ret
-TEST - parser.jl - Response 1: no carriage ret
-TEST - parser.jl - Response 2: no carriage ret
-TEST - parser.jl - Response 3: no carriage ret
-TEST - parser.jl - Response 4: no carriage ret
-TEST - parser.jl - Response 11: no carriage ret
-TEST - parser.jl - Response 13: no carriage ret
-TEST - parser.jl - Response 17: no carriage ret
-TEST - parser.jl - Response 19: no carriage ret
-TEST - parser.jl - Response 23: no carriage ret
-TEST - parser.jl - Response 29: no carriage ret
-TEST - parser.jl - Response 31: no carriage ret
-TEST - parser.jl - Response 32: no carriage ret
-TEST - parser.jl - Response 0: proxy connection
-TEST - parser.jl - Response 1: proxy connection
-TEST - parser.jl - Response 2: proxy connection
-TEST - parser.jl - Response 3: proxy connection
-TEST - parser.jl - Response 4: proxy connection
-TEST - parser.jl - Response 11: proxy connection
-TEST - parser.jl - Response 13: proxy connection
-TEST - parser.jl - Response 17: proxy connection
-TEST - parser.jl - Response 19: proxy connection
-TEST - parser.jl - Response 23: proxy connection
-TEST - parser.jl - Response 29: proxy connection
-TEST - parser.jl - Response 31: proxy connection
-TEST - parser.jl - Response 32: proxy connection
-TEST - parser.jl - Response 0: underscore header key
-TEST - parser.jl - Response 1: underscore header key
-TEST - parser.jl - Response 2: underscore header key
-TEST - parser.jl - Response 3: underscore header key
-TEST - parser.jl - Response 4: underscore header key
-TEST - parser.jl - Response 11: underscore header key
-TEST - parser.jl - Response 13: underscore header key
-TEST - parser.jl - Response 17: underscore header key
-TEST - parser.jl - Response 19: underscore header key
-TEST - parser.jl - Response 23: underscore header key
-TEST - parser.jl - Response 29: underscore header key
-TEST - parser.jl - Response 31: underscore header key
-TEST - parser.jl - Response 32: underscore header key
-TEST - parser.jl - Response 0: bonjourmadame.fr
-TEST - parser.jl - Response 1: bonjourmadame.fr
-TEST - parser.jl - Response 2: bonjourmadame.fr
-TEST - parser.jl - Response 3: bonjourmadame.fr
-TEST - parser.jl - Response 4: bonjourmadame.fr
-TEST - parser.jl - Response 11: bonjourmadame.fr
-TEST - parser.jl - Response 13: bonjourmadame.fr
-TEST - parser.jl - Response 17: bonjourmadame.fr
-TEST - parser.jl - Response 19: bonjourmadame.fr
-TEST - parser.jl - Response 23: bonjourmadame.fr
-TEST - parser.jl - Response 29: bonjourmadame.fr
-TEST - parser.jl - Response 31: bonjourmadame.fr
-TEST - parser.jl - Response 32: bonjourmadame.fr
-TEST - parser.jl - Response 0: field underscore
-TEST - parser.jl - Response 1: field underscore
-TEST - parser.jl - Response 2: field underscore
-TEST - parser.jl - Response 3: field underscore
-TEST - parser.jl - Response 4: field underscore
-TEST - parser.jl - Response 11: field underscore
-TEST - parser.jl - Response 13: field underscore
-TEST - parser.jl - Response 17: field underscore
-TEST - parser.jl - Response 19: field underscore
-TEST - parser.jl - Response 23: field underscore
-TEST - parser.jl - Response 29: field underscore
-TEST - parser.jl - Response 31: field underscore
-TEST - parser.jl - Response 32: field underscore
-TEST - parser.jl - Response 0: non-ASCII in status line
-TEST - parser.jl - Response 1: non-ASCII in status line
-TEST - parser.jl - Response 2: non-ASCII in status line
-TEST - parser.jl - Response 3: non-ASCII in status line
-TEST - parser.jl - Response 4: non-ASCII in status line
-TEST - parser.jl - Response 11: non-ASCII in status line
-TEST - parser.jl - Response 13: non-ASCII in status line
-TEST - parser.jl - Response 17: non-ASCII in status line
-TEST - parser.jl - Response 19: non-ASCII in status line
-TEST - parser.jl - Response 23: non-ASCII in status line
-TEST - parser.jl - Response 29: non-ASCII in status line
-TEST - parser.jl - Response 31: non-ASCII in status line
-TEST - parser.jl - Response 32: non-ASCII in status line
-TEST - parser.jl - Response 0: http version 0.9
-TEST - parser.jl - Response 1: http version 0.9
-TEST - parser.jl - Response 2: http version 0.9
-TEST - parser.jl - Response 3: http version 0.9
-TEST - parser.jl - Response 4: http version 0.9
-TEST - parser.jl - Response 11: http version 0.9
-TEST - parser.jl - Response 13: http version 0.9
-TEST - parser.jl - Response 17: http version 0.9
-TEST - parser.jl - Response 19: http version 0.9
-TEST - parser.jl - Response 23: http version 0.9
-TEST - parser.jl - Response 29: http version 0.9
-TEST - parser.jl - Response 31: http version 0.9
-TEST - parser.jl - Response 32: http version 0.9
-TEST - parser.jl - Response 0: neither content-length nor transfer-encoding response
-TEST - parser.jl - Response 1: neither content-length nor transfer-encoding response
-TEST - parser.jl - Response 2: neither content-length nor transfer-encoding response
-TEST - parser.jl - Response 3: neither content-length nor transfer-encoding response
-TEST - parser.jl - Response 4: neither content-length nor transfer-encoding response
-TEST - parser.jl - Response 11: neither content-length nor transfer-encoding response
-TEST - parser.jl - Response 13: neither content-length nor transfer-encoding response
-TEST - parser.jl - Response 17: neither content-length nor transfer-encoding response
-TEST - parser.jl - Response 19: neither content-length nor transfer-encoding response
-TEST - parser.jl - Response 23: neither content-length nor transfer-encoding response
-TEST - parser.jl - Response 29: neither content-length nor transfer-encoding response
-TEST - parser.jl - Response 31: neither content-length nor transfer-encoding response
-TEST - parser.jl - Response 32: neither content-length nor transfer-encoding response
-TEST - parser.jl - Response 0: HTTP/1.0 with keep-alive and EOF-terminated 200 status
-TEST - parser.jl - Response 1: HTTP/1.0 with keep-alive and EOF-terminated 200 status
-TEST - parser.jl - Response 2: HTTP/1.0 with keep-alive and EOF-terminated 200 status
-TEST - parser.jl - Response 3: HTTP/1.0 with keep-alive and EOF-terminated 200 status
-TEST - parser.jl - Response 4: HTTP/1.0 with keep-alive and EOF-terminated 200 status
-TEST - parser.jl - Response 11: HTTP/1.0 with keep-alive and EOF-terminated 200 status
-TEST - parser.jl - Response 13: HTTP/1.0 with keep-alive and EOF-terminated 200 status
-TEST - parser.jl - Response 17: HTTP/1.0 with keep-alive and EOF-terminated 200 status
-TEST - parser.jl - Response 19: HTTP/1.0 with keep-alive and EOF-terminated 200 status
-TEST - parser.jl - Response 23: HTTP/1.0 with keep-alive and EOF-terminated 200 status
-TEST - parser.jl - Response 29: HTTP/1.0 with keep-alive and EOF-terminated 200 status
-TEST - parser.jl - Response 31: HTTP/1.0 with keep-alive and EOF-terminated 200 status
-TEST - parser.jl - Response 32: HTTP/1.0 with keep-alive and EOF-terminated 200 status
-TEST - parser.jl - Response 0: HTTP/1.0 with keep-alive and a 204 status
-TEST - parser.jl - Response 1: HTTP/1.0 with keep-alive and a 204 status
-TEST - parser.jl - Response 2: HTTP/1.0 with keep-alive and a 204 status
-TEST - parser.jl - Response 3: HTTP/1.0 with keep-alive and a 204 status
-TEST - parser.jl - Response 4: HTTP/1.0 with keep-alive and a 204 status
-TEST - parser.jl - Response 11: HTTP/1.0 with keep-alive and a 204 status
-TEST - parser.jl - Response 13: HTTP/1.0 with keep-alive and a 204 status
-TEST - parser.jl - Response 17: HTTP/1.0 with keep-alive and a 204 status
-TEST - parser.jl - Response 19: HTTP/1.0 with keep-alive and a 204 status
-TEST - parser.jl - Response 23: HTTP/1.0 with keep-alive and a 204 status
-TEST - parser.jl - Response 29: HTTP/1.0 with keep-alive and a 204 status
-TEST - parser.jl - Response 31: HTTP/1.0 with keep-alive and a 204 status
-TEST - parser.jl - Response 32: HTTP/1.0 with keep-alive and a 204 status
-TEST - parser.jl - Response 0: HTTP/1.1 with an EOF-terminated 200 status
-TEST - parser.jl - Response 1: HTTP/1.1 with an EOF-terminated 200 status
-TEST - parser.jl - Response 2: HTTP/1.1 with an EOF-terminated 200 status
-TEST - parser.jl - Response 3: HTTP/1.1 with an EOF-terminated 200 status
-TEST - parser.jl - Response 4: HTTP/1.1 with an EOF-terminated 200 status
-TEST - parser.jl - Response 11: HTTP/1.1 with an EOF-terminated 200 status
-TEST - parser.jl - Response 13: HTTP/1.1 with an EOF-terminated 200 status
-TEST - parser.jl - Response 17: HTTP/1.1 with an EOF-terminated 200 status
-TEST - parser.jl - Response 19: HTTP/1.1 with an EOF-terminated 200 status
-TEST - parser.jl - Response 23: HTTP/1.1 with an EOF-terminated 200 status
-TEST - parser.jl - Response 29: HTTP/1.1 with an EOF-terminated 200 status
-TEST - parser.jl - Response 31: HTTP/1.1 with an EOF-terminated 200 status
-TEST - parser.jl - Response 32: HTTP/1.1 with an EOF-terminated 200 status
-TEST - parser.jl - Response 0: HTTP/1.1 with a 204 status
-TEST - parser.jl - Response 1: HTTP/1.1 with a 204 status
-TEST - parser.jl - Response 2: HTTP/1.1 with a 204 status
-TEST - parser.jl - Response 3: HTTP/1.1 with a 204 status
-TEST - parser.jl - Response 4: HTTP/1.1 with a 204 status
-TEST - parser.jl - Response 11: HTTP/1.1 with a 204 status
-TEST - parser.jl - Response 13: HTTP/1.1 with a 204 status
-TEST - parser.jl - Response 17: HTTP/1.1 with a 204 status
-TEST - parser.jl - Response 19: HTTP/1.1 with a 204 status
-TEST - parser.jl - Response 23: HTTP/1.1 with a 204 status
-TEST - parser.jl - Response 29: HTTP/1.1 with a 204 status
-TEST - parser.jl - Response 31: HTTP/1.1 with a 204 status
-TEST - parser.jl - Response 32: HTTP/1.1 with a 204 status
-TEST - parser.jl - Response 0: HTTP/1.1 with a 204 status and keep-alive disabled
-TEST - parser.jl - Response 1: HTTP/1.1 with a 204 status and keep-alive disabled
-TEST - parser.jl - Response 2: HTTP/1.1 with a 204 status and keep-alive disabled
-TEST - parser.jl - Response 3: HTTP/1.1 with a 204 status and keep-alive disabled
-TEST - parser.jl - Response 4: HTTP/1.1 with a 204 status and keep-alive disabled
-TEST - parser.jl - Response 11: HTTP/1.1 with a 204 status and keep-alive disabled
-TEST - parser.jl - Response 13: HTTP/1.1 with a 204 status and keep-alive disabled
-TEST - parser.jl - Response 17: HTTP/1.1 with a 204 status and keep-alive disabled
-TEST - parser.jl - Response 19: HTTP/1.1 with a 204 status and keep-alive disabled
-TEST - parser.jl - Response 23: HTTP/1.1 with a 204 status and keep-alive disabled
-TEST - parser.jl - Response 29: HTTP/1.1 with a 204 status and keep-alive disabled
-TEST - parser.jl - Response 31: HTTP/1.1 with a 204 status and keep-alive disabled
-TEST - parser.jl - Response 32: HTTP/1.1 with a 204 status and keep-alive disabled
-TEST - parser.jl - Response 0: HTTP/1.1 with chunked endocing and a 200 response
-TEST - parser.jl - Response 1: HTTP/1.1 with chunked endocing and a 200 response
-TEST - parser.jl - Response 2: HTTP/1.1 with chunked endocing and a 200 response
-TEST - parser.jl - Response 3: HTTP/1.1 with chunked endocing and a 200 response
-TEST - parser.jl - Response 4: HTTP/1.1 with chunked endocing and a 200 response
-TEST - parser.jl - Response 11: HTTP/1.1 with chunked endocing and a 200 response
-TEST - parser.jl - Response 13: HTTP/1.1 with chunked endocing and a 200 response
-TEST - parser.jl - Response 17: HTTP/1.1 with chunked endocing and a 200 response
-TEST - parser.jl - Response 19: HTTP/1.1 with chunked endocing and a 200 response
-TEST - parser.jl - Response 23: HTTP/1.1 with chunked endocing and a 200 response
-TEST - parser.jl - Response 29: HTTP/1.1 with chunked endocing and a 200 response
-TEST - parser.jl - Response 31: HTTP/1.1 with chunked endocing and a 200 response
-TEST - parser.jl - Response 32: HTTP/1.1 with chunked endocing and a 200 response
-TEST - parser.jl - Response 0: field space
-TEST - parser.jl - Response 1: field space
-TEST - parser.jl - Response 2: field space
-TEST - parser.jl - Response 3: field space
-TEST - parser.jl - Response 4: field space
-TEST - parser.jl - Response 11: field space
-TEST - parser.jl - Response 13: field space
-TEST - parser.jl - Response 17: field space
-TEST - parser.jl - Response 19: field space
-TEST - parser.jl - Response 23: field space
-TEST - parser.jl - Response 29: field space
-TEST - parser.jl - Response 31: field space
-TEST - parser.jl - Response 32: field space
-TEST - parser.jl - Response 0: amazon.com
-TEST - parser.jl - Response 1: amazon.com
-TEST - parser.jl - Response 2: amazon.com
-TEST - parser.jl - Response 3: amazon.com
-TEST - parser.jl - Response 4: amazon.com
-TEST - parser.jl - Response 11: amazon.com
-TEST - parser.jl - Response 13: amazon.com
-TEST - parser.jl - Response 17: amazon.com
-TEST - parser.jl - Response 19: amazon.com
-TEST - parser.jl - Response 23: amazon.com
-TEST - parser.jl - Response 29: amazon.com
-TEST - parser.jl - Response 31: amazon.com
-TEST - parser.jl - Response 32: amazon.com
-TEST - parser.jl - Response 0: empty reason phrase after space
-TEST - parser.jl - Response 1: empty reason phrase after space
-TEST - parser.jl - Response 2: empty reason phrase after space
-TEST - parser.jl - Response 3: empty reason phrase after space
-TEST - parser.jl - Response 4: empty reason phrase after space
-TEST - parser.jl - Response 11: empty reason phrase after space
-TEST - parser.jl - Response 13: empty reason phrase after space
-TEST - parser.jl - Response 17: empty reason phrase after space
-TEST - parser.jl - Response 19: empty reason phrase after space
-TEST - parser.jl - Response 23: empty reason phrase after space
-TEST - parser.jl - Response 29: empty reason phrase after space
-TEST - parser.jl - Response 31: empty reason phrase after space
-TEST - parser.jl - Response 32: empty reason phrase after space
-TEST - parser.jl - Response 0: Content-Length-X
-TEST - parser.jl - Response 1: Content-Length-X
-TEST - parser.jl - Response 2: Content-Length-X
-TEST - parser.jl - Response 3: Content-Length-X
-TEST - parser.jl - Response 4: Content-Length-X
-TEST - parser.jl - Response 11: Content-Length-X
-TEST - parser.jl - Response 13: Content-Length-X
-TEST - parser.jl - Response 17: Content-Length-X
-TEST - parser.jl - Response 19: Content-Length-X
-TEST - parser.jl - Response 23: Content-Length-X
-TEST - parser.jl - Response 29: Content-Length-X
-TEST - parser.jl - Response 31: Content-Length-X
-TEST - parser.jl - Response 32: Content-Length-X
+TEST - parser.jl - Request curl get
+TEST - parser.jl - Request firefox get
+TEST - parser.jl - Request abcdefgh
+TEST - parser.jl - Request fragment in url
+TEST - parser.jl - Request get no headers no body
+TEST - parser.jl - Request get one header no body
+TEST - parser.jl - Request get funky content length body hello
+TEST - parser.jl - Request post identity body world
+TEST - parser.jl - Request post - chunked body: all your base are belong to us
+TEST - parser.jl - Request two chunks ; triple zero ending
+TEST - parser.jl - Request chunked with trailing headers. blech.
+TEST - parser.jl - Request with excessss after the length
+TEST - parser.jl - Request with quotes
+TEST - parser.jl - Request apachebench get
+TEST - parser.jl - Request query url with question mark
+TEST - parser.jl - Request newline prefix get
+TEST - parser.jl - Request upgrade request
+TEST - parser.jl - Request connect request
+TEST - parser.jl - Request report request
+TEST - parser.jl - Request m-search request
+TEST - parser.jl - Request host terminated by a query string
+TEST - parser.jl - Request host:port terminated by a query string
+TEST - parser.jl - Request host:port terminated by a space
+TEST - parser.jl - Request PATCH request
+TEST - parser.jl - Request connect caps request
+TEST - parser.jl - Request utf-8 path request
+TEST - parser.jl - Request hostname underscore
+TEST - parser.jl - Request eat CRLF between requests, no "Connection: close" header
+TEST - parser.jl - Request eat CRLF between requests even if "Connection: close" is set
+TEST - parser.jl - Request PURGE request
+TEST - parser.jl - Request SEARCH request
+TEST - parser.jl - Request host:port and basic_auth
+TEST - parser.jl - Request upgrade post request
+TEST - parser.jl - Request connect with body request
+TEST - parser.jl - Request link request
+TEST - parser.jl - Request link request
+TEST - parser.jl - Request multiple connection header values with folding
+TEST - parser.jl - Request line folding in header value
+TEST - parser.jl - Request multiple connection header values with folding and lws
+TEST - parser.jl - Request multiple connection header values with folding and lws
+TEST - parser.jl - Request line folding in header value
+TEST - parser.jl - Response google 301
+TEST - parser.jl - Response no content-length response
+TEST - parser.jl - Response 404 no headers no body
+TEST - parser.jl - Response 301 no response phrase
+TEST - parser.jl - Response 200 trailing space on chunked body
+TEST - parser.jl - Response no carriage ret
+TEST - parser.jl - Response proxy connection
+TEST - parser.jl - Response underscore header key
+TEST - parser.jl - Response bonjourmadame.fr
+TEST - parser.jl - Response field underscore
+TEST - parser.jl - Response non-ASCII in status line
+TEST - parser.jl - Response http version 0.9
+TEST - parser.jl - Response neither content-length nor transfer-encoding response
+TEST - parser.jl - Response HTTP/1.0 with keep-alive and EOF-terminated 200 status
+TEST - parser.jl - Response HTTP/1.0 with keep-alive and a 204 status
+TEST - parser.jl - Response HTTP/1.1 with an EOF-terminated 200 status
+TEST - parser.jl - Response HTTP/1.1 with a 204 status
+TEST - parser.jl - Response HTTP/1.1 with a 204 status and keep-alive disabled
+TEST - parser.jl - Response HTTP/1.1 with chunked endocing and a 200 response
+TEST - parser.jl - Response amazon.com
+TEST - parser.jl - Response empty reason phrase after space
+TEST - parser.jl - Response Content-Length-X
 📡  GET /echo HTTP/1.1
 📡  GET /echo HTTP/1.1
 📡  GET /echo HTTP/1.1
@@ -1642,31 +688,31 @@ ConnectionPool[
 📡  GET /delay3 HTTP/1.1
 📡  GET /delay4 HTTP/1.1
 📡  GET /delay5 HTTP/1.1
-t = 1.8252289295196533
+t = 1.861443042755127
 📡  GET /delay1 HTTP/1.1
 📡  GET /delay2 HTTP/1.1
 📡  GET /delay3 HTTP/1.1
 📡  GET /delay4 HTTP/1.1
 📡  GET /delay5 HTTP/1.1
-t = 0.9737458229064941
+t = 1.0680019855499268
 📡  GET /delay1 HTTP/1.1
 📡  GET /delay2 HTTP/1.1
 📡  GET /delay3 HTTP/1.1
 📡  GET /delay4 HTTP/1.1
 📡  GET /delay5 HTTP/1.1
-t = 0.7621071338653564
+t = 0.7702889442443848
 📡  GET /delay1 HTTP/1.1
 📡  GET /delay2 HTTP/1.1
 📡  GET /delay3 HTTP/1.1
 📡  GET /delay4 HTTP/1.1
 📡  GET /delay5 HTTP/1.1
-t = 0.6485919952392578
+t = 0.6555178165435791
 📡  GET /delay1 HTTP/1.1
 📡  GET /delay2 HTTP/1.1
 📡  GET /delay3 HTTP/1.1
 📡  GET /delay4 HTTP/1.1
 📡  GET /delay5 HTTP/1.1
-t = 0.6210119724273682
+t = 0.6562960147857666
 📡  POST /delay1 HTTP/1.1
 📡  GET /delay2 HTTP/1.1
 📡  GET /delay3 HTTP/1.1
@@ -1704,33 +750,41 @@ asynchronous client request body
 client redirect following
 client basic auth
 high-level client request methods
-I- Listening on: localhost:8872
+I- Listening on: localhost:8038
 W- accept: software caused connection abort (ECONNABORTED)
-I- Listening on: localhost:8872
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
+I- Listening on: localhost:8038
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
 I- HTTP.Messages.Request:
 """
 GET //1/1 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 10000
 
 """
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
 I- HTTP.Messages.Request:
 """
 GET /1/5/1 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 10
 
 """
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
 I- HTTP.Messages.Request:
 """
 GET /1/5/2 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- HTTP.Messages.Request:
+"""
+GET /1/5/11 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 1000
 
@@ -1744,64 +798,35 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /1/5/4 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- HTTP.Messages.Request:
-"""
-GET /1/5/5 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- HTTP.Messages.Request:
-"""
-GET /1/5/7 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- HTTP.Messages.Request:
-"""
-GET /1/5/10 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/5/13 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/5/16 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /1/5/9 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /1/5/20 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /1/5/4 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/5/5 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/5/6 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /1/5/6 HTTP/1.1
+GET /1/5/7 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
@@ -1809,22 +834,69 @@ Content-Length: 0
 I- HTTP.Messages.Request:
 """
 GET /1/5/8 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
-GET /1/5/9 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /1/5/13 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
+GET /1/5/20 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/5/12 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/5/10 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
 GET /1/5/14 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/5/15 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/5/16 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/5/18 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/5/19 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
@@ -1838,129 +910,56 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /1/5/15 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/5/11 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/5/12 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/5/19 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/5/18 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/1/1 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/1/2 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/1/3 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/1/4 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/1/5 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
 GET /2/1/6 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/1/7 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
 GET /2/1/8 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/1/10 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/1/12 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/1/15 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
 Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
-GET /2/1/11 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /2/1/3 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/1/4 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/1/5 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/1/16 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/1/13 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/1/12 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 1000
 
@@ -1968,21 +967,55 @@ Content-Length: 1000
 I- HTTP.Messages.Request:
 """
 GET /2/1/14 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /2/1/16 HTTP/1.1
+GET /2/1/15 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
-GET /2/1/13 HTTP/1.1
+GET /2/1/1 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/1/2 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/1/7 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/1/19 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/1/10 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/1/11 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
@@ -1990,15 +1023,13 @@ Content-Length: 0
 I- HTTP.Messages.Request:
 """
 GET /2/1/9 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /2/1/20 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /2/1/17 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10000
 
@@ -2007,38 +1038,98 @@ I- HTTP.Messages.Request:
 """
 GET /2/1/18 HTTP/1.1
 Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/1/20 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/2/3 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/2/8 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/2/15 HTTP/1.1
+Host: 127.0.0.1
 Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
-GET /2/1/19 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /2/2/16 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/1/17 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
 GET /2/2/1 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /2/2/2 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/2/4 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/2/5 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/2/6 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/2/7 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/2/10 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/2/9 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
@@ -2050,46 +1141,7 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /2/2/3 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/2/4 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/2/5 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/2/6 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/2/7 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/2/8 HTTP/1.1
+GET /2/2/13 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
@@ -2098,46 +1150,6 @@ I- HTTP.Messages.Request:
 """
 GET /2/2/12 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/2/17 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/2/9 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/2/16 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/2/15 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/2/13 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
 Content-Length: 10
 
 """
@@ -2145,22 +1157,7 @@ I- HTTP.Messages.Request:
 """
 GET /2/2/14 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/2/10 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/2/18 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
@@ -2172,7 +1169,21 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
+GET /2/2/18 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
 GET /2/2/19 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/2/17 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
@@ -2180,17 +1191,57 @@ Content-Length: 0
 I- HTTP.Messages.Request:
 """
 GET /2/3/1 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /2/3/5 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /2/3/2 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/3/3 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/3/4 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/3/5 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/3/6 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/3/7 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/3/8 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
@@ -2202,70 +1253,14 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /2/3/14 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/3/18 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /2/3/15 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
-GET /2/3/2 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/3/3 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/3/4 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/3/6 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/3/7 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/3/8 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
 GET /2/3/12 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 1000
 
@@ -2273,23 +1268,27 @@ Content-Length: 1000
 I- HTTP.Messages.Request:
 """
 GET /2/3/9 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/3/10 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
 GET /2/3/16 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/3/14 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/3/10 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10
 
@@ -2297,23 +1296,6 @@ Content-Length: 10
 I- HTTP.Messages.Request:
 """
 GET /2/3/13 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/3/15 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/3/17 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 10
 
@@ -2329,52 +1311,49 @@ I- HTTP.Messages.Request:
 """
 GET /2/3/20 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
-GET /2/4/4 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/4/16 HTTP/1.1
+GET /2/3/18 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
-GET /2/4/20 HTTP/1.1
+GET /2/3/17 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /2/4/1 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /2/4/2 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /2/4/3 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/4/4 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
@@ -2393,13 +1372,6 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /2/4/7 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
 GET /2/4/8 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
@@ -2407,10 +1379,44 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /2/4/15 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /2/4/7 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/4/15 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/4/12 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/4/14 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/4/11 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/4/13 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
@@ -2422,54 +1428,16 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /2/4/14 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/4/11 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/4/13 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/4/12 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
 GET /2/4/10 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/4/16 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/4/17 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/4/18 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
@@ -2481,15 +1449,28 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /2/5/1 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /2/4/20 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/4/17 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/4/18 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /2/5/11 HTTP/1.1
+GET /2/5/1 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
@@ -2497,41 +1478,36 @@ Content-Length: 0
 I- HTTP.Messages.Request:
 """
 GET /2/5/2 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/5/3 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/5/4 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/5/5 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /2/5/6 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /2/5/3 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/5/4 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/5/5 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/5/8 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
@@ -2543,32 +1519,30 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /2/5/8 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/5/19 HTTP/1.1
+GET /2/5/6 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
-GET /2/5/14 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /2/5/11 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /2/5/13 HTTP/1.1
+GET /2/5/15 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/5/10 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
@@ -2580,72 +1554,70 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /2/5/15 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /2/5/12 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /2/5/12 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /2/5/14 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
 GET /2/5/9 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /2/5/10 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /2/5/17 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /2/5/13 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
-GET /2/5/20 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
 GET /2/5/18 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/1/1 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
+GET /2/5/20 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/5/19 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /2/5/17 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/1/1 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
 GET /3/1/2 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 10000
 
@@ -2660,9 +1632,8 @@ Content-Length: 0
 I- HTTP.Messages.Request:
 """
 GET /3/1/4 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
@@ -2675,24 +1646,50 @@ Content-Length: 0
 I- HTTP.Messages.Request:
 """
 GET /3/1/6 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /3/1/7 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /3/1/8 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/1/13 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/1/11 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/1/9 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/1/10 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
@@ -2704,186 +1701,140 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /3/1/15 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/1/10 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
 GET /3/1/14 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /3/1/11 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /3/1/15 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
 GET /3/1/16 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/1/9 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
 Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/1/13 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/1/20 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /3/1/19 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/1/17 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/1/18 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/2/4 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/2/7 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
-GET /3/2/8 HTTP/1.1
+GET /3/1/17 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/1/18 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
-GET /3/2/12 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /3/1/20 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/2/16 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/2/10 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /3/2/1 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /3/2/2 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /3/2/3 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
-GET /3/2/5 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/2/6 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/2/18 HTTP/1.1
+GET /3/2/4 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
+GET /3/2/5 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/2/6 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/2/7 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/2/8 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/2/11 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/2/14 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
 GET /3/2/9 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/2/12 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/2/16 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
@@ -2892,30 +1843,21 @@ I- HTTP.Messages.Request:
 """
 GET /3/2/13 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /3/2/11 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /3/2/10 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
-GET /3/2/14 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
 GET /3/2/15 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
@@ -2928,7 +1870,6 @@ Content-Length: 0
 I- HTTP.Messages.Request:
 """
 GET /3/2/20 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 1000
 
@@ -2936,23 +1877,27 @@ Content-Length: 1000
 I- HTTP.Messages.Request:
 """
 GET /3/2/19 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/3/1 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
+GET /3/2/18 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/3/1 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
 GET /3/3/2 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 10
 
@@ -2960,9 +1905,8 @@ Content-Length: 10
 I- HTTP.Messages.Request:
 """
 GET /3/3/3 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
@@ -2976,14 +1920,14 @@ I- HTTP.Messages.Request:
 """
 GET /3/3/5 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /3/3/6 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
@@ -2997,36 +1941,26 @@ I- HTTP.Messages.Request:
 """
 GET /3/3/8 HTTP/1.1
 Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/3/10 HTTP/1.1
+Host: 127.0.0.1
 Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
 GET /3/3/16 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /3/3/15 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/3/14 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/3/10 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /3/3/12 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 1000
 
@@ -3042,30 +1976,28 @@ I- HTTP.Messages.Request:
 """
 GET /3/3/13 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/3/11 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
 Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /3/3/12 HTTP/1.1
+GET /3/3/14 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/3/11 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
-GET /3/3/17 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /3/3/15 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
@@ -3077,56 +2009,44 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /3/3/20 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/3/18 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /3/3/17 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /3/4/7 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /3/3/18 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
-GET /3/4/14 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /3/3/20 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
 GET /3/4/1 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
 GET /3/4/2 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /3/4/3 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
@@ -3139,22 +2059,41 @@ Content-Length: 0
 I- HTTP.Messages.Request:
 """
 GET /3/4/5 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/4/6 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
+GET /3/4/6 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/4/11 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/4/7 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
 GET /3/4/8 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/4/13 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10000
 
@@ -3162,15 +2101,6 @@ Content-Length: 10000
 I- HTTP.Messages.Request:
 """
 GET /3/4/15 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/4/11 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 10
 
@@ -3179,23 +2109,7 @@ I- HTTP.Messages.Request:
 """
 GET /3/4/9 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/4/12 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/4/16 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
@@ -3207,46 +2121,63 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /3/4/13 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /3/4/16 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/4/20 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/4/18 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
 GET /3/4/19 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/4/12 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/4/14 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /3/4/17 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /3/5/3 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /3/4/18 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/4/20 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/5/8 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/5/15 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 1000
 
@@ -3255,7 +2186,7 @@ I- HTTP.Messages.Request:
 """
 GET /3/5/1 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
@@ -3267,7 +2198,7 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /3/5/7 HTTP/1.1
+GET /3/5/3 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
@@ -3275,15 +2206,13 @@ Content-Length: 0
 I- HTTP.Messages.Request:
 """
 GET /3/5/4 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
 GET /3/5/5 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 10000
 
@@ -3291,9 +2220,36 @@ Content-Length: 10000
 I- HTTP.Messages.Request:
 """
 GET /3/5/6 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/5/7 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/5/13 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/5/12 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/5/11 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
@@ -3305,58 +2261,44 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /3/5/14 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/5/11 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/5/15 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/5/8 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/5/12 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
 GET /3/5/16 HTTP/1.1
 Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/5/9 HTTP/1.1
+Host: 127.0.0.1
 Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
-GET /3/5/13 HTTP/1.1
+GET /3/5/14 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/5/20 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /3/5/19 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /3/5/17 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
@@ -3368,70 +2310,37 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /3/5/9 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/5/17 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /3/5/20 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
 GET /4/1/2 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/1/7 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
-GET /4/1/8 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /4/1/6 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/1/10 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /4/1/15 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /4/1/11 HTTP/1.1
+GET /4/1/18 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/1/12 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
@@ -3444,17 +2353,15 @@ Content-Length: 0
 I- HTTP.Messages.Request:
 """
 GET /4/1/3 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
 GET /4/1/4 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
@@ -3466,24 +2373,14 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /4/1/6 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /4/1/7 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
-GET /4/1/17 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/1/9 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /4/1/8 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10000
 
@@ -3491,39 +2388,48 @@ Content-Length: 10000
 I- HTTP.Messages.Request:
 """
 GET /4/1/14 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/1/9 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/1/12 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/1/13 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/1/11 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /4/1/13 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/1/10 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
 GET /4/1/16 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /4/1/18 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /4/1/17 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 1000
 
@@ -3531,21 +2437,13 @@ Content-Length: 1000
 I- HTTP.Messages.Request:
 """
 GET /4/1/20 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /4/1/19 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/2/1 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
@@ -3560,37 +2458,48 @@ Content-Length: 0
 I- HTTP.Messages.Request:
 """
 GET /4/2/3 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /4/2/6 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/2/12 HTTP/1.1
+GET /4/2/10 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
-GET /4/2/9 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /4/2/16 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /4/2/15 HTTP/1.1
+GET /4/2/17 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/2/1 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/2/9 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/2/18 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
@@ -3598,17 +2507,22 @@ Content-Length: 0
 I- HTTP.Messages.Request:
 """
 GET /4/2/4 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
 GET /4/2/5 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/2/6 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
@@ -3622,28 +2536,33 @@ I- HTTP.Messages.Request:
 """
 GET /4/2/8 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/2/12 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/2/15 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /4/2/13 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /4/2/17 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/2/20 HTTP/1.1
+GET /4/2/11 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
@@ -3657,36 +2576,14 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /4/2/16 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/2/10 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/2/11 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/2/18 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
 GET /4/2/19 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/2/20 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
@@ -3695,29 +2592,33 @@ I- HTTP.Messages.Request:
 """
 GET /4/3/1 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/3/2 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /4/3/3 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
 GET /4/3/4 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
 GET /4/3/5 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 10
 
@@ -3726,60 +2627,12 @@ I- HTTP.Messages.Request:
 """
 GET /4/3/6 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/3/10 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
 Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/3/12 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/3/15 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/3/11 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/3/9 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/3/2 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
 GET /4/3/7 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 1000
 
@@ -3787,31 +2640,50 @@ Content-Length: 1000
 I- HTTP.Messages.Request:
 """
 GET /4/3/8 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /4/3/18 HTTP/1.1
+GET /4/3/9 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /4/3/19 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/3/17 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /4/3/11 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/3/10 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/3/12 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/3/15 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/3/13 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
@@ -3824,69 +2696,48 @@ Content-Length: 0
 I- HTTP.Messages.Request:
 """
 GET /4/3/16 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /4/3/13 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /4/3/18 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/3/17 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
 GET /4/3/20 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
-GET /4/4/6 HTTP/1.1
+GET /4/3/19 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/4/8 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/4/13 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/4/15 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /4/4/1 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /4/4/2 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 10
 
@@ -3895,21 +2746,28 @@ I- HTTP.Messages.Request:
 """
 GET /4/4/3 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
 GET /4/4/4 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /4/4/5 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/4/6 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
@@ -3921,30 +2779,28 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /4/4/18 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /4/4/8 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/4/13 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
 GET /4/4/14 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /4/4/16 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/4/11 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /4/4/10 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10
 
@@ -3952,9 +2808,8 @@ Content-Length: 10
 I- HTTP.Messages.Request:
 """
 GET /4/4/12 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
@@ -3966,25 +2821,30 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /4/4/10 HTTP/1.1
+GET /4/4/15 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/4/16 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/4/11 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
-GET /4/4/20 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /4/4/18 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/4/19 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
@@ -3996,8 +2856,119 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
+GET /4/4/20 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/4/19 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
 GET /4/5/1 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/5/2 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/5/3 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/5/9 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/5/11 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/5/10 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/5/17 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/5/4 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/5/5 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/5/6 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/5/7 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/5/8 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/5/19 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/5/18 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /4/5/12 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 1000
 
@@ -4011,70 +2982,9 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /4/5/17 HTTP/1.1
+GET /4/5/16 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/5/2 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/5/3 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/5/4 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/5/5 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/5/6 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/5/7 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/5/8 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/5/12 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
@@ -4086,117 +2996,56 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /4/5/10 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
 GET /4/5/15 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/5/11 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/5/9 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/5/16 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/5/19 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /4/5/18 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /4/5/20 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
 GET /5/1/1 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /5/1/2 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
 GET /5/1/3 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /5/1/4 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/1/5 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /5/1/9 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /5/1/5 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
 GET /5/1/6 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 10000
 
@@ -4205,13 +3054,33 @@ I- HTTP.Messages.Request:
 """
 GET /5/1/7 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /5/1/8 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/1/9 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/1/10 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/1/12 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10000
 
@@ -4220,14 +3089,6 @@ I- HTTP.Messages.Request:
 """
 GET /5/1/13 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/1/10 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
 Content-Length: 1000
 
 """
@@ -4235,104 +3096,54 @@ I- HTTP.Messages.Request:
 """
 GET /5/1/15 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/1/14 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/1/19 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /5/1/16 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/1/11 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
 Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
-GET /5/1/12 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/1/20 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/1/18 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/1/17 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/2/2 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/2/5 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/2/13 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/2/12 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /5/1/11 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /5/2/19 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /5/1/14 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/1/18 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/1/17 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/1/19 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/1/20 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10000
 
@@ -4341,13 +3152,19 @@ I- HTTP.Messages.Request:
 """
 GET /5/2/1 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/2/2 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /5/2/3 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 1000
 
@@ -4361,17 +3178,16 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /5/2/6 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /5/2/5 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
-GET /5/2/11 HTTP/1.1
+GET /5/2/6 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
@@ -4384,25 +3200,36 @@ Content-Length: 0
 I- HTTP.Messages.Request:
 """
 GET /5/2/8 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/2/13 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
-GET /5/2/16 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /5/2/12 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/2/10 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
 GET /5/2/9 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
@@ -4414,37 +3241,77 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /5/2/17 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/2/10 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /5/2/15 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /5/2/15 HTTP/1.1
+GET /5/2/11 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/2/16 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/2/18 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/2/17 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/2/19 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
 GET /5/2/20 HTTP/1.1
 Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/3/4 HTTP/1.1
+Host: 127.0.0.1
 Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
-GET /5/2/18 HTTP/1.1
+GET /5/3/12 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/3/20 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/3/1 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
@@ -4458,63 +3325,30 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /5/3/12 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/3/18 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/3/1 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
 GET /5/3/3 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/3/4 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
 GET /5/3/5 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /5/3/6 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
 GET /5/3/7 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
@@ -4526,9 +3360,37 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
+GET /5/3/11 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/3/9 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
 GET /5/3/10 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/3/15 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/3/16 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
@@ -4540,41 +3402,9 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /5/3/16 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /5/3/13 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/3/13 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/3/9 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/3/15 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/3/11 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
@@ -4586,8 +3416,7 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /5/3/20 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /5/3/18 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10000
 
@@ -4595,21 +3424,76 @@ Content-Length: 10000
 I- HTTP.Messages.Request:
 """
 GET /5/3/19 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /5/4/6 HTTP/1.1
+GET /5/4/1 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
+GET /5/4/2 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/4/3 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/4/4 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/4/5 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/4/6 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/4/7 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
 GET /5/4/8 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/4/10 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/4/16 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
@@ -4623,62 +3507,7 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /5/4/10 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/4/17 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/4/1 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/4/2 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/4/3 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/4/4 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/4/5 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/4/7 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /5/4/9 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 1000
 
@@ -4687,29 +3516,7 @@ I- HTTP.Messages.Request:
 """
 GET /5/4/15 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/4/16 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/4/9 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
 Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/4/14 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
@@ -4721,10 +3528,23 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /5/4/13 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /5/4/14 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/4/13 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/4/17 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
@@ -4736,60 +3556,56 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /5/4/20 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /5/4/18 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
-GET /5/4/18 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /5/4/20 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
 GET /5/5/1 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
 GET /5/5/2 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /5/5/3 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /5/5/4 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /5/5/5 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /5/5/6 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 10
 
@@ -4804,17 +3620,22 @@ Content-Length: 0
 I- HTTP.Messages.Request:
 """
 GET /5/5/8 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /5/5/16 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /5/5/12 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/5/10 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
@@ -4826,49 +3647,44 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /5/5/12 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /5/5/11 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/5/10 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
 GET /5/5/9 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /5/5/15 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/5/14 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /5/5/16 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /5/5/11 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /5/5/18 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/5/14 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
@@ -4880,51 +3696,64 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /5/5/20 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /5/5/18 HTTP/1.1
+GET /5/5/19 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
-GET /5/5/19 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /5/5/20 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10
 
 """
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
 I- HTTP.Messages.Request:
 """
 GET /1/2/1 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 10
 
 """
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
 I- HTTP.Messages.Request:
 """
 GET /1/3/1 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 10
 
 """
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- HTTP.Messages.Request:
+"""
+GET /1/4/1 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- HTTP.Messages.Request:
+"""
+GET /1/1/1 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- HTTP.Messages.Request:
+"""
+GET /1/2/2 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
 I- HTTP.Messages.Request:
 """
 GET /1/3/2 HTTP/1.1
@@ -4932,105 +3761,41 @@ Host: 127.0.0.1
 Content-Length: 0
 
 """
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- HTTP.Messages.Request:
-"""
-GET /1/1/1 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- HTTP.Messages.Request:
-"""
-GET /1/4/1 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- HTTP.Messages.Request:
-"""
-GET /1/2/2 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
 I- HTTP.Messages.Request:
 """
 GET /1/4/2 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 10
 
 """
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
+I- HTTP.Messages.Request:
+"""
+GET /1/1/2 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
 I- HTTP.Messages.Request:
 """
 GET /1/2/3 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- HTTP.Messages.Request:
-"""
-GET /1/2/15 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/2/4 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/2/6 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/2/8 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/2/9 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/2/10 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
 GET /1/2/5 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/2/6 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
@@ -5039,51 +3804,44 @@ I- HTTP.Messages.Request:
 """
 GET /1/2/7 HTTP/1.1
 Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- HTTP.Messages.Request:
+"""
+GET /1/2/15 HTTP/1.1
+Host: 127.0.0.1
 Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
+GET /1/2/12 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
 GET /1/2/13 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
-GET /1/2/11 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/2/16 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /1/2/8 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /1/2/17 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /1/2/10 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- HTTP.Messages.Request:
-"""
-GET /1/2/12 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
@@ -5095,32 +3853,138 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /1/3/3 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
 GET /1/2/20 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
-GET /1/3/4 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /1/2/18 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/2/16 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/2/19 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
+GET /1/2/4 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/2/11 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/2/9 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/2/17 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- HTTP.Messages.Request:
+"""
+GET /1/3/3 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- HTTP.Messages.Request:
+"""
+GET /1/3/5 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- HTTP.Messages.Request:
+"""
+GET /1/3/9 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
 GET /1/3/7 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- HTTP.Messages.Request:
+"""
+GET /1/3/15 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/3/14 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/3/11 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/3/12 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/3/4 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/3/6 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/3/20 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10
 
@@ -5129,14 +3993,6 @@ I- HTTP.Messages.Request:
 """
 GET /1/3/8 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/3/9 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
 Content-Length: 10000
 
 """
@@ -5144,76 +4000,21 @@ I- HTTP.Messages.Request:
 """
 GET /1/3/10 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/2/18 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/2/19 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
 Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /1/3/15 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/3/5 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/3/6 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/3/11 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /1/3/19 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /1/3/16 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/3/14 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
 GET /1/3/17 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
@@ -5223,61 +4024,34 @@ Host: 127.0.0.1
 Content-Length: 0
 
 """
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- HTTP.Messages.Request:
-"""
-GET /1/3/12 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/4/3 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
 I- HTTP.Messages.Request:
 """
 GET /1/3/13 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/3/19 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/3/20 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /1/4/5 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /1/3/16 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 1000
+Content-Length: 0
+
+"""
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- HTTP.Messages.Request:
+"""
+GET /1/4/3 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
-GET /1/4/4 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /1/4/5 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10000
 
@@ -5292,7 +4066,6 @@ Content-Length: 0
 I- HTTP.Messages.Request:
 """
 GET /1/4/7 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 1000
 
@@ -5301,74 +4074,34 @@ I- HTTP.Messages.Request:
 """
 GET /1/4/8 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/4/9 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
 Content-Length: 10000
 
 """
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
 I- HTTP.Messages.Request:
 """
-GET /1/4/10 HTTP/1.1
+GET /1/4/14 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/1/2 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- HTTP.Messages.Request:
-"""
-GET /1/1/10 HTTP/1.1
-Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
 GET /1/4/12 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 10
 
 """
 I- HTTP.Messages.Request:
 """
 GET /1/1/3 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/1/4 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/4/16 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
@@ -5380,44 +4113,42 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
-GET /1/4/14 HTTP/1.1
+GET /1/1/11 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/4/13 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /1/4/11 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /1/4/17 HTTP/1.1
+GET /1/4/9 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /1/4/18 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /1/4/4 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /1/1/5 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10000
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/4/16 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
@@ -5425,16 +4156,15 @@ Content-Length: 0
 I- HTTP.Messages.Request:
 """
 GET /1/1/6 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
 GET /1/1/7 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 0
+Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
@@ -5446,16 +4176,56 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
+GET /1/4/10 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
 GET /1/1/9 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/4/20 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/1/4 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/4/17 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/1/15 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 10
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/1/17 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 10000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /1/1/19 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /1/4/13 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 1000
 
@@ -5469,62 +4239,56 @@ Content-Length: 0
 """
 I- HTTP.Messages.Request:
 """
+GET /1/1/14 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 1000
+
+"""
+I- HTTP.Messages.Request:
+"""
 GET /1/1/13 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /1/4/20 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/4/19 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 10000
-
-"""
-I- HTTP.Messages.Request:
-"""
-GET /1/1/15 HTTP/1.1
+GET /1/1/16 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
-GET /1/1/11 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /1/4/19 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
-GET /1/1/14 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /1/1/19 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 10000
+Content-Length: 1000
 
 """
 I- HTTP.Messages.Request:
 """
-GET /1/1/16 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
+GET /1/1/10 HTTP/1.1
 Host: 127.0.0.1
-Content-Length: 10
+Content-Length: 0
 
 """
 I- HTTP.Messages.Request:
 """
-GET /1/1/17 HTTP/1.1
+GET /1/4/18 HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 0
+
+"""
+I- HTTP.Messages.Request:
+"""
+GET /1/1/18 HTTP/1.1
 Host: 127.0.0.1
 Content-Length: 0
 
@@ -5532,20 +4296,11 @@ Content-Length: 0
 I- HTTP.Messages.Request:
 """
 GET /1/1/20 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
 Host: 127.0.0.1
 Content-Length: 10000
 
 """
-I- HTTP.Messages.Request:
-"""
-GET /1/1/18 HTTP/1.1
-Content-Type: text/plain; charset=utf-8
-Host: 127.0.0.1
-Content-Length: 1000
-
-"""
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
 I- HTTP.Messages.Request:
 """
 GET / HTTP/1.1
@@ -5553,21 +4308,17 @@ Host: 127.0.0.1
 Content-Length: 0
 
 """
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-I- Closed:  💀    0↑     1↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-E- HTTP.ParsingError: invalid HTTP version, es_req_first_http_major, 0
-"GET / HTP/1.1"
-            ^
-
-I- Closed:  💀    0↑     1↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
-E- HTTP.ParsingError: invalid HTTP request target, es_req_line_almost_done, 0
-"SOMEMETHOD HTTP/1.1"
-                    ^
-
-I- Closed:  💀    0↑     1↓    localhost:8872:8872 ≣16
-I- Accept:  🔗    0↑     0↓    localhost:8872:8872 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+length(x) = 100018
+E- HTTP.Parsers.ParseError(:HEADER_SIZE_EXCEEDS_LIMIT, "")
+I- Closed:  💀    0↑     1↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+E- HTTP.Parsers.ParseError(:INVALID_REQUEST_LINE, "GET / HTP/1.1\r")
+I- Closed:  💀    0↑     1↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
+E- HTTP.Parsers.ParseError(:INVALID_REQUEST_LINE, "SOMEMETHOD HTTP/1.1\r")
+I- Closed:  💀    0↑     1↓    localhost:8038:8038 ≣16
+I- Accept:  🔗    0↑     0↓    localhost:8038:8038 ≣16
 I- HTTP.Messages.Request:
 """
 POST / HTTP/1.1
@@ -5584,109 +4335,101 @@ Body of Request
 0
 
 
-I- Listening on: 127.0.0.1:8873
+I- Listening on: 127.0.0.1:8039
 W- accept: software caused connection abort (ECONNABORTED)
 W- throttling 127.0.0.1
-I- Accept:  🔗    0↑     0↓    127.0.0.1:8873:8873 ≣16
+I- Accept:  🔗    0↑     0↓    127.0.0.1:8039:8039 ≣16
 I- HTTP.Messages.Request:
 """
 GET / HTTP/1.0
-Host: 127.0.0.1:8873
+Host: 127.0.0.1:8039
 Content-Length: 0
 
 """
-I- Closed:  💀    1↑     1↓🔒   127.0.0.1:8873:8873 ≣16
+I- Closed:  💀    1↑     1↓🔒   127.0.0.1:8039:8039 ≣16
 async tests
 running async 1, 1:100, Pair{Symbol,Int64}[:verbose=>0], http A
-I- Closed:  💀    1↑     1↓🔒   localhost:8872:8872 ≣16 inactive 5.4s
+I- Closed:  💀    1↑     1↓🔒   localhost:8038:8038 ≣16
 I- Listening on: 127.0.0.1:8081
 ConnectionPool[
-   ⏸   60↑    60↓    httpbin.org:80:59868 ≣16
-   ⏸    4↑     4↓    example.com:80:35253 ≣16
-   ⏸   41↑    41↓    httpbin.org:443:57405 ≣16
-   ⏸    1↑     1↓    127.0.0.1:8872:41242 ≣16
-   🔗    1↑     1↓    127.0.0.1:8873:54564 ≣16
-   ⏸   13↑    13↓    httpbin.org:80:34709 ≣16
-   ⏸   13↑    13↓    httpbin.org:80:34710 ≣16
-   ⏸   13↑    13↓    httpbin.org:80:34711 ≣16
-   ⏸   13↑    13↓    httpbin.org:80:34712 ≣16
-   ⏸   12↑    12↓    httpbin.org:80:34713 ≣16
-   ⏸   12↑    12↓    httpbin.org:80:34714 ≣16
-   ⏸   11↑    11↓    httpbin.org:80:34715 ≣16
+   ⏸   61↑    61↓    httpbin.org:80:41042 ≣16
+   ⏸    4↑     4↓    example.com:80:53283 ≣16
+   ⏸   42↑    42↓    httpbin.org:443:49085 ≣16
+   ⏸    1↑     1↓    127.0.0.1:8038:51793 ≣16
+   🔗    1↑     1↓    127.0.0.1:8039:39296 ≣16
+   ⏸   14↑    14↓    httpbin.org:80:48053 ≣16
+   ⏸   13↑    13↓    httpbin.org:80:48054 ≣16
+   ⏸   13↑    13↓    httpbin.org:80:48055 ≣16
+   ⏸   12↑    12↓    httpbin.org:80:48056 ≣16
+   ⏸   12↑    12↓    httpbin.org:80:48057 ≣16
+   ⏸   12↑    12↓    httpbin.org:80:48058 ≣16
+   ⏸   11↑    11↓    httpbin.org:80:48059 ≣16
 ]
 
-I- Closed:  💀    1↑     1↓🔒   localhost:8872:8872 ≣16 inactive 20.2s
+I- Closed:  💀    1↑     1↓🔒   localhost:8038:8038 ≣16 inactive 5.4s
 running async 1, 1:100, Pair{Symbol,Int64}[:verbose=>0], http B
 ConnectionPool[
-   ⏸   13↑    13↓    httpbin.org:80:34716 ≣16
-   ⏸   13↑    13↓    httpbin.org:80:34717 ≣16
-   ⏸   13↑    13↓    httpbin.org:80:34718 ≣16
-   ⏸   13↑    13↓    httpbin.org:80:34719 ≣16
-   ⏸   13↑    13↓    httpbin.org:80:34720 ≣16
-   ⏸   12↑    12↓    httpbin.org:80:34721 ≣16
-   ⏸   12↑    12↓    httpbin.org:80:34722 ≣16
-   ⏸   11↑    11↓    httpbin.org:80:34723 ≣16
+   ⏸   13↑    13↓    httpbin.org:80:48060 ≣16
+   ⏸   13↑    13↓    httpbin.org:80:48061 ≣16
+   ⏸   13↑    13↓    httpbin.org:80:48062 ≣16
+   ⏸   13↑    13↓    httpbin.org:80:48063 ≣16
+   ⏸   12↑    12↓    httpbin.org:80:48064 ≣16
+   ⏸   13↑    13↓    httpbin.org:80:48065 ≣16
+   ⏸   12↑    12↓    httpbin.org:80:48066 ≣16
+   ⏸   11↑    11↓    httpbin.org:80:48067 ≣16
 ]
 
 running async 1, 1:100, Pair{Symbol,Int64}[:verbose=>0], http C
 ConnectionPool[
-   ⏸   15↑    15↓    httpbin.org:80:34724 ≣16
-   ⏸   12↑    12↓    httpbin.org:80:34725 ≣16
-   ⏸   12↑    12↓    httpbin.org:80:34726 ≣16
-   ⏸   16↑    16↓    httpbin.org:80:34727 ≣16
-   ⏸   19↑    19↓    httpbin.org:80:34728 ≣16
-   ⏸    9↑     9↓    httpbin.org:80:34729 ≣16
-   ⏸   10↑    10↓    httpbin.org:80:34730 ≣16
-   ⏸    7↑     7↓    httpbin.org:80:34731 ≣16
+   ⏸   10↑    10↓    httpbin.org:80:48068 ≣16
+   ⏸   10↑    10↓    httpbin.org:80:48069 ≣16
+   ⏸   13↑    13↓    httpbin.org:80:48070 ≣16
+   ⏸   11↑    11↓    httpbin.org:80:48071 ≣16
+   ⏸   16↑    16↓    httpbin.org:80:48072 ≣16
+   ⏸   17↑    17↓    httpbin.org:80:48073 ≣16
+   ⏸    9↑     9↓    httpbin.org:80:48074 ≣16
+   ⏸   14↑    14↓    httpbin.org:80:48075 ≣16
 ]
 
 ConnectionPool[
 ]
 
 async tests done
-Test Summary: |   Pass  Broken   Total
-HTTP          | 414632       4  414636
-I- Closed:  💀    3↑     3↓🔒   localhost:8872:8872 ≣16 inactive 23.1s
-I- Closed:  💀    2↑     2↓🔒   localhost:8872:8872 ≣16 inactive 23.2s
-I- Closed:  💀    3↑     3↓🔒   localhost:8872:8872 ≣16 inactive 23.1s
-I- Closed:  💀    3↑     3↓🔒   localhost:8872:8872 ≣16 inactive 23.1s
-I- Closed:  💀    2↑     2↓🔒   localhost:8872:8872 ≣16 inactive 23.1s
-I- Closed:  💀    3↑     3↓🔒   localhost:8872:8872 ≣16 inactive 23.1s
-I- Closed:  💀    2↑     2↓🔒   localhost:8872:8872 ≣16 inactive 23.1s
-I- Closed:  💀    2↑     2↓🔒   localhost:8872:8872 ≣16 inactive 23.1s
-I- Closed:  💀    3↑     3↓🔒   localhost:8872:8872 ≣16 inactive 23.2s
-I- Closed:  💀    3↑     3↓🔒   localhost:8872:8872 ≣16 inactive 23.2s
-I- Closed:  💀    3↑     3↓🔒   localhost:8872:8872 ≣16 inactive 23.2s
-I- Closed:  💀    2↑     2↓🔒   localhost:8872:8872 ≣16 inactive 23.2s
-I- Closed:  💀    2↑     2↓🔒   localhost:8872:8872 ≣16 inactive 23.2s
-I- Closed:  💀    2↑     2↓🔒   localhost:8872:8872 ≣16 inactive 23.2s
-I- Closed:  💀    4↑     4↓🔒   localhost:8872:8872 ≣16 inactive 23.2s
-I- Closed:  💀    1↑     1↓🔒   localhost:8872:8872 ≣16 inactive 23.2s
-I- Closed:  💀    3↑     3↓🔒   localhost:8872:8872 ≣16 inactive 23.5s
-I- Closed:  💀    2↑     2↓🔒   localhost:8872:8872 ≣16 inactive 23.5s
-I- Closed:  💀    2↑     2↓🔒   localhost:8872:8872 ≣16 inactive 23.5s
-I- Closed:  💀    3↑     3↓🔒   localhost:8872:8872 ≣16 inactive 23.4s
-I- Closed:  💀    3↑     3↓🔒   localhost:8872:8872 ≣16 inactive 23.5s
-I- Closed:  💀    2↑     2↓🔒   localhost:8872:8872 ≣16 inactive 23.5s
-I- Closed:  💀    2↑     2↓🔒   localhost:8872:8872 ≣16 inactive 23.5s
-I- Closed:  💀    3↑     3↓🔒   localhost:8872:8872 ≣16 inactive 23.5s
-I- Closed:  💀    4↑     4↓🔒   localhost:8872:8872 ≣16 inactive 23.5s
-I- Closed:  💀    2↑     2↓🔒   localhost:8872:8872 ≣16 inactive 23.6s
-I- Closed:  💀    3↑     3↓🔒   localhost:8872:8872 ≣16 inactive 23.6s
-I- Closed:  💀    2↑     2↓🔒   localhost:8872:8872 ≣16 inactive 23.6s
-I- Closed:  💀    2↑     2↓🔒   localhost:8872:8872 ≣16 inactive 23.7s
-I- Closed:  💀    4↑     4↓🔒   localhost:8872:8872 ≣16 inactive 23.6s
-I- Closed:  💀    1↑     1↓🔒   localhost:8872:8872 ≣16 inactive 23.6s
-I- Closed:  💀    2↑     2↓🔒   localhost:8872:8872 ≣16 inactive 23.6s
-I- Closed:  💀   56↑    56↓🔒   localhost:8872:8872 ≣16 inactive 34.2s
-I- Closed:  💀   56↑    56↓🔒   localhost:8872:8872 ≣16 inactive 34.2s
-I- Closed:  💀   52↑    52↓🔒   localhost:8872:8872 ≣16 inactive 34.2s
-I- Closed:  💀   53↑    53↓🔒   localhost:8872:8872 ≣16 inactive 34.2s
-I- Closed:  💀   50↑    50↓🔒   localhost:8872:8872 ≣16 inactive 34.2s
-I- Closed:  💀   53↑    53↓🔒   localhost:8872:8872 ≣16 inactive 34.2s
-I- Closed:  💀   50↑    50↓🔒   localhost:8872:8872 ≣16 inactive 34.3s
-I- Closed:  💀   51↑    51↓🔒   localhost:8872:8872 ≣16 inactive 34.2s
-INFO: HTTP tests passed
+Test Summary: | Pass  Broken  Total
+HTTP          | 1661       4   1665
+I- Closed:  💀   57↑    57↓🔒   localhost:8038:8038 ≣16 inactive 15.5s
+I- Closed:  💀   52↑    52↓🔒   localhost:8038:8038 ≣16 inactive 15.6s
+I- Closed:  💀   49↑    49↓🔒   localhost:8038:8038 ≣16 inactive 15.6s
+I- Closed:  💀   52↑    52↓🔒   localhost:8038:8038 ≣16 inactive 15.5s
+I- Closed:  💀   52↑    52↓🔒   localhost:8038:8038 ≣16 inactive 15.6s
+I- Closed:  💀   52↑    52↓🔒   localhost:8038:8038 ≣16 inactive 15.6s
+I- Closed:  💀   53↑    53↓🔒   localhost:8038:8038 ≣16 inactive 15.5s
+I- Closed:  💀   54↑    54↓🔒   localhost:8038:8038 ≣16 inactive 15.6s
+I- Closed:  💀    3↑     3↓🔒   localhost:8038:8038 ≣16 inactive 8.0s
+I- Closed:  💀    2↑     2↓🔒   localhost:8038:8038 ≣16 inactive 8.0s
+I- Closed:  💀    2↑     2↓🔒   localhost:8038:8038 ≣16 inactive 8.0s
+I- Closed:  💀    2↑     2↓🔒   localhost:8038:8038 ≣16 inactive 8.0s
+I- Closed:  💀    2↑     2↓🔒   localhost:8038:8038 ≣16 inactive 8.0s
+I- Closed:  💀    2↑     2↓🔒   localhost:8038:8038 ≣16 inactive 8.0s
+I- Closed:  💀    3↑     3↓🔒   localhost:8038:8038 ≣16 inactive 7.9s
+I- Closed:  💀    4↑     4↓🔒   localhost:8038:8038 ≣16 inactive 7.9s
+I- Closed:  💀    3↑     3↓🔒   localhost:8038:8038 ≣16 inactive 8.0s
+I- Closed:  💀    3↑     3↓🔒   localhost:8038:8038 ≣16 inactive 8.1s
+I- Closed:  💀    3↑     3↓🔒   localhost:8038:8038 ≣16 inactive 8.1s
+I- Closed:  💀    2↑     2↓🔒   localhost:8038:8038 ≣16 inactive 8.1s
+I- Closed:  💀    2↑     2↓🔒   localhost:8038:8038 ≣16 inactive 8.1s
+I- Closed:  💀    4↑     4↓🔒   localhost:8038:8038 ≣16 inactive 8.0s
+I- Closed:  💀    1↑     1↓🔒   localhost:8038:8038 ≣16 inactive 8.1s
+I- Closed:  💀    2↑     2↓🔒   localhost:8038:8038 ≣16 inactive 8.1s
+I- Closed:  💀    3↑     3↓🔒   localhost:8038:8038 ≣16 inactive 8.6s
+I- Closed:  💀    1↑     1↓🔒   localhost:8038:8038 ≣16 inactive 8.6s
+I- Closed:  💀    2↑     2↓🔒   localhost:8038:8038 ≣16 inactive 8.6s
+I- Closed:  💀    3↑     3↓🔒   localhost:8038:8038 ≣16 inactive 8.6s
+I- Closed:  💀    3↑     3↓🔒   localhost:8038:8038 ≣16 inactive 8.6s
+I- Closed:  💀    2↑     2↓🔒   localhost:8038:8038 ≣16 inactive 8.6s
+I- Closed:  💀    3↑     3↓🔒   localhost:8038:8038 ≣16 inactive 8.6s
+I- Closed:  💀    3↑     3↓🔒   localhost:8038:8038 ≣16 inactive 8.5s
+I- Closed:  💀    3↑     3↓🔒   localhost:8038:8038 ≣16 inactive 8.5sINFO: HTTP tests passed
 INFO: Removing DataStructures v0.7.4
 INFO: Removing IterTools v0.2.1
 INFO: Removing LightXML v0.5.0
