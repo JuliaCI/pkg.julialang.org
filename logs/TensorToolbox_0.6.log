@@ -1,6 +1,6 @@
 >>> 'Pkg.add("TensorToolbox")' log
 INFO: Cloning cache of TensorToolbox from https://github.com/lanaperisa/TensorToolbox.jl.git
-INFO: Installing TensorToolbox v0.1.0
+INFO: Installing TensorToolbox v0.2.0
 INFO: Package database updated
 INFO: METADATA is out-of-date — you may not have the latest version of TensorToolbox
 INFO: Use `Pkg.update()` to get the latest versions of your packages
@@ -14,13 +14,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (812.48046875 MB free)
-Uptime: 70569.0 sec
-Load Avg:  0.9970703125  0.9853515625  0.95654296875
+Memory: 2.93927001953125 GB (790.1171875 MB free)
+Uptime: 73951.0 sec
+Load Avg:  0.80419921875  0.93896484375  0.94091796875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    4413887 s         94 s     194145 s    1420449 s         59 s
-#2  3499 MHz    1108079 s       5822 s      91184 s    5714784 s          0 s
+#1  3501 MHz    4522776 s       7079 s     242718 s    1493727 s         68 s
+#2  3501 MHz    1170003 s         68 s     110945 s    5973885 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -36,18 +36,18 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - JSON                          0.16.4
- - TensorToolbox                 0.1.0
+ - TensorToolbox                 0.2.0
 2 additional packages:
- - Compat                        0.52.0
+ - Compat                        0.53.0
  - Nullables                     0.0.3
 INFO: Testing TensorToolbox
 
-WARNING: deprecated syntax "function .*(...)".
-Use "function Base.broadcast(::typeof(*), ...)" instead.
 
-...Test tensor X of size: (20, 10, 50, 5)
+**** Testing tensor.jl
 
-...Testing matten and tenmat.
+**Test tensor X of size: (20, 10, 50, 5)
+
+...Testing functions matten and tenmat (by mode).
 Size of 1-mode matricization: [20, 2500]
 Check if it folds back correctly: true
 Size of 2-mode matricization: [10, 5000]
@@ -57,6 +57,42 @@ Check if it folds back correctly: true
 Size of 4-mode matricization: [5, 10000]
 Check if it folds back correctly: true
 
+...Testing functions matten and tenmat (by rows and columns).
+Size of R=[2, 1] and C=[4, 3] matricization: [200, 250]
+Check if it folds back correctly: true
+
+...Testing function ttm.
+Created 4 matrices with 5 rows and appropriate number of columns.
+Size of tensor Y=ttm(X,M): (5, 5, 5, 5)
+Multiplication error: 8.249936652885815e-12
+
+...Testing function ttv.
+Multiplying a tensor X by a vector v in mode 2.
+Size of tensor Y=ttv(X,v): (3, 2)
+
+...Testing function krontm.
+Created two tensors X and Y of order 3 and sizes (5, 4, 3) and (2, 5, 4).
+Multiplying tkron(X,Y) by random matrix in mode 3.
+Multiplication error: 1.639962324695059e-14
+Multiplying tkron(X,Y) by random matrices in modes [3, 2].
+Multiplication error: 1.4312630780810086e-13
+Multiplying tkron(X,Y) by random matrices in all modes.
+Multiplication error: 8.644417484846949e-13
+
+...Testing function mkrontv.
+Multiplying mode-1 matricized tkron(X,Y) by a random vector.
+Multiplication error: 4.832213032818602e-14
+Multiplication error: 2.891379723003555e-15
+
+...Testing function mttkrp.
+Multiplying mode-1 matricized tensor X by Khatri-Rao product of matrices.
+Multiplication error: 0.0
+
+
+****Testing ttensor.jl
+
+...Test tensor X of size: (20, 10, 50, 5)
+
 ...Testing hosvd.
 
 Creating exact decomposition with rank = size(X):
@@ -65,9 +101,9 @@ Type of output T: TensorToolbox.ttensor{Float64}
 Core tensor size: (20, 10, 50, 5)
 Factor matrices sizes: (20, 20) (10, 10) (50, 50) (5, 5) 
 
-...Testing function full, i.e. n-mode multiplication (ttm): vecnorm(full(T)-X) = 2.2187946874529277e-13
+...Testing function full, i.e. n-mode multiplication (ttm): vecnorm(full(T)-X) = 2.0785335991107528e-13
 
-...Testing ttm for ttensor T and array of matrices A : vecnorm(full(ttm(T,A))-ttm(full(T),A)) = 1.9516755554743164e-11
+...Testing ttm for ttensor T and array of matrices A : vecnorm(full(ttm(T,A))-ttm(full(T),A)) = 1.5044510464279727e-11
 
 ...Testing hosvd with smaller multilinear rank: [5, 5, 5, 5]
 Results:
@@ -83,10 +119,12 @@ Factor matrices sizes: (20, 5) (10, 5) (50, 5) (5, 5)
 
 ...Testing mrank of ttensor T: (5, 5, 5, 5)
 
+...Testing functions matten and tenmat (by mode).
+
 
 ...Testing hosvd for tensor with noise.
 For ttensor T, X=full(T) tensor of size (60, 50, 40) and rank [5, 5, 5] , N noise tensor and S=hosvd(X+N,[5, 5, 5]).
-Error( vecnorm(T-S) ): 0.014233805333060559. Noise vecnorm: 0.17341594112611097.
+Error( vecnorm(T-S) ): 0.014062095485126715. Noise vecnorm: 0.17365624991213643.
 
 
 ...Testing hosvd with eps_abs=1e-5 on function defined tensor X of size (20, 20, 20) and multlinear rank(12, 12, 12)
@@ -104,7 +142,7 @@ Factor matrices sizes: (20, 6) (20, 6) (20, 6)
 ...Testing if factor matrices of ttensor T are orthogonal: true
 
 
-...Recompress Tucer tensor T to smaller rank: [3, 3, 3]
+...Recompress Tucker tensor T to smaller rank: [3, 3, 3]
 Results:
 Type of output T: TensorToolbox.ttensor{Float64}
 Core tensor size: (3, 3, 3)
@@ -126,29 +164,79 @@ vecnorm(full(3*T) - 3*full(T)) = 3.923079530336531e-14
 ...Creating two random ttensors X and Y of size (6, 8, 2, 5, 4).
 
 ...Testing addition.
-vecnorm(full(X+Y) - (full(X)+full(Y))) = 2.8723485798379536e-13
+vecnorm(full(X+Y) - (full(X)+full(Y))) = 1.2315506943626328e-13
 
 
 ...Testing inner product.
-|innerprod(X,Y) - innerprod(full(X),full(Y))| = 5.4569682106375694e-12
+|innerprod(X,Y) - innerprod(full(X),full(Y))| = 0.0
 
 
 ...Testing Hadamard product.
-vecnorm(full(X.*Y) - full(X).*full(Y)) = 5.867216857076176e-12
+vecnorm(full(X.*Y) - full(X).*full(Y)) = 7.746150266288955e-13
 
 
 ...Testing singular values of matricizations of Tucker Tensor.
 
-Singular values of matricizations of random Tucker tensor of size (10, 9, 8), rank [3, 3, 3] and vecnorm 114.30501181178296.
-Mode-1 singular values error: 1.0658141036401503e-14
-Mode-2 singular values error: 1.464821375527116e-14
-Mode-3 singular values error: 3.1776437161565096e-14
+Singular values of matricizations of random Tucker tensor of size (10, 9, 8), rank [3, 3, 3] and vecnorm 124.70394242719271.
+Mode-1 singular values error: 4.507888299247583e-14
+Mode-2 singular values error: 1.4210854715202004e-14
+Mode-3 singular values error: 2.6586074758753436e-14
 
-Singular values of matricizations of random Tucker tensor of size (20, 20, 20, 20), rank [5, 5, 5, 5] and vecnorm 8028.04414461117.
-Mode-1 singular values error: 3.838509432201621e-12
-Mode-2 singular values error: 3.3724966156549558e-12
-Mode-3 singular values error: 5.770097023036906e-12
-Mode-4 singular values error: 1.8189894035458565e-12
+Singular values of matricizations of random Tucker tensor of size (20, 20, 20, 20), rank [5, 5, 5, 5] and vecnorm 10349.857814535044.
+Mode-1 singular values error: 1.0178623272440469e-11
+Mode-2 singular values error: 6.398862424007479e-12
+Mode-3 singular values error: 7.444534978160346e-12
+Mode-4 singular values error: 1.2320212758044423e-11
+
+...Testing function mhadtv.
+
+
+...Creating two random ttensors X and Y of size (5, 4, 3).
+Multiplying mode-1 matricized had(X,Y) by a random vector.
+Multiplication error: 6.5343015307749046e-15
+Multiplication error: 8.671296703307338e-15
+Multiplication error: 9.453156263568069e-14
+
+...Testing function mttkrp.
+Multiplying mode-1 matricized tensor X by Khatri-Rao product of matrices.
+Multiplication error: 1.095807560279682e-14
+
+
+****Testing ktensor.jl
+
+**Test ktensors X and Y of size: (4, 3, 2)
+
+
+...Testing function ndims.
+X is of order: 3
+
+...Testing function ttensor and full.
+...Testing scalar multiplication.
+vecnorm(full(3*X) - 3*full(X)) = 8.881784197001252e-16
+...Testing functions plus and minus.
+vecnorm(full(Z)-(full(X)+full(Y))) = 6.080941944488118e-16
+vecnorm(full(Z)-(full(X)-full(Y))) = 4.1284960951691644e-16
+...Testing function innerprod.
+vecnorm(innerprod(X,Y)-innerprod(full(X),full(Y))) = 8.881784197001252e-16
+...Testing function vecnorm.
+...Testing functions arrange and arrange!.
+vecnorm(full(X)-full(Z)) = 4.335559509131367e-16
+...Testing functions normalize and normalize!.
+vecnorm(full(X)-full(Z)) = 6.017265405022454e-16
+...Testing functions redistribute and redistribute!.
+vecnorm(full(X)-full(Z)) = 4.20934145542537e-16
+...Testing functions fixsigns, fixsigns! and isequal.
+vecnorm(full(X)-full(Z)) = 0.0
+...Testing functions ttm and ttv.
+
+...Testing function tocell.
+Is the output MatrixCell: true
+
+...Testing function tenmat by mode 2.
+
+...Testing function mttkrp.
+Multiplying mode-1 matricized tensor X by Khatri-Rao product of matrices.
+Multiplication error: 8.736670906067546e-16
 
 
 
