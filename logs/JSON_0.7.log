@@ -2,8 +2,6 @@
 WARNING: Base.Pkg is deprecated, run `using Pkg` instead
  in module Main
 [ Info: Package JSON is already installed
-┌ Info: METADATA is out-of-date — you may not have the latest version of JSON
-└ Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("JSON")' log
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
@@ -12,20 +10,20 @@ Add `using InteractiveUtils` to your imports.
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
 Add `using InteractiveUtils` to your imports.
  in module Main
-Julia Version 0.7.0-DEV.3755
-Commit 94ee4f5a30 (2018-02-08 21:49 UTC)
+Julia Version 0.7.0-DEV.3951
+Commit 80a8175422 (2018-02-10 19:43 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3500 MHz    2118364 s       7200 s     110958 s     694528 s         24 s
-       #2  3500 MHz     596848 s         75 s      70477 s    2689452 s          0 s
+       #1  3499 MHz    2150330 s       6962 s     110322 s     583565 s         15 s
+       #2  3499 MHz     480952 s       1002 s      56537 s    2750909 s          0 s
        
-  Memory: 2.93927001953125 GB (1453.25390625 MB free)
-  Uptime: 34219.0 sec
-  Load Avg:  0.98876953125  0.998046875  0.99755859375
+  Memory: 2.93927001953125 GB (1300.55859375 MB free)
+  Uptime: 33755.0 sec
+  Load Avg:  1.01318359375  1.0478515625  1.0029296875
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -611,14 +609,74 @@ Integration   |  108    108
 ┌ Warning: `endof(a)` is deprecated, use `lastindex(a)` instead.
 │   caller = hasmore at Parser.jl:102 [inlined]
 └ @ Core Parser.jl:102
-Test Summary: | Pass  Total
-Regression    |    8      8
-[
- "JSON.jl tests pass!"
-]
-[ Info: JSON tests passed
+for issue #109: Error During Test at /home/vagrant/.julia/v0.7/JSON/test/runtests.jl:75
+  Got an exception of type LoadError outside of a @test
+  LoadError: MethodError: no method matching JSON.Writer.CompositeTypeWrapper(::t109, ::Tuple{Symbol})
+  Closest candidates are:
+    JSON.Writer.CompositeTypeWrapper(::T, !Matched::Array{Symbol,1}) where T at /home/vagrant/.julia/v0.7/JSON/src/Writer.jl:22
+    JSON.Writer.CompositeTypeWrapper(::Any) at /home/vagrant/.julia/v0.7/JSON/src/Writer.jl:26
+  Stacktrace:
+   [1] JSON.Writer.CompositeTypeWrapper(::t109) at /home/vagrant/.julia/v0.7/JSON/src/Writer.jl:26
+   [2] lower at /home/vagrant/.julia/v0.7/JSON/src/Writer.jl:48 [inlined]
+   [3] show_json at /home/vagrant/.julia/v0.7/JSON/src/Writer.jl:324 [inlined]
+   [4] #show_json#3 at /home/vagrant/.julia/v0.7/JSON/src/Writer.jl:335 [inlined]
+   [5] show_json at /home/vagrant/.julia/v0.7/JSON/src/Writer.jl:334 [inlined]
+   [6] print(::Base.GenericIOBuffer{Array{UInt8,1}}, ::t109) at /home/vagrant/.julia/v0.7/JSON/src/Writer.jl:343
+   [7] top-level scope at /home/vagrant/.julia/v0.7/JSON/test/regression/issue109.jl:6
+   [8] include at ./boot.jl:295 [inlined]
+   [9] include_relative(::Module, ::String) at ./loading.jl:1067
+   [10] include(::Module, ::String) at ./sysimg.jl:26
+   [11] include(::String) at ./sysimg.jl:65
+   [12] macro expansion at /home/vagrant/.julia/v0.7/JSON/test/runtests.jl:76 [inlined]
+   [13] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1080 [inlined]
+   [14] macro expansion at /home/vagrant/.julia/v0.7/JSON/test/runtests.jl:75 [inlined]
+   [15] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1008 [inlined]
+   [16] top-level scope at /home/vagrant/.julia/v0.7/JSON/test/runtests.jl:75
+   [17] include at ./boot.jl:295 [inlined]
+   [18] include_relative(::Module, ::String) at ./loading.jl:1067
+   [19] include(::Module, ::String) at ./sysimg.jl:26
+   [20] exec_options(::Base.JLOptions) at ./client.jl:332
+   [21] _start() at ./client.jl:448
+  in expression starting at /home/vagrant/.julia/v0.7/JSON/test/regression/issue109.jl:6
+Test Summary:    | Pass  Error  Total
+Regression       |    7      1      8
+  for issue #21  |    2             2
+  for issue #26  |    1             1
+  for issue #57  |    1             1
+  for issue #109 |           1      1
+  for issue #152 |    2             2
+  for issue #163 |    1             1
+ERROR: LoadError: Some tests did not pass: 7 passed, 0 failed, 1 errored, 0 broken.
+in expression starting at /home/vagrant/.julia/v0.7/JSON/test/runtests.jl:74
+┌ Error: ------------------------------------------------------------
+│ # Testing failed for JSON
+│   exception =
+│    failed process: Process(`/home/vagrant/julia/bin/julia -Cnative -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --code-coverage=none --color=no --compiled-modules=yes --check-bounds=yes --warn-overwrite=yes --startup-file=yes /home/vagrant/.julia/v0.7/JSON/test/runtests.jl`, ProcessExited(1)) [1]
+│    Stacktrace:
+│     [1] error(::String, ::Base.Process, ::String, ::Int64, ::String) at ./error.jl:42
+│     [2] pipeline_error(::Base.Process) at ./process.jl:693
+│     [3] run(::Cmd) at ./process.jl:655
+│     [4] (::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:731
+│     [5] cd(::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:70
+│     [6] #test!#88(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:719
+│     [7] (::getfield(Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
+│     [8] #test#96(::Bool, ::Function, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:758
+│     [9] #test at ./<missing>:0 [inlined]
+│     [10] #4 at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36 [inlined]
+│     [11] cd(::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.Pairs{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:70
+│     [12] #cd#1(::Base.Iterators.Pairs{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [13] (::getfield(Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
+│     [14] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
+│     [15] test(::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
+│     [16] top-level scope
+│     [17] eval at ./boot.jl:298 [inlined]
+│     [18] eval(::Module, ::Expr) at ./sysimg.jl:71
+│     [19] exec_options(::Base.JLOptions) at ./client.jl:309
+│     [20] _start() at ./client.jl:448
+└ @ Pkg.Entry entry.jl:734
 [ Info: Removing DataStructures v0.7.4
 [ Info: Removing FixedPointNumbers v0.4.6
 [ Info: Removing OffsetArrays v0.5.0
+ERROR: JSON had test errors
 
 >>> End of log
