@@ -4,6 +4,8 @@ WARNING: Base.Pkg is deprecated, run `using Pkg` instead
 [ Info: Cloning cache of LoopThrottle from https://github.com/tkoolen/LoopThrottle.jl.git
 [ Info: Installing LoopThrottle v0.0.1
 [ Info: Package database updated
+┌ Info: METADATA is out-of-date — you may not have the latest version of LoopThrottle
+└ Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("LoopThrottle")' log
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
@@ -12,20 +14,20 @@ Add `using InteractiveUtils` to your imports.
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
 Add `using InteractiveUtils` to your imports.
  in module Main
-Julia Version 0.7.0-DEV.3951
-Commit 80a8175422 (2018-02-10 19:43 UTC)
+Julia Version 0.7.0-DEV.3958
+Commit f9f11a3102 (2018-02-12 21:30 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3499 MHz    3357941 s       6972 s     167743 s     844665 s         36 s
-       #2  3499 MHz     721234 s       1002 s      79860 s    4221741 s          0 s
+       #1  3496 MHz    3337997 s       1703 s     165051 s     919134 s         34 s
+       #2  3496 MHz     809840 s       5913 s      92554 s    4162911 s          1 s
        
-  Memory: 2.93927001953125 GB (943.80859375 MB free)
-  Uptime: 51440.0 sec
-  Load Avg:  0.9931640625  0.9853515625  0.9912109375
+  Memory: 2.93927001953125 GB (965.7734375 MB free)
+  Uptime: 51742.0 sec
+  Load Avg:  1.01953125  1.0205078125  1.0400390625
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -55,8 +57,43 @@ Test Summary: | Pass  Total
 fast for loop |    2      2
 Test Summary: | Pass  Total
 fencepost     |    1      1
-Test Summary: | Pass  Total
+slow for loop: Test Failed at /home/vagrant/.julia/v0.7/LoopThrottle/test/runtests.jl:76
+  Expression: ≈(#= /home/vagrant/.julia/v0.7/LoopThrottle/test/runtests.jl:76 =# @elapsed(f()), #= /home/vagrant/.julia/v0.7/LoopThrottle/test/runtests.jl:76 =# @elapsed(g()), atol=0.01)
+   Evaluated: 2.013220457 ≈ 2.372175659 (atol=0.01) 
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.7/LoopThrottle/test/runtests.jl:76 [inlined]
+ [2] macro expansion at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Test/src/Test.jl:1008 [inlined]
+ [3] top-level scope at /home/vagrant/.julia/v0.7/LoopThrottle/test/runtests.jl:59
+Test Summary: | Fail  Total
 slow for loop |    1      1
-[ Info: LoopThrottle tests passed
+ERROR: LoadError: Some tests did not pass: 0 passed, 1 failed, 0 errored, 0 broken.
+in expression starting at /home/vagrant/.julia/v0.7/LoopThrottle/test/runtests.jl:58
+┌ Error: ------------------------------------------------------------
+│ # Testing failed for LoopThrottle
+│   exception =
+│    failed process: Process(`/home/vagrant/julia/bin/julia -Cnative -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --code-coverage=none --color=no --compiled-modules=yes --check-bounds=yes --warn-overwrite=yes --startup-file=yes /home/vagrant/.julia/v0.7/LoopThrottle/test/runtests.jl`, ProcessExited(1)) [1]
+│    Stacktrace:
+│     [1] error(::String, ::Base.Process, ::String, ::Int64, ::String) at ./error.jl:42
+│     [2] pipeline_error(::Base.Process) at ./process.jl:693
+│     [3] run(::Cmd) at ./process.jl:655
+│     [4] (::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:731
+│     [5] cd(::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:70
+│     [6] #test!#88(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:719
+│     [7] (::getfield(Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
+│     [8] #test#96(::Bool, ::Function, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:758
+│     [9] #test at ./<missing>:0 [inlined]
+│     [10] #4 at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36 [inlined]
+│     [11] cd(::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.Pairs{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:70
+│     [12] #cd#1(::Base.Iterators.Pairs{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [13] (::getfield(Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
+│     [14] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
+│     [15] test(::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
+│     [16] top-level scope
+│     [17] eval at ./boot.jl:298 [inlined]
+│     [18] eval(::Module, ::Expr) at ./sysimg.jl:71
+│     [19] exec_options(::Base.JLOptions) at ./client.jl:309
+│     [20] _start() at ./client.jl:448
+└ @ Pkg.Entry entry.jl:734
+ERROR: LoopThrottle had test errors
 
 >>> End of log
