@@ -8,18 +8,18 @@ WARNING: Base.Pkg is deprecated, run `using Pkg` instead
 [ Info: Cloning cache of PolynomialMatrices from https://github.com/neveritt/PolynomialMatrices.jl.git
 [ Info: Cloning cache of RationalFunctions from https://github.com/aytekinar/RationalFunctions.jl.git
 [ Info: Installing BinDeps v0.8.6
-[ Info: Installing Calculus v0.2.2
 [ Info: Installing CommonSubexpressions v0.0.1
 [ Info: Installing DataStructures v0.7.4
 [ Info: Installing DiffBase v0.3.2
-[ Info: Installing DiffEqBase v2.10.2
-[ Info: Installing DiffEqDiffTools v0.2.1
+[ Info: Installing DiffEqBase v3.6.0
+[ Info: Installing DiffEqDiffTools v0.4.0
 [ Info: Installing DiffResults v0.0.3
 [ Info: Installing DiffRules v0.0.3
 [ Info: Installing Distances v0.5.0
 [ Info: Installing ForwardDiff v0.7.3
 [ Info: Installing FunctionWrappers v0.1.0
 [ Info: Installing GenericSVD v0.1.0
+[ Info: Installing IteratorInterfaceExtensions v0.0.2
 [ Info: Installing Juno v0.4.0
 [ Info: Installing LTISystems v0.1.0
 [ Info: Installing LineSearches v3.2.5
@@ -28,10 +28,11 @@ WARNING: Base.Pkg is deprecated, run `using Pkg` instead
 [ Info: Installing Media v0.3.0
 [ Info: Installing Missings v0.2.6
 [ Info: Installing MuladdMacro v0.0.2
-[ Info: Installing NLSolversBase v3.1.0
-[ Info: Installing NLsolve v0.13.0
+[ Info: Installing NLSolversBase v4.2.1
+[ Info: Installing NLsolve v1.0.0
 [ Info: Installing NaNMath v0.3.1
-[ Info: Installing OrdinaryDiffEq v2.37.0
+[ Info: Installing NamedTuples v4.0.0
+[ Info: Installing OrdinaryDiffEq v3.1.1
 [ Info: Installing Parameters v0.8.1
 [ Info: Installing PolynomialMatrices v0.2.0
 [ Info: Installing Polynomials v0.2.1
@@ -45,7 +46,41 @@ WARNING: Base.Pkg is deprecated, run `using Pkg` instead
 [ Info: Installing SimpleTraits v0.5.1
 [ Info: Installing SpecialFunctions v0.3.8
 [ Info: Installing StaticArrays v0.6.6
+[ Info: Installing TableTraits v0.1.0
 [ Info: Installing URIParser v0.3.0
+[ Info: Building DiffEqBase
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = top-level scope
+└ @ Core :0
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 [ Info: Building SpecialFunctions
 ┌ Warning: `isalnum(c::Char)` is deprecated, use `isalpha(c) || isnumeric(c)` instead.
 │   caller = is_userinfo_char at parser.jl:4 [inlined]
@@ -71,20 +106,20 @@ Add `using InteractiveUtils` to your imports.
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
 Add `using InteractiveUtils` to your imports.
  in module Main
-Julia Version 0.7.0-DEV.3979
-Commit a2e4f16a43 (2018-02-14 20:50 UTC)
+Julia Version 0.7.0-DEV.4012
+Commit 3a47cd4b2e (2018-02-18 14:23 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3500 MHz    3850019 s       1254 s     179369 s    1220725 s         70 s
-       #2  3500 MHz    1072118 s       5604 s      92498 s    4838158 s          1 s
+       #1  3500 MHz    2863051 s       6441 s     170088 s    1055217 s         85 s
+       #2  3500 MHz     891780 s         72 s      94286 s    3683806 s          2 s
        
-  Memory: 2.93927001953125 GB (1018.94140625 MB free)
-  Uptime: 61344.0 sec
-  Load Avg:  1.01123046875  0.9873046875  1.01318359375
+  Memory: 2.93927001953125 GB (806.58984375 MB free)
+  Uptime: 47778.0 sec
+  Load Avg:  0.9765625  0.96142578125  1.00927734375
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -100,21 +135,21 @@ Packages:
 2 required packages:
  - JSON                          0.16.4
  - LTISystems                    0.1.0
-40 additional packages:
+42 additional packages:
  - BinDeps                       0.8.6
- - Calculus                      0.2.2
  - CommonSubexpressions          0.0.1
- - Compat                        0.53.0
+ - Compat                        0.54.0
  - DataStructures                0.7.4
  - DiffBase                      0.3.2
- - DiffEqBase                    2.10.2
- - DiffEqDiffTools               0.2.1
+ - DiffEqBase                    3.6.0
+ - DiffEqDiffTools               0.4.0
  - DiffResults                   0.0.3
  - DiffRules                     0.0.3
  - Distances                     0.5.0
  - ForwardDiff                   0.7.3
  - FunctionWrappers              0.1.0
  - GenericSVD                    0.1.0
+ - IteratorInterfaceExtensions   0.0.2
  - Juno                          0.4.0
  - LineSearches                  3.2.5
  - LinearMaps                    1.0.4
@@ -122,11 +157,12 @@ Packages:
  - Media                         0.3.0
  - Missings                      0.2.6
  - MuladdMacro                   0.0.2
- - NLSolversBase                 3.1.0
- - NLsolve                       0.13.0
+ - NLSolversBase                 4.2.1
+ - NLsolve                       1.0.0
  - NaNMath                       0.3.1
+ - NamedTuples                   4.0.0
  - Nullables                     0.0.3
- - OrdinaryDiffEq                2.37.0
+ - OrdinaryDiffEq                3.1.1
  - Parameters                    0.8.1
  - PolynomialMatrices            0.2.0
  - Polynomials                   0.2.1
@@ -140,6 +176,7 @@ Packages:
  - SimpleTraits                  0.5.1
  - SpecialFunctions              0.3.8
  - StaticArrays                  0.6.6
+ - TableTraits                   0.1.0
  - URIParser                     0.3.0
 WARNING: Base.Pkg is deprecated, run `using Pkg` instead
  in module Main
@@ -1198,12 +1235,12 @@ WARNING: Broadcast.broadcast_c! is deprecated, `broadcast_c!(f, ::Type, ::Type, 
 ERROR: LoadError: LoadError: syntax: malformed expression
 Stacktrace:
  [1] include at ./boot.jl:295 [inlined]
- [2] include_relative(::Module, ::String) at ./loading.jl:1067
+ [2] include_relative(::Module, ::String) at ./loading.jl:1060
  [3] include at ./sysimg.jl:27 [inlined]
  [4] include(::String) at /home/vagrant/.julia/v0.7/StaticArrays/src/StaticArrays.jl:3
  [5] top-level scope
  [6] include at ./boot.jl:295 [inlined]
- [7] include_relative(::Module, ::String) at ./loading.jl:1067
+ [7] include_relative(::Module, ::String) at ./loading.jl:1060
  [8] include(::Module, ::String) at ./sysimg.jl:27
  [9] top-level scope
  [10] eval at ./boot.jl:298 [inlined]
@@ -1213,11 +1250,11 @@ in expression starting at /home/vagrant/.julia/v0.7/StaticArrays/src/StaticArray
 ERROR: LoadError: Failed to precompile StaticArrays to /home/vagrant/.julia/lib/v0.7/StaticArrays.ji.
 Stacktrace:
  [1] error at ./error.jl:33 [inlined]
- [2] compilecache(::Base.PkgId) at ./loading.jl:1208
- [3] _require(::Base.PkgId) at ./loading.jl:974
- [4] require(::Module, ::Symbol) at ./loading.jl:874
+ [2] compilecache(::Base.PkgId) at ./loading.jl:1198
+ [3] _require(::Base.PkgId) at ./loading.jl:967
+ [4] require(::Module, ::Symbol) at ./loading.jl:867
  [5] include at ./boot.jl:295 [inlined]
- [6] include_relative(::Module, ::String) at ./loading.jl:1067
+ [6] include_relative(::Module, ::String) at ./loading.jl:1060
  [7] include(::Module, ::String) at ./sysimg.jl:27
  [8] top-level scope
  [9] eval at ./boot.jl:298 [inlined]
@@ -1226,11 +1263,11 @@ in expression starting at /home/vagrant/.julia/v0.7/RecursiveArrayTools/src/Recu
 ERROR: LoadError: Failed to precompile RecursiveArrayTools to /home/vagrant/.julia/lib/v0.7/RecursiveArrayTools.ji.
 Stacktrace:
  [1] error at ./error.jl:33 [inlined]
- [2] compilecache(::Base.PkgId) at ./loading.jl:1208
- [3] _require(::Base.PkgId) at ./loading.jl:974
- [4] require(::Module, ::Symbol) at ./loading.jl:874
+ [2] compilecache(::Base.PkgId) at ./loading.jl:1198
+ [3] _require(::Base.PkgId) at ./loading.jl:967
+ [4] require(::Module, ::Symbol) at ./loading.jl:867
  [5] include at ./boot.jl:295 [inlined]
- [6] include_relative(::Module, ::String) at ./loading.jl:1067
+ [6] include_relative(::Module, ::String) at ./loading.jl:1060
  [7] include(::Module, ::String) at ./sysimg.jl:27
  [8] top-level scope
  [9] eval at ./boot.jl:298 [inlined]
@@ -1239,11 +1276,11 @@ in expression starting at /home/vagrant/.julia/v0.7/DiffEqBase/src/DiffEqBase.jl
 ERROR: LoadError: Failed to precompile DiffEqBase to /home/vagrant/.julia/lib/v0.7/DiffEqBase.ji.
 Stacktrace:
  [1] error at ./error.jl:33 [inlined]
- [2] compilecache(::Base.PkgId) at ./loading.jl:1208
- [3] _require(::Base.PkgId) at ./loading.jl:974
- [4] require(::Module, ::Symbol) at ./loading.jl:874
+ [2] compilecache(::Base.PkgId) at ./loading.jl:1198
+ [3] _require(::Base.PkgId) at ./loading.jl:967
+ [4] require(::Module, ::Symbol) at ./loading.jl:867
  [5] include at ./boot.jl:295 [inlined]
- [6] include_relative(::Module, ::String) at ./loading.jl:1067
+ [6] include_relative(::Module, ::String) at ./loading.jl:1060
  [7] include(::Module, ::String) at ./sysimg.jl:27
  [8] top-level scope
  [9] eval at ./boot.jl:298 [inlined]
@@ -1252,11 +1289,11 @@ in expression starting at /home/vagrant/.julia/v0.7/LTISystems/src/LTISystems.jl
 ERROR: LoadError: Failed to precompile LTISystems to /home/vagrant/.julia/lib/v0.7/LTISystems.ji.
 Stacktrace:
  [1] error at ./error.jl:33 [inlined]
- [2] compilecache(::Base.PkgId) at ./loading.jl:1208
- [3] _require(::Base.PkgId) at ./loading.jl:1003
- [4] require(::Module, ::Symbol) at ./loading.jl:874
+ [2] compilecache(::Base.PkgId) at ./loading.jl:1198
+ [3] _require(::Base.PkgId) at ./loading.jl:996
+ [4] require(::Module, ::Symbol) at ./loading.jl:867
  [5] include at ./boot.jl:295 [inlined]
- [6] include_relative(::Module, ::String) at ./loading.jl:1067
+ [6] include_relative(::Module, ::String) at ./loading.jl:1060
  [7] include(::Module, ::String) at ./sysimg.jl:27
  [8] exec_options(::Base.JLOptions) at ./client.jl:332
  [9] _start() at ./client.jl:448
@@ -1269,18 +1306,18 @@ in expression starting at /home/vagrant/.julia/v0.7/LTISystems/test/runtests.jl:
 │     [1] error(::String, ::Base.Process, ::String, ::Int64, ::String) at ./error.jl:42
 │     [2] pipeline_error(::Base.Process) at ./process.jl:693
 │     [3] run(::Cmd) at ./process.jl:655
-│     [4] (::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:731
-│     [5] cd(::getfield(Pkg.Entry, Symbol("##89#92")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:70
-│     [6] #test!#88(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:719
+│     [4] (::getfield(Pkg.Entry, Symbol("##56#57")){Bool,String,Array{AbstractString,1}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:731
+│     [5] cd(::getfield(Pkg.Entry, Symbol("##56#57")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:70
+│     [6] #test!#55(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:719
 │     [7] (::getfield(Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
-│     [8] #test#96(::Bool, ::Function, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:758
+│     [8] #test#59(::Bool, ::Function, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:758
 │     [9] #test at ./<missing>:0 [inlined]
 │     [10] #4 at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36 [inlined]
 │     [11] cd(::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.Pairs{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:70
 │     [12] #cd#1(::Base.Iterators.Pairs{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
 │     [13] (::getfield(Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
-│     [14] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
-│     [15] test(::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
+│     [14] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:277
+│     [15] test(::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:277
 │     [16] top-level scope
 │     [17] eval at ./boot.jl:298 [inlined]
 │     [18] eval(::Module, ::Expr) at ./sysimg.jl:72

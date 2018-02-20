@@ -1,12 +1,11 @@
 >>> 'Pkg.add("SwitchTimeOpt")' log
 INFO: Cloning cache of SwitchTimeOpt from https://github.com/OxfordControl/SwitchTimeOpt.jl.git
 INFO: Installing BinDeps v0.8.6
-INFO: Installing Calculus v0.2.2
 INFO: Installing CommonSubexpressions v0.0.1
 INFO: Installing DataStructures v0.7.4
 INFO: Installing DiffBase v0.3.2
-INFO: Installing DiffEqBase v2.10.2
-INFO: Installing DiffEqDiffTools v0.2.1
+INFO: Installing DiffEqBase v3.6.0
+INFO: Installing DiffEqDiffTools v0.4.0
 INFO: Installing DiffResults v0.0.3
 INFO: Installing DiffRules v0.0.3
 INFO: Installing Distances v0.5.0
@@ -14,6 +13,7 @@ INFO: Installing ForwardDiff v0.7.3
 INFO: Installing FunctionWrappers v0.1.0
 INFO: Installing GenericSVD v0.1.0
 INFO: Installing Ipopt v0.2.6
+INFO: Installing IteratorInterfaceExtensions v0.0.2
 INFO: Installing Juno v0.4.0
 INFO: Installing LineSearches v3.2.5
 INFO: Installing LinearMaps v1.0.4
@@ -22,10 +22,11 @@ INFO: Installing MathProgBase v0.7.0
 INFO: Installing Media v0.3.0
 INFO: Installing Missings v0.2.6
 INFO: Installing MuladdMacro v0.0.2
-INFO: Installing NLSolversBase v3.1.0
-INFO: Installing NLsolve v0.13.0
+INFO: Installing NLSolversBase v4.2.1
+INFO: Installing NLsolve v1.0.0
 INFO: Installing NaNMath v0.3.1
-INFO: Installing OrdinaryDiffEq v2.37.0
+INFO: Installing NamedTuples v4.0.0
+INFO: Installing OrdinaryDiffEq v3.1.1
 INFO: Installing Parameters v0.8.1
 INFO: Installing RecipesBase v0.2.3
 INFO: Installing RecursiveArrayTools v0.14.6
@@ -37,7 +38,38 @@ INFO: Installing SimpleTraits v0.5.1
 INFO: Installing SpecialFunctions v0.3.8
 INFO: Installing StaticArrays v0.6.6
 INFO: Installing SwitchTimeOpt v0.2.0
+INFO: Installing TableTraits v0.1.0
 INFO: Installing URIParser v0.3.0
+INFO: Building DiffEqBase
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 INFO: Building SpecialFunctions
 INFO: Building Ipopt
 INFO: Package database updated
@@ -53,13 +85,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (731.76953125 MB free)
-Uptime: 67318.0 sec
-Load Avg:  0.9970703125  0.9853515625  0.9599609375
+Memory: 2.93927001953125 GB (737.9140625 MB free)
+Uptime: 69818.0 sec
+Load Avg:  1.02783203125  1.02490234375  0.98974609375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    4246942 s       7672 s     179272 s    1319923 s         74 s
-#2  3499 MHz     951588 s         92 s      88010 s    5561071 s          2 s
+#1  3499 MHz    4318200 s       5882 s     236651 s    1381063 s         62 s
+#2  3499 MHz    1057286 s       1988 s     105966 s    5696441 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -76,15 +108,14 @@ Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - JSON                          0.16.4
  - SwitchTimeOpt                 0.2.0
-39 additional packages:
+41 additional packages:
  - BinDeps                       0.8.6
- - Calculus                      0.2.2
  - CommonSubexpressions          0.0.1
- - Compat                        0.53.0
+ - Compat                        0.54.0
  - DataStructures                0.7.4
  - DiffBase                      0.3.2
- - DiffEqBase                    2.10.2
- - DiffEqDiffTools               0.2.1
+ - DiffEqBase                    3.6.0
+ - DiffEqDiffTools               0.4.0
  - DiffResults                   0.0.3
  - DiffRules                     0.0.3
  - Distances                     0.5.0
@@ -92,6 +123,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - FunctionWrappers              0.1.0
  - GenericSVD                    0.1.0
  - Ipopt                         0.2.6
+ - IteratorInterfaceExtensions   0.0.2
  - Juno                          0.4.0
  - LineSearches                  3.2.5
  - LinearMaps                    1.0.4
@@ -100,11 +132,12 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Media                         0.3.0
  - Missings                      0.2.6
  - MuladdMacro                   0.0.2
- - NLSolversBase                 3.1.0
- - NLsolve                       0.13.0
+ - NLSolversBase                 4.2.1
+ - NLsolve                       1.0.0
  - NaNMath                       0.3.1
+ - NamedTuples                   4.0.0
  - Nullables                     0.0.3
- - OrdinaryDiffEq                2.37.0
+ - OrdinaryDiffEq                3.1.1
  - Parameters                    0.8.1
  - RecipesBase                   0.2.3
  - RecursiveArrayTools           0.14.6
@@ -115,6 +148,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - SimpleTraits                  0.5.1
  - SpecialFunctions              0.3.8
  - StaticArrays                  0.6.6
+ - TableTraits                   0.1.0
  - URIParser                     0.3.0
 INFO: Computing test dependencies for SwitchTimeOpt...
 INFO: No packages to install, update or remove
@@ -169,8 +203,8 @@ Number of inequality constraint evaluations          = 0
 Number of equality constraint Jacobian evaluations   = 6
 Number of inequality constraint Jacobian evaluations = 0
 Number of Lagrangian Hessian evaluations             = 5
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.817
-Total CPU secs in NLP function evaluations           =      0.316
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.414
+Total CPU secs in NLP function evaluations           =      0.186
 
 EXIT: Optimal Solution Found.
 Passed
@@ -239,8 +273,8 @@ Number of inequality constraint evaluations          = 0
 Number of equality constraint Jacobian evaluations   = 26
 Number of inequality constraint Jacobian evaluations = 0
 Number of Lagrangian Hessian evaluations             = 25
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.404
-Total CPU secs in NLP function evaluations           =      1.055
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.403
+Total CPU secs in NLP function evaluations           =      0.820
 
 EXIT: Maximum Number of Iterations Exceeded.
 Passed

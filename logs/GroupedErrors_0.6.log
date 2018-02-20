@@ -10,6 +10,7 @@ INFO: Cloning cache of OnlineStats from https://github.com/joshday/OnlineStats.j
 INFO: Cloning cache of OnlineStatsBase from https://github.com/joshday/OnlineStatsBase.jl.git
 INFO: Cloning cache of PenaltyFunctions from https://github.com/JuliaML/PenaltyFunctions.jl.git
 INFO: Cloning cache of PooledArrays from https://github.com/JuliaComputing/PooledArrays.jl.git
+INFO: Cloning cache of ShiftedArrays from https://github.com/piever/ShiftedArrays.jl.git
 INFO: Cloning cache of SweepOperator from https://github.com/joshday/SweepOperator.jl.git
 INFO: Cloning cache of TableTraitsUtils from https://github.com/davidanthoff/TableTraitsUtils.jl.git
 INFO: Installing AxisAlgorithms v0.2.0
@@ -24,7 +25,7 @@ INFO: Installing Distances v0.5.0
 INFO: Installing Distributions v0.15.0
 INFO: Installing DualNumbers v0.3.0
 INFO: Installing ForwardDiff v0.7.3
-INFO: Installing GroupedErrors v0.1.1
+INFO: Installing GroupedErrors v0.1.2
 INFO: Installing IndexedTables v0.5.2
 INFO: Installing Interpolations v0.7.3
 INFO: Installing IterTools v0.2.1
@@ -56,6 +57,7 @@ INFO: Installing Reexport v0.1.0
 INFO: Installing Requires v0.4.3
 INFO: Installing Rmath v0.3.2
 INFO: Installing SHA v0.5.6
+INFO: Installing ShiftedArrays v0.3.0
 INFO: Installing ShowItLikeYouBuildIt v0.2.0
 INFO: Installing SortingAlgorithms v0.2.0
 INFO: Installing SpecialFunctions v0.3.8
@@ -69,9 +71,15 @@ INFO: Installing URIParser v0.3.0
 INFO: Installing WoodburyMatrices v0.2.2
 INFO: Building SpecialFunctions
 INFO: Building Rmath
+INFO: Building ShiftedArrays
+The shift index convention has changed to be in agreement with Julia's function
+`circshift`. Now a positive shift shits to the right, i.e. `ShiftedVector(v, 1)[2] == v[2-1] == v[1]`.
+Similarly `copy(CircShiftedVector(v, 1)) == circshift(v, 1)`.
+In agreement with the Base function `circshift`, the `dim` keyword argument is no longer
+supported. If the shift vector is too short (or if you input an integer) only the first
+few dimensions will be shifted.
+For more details see https://github.com/piever/ShiftedArrays.jl
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of GroupedErrors
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("GroupedErrors")' log
 Julia Version 0.6.2
@@ -82,13 +90,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (713.01953125 MB free)
-Uptime: 11962.0 sec
-Load Avg:  0.9482421875  0.97119140625  1.0185546875
+Memory: 2.93927001953125 GB (711.8125 MB free)
+Uptime: 14160.0 sec
+Load Avg:  1.005859375  0.98486328125  0.9755859375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3501 MHz     722047 s         90 s      38749 s     256539 s          7 s
-#2  3501 MHz     137477 s         54 s      19622 s    1018332 s          0 s
+#1  3499 MHz     800456 s         99 s      44386 s     392123 s         11 s
+#2  3499 MHz     201802 s         46 s      22980 s    1173876 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -103,14 +111,14 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
- - GroupedErrors                 0.1.1
+ - GroupedErrors                 0.1.2
  - JSON                          0.16.4
-56 additional packages:
+57 additional packages:
  - AxisAlgorithms                0.2.0
  - BinDeps                       0.8.6
  - Calculus                      0.2.2
  - CommonSubexpressions          0.0.1
- - Compat                        0.53.0
+ - Compat                        0.54.0
  - DataStructures                0.7.4
  - DataValues                    0.3.1
  - DiffResults                   0.0.3
@@ -151,6 +159,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Requires                      0.4.3
  - Rmath                         0.3.2
  - SHA                           0.5.6
+ - ShiftedArrays                 0.3.0
  - ShowItLikeYouBuildIt          0.2.0
  - SortingAlgorithms             0.2.0
  - SpecialFunctions              0.3.8
@@ -480,24 +489,24 @@ s1     x          y
 Table with 200 rows, 4 columns:
 s1     x         y            err
 ─────────────────────────────────────────
-"No"   -4.06296  4.60177e-5   4.72197e-5
-"No"   -3.99592  8.65723e-5   8.92471e-5
-"No"   -3.92889  0.000145775  0.000150612
-"No"   -3.86185  0.000219517  0.00022705
-"No"   -3.79482  0.000295524  0.000305837
-"No"   -3.72779  0.000355627  0.000368142
-"No"   -3.66075  0.000382515  0.000396022
-"No"   -3.59372  0.000367741  0.000380725
-"No"   -3.52668  0.000315994  0.000327107
+"No"   -4.06296  4.57472e-5   4.82381e-5
+"No"   -3.99592  8.58803e-5   9.13201e-5
+"No"   -3.92889  0.000144475  0.000154222
+"No"   -3.86185  0.000217464  0.000232572
+"No"   -3.79482  0.000292695  0.00031333
+"No"   -3.72779  0.000352181  0.000377196
+"No"   -3.66075  0.000378783  0.000405783
+"No"   -3.59372  0.000364142  0.00039012
+"No"   -3.52668  0.000312896  0.000335186
 ⋮
-"Yes"  2.89455   0.00135874   0.00101214
-"Yes"  2.96867   0.00103329   0.000858206
-"Yes"  3.04278   0.000722171  0.000645769
-"Yes"  3.1169    0.000455199  0.000425825
-"Yes"  3.19102   0.000255266  0.000245129
-"Yes"  3.26513   0.000126274  0.000123037
-"Yes"  3.33925   5.49426e-5   5.3718e-5
-"Yes"  3.41337   2.09687e-5   2.04479e-5
+"Yes"  2.89455   0.00134146   0.00100414
+"Yes"  2.96867   0.00101007   0.000854501
+"Yes"  3.04278   0.000701236  0.000644267
+"Yes"  3.1169    0.000440186  0.000425286
+"Yes"  3.19102   0.000246262  0.000244951
+"Yes"  3.26513   0.000121674  0.000122966
+"Yes"  3.33925   5.29672e-5   5.36325e-5
+"Yes"  3.41337   2.02898e-5   2.03143e-5
 Table with 200 rows, 4 columns:
 s1     x         y            err
 ─────────────────────────────────────────

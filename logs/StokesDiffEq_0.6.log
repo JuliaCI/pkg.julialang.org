@@ -3,12 +3,14 @@ INFO: Cloning cache of StokesDiffEq from https://github.com/JuliaDiffEq/StokesDi
 INFO: Installing BinDeps v0.8.6
 INFO: Installing Calculus v0.2.2
 INFO: Installing DataStructures v0.7.4
-INFO: Installing DiffEqBase v2.10.2
+INFO: Installing DiffEqBase v3.6.0
 INFO: Installing Distributions v0.15.0
 INFO: Installing FunctionWrappers v0.1.0
+INFO: Installing IteratorInterfaceExtensions v0.0.2
 INFO: Installing LinearMaps v1.0.4
 INFO: Installing MacroTools v0.4.0
 INFO: Installing Missings v0.2.6
+INFO: Installing NamedTuples v4.0.0
 INFO: Installing PDMats v0.8.0
 INFO: Installing Parameters v0.8.1
 INFO: Installing QuadGK v0.2.0
@@ -24,8 +26,39 @@ INFO: Installing StaticArrays v0.6.6
 INFO: Installing StatsBase v0.20.0
 INFO: Installing StatsFuns v0.5.0
 INFO: Installing StokesDiffEq v0.2.0
+INFO: Installing TableTraits v0.1.0
 INFO: Installing URIParser v0.3.0
 INFO: Installing VectorizedRoutines v0.0.2
+INFO: Building DiffEqBase
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 INFO: Building SpecialFunctions
 INFO: Building Rmath
 INFO: Package database updated
@@ -41,13 +74,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (954.0234375 MB free)
-Uptime: 63296.0 sec
-Load Avg:  1.03271484375  0.9853515625  0.9599609375
+Memory: 2.93927001953125 GB (936.89453125 MB free)
+Uptime: 65740.0 sec
+Load Avg:  0.97412109375  0.984375  0.970703125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    3982998 s       7672 s     168850 s    1252792 s         72 s
-#2  3499 MHz     890676 s         92 s      83698 s    5232413 s          2 s
+#1  3499 MHz    4039402 s       5882 s     220026 s    1334247 s         56 s
+#2  3499 MHz    1015112 s       1988 s     101224 s    5341558 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -64,17 +97,19 @@ Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - JSON                          0.16.4
  - StokesDiffEq                  0.2.0
-27 additional packages:
+30 additional packages:
  - BinDeps                       0.8.6
  - Calculus                      0.2.2
- - Compat                        0.53.0
+ - Compat                        0.54.0
  - DataStructures                0.7.4
- - DiffEqBase                    2.10.2
+ - DiffEqBase                    3.6.0
  - Distributions                 0.15.0
  - FunctionWrappers              0.1.0
+ - IteratorInterfaceExtensions   0.0.2
  - LinearMaps                    1.0.4
  - MacroTools                    0.4.0
  - Missings                      0.2.6
+ - NamedTuples                   4.0.0
  - Nullables                     0.0.3
  - PDMats                        0.8.0
  - Parameters                    0.8.1
@@ -90,6 +125,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - StaticArrays                  0.6.6
  - StatsBase                     0.20.0
  - StatsFuns                     0.5.0
+ - TableTraits                   0.1.0
  - URIParser                     0.3.0
  - VectorizedRoutines            0.0.2
 INFO: Testing StokesDiffEq
@@ -100,11 +136,11 @@ WARNING: Method definition midpoints(AbstractArray{T, 1} where T) in module Base
 WARNING: Method definition midpoints(Base.Range{T} where T) in module Base at deprecated.jl:56 overwritten in module StatsBase at /home/vagrant/.julia/v0.6/StatsBase/src/hist.jl:535.
 WARNING: Method definition midpoints(AbstractArray{T, 1} where T) in module Base at deprecated.jl:56 overwritten in module StatsBase at /home/vagrant/.julia/v0.6/StatsBase/src/hist.jl:533.
 Stokes Tests
-  6.019226 seconds (2.30 M allocations: 228.157 MiB, 1.05% gc time)
-  2.890536 seconds (355.90 k allocations: 230.707 MiB, 0.94% gc time)
- 10.742565 seconds (4.06 M allocations: 533.526 MiB, 1.35% gc time)
+  4.656143 seconds (2.30 M allocations: 228.138 MiB, 1.14% gc time)
+  2.856411 seconds (355.90 k allocations: 230.707 MiB, 0.91% gc time)
+  9.276718 seconds (3.93 M allocations: 526.500 MiB, 1.02% gc time)
 DGS Internals Test
-  0.243964 seconds (58.16 k allocations: 4.892 MiB)
+  0.190475 seconds (58.16 k allocations: 4.889 MiB)
 INFO: StokesDiffEq tests passed
 INFO: No packages to install, update or remove
 

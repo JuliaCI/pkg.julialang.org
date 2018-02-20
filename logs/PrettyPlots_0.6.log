@@ -20,8 +20,8 @@ INFO: Installing DataArrays v0.6.2
 INFO: Installing DataFrames v0.10.1
 INFO: Installing DataStructures v0.7.4
 INFO: Installing DiffBase v0.3.2
-INFO: Installing DiffEqBase v2.10.2
-INFO: Installing DiffEqDiffTools v0.2.1
+INFO: Installing DiffEqBase v3.6.0
+INFO: Installing DiffEqDiffTools v0.4.0
 INFO: Installing DiffResults v0.0.3
 INFO: Installing DiffRules v0.0.3
 INFO: Installing Distances v0.5.0
@@ -31,11 +31,12 @@ INFO: Installing FileIO v0.7.0
 INFO: Installing FixedPointNumbers v0.4.6
 INFO: Installing ForwardDiff v0.7.3
 INFO: Installing FunctionWrappers v0.1.0
-INFO: Installing GR v0.25.0
+INFO: Installing GR v0.26.0
 INFO: Installing GZip v0.3.0
 INFO: Installing GenericSVD v0.1.0
 INFO: Installing Interpolations v0.7.3
 INFO: Installing Ipopt v0.2.6
+INFO: Installing IteratorInterfaceExtensions v0.0.2
 INFO: Installing JuMP v0.18.0
 INFO: Installing Juno v0.4.0
 INFO: Installing KNITRO v0.3.1
@@ -48,10 +49,11 @@ INFO: Installing Media v0.3.0
 INFO: Installing Missings v0.2.6
 INFO: Installing MuladdMacro v0.0.2
 INFO: Installing NLOptControl v0.1.4
-INFO: Installing NLSolversBase v3.1.0
-INFO: Installing NLsolve v0.13.0
+INFO: Installing NLSolversBase v4.2.1
+INFO: Installing NLsolve v1.0.0
 INFO: Installing NaNMath v0.3.1
-INFO: Installing OrdinaryDiffEq v2.37.0
+INFO: Installing NamedTuples v4.0.0
+INFO: Installing OrdinaryDiffEq v3.1.1
 INFO: Installing Parameters v0.8.1
 INFO: Installing PlotThemes v0.2.0
 INFO: Installing PlotUtils v0.4.4
@@ -73,20 +75,49 @@ INFO: Installing SortingAlgorithms v0.2.0
 INFO: Installing SpecialFunctions v0.3.8
 INFO: Installing StaticArrays v0.6.6
 INFO: Installing StatsBase v0.20.0
+INFO: Installing TableTraits v0.1.0
 INFO: Installing URIParser v0.3.0
 INFO: Installing VehicleModels v0.1.3
 INFO: Installing WoodburyMatrices v0.2.2
 INFO: Building SpecialFunctions
+INFO: Building DiffEqBase
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 INFO: Building GR
-INFO: Downloading pre-compiled GR 0.28.0 Ubuntu binary
+INFO: Downloading pre-compiled GR 0.29.0 Ubuntu binary
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 38.4M    0 32768    0     0  28704      0  0:23:24  0:00:01  0:23:23 28693  1 38.4M    1  544k    0     0   251k      0  0:02:36  0:00:02  0:02:34  251k  6 38.4M    6 2528k    0     0   794k      0  0:00:49  0:00:03  0:00:46  794k 19 38.4M   19 7616k    0     0  1857k      0  0:00:21  0:00:04  0:00:17 1857k 47 38.4M   47 18.4M    0     0  3221k      0  0:00:12  0:00:05  0:00:07 3293k 65 38.4M   65 25.1M    0     0  4224k      0  0:00:09  0:00:06  0:00:03 5191k100 38.4M  100 38.4M    0     0  5757k      0  0:00:06  0:00:06 --:--:-- 8303k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 38.4M    0 81920    0     0  60779      0  0:11:03  0:00:01  0:11:02 60771  2 38.4M    2  976k    0     0   412k      0  0:01:35  0:00:02  0:01:33  412k 10 38.4M   10 4128k    0     0  1242k      0  0:00:31  0:00:03  0:00:28 1242k 32 38.4M   32 12.3M    0     0  2925k      0  0:00:13  0:00:04  0:00:09 2924k 70 38.4M   70 27.0M    0     0  5210k      0  0:00:07  0:00:05  0:00:02 5768k100 38.4M  100 38.4M    0     0  6785k      0  0:00:05  0:00:05 --:--:-- 8820k
 INFO: Building Ipopt
 INFO: Building Plots
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of PrettyPlots
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("PrettyPlots")' log
 Julia Version 0.6.2
@@ -97,13 +128,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (527.5859375 MB free)
-Uptime: 19902.0 sec
-Load Avg:  0.81982421875  0.93994140625  0.99072265625
+Memory: 2.93927001953125 GB (556.5 MB free)
+Uptime: 20556.0 sec
+Load Avg:  0.9716796875  1.03076171875  1.029296875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    1080056 s         59 s      58005 s     588658 s         22 s
-#2  3499 MHz     243506 s         90 s      29124 s    1679813 s          0 s
+#1  3499 MHz    1092310 s         54 s      63555 s     594900 s         21 s
+#2  3499 MHz     288176 s         90 s      32482 s    1694687 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -120,21 +151,21 @@ Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - JSON                          0.16.4
  - PrettyPlots                   0.0.1
-68 additional packages:
+71 additional packages:
  - AxisAlgorithms                0.2.0
  - BinDeps                       0.8.6
  - Calculus                      0.2.2
  - ColorTypes                    0.6.7
  - Colors                        0.8.2
  - CommonSubexpressions          0.0.1
- - Compat                        0.53.0
+ - Compat                        0.54.0
  - Contour                       0.4.0
  - DataArrays                    0.6.2
  - DataFrames                    0.10.1
  - DataStructures                0.7.4
  - DiffBase                      0.3.2
- - DiffEqBase                    2.10.2
- - DiffEqDiffTools               0.2.1
+ - DiffEqBase                    3.6.0
+ - DiffEqDiffTools               0.4.0
  - DiffResults                   0.0.3
  - DiffRules                     0.0.3
  - Distances                     0.5.0
@@ -144,11 +175,12 @@ Package Directory: /home/vagrant/.julia/v0.6
  - FixedPointNumbers             0.4.6
  - ForwardDiff                   0.7.3
  - FunctionWrappers              0.1.0
- - GR                            0.25.0
+ - GR                            0.26.0
  - GZip                          0.3.0
  - GenericSVD                    0.1.0
  - Interpolations                0.7.3
  - Ipopt                         0.2.6
+ - IteratorInterfaceExtensions   0.0.2
  - JuMP                          0.18.0
  - Juno                          0.4.0
  - KNITRO                        0.3.1
@@ -161,11 +193,12 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Missings                      0.2.6
  - MuladdMacro                   0.0.2
  - NLOptControl                  0.1.4
- - NLSolversBase                 3.1.0
- - NLsolve                       0.13.0
+ - NLSolversBase                 4.2.1
+ - NLsolve                       1.0.0
  - NaNMath                       0.3.1
+ - NamedTuples                   4.0.0
  - Nullables                     0.0.3
- - OrdinaryDiffEq                2.37.0
+ - OrdinaryDiffEq                3.1.1
  - Parameters                    0.8.1
  - PlotThemes                    0.2.0
  - PlotUtils                     0.4.4
@@ -186,6 +219,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - SpecialFunctions              0.3.8
  - StaticArrays                  0.6.6
  - StatsBase                     0.20.0
+ - TableTraits                   0.1.0
  - URIParser                     0.3.0
  - VehicleModels                 0.1.3
  - WoodburyMatrices              0.2.2

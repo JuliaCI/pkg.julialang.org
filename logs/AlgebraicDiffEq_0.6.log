@@ -2,22 +2,58 @@
 INFO: Cloning cache of AlgebraicDiffEq from https://github.com/JuliaDiffEq/AlgebraicDiffEq.jl.git
 INFO: Cloning cache of DiffEqBase from https://github.com/JuliaDiffEq/DiffEqBase.jl.git
 INFO: Cloning cache of FunctionWrappers from https://github.com/yuyichao/FunctionWrappers.jl.git
+INFO: Cloning cache of IteratorInterfaceExtensions from https://github.com/davidanthoff/IteratorInterfaceExtensions.jl.git
 INFO: Cloning cache of LinearMaps from https://github.com/Jutho/LinearMaps.jl.git
+INFO: Cloning cache of NamedTuples from https://github.com/blackrock/NamedTuples.jl.git
 INFO: Cloning cache of Parameters from https://github.com/mauro3/Parameters.jl.git
 INFO: Cloning cache of RecipesBase from https://github.com/JuliaPlots/RecipesBase.jl.git
 INFO: Cloning cache of RecursiveArrayTools from https://github.com/JuliaDiffEq/RecursiveArrayTools.jl.git
+INFO: Cloning cache of TableTraits from https://github.com/davidanthoff/TableTraits.jl.git
 INFO: Installing AlgebraicDiffEq v0.1.0
 INFO: Installing DataStructures v0.7.4
-INFO: Installing DiffEqBase v2.10.2
+INFO: Installing DiffEqBase v3.6.0
 INFO: Installing FunctionWrappers v0.1.0
+INFO: Installing IteratorInterfaceExtensions v0.0.2
 INFO: Installing LinearMaps v1.0.4
 INFO: Installing MacroTools v0.4.0
+INFO: Installing NamedTuples v4.0.0
 INFO: Installing Parameters v0.8.1
 INFO: Installing RecipesBase v0.2.3
 INFO: Installing RecursiveArrayTools v0.14.6
 INFO: Installing Requires v0.4.3
 INFO: Installing SimpleTraits v0.5.1
 INFO: Installing StaticArrays v0.6.6
+INFO: Installing TableTraits v0.1.0
+INFO: Building DiffEqBase
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 INFO: Package database updated
 
 >>> 'Pkg.test("AlgebraicDiffEq")' log
@@ -29,13 +65,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (879.26953125 MB free)
-Uptime: 3749.0 sec
-Load Avg:  0.90966796875  0.95166015625  0.931640625
+Memory: 2.93927001953125 GB (917.48828125 MB free)
+Uptime: 3448.0 sec
+Load Avg:  0.91259765625  0.93603515625  0.90966796875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3511 MHz     177810 s         46 s       9290 s     142811 s          5 s
-#2  3511 MHz      54816 s         89 s       4336 s     307933 s          0 s
+#1  3500 MHz     170754 s         87 s       9176 s     120282 s          3 s
+#2  3500 MHz      64001 s         55 s       4007 s     270704 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -52,13 +88,15 @@ Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - AlgebraicDiffEq               0.1.0
  - JSON                          0.16.4
-13 additional packages:
- - Compat                        0.53.0
+16 additional packages:
+ - Compat                        0.54.0
  - DataStructures                0.7.4
- - DiffEqBase                    2.10.2
+ - DiffEqBase                    3.6.0
  - FunctionWrappers              0.1.0
+ - IteratorInterfaceExtensions   0.0.2
  - LinearMaps                    1.0.4
  - MacroTools                    0.4.0
+ - NamedTuples                   4.0.0
  - Nullables                     0.0.3
  - Parameters                    0.8.1
  - RecipesBase                   0.2.3
@@ -66,6 +104,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Requires                      0.4.3
  - SimpleTraits                  0.5.1
  - StaticArrays                  0.6.6
+ - TableTraits                   0.1.0
 INFO: Computing test dependencies for AlgebraicDiffEq...
 INFO: Cloning cache of ChunkedArrays from https://github.com/ChrisRackauckas/ChunkedArrays.jl.git
 INFO: Cloning cache of Conda from https://github.com/JuliaPy/Conda.jl.git
@@ -88,11 +127,11 @@ INFO: Installing BinDeps v0.8.6
 INFO: Installing Calculus v0.2.2
 INFO: Installing ChunkedArrays v0.1.1
 INFO: Installing Conda v0.7.1
-INFO: Installing DiffEqDevTools v0.11.3
-INFO: Installing DiffEqMonteCarlo v0.9.1
-INFO: Installing DiffEqNoiseProcess v0.8.1
-INFO: Installing DiffEqPDEBase v0.3.5
-INFO: Installing DiffEqProblemLibrary v0.11.0
+INFO: Installing DiffEqDevTools v1.0.0
+INFO: Installing DiffEqMonteCarlo v0.10.0
+INFO: Installing DiffEqNoiseProcess v1.0.0
+INFO: Installing DiffEqPDEBase v0.4.0
+INFO: Installing DiffEqProblemLibrary v1.0.0
 INFO: Installing DistributedArrays v0.4.0
 INFO: Installing Distributions v0.15.0
 INFO: Installing EllipsisNotation v0.3.0
@@ -115,6 +154,36 @@ INFO: Installing SymEngine v0.3.0
 INFO: Installing URIParser v0.3.0
 INFO: Installing VectorizedRoutines v0.0.2
 INFO: Building Conda
+INFO: Building DiffEqBase
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 INFO: Building RandomNumbers
 WARNING: AES-NI will not be compiled.
 INFO: Building SpecialFunctions
@@ -123,7 +192,7 @@ INFO: Building SymEngine
 INFO: Downloading miniconda installer ...
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 85 37.5M   85 32.2M    0     0  45.0M      0 --:--:-- --:--:-- --:--:-- 45.0M100 37.5M  100 37.5M    0     0  47.2M      0 --:--:-- --:--:-- --:--:-- 47.2M
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 40 37.5M   40 15.2M    0     0  10.4M      0  0:00:03  0:00:01  0:00:02 10.4M 71 37.5M   71 26.7M    0     0  15.4M      0  0:00:02  0:00:01  0:00:01 15.4M100 37.5M  100 37.5M    0     0  19.3M      0  0:00:01  0:00:01 --:--:-- 19.3M
 INFO: Installing miniconda ...
 PREFIX=/home/vagrant/.julia/v0.6/Conda/deps/usr
 installing: python-2.7.14-h1571d57_29 ...
@@ -176,17 +245,17 @@ The following packages will be UPDATED:
 
     conda:   4.3.31-py27_0        --> 4.4.10-py27_0
 
-futures-3.2.0-   0% |                              | ETA:  --:--:--   0.00  B/sfutures-3.2.0-  64% |####################           | ETA:  0:00:00  22.11 MB/sfutures-3.2.0- 100% |###############################| ETA:  0:00:00  24.89 MB/sfutures-3.2.0- 100% |###############################| Time: 0:00:00  21.11 MB/s
-conda-4.4.10-p   0% |                              | ETA:  --:--:--   0.00  B/sconda-4.4.10-p   1% |                               | Time: 0:00:00  16.99 MB/sconda-4.4.10-p   3% |#                              | Time: 0:00:00  20.63 MB/sconda-4.4.10-p   5% |#                              | Time: 0:00:00  26.47 MB/sconda-4.4.10-p   6% |##                             | Time: 0:00:00  26.48 MB/sconda-4.4.10-p   8% |##                             | Time: 0:00:00  30.00 MB/sconda-4.4.10-p  10% |###                            | Time: 0:00:00  30.42 MB/sconda-4.4.10-p  12% |###                            | Time: 0:00:00  30.74 MB/sconda-4.4.10-p  13% |####                           | Time: 0:00:00  32.05 MB/sconda-4.4.10-p  15% |####                           | Time: 0:00:00  31.41 MB/sconda-4.4.10-p  17% |#####                          | Time: 0:00:00  31.33 MB/sconda-4.4.10-p  18% |#####                          | Time: 0:00:00  31.83 MB/sconda-4.4.10-p  20% |######                         | Time: 0:00:00  28.95 MB/sconda-4.4.10-p  22% |######                         | Time: 0:00:00  29.19 MB/sconda-4.4.10-p  24% |#######                        | Time: 0:00:00  30.12 MB/sconda-4.4.10-p  25% |#######                        | Time: 0:00:00  21.96 MB/sconda-4.4.10-p  27% |########                       | Time: 0:00:00  21.75 MB/sconda-4.4.10-p  29% |#########                      | Time: 0:00:00  22.34 MB/sconda-4.4.10-p  30% |#########                      | Time: 0:00:00  21.98 MB/sconda-4.4.10-p  32% |##########                     | Time: 0:00:00  22.12 MB/sconda-4.4.10-p  34% |##########                     | Time: 0:00:00  22.32 MB/sconda-4.4.10-p  36% |###########                    | Time: 0:00:00  22.43 MB/sconda-4.4.10-p  37% |###########                    | Time: 0:00:00  23.11 MB/sconda-4.4.10-p  39% |############                   | Time: 0:00:00  23.09 MB/sconda-4.4.10-p  41% |############                   | Time: 0:00:00  22.97 MB/sconda-4.4.10-p  42% |#############                  | Time: 0:00:00  23.10 MB/sconda-4.4.10-p  44% |#############                  | Time: 0:00:00  23.17 MB/sconda-4.4.10-p  46% |##############                 | Time: 0:00:00  23.20 MB/sconda-4.4.10-p  48% |##############                 | Time: 0:00:00  23.20 MB/sconda-4.4.10-p  49% |###############                | Time: 0:00:00  22.95 MB/sconda-4.4.10-p  51% |###############                | Time: 0:00:00  22.97 MB/sconda-4.4.10-p  53% |################               | Time: 0:00:00  23.10 MB/sconda-4.4.10-p  54% |#################              | Time: 0:00:00  23.18 MB/sconda-4.4.10-p  56% |#################              | Time: 0:00:00  23.20 MB/sconda-4.4.10-p  58% |##################             | Time: 0:00:00  23.38 MB/sconda-4.4.10-p  60% |##################             | Time: 0:00:00  23.34 MB/sconda-4.4.10-p  61% |###################            | Time: 0:00:00  23.22 MB/sconda-4.4.10-p  63% |###################            | Time: 0:00:00  23.42 MB/sconda-4.4.10-p  65% |####################           | Time: 0:00:00  23.74 MB/sconda-4.4.10-p  67% |####################           | Time: 0:00:00  24.13 MB/sconda-4.4.10-p  68% |#####################          | Time: 0:00:00  24.53 MB/sconda-4.4.10-p  70% |#####################          | Time: 0:00:00  24.91 MB/sconda-4.4.10-p  72% |######################         | Time: 0:00:00  25.29 MB/sconda-4.4.10-p  73% |######################         | Time: 0:00:00  25.67 MB/sconda-4.4.10-p  75% |#######################        | Time: 0:00:00  25.81 MB/sconda-4.4.10-p  77% |#######################        | Time: 0:00:00  26.13 MB/sconda-4.4.10-p  79% |########################       | Time: 0:00:00  26.43 MB/sconda-4.4.10-p  80% |#########################      | Time: 0:00:00  26.76 MB/sconda-4.4.10-p  82% |#########################      | Time: 0:00:00  27.07 MB/sconda-4.4.10-p  84% |##########################     | Time: 0:00:00  27.29 MB/sconda-4.4.10-p  85% |##########################     | Time: 0:00:00  27.61 MB/sconda-4.4.10-p  87% |###########################    | Time: 0:00:00  27.94 MB/sconda-4.4.10-p  89% |###########################    | Time: 0:00:00  28.28 MB/sconda-4.4.10-p  91% |############################   | Time: 0:00:00  28.61 MB/sconda-4.4.10-p  92% |############################   | Time: 0:00:00  28.93 MB/sconda-4.4.10-p  94% |#############################  | Time: 0:00:00  29.25 MB/sconda-4.4.10-p  96% |#############################  | Time: 0:00:00  29.56 MB/sconda-4.4.10-p  97% |############################## | Time: 0:00:00  29.86 MB/sconda-4.4.10-p  99% |############################## | Time: 0:00:00  30.21 MB/sconda-4.4.10-p 100% |###############################| Time: 0:00:00  30.17 MB/sconda-4.4.10-p 100% |###############################| Time: 0:00:00  29.99 MB/s
+futures-3.2.0-   0% |                              | ETA:  --:--:--   0.00  B/sfutures-3.2.0-  64% |####################           | ETA:  0:00:00  24.16 MB/sfutures-3.2.0- 100% |###############################| ETA:  0:00:00  26.18 MB/sfutures-3.2.0- 100% |###############################| Time: 0:00:00  22.70 MB/s
+conda-4.4.10-p   0% |                              | ETA:  --:--:--   0.00  B/sconda-4.4.10-p   1% |                               | Time: 0:00:00   8.67 MB/sconda-4.4.10-p   3% |#                              | Time: 0:00:00   9.26 MB/sconda-4.4.10-p   5% |#                              | Time: 0:00:00  10.55 MB/sconda-4.4.10-p   6% |##                             | Time: 0:00:00  11.60 MB/sconda-4.4.10-p   8% |##                             | Time: 0:00:00  12.70 MB/sconda-4.4.10-p  10% |###                            | Time: 0:00:00  13.36 MB/sconda-4.4.10-p  12% |###                            | Time: 0:00:00  13.21 MB/sconda-4.4.10-p  13% |####                           | Time: 0:00:00  13.33 MB/sconda-4.4.10-p  15% |####                           | Time: 0:00:00  13.32 MB/sconda-4.4.10-p  17% |#####                          | Time: 0:00:00  13.86 MB/sconda-4.4.10-p  18% |#####                          | Time: 0:00:00  14.65 MB/sconda-4.4.10-p  20% |######                         | Time: 0:00:00  14.98 MB/sconda-4.4.10-p  22% |######                         | Time: 0:00:00  15.59 MB/sconda-4.4.10-p  24% |#######                        | Time: 0:00:00  16.14 MB/sconda-4.4.10-p  25% |#######                        | Time: 0:00:00  16.45 MB/sconda-4.4.10-p  27% |########                       | Time: 0:00:00  16.73 MB/sconda-4.4.10-p  29% |#########                      | Time: 0:00:00  17.17 MB/sconda-4.4.10-p  30% |#########                      | Time: 0:00:00  17.27 MB/sconda-4.4.10-p  32% |##########                     | Time: 0:00:00  17.48 MB/sconda-4.4.10-p  34% |##########                     | Time: 0:00:00  17.89 MB/sconda-4.4.10-p  36% |###########                    | Time: 0:00:00  18.46 MB/sconda-4.4.10-p  37% |###########                    | Time: 0:00:00  19.07 MB/sconda-4.4.10-p  39% |############                   | Time: 0:00:00  19.67 MB/sconda-4.4.10-p  41% |############                   | Time: 0:00:00  20.27 MB/sconda-4.4.10-p  42% |#############                  | Time: 0:00:00  20.86 MB/sconda-4.4.10-p  44% |#############                  | Time: 0:00:00  21.33 MB/sconda-4.4.10-p  46% |##############                 | Time: 0:00:00  21.88 MB/sconda-4.4.10-p  48% |##############                 | Time: 0:00:00  22.43 MB/sconda-4.4.10-p  49% |###############                | Time: 0:00:00  22.96 MB/sconda-4.4.10-p  51% |###############                | Time: 0:00:00  23.49 MB/sconda-4.4.10-p  53% |################               | Time: 0:00:00  24.00 MB/sconda-4.4.10-p  54% |#################              | Time: 0:00:00  24.50 MB/sconda-4.4.10-p  56% |#################              | Time: 0:00:00  25.00 MB/sconda-4.4.10-p  58% |##################             | Time: 0:00:00  25.49 MB/sconda-4.4.10-p  60% |##################             | Time: 0:00:00  25.96 MB/sconda-4.4.10-p  61% |###################            | Time: 0:00:00  26.39 MB/sconda-4.4.10-p  63% |###################            | Time: 0:00:00  26.83 MB/sconda-4.4.10-p  65% |####################           | Time: 0:00:00  27.26 MB/sconda-4.4.10-p  67% |####################           | Time: 0:00:00  27.70 MB/sconda-4.4.10-p  68% |#####################          | Time: 0:00:00  28.14 MB/sconda-4.4.10-p  70% |#####################          | Time: 0:00:00  28.57 MB/sconda-4.4.10-p  72% |######################         | Time: 0:00:00  28.99 MB/sconda-4.4.10-p  73% |######################         | Time: 0:00:00  29.41 MB/sconda-4.4.10-p  75% |#######################        | Time: 0:00:00  29.77 MB/sconda-4.4.10-p  77% |#######################        | Time: 0:00:00  29.85 MB/sconda-4.4.10-p  79% |########################       | Time: 0:00:00  30.07 MB/sconda-4.4.10-p  80% |#########################      | Time: 0:00:00  30.29 MB/sconda-4.4.10-p  82% |#########################      | Time: 0:00:00  30.53 MB/sconda-4.4.10-p  84% |##########################     | Time: 0:00:00  30.86 MB/sconda-4.4.10-p  85% |##########################     | Time: 0:00:00  31.21 MB/sconda-4.4.10-p  87% |###########################    | Time: 0:00:00  31.44 MB/sconda-4.4.10-p  89% |###########################    | Time: 0:00:00  31.76 MB/sconda-4.4.10-p  91% |############################   | Time: 0:00:00  32.09 MB/sconda-4.4.10-p  92% |############################   | Time: 0:00:00  32.42 MB/sconda-4.4.10-p  94% |#############################  | Time: 0:00:00  32.74 MB/sconda-4.4.10-p  96% |#############################  | Time: 0:00:00  33.06 MB/sconda-4.4.10-p  97% |############################## | Time: 0:00:00  33.38 MB/sconda-4.4.10-p  99% |############################## | Time: 0:00:00  33.75 MB/sconda-4.4.10-p 100% |###############################| Time: 0:00:00  33.69 MB/sconda-4.4.10-p 100% |###############################| Time: 0:00:00  33.49 MB/s
 Solving environment: ...working... done
 certifi 2018.1.18:            |   0% certifi 2018.1.18: 8          |   8% certifi 2018.1.18: ########## | 100% 
 mpc 1.0.3:            |   0% mpc 1.0.3: #3         |  14% mpc 1.0.3: ########## | 100% 
-symengine 0.3.0:            |   0% symengine 0.3.0: 1          |   1% symengine 0.3.0: #######5   |  75% symengine 0.3.0: ########## | 100% 
+symengine 0.3.0:            |   0% symengine 0.3.0: 1          |   1% symengine 0.3.0: ######3    |  63% symengine 0.3.0: ########2  |  82% symengine 0.3.0: ########## | 100% 
 ca-certificates 2018.1.18:            |   0% ca-certificates 2018.1.18: 8          |   9% ca-certificates 2018.1.18: ########## | 100% 
-openssl 1.0.2n:            |   0% openssl 1.0.2n:            |   0% openssl 1.0.2n: ##4        |  25% openssl 1.0.2n: #####5     |  55% openssl 1.0.2n: #######5   |  75% openssl 1.0.2n: ########5  |  86% openssl 1.0.2n: #########5 |  95% openssl 1.0.2n: ########## | 100% 
-conda 4.3.34:            |   0% conda 4.3.34: 2          |   2% conda 4.3.34: #######5   |  75% conda 4.3.34: #########4 |  95% conda 4.3.34: ########## | 100% 
-gmp 6.1.2:            |   0% gmp 6.1.2: 1          |   2% gmp 6.1.2: #######5   |  75% gmp 6.1.2: ########## | 100% 
-mpfr 3.1.5:            |   0% mpfr 3.1.5: 2          |   3% mpfr 3.1.5: #######5   |  75% mpfr 3.1.5: ########## | 100% 
+openssl 1.0.2n:            |   0% openssl 1.0.2n:            |   0% openssl 1.0.2n: #9         |  20% openssl 1.0.2n: ####9      |  50% openssl 1.0.2n: #######5   |  75% openssl 1.0.2n: ########4  |  85% openssl 1.0.2n: #########2 |  93% openssl 1.0.2n: #########9 | 100% openssl 1.0.2n: ########## | 100% 
+conda 4.3.34:            |   0% conda 4.3.34: 2          |   2% conda 4.3.34: #######5   |  75% conda 4.3.34: #########1 |  91% conda 4.3.34: ########## | 100% 
+gmp 6.1.2:            |   0% gmp 6.1.2: 1          |   2% gmp 6.1.2: ######4    |  64% gmp 6.1.2: ########4  |  84% gmp 6.1.2: ########## | 100% 
+mpfr 3.1.5:            |   0% mpfr 3.1.5: 2          |   3% mpfr 3.1.5: #######5   |  75% mpfr 3.1.5: #########8 |  98% mpfr 3.1.5: ########## | 100% 
 
 ## Package Plan ##
 
@@ -234,49 +303,16 @@ Preparing transaction: ...working... done
 Verifying transaction: ...working... done
 Executing transaction: ...working... done
 INFO: Testing AlgebraicDiffEq
-WARNING: Method definition midpoints(Base.Range{T} where T) in module Base at deprecated.jl:56 overwritten in module StatsBase at /home/vagrant/.julia/v0.6/StatsBase/src/hist.jl:535.
-WARNING: Method definition midpoints(AbstractArray{T, 1} where T) in module Base at deprecated.jl:56 overwritten in module StatsBase at /home/vagrant/.julia/v0.6/StatsBase/src/hist.jl:533.
-WARNING: Method definition midpoints(Base.Range{T} where T) in module Base at deprecated.jl:56 overwritten in module StatsBase at /home/vagrant/.julia/v0.6/StatsBase/src/hist.jl:535.
-WARNING: Method definition midpoints(AbstractArray{T, 1} where T) in module Base at deprecated.jl:56 overwritten in module StatsBase at /home/vagrant/.julia/v0.6/StatsBase/src/hist.jl:533.
-WARNING: Method definition midpoints(Base.Range{T} where T) in module Base at deprecated.jl:56 overwritten in module StatsBase at /home/vagrant/.julia/v0.6/StatsBase/src/hist.jl:535.
-WARNING: Method definition midpoints(AbstractArray{T, 1} where T) in module Base at deprecated.jl:56 overwritten in module StatsBase at /home/vagrant/.julia/v0.6/StatsBase/src/hist.jl:533.
-WARNING: Method definition midpoints(Base.Range{T} where T) in module Base at deprecated.jl:56 overwritten in module StatsBase at /home/vagrant/.julia/v0.6/StatsBase/src/hist.jl:535.
-WARNING: Method definition midpoints(AbstractArray{T, 1} where T) in module Base at deprecated.jl:56 overwritten in module StatsBase at /home/vagrant/.julia/v0.6/StatsBase/src/hist.jl:533.
-WARNING: Method definition midpoints(Base.Range{T} where T) in module Base at deprecated.jl:56 overwritten in module StatsBase at /home/vagrant/.julia/v0.6/StatsBase/src/hist.jl:535.
-WARNING: Method definition midpoints(AbstractArray{T, 1} where T) in module Base at deprecated.jl:56 overwritten in module StatsBase at /home/vagrant/.julia/v0.6/StatsBase/src/hist.jl:533.
-ERROR: LoadError: LoadError: The syntax for ParameterizedFunctions has changed. Simply list the parameters at the end, i.e. `a b c d`, instead of `a=5.0 b=>3.0 ...`. Parameters are defined in the problem type. See the documentation for more information.
-Stacktrace:
- [1] include_from_node1(::String) at ./loading.jl:576
- [2] include(::String) at ./sysimg.jl:14
- [3] include_from_node1(::String) at ./loading.jl:576
- [4] include(::String) at ./sysimg.jl:14
- [5] anonymous at ./<missing>:2
-while loading /home/vagrant/.julia/v0.6/DiffEqProblemLibrary/src/ode_premade_problems.jl, in expression starting on line 129
-while loading /home/vagrant/.julia/v0.6/DiffEqProblemLibrary/src/DiffEqProblemLibrary.jl, in expression starting on line 7
-ERROR: LoadError: Failed to precompile DiffEqProblemLibrary to /home/vagrant/.julia/lib/v0.6/DiffEqProblemLibrary.ji.
-Stacktrace:
- [1] compilecache(::String) at ./loading.jl:710
- [2] _require(::Symbol) at ./loading.jl:497
- [3] require(::Symbol) at ./loading.jl:405
- [4] include_from_node1(::String) at ./loading.jl:576
- [5] include(::String) at ./sysimg.jl:14
- [6] process_options(::Base.JLOptions) at ./client.jl:305
- [7] _start() at ./client.jl:371
-while loading /home/vagrant/.julia/v0.6/AlgebraicDiffEq/test/runtests.jl, in expression starting on line 1
-===========================[ ERROR: AlgebraicDiffEq ]===========================
-
-failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/AlgebraicDiffEq/test/runtests.jl`, ProcessExited(1)) [1]
-
-================================================================================
+INFO: AlgebraicDiffEq tests passed
 INFO: Removing BinDeps v0.8.6
 INFO: Removing Calculus v0.2.2
 INFO: Removing ChunkedArrays v0.1.1
 INFO: Removing Conda v0.7.1
-INFO: Removing DiffEqDevTools v0.11.3
-INFO: Removing DiffEqMonteCarlo v0.9.1
-INFO: Removing DiffEqNoiseProcess v0.8.1
-INFO: Removing DiffEqPDEBase v0.3.5
-INFO: Removing DiffEqProblemLibrary v0.11.0
+INFO: Removing DiffEqDevTools v1.0.0
+INFO: Removing DiffEqMonteCarlo v0.10.0
+INFO: Removing DiffEqNoiseProcess v1.0.0
+INFO: Removing DiffEqPDEBase v0.4.0
+INFO: Removing DiffEqProblemLibrary v1.0.0
 INFO: Removing DistributedArrays v0.4.0
 INFO: Removing Distributions v0.15.0
 INFO: Removing EllipsisNotation v0.3.0
@@ -298,6 +334,5 @@ INFO: Removing StatsFuns v0.5.0
 INFO: Removing SymEngine v0.3.0
 INFO: Removing URIParser v0.3.0
 INFO: Removing VectorizedRoutines v0.0.2
-ERROR: AlgebraicDiffEq had test errors
 
 >>> End of log

@@ -3,7 +3,18 @@ WARNING: Base.Pkg is deprecated, run `using Pkg` instead
  in module Main
 [ Info: Cloning cache of ShiftedArrays from https://github.com/piever/ShiftedArrays.jl.git
 [ Info: Installing Missings v0.2.6
-[ Info: Installing ShiftedArrays v0.2.0
+[ Info: Installing ShiftedArrays v0.3.0
+[ Info: Building ShiftedArrays
+┌ Warning: `print_with_color(color, args...; kwargs...)` is deprecated, use `printstyled(args...; kwargs..., color=color)` instead.
+│   caller = top-level scope at build.jl:2
+└ @ Core build.jl:2
+The shift index convention has changed to be in agreement with Julia's function
+`circshift`. Now a positive shift shits to the right, i.e. `ShiftedVector(v, 1)[2] == v[2-1] == v[1]`.
+Similarly `copy(CircShiftedVector(v, 1)) == circshift(v, 1)`.
+In agreement with the Base function `circshift`, the `dim` keyword argument is no longer
+supported. If the shift vector is too short (or if you input an integer) only the first
+few dimensions will be shifted.
+For more details see https://github.com/piever/ShiftedArrays.jl
 [ Info: Package database updated
 ┌ Info: METADATA is out-of-date — you may not have the latest version of ShiftedArrays
 └ Use `Pkg.update()` to get the latest versions of your packages
@@ -15,20 +26,20 @@ Add `using InteractiveUtils` to your imports.
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
 Add `using InteractiveUtils` to your imports.
  in module Main
-Julia Version 0.7.0-DEV.3979
-Commit a2e4f16a43 (2018-02-14 20:50 UTC)
+Julia Version 0.7.0-DEV.4012
+Commit 3a47cd4b2e (2018-02-18 14:23 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3499 MHz    2753903 s       7097 s     140828 s     990892 s         41 s
-       #2  3499 MHz     791272 s        845 s      58732 s    3769136 s          0 s
+       #1  3507 MHz    2229414 s       5300 s     133676 s     599065 s         26 s
+       #2  3507 MHz     440262 s       1296 s      49302 s    2940145 s          0 s
        
-  Memory: 2.93927001953125 GB (856.19921875 MB free)
-  Uptime: 46812.0 sec
-  Load Avg:  0.90771484375  0.95263671875  0.95458984375
+  Memory: 2.93927001953125 GB (657.71875 MB free)
+  Uptime: 34893.0 sec
+  Load Avg:  0.99169921875  0.96728515625  0.95458984375
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -43,23 +54,27 @@ Packages:
   Package Status:
 2 required packages:
  - JSON                          0.16.4
- - ShiftedArrays                 0.2.0
+ - ShiftedArrays                 0.3.0
 4 additional packages:
- - Compat                        0.53.0
+ - Compat                        0.54.0
  - Missings                      0.2.6
  - Nullables                     0.0.3
- - tmpZcq1u1                     0.0.0-             non-repo (unregistered)
+ - tmpETMykl                     0.0.0-             non-repo (unregistered)
 WARNING: Base.Pkg is deprecated, run `using Pkg` instead
  in module Main
 [ Info: Testing ShiftedArrays
-WARNING: Base.Test is deprecated, run `using Test` instead
-  likely near /home/vagrant/.julia/v0.7/ShiftedArrays/test/runtests.jl:2
 Test Summary: | Pass  Total
-ShiftedVector |    8      8
+ShiftedVector |    6      6
 Test Summary: | Pass  Total
 ShiftedArray  |    7      7
+Test Summary:     | Pass  Total
+CircShiftedVector |    9      9
+Test Summary:    | Pass  Total
+CircShiftedArray |    6      6
 Test Summary: | Pass  Total
-laglead       |    8      8
+circshift     |    3      3
+Test Summary: | Pass  Total
+laglead       |    4      4
 Test Summary: | Pass  Total
 reduce        |    3      3
 Test Summary: | Pass  Total

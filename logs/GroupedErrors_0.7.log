@@ -12,6 +12,7 @@ WARNING: Base.Pkg is deprecated, run `using Pkg` instead
 [ Info: Cloning cache of OnlineStatsBase from https://github.com/joshday/OnlineStatsBase.jl.git
 [ Info: Cloning cache of PenaltyFunctions from https://github.com/JuliaML/PenaltyFunctions.jl.git
 [ Info: Cloning cache of PooledArrays from https://github.com/JuliaComputing/PooledArrays.jl.git
+[ Info: Cloning cache of ShiftedArrays from https://github.com/piever/ShiftedArrays.jl.git
 [ Info: Cloning cache of SweepOperator from https://github.com/joshday/SweepOperator.jl.git
 [ Info: Cloning cache of TableTraitsUtils from https://github.com/davidanthoff/TableTraitsUtils.jl.git
 [ Info: Installing AxisAlgorithms v0.2.0
@@ -26,7 +27,7 @@ WARNING: Base.Pkg is deprecated, run `using Pkg` instead
 [ Info: Installing Distributions v0.15.0
 [ Info: Installing DualNumbers v0.3.0
 [ Info: Installing ForwardDiff v0.7.3
-[ Info: Installing GroupedErrors v0.1.1
+[ Info: Installing GroupedErrors v0.1.2
 [ Info: Installing IndexedTables v0.5.2
 [ Info: Installing Interpolations v0.7.3
 [ Info: Installing IterTools v0.2.1
@@ -58,6 +59,7 @@ WARNING: Base.Pkg is deprecated, run `using Pkg` instead
 [ Info: Installing Requires v0.4.3
 [ Info: Installing Rmath v0.3.2
 [ Info: Installing SHA v0.5.6
+[ Info: Installing ShiftedArrays v0.3.0
 [ Info: Installing ShowItLikeYouBuildIt v0.2.0
 [ Info: Installing SortingAlgorithms v0.2.0
 [ Info: Installing SpecialFunctions v0.3.8
@@ -97,9 +99,18 @@ WARNING: importing deprecated binding Base.Associative into BinDeps.
 WARNING: Base.Associative is deprecated, use AbstractDict instead.
   likely near /home/vagrant/.julia/v0.7/Rmath/deps/build.jl:47
 in @install at /home/vagrant/.julia/v0.7/BinDeps/src/dependencies.jl
+[ Info: Building ShiftedArrays
+┌ Warning: `print_with_color(color, args...; kwargs...)` is deprecated, use `printstyled(args...; kwargs..., color=color)` instead.
+│   caller = top-level scope at build.jl:2
+└ @ Core build.jl:2
+The shift index convention has changed to be in agreement with Julia's function
+`circshift`. Now a positive shift shits to the right, i.e. `ShiftedVector(v, 1)[2] == v[2-1] == v[1]`.
+Similarly `copy(CircShiftedVector(v, 1)) == circshift(v, 1)`.
+In agreement with the Base function `circshift`, the `dim` keyword argument is no longer
+supported. If the shift vector is too short (or if you input an integer) only the first
+few dimensions will be shifted.
+For more details see https://github.com/piever/ShiftedArrays.jl
 [ Info: Package database updated
-┌ Info: METADATA is out-of-date — you may not have the latest version of GroupedErrors
-└ Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("GroupedErrors")' log
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
@@ -108,20 +119,20 @@ Add `using InteractiveUtils` to your imports.
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
 Add `using InteractiveUtils` to your imports.
  in module Main
-Julia Version 0.7.0-DEV.3979
-Commit a2e4f16a43 (2018-02-14 20:50 UTC)
+Julia Version 0.7.0-DEV.4012
+Commit 3a47cd4b2e (2018-02-18 14:23 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3500 MHz     824334 s        104 s      41802 s     351516 s         12 s
-       #2  3500 MHz     248059 s         40 s      21062 s    1115645 s          0 s
+       #1  3500 MHz     684748 s         99 s      41065 s     335395 s          8 s
+       #2  3500 MHz     237102 s         68 s      18216 s     944993 s          0 s
        
-  Memory: 2.93927001953125 GB (907.69921875 MB free)
-  Uptime: 14135.0 sec
-  Load Avg:  0.896484375  0.994140625  1.0185546875
+  Memory: 2.93927001953125 GB (650.87109375 MB free)
+  Uptime: 12268.0 sec
+  Load Avg:  0.9521484375  0.95947265625  0.95458984375
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -135,14 +146,14 @@ Packages:
   Package Directory: /home/vagrant/.julia/v0.7
   Package Status:
 2 required packages:
- - GroupedErrors                 0.1.1
+ - GroupedErrors                 0.1.2
  - JSON                          0.16.4
-56 additional packages:
+57 additional packages:
  - AxisAlgorithms                0.2.0
  - BinDeps                       0.8.6
  - Calculus                      0.2.2
  - CommonSubexpressions          0.0.1
- - Compat                        0.53.0
+ - Compat                        0.54.0
  - DataStructures                0.7.4
  - DataValues                    0.3.1
  - DiffResults                   0.0.3
@@ -183,6 +194,7 @@ Packages:
  - Requires                      0.4.3
  - Rmath                         0.3.2
  - SHA                           0.5.6
+ - ShiftedArrays                 0.3.0
  - ShowItLikeYouBuildIt          0.2.0
  - SortingAlgorithms             0.2.0
  - SpecialFunctions              0.3.8
@@ -197,20 +209,20 @@ Packages:
 WARNING: Base.Pkg is deprecated, run `using Pkg` instead
  in module Main
 [ Info: Computing test dependencies for GroupedErrors...
-ERROR: JuliaDB can't be installed because it has no versions that support 0.7.0-DEV.3979 of julia. You may need to update METADATA by running `Pkg.update()`
+ERROR: JuliaDB can't be installed because it has no versions that support 0.7.0-DEV.4012 of julia. You may need to update METADATA by running `Pkg.update()`
 Stacktrace:
  [1] resolve(::Dict{String,Pkg.Types.VersionSet}, ::Dict{String,Dict{VersionNumber,Pkg.Types.Available}}, ::Dict{String,Tuple{VersionNumber,Bool}}, ::Dict{String,Pkg.Types.Fixed}, ::Dict{String,VersionNumber}, ::Set{String}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:496
  [2] resolve at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:487 [inlined] (repeats 5 times)
- [3] #test!#88(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:709
+ [3] #test!#55(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:709
  [4] (::getfield(Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
- [5] #test#96(::Bool, ::Function, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:758
+ [5] #test#59(::Bool, ::Function, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:758
  [6] #test at ./<missing>:0 [inlined]
  [7] #4 at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36 [inlined]
  [8] cd(::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.Pairs{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:70
  [9] #cd#1(::Base.Iterators.Pairs{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
  [10] (::getfield(Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
- [11] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
- [12] test(::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:275
+ [11] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:277
+ [12] test(::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:277
  [13] top-level scope
 
 >>> End of log
