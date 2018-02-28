@@ -1,20 +1,88 @@
 >>> 'Pkg.add("QuantumOptics")' log
 WARNING: Base.Pkg is deprecated, run `using Pkg` instead
  in module Main
+[ Info: Cloning cache of DiffEqCallbacks from https://github.com/JuliaDiffEq/DiffEqCallbacks.jl.git
+[ Info: Cloning cache of DiffEqNoiseProcess from https://github.com/JuliaDiffEq/DiffEqNoiseProcess.jl.git
 [ Info: Cloning cache of QuantumOptics from https://github.com/qojulia/QuantumOptics.jl.git
+[ Info: Cloning cache of RandomNumbers from https://github.com/sunoru/RandomNumbers.jl.git
+[ Info: Cloning cache of ResettableStacks from https://github.com/JuliaDiffEq/ResettableStacks.jl.git
+[ Info: Cloning cache of StochasticDiffEq from https://github.com/JuliaDiffEq/StochasticDiffEq.jl.git
 [ Info: Installing BinDeps v0.8.6
 [ Info: Installing CommonSubexpressions v0.0.1
+[ Info: Installing DataStructures v0.7.4
+[ Info: Installing DiffBase v0.3.2
+[ Info: Installing DiffEqBase v3.6.2
+[ Info: Installing DiffEqCallbacks v1.0.0
+[ Info: Installing DiffEqDiffTools v0.4.0
+[ Info: Installing DiffEqNoiseProcess v1.0.0
 [ Info: Installing DiffResults v0.0.3
 [ Info: Installing DiffRules v0.0.3
+[ Info: Installing Distances v0.5.0
 [ Info: Installing ForwardDiff v0.7.3
+[ Info: Installing FunctionWrappers v0.1.0
+[ Info: Installing GenericSVD v0.1.0
+[ Info: Installing IteratorInterfaceExtensions v0.0.2
+[ Info: Installing Juno v0.4.0
+[ Info: Installing LineSearches v3.2.5
+[ Info: Installing LinearMaps v1.0.4
+[ Info: Installing MacroTools v0.4.0
+[ Info: Installing Media v0.3.0
 [ Info: Installing Missings v0.2.7
+[ Info: Installing MuladdMacro v0.0.2
+[ Info: Installing NLSolversBase v4.3.0
+[ Info: Installing NLsolve v1.0.1
 [ Info: Installing NaNMath v0.3.1
-[ Info: Installing QuantumOptics v0.4.2
+[ Info: Installing NamedTuples v4.0.0
+[ Info: Installing OrdinaryDiffEq v3.2.0
+[ Info: Installing Parameters v0.8.1
+[ Info: Installing QuantumOptics v0.5.0
+[ Info: Installing RandomNumbers v0.1.0
+[ Info: Installing RecipesBase v0.2.3
+[ Info: Installing RecursiveArrayTools v0.14.6
+[ Info: Installing Reexport v0.1.0
+[ Info: Installing Requires v0.4.3
+[ Info: Installing ResettableStacks v0.3.1
 [ Info: Installing Roots v0.5.0
 [ Info: Installing SHA v0.5.6
+[ Info: Installing SimpleTraits v0.7.1
 [ Info: Installing SpecialFunctions v0.3.8
 [ Info: Installing StaticArrays v0.6.6
+[ Info: Installing StochasticDiffEq v3.0.0
+[ Info: Installing TableTraits v0.1.0
 [ Info: Installing URIParser v0.3.0
+[ Info: Building DiffEqBase
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = top-level scope
+└ @ Core :0
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 [ Info: Building SpecialFunctions
 ┌ Warning: `isalnum(c::Char)` is deprecated, use `isalpha(c) || isnumeric(c)` instead.
 │   caller = is_userinfo_char at parser.jl:4 [inlined]
@@ -29,6 +97,11 @@ WARNING: importing deprecated binding Base.Associative into BinDeps.
 WARNING: Base.Associative is deprecated, use AbstractDict instead.
   likely near /home/vagrant/.julia/v0.7/SpecialFunctions/deps/binaries.jl:44
 in @install at /home/vagrant/.julia/v0.7/BinDeps/src/dependencies.jl
+[ Info: Building RandomNumbers
+┌ Warning: `warn()` is deprecated, use `@warn` instead.
+│   caller = #warn#874(::Base.Iterators.Pairs{Union{},Union{},Tuple{},NamedTuple{(),Tuple{}}}, ::Function, ::String, ::Vararg{String,N} where N) at deprecated.jl:1021
+└ @ Base deprecated.jl:1021
+WARNING: AES-NI will not be compiled.
 [ Info: Package database updated
 
 >>> 'Pkg.test("QuantumOptics")' log
@@ -38,20 +111,20 @@ Add `using InteractiveUtils` to your imports.
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
 Add `using InteractiveUtils` to your imports.
  in module Main
-Julia Version 0.7.0-DEV.4375
-Commit 6239b632ba (2018-02-24 17:55 UTC)
+Julia Version 0.7.0-DEV.4390
+Commit 79c7bdd9ec (2018-02-26 07:59 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3499 MHz    1171323 s         21 s      74697 s     369153 s         12 s
-       #2  3499 MHz     274313 s        219 s      30315 s    1546282 s          0 s
+       #1  3499 MHz    1166579 s         98 s      72051 s     393156 s         12 s
+       #2  3499 MHz     267331 s         91 s      30826 s    1599122 s          0 s
        
-  Memory: 2.93927001953125 GB (660.91015625 MB free)
-  Uptime: 18822.0 sec
-  Load Avg:  1.0302734375  1.0009765625  0.9599609375
+  Memory: 2.93927001953125 GB (676.86328125 MB free)
+  Uptime: 19295.0 sec
+  Load Avg:  0.99267578125  0.96142578125  0.95556640625
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -65,46 +138,58 @@ Packages:
   Package Directory: /home/vagrant/.julia/v0.7
   Package Status:
 2 required packages:
- - JSON                          0.16.4
- - QuantumOptics                 0.4.2
-14 additional packages:
+ - JSON                          0.17.1
+ - QuantumOptics                 0.5.0
+44 additional packages:
  - BinDeps                       0.8.6
  - CommonSubexpressions          0.0.1
- - Compat                        0.54.0
+ - Compat                        0.55.0
+ - DataStructures                0.7.4
+ - DiffBase                      0.3.2
+ - DiffEqBase                    3.6.2
+ - DiffEqCallbacks               1.0.0
+ - DiffEqDiffTools               0.4.0
+ - DiffEqNoiseProcess            1.0.0
  - DiffResults                   0.0.3
  - DiffRules                     0.0.3
+ - Distances                     0.5.0
  - ForwardDiff                   0.7.3
+ - FunctionWrappers              0.1.0
+ - GenericSVD                    0.1.0
+ - IteratorInterfaceExtensions   0.0.2
+ - Juno                          0.4.0
+ - LineSearches                  3.2.5
+ - LinearMaps                    1.0.4
+ - MacroTools                    0.4.0
+ - Media                         0.3.0
  - Missings                      0.2.7
+ - MuladdMacro                   0.0.2
+ - NLSolversBase                 4.3.0
+ - NLsolve                       1.0.1
  - NaNMath                       0.3.1
+ - NamedTuples                   4.0.0
  - Nullables                     0.0.3
+ - OrdinaryDiffEq                3.2.0
+ - Parameters                    0.8.1
+ - RandomNumbers                 0.1.0
+ - RecipesBase                   0.2.3
+ - RecursiveArrayTools           0.14.6
+ - Reexport                      0.1.0
+ - Requires                      0.4.3
+ - ResettableStacks              0.3.1
  - Roots                         0.5.0
  - SHA                           0.5.6
+ - SimpleTraits                  0.7.1
  - SpecialFunctions              0.3.8
  - StaticArrays                  0.6.6
+ - StochasticDiffEq              3.0.0
+ - TableTraits                   0.1.0
  - URIParser                     0.3.0
 WARNING: Base.Pkg is deprecated, run `using Pkg` instead
  in module Main
 [ Info: Testing QuantumOptics
 WARNING: Base.Test is deprecated, run `using Test` instead
   likely near /home/vagrant/.julia/v0.7/QuantumOptics/test/test_sortedindices.jl:1
-┌ Warning: Deprecated syntax `parametric method syntax horner{T <: Number}(coefficients::Vector{T}, x::Number)` around /home/vagrant/.julia/v0.7/QuantumOptics/src/polynomials.jl:15.
-│ Use `horner(coefficients::Vector{T}, x::Number) where T <: Number` instead.
-└ @ nothing polynomials.jl:15
-┌ Warning: Deprecated syntax `type` at /home/vagrant/.julia/v0.7/QuantumOptics/src/bases.jl:58.
-│ Use `mutable struct` instead.
-└ @ nothing bases.jl:58
-┌ Warning: Deprecated syntax `type` at /home/vagrant/.julia/v0.7/QuantumOptics/src/bases.jl:76.
-│ Use `mutable struct` instead.
-└ @ nothing bases.jl:76
-┌ Warning: Deprecated syntax `type` at /home/vagrant/.julia/v0.7/QuantumOptics/src/bases.jl:178.
-│ Use `mutable struct` instead.
-└ @ nothing bases.jl:178
-┌ Warning: Deprecated syntax `type` at /home/vagrant/.julia/v0.7/QuantumOptics/src/states.jl:28.
-│ Use `mutable struct` instead.
-└ @ nothing states.jl:28
-┌ Warning: Deprecated syntax `type` at /home/vagrant/.julia/v0.7/QuantumOptics/src/states.jl:44.
-│ Use `mutable struct` instead.
-└ @ nothing states.jl:44
 ┌ Warning: Deprecated syntax `1./` at /home/vagrant/.julia/v0.7/QuantumOptics/src/states.jl:112.
 │ Use `1 ./` instead.
 └ @ nothing states.jl:112
@@ -116,36 +201,6 @@ WARNING: Base.Complex128 is deprecated, use ComplexF64 instead.
   likely near /home/vagrant/.julia/v0.7/QuantumOptics/src/states.jl:23
 WARNING: Base.Complex128 is deprecated, use ComplexF64 instead.
   likely near /home/vagrant/.julia/v0.7/QuantumOptics/src/states.jl:39
-┌ Warning: Deprecated syntax `parametric method syntax copy{T <: StateVector}(a::T)` around /home/vagrant/.julia/v0.7/QuantumOptics/src/states.jl:58.
-│ Use `copy(a::T) where T <: StateVector` instead.
-└ @ nothing states.jl:58
-┌ Warning: Deprecated syntax `parametric method syntax =={T <: StateVector}(x::T, y::T)` around /home/vagrant/.julia/v0.7/QuantumOptics/src/states.jl:62.
-│ Use `(x::T == y::T) where T <: StateVector` instead.
-└ @ nothing states.jl:62
-┌ Warning: Deprecated syntax `parametric method syntax +{T <: StateVector}(a::T, b::T)` around /home/vagrant/.julia/v0.7/QuantumOptics/src/states.jl:65.
-│ Use `(a::T + b::T) where T <: StateVector` instead.
-└ @ nothing states.jl:65
-┌ Warning: Deprecated syntax `parametric method syntax -{T <: StateVector}(a::T)` around /home/vagrant/.julia/v0.7/QuantumOptics/src/states.jl:67.
-│ Use `-(a::T) where T <: StateVector` instead.
-└ @ nothing states.jl:67
-┌ Warning: Deprecated syntax `parametric method syntax -{T <: StateVector}(a::T, b::T)` around /home/vagrant/.julia/v0.7/QuantumOptics/src/states.jl:68.
-│ Use `(a::T - b::T) where T <: StateVector` instead.
-└ @ nothing states.jl:68
-┌ Warning: Deprecated syntax `parametric method syntax *{T <: StateVector}(a::Number, b::T)` around /home/vagrant/.julia/v0.7/QuantumOptics/src/states.jl:71.
-│ Use `(a::Number * b::T) where T <: StateVector` instead.
-└ @ nothing states.jl:71
-┌ Warning: Deprecated syntax `parametric method syntax *{T <: StateVector}(a::T, b::Number)` around /home/vagrant/.julia/v0.7/QuantumOptics/src/states.jl:72.
-│ Use `(a::T * b::Number) where T <: StateVector` instead.
-└ @ nothing states.jl:72
-┌ Warning: Deprecated syntax `parametric method syntax /{T <: StateVector}(a::T, b::Number)` around /home/vagrant/.julia/v0.7/QuantumOptics/src/states.jl:74.
-│ Use `(a::T / b::Number) where T <: StateVector` instead.
-└ @ nothing states.jl:74
-┌ Warning: Deprecated syntax `parametric method syntax tensor{T <: StateVector}(a::T, b::T)` around /home/vagrant/.julia/v0.7/QuantumOptics/src/states.jl:90.
-│ Use `tensor(a::T, b::T) where T <: StateVector` instead.
-└ @ nothing states.jl:90
-┌ Warning: Deprecated syntax `parametric method syntax tensor{T <: StateVector}(states::T...)` around /home/vagrant/.julia/v0.7/QuantumOptics/src/states.jl:92.
-│ Use `tensor(states::T...) where T <: StateVector` instead.
-└ @ nothing states.jl:92
 WARNING: Base.norm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add `using LinearAlgebra` to your imports.
   likely near /home/vagrant/.julia/v0.7/QuantumOptics/src/states.jl:95
@@ -155,12 +210,6 @@ Add `using LinearAlgebra` to your imports.
 WARNING: Base.normalize! is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add `using LinearAlgebra` to your imports.
   likely near /home/vagrant/.julia/v0.7/QuantumOptics/src/states.jl:107
-┌ Warning: Deprecated syntax `parametric method syntax permutesystems{T <: StateVector}(state::T, perm::Vector{Int})` around /home/vagrant/.julia/v0.7/QuantumOptics/src/states.jl:115.
-│ Use `permutesystems(state::T, perm::Vector{Int}) where T <: StateVector` instead.
-└ @ nothing states.jl:115
-┌ Warning: Deprecated syntax `parametric method syntax samebases{T <: StateVector}(a::T, b::T)` around /home/vagrant/.julia/v0.7/QuantumOptics/src/states.jl:153.
-│ Use `samebases(a::T, b::T) where T <: StateVector` instead.
-└ @ nothing states.jl:153
 WARNING: importing deprecated binding Base.trace into operators.
 WARNING: importing deprecated binding Base.ishermitian into operators.
 WARNING: importing deprecated binding Base.expm into operators.
@@ -169,24 +218,6 @@ WARNING: importing deprecated binding states.normalize! into operators.
 WARNING: Base.ishermitian is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add `using LinearAlgebra` to your imports.
   likely near /home/vagrant/.julia/v0.7/QuantumOptics/src/operators.jl:53
-┌ Warning: Deprecated syntax `parametric method syntax embed{T <: Operator}(basis_l::CompositeBasis, basis_r::CompositeBasis, indices::Vector{Int}, operators::Vector{T})` around /home/vagrant/.julia/v0.7/QuantumOptics/src/operators.jl:78.
-│ Use `embed(basis_l::CompositeBasis, basis_r::CompositeBasis, indices::Vector{Int}, operators::Vector{T}) where T <: Operator` instead.
-└ @ nothing operators.jl:78
-┌ Warning: Deprecated syntax `parametric method syntax embed{T <: Operator}(basis::CompositeBasis, indices::Vector{Int}, operators::Vector{T})` around /home/vagrant/.julia/v0.7/QuantumOptics/src/operators.jl:86.
-│ Use `embed(basis::CompositeBasis, indices::Vector{Int}, operators::Vector{T}) where T <: Operator` instead.
-└ @ nothing operators.jl:86
-┌ Warning: Deprecated syntax `parametric method syntax embed{T <: Operator}(basis_l::CompositeBasis, basis_r::CompositeBasis, operators::Dict{Vector{Int}, T})` around /home/vagrant/.julia/v0.7/QuantumOptics/src/operators.jl:96.
-│ Use `embed(basis_l::CompositeBasis, basis_r::CompositeBasis, operators::Dict{Vector{Int}, T}) where T <: Operator` instead.
-└ @ nothing operators.jl:96
-┌ Warning: Deprecated syntax `parametric method syntax embed{T <: Operator}(basis_l::CompositeBasis, basis_r::CompositeBasis, operators::Dict{Int, T}; kwargs...)` around /home/vagrant/.julia/v0.7/QuantumOptics/src/operators.jl:123.
-│ Use `embed(basis_l::CompositeBasis, basis_r::CompositeBasis, operators::Dict{Int, T}; kwargs...) where T <: Operator` instead.
-└ @ nothing operators.jl:123
-┌ Warning: Deprecated syntax `parametric method syntax embed{T <: Operator}(basis::CompositeBasis, operators::Dict{Int, T}; kwargs...)` around /home/vagrant/.julia/v0.7/QuantumOptics/src/operators.jl:124.
-│ Use `embed(basis::CompositeBasis, operators::Dict{Int, T}; kwargs...) where T <: Operator` instead.
-└ @ nothing operators.jl:124
-┌ Warning: Deprecated syntax `parametric method syntax embed{T <: Operator}(basis::CompositeBasis, operators::Dict{Vector{Int}, T}; kwargs...)` around /home/vagrant/.julia/v0.7/QuantumOptics/src/operators.jl:125.
-│ Use `embed(basis::CompositeBasis, operators::Dict{Vector{Int}, T}; kwargs...) where T <: Operator` instead.
-└ @ nothing operators.jl:125
 WARNING: Base.trace is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add `using LinearAlgebra` to your imports.
   likely near /home/vagrant/.julia/v0.7/QuantumOptics/src/operators.jl:128
@@ -199,18 +230,6 @@ Add `using LinearAlgebra` to your imports.
 WARNING: Base.expm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add `using LinearAlgebra` to your imports.
   likely near /home/vagrant/.julia/v0.7/QuantumOptics/src/operators.jl:216
-┌ Warning: Deprecated syntax `parametric method syntax identityoperator{T <: Operator}(::Type{T}, b1::Basis, b2::Basis)` around /home/vagrant/.julia/v0.7/QuantumOptics/src/operators.jl:230.
-│ Use `identityoperator(#unused#::Type{T}, b1::Basis, b2::Basis) where T <: Operator` instead.
-└ @ nothing operators.jl:230
-┌ Warning: Deprecated syntax `parametric method syntax identityoperator{T <: Operator}(::Type{T}, b::Basis)` around /home/vagrant/.julia/v0.7/QuantumOptics/src/operators.jl:231.
-│ Use `identityoperator(#unused#::Type{T}, b::Basis) where T <: Operator` instead.
-└ @ nothing operators.jl:231
-┌ Warning: Deprecated syntax `parametric method syntax identityoperator{T <: Operator}(op::T)` around /home/vagrant/.julia/v0.7/QuantumOptics/src/operators.jl:232.
-│ Use `identityoperator(op::T) where T <: Operator` instead.
-└ @ nothing operators.jl:232
-┌ Warning: Deprecated syntax `type` at /home/vagrant/.julia/v0.7/QuantumOptics/src/operators_dense.jl:19.
-│ Use `mutable struct` instead.
-└ @ nothing operators_dense.jl:19
 ┌ Warning: Deprecated syntax `1./` at /home/vagrant/.julia/v0.7/QuantumOptics/src/operators_dense.jl:122.
 │ Use `1 ./` instead.
 └ @ nothing operators_dense.jl:122
@@ -233,19 +252,10 @@ Add `using LinearAlgebra` to your imports.
 WARNING: Base.expm is deprecated: it has been moved to the standard library package `LinearAlgebra`.
 Add `using LinearAlgebra` to your imports.
   likely near /home/vagrant/.julia/v0.7/QuantumOptics/src/operators_dense.jl:134
-┌ Warning: Deprecated syntax `parametric method syntax _ptrace{RANK}(::Type{Val{RANK}}, a::Matrix{Complex128}, shape_l::Vector{Int}, shape_r::Vector{Int}, indices::Vector{Int})` around /home/vagrant/.julia/v0.7/QuantumOptics/src/operators_dense.jl:193.
-│ Use `_ptrace(#unused#::Type{Val{RANK}}, a::Matrix{Complex128}, shape_l::Vector{Int}, shape_r::Vector{Int}, indices::Vector{Int}) where RANK` instead.
-└ @ nothing operators_dense.jl:193
 WARNING: Base.Complex128 is deprecated, use ComplexF64 instead.
   likely near /home/vagrant/.julia/v0.7/QuantumOptics/src/operators_dense.jl:190
-┌ Warning: Deprecated syntax `parametric method syntax _ptrace_ket{RANK}(::Type{Val{RANK}}, a::Vector{Complex128}, shape::Vector{Int}, indices::Vector{Int})` around /home/vagrant/.julia/v0.7/QuantumOptics/src/operators_dense.jl:218.
-│ Use `_ptrace_ket(#unused#::Type{Val{RANK}}, a::Vector{Complex128}, shape::Vector{Int}, indices::Vector{Int}) where RANK` instead.
-└ @ nothing operators_dense.jl:218
 WARNING: Base.Complex128 is deprecated, use ComplexF64 instead.
   likely near /home/vagrant/.julia/v0.7/QuantumOptics/src/operators_dense.jl:216
-┌ Warning: Deprecated syntax `parametric method syntax _ptrace_bra{RANK}(::Type{Val{RANK}}, a::Vector{Complex128}, shape::Vector{Int}, indices::Vector{Int})` around /home/vagrant/.julia/v0.7/QuantumOptics/src/operators_dense.jl:238.
-│ Use `_ptrace_bra(#unused#::Type{Val{RANK}}, a::Vector{Complex128}, shape::Vector{Int}, indices::Vector{Int}) where RANK` instead.
-└ @ nothing operators_dense.jl:238
 WARNING: Base.Complex128 is deprecated, use ComplexF64 instead.
   likely near /home/vagrant/.julia/v0.7/QuantumOptics/src/operators_dense.jl:236
 WARNING: Base.Complex128 is deprecated, use ComplexF64 instead.
@@ -272,32 +282,32 @@ WARNING: Base.Complex128 is deprecated, use ComplexF64 instead.
 ERROR: LoadError: LoadError: syntax: malformed expression
 Stacktrace:
  [1] include at ./boot.jl:295 [inlined]
- [2] include_relative(::Module, ::String) at ./loading.jl:1076
+ [2] include_relative(::Module, ::String) at ./loading.jl:1066
  [3] include at ./sysimg.jl:29 [inlined]
  [4] include(::String) at /home/vagrant/.julia/v0.7/QuantumOptics/src/QuantumOptics.jl:3
  [5] top-level scope
  [6] include at ./boot.jl:295 [inlined]
- [7] include_relative(::Module, ::String) at ./loading.jl:1076
+ [7] include_relative(::Module, ::String) at ./loading.jl:1066
  [8] include(::Module, ::String) at ./sysimg.jl:29
  [9] top-level scope
  [10] eval at ./boot.jl:298 [inlined]
  [11] top-level scope at ./<missing>:3
 in expression starting at /home/vagrant/.julia/v0.7/QuantumOptics/src/sparsematrix.jl:151
-in expression starting at /home/vagrant/.julia/v0.7/QuantumOptics/src/QuantumOptics.jl:45
+in expression starting at /home/vagrant/.julia/v0.7/QuantumOptics/src/QuantumOptics.jl:46
 ERROR: LoadError: LoadError: Failed to precompile QuantumOptics to /home/vagrant/.julia/compiled/v0.7/QuantumOptics.ji.
 Stacktrace:
  [1] error at ./error.jl:33 [inlined]
- [2] compilecache(::Base.PkgId) at ./loading.jl:1210
- [3] _require(::Base.PkgId) at ./loading.jl:1012
- [4] require(::Base.PkgId) at ./loading.jl:883
- [5] require(::Module, ::Symbol) at ./loading.jl:878
+ [2] compilecache(::Base.PkgId) at ./loading.jl:1200
+ [3] _require(::Base.PkgId) at ./loading.jl:1002
+ [4] require(::Base.PkgId) at ./loading.jl:873
+ [5] require(::Module, ::Symbol) at ./loading.jl:868
  [6] include at ./boot.jl:295 [inlined]
- [7] include_relative(::Module, ::String) at ./loading.jl:1076
+ [7] include_relative(::Module, ::String) at ./loading.jl:1066
  [8] include(::Module, ::String) at ./sysimg.jl:29
  [9] include(::String) at ./sysimg.jl:68
  [10] top-level scope at ./<missing>:63
  [11] include at ./boot.jl:295 [inlined]
- [12] include_relative(::Module, ::String) at ./loading.jl:1076
+ [12] include_relative(::Module, ::String) at ./loading.jl:1066
  [13] include(::Module, ::String) at ./sysimg.jl:29
  [14] exec_options(::Base.JLOptions) at ./client.jl:332
  [15] _start() at ./client.jl:448
