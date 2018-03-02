@@ -1,5 +1,5 @@
 >>> 'Pkg.add("Sundials")' log
-INFO: Installing BinDeps v0.8.6
+INFO: Installing BinDeps v0.8.7
 INFO: Installing BinaryProvider v0.2.3
 INFO: Installing CommonSubexpressions v0.0.1
 INFO: Installing DataStructures v0.7.4
@@ -807,13 +807,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (861.7734375 MB free)
-Uptime: 66704.0 sec
-Load Avg:  1.01171875  1.0146484375  0.97021484375
+Memory: 2.93927001953125 GB (817.625 MB free)
+Uptime: 67428.0 sec
+Load Avg:  0.99365234375  1.02099609375  0.970703125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3513 MHz    4131189 s       6835 s     183106 s    1380772 s         80 s
-#2  3513 MHz    1034229 s         87 s      91457 s    5398397 s          2 s
+#1  3499 MHz    4223816 s         90 s     183647 s    1371269 s         58 s
+#2  3499 MHz     935250 s       7088 s      86448 s    5586094 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -831,10 +831,10 @@ Package Directory: /home/vagrant/.julia/v0.6
  - JSON                          0.17.1
  - Sundials                      1.3.0
 28 additional packages:
- - BinDeps                       0.8.6
+ - BinDeps                       0.8.7
  - BinaryProvider                0.2.3
  - CommonSubexpressions          0.0.1
- - Compat                        0.55.0
+ - Compat                        0.55.1
  - DataStructures                0.7.4
  - DiffEqBase                    3.6.2
  - DiffResults                   0.0.3
@@ -967,6 +967,17 @@ Test Summary: | Pass  Total
 Kinsol        |    2      2
 Test Summary: | Pass  Total
 Handle Tests  |   13     13
+ARKODE: Test Failed
+  Expression: sol.errors[:l2] < 0.001
+   Evaluated: 0.0010087755205819982 < 0.001
+Stacktrace:
+ [1] include_from_node1(::String) at ./loading.jl:576
+ [2] include(::String) at ./sysimg.jl:14
+ [3] macro expansion at /home/vagrant/.julia/v0.6/Sundials/test/runtests.jl:26 [inlined]
+ [4] macro expansion at ./test.jl:860 [inlined]
+ [5] macro expansion at /home/vagrant/.julia/v0.6/Sundials/test/runtests.jl:26 [inlined]
+ [6] macro expansion at ./test.jl:860 [inlined]
+ [7] anonymous at ./<missing>:?
 
 [IDAS ERROR]  IDASolve
   At t = 0.0395936 and h = 6.30116e-16, the corrector convergence failed repeatedly or with |h| = hmin.
@@ -1002,9 +1013,22 @@ Test error handling
 [IDAS ERROR]  IDACalcIC
   Newton/Linesearch algorithm failed to converge.
 
-Test Summary:    | Pass  Total
-Common Interface |   38     38
-INFO: Sundials tests passed
+Test Summary:    | Pass  Fail  Total
+Common Interface |   37     1     38
+  CVODE          |   19           19
+  ARKODE         |    2     1      3
+  IDA            |    5            5
+  Jacobians      |    6            6
+  Callbacks      |    4            4
+  Iterator       |             No tests
+  Errors         |    1            1
+ERROR: LoadError: Some tests did not pass: 37 passed, 1 failed, 0 errored, 0 broken.
+while loading /home/vagrant/.julia/v0.6/Sundials/test/runtests.jl, in expression starting on line 24
+==============================[ ERROR: Sundials ]===============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Sundials/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing Calculus v0.2.2
 INFO: Removing ChunkedArrays v0.1.1
 INFO: Removing Conda v0.7.1
@@ -1021,5 +1045,6 @@ INFO: Removing StatsBase v0.20.1
 INFO: Removing StatsFuns v0.5.0
 INFO: Removing SymEngine v0.3.0
 INFO: Removing VectorizedRoutines v0.0.2
+ERROR: Sundials had test errors
 
 >>> End of log
