@@ -14,7 +14,7 @@ INFO: Installing FileIO v0.7.0
 INFO: Installing GZip v0.3.0
 INFO: Installing IterableTables v0.7.1
 INFO: Installing IteratorInterfaceExtensions v0.0.2
-INFO: Installing LazyCall v0.2.0
+INFO: Installing LazyCall v0.3.0
 INFO: Installing LazyContext v0.1.3
 INFO: Installing LazyQuery v0.1.3
 INFO: Installing MacroTools v0.4.0
@@ -40,13 +40,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (1038.47265625 MB free)
-Uptime: 45566.0 sec
-Load Avg:  1.0302734375  1.01416015625  0.970703125
+Memory: 2.93927001953125 GB (1011.5859375 MB free)
+Uptime: 45678.0 sec
+Load Avg:  0.96142578125  0.97314453125  0.9755859375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    2824261 s       7487 s     136600 s     944015 s         34 s
-#2  3500 MHz     643489 s         85 s      61610 s    3754833 s          0 s
+#1  3507 MHz    2798032 s        574 s     131554 s     962616 s         33 s
+#2  3507 MHz     692200 s       5550 s      64390 s    3710465 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -83,7 +83,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Gtk                           0.13.1
  - IterableTables                0.7.1
  - IteratorInterfaceExtensions   0.0.2
- - LazyCall                      0.2.0
+ - LazyCall                      0.3.0
  - LazyContext                   0.1.3
  - MacroTools                    0.4.0
  - Missings                      0.2.7
@@ -113,6 +113,422 @@ Documenter: building cross-references.
 Documenter: running document checks.
  > checking for missing docstrings.
  > running doctests.
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl
+
+> Code block:
+
+```jldoctest
+julia> using LazyQuery
+
+julia> @new_environment;
+
+julia> @evaluate begin
+            using LazyQuery
+            d = DataFrame(a = [1, 1, 2, 2], b = [1, 2, 3, 4])
+            @add_to d c = ~b / ¬(sum(a))
+        end
+4×3 DataFrames.DataFrame
+│ Row │ a │ b │ c        │
+├─────┼───┼───┼──────────┤
+│ 1   │ 1 │ 1 │ 0.166667 │
+│ 2   │ 1 │ 2 │ 0.333333 │
+│ 3   │ 2 │ 3 │ 0.5      │
+│ 4   │ 2 │ 4 │ 0.666667 │
+
+julia> @chain @evaluate begin
+            @group d by a
+            @add_to it c = ~b / ¬(sum(a))
+            @ungroup it
+        end
+4×4 DataFrames.DataFrame
+│ Row │ a │ a_1 │ b │ c    │
+├─────┼───┼─────┼───┼──────┤
+│ 1   │ 1 │ 1   │ 1 │ 0.5  │
+│ 2   │ 1 │ 1   │ 2 │ 1.0  │
+│ 3   │ 2 │ 2   │ 3 │ 0.75 │
+│ 4   │ 2 │ 2   │ 4 │ 1.0  │
+
+julia> @evaluate @add_to d a / 2
+ERROR: Unable to decompose assignment a / 2
+[...]
+```
+
+> Subexpression:
+
+    @evaluate begin
+         using LazyQuery
+         d = DataFrame(a = [1, 1, 2, 2], b = [1, 2, 3, 4])
+         @add_to d c = ~b / ¬(sum(a))
+     end
+
+> Output Diff (REQUIRES COLOR):
+
+4×3 DataFrames.DataFrame
+│ Row │ a │ b │ c        │
+├─────┼───┼───┼──────────┤
+│ 1   │ 1 │ 1 │ 0.166667 │
+│ 2   │ 1 │ 2 │ 0.333333 │
+│ 3   │ 2 │ 3 │ 0.5      │
+│ 4   │ 2 │ 4 │ 0.666667 │ERROR: UndefVarError: ¬ not defined
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:32 [inlined]
+ [2] macro expansion at ./cartesian.jl:64 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:111 [inlined]
+ [4] _broadcast!(::##2#4{DataFrames.DataFrame}, ::DataArrays.DataArray{Any,1}, ::DataArrays.DataArray{Int64,1}) at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:67
+ [5] (::##1#3)(::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:81
+ [6] apply(::##1#3, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:27
+ [7] evaluate(::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyContext/src/eval.jl:121
+ [8] model_associative(::Function, ::DataFrames.DataFrame, ::LazyContext.WithContext{LazyContext.Environment,Expr}, ::Tuple{}, ::Symbol) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:105
+ [9] add_to(::DataFrames.DataFrame, ::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:191
+ [10] add_to(::LazyContext.WithContext{LazyContext.Environment,Symbol}, ::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyQuery/src/basic_verbs.jl:3
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl
+
+> Code block:
+
+```jldoctest
+julia> using LazyQuery
+
+julia> @new_environment;
+
+julia> @evaluate begin
+            using LazyQuery
+            d = DataFrame(a = [1, 1, 2, 2], b = [1, 2, 3, 4])
+            @add_to d c = ~b / ¬(sum(a))
+        end
+4×3 DataFrames.DataFrame
+│ Row │ a │ b │ c        │
+├─────┼───┼───┼──────────┤
+│ 1   │ 1 │ 1 │ 0.166667 │
+│ 2   │ 1 │ 2 │ 0.333333 │
+│ 3   │ 2 │ 3 │ 0.5      │
+│ 4   │ 2 │ 4 │ 0.666667 │
+
+julia> @chain @evaluate begin
+            @group d by a
+            @add_to it c = ~b / ¬(sum(a))
+            @ungroup it
+        end
+4×4 DataFrames.DataFrame
+│ Row │ a │ a_1 │ b │ c    │
+├─────┼───┼─────┼───┼──────┤
+│ 1   │ 1 │ 1   │ 1 │ 0.5  │
+│ 2   │ 1 │ 1   │ 2 │ 1.0  │
+│ 3   │ 2 │ 2   │ 3 │ 0.75 │
+│ 4   │ 2 │ 2   │ 4 │ 1.0  │
+
+julia> @evaluate @add_to d a / 2
+ERROR: Unable to decompose assignment a / 2
+[...]
+```
+
+> Subexpression:
+
+    @chain @evaluate begin
+         @group d by a
+         @add_to it c = ~b / ¬(sum(a))
+         @ungroup it
+     end
+
+> Output Diff (REQUIRES COLOR):
+
+4×4 DataFrames.DataFrame
+│ Row │ a │ a_1 │ b │ c    │
+├─────┼───┼─────┼───┼──────┤
+│ 1   │ 1 │ 1   │ 1 │ 0.5  │
+│ 2   │ 1 │ 1   │ 2 │ 1.0  │
+│ 3   │ 2 │ 2   │ 3 │ 0.75 │
+│ 4   │ 2 │ 2   │ 4 │ 1.0  │ERROR: UndefVarError: ¬ not defined
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:32 [inlined]
+ [2] macro expansion at ./cartesian.jl:64 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:111 [inlined]
+ [4] _broadcast!(::##6#8{DataFrames.DataFrame}, ::DataArrays.DataArray{Any,1}, ::DataArrays.DataArray{Int64,1}) at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:67
+ [5] (::##5#7)(::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:81
+ [6] apply(::##5#7, ::LazyQuery.MappedDataFrame) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:29
+ [7] evaluate(::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyContext/src/eval.jl:121
+ [8] model_associative(::Function, ::LazyQuery.MappedDataFrame, ::LazyContext.WithContext{LazyContext.Environment,Expr}, ::Tuple{}, ::Symbol) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:105
+ [9] add_to(::LazyQuery.MappedDataFrame, ::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:191
+ [10] add_to(::LazyContext.WithContext{LazyContext.Environment,Symbol}, ::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyQuery/src/basic_verbs.jl:3
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl
+
+> Code block:
+
+```jldoctest
+julia> using LazyQuery
+
+julia> @new_environment;
+
+julia> @evaluate begin
+            using LazyQuery
+            d = DataFrame(a = [1, 1, 2, 2], b = [1, 2, 3, 4])
+            @make_from d c = ~b / ¬(sum(a))
+        end
+4×1 DataFrames.DataFrame
+│ Row │ c        │
+├─────┼──────────┤
+│ 1   │ 0.166667 │
+│ 2   │ 0.333333 │
+│ 3   │ 0.5      │
+│ 4   │ 0.666667 │
+
+julia> @chain @evaluate begin
+            @group d by a
+            @make_from it c = ~b / ¬(sum(a))
+            @ungroup it
+        end
+4×2 DataFrames.DataFrame
+│ Row │ a │ c    │
+├─────┼───┼──────┤
+│ 1   │ 1 │ 0.5  │
+│ 2   │ 1 │ 1.0  │
+│ 3   │ 2 │ 0.75 │
+│ 4   │ 2 │ 1.0  │
+```
+
+> Subexpression:
+
+    @evaluate begin
+         using LazyQuery
+         d = DataFrame(a = [1, 1, 2, 2], b = [1, 2, 3, 4])
+         @make_from d c = ~b / ¬(sum(a))
+     end
+
+> Output Diff (REQUIRES COLOR):
+
+4×1 DataFrames.DataFrame
+│ Row │ c        │
+├─────┼──────────┤
+│ 1   │ 0.166667 │
+│ 2   │ 0.333333 │
+│ 3   │ 0.5      │
+│ 4   │ 0.666667 │ERROR: UndefVarError: ¬ not defined
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:32 [inlined]
+ [2] macro expansion at ./cartesian.jl:64 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:111 [inlined]
+ [4] _broadcast!(::##2#4{DataFrames.DataFrame}, ::DataArrays.DataArray{Any,1}, ::DataArrays.DataArray{Int64,1}) at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:67
+ [5] (::##1#3)(::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:81
+ [6] apply(::##1#3, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:27
+ [7] evaluate(::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyContext/src/eval.jl:121
+ [8] model_associative(::Function, ::DataFrames.DataFrame, ::LazyContext.WithContext{LazyContext.Environment,Expr}, ::Tuple{}, ::Symbol) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:105
+ [9] make_from(::DataFrames.DataFrame, ::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:149
+ [10] make_from(::LazyContext.WithContext{LazyContext.Environment,Symbol}, ::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyQuery/src/basic_verbs.jl:19
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl
+
+> Code block:
+
+```jldoctest
+julia> using LazyQuery
+
+julia> @new_environment;
+
+julia> @evaluate begin
+            using LazyQuery
+            d = DataFrame(a = [1, 1, 2, 2], b = [1, 2, 3, 4])
+            @make_from d c = ~b / ¬(sum(a))
+        end
+4×1 DataFrames.DataFrame
+│ Row │ c        │
+├─────┼──────────┤
+│ 1   │ 0.166667 │
+│ 2   │ 0.333333 │
+│ 3   │ 0.5      │
+│ 4   │ 0.666667 │
+
+julia> @chain @evaluate begin
+            @group d by a
+            @make_from it c = ~b / ¬(sum(a))
+            @ungroup it
+        end
+4×2 DataFrames.DataFrame
+│ Row │ a │ c    │
+├─────┼───┼──────┤
+│ 1   │ 1 │ 0.5  │
+│ 2   │ 1 │ 1.0  │
+│ 3   │ 2 │ 0.75 │
+│ 4   │ 2 │ 1.0  │
+```
+
+> Subexpression:
+
+    @chain @evaluate begin
+         @group d by a
+         @make_from it c = ~b / ¬(sum(a))
+         @ungroup it
+     end
+
+> Output Diff (REQUIRES COLOR):
+
+4×2 DataFrames.DataFrame
+│ Row │ a │ c    │
+├─────┼───┼──────┤
+│ 1   │ 1 │ 0.5  │
+│ 2   │ 1 │ 1.0  │
+│ 3   │ 2 │ 0.75 │
+│ 4   │ 2 │ 1.0  │ERROR: UndefVarError: ¬ not defined
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:32 [inlined]
+ [2] macro expansion at ./cartesian.jl:64 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:111 [inlined]
+ [4] _broadcast!(::##6#8{DataFrames.DataFrame}, ::DataArrays.DataArray{Any,1}, ::DataArrays.DataArray{Int64,1}) at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:67
+ [5] (::##5#7)(::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:81
+ [6] apply(::##5#7, ::LazyQuery.MappedDataFrame) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:29
+ [7] evaluate(::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyContext/src/eval.jl:121
+ [8] model_associative(::Function, ::LazyQuery.MappedDataFrame, ::LazyContext.WithContext{LazyContext.Environment,Expr}, ::Tuple{}, ::Symbol) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:105
+ [9] make_from(::LazyQuery.MappedDataFrame, ::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:149
+ [10] make_from(::LazyContext.WithContext{LazyContext.Environment,Symbol}, ::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyQuery/src/basic_verbs.jl:19
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl
+
+> Code block:
+
+```jldoctest
+julia> using LazyQuery
+
+julia> @new_environment;
+
+julia> @evaluate begin
+            using LazyQuery
+            d = DataFrame(a = [1, 1, 2, 2], b = [1, 2, 3, 4])
+            @rows_from d wherever ~b > ¬(mean(b))
+        end
+2×2 DataFrames.DataFrame
+│ Row │ a │ b │
+├─────┼───┼───┤
+│ 1   │ 2 │ 3 │
+│ 2   │ 2 │ 4 │
+
+julia> @chain @evaluate begin
+            @group d by a
+            @rows_from it wherever ~b > ¬(mean(b))
+            @ungroup it
+        end
+2×3 DataFrames.DataFrame
+│ Row │ a │ a_1 │ b │
+├─────┼───┼─────┼───┤
+│ 1   │ 1 │ 1   │ 2 │
+│ 2   │ 2 │ 2   │ 4 │
+
+julia> @evaluate @rows_from d at [1, 3]
+2×2 DataFrames.DataFrame
+│ Row │ a │ b │
+├─────┼───┼───┤
+│ 1   │ 1 │ 1 │
+│ 2   │ 2 │ 3 │
+```
+
+> Subexpression:
+
+    @evaluate begin
+         using LazyQuery
+         d = DataFrame(a = [1, 1, 2, 2], b = [1, 2, 3, 4])
+         @rows_from d wherever ~b > ¬(mean(b))
+     end
+
+> Output Diff (REQUIRES COLOR):
+
+2×2 DataFrames.DataFrame
+│ Row │ a │ b │
+├─────┼───┼───┤
+│ 1   │ 2 │ 3 │
+│ 2   │ 2 │ 4 │ERROR: UndefVarError: ¬ not defined
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:32 [inlined]
+ [2] macro expansion at ./cartesian.jl:64 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:111 [inlined]
+ [4] _broadcast!(::##2#4{DataFrames.DataFrame}, ::DataArrays.DataArray{Any,1}, ::DataArrays.DataArray{Int64,1}) at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:67
+ [5] (::##1#3)(::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:81
+ [6] apply(::##1#3, ::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:27
+ [7] evaluate(::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyContext/src/eval.jl:121
+ [8] rows_from(::DataFrames.DataFrame, ::LazyContext.WithContext{LazyContext.Environment,Symbol}, ::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:233
+ [9] rows_from(::LazyContext.WithContext{LazyContext.Environment,Symbol}, ::LazyContext.WithContext{LazyContext.Environment,Symbol}, ::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyQuery/src/basic_verbs.jl:39
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl
+
+> Code block:
+
+```jldoctest
+julia> using LazyQuery
+
+julia> @new_environment;
+
+julia> @evaluate begin
+            using LazyQuery
+            d = DataFrame(a = [1, 1, 2, 2], b = [1, 2, 3, 4])
+            @rows_from d wherever ~b > ¬(mean(b))
+        end
+2×2 DataFrames.DataFrame
+│ Row │ a │ b │
+├─────┼───┼───┤
+│ 1   │ 2 │ 3 │
+│ 2   │ 2 │ 4 │
+
+julia> @chain @evaluate begin
+            @group d by a
+            @rows_from it wherever ~b > ¬(mean(b))
+            @ungroup it
+        end
+2×3 DataFrames.DataFrame
+│ Row │ a │ a_1 │ b │
+├─────┼───┼─────┼───┤
+│ 1   │ 1 │ 1   │ 2 │
+│ 2   │ 2 │ 2   │ 4 │
+
+julia> @evaluate @rows_from d at [1, 3]
+2×2 DataFrames.DataFrame
+│ Row │ a │ b │
+├─────┼───┼───┤
+│ 1   │ 1 │ 1 │
+│ 2   │ 2 │ 3 │
+```
+
+> Subexpression:
+
+    @chain @evaluate begin
+         @group d by a
+         @rows_from it wherever ~b > ¬(mean(b))
+         @ungroup it
+     end
+
+> Output Diff (REQUIRES COLOR):
+
+2×3 DataFrames.DataFrame
+│ Row │ a │ a_1 │ b │
+├─────┼───┼─────┼───┤
+│ 1   │ 1 │ 1   │ 2 │
+│ 2   │ 2 │ 2   │ 4 │ERROR: UndefVarError: ¬ not defined
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:32 [inlined]
+ [2] macro expansion at ./cartesian.jl:64 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:111 [inlined]
+ [4] _broadcast!(::##6#8{DataFrames.DataFrame}, ::DataArrays.DataArray{Any,1}, ::DataArrays.DataArray{Int64,1}) at /home/vagrant/.julia/v0.6/DataArrays/src/broadcast.jl:67
+ [5] (::##5#7)(::DataFrames.DataFrame) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:81
+ [6] apply(::##5#7, ::LazyQuery.MappedDataFrame) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:29
+ [7] evaluate(::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyContext/src/eval.jl:121
+ [8] rows_from(::LazyQuery.MappedDataFrame, ::LazyContext.WithContext{LazyContext.Environment,Symbol}, ::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyQuery/src/table_backend.jl:233
+ [9] rows_from(::LazyContext.WithContext{LazyContext.Environment,Symbol}, ::LazyContext.WithContext{LazyContext.Environment,Symbol}, ::LazyContext.WithContext{LazyContext.Environment,Expr}) at /home/vagrant/.julia/v0.6/LazyQuery/src/basic_verbs.jl:39
+
+=====[End Error]===============================
  > checking footnote links.
  > checking external URLs:
    - index.md
@@ -122,8 +538,24 @@ Documenter: running document checks.
       200 https://github.com/bramtayl/ChainRecursive.jl
       200 https://github.com/bramtayl/ChainRecursive.jl
 Documenter: populating indices.
-Documenter: rendering document.
-INFO: LazyQuery tests passed
+ERROR: LoadError: `makedocs` encountered an error. Terminating build
+Stacktrace:
+ [1] runner(::Type{Documenter.Builder.RenderDocument}, ::Documenter.Documents.Document) at /home/vagrant/.julia/v0.6/Documenter/src/Builder.jl:202
+ [2] dispatch(::Type{Documenter.Builder.DocumentPipeline}, ::Documenter.Documents.Document, ::Vararg{Documenter.Documents.Document,N} where N) at /home/vagrant/.julia/v0.6/Documenter/src/Selectors.jl:168
+ [3] cd(::Documenter.##2#3{Documenter.Documents.Document}, ::String) at ./file.jl:70
+ [4] #makedocs#1(::Bool, ::Array{Any,1}, ::Function) at /home/vagrant/.julia/v0.6/Documenter/src/Documenter.jl:203
+ [5] (::Documenter.#kw##makedocs)(::Array{Any,1}, ::Documenter.#makedocs) at ./<missing>:0
+ [6] include_from_node1(::String) at ./loading.jl:576
+ [7] include(::String) at ./sysimg.jl:14
+ [8] process_options(::Base.JLOptions) at ./client.jl:305
+ [9] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/LazyQuery/test/runtests.jl, in expression starting on line 4
+==============================[ ERROR: LazyQuery ]==============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/LazyQuery/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: No packages to install, update or remove
+ERROR: LazyQuery had test errors
 
 >>> End of log

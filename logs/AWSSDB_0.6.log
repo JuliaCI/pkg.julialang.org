@@ -1,10 +1,10 @@
 >>> 'Pkg.add("AWSSDB")' log
 INFO: Cloning cache of AWSSDB from https://github.com/samoconnor/AWSSDB.jl.git
-INFO: Installing AWSCore v0.3.6
+INFO: Installing AWSCore v0.3.7
 INFO: Installing AWSSDB v0.3.0
 INFO: Installing BinDeps v0.8.7
 INFO: Installing DataStructures v0.7.4
-INFO: Installing HTTP v0.6.5
+INFO: Installing HTTP v0.6.6
 INFO: Installing IniFile v0.4.0
 INFO: Installing IterTools v0.2.1
 INFO: Installing LightXML v0.6.0
@@ -18,6 +18,8 @@ INFO: Building MbedTLS
 Using system libraries...
 INFO: Building LightXML
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of AWSSDB
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("AWSSDB")' log
 Julia Version 0.6.2
@@ -28,13 +30,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (616.1953125 MB free)
-Uptime: 10571.0 sec
-Load Avg:  1.14453125  1.01806640625  1.03466796875
+Memory: 2.93927001953125 GB (680.109375 MB free)
+Uptime: 11104.0 sec
+Load Avg:  1.05029296875  1.001953125  1.0078125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz     657696 s         60 s      36412 s     208682 s          6 s
-#2  3500 MHz     161650 s         96 s      19564 s     857744 s          0 s
+#1  3500 MHz     684725 s        119 s      35824 s     222544 s          8 s
+#2  3500 MHz     146245 s         30 s      19811 s     926784 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -52,11 +54,11 @@ Package Directory: /home/vagrant/.julia/v0.6
  - AWSSDB                        0.3.0
  - JSON                          0.17.1
 15 additional packages:
- - AWSCore                       0.3.6
+ - AWSCore                       0.3.7
  - BinDeps                       0.8.7
  - Compat                        0.56.0
  - DataStructures                0.7.4
- - HTTP                          0.6.5
+ - HTTP                          0.6.6
  - IniFile                       0.4.0
  - IterTools                     0.2.1
  - LightXML                      0.6.0
@@ -68,14 +70,36 @@ Package Directory: /home/vagrant/.julia/v0.6
  - URIParser                     0.3.1
  - XMLDict                       0.1.3
 INFO: Testing AWSSDB
-ERROR: LoadError: Can't find AWS credentials!
+ERROR: LoadError: connect: connection timed out (ETIMEDOUT)
 Stacktrace:
- [1] AWSCore.AWSCredentials() at /home/vagrant/.julia/v0.6/AWSCore/src/AWSCredentials.jl:83
- [2] (::AWSCore.#kw##aws_config)(::Array{Any,1}, ::AWSCore.#aws_config) at ./<missing>:0
- [3] include_from_node1(::String) at ./loading.jl:576
- [4] include(::String) at ./sysimg.jl:14
- [5] process_options(::Base.JLOptions) at ./client.jl:305
- [6] _start() at ./client.jl:371
+ [1] try_yieldto(::Base.##296#297{Task}, ::Task) at ./event.jl:189
+ [2] wait() at ./event.jl:234
+ [3] wait(::Condition) at ./event.jl:27
+ [4] stream_wait(::TCPSocket, ::Condition, ::Vararg{Condition,N} where N) at ./stream.jl:42
+ [5] wait_connected(::TCPSocket) at ./stream.jl:258
+ [6] connect at ./stream.jl:983 [inlined]
+ [7] connect(::IPv4, ::UInt64) at ./socket.jl:742
+ [8] #getconnection#11(::Bool, ::Array{Any,1}, ::Function, ::Type{TCPSocket}, ::SubString{String}, ::SubString{String}) at /home/vagrant/.julia/v0.6/HTTP/src/ConnectionPool.jl:469
+ [9] (::HTTP.ConnectionPool.#kw##getconnection)(::Array{Any,1}, ::HTTP.ConnectionPool.#getconnection, ::Type{TCPSocket}, ::SubString{String}, ::SubString{String}) at ./<missing>:0
+ [10] #getconnection#8(::Int64, ::Int64, ::Int64, ::Array{Any,1}, ::Function, ::Type{HTTP.ConnectionPool.Transaction{TCPSocket}}, ::SubString{String}, ::SubString{String}) at /home/vagrant/.julia/v0.6/HTTP/src/ConnectionPool.jl:433
+ [11] (::HTTP.ConnectionPool.#kw##getconnection)(::Array{Any,1}, ::HTTP.ConnectionPool.#getconnection, ::Type{HTTP.ConnectionPool.Transaction{TCPSocket}}, ::SubString{String}, ::SubString{String}) at ./<missing>:0
+ [12] #request#1(::Type{T} where T, ::Array{Any,1}, ::Function, ::Type{HTTP.ConnectionRequest.ConnectionPoolLayer{HTTP.StreamRequest.StreamLayer}}, ::HTTP.URIs.URI, ::HTTP.Messages.Request, ::Array{UInt8,1}) at /home/vagrant/.julia/v0.6/HTTP/src/ConnectionRequest.jl:29
+ [13] (::HTTP.#kw##request)(::Array{Any,1}, ::HTTP.#request, ::Type{HTTP.ConnectionRequest.ConnectionPoolLayer{HTTP.StreamRequest.StreamLayer}}, ::HTTP.URIs.URI, ::HTTP.Messages.Request, ::Array{UInt8,1}) at ./<missing>:0
+ [14] #request#1(::Array{Any,1}, ::Function, ::Type{HTTP.ExceptionRequest.ExceptionLayer{HTTP.ConnectionRequest.ConnectionPoolLayer{HTTP.StreamRequest.StreamLayer}}}, ::HTTP.URIs.URI, ::Vararg{Any,N} where N) at /home/vagrant/.julia/v0.6/HTTP/src/ExceptionRequest.jl:19
+ [15] (::HTTP.#kw##request)(::Array{Any,1}, ::HTTP.#request, ::Type{HTTP.ExceptionRequest.ExceptionLayer{HTTP.ConnectionRequest.ConnectionPoolLayer{HTTP.StreamRequest.StreamLayer}}}, ::HTTP.URIs.URI, ::HTTP.Messages.Request, ::Array{UInt8,1}) at ./<missing>:0
+ [16] #request#1(::VersionNumber, ::String, ::Void, ::Void, ::Array{Any,1}, ::Function, ::Type{HTTP.MessageRequest.MessageLayer{HTTP.ExceptionRequest.ExceptionLayer{HTTP.ConnectionRequest.ConnectionPoolLayer{HTTP.StreamRequest.StreamLayer}}}}, ::String, ::HTTP.URIs.URI, ::Array{Pair{SubString{String},SubString{String}},1}, ::Array{UInt8,1}) at /home/vagrant/.julia/v0.6/HTTP/src/MessageRequest.jl:44
+ [17] (::HTTP.#kw##request)(::Array{Any,1}, ::HTTP.#request, ::Type{HTTP.MessageRequest.MessageLayer{HTTP.ExceptionRequest.ExceptionLayer{HTTP.ConnectionRequest.ConnectionPoolLayer{HTTP.StreamRequest.StreamLayer}}}}, ::String, ::HTTP.URIs.URI, ::Array{Pair{SubString{String},SubString{String}},1}, ::Array{UInt8,1}) at ./<missing>:0
+ [18] macro expansion at /home/vagrant/.julia/v0.6/AWSCore/src/http.jl:31 [inlined]
+ [19] macro expansion at /home/vagrant/.julia/v0.6/Retry/src/repeat_try.jl:206 [inlined]
+ [20] http_request(::Dict{Symbol,Any}) at /home/vagrant/.julia/v0.6/AWSCore/src/http.jl:22
+ [21] ec2_metadata(::String) at /home/vagrant/.julia/v0.6/AWSCore/src/AWSCredentials.jl:189
+ [22] ec2_instance_credentials() at /home/vagrant/.julia/v0.6/AWSCore/src/AWSCredentials.jl:205
+ [23] AWSCore.AWSCredentials() at /home/vagrant/.julia/v0.6/AWSCore/src/AWSCredentials.jl:82
+ [24] (::AWSCore.#kw##aws_config)(::Array{Any,1}, ::AWSCore.#aws_config) at ./<missing>:0
+ [25] include_from_node1(::String) at ./loading.jl:576
+ [26] include(::String) at ./sysimg.jl:14
+ [27] process_options(::Base.JLOptions) at ./client.jl:305
+ [28] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/AWSSDB/test/runtests.jl, in expression starting on line 18
 ===============================[ ERROR: AWSSDB ]================================
 

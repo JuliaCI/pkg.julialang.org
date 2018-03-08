@@ -3,8 +3,9 @@ INFO: Cloning cache of Keys from https://github.com/bramtayl/Keys.jl.git
 INFO: Installing Keys v0.0.1
 INFO: Installing MacroTools v0.4.0
 INFO: Installing MappedArrays v0.0.7
-INFO: Installing RecurUnroll v0.0.2
-INFO: Installing TypedBools v0.0.1
+INFO: Installing Missings v0.2.7
+INFO: Installing RecurUnroll v0.1.0
+INFO: Installing TypedBools v0.0.2
 INFO: Package database updated
 INFO: METADATA is out-of-date — you may not have the latest version of Keys
 INFO: Use `Pkg.update()` to get the latest versions of your packages
@@ -18,13 +19,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (1376.84375 MB free)
-Uptime: 41236.0 sec
-Load Avg:  0.94921875  0.96142578125  1.0185546875
+Memory: 2.93927001953125 GB (1351.45703125 MB free)
+Uptime: 41404.0 sec
+Load Avg:  0.9970703125  0.9853515625  1.02392578125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    2531052 s       7487 s     126747 s     868960 s         27 s
-#2  3500 MHz     575874 s         85 s      57408 s    3403668 s          0 s
+#1  3507 MHz    2523029 s        574 s     122172 s     876213 s         29 s
+#2  3507 MHz     614674 s       5550 s      59850 s    3374428 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -41,7 +42,7 @@ Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - JSON                          0.17.1
  - Keys                          0.0.1
-21 additional packages:
+22 additional packages:
  - BinDeps                       0.8.7
  - Cairo                         0.5.1
  - ColorTypes                    0.6.7
@@ -52,34 +53,653 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Gtk                           0.13.1
  - MacroTools                    0.4.0
  - MappedArrays                  0.0.7
+ - Missings                      0.2.7
  - NaNMath                       0.3.1
  - NodeJS                        0.3.0
  - Nullables                     0.0.4
- - RecurUnroll                   0.0.2
+ - RecurUnroll                   0.1.0
  - Reexport                      0.1.0
  - Requires                      0.4.3
  - Rsvg                          0.2.0
  - SHA                           0.5.6
- - TypedBools                    0.0.1
+ - TypedBools                    0.0.2
  - URIParser                     0.3.1
  - VegaLite                      0.1.0              ecb31725 (dirty)
 INFO: Computing test dependencies for Keys...
 INFO: Installing DocStringExtensions v0.4.3
 INFO: Installing Documenter v0.14.0
 INFO: Testing Keys
+WARNING: could not import RecurUnroll.setindex_unrolled into Keys
+WARNING: could not import RecurUnroll.mapfoldr_unrolled into Keys
 Documenter: setting up build directory.
 Documenter: expanding markdown templates.
 Documenter: building cross-references.
 Documenter: running document checks.
  > checking for missing docstrings.
  > running doctests.
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/Keys/src/Keys.jl
+
+> Code block:
+
+```jldoctest
+julia> using Keys, TypedBools, Base.Test
+
+julia> k = KeyedTuple((@keys a b a), (1, 2.0, "a"))
+(.a = 1, .b = 2.0, .a = "a")
+
+julia> @inferred k[@key a]
+"a"
+
+julia> @inferred k[@key c]
+ERROR: Key .c not found
+[...]
+
+julia> @inferred k[(True(), True(), False())]
+(.a = 1, .b = 2.0)
+
+julia> @inferred haskey(k, @key a)
+true
+
+julia> @inferred Base.setindex(k, 1, @key b)
+(.a = 1, .b = 1, .a = "a")
+
+julia> @inferred merge(k, KeyedTuple((@keys c d), (3, "4")))
+(.a = 1, .b = 2.0, .a = "a", .c = 3, .d = "4")
+
+julia> k2 = KeyedTuple((@keys a b a), (2, 3.0, "c"));
+
+julia> ks = [k, k2]
+2 x 3 keyed table
+| .a | .b  | .a |
+| -- | --- | -- |
+| 1  | 2.0 | a  |
+| 2  | 3.0 | c  |
+
+julia> showall(ks)
+2 x 3 keyed table
+| .a | .b  | .a |
+| -- | --- | -- |
+| 1  | 2.0 | a  |
+| 2  | 3.0 | c  |
+
+julia> pop!(ks); pop!(ks);
+
+julia> show(ks)
+0 x 3 keyed table
+
+julia> long = KeyedTuple(
+            (@keys asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf),
+            (1,)
+        );
+
+julia> [long, long]
+2 x 1 keyed table
+```
+
+> Subexpression:
+
+    @inferred k[@key a]
+
+> Output Diff (REQUIRES COLOR):
+
+"a"ERROR: return type String does not match inferred return type Any
+Stacktrace:
+ [1] error(::String) at ./error.jl:21
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/Keys/src/Keys.jl
+
+> Code block:
+
+```jldoctest
+julia> using Keys, TypedBools, Base.Test
+
+julia> k = KeyedTuple((@keys a b a), (1, 2.0, "a"))
+(.a = 1, .b = 2.0, .a = "a")
+
+julia> @inferred k[@key a]
+"a"
+
+julia> @inferred k[@key c]
+ERROR: Key .c not found
+[...]
+
+julia> @inferred k[(True(), True(), False())]
+(.a = 1, .b = 2.0)
+
+julia> @inferred haskey(k, @key a)
+true
+
+julia> @inferred Base.setindex(k, 1, @key b)
+(.a = 1, .b = 1, .a = "a")
+
+julia> @inferred merge(k, KeyedTuple((@keys c d), (3, "4")))
+(.a = 1, .b = 2.0, .a = "a", .c = 3, .d = "4")
+
+julia> k2 = KeyedTuple((@keys a b a), (2, 3.0, "c"));
+
+julia> ks = [k, k2]
+2 x 3 keyed table
+| .a | .b  | .a |
+| -- | --- | -- |
+| 1  | 2.0 | a  |
+| 2  | 3.0 | c  |
+
+julia> showall(ks)
+2 x 3 keyed table
+| .a | .b  | .a |
+| -- | --- | -- |
+| 1  | 2.0 | a  |
+| 2  | 3.0 | c  |
+
+julia> pop!(ks); pop!(ks);
+
+julia> show(ks)
+0 x 3 keyed table
+
+julia> long = KeyedTuple(
+            (@keys asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf),
+            (1,)
+        );
+
+julia> [long, long]
+2 x 1 keyed table
+```
+
+> Subexpression:
+
+    @inferred haskey(k, @key a)
+
+> Output Diff (REQUIRES COLOR):
+
+trueERROR: UndefVarError: mapfoldr_unrolled not defined
+Stacktrace:
+ [1] haskey(::Keys.KeyedTuple{Tuple{Keys.Key{:a},Keys.Key{:b},Keys.Key{:a}},Tuple{Int64,Float64,String}}, ::Keys.Key{:a}) at /home/vagrant/.julia/v0.6/Keys/src/Keys.jl:241
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/Keys/src/Keys.jl
+
+> Code block:
+
+```jldoctest
+julia> using Keys, TypedBools, Base.Test
+
+julia> k = KeyedTuple((@keys a b a), (1, 2.0, "a"))
+(.a = 1, .b = 2.0, .a = "a")
+
+julia> @inferred k[@key a]
+"a"
+
+julia> @inferred k[@key c]
+ERROR: Key .c not found
+[...]
+
+julia> @inferred k[(True(), True(), False())]
+(.a = 1, .b = 2.0)
+
+julia> @inferred haskey(k, @key a)
+true
+
+julia> @inferred Base.setindex(k, 1, @key b)
+(.a = 1, .b = 1, .a = "a")
+
+julia> @inferred merge(k, KeyedTuple((@keys c d), (3, "4")))
+(.a = 1, .b = 2.0, .a = "a", .c = 3, .d = "4")
+
+julia> k2 = KeyedTuple((@keys a b a), (2, 3.0, "c"));
+
+julia> ks = [k, k2]
+2 x 3 keyed table
+| .a | .b  | .a |
+| -- | --- | -- |
+| 1  | 2.0 | a  |
+| 2  | 3.0 | c  |
+
+julia> showall(ks)
+2 x 3 keyed table
+| .a | .b  | .a |
+| -- | --- | -- |
+| 1  | 2.0 | a  |
+| 2  | 3.0 | c  |
+
+julia> pop!(ks); pop!(ks);
+
+julia> show(ks)
+0 x 3 keyed table
+
+julia> long = KeyedTuple(
+            (@keys asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf),
+            (1,)
+        );
+
+julia> [long, long]
+2 x 1 keyed table
+```
+
+> Subexpression:
+
+    @inferred Base.setindex(k, 1, @key b)
+
+> Output Diff (REQUIRES COLOR):
+
+(.a = 1, .b = 1, .a = "a")ERROR: UndefVarError: setindex_unrolled not defined
+Stacktrace:
+ [1] setindex(::Keys.KeyedTuple{Tuple{Keys.Key{:a},Keys.Key{:b},Keys.Key{:a}},Tuple{Int64,Float64,String}}, ::Int64, ::Keys.Key{:b}) at /home/vagrant/.julia/v0.6/Keys/src/Keys.jl:175
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/Keys/src/Keys.jl
+
+> Code block:
+
+```jldoctest
+julia> using Keys, Base.Test
+
+julia> @inferred delete(KeyedTuple((@keys a b), (1, 2)), @key a)
+(.b = 2,)
+```
+
+> Subexpression:
+
+    @inferred delete(KeyedTuple((@keys a b), (1, 2)), @key a)
+
+> Output Diff (REQUIRES COLOR):
+
+(.b = 2,)ERROR: MethodError: no method matching !(::TypedBools.True)
+Closest candidates are:
+  !(!Matched::Missings.Missing) at /home/vagrant/.julia/v0.6/Missings/src/Missings.jl:92
+  !(!Matched::Base.##771#772) at deprecated.jl:852
+  !(!Matched::Bool) at bool.jl:36
+  ...
+Stacktrace:
+ [1] delete(::Keys.KeyedTuple{Tuple{Keys.Key{:a},Keys.Key{:b}},Tuple{Int64,Int64}}, ::Keys.Key{:a}) at /home/vagrant/.julia/v0.6/Keys/src/Keys.jl:200
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/Keys/src/Keys.jl
+
+> Code block:
+
+```jldoctest
+julia> using Keys, Base.Test
+
+julia> k = KeyedTuple((@keys a b a), (1, "a", 1.0))
+(.a = 1, .b = "a", .a = 1.0)
+
+julia> @inferred match_key(k, @key a)
+(1, 1.0)
+```
+
+> Subexpression:
+
+    @inferred match_key(k, @key a)
+
+> Output Diff (REQUIRES COLOR):
+
+(1, 1.0)ERROR: return type Tuple{Int64,Float64} does not match inferred return type Tuple
+Stacktrace:
+ [1] error(::String) at ./error.jl:21
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/Keys/src/Keys.jl
+
+> Code block:
+
+```jldoctest
+julia> using Keys
+
+julia> @keyword_definition test1(a, b; c = 3, d = 4) = a + b + c + d;
+
+julia> @keywords test1(1, 2, c = 4)
+11
+
+julia> @keyword_definition test2(a, b) = a + b;
+
+julia> @keywords test2(1, 2)
+3
+
+julia> @keyword_definition function test3(a, b; c = 3, d = 4)
+            a + b + c + d
+        end;
+
+julia> @keywords test3(1, 2, c = 4)
+11
+
+julia> @keyword_definition function test4(a, b)
+            a + b
+        end;
+
+julia> @keywords test4(1, 2)
+3
+
+julia> @keyword_definition test5(a, b; c) = a + b + c
+ERROR: Cannot decompose assignment c
+
+julia> @keyword_definition 1
+ERROR: 1 is not a standard function definition
+[...]
+```
+
+> Subexpression:
+
+    @keywords test1(1, 2, c = 4)
+
+> Output Diff (REQUIRES COLOR):
+
+11ERROR: UndefVarError: mapfoldr_unrolled not defined
+Stacktrace:
+ [1] haskey at /home/vagrant/.julia/v0.6/Keys/src/Keys.jl:241 [inlined]
+ [2] test1(::Keys.KeyedTuple{Tuple{Keys.Key{:c}},Tuple{Int64}}, ::Int64, ::Int64) at /home/vagrant/.julia/v0.6/Keys/src/Keys.jl:273
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/Keys/src/Keys.jl
+
+> Code block:
+
+```jldoctest
+julia> using Keys
+
+julia> @keyword_definition test1(a, b; c = 3, d = 4) = a + b + c + d;
+
+julia> @keywords test1(1, 2, c = 4)
+11
+
+julia> @keyword_definition test2(a, b) = a + b;
+
+julia> @keywords test2(1, 2)
+3
+
+julia> @keyword_definition function test3(a, b; c = 3, d = 4)
+            a + b + c + d
+        end;
+
+julia> @keywords test3(1, 2, c = 4)
+11
+
+julia> @keyword_definition function test4(a, b)
+            a + b
+        end;
+
+julia> @keywords test4(1, 2)
+3
+
+julia> @keyword_definition test5(a, b; c) = a + b + c
+ERROR: Cannot decompose assignment c
+
+julia> @keyword_definition 1
+ERROR: 1 is not a standard function definition
+[...]
+```
+
+> Subexpression:
+
+    @keywords test3(1, 2, c = 4)
+
+> Output Diff (REQUIRES COLOR):
+
+11ERROR: UndefVarError: mapfoldr_unrolled not defined
+Stacktrace:
+ [1] haskey at /home/vagrant/.julia/v0.6/Keys/src/Keys.jl:241 [inlined]
+ [2] test3(::Keys.KeyedTuple{Tuple{Keys.Key{:c}},Tuple{Int64}}, ::Int64, ::Int64) at /home/vagrant/.julia/v0.6/Keys/src/Keys.jl:273
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/Keys/src/Keys.jl
+
+> Code block:
+
+```jldoctest
+julia> using Keys
+
+julia> put_together(k::KeyedTuple, x, y) = begin
+            @unlock k left = "" sep = "" right = ""
+            string(left, x, sep, y, right)
+        end;
+
+julia> @keywords put_together(1, 2)
+"12"
+
+julia> @keywords put_together(1, 2, left = '(', sep = ", ", right = ')')
+"(1, 2)"
+
+julia> @keywords 1
+ERROR: @keywords can only be used on function calls
+```
+
+> Subexpression:
+
+    @keywords put_together(1, 2)
+
+> Output Diff (REQUIRES COLOR):
+
+"12"ERROR: UndefVarError: mapfoldr_unrolled not defined
+Stacktrace:
+ [1] haskey at /home/vagrant/.julia/v0.6/Keys/src/Keys.jl:241 [inlined]
+ [2] macro expansion at /home/vagrant/.julia/v0.6/Keys/src/Keys.jl:273 [inlined]
+ [3] put_together(::Keys.KeyedTuple{Tuple{},Tuple{}}, ::Int64, ::Int64) at ./none:2
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/Keys/src/Keys.jl
+
+> Code block:
+
+```jldoctest
+julia> using Keys
+
+julia> put_together(k::KeyedTuple, x, y) = begin
+            @unlock k left = "" sep = "" right = ""
+            string(left, x, sep, y, right)
+        end;
+
+julia> @keywords put_together(1, 2)
+"12"
+
+julia> @keywords put_together(1, 2, left = '(', sep = ", ", right = ')')
+"(1, 2)"
+
+julia> @keywords 1
+ERROR: @keywords can only be used on function calls
+```
+
+> Subexpression:
+
+    @keywords put_together(1, 2, left = '(', sep = ", ", right = ')')
+
+> Output Diff (REQUIRES COLOR):
+
+"(1, 2)"ERROR: UndefVarError: mapfoldr_unrolled not defined
+Stacktrace:
+ [1] haskey at /home/vagrant/.julia/v0.6/Keys/src/Keys.jl:241 [inlined]
+ [2] macro expansion at /home/vagrant/.julia/v0.6/Keys/src/Keys.jl:273 [inlined]
+ [3] put_together(::Keys.KeyedTuple{Tuple{Keys.Key{:left},Keys.Key{:sep},Keys.Key{:right}},Tuple{Char,String,Char}}, ::Int64, ::Int64) at ./none:2
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/Keys/src/Keys.jl
+
+> Code block:
+
+```jldoctest
+julia> using Keys, Base.Test
+
+julia> mutable struct A
+            b::Int
+            c::String
+        end;
+
+julia> a = A(1, "c");
+
+julia> @overload_dots a.b = 2;
+
+julia> @overload_dots a.b
+2
+
+julia> k = KeyedTuple((@keys a b), (1, 2.5));
+
+julia> test(k) = @overload_dots k.a + k.b;
+
+julia> @inferred test(k)
+3.5
+
+julia> ks = [k, k];
+
+julia> collect(@overload_dots ks.a)
+2-element Array{Int64,1}:
+ 1
+ 1
+```
+
+> Subexpression:
+
+    @inferred test(k)
+
+> Output Diff (REQUIRES COLOR):
+
+3.5ERROR: return type Float64 does not match inferred return type Any
+Stacktrace:
+ [1] error(::String) at ./error.jl:21
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/Keys/src/Keys.jl
+
+> Code block:
+
+```jldoctest
+julia> using Keys
+
+julia> k = KeyedTuple((@keys a b c), (1, 1//2, 1.0));
+
+julia> @unlock k a b = 2 d = 4;
+
+julia> b
+1//2
+
+julia> a + b + d
+11//2
+
+julia> @unlock k a*2
+ERROR: Cannot parse unlock argument a * 2
+[...]
+```
+
+> Subexpression:
+
+    @unlock k a b = 2 d = 4;
+
+> Output Diff (REQUIRES COLOR):
+
+ERROR: UndefVarError: mapfoldr_unrolled not defined
+Stacktrace:
+ [1] haskey(::Keys.KeyedTuple{Tuple{Keys.Key{:a},Keys.Key{:b},Keys.Key{:c}},Tuple{Int64,Rational{Int64},Float64}}, ::Keys.Key{:b}) at /home/vagrant/.julia/v0.6/Keys/src/Keys.jl:241
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/Keys/src/Keys.jl
+
+> Code block:
+
+```jldoctest
+julia> using Keys
+
+julia> k = KeyedTuple((@keys a b c), (1, 1//2, 1.0));
+
+julia> @unlock k a b = 2 d = 4;
+
+julia> b
+1//2
+
+julia> a + b + d
+11//2
+
+julia> @unlock k a*2
+ERROR: Cannot parse unlock argument a * 2
+[...]
+```
+
+> Subexpression:
+
+    b
+
+> Output Diff (REQUIRES COLOR):
+
+1//2ERROR: UndefVarError: b not defined
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.6/Keys/src/Keys.jl
+
+> Code block:
+
+```jldoctest
+julia> using Keys
+
+julia> k = KeyedTuple((@keys a b c), (1, 1//2, 1.0));
+
+julia> @unlock k a b = 2 d = 4;
+
+julia> b
+1//2
+
+julia> a + b + d
+11//2
+
+julia> @unlock k a*2
+ERROR: Cannot parse unlock argument a * 2
+[...]
+```
+
+> Subexpression:
+
+    a + b + d
+
+> Output Diff (REQUIRES COLOR):
+
+11//2ERROR: UndefVarError: b not defined
+
+=====[End Error]===============================
  > checking footnote links.
  > checking external URLs:
    - index.md
 Documenter: populating indices.
-Documenter: rendering document.
-INFO: Keys tests passed
+ERROR: LoadError: `makedocs` encountered an error. Terminating build
+Stacktrace:
+ [1] runner(::Type{Documenter.Builder.RenderDocument}, ::Documenter.Documents.Document) at /home/vagrant/.julia/v0.6/Documenter/src/Builder.jl:202
+ [2] dispatch(::Type{Documenter.Builder.DocumentPipeline}, ::Documenter.Documents.Document, ::Vararg{Documenter.Documents.Document,N} where N) at /home/vagrant/.julia/v0.6/Documenter/src/Selectors.jl:168
+ [3] cd(::Documenter.##2#3{Documenter.Documents.Document}, ::String) at ./file.jl:70
+ [4] #makedocs#1(::Bool, ::Array{Any,1}, ::Function) at /home/vagrant/.julia/v0.6/Documenter/src/Documenter.jl:203
+ [5] (::Documenter.#kw##makedocs)(::Array{Any,1}, ::Documenter.#makedocs) at ./<missing>:0
+ [6] include_from_node1(::String) at ./loading.jl:576
+ [7] include(::String) at ./sysimg.jl:14
+ [8] process_options(::Base.JLOptions) at ./client.jl:305
+ [9] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/Keys/test/runtests.jl, in expression starting on line 5
+================================[ ERROR: Keys ]=================================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Keys/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing DocStringExtensions v0.4.3
 INFO: Removing Documenter v0.14.0
+ERROR: Keys had test errors
 
 >>> End of log

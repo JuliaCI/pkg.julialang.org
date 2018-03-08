@@ -1,7 +1,7 @@
 >>> 'Pkg.add("TypedBools")' log
 WARNING: Base.Pkg is deprecated, run `using Pkg` instead
  in module Main
-[ Info: Installing TypedBools v0.0.1
+[ Info: Installing TypedBools v0.0.2
 [ Info: Package database updated
 ┌ Info: METADATA is out-of-date — you may not have the latest version of TypedBools
 └ Use `Pkg.update()` to get the latest versions of your packages
@@ -13,20 +13,20 @@ Add `using InteractiveUtils` to your imports.
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
 Add `using InteractiveUtils` to your imports.
  in module Main
-Julia Version 0.7.0-DEV.4465
-Commit f569ebe9bc (2018-03-04 15:47 UTC)
+Julia Version 0.7.0-DEV.4475
+Commit c1e7c93169 (2018-03-06 19:47 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3515 MHz    3960490 s         93 s     216979 s    1140136 s         75 s
-       #2  3515 MHz     917873 s       5810 s      83483 s    5111681 s          1 s
+       #1  3500 MHz    4004162 s        123 s     214495 s    1099142 s         74 s
+       #2  3500 MHz     886102 s       6479 s      85302 s    5145686 s          1 s
        
-  Memory: 2.93927001953125 GB (1646.86328125 MB free)
-  Uptime: 62307.0 sec
-  Load Avg:  0.98779296875  0.998046875  1.0244140625
+  Memory: 2.93927001953125 GB (1636.609375 MB free)
+  Uptime: 62466.0 sec
+  Load Avg:  1.01318359375  1.001953125  1.0029296875
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -41,11 +41,11 @@ Packages:
   Package Status:
 2 required packages:
  - JSON                          0.17.1
- - TypedBools                    0.0.1
+ - TypedBools                    0.0.2
 3 additional packages:
  - Compat                        0.56.0
  - Nullables                     0.0.4
- - tmpmuUYsF                     0.0.0-             non-repo (unregistered)
+ - tmp4YVuTH                     0.0.0-             non-repo (unregistered)
 WARNING: Base.Pkg is deprecated, run `using Pkg` instead
  in module Main
 [ Info: Computing test dependencies for TypedBools...
@@ -68,26 +68,63 @@ Documenter: running document checks.
 > Code block:
 
 ```jldoctest
+julia> using TypedBools
+
+julia> not(True())
+TypedBools.False()
+
+julia> not(False())
+TypedBools.True()
+```
+
+> Subexpression:
+
+    not(True())
+
+> Output Diff (REQUIRES COLOR):
+
+TypedBools.False()False()
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.7/TypedBools/src/TypedBools.jl
+
+> Code block:
+
+```jldoctest
+julia> using TypedBools
+
+julia> not(True())
+TypedBools.False()
+
+julia> not(False())
+TypedBools.True()
+```
+
+> Subexpression:
+
+    not(False())
+
+> Output Diff (REQUIRES COLOR):
+
+TypedBools.True()True()
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.7/TypedBools/src/TypedBools.jl
+
+> Code block:
+
+```jldoctest
 julia> using TypedBools, Base.Test
 
-julia> if_unstable(x) = Bool(x) ? 1 : "a";
+julia> typed(false)
+TypedBools.False()
 
-julia> ifelse_unstable(x) = ifelse(x, 1, "a");
-
-julia> @inferred if_unstable(!(True() & True() & False()))
-1
-
-julia> @inferred if_unstable(False() & False() & True())
-"a"
-
-julia> @inferred ifelse_unstable(!(True() | True() | False()))
-"a"
-
-julia> @inferred ifelse_unstable(False() | False() | True())
-1
-
-julia> @inferred if_unstable(typed(true) & typed(false))
-"a"
+julia> typed(true)
+TypedBools.True()
 ```
 
 > Subexpression:
@@ -100,9 +137,6 @@ WARNING: Base.Test is deprecated, run `using Test` instead
   likely near /home/vagrant/.julia/v0.7/TypedBools/test/runtests.jl:4
 
 =====[End Error]===============================
-┌ Warning: Constructors no longer fall back to `convert`. A constructor `Bool(::True)` should be defined instead.
-│   caller = if_unstable(::True) at none:1
-└ @ Main.##doctest-#1501 none:1
 =====[Test Error]==============================
 
 > File: /home/vagrant/.julia/v0.7/TypedBools/src/TypedBools.jl
@@ -112,41 +146,53 @@ WARNING: Base.Test is deprecated, run `using Test` instead
 ```jldoctest
 julia> using TypedBools, Base.Test
 
-julia> if_unstable(x) = Bool(x) ? 1 : "a";
+julia> typed(false)
+TypedBools.False()
 
-julia> ifelse_unstable(x) = ifelse(x, 1, "a");
-
-julia> @inferred if_unstable(!(True() & True() & False()))
-1
-
-julia> @inferred if_unstable(False() & False() & True())
-"a"
-
-julia> @inferred ifelse_unstable(!(True() | True() | False()))
-"a"
-
-julia> @inferred ifelse_unstable(False() | False() | True())
-1
-
-julia> @inferred if_unstable(typed(true) & typed(false))
-"a"
+julia> typed(true)
+TypedBools.True()
 ```
 
 > Subexpression:
 
-    @inferred if_unstable(!(True() & True() & False()))
+    typed(false)
 
 > Output Diff (REQUIRES COLOR):
 
-1ERROR: return type Int64 does not match inferred return type Union{Int64, String}
-Stacktrace:
- [1] error(::String) at ./error.jl:33
- [2] top-level scope
+TypedBools.False()False()
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.7/TypedBools/src/TypedBools.jl
+
+> Code block:
+
+```jldoctest
+julia> using TypedBools, Base.Test
+
+julia> typed(false)
+TypedBools.False()
+
+julia> typed(true)
+TypedBools.True()
+```
+
+> Subexpression:
+
+    typed(true)
+
+> Output Diff (REQUIRES COLOR):
+
+TypedBools.True()True()
 
 =====[End Error]===============================
 ┌ Warning: Constructors no longer fall back to `convert`. A constructor `Bool(::False)` should be defined instead.
-│   caller = if_unstable(::False) at none:1
-└ @ Main.##doctest-#1501 none:1
+│   caller = top-level scope
+└ @ Core :0
+┌ Warning: Constructors no longer fall back to `convert`. A constructor `Bool(::True)` should be defined instead.
+│   caller = top-level scope
+└ @ Core :0
 =====[Test Error]==============================
 
 > File: /home/vagrant/.julia/v0.7/TypedBools/src/TypedBools.jl
@@ -154,38 +200,40 @@ Stacktrace:
 > Code block:
 
 ```jldoctest
-julia> using TypedBools, Base.Test
+julia> using TypedBools
 
-julia> if_unstable(x) = Bool(x) ? 1 : "a";
+julia> Bool(False())
+false
 
-julia> ifelse_unstable(x) = ifelse(x, 1, "a");
+julia> Bool(True())
+true
 
-julia> @inferred if_unstable(!(True() & True() & False()))
+julia> True() & True() & False()
+TypedBools.False()
+
+julia> False() & False() & True()
+TypedBools.False()
+
+julia> True() | True() | False()
+TypedBools.True()
+
+julia> False() | False() | True()
+TypedBools.True()
+
+julia> ifelse(True(), 1, 0)
 1
 
-julia> @inferred if_unstable(False() & False() & True())
-"a"
-
-julia> @inferred ifelse_unstable(!(True() | True() | False()))
-"a"
-
-julia> @inferred ifelse_unstable(False() | False() | True())
-1
-
-julia> @inferred if_unstable(typed(true) & typed(false))
-"a"
+julia> ifelse(False(), 1, 0)
+0
 ```
 
 > Subexpression:
 
-    @inferred if_unstable(False() & False() & True())
+    True() & True() & False()
 
 > Output Diff (REQUIRES COLOR):
 
-"a"ERROR: return type String does not match inferred return type Union{Int64, String}
-Stacktrace:
- [1] error(::String) at ./error.jl:33
- [2] top-level scope
+TypedBools.False()False()
 
 =====[End Error]===============================
 =====[Test Error]==============================
@@ -195,38 +243,126 @@ Stacktrace:
 > Code block:
 
 ```jldoctest
-julia> using TypedBools, Base.Test
+julia> using TypedBools
 
-julia> if_unstable(x) = Bool(x) ? 1 : "a";
+julia> Bool(False())
+false
 
-julia> ifelse_unstable(x) = ifelse(x, 1, "a");
+julia> Bool(True())
+true
 
-julia> @inferred if_unstable(!(True() & True() & False()))
+julia> True() & True() & False()
+TypedBools.False()
+
+julia> False() & False() & True()
+TypedBools.False()
+
+julia> True() | True() | False()
+TypedBools.True()
+
+julia> False() | False() | True()
+TypedBools.True()
+
+julia> ifelse(True(), 1, 0)
 1
 
-julia> @inferred if_unstable(False() & False() & True())
-"a"
-
-julia> @inferred ifelse_unstable(!(True() | True() | False()))
-"a"
-
-julia> @inferred ifelse_unstable(False() | False() | True())
-1
-
-julia> @inferred if_unstable(typed(true) & typed(false))
-"a"
+julia> ifelse(False(), 1, 0)
+0
 ```
 
 > Subexpression:
 
-    @inferred if_unstable(typed(true) & typed(false))
+    False() & False() & True()
 
 > Output Diff (REQUIRES COLOR):
 
-"a"ERROR: return type String does not match inferred return type Union{Int64, String}
-Stacktrace:
- [1] error(::String) at ./error.jl:33
- [2] top-level scope
+TypedBools.False()False()
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.7/TypedBools/src/TypedBools.jl
+
+> Code block:
+
+```jldoctest
+julia> using TypedBools
+
+julia> Bool(False())
+false
+
+julia> Bool(True())
+true
+
+julia> True() & True() & False()
+TypedBools.False()
+
+julia> False() & False() & True()
+TypedBools.False()
+
+julia> True() | True() | False()
+TypedBools.True()
+
+julia> False() | False() | True()
+TypedBools.True()
+
+julia> ifelse(True(), 1, 0)
+1
+
+julia> ifelse(False(), 1, 0)
+0
+```
+
+> Subexpression:
+
+    True() | True() | False()
+
+> Output Diff (REQUIRES COLOR):
+
+TypedBools.True()True()
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> File: /home/vagrant/.julia/v0.7/TypedBools/src/TypedBools.jl
+
+> Code block:
+
+```jldoctest
+julia> using TypedBools
+
+julia> Bool(False())
+false
+
+julia> Bool(True())
+true
+
+julia> True() & True() & False()
+TypedBools.False()
+
+julia> False() & False() & True()
+TypedBools.False()
+
+julia> True() | True() | False()
+TypedBools.True()
+
+julia> False() | False() | True()
+TypedBools.True()
+
+julia> ifelse(True(), 1, 0)
+1
+
+julia> ifelse(False(), 1, 0)
+0
+```
+
+> Subexpression:
+
+    False() | False() | True()
+
+> Output Diff (REQUIRES COLOR):
+
+TypedBools.True()True()
 
 =====[End Error]===============================
  > checking footnote links.
@@ -246,8 +382,8 @@ Stacktrace:
  [9] include at ./boot.jl:305 [inlined]
  [10] include_relative(::Module, ::String) at ./loading.jl:1072
  [11] include(::Module, ::String) at ./sysimg.jl:29
- [12] exec_options(::Base.JLOptions) at ./client.jl:332
- [13] _start() at ./client.jl:448
+ [12] exec_options(::Base.JLOptions) at ./client.jl:327
+ [13] _start() at ./client.jl:455
 in expression starting at /home/vagrant/.julia/v0.7/TypedBools/test/runtests.jl:4
 ┌ Error: ------------------------------------------------------------
 │ # Testing failed for TypedBools
@@ -273,8 +409,8 @@ in expression starting at /home/vagrant/.julia/v0.7/TypedBools/test/runtests.jl:
 │     [17] top-level scope
 │     [18] eval at ./boot.jl:308 [inlined]
 │     [19] eval(::Module, ::Expr) at ./sysimg.jl:74
-│     [20] exec_options(::Base.JLOptions) at ./client.jl:309
-│     [21] _start() at ./client.jl:448
+│     [20] exec_options(::Base.JLOptions) at ./client.jl:304
+│     [21] _start() at ./client.jl:455
 └ @ Pkg.Entry entry.jl:732
 [ Info: Removing DocStringExtensions v0.4.3
 [ Info: Removing Documenter v0.14.0

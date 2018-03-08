@@ -1,6 +1,6 @@
 >>> 'Pkg.add("SIMD")' log
 INFO: Cloning cache of SIMD from https://github.com/eschnett/SIMD.jl.git
-INFO: Installing SIMD v0.2.0
+INFO: Installing SIMD v0.3.0
 INFO: Package database updated
 INFO: METADATA is out-of-date — you may not have the latest version of SIMD
 INFO: Use `Pkg.update()` to get the latest versions of your packages
@@ -14,13 +14,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (1471.62109375 MB free)
-Uptime: 52169.0 sec
-Load Avg:  0.99267578125  0.96142578125  0.95458984375
+Memory: 2.93927001953125 GB (1449.2890625 MB free)
+Uptime: 52774.0 sec
+Load Avg:  0.982421875  0.943359375  0.95263671875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    3200467 s         58 s     150122 s    1133752 s         52 s
-#2  3499 MHz     828742 s       6572 s      79390 s    4186185 s          0 s
+#1  3500 MHz    3258794 s         56 s     149470 s    1108781 s         58 s
+#2  3500 MHz     808071 s       6870 s      79272 s    4277779 s          2 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -36,22 +36,252 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - JSON                          0.17.1
- - SIMD                          0.2.0
+ - SIMD                          0.3.0
 2 additional packages:
  - Compat                        0.56.0
  - Nullables                     0.0.4
 INFO: Testing SIMD
-INFO: Basic definitions
-INFO: Type properties
-INFO: Type conversion
-INFO: Element-wise access
-INFO: Integer arithmetic functions
-INFO: Floating point arithmetic functions
-INFO: Type promotion
-INFO: Reduction operations
-INFO: Load and store functions
-INFO: Real-world examples
-INFO: Vector shuffles
+Info: Basic definitions
+Info: Type properties
+Info: Type conversion
+Info: Element-wise access
+Info: Integer arithmetic functions
+Info: Floating point arithmetic functions
+Info: Type promotion
+Info: Reduction operations
+Info: Load and store functions
+Info: Real-world examples
+
+define double @julia_vsum_63285(i8** dereferenceable(40), i8**) #0 !dbg !5 {
+top:
+  %ptls_i8 = call i8* asm "movq %fs:0, $0;\0Aaddq $$-10888, $0", "=r,~{dirflag},~{fpsr},~{flags}"() #5
+  %ptls = bitcast i8* %ptls_i8 to i8****
+  %2 = alloca [9 x i8**], align 8
+  %.sub = getelementptr inbounds [9 x i8**], [9 x i8**]* %2, i64 0, i64 0
+  %3 = getelementptr [9 x i8**], [9 x i8**]* %2, i64 0, i64 3
+  %4 = getelementptr [9 x i8**], [9 x i8**]* %2, i64 0, i64 2
+  %5 = bitcast i8*** %3 to i8*
+  call void @llvm.memset.p0i8.i32(i8* %5, i8 0, i32 48, i32 8, i1 false)
+  %6 = bitcast [9 x i8**]* %2 to i64*
+  store i64 14, i64* %6, align 8
+  %7 = getelementptr [9 x i8**], [9 x i8**]* %2, i64 0, i64 1
+  %8 = bitcast i8* %ptls_i8 to i64*
+  %9 = load i64, i64* %8, align 8
+  %10 = bitcast i8*** %7 to i64*
+  store i64 %9, i64* %10, align 8
+  store i8*** %.sub, i8**** %ptls, align 8
+  store i8** null, i8*** %4, align 8
+  %11 = getelementptr i8*, i8** %0, i64 1
+  %12 = getelementptr inbounds i8*, i8** %0, i64 2
+  %13 = bitcast i8** %12 to i64*
+  %14 = bitcast i8** %11 to i64*
+  %15 = load i64, i64* %13, align 8
+  %16 = load i64, i64* %14, align 8
+  %17 = sub i64 %15, %16
+  %18 = add i64 %17, 1
+  %19 = icmp slt i64 %18, 0
+  %20 = select i1 %19, i64 0, i64 %18
+  %21 = and i64 %20, 3
+  %22 = icmp eq i64 %21, 0
+  br i1 %22, label %L20, label %L18
+
+L18:                                              ; preds = %top
+  %23 = getelementptr [9 x i8**], [9 x i8**]* %2, i64 0, i64 7
+  %24 = getelementptr [9 x i8**], [9 x i8**]* %2, i64 0, i64 5
+  %25 = getelementptr [9 x i8**], [9 x i8**]* %2, i64 0, i64 8
+  %26 = getelementptr [9 x i8**], [9 x i8**]* %2, i64 0, i64 6
+  %27 = getelementptr [9 x i8**], [9 x i8**]* %2, i64 0, i64 4
+  %28 = load i64, i64* inttoptr (i64 140664510521720 to i64*), align 8
+  %29 = bitcast i8*** %23 to i64*
+  store i64 %28, i64* %29, align 8
+  store i8** inttoptr (i64 140664447543208 to i8**), i8*** %25, align 8
+  %30 = call i8** @jl_f_getfield(i8** null, i8*** %23, i32 2)
+  store i8** %30, i8*** %24, align 8
+  store i8** inttoptr (i64 140664447547992 to i8**), i8*** %26, align 8
+  %31 = call i8** @jl_f_getfield(i8** null, i8*** %24, i32 2)
+  store i8** %31, i8*** %3, align 8
+  store i8** inttoptr (i64 140664200747648 to i8**), i8*** %27, align 8
+  %32 = call i8** @jl_apply_generic(i8*** %3, i32 2)
+  store i8** %32, i8*** %4, align 8
+  call void @jl_throw(i8** %32)
+  unreachable
+
+L20:                                              ; preds = %top
+  %33 = call i64 @jlsys_steprange_last_59437(i64 1, i64 4, i64 %20)
+  %34 = icmp slt i64 %33, 1
+  %35 = zext i1 %34 to i8
+  %36 = add i64 %33, 4
+  %37 = icmp eq i64 %36, 1
+  %38 = zext i1 %37 to i8
+  %39 = or i8 %38, %35
+  %40 = icmp eq i8 %39, 1
+  br i1 %40, label %L100, label %if1.lr.ph
+
+if1.lr.ph:                                        ; preds = %L20
+  %41 = bitcast i8** %0 to i64**
+  %42 = load i64*, i64** %41, align 8
+  %43 = load i64, i64* %42, align 8
+  %44 = getelementptr i8*, i8** %0, i64 3
+  %45 = bitcast i8** %44 to i64*
+  %46 = load i64, i64* %45, align 8
+  %47 = add i64 %43, -8
+  br label %if1
+
+if1:                                              ; preds = %if1.lr.ph, %if1
+  %sv.sroa.0.010 = phi <4 x double> [ zeroinitializer, %if1.lr.ph ], [ %res.i3, %if1 ]
+  %"#temp#.09" = phi i64 [ 1, %if1.lr.ph ], [ %48, %if1 ]
+  %48 = add i64 %"#temp#.09", 4
+  %49 = add i64 %46, %"#temp#.09"
+  %50 = shl i64 %49, 3
+  %51 = add i64 %47, %50
+  %ptr.i = inttoptr i64 %51 to <4 x double>*
+  %res.i = load <4 x double>, <4 x double>* %ptr.i, align 8
+  %res.i3 = fadd <4 x double> %sv.sroa.0.010, %res.i
+  %52 = icmp eq i64 %48, %36
+  %53 = zext i1 %52 to i8
+  %54 = or i8 %53, %35
+  %55 = icmp eq i8 %54, 1
+  br i1 %55, label %L100.loopexit, label %if1
+
+L100.loopexit:                                    ; preds = %if1
+  br label %L100
+
+L100:                                             ; preds = %L100.loopexit, %L20
+  %sv.sroa.0.0.lcssa = phi <4 x double> [ zeroinitializer, %L20 ], [ %res.i3, %L100.loopexit ]
+  %vec_2_1.i = shufflevector <4 x double> %sv.sroa.0.0.lcssa, <4 x double> undef, <2 x i32> <i32 0, i32 1>
+  %vec_2_2.i = shufflevector <4 x double> %sv.sroa.0.0.lcssa, <4 x double> undef, <2 x i32> <i32 2, i32 3>
+  %vec_2.i = fadd <2 x double> %vec_2_1.i, %vec_2_2.i
+  %vec_1_1.i = shufflevector <2 x double> %vec_2.i, <2 x double> undef, <1 x i32> zeroinitializer
+  %vec_1_2.i = shufflevector <2 x double> %vec_2.i, <2 x double> undef, <1 x i32> <i32 1>
+  %vec_1.i = fadd <1 x double> %vec_1_1.i, %vec_1_2.i
+  %res.i2 = extractelement <1 x double> %vec_1.i, i32 0
+  %56 = load i64, i64* %10, align 8
+  store i64 %56, i64* %8, align 8
+  ret double %res.i2
+}
+	.text
+Filename: runtests.jl
+	pushq	%rbp
+	movq	%rsp, %rbp
+	pushq	%r15
+	pushq	%r14
+	pushq	%r12
+	pushq	%rbx
+	subq	$80, %rsp
+	movq	%rdi, %r15
+	movq	%fs:0, %r14
+	addq	$-10888, %r14           # imm = 0xD578
+	xorpd	%xmm0, %xmm0
+	movupd	%xmm0, -48(%rbp)
+	movupd	%xmm0, -64(%rbp)
+	movupd	%xmm0, -80(%rbp)
+	movq	$14, -104(%rbp)
+	movq	(%r14), %rax
+	movq	%rax, -96(%rbp)
+	leaq	-104(%rbp), %rax
+	movq	%rax, (%r14)
+	movq	$0, -88(%rbp)
+Source line: 75
+	movq	16(%r15), %rax
+	subq	8(%r15), %rax
+	xorl	%edx, %edx
+	incq	%rax
+Source line: 56
+	cmovnsq	%rax, %rdx
+Source line: 320
+	testb	$3, %dl
+	jne	L267
+Source line: 93
+	movabsq	$steprange_last, %rax
+	movl	$1, %edi
+	movl	$4, %esi
+	callq	*%rax
+Source line: 322
+	testq	%rax, %rax
+	setle	%cl
+	setg	%dl
+	cmpq	$-3, %rax
+	setne	%bl
+	andb	%dl, %bl
+	cmpb	$1, %bl
+	xorpd	%xmm1, %xmm1
+	xorpd	%xmm3, %xmm3
+	jne	L230
+Source line: 304
+	movq	(%r15), %rsi
+Source line: 1255
+	movq	24(%r15), %rdx
+Source line: 322
+	decq	%rax
+	shlq	$3, %rdx
+	addq	(%rsi), %rdx
+	xorpd	%xmm1, %xmm1
+	xorpd	%xmm3, %xmm3
+	nopl	(%rax,%rax)
+Source line: 1255
+L192:
+	movupd	(%rdx), %xmm0
+	movupd	16(%rdx), %xmm2
+Source line: 569
+	addpd	%xmm2, %xmm3
+	addpd	%xmm0, %xmm1
+Source line: 322
+	testq	%rax, %rax
+	sete	%bl
+	orb	%cl, %bl
+	addq	$-4, %rax
+	addq	$32, %rdx
+	cmpb	$1, %bl
+	jne	L192
+Source line: 1156
+L230:
+	addpd	%xmm3, %xmm1
+	movapd	%xmm1, %xmm0
+	shufpd	$1, %xmm0, %xmm0        # xmm0 = xmm0[1,0]
+	addsd	%xmm1, %xmm0
+Source line: 326
+	movq	-96(%rbp), %rax
+	movq	%rax, (%r14)
+	addq	$80, %rsp
+	popq	%rbx
+	popq	%r12
+	popq	%r14
+	popq	%r15
+	popq	%rbp
+	retq
+L267:
+	leaq	-80(%rbp), %r15
+	leaq	-48(%rbp), %r14
+	leaq	-64(%rbp), %rsi
+Source line: 320
+	movabsq	$140664200747648, %rbx  # imm = 0x7FEEEFB7DA80
+	movq	309774072(%rbx), %rax
+	movq	%rax, -64(%rbp)
+	leaq	246795560(%rbx), %rax
+	movq	%rax, -56(%rbp)
+	movabsq	$jl_f_getfield, %r12
+	xorl	%edi, %edi
+	movl	$2, %edx
+	callq	*%r12
+	movq	%rax, -80(%rbp)
+	leaq	246800344(%rbx), %rax
+	movq	%rax, -72(%rbp)
+	xorl	%edi, %edi
+	movl	$2, %edx
+	movq	%r15, %rsi
+	callq	*%r12
+	movq	%rax, -48(%rbp)
+	movq	%rbx, -40(%rbp)
+	movabsq	$jl_apply_generic, %rax
+	movl	$2, %esi
+	movq	%r14, %rdi
+	callq	*%rax
+	movq	%rax, -88(%rbp)
+	movabsq	$jl_throw, %rcx
+	movq	%rax, %rdi
+	callq	*%rcx
+	nopw	%cs:(%rax,%rax)
+Info: Vector shuffles
 INFO: SIMD tests passed
 
 >>> End of log

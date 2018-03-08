@@ -6,9 +6,10 @@ WARNING: Base.Pkg is deprecated, run `using Pkg` instead
 [ Info: Cloning cache of RecurUnroll from https://github.com/bramtayl/RecurUnroll.jl.git
 [ Info: Cloning cache of TypedBools from https://github.com/bramtayl/TypedBools.jl.git
 [ Info: Installing JuliennedArrays v0.0.1
+[ Info: Installing Missings v0.2.7
 [ Info: Installing Parts v0.0.1
-[ Info: Installing RecurUnroll v0.0.2
-[ Info: Installing TypedBools v0.0.1
+[ Info: Installing RecurUnroll v0.1.0
+[ Info: Installing TypedBools v0.0.2
 [ Info: Package database updated
 ┌ Info: METADATA is out-of-date — you may not have the latest version of JuliennedArrays
 └ Use `Pkg.update()` to get the latest versions of your packages
@@ -20,20 +21,20 @@ Add `using InteractiveUtils` to your imports.
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
 Add `using InteractiveUtils` to your imports.
  in module Main
-Julia Version 0.7.0-DEV.4465
-Commit f569ebe9bc (2018-03-04 15:47 UTC)
+Julia Version 0.7.0-DEV.4475
+Commit c1e7c93169 (2018-03-06 19:47 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3499 MHz    1928175 s       2409 s     115467 s     563640 s         20 s
-       #2  3499 MHz     463866 s       4601 s      53487 s    2484135 s          0 s
+       #1  3508 MHz    1963600 s       1268 s     115412 s     563438 s         12 s
+       #2  3508 MHz     480737 s       4912 s      52100 s    2502110 s          0 s
        
-  Memory: 2.93927001953125 GB (1232.84765625 MB free)
-  Uptime: 30647.0 sec
-  Load Avg:  0.99658203125  0.998046875  0.9814453125
+  Memory: 2.93927001953125 GB (1218.21484375 MB free)
+  Uptime: 30955.0 sec
+  Load Avg:  0.923828125  0.96923828125  0.94970703125
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -49,12 +50,13 @@ Packages:
 2 required packages:
  - JSON                          0.17.1
  - JuliennedArrays               0.0.1
-5 additional packages:
+6 additional packages:
  - Compat                        0.56.0
+ - Missings                      0.2.7
  - Nullables                     0.0.4
  - Parts                         0.0.1
- - RecurUnroll                   0.0.2
- - TypedBools                    0.0.1
+ - RecurUnroll                   0.1.0
+ - TypedBools                    0.0.2
 WARNING: Base.Pkg is deprecated, run `using Pkg` instead
  in module Main
 [ Info: Computing test dependencies for JuliennedArrays...
@@ -62,164 +64,20 @@ WARNING: Base.Pkg is deprecated, run `using Pkg` instead
 [ Info: Installing Documenter v0.14.0
 [ Info: Installing MappedArrays v0.0.7
 [ Info: Testing JuliennedArrays
-┌ Warning: Deprecated syntax `implicit assignment to global variable `binding``.
-│ Use `global binding` instead.
-└ @ nothing none:0
-┌ Warning: Deprecated syntax `implicit assignment to global variable `binding``.
-│ Use `global binding` instead.
-└ @ nothing none:0
-Documenter: setting up build directory.
-Documenter: expanding markdown templates.
-Documenter: building cross-references.
-Documenter: running document checks.
- > checking for missing docstrings.
- > running doctests.
-┌ Warning: `link_pipe(pipe; julia_only_read=true, julia_only_write=true)` is deprecated, use `link_pipe!(pipe, reader_supports_async=julia_only_read, writer_supports_async=julia_only_write)` instead.
-│   caller = ip:0x0
-└ @ Core :-1
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.7/JuliennedArrays/src/JuliennedArrays.jl
-
-> Code block:
-
-```jldoctest
-julia> using JuliennedArrays, Base.Test, Base.Test
-
-julia> array = [5 6 4; 1 3 2; 7 9 8]
-3×3 Array{Int64,2}:
- 5  6  4
- 1  3  2
- 7  9  8
-
-julia> swaps = @inferred julienne(Views, array, (*, :));
-
-julia> @inferred map(Reduction(+), swaps)
-3×1 Array{Int64,2}:
- 15
-  6
- 24
-```
-
-> Subexpression:
-
-    using JuliennedArrays, Base.Test, Base.Test
-
-> Output Diff (REQUIRES COLOR):
-
-WARNING: Base.Test is deprecated, run `using Test` instead
-  likely near /home/vagrant/.julia/v0.7/JuliennedArrays/test/runtests.jl:4
-WARNING: Base.Test is deprecated, run `using Test` instead
-  likely near /home/vagrant/.julia/v0.7/JuliennedArrays/test/runtests.jl:4
-
-=====[End Error]===============================
-┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
-│   caller = julienne(::Type, ::Array{Int64,2}, ::Tuple{typeof(*),Colon}) at JuliennedArrays.jl:69
-└ @ JuliennedArrays JuliennedArrays.jl:69
-┌ Warning: `mapreducedim(f, op, A::AbstractArray, dims)` is deprecated, use `mapreduce(f, op, A, dims=dims)` instead.
-│   caller = map(::Reduction{typeof(+)}, ::Views{SubArray{Int64,1,Array{Int64,2},Tuple{Int64,Base.OneTo{Int64}},true},1,Array{Int64,2},JuliennedArrays.JulienneIndexer{Tuple{Int64,Base.OneTo{Int64}},1,Tuple{Base.OneTo{Int64},Base.OneTo{Int64}},Tuple{TypedBools.True,TypedBools.False}}}) at JuliennedArrays.jl:160
-└ @ JuliennedArrays JuliennedArrays.jl:160
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.7/JuliennedArrays/src/JuliennedArrays.jl
-
-> Code block:
-
-```jldoctest
-julia> using JuliennedArrays, MappedArrays, Base.Test
-
-julia> code = (*, :);
-
-julia> array = [5 6 4; 1 3 2; 7 9 8]
-3×3 Array{Int64,2}:
- 5  6  4
- 1  3  2
- 7  9  8
-
-julia> swaps = @inferred julienne(Views, array, code);
-
-julia> @inferred align(mappedarray(sort, swaps), code)
-3×3 Array{Int64,2}:
- 4  5  6
- 1  2  3
- 7  8  9
-```
-
-> Subexpression:
-
-    using JuliennedArrays, MappedArrays, Base.Test
-
-> Output Diff (REQUIRES COLOR):
-
-WARNING: Base.Test is deprecated, run `using Test` instead
-  likely near /home/vagrant/.julia/v0.7/JuliennedArrays/test/runtests.jl:4
-
-=====[End Error]===============================
-┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
-│   caller = indices at MappedArrays.jl:54 [inlined]
-└ @ Core MappedArrays.jl:54
-┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
-│   caller = align(::MappedArrays.ReadonlyMappedArray{Array{Int64,1},1,Views{SubArray{Int64,1,Array{Int64,2},Tuple{Int64,Base.OneTo{Int64}},true},1,Array{Int64,2},JuliennedArrays.JulienneIndexer{Tuple{Int64,Base.OneTo{Int64}},1,Tuple{Base.OneTo{Int64},Base.OneTo{Int64}},Tuple{TypedBools.True,TypedBools.False}}},typeof(sort)}, ::Tuple{typeof(*),Colon}) at JuliennedArrays.jl:108
-└ @ JuliennedArrays JuliennedArrays.jl:108
-┌ Warning: `indices(a)` is deprecated, use `axes(a)` instead.
-│   caller = julienne at JuliennedArrays.jl:69 [inlined]
-└ @ Core JuliennedArrays.jl:69
-=====[Test Error]==============================
-
-> File: /home/vagrant/.julia/v0.7/JuliennedArrays/src/JuliennedArrays.jl
-
-> Code block:
-
-```jldoctest
-julia> using JuliennedArrays, Base.Test
-
-julia> code = (*, :);
-
-julia> array = [5 6 4; 1 3 2; 7 9 8]
-3×3 Array{Int64,2}:
- 5  6  4
- 1  3  2
- 7  9  8
-
-julia> arrays = @inferred julienne(Views, array, (*, :));
-
-julia> @inferred map(sum, arrays)
-3-element Array{Int64,1}:
- 15
-  6
- 24
-```
-
-> Subexpression:
-
-    using JuliennedArrays, Base.Test
-
-> Output Diff (REQUIRES COLOR):
-
-WARNING: Base.Test is deprecated, run `using Test` instead
-  likely near /home/vagrant/.julia/v0.7/JuliennedArrays/test/runtests.jl:4
-
-=====[End Error]===============================
- > checking footnote links.
- > checking external URLs:
-   - index.md
-Documenter: populating indices.
-ERROR: LoadError: `makedocs` encountered an error. Terminating build
+ERROR: LoadError: LoadError: UndefVarError: setindex_unrolled not defined
 Stacktrace:
- [1] error at ./error.jl:33 [inlined]
- [2] runner(::Type{Documenter.Builder.RenderDocument}, ::Documenter.Documents.Document) at /home/vagrant/.julia/v0.7/Documenter/src/Builder.jl:202
- [3] dispatch(::Type{Documenter.Builder.DocumentPipeline}, ::Documenter.Documents.Document, ::Vararg{Documenter.Documents.Document,N} where N) at /home/vagrant/.julia/v0.7/Documenter/src/Selectors.jl:168
- [4] #2 at /home/vagrant/.julia/v0.7/Documenter/src/Documenter.jl:204 [inlined]
- [5] cd(::getfield(Documenter, Symbol("##2#3")){Documenter.Documents.Document}, ::String) at ./file.jl:72
- [6] #makedocs#1 at /home/vagrant/.julia/v0.7/Documenter/src/Documenter.jl:203 [inlined]
- [7] (::getfield(Documenter, Symbol("#kw##makedocs")))(::NamedTuple{(:modules, :format, :sitename, :root, :pages, :strict, :linkcheck, :checkdocs, :authors),Tuple{Array{Module,1},Symbol,String,String,Array{Any,1},Bool,Bool,Symbol,String}}, ::typeof(Documenter.makedocs)) at ./<missing>:0
- [8] top-level scope
- [9] include at ./boot.jl:305 [inlined]
- [10] include_relative(::Module, ::String) at ./loading.jl:1072
- [11] include(::Module, ::String) at ./sysimg.jl:29
- [12] exec_options(::Base.JLOptions) at ./client.jl:332
- [13] _start() at ./client.jl:448
-in expression starting at /home/vagrant/.julia/v0.7/JuliennedArrays/test/runtests.jl:4
+ [1] include at ./boot.jl:305 [inlined]
+ [2] include_relative(::Module, ::String) at ./loading.jl:1072
+ [3] _require(::Base.PkgId) at ./loading.jl:998
+ [4] require(::Base.PkgId) at ./loading.jl:879
+ [5] require(::Module, ::Symbol) at ./loading.jl:874
+ [6] include at ./boot.jl:305 [inlined]
+ [7] include_relative(::Module, ::String) at ./loading.jl:1072
+ [8] include(::Module, ::String) at ./sysimg.jl:29
+ [9] exec_options(::Base.JLOptions) at ./client.jl:327
+ [10] _start() at ./client.jl:455
+in expression starting at /home/vagrant/.julia/v0.7/JuliennedArrays/src/JuliennedArrays.jl:3
+in expression starting at /home/vagrant/.julia/v0.7/JuliennedArrays/test/runtests.jl:1
 ┌ Error: ------------------------------------------------------------
 │ # Testing failed for JuliennedArrays
 │   exception =
@@ -244,8 +102,8 @@ in expression starting at /home/vagrant/.julia/v0.7/JuliennedArrays/test/runtest
 │     [17] top-level scope
 │     [18] eval at ./boot.jl:308 [inlined]
 │     [19] eval(::Module, ::Expr) at ./sysimg.jl:74
-│     [20] exec_options(::Base.JLOptions) at ./client.jl:309
-│     [21] _start() at ./client.jl:448
+│     [20] exec_options(::Base.JLOptions) at ./client.jl:304
+│     [21] _start() at ./client.jl:455
 └ @ Pkg.Entry entry.jl:732
 [ Info: Removing DocStringExtensions v0.4.3
 [ Info: Removing Documenter v0.14.0
