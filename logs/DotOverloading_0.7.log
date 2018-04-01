@@ -15,20 +15,20 @@ Add `using InteractiveUtils` to your imports.
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
 Add `using InteractiveUtils` to your imports.
  in module Main
-Julia Version 0.7.0-DEV.4475
-Commit c1e7c93169 (2018-03-06 19:47 UTC)
+Julia Version 0.7.0-DEV.4723
+Commit 359f39aa77 (2018-03-30 17:27 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
+  uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3511 MHz    3689808 s       5977 s     192215 s    1314544 s         73 s
-       #2  3511 MHz    1144909 s         95 s      88689 s    4712043 s          1 s
+       #1  3496 MHz    4072435 s         92 s     314701 s    1440270 s         61 s
+       #2  3496 MHz    1191547 s       6637 s     120797 s    5326630 s          4 s
        
-  Memory: 2.93927001953125 GB (1202.81640625 MB free)
-  Uptime: 60719.0 sec
-  Load Avg:  0.93505859375  0.96142578125  0.9501953125
+  Memory: 2.939197540283203 GB (1182.421875 MB free)
+  Uptime: 67786.0 sec
+  Load Avg:  0.9970703125  0.9853515625  0.95458984375
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -43,58 +43,279 @@ Packages:
   Package Status:
 2 required packages:
  - DotOverloading                0.0.1
- - JSON                          0.17.1
+ - JSON                          0.17.2
 3 additional packages:
- - Compat                        0.56.0
+ - Compat                        0.63.0
  - MacroTools                    0.4.0
- - Nullables                     0.0.4
+ - Nullables                     0.0.5
 WARNING: Base.Pkg is deprecated, run `using Pkg` instead
  in module Main
 [ Info: Computing test dependencies for DotOverloading...
 [ Info: Cloning cache of ValuedTuples from https://github.com/bramtayl/ValuedTuples.jl.git
-[ Info: Installing DocStringExtensions v0.4.3
-[ Info: Installing Documenter v0.14.0
+[ Info: Installing DocStringExtensions v0.4.4
+[ Info: Installing Documenter v0.16.1
 [ Info: Installing ValuedTuples v0.0.1
 [ Info: Testing DotOverloading
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
 │   caller = isbinding at match.jl:14 [inlined]
 └ @ Core match.jl:14
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
 │   caller = isslurp at match.jl:29 [inlined]
 └ @ Core match.jl:29
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
 │   caller = isslurp(::Symbol) at match.jl:29
 └ @ MacroTools match.jl:29
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
 │   caller = isbinding at match.jl:14 [inlined]
 └ @ Core match.jl:14
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
 │   caller = isbinding at match.jl:14 [inlined]
 └ @ Core match.jl:14
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
 │   caller = isslurp at match.jl:29 [inlined]
 └ @ Core match.jl:29
+┌ Warning: `contains(haystack, needle)` is deprecated, use `occursin(needle, haystack)` instead.
+│   caller = istb(::Symbol) at types.jl:7
+└ @ MacroTools types.jl:7
 Documenter: setting up build directory.
 Documenter: expanding markdown templates.
 Documenter: building cross-references.
 Documenter: running document checks.
  > checking for missing docstrings.
  > running doctests.
-┌ Warning: `link_pipe(pipe; julia_only_read=true, julia_only_write=true)` is deprecated, use `link_pipe!(pipe, reader_supports_async=julia_only_read, writer_supports_async=julia_only_write)` instead.
-│   caller = ip:0x0
-└ @ Core :-1
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/DotOverloading/src/DotOverloading.jl:39-64
+
+> Code block:
+
+```jldoctest
+julia> using DotOverloading
+
+julia> mutable struct A
+            b::Int
+            c::String
+        end;
+
+julia> a = A(1, "c");
+
+julia> @overload_dots a.b = 2;
+
+julia> a.b
+2
+
+julia> using ValuedTuples
+
+julia> DotOverloading.get_field(v::ValuedTuple, value) = getindex(v, value);
+
+julia> v = @VT a = 1 b = 2.5;
+
+julia> test(v) = @overload_dots v.a + v.b;
+
+julia> Test.@inferred test(v)
+3.5
+```
+
+> Subexpression:
+
+    @overload_dots a.b = 2;
+
+> Output Diff (REQUIRES COLOR):
+
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
 │   caller = isbinding at match.jl:14 [inlined]
 └ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp at match.jl:29 [inlined]
+└ @ Core match.jl:29
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp(::Symbol) at match.jl:29
+└ @ MacroTools match.jl:29
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/DotOverloading/src/DotOverloading.jl:39-64
+
+> Code block:
+
+```jldoctest
+julia> using DotOverloading
+
+julia> mutable struct A
+            b::Int
+            c::String
+        end;
+
+julia> a = A(1, "c");
+
+julia> @overload_dots a.b = 2;
+
+julia> a.b
+2
+
+julia> using ValuedTuples
+
+julia> DotOverloading.get_field(v::ValuedTuple, value) = getindex(v, value);
+
+julia> v = @VT a = 1 b = 2.5;
+
+julia> test(v) = @overload_dots v.a + v.b;
+
+julia> Test.@inferred test(v)
+3.5
+```
+
+> Subexpression:
+
+    using ValuedTuples
+
+> Output Diff (REQUIRES COLOR):
+
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp at match.jl:29 [inlined]
+└ @ Core match.jl:29
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp(::Symbol) at match.jl:29
+└ @ MacroTools match.jl:29
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp at match.jl:29 [inlined]
+└ @ Core match.jl:29
+┌ Warning: `contains(haystack, needle)` is deprecated, use `occursin(needle, haystack)` instead.
+│   caller = istb(::Symbol) at types.jl:7
+└ @ MacroTools types.jl:7
 ┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
 │   caller = tbnew(::Symbol) at types.jl:17
 └ @ MacroTools types.jl:17
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `contains(s, r)` instead.
-│   caller = isbinding at match.jl:14 [inlined]
-└ @ Core match.jl:14
+
+=====[End Error]===============================
 =====[Test Error]==============================
 
-> File: /home/vagrant/.julia/v0.7/DotOverloading/src/DotOverloading.jl
+> Location: /home/vagrant/.julia/v0.7/DotOverloading/src/DotOverloading.jl:39-64
+
+> Code block:
+
+```jldoctest
+julia> using DotOverloading
+
+julia> mutable struct A
+            b::Int
+            c::String
+        end;
+
+julia> a = A(1, "c");
+
+julia> @overload_dots a.b = 2;
+
+julia> a.b
+2
+
+julia> using ValuedTuples
+
+julia> DotOverloading.get_field(v::ValuedTuple, value) = getindex(v, value);
+
+julia> v = @VT a = 1 b = 2.5;
+
+julia> test(v) = @overload_dots v.a + v.b;
+
+julia> Test.@inferred test(v)
+3.5
+```
+
+> Subexpression:
+
+    v = @VT a = 1 b = 2.5;
+
+> Output Diff (REQUIRES COLOR):
+
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp at match.jl:29 [inlined]
+└ @ Core match.jl:29
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp(::Symbol) at match.jl:29
+└ @ MacroTools match.jl:29
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/DotOverloading/src/DotOverloading.jl:39-64
+
+> Code block:
+
+```jldoctest
+julia> using DotOverloading
+
+julia> mutable struct A
+            b::Int
+            c::String
+        end;
+
+julia> a = A(1, "c");
+
+julia> @overload_dots a.b = 2;
+
+julia> a.b
+2
+
+julia> using ValuedTuples
+
+julia> DotOverloading.get_field(v::ValuedTuple, value) = getindex(v, value);
+
+julia> v = @VT a = 1 b = 2.5;
+
+julia> test(v) = @overload_dots v.a + v.b;
+
+julia> Test.@inferred test(v)
+3.5
+```
+
+> Subexpression:
+
+    test(v) = @overload_dots v.a + v.b;
+
+> Output Diff (REQUIRES COLOR):
+
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp at match.jl:29 [inlined]
+└ @ Core match.jl:29
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp(::Symbol) at match.jl:29
+└ @ MacroTools match.jl:29
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/DotOverloading/src/DotOverloading.jl:39-64
 
 > Code block:
 
@@ -146,13 +367,13 @@ Stacktrace:
  [1] error at ./error.jl:33 [inlined]
  [2] runner(::Type{Documenter.Builder.RenderDocument}, ::Documenter.Documents.Document) at /home/vagrant/.julia/v0.7/Documenter/src/Builder.jl:202
  [3] dispatch(::Type{Documenter.Builder.DocumentPipeline}, ::Documenter.Documents.Document, ::Vararg{Documenter.Documents.Document,N} where N) at /home/vagrant/.julia/v0.7/Documenter/src/Selectors.jl:168
- [4] #2 at /home/vagrant/.julia/v0.7/Documenter/src/Documenter.jl:204 [inlined]
+ [4] #2 at /home/vagrant/.julia/v0.7/Documenter/src/Documenter.jl:205 [inlined]
  [5] cd(::getfield(Documenter, Symbol("##2#3")){Documenter.Documents.Document}, ::String) at ./file.jl:72
- [6] #makedocs#1 at /home/vagrant/.julia/v0.7/Documenter/src/Documenter.jl:203 [inlined]
+ [6] #makedocs#1 at /home/vagrant/.julia/v0.7/Documenter/src/Documenter.jl:204 [inlined]
  [7] (::getfield(Documenter, Symbol("#kw##makedocs")))(::NamedTuple{(:modules, :format, :sitename, :root, :pages, :strict, :linkcheck, :checkdocs, :authors),Tuple{Array{Module,1},Symbol,String,String,Array{Any,1},Bool,Bool,Symbol,String}}, ::typeof(Documenter.makedocs)) at ./<missing>:0
  [8] top-level scope
- [9] include at ./boot.jl:305 [inlined]
- [10] include_relative(::Module, ::String) at ./loading.jl:1072
+ [9] include at ./boot.jl:306 [inlined]
+ [10] include_relative(::Module, ::String) at ./loading.jl:1067
  [11] include(::Module, ::String) at ./sysimg.jl:29
  [12] exec_options(::Base.JLOptions) at ./client.jl:327
  [13] _start() at ./client.jl:455
@@ -164,7 +385,7 @@ in expression starting at /home/vagrant/.julia/v0.7/DotOverloading/test/runtests
 │    Stacktrace:
 │     [1] error(::String, ::Base.Process, ::String, ::Int64, ::String) at ./error.jl:42
 │     [2] pipeline_error(::Base.Process) at ./process.jl:712
-│     [3] #run#534(::Bool, ::Function, ::Cmd) at ./process.jl:670
+│     [3] #run#539(::Bool, ::Function, ::Cmd) at ./process.jl:670
 │     [4] run at ./process.jl:668 [inlined]
 │     [5] (::getfield(Pkg.Entry, Symbol("##56#57")){Bool,String,Array{AbstractString,1}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:729
 │     [6] cd(::getfield(Pkg.Entry, Symbol("##56#57")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:72
@@ -176,16 +397,16 @@ in expression starting at /home/vagrant/.julia/v0.7/DotOverloading/test/runtests
 │     [12] cd(::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.Pairs{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:72
 │     [13] #cd#1(::Base.Iterators.Pairs{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
 │     [14] (::getfield(Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
-│     [15] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:276
-│     [16] test(::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:276
+│     [15] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:278
+│     [16] test(::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:278
 │     [17] top-level scope
-│     [18] eval at ./boot.jl:308 [inlined]
+│     [18] eval at ./boot.jl:309 [inlined]
 │     [19] eval(::Module, ::Expr) at ./sysimg.jl:74
 │     [20] exec_options(::Base.JLOptions) at ./client.jl:304
 │     [21] _start() at ./client.jl:455
 └ @ Pkg.Entry entry.jl:732
-[ Info: Removing DocStringExtensions v0.4.3
-[ Info: Removing Documenter v0.14.0
+[ Info: Removing DocStringExtensions v0.4.4
+[ Info: Removing Documenter v0.16.1
 [ Info: Removing ValuedTuples v0.0.1
 ERROR: DotOverloading had test errors
 

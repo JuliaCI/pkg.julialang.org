@@ -13,20 +13,20 @@ Add `using InteractiveUtils` to your imports.
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
 Add `using InteractiveUtils` to your imports.
  in module Main
-Julia Version 0.7.0-DEV.4475
-Commit c1e7c93169 (2018-03-06 19:47 UTC)
+Julia Version 0.7.0-DEV.4723
+Commit 359f39aa77 (2018-03-30 17:27 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
+  uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3508 MHz    4614130 s       1282 s     252536 s    1199473 s         97 s
-       #2  3508 MHz    1207061 s       4916 s     114284 s    5621957 s          3 s
+       #1  3499 MHz    5023688 s         95 s     405534 s    1477404 s        132 s
+       #2  3499 MHz    1384238 s       6405 s     169971 s    6271603 s          6 s
        
-  Memory: 2.93927001953125 GB (681.1015625 MB free)
-  Uptime: 70913.0 sec
-  Load Avg:  1.0029296875  1.0146484375  1.0185546875
+  Memory: 2.939197540283203 GB (673.61328125 MB free)
+  Uptime: 80514.0 sec
+  Load Avg:  0.97412109375  0.97509765625  0.95458984375
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -40,16 +40,16 @@ Packages:
   Package Directory: /home/vagrant/.julia/v0.7
   Package Status:
 2 required packages:
- - JSON                          0.17.1
+ - JSON                          0.17.2
  - NumberedLines                 0.1.0
 2 additional packages:
- - Compat                        0.56.0
- - Nullables                     0.0.4
+ - Compat                        0.63.0
+ - Nullables                     0.0.5
 WARNING: Base.Pkg is deprecated, run `using Pkg` instead
  in module Main
 [ Info: Computing test dependencies for NumberedLines...
-[ Info: Installing DocStringExtensions v0.4.3
-[ Info: Installing Documenter v0.14.0
+[ Info: Installing DocStringExtensions v0.4.4
+[ Info: Installing Documenter v0.16.1
 [ Info: Testing NumberedLines
 Documenter: setting up build directory.
 Documenter: expanding markdown templates.
@@ -57,18 +57,9 @@ Documenter: building cross-references.
 Documenter: running document checks.
  > checking for missing docstrings.
  > running doctests.
-┌ Warning: `link_pipe(pipe; julia_only_read=true, julia_only_write=true)` is deprecated, use `link_pipe!(pipe, reader_supports_async=julia_only_read, writer_supports_async=julia_only_write)` instead.
-│   caller = ip:0x0
-└ @ Core :-1
-┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
-│   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:152
-└ @ NumberedLines numbered_lines.jl:152
-┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
-│   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:157
-└ @ NumberedLines numbered_lines.jl:157
 =====[Test Error]==============================
 
-> File: src/index.md
+> Location: src/index.md:18-44
 
 > Code block:
 
@@ -113,12 +104,18 @@ julia> @simple_chain begin
 3-element Array{Int64,1}:
  2
  1
- 3ERROR: syntax: invalid let syntax
+ 3┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
+│   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:152
+└ @ NumberedLines numbered_lines.jl:152
+┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
+│   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:157
+└ @ NumberedLines numbered_lines.jl:157
+ERROR: syntax: invalid let syntax
 
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> File: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl
+> Location: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl:7-13
 
 > Code block:
 
@@ -143,7 +140,7 @@ julia> NumberedLine(LineNumberNode(1), 1)
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> File: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl
+> Location: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl:59-69
 
 > Code block:
 
@@ -172,7 +169,7 @@ ERROR: Line already has line number
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> File: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl
+> Location: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl:72-81
 
 > Code block:
 
@@ -205,7 +202,54 @@ julia> attach_line_number( [1, 2], LineNumberNode(1) )
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> File: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl
+> Location: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl:191-211
+
+> Code block:
+
+```jldoctest
+julia> using NumberedLines
+
+julia> e = quote
+           a = 1
+           if a == 1
+               2
+           end
+       end |> attach_line_numbers;
+
+julia> NumberedLines.pretty_number(e) # renumber for reproducibility
+quote
+     # line 1:
+    a = 1
+     # line 2:
+    if a == 1
+         # line 3:
+        2
+    end
+end
+```
+
+> Subexpression:
+
+    e = quote
+        a = 1
+        if a == 1
+            2
+        end
+    end |> attach_line_numbers;
+
+> Output Diff (REQUIRES COLOR):
+
+┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
+│   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:152
+└ @ NumberedLines numbered_lines.jl:152
+┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
+│   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:157
+└ @ NumberedLines numbered_lines.jl:157
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl:191-211
 
 > Code block:
 
@@ -256,7 +300,104 @@ end
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> File: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl
+> Location: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl:215-224
+
+> Code block:
+
+```jldoctest
+julia> using NumberedLines
+
+julia> e_attached = quote
+           1
+       end |> attach_line_numbers;
+
+julia> e_attached == attach_line_numbers(e_attached)
+true
+```
+
+> Subexpression:
+
+    e_attached = quote
+        1
+    end |> attach_line_numbers;
+
+> Output Diff (REQUIRES COLOR):
+
+┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
+│   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:152
+└ @ NumberedLines numbered_lines.jl:152
+┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
+│   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:157
+└ @ NumberedLines numbered_lines.jl:157
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl:215-224
+
+> Code block:
+
+```jldoctest
+julia> using NumberedLines
+
+julia> e_attached = quote
+           1
+       end |> attach_line_numbers;
+
+julia> e_attached == attach_line_numbers(e_attached)
+true
+```
+
+> Subexpression:
+
+    e_attached == attach_line_numbers(e_attached)
+
+> Output Diff (REQUIRES COLOR):
+
+┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
+│   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:152
+└ @ NumberedLines numbered_lines.jl:152
+true
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl:245-257
+
+> Code block:
+
+```jldoctest
+julia> using NumberedLines
+
+julia> e = quote
+           a = 1
+           if a == 1
+               2
+           end
+       end;
+
+julia> e |> attach_line_numbers |> detach_line_numbers == e
+true
+```
+
+> Subexpression:
+
+    e |> attach_line_numbers |> detach_line_numbers == e
+
+> Output Diff (REQUIRES COLOR):
+
+┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
+│   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:152
+└ @ NumberedLines numbered_lines.jl:152
+┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
+│   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:157
+└ @ NumberedLines numbered_lines.jl:157
+true
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl:103-118
 
 > Code block:
 
@@ -284,7 +425,13 @@ end
 > Output Diff (REQUIRES COLOR):
 
 quote
-     # quote
+     # ┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
+│   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:152
+└ @ NumberedLines numbered_lines.jl:152
+┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
+│   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:157
+└ @ NumberedLines numbered_lines.jl:157
+quote
     #= line 1:
     1 =#
     a = 1
@@ -297,7 +444,7 @@ end
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> File: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl
+> Location: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl:122-134
 
 > Code block:
 
@@ -337,7 +484,43 @@ end
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> File: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl
+> Location: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl:300-314
+
+> Code block:
+
+```jldoctest
+julia> using NumberedLines
+
+julia> reverse_lines(e) = Expr(e.head, e.args[2], e.args[1]);
+
+julia> e = quote
+           1
+           2
+       end;
+
+julia> result = with_numbered_lines(reverse_lines, e);
+
+julia> (2, 1) == ( result.args[2], result.args[4] )
+true
+```
+
+> Subexpression:
+
+    result = with_numbered_lines(reverse_lines, e);
+
+> Output Diff (REQUIRES COLOR):
+
+┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
+│   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:152
+└ @ NumberedLines numbered_lines.jl:152
+┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
+│   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:157
+└ @ NumberedLines numbered_lines.jl:157
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl
 
 > Code block:
 
@@ -371,7 +554,7 @@ julia> without_line_number(add_one, n)
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> File: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl
+> Location: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl
 
 > Code block:
 
@@ -405,7 +588,7 @@ julia> without_line_number(add_one, n)
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> File: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl
+> Location: /home/vagrant/.julia/v0.7/NumberedLines/src/numbered_lines.jl:326-337
 
 > Code block:
 
@@ -443,13 +626,13 @@ Stacktrace:
  [1] error at ./error.jl:33 [inlined]
  [2] runner(::Type{Documenter.Builder.RenderDocument}, ::Documenter.Documents.Document) at /home/vagrant/.julia/v0.7/Documenter/src/Builder.jl:202
  [3] dispatch(::Type{Documenter.Builder.DocumentPipeline}, ::Documenter.Documents.Document, ::Vararg{Documenter.Documents.Document,N} where N) at /home/vagrant/.julia/v0.7/Documenter/src/Selectors.jl:168
- [4] #2 at /home/vagrant/.julia/v0.7/Documenter/src/Documenter.jl:204 [inlined]
+ [4] #2 at /home/vagrant/.julia/v0.7/Documenter/src/Documenter.jl:205 [inlined]
  [5] cd(::getfield(Documenter, Symbol("##2#3")){Documenter.Documents.Document}, ::String) at ./file.jl:72
- [6] #makedocs#1 at /home/vagrant/.julia/v0.7/Documenter/src/Documenter.jl:203 [inlined]
+ [6] #makedocs#1 at /home/vagrant/.julia/v0.7/Documenter/src/Documenter.jl:204 [inlined]
  [7] (::getfield(Documenter, Symbol("#kw##makedocs")))(::NamedTuple{(:modules, :root, :format, :sitename, :pages, :authors, :strict),Tuple{Module,String,Symbol,String,Array{String,1},String,Bool}}, ::typeof(Documenter.makedocs)) at ./<missing>:0
  [8] top-level scope
- [9] include at ./boot.jl:305 [inlined]
- [10] include_relative(::Module, ::String) at ./loading.jl:1072
+ [9] include at ./boot.jl:306 [inlined]
+ [10] include_relative(::Module, ::String) at ./loading.jl:1067
  [11] include(::Module, ::String) at ./sysimg.jl:29
  [12] exec_options(::Base.JLOptions) at ./client.jl:327
  [13] _start() at ./client.jl:455
@@ -461,7 +644,7 @@ in expression starting at /home/vagrant/.julia/v0.7/NumberedLines/test/runtests.
 │    Stacktrace:
 │     [1] error(::String, ::Base.Process, ::String, ::Int64, ::String) at ./error.jl:42
 │     [2] pipeline_error(::Base.Process) at ./process.jl:712
-│     [3] #run#534(::Bool, ::Function, ::Cmd) at ./process.jl:670
+│     [3] #run#539(::Bool, ::Function, ::Cmd) at ./process.jl:670
 │     [4] run at ./process.jl:668 [inlined]
 │     [5] (::getfield(Pkg.Entry, Symbol("##56#57")){Bool,String,Array{AbstractString,1}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:729
 │     [6] cd(::getfield(Pkg.Entry, Symbol("##56#57")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:72
@@ -473,16 +656,16 @@ in expression starting at /home/vagrant/.julia/v0.7/NumberedLines/test/runtests.
 │     [12] cd(::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.Pairs{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:72
 │     [13] #cd#1(::Base.Iterators.Pairs{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
 │     [14] (::getfield(Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
-│     [15] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:276
-│     [16] test(::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:276
+│     [15] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:278
+│     [16] test(::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:278
 │     [17] top-level scope
-│     [18] eval at ./boot.jl:308 [inlined]
+│     [18] eval at ./boot.jl:309 [inlined]
 │     [19] eval(::Module, ::Expr) at ./sysimg.jl:74
 │     [20] exec_options(::Base.JLOptions) at ./client.jl:304
 │     [21] _start() at ./client.jl:455
 └ @ Pkg.Entry entry.jl:732
-[ Info: Removing DocStringExtensions v0.4.3
-[ Info: Removing Documenter v0.14.0
+[ Info: Removing DocStringExtensions v0.4.4
+[ Info: Removing Documenter v0.16.1
 ERROR: NumberedLines had test errors
 
 >>> End of log

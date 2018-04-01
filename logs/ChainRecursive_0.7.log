@@ -7,8 +7,6 @@ WARNING: Base.Pkg is deprecated, run `using Pkg` instead
 [ Info: Installing MacroTools v0.4.0
 [ Info: Installing NumberedLines v0.1.0
 [ Info: Package database updated
-┌ Info: METADATA is out-of-date — you may not have the latest version of ChainRecursive
-└ Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("ChainRecursive")' log
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
@@ -17,20 +15,20 @@ Add `using InteractiveUtils` to your imports.
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
 Add `using InteractiveUtils` to your imports.
  in module Main
-Julia Version 0.7.0-DEV.4475
-Commit c1e7c93169 (2018-03-06 19:47 UTC)
+Julia Version 0.7.0-DEV.4723
+Commit 359f39aa77 (2018-03-30 17:27 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
+  uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3511 MHz    1516561 s       5972 s      81825 s     579090 s         20 s
-       #2  3511 MHz     493100 s         92 s      39811 s    1961860 s          0 s
+       #1  3496 MHz    1840036 s         82 s     142123 s     654076 s         16 s
+       #2  3496 MHz     538199 s       6637 s      54148 s    2416742 s          0 s
        
-  Memory: 2.93927001953125 GB (647.73046875 MB free)
-  Uptime: 25464.0 sec
-  Load Avg:  0.90185546875  0.986328125  1.04052734375
+  Memory: 2.939197540283203 GB (718.71875 MB free)
+  Uptime: 30702.0 sec
+  Load Avg:  0.935546875  0.998046875  1.029296875
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -45,17 +43,17 @@ Packages:
   Package Status:
 2 required packages:
  - ChainRecursive                0.1.1
- - JSON                          0.17.1
+ - JSON                          0.17.2
 4 additional packages:
- - Compat                        0.56.0
+ - Compat                        0.63.0
  - MacroTools                    0.4.0
- - Nullables                     0.0.4
+ - Nullables                     0.0.5
  - NumberedLines                 0.1.0
 WARNING: Base.Pkg is deprecated, run `using Pkg` instead
  in module Main
 [ Info: Computing test dependencies for ChainRecursive...
-[ Info: Installing DocStringExtensions v0.4.3
-[ Info: Installing Documenter v0.14.0
+[ Info: Installing DocStringExtensions v0.4.4
+[ Info: Installing Documenter v0.16.1
 [ Info: Testing ChainRecursive
 Documenter: setting up build directory.
 Documenter: expanding markdown templates.
@@ -63,23 +61,195 @@ Documenter: building cross-references.
 Documenter: running document checks.
  > checking for missing docstrings.
  > running doctests.
-┌ Warning: `link_pipe(pipe; julia_only_read=true, julia_only_write=true)` is deprecated, use `link_pipe!(pipe, reader_supports_async=julia_only_read, writer_supports_async=julia_only_write)` instead.
-│   caller = ip:0x0
-└ @ Core :-1
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/ChainRecursive/src/chain.jl:31-41
+
+> Code block:
+
+```jldoctest
+julia> using ChainRecursive
+
+julia> @chain begin
+           1
+           vcat(2, it)
+       end
+2-element Array{Int64,1}:
+ 2
+ 1
+```
+
+> Subexpression:
+
+    @chain begin
+        1
+        vcat(2, it)
+    end
+
+> Output Diff (REQUIRES COLOR):
+
 ┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
 │   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:152
 └ @ NumberedLines numbered_lines.jl:152
 ┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
 │   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:157
 └ @ NumberedLines numbered_lines.jl:157
+2-element Array{Int64,1}:
+ 2
+ 1
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/ChainRecursive/src/chain.jl:44-67
+
+> Code block:
+
+```jldoctest
+julia> using ChainRecursive
+
+julia> redundant = @chain begin
+           1
+           if it == 1
+               @chain begin
+                   it + 1
+                   vcat(it, 3)
+               end
+           end
+       end;
+
+julia> smart = @chain begin
+           1
+           if it == 1
+               it + 1
+               vcat(it, 3)
+           end
+       end;
+
+julia> redundant == smart
+true
+```
+
+> Subexpression:
+
+    redundant = @chain begin
+        1
+        if it == 1
+            @chain begin
+                it + 1
+                vcat(it, 3)
+            end
+        end
+    end;
+
+> Output Diff (REQUIRES COLOR):
+
+┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
+│   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:152
+└ @ NumberedLines numbered_lines.jl:152
+┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
+│   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:157
+└ @ NumberedLines numbered_lines.jl:157
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/ChainRecursive/src/chain.jl:44-67
+
+> Code block:
+
+```jldoctest
+julia> using ChainRecursive
+
+julia> redundant = @chain begin
+           1
+           if it == 1
+               @chain begin
+                   it + 1
+                   vcat(it, 3)
+               end
+           end
+       end;
+
+julia> smart = @chain begin
+           1
+           if it == 1
+               it + 1
+               vcat(it, 3)
+           end
+       end;
+
+julia> redundant == smart
+true
+```
+
+> Subexpression:
+
+    smart = @chain begin
+        1
+        if it == 1
+            it + 1
+            vcat(it, 3)
+        end
+    end;
+
+> Output Diff (REQUIRES COLOR):
+
+┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
+│   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:152
+└ @ NumberedLines numbered_lines.jl:152
+┌ Warning: `shift!` is deprecated, use `popfirst!` instead.
+│   caller = attach_append!(::Array{Any,1}, ::Array{Any,1}) at numbered_lines.jl:157
+└ @ NumberedLines numbered_lines.jl:157
+
+=====[End Error]===============================
  > checking footnote links.
 Documenter: populating indices.
-Documenter: rendering document.
-┌ Warning: The `remove_destination` keyword argument is deprecated; use `force` instead
-│   caller = ip:0x0
-└ @ Core :-1
-[ Info: ChainRecursive tests passed
-[ Info: Removing DocStringExtensions v0.4.3
-[ Info: Removing Documenter v0.14.0
+ERROR: LoadError: `makedocs` encountered an error. Terminating build
+Stacktrace:
+ [1] error at ./error.jl:33 [inlined]
+ [2] runner(::Type{Documenter.Builder.RenderDocument}, ::Documenter.Documents.Document) at /home/vagrant/.julia/v0.7/Documenter/src/Builder.jl:202
+ [3] dispatch(::Type{Documenter.Builder.DocumentPipeline}, ::Documenter.Documents.Document, ::Vararg{Documenter.Documents.Document,N} where N) at /home/vagrant/.julia/v0.7/Documenter/src/Selectors.jl:168
+ [4] #2 at /home/vagrant/.julia/v0.7/Documenter/src/Documenter.jl:205 [inlined]
+ [5] cd(::getfield(Documenter, Symbol("##2#3")){Documenter.Documents.Document}, ::String) at ./file.jl:72
+ [6] #makedocs#1 at /home/vagrant/.julia/v0.7/Documenter/src/Documenter.jl:204 [inlined]
+ [7] (::getfield(Documenter, Symbol("#kw##makedocs")))(::NamedTuple{(:modules, :format, :sitename, :root, :pages, :strict),Tuple{Array{Module,1},Symbol,String,String,Array{Any,1},Bool}}, ::typeof(makedocs)) at ./<missing>:0
+ [8] top-level scope
+ [9] include at ./boot.jl:306 [inlined]
+ [10] include_relative(::Module, ::String) at ./loading.jl:1067
+ [11] include(::Module, ::String) at ./sysimg.jl:29
+ [12] exec_options(::Base.JLOptions) at ./client.jl:327
+ [13] _start() at ./client.jl:455
+in expression starting at /home/vagrant/.julia/v0.7/ChainRecursive/test/runtests.jl:4
+┌ Error: ------------------------------------------------------------
+│ # Testing failed for ChainRecursive
+│   exception =
+│    failed process: Process(`/home/vagrant/julia/bin/julia -Cnative -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --code-coverage=none --color=no --compiled-modules=yes --check-bounds=yes --warn-overwrite=yes --startup-file=yes /home/vagrant/.julia/v0.7/ChainRecursive/test/runtests.jl`, ProcessExited(1)) [1]
+│    Stacktrace:
+│     [1] error(::String, ::Base.Process, ::String, ::Int64, ::String) at ./error.jl:42
+│     [2] pipeline_error(::Base.Process) at ./process.jl:712
+│     [3] #run#539(::Bool, ::Function, ::Cmd) at ./process.jl:670
+│     [4] run at ./process.jl:668 [inlined]
+│     [5] (::getfield(Pkg.Entry, Symbol("##56#57")){Bool,String,Array{AbstractString,1}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:729
+│     [6] cd(::getfield(Pkg.Entry, Symbol("##56#57")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:72
+│     [7] #test!#55(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:717
+│     [8] (::getfield(Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
+│     [9] #test#59(::Bool, ::Function, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:756
+│     [10] #test at ./<missing>:0 [inlined]
+│     [11] #4 at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36 [inlined]
+│     [12] cd(::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.Pairs{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:72
+│     [13] #cd#1(::Base.Iterators.Pairs{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [14] (::getfield(Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
+│     [15] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:278
+│     [16] test(::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:278
+│     [17] top-level scope
+│     [18] eval at ./boot.jl:309 [inlined]
+│     [19] eval(::Module, ::Expr) at ./sysimg.jl:74
+│     [20] exec_options(::Base.JLOptions) at ./client.jl:304
+│     [21] _start() at ./client.jl:455
+└ @ Pkg.Entry entry.jl:732
+[ Info: Removing DocStringExtensions v0.4.4
+[ Info: Removing Documenter v0.16.1
+ERROR: ChainRecursive had test errors
 
 >>> End of log

@@ -1,17 +1,15 @@
 >>> 'Pkg.add("HttpServer")' log
 INFO: Installing BinDeps v0.8.7
+INFO: Installing BinaryProvider v0.2.6
 INFO: Installing HttpCommon v0.4.0
 INFO: Installing HttpParser v0.3.1
-INFO: Installing HttpServer v0.3.0
-INFO: Installing MbedTLS v0.5.6
+INFO: Installing HttpServer v0.3.1
+INFO: Installing MbedTLS v0.5.8
 INFO: Installing SHA v0.5.6
 INFO: Installing URIParser v0.3.1
 INFO: Building HttpParser
 INFO: Building MbedTLS
-Using system libraries...
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of HttpServer
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("HttpServer")' log
 Julia Version 0.6.2
@@ -21,14 +19,14 @@ Platform Info:
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
-  uname: Linux 3.13.0-135-generic #184-Ubuntu SMP Wed Oct 18 11:55:51 UTC 2017 x86_64 x86_64
-Memory: 2.93927001953125 GB (1191.23046875 MB free)
-Uptime: 21178.0 sec
-Load Avg:  1.03271484375  1.03125  1.029296875
+  uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
+Memory: 2.939197540283203 GB (1134.63671875 MB free)
+Uptime: 23441.0 sec
+Load Avg:  1.02001953125  1.04296875  1.04296875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3507 MHz    1221302 s         67 s      71726 s     525009 s         19 s
-#2  3507 MHz     277757 s         81 s      39342 s    1759531 s          0 s
+#1  3500 MHz    1335792 s        114 s     119772 s     570496 s         21 s
+#2  3500 MHz     316003 s         80 s      55973 s    1928636 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -43,15 +41,16 @@ Environment:
 
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
- - HttpServer                    0.3.0
- - JSON                          0.17.1
-8 additional packages:
+ - HttpServer                    0.3.1
+ - JSON                          0.17.2
+9 additional packages:
  - BinDeps                       0.8.7
- - Compat                        0.56.0
+ - BinaryProvider                0.2.6
+ - Compat                        0.63.0
  - HttpCommon                    0.4.0
  - HttpParser                    0.3.1
- - MbedTLS                       0.5.6
- - Nullables                     0.0.4
+ - MbedTLS                       0.5.8
+ - Nullables                     0.0.5
  - SHA                           0.5.6
  - URIParser                     0.3.1
 INFO: Computing test dependencies for HttpServer...
@@ -62,7 +61,6 @@ INFO: Installing Libz v0.2.4
 INFO: Installing Requests v0.5.1
 INFO: Building HttpParser
 INFO: Building MbedTLS
-Using system libraries...
 INFO: Testing HttpServer
 
 WARNING: deprecated syntax "abstract Result" at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:46.
@@ -81,16 +79,38 @@ Listening on 127.0.0.1:8001...
 Listening on 127.0.0.1:8001...
   > Testing HTTPS on port 8002
 Listening on 0.0.0.0:8002...
-  > Rerun test of HTTPS on port 8002 after closing
-Listening on 0.0.0.0:8002...
-  > Parse HTTP headers
-Listening on 0.0.0.0:8000...
-23 facts verified.
-INFO: HttpServer tests passed
+ERROR: LoadError: MbedTLS error code -9984: X509 - Certificate verification failed, e.g. CRL, CA or signature check failedError establishing SSL connection: 
+Stacktrace:MbedTLS error code -30592: SSL - A fatal alert message was received from our peer
+
+ [1] handshake(::MbedTLS.SSLContext) at /home/vagrant/.julia/v0.6/MbedTLS/src/ssl.jl:177
+ [2] open_stream(::HttpCommon.Request, ::MbedTLS.SSLConfig, ::Float64, ::Nullable{URIParser.URI}, ::Nullable{URIParser.URI}) at /home/vagrant/.julia/v0.6/Requests/src/streaming.jl:210
+ [3] #do_stream_request#23(::Dict{AbstractString,AbstractString}, ::Void, ::Void, ::Void, ::Array{Requests.FileParam,1}, ::Void, ::Dict{Any,Any}, ::Bool, ::Int64, ::Array{HttpCommon.Response,1}, ::MbedTLS.SSLConfig, ::Bool, ::Bool, ::Bool, ::Nullable{URIParser.URI}, ::Nullable{URIParser.URI}, ::Requests.#do_stream_request, ::URIParser.URI, ::String) at /home/vagrant/.julia/v0.6/Requests/src/Requests.jl:369
+ [4] (::Requests.#kw##do_stream_request)(::Array{Any,1}, ::Requests.#do_stream_request, ::URIParser.URI, ::String) at ./<missing>:0
+ [5] #do_request#22(::Array{Any,1}, ::Function, ::URIParser.URI, ::String) at /home/vagrant/.julia/v0.6/Requests/src/Requests.jl:299
+ [6] (::Requests.#kw##do_request)(::Array{Any,1}, ::Requests.#do_request, ::URIParser.URI, ::String) at ./<missing>:0
+ [7] #get#29 at /home/vagrant/.julia/v0.6/Requests/src/Requests.jl:432 [inlined]
+ [8] (::Base.#kw##get)(::Array{Any,1}, ::Base.#get, ::URIParser.URI) at ./<missing>:0
+ [9] #get#28(::Array{Any,1}, ::Function, ::String) at /home/vagrant/.julia/v0.6/Requests/src/Requests.jl:431
+ [10] (::Base.#kw##get)(::Array{Any,1}, ::Base.#get, ::String) at ./<missing>:0
+ [11] (::##81#149)() at /home/vagrant/.julia/v0.6/HttpServer/test/runtests.jl:119
+ [12] context(::##81#149, ::String) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:475
+ [13] (::##28#96)() at /home/vagrant/.julia/v0.6/HttpServer/test/runtests.jl:108
+ [14] facts(::##28#96, ::String) at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:449
+ [15] include_from_node1(::String) at ./loading.jl:576
+ [16] include(::String) at ./sysimg.jl:14
+ [17] process_options(::Base.JLOptions) at ./client.jl:305
+ [18] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/HttpServer/test/runtests.jl, in expression starting on line 25
+=============================[ ERROR: HttpServer ]==============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/HttpServer/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing BufferedStreams v0.4.0
 INFO: Removing Codecs v0.4.0
 INFO: Removing FactCheck v0.4.3
 INFO: Removing Libz v0.2.4
 INFO: Removing Requests v0.5.1
+ERROR: HttpServer had test errors
 
 >>> End of log
