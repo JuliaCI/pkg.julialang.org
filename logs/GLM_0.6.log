@@ -2,7 +2,7 @@
 INFO: Cloning cache of GLM from https://github.com/JuliaStats/GLM.jl.git
 INFO: Cloning cache of StatsModels from https://github.com/JuliaStats/StatsModels.jl.git
 INFO: Installing BinDeps v0.8.7
-INFO: Installing BinaryProvider v0.2.6
+INFO: Installing BinaryProvider v0.2.7
 INFO: Installing Calculus v0.2.2
 INFO: Installing CategoricalArrays v0.3.6
 INFO: Installing CodecZlib v0.4.3
@@ -11,7 +11,7 @@ INFO: Installing DataStreams v0.3.4
 INFO: Installing DataStructures v0.7.4
 INFO: Installing Distributions v0.15.0
 INFO: Installing GLM v0.10.1
-INFO: Installing Missings v0.2.7
+INFO: Installing Missings v0.2.8
 INFO: Installing NamedTuples v4.0.0
 INFO: Installing PDMats v0.8.0
 INFO: Installing QuadGK v0.2.1
@@ -40,13 +40,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (1301.0078125 MB free)
-Uptime: 9475.0 sec
-Load Avg:  1.021484375  0.986328125  1.00244140625
+Memory: 2.939197540283203 GB (1167.95703125 MB free)
+Uptime: 9480.0 sec
+Load Avg:  0.98583984375  0.96728515625  0.95458984375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz     529480 s        112 s      52640 s     236836 s          8 s
-#2  3500 MHz     148658 s         76 s      29113 s     747116 s          0 s
+#1  3504 MHz     524510 s         61 s      49862 s     249145 s          3 s
+#2  3504 MHz     158380 s         99 s      25325 s     744096 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -65,7 +65,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - JSON                          0.17.2
 26 additional packages:
  - BinDeps                       0.8.7
- - BinaryProvider                0.2.6
+ - BinaryProvider                0.2.7
  - Calculus                      0.2.2
  - CategoricalArrays             0.3.6
  - CodecZlib                     0.4.3
@@ -74,7 +74,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - DataStreams                   0.3.4
  - DataStructures                0.7.4
  - Distributions                 0.15.0
- - Missings                      0.2.7
+ - Missings                      0.2.8
  - NamedTuples                   4.0.0
  - Nullables                     0.0.5
  - PDMats                        0.8.0
@@ -91,7 +91,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - URIParser                     0.3.1
  - WeakRefStrings                0.4.3
 INFO: Computing test dependencies for GLM...
-INFO: Installing CSV v0.2.2
+INFO: Installing CSV v0.2.3
 INFO: Building CodecZlib
 INFO: Building SpecialFunctions
 INFO: Testing GLM
@@ -111,23 +111,29 @@ Test Summary:         | Pass  Total
 Bernoulli CloglogLink |    8      8
 WARNING: both StatsBase and Compat export "stderr"; uses of it in module Main must be qualified
 Offset: Error During Test
-  Test threw an exception of type UndefVarError
-  Expression: isapprox(stderr(gm6), [13.21670540145523, 0.16118236185182783, 1.893492606966926, 2.1931494116430517])
-  UndefVarError: stderr not defined
+  Got an exception of type TypeError outside of a @test
+  TypeError: #fit: in typeassert, expected Array{Float64,1}, got Array{Union{Float64, Missings.Missing},1}
   Stacktrace:
-   [1] macro expansion at /home/vagrant/.julia/v0.6/GLM/test/runtests.jl:173 [inlined]
-   [2] macro expansion at ./test.jl:860 [inlined]
-   [3] anonymous at ./<missing>:?
-Test Summary: | Pass  Error  Total
-Offset        |    9      1     10
-ERROR: LoadError: Some tests did not pass: 9 passed, 0 failed, 1 errored, 0 broken.
+   [1] (::StatsBase.#kw##fit)(::Array{Any,1}, ::StatsBase.#fit, ::Type{GLM.GeneralizedLinearModel}, ::Array{Float64,2}, ::Array{Float64,1}, ::Distributions.Normal{Float64}, ::GLM.IdentityLink) at ./<missing>:0
+   [2] #fit#53(::Dict{Any,Any}, ::Array{Any,1}, ::Function, ::Type{GLM.GeneralizedLinearModel}, ::StatsModels.Formula, ::DataFrames.DataFrame, ::Distributions.Normal{Float64}, ::Vararg{Any,N} where N) at /home/vagrant/.julia/v0.6/StatsModels/src/statsmodel.jl:72
+   [3] (::StatsBase.#kw##fit)(::Array{Any,1}, ::StatsBase.#fit, ::Type{GLM.GeneralizedLinearModel}, ::StatsModels.Formula, ::DataFrames.DataFrame, ::Distributions.Normal{Float64}, ::GLM.IdentityLink) at ./<missing>:0
+   [4] macro expansion at /home/vagrant/.julia/v0.6/GLM/test/runtests.jl:160 [inlined]
+   [5] macro expansion at ./test.jl:860 [inlined]
+   [6] anonymous at ./<missing>:?
+   [7] include_from_node1(::String) at ./loading.jl:576
+   [8] include(::String) at ./sysimg.jl:14
+   [9] process_options(::Base.JLOptions) at ./client.jl:305
+   [10] _start() at ./client.jl:371
+Test Summary: | Error  Total
+Offset        |     1      1
+ERROR: LoadError: Some tests did not pass: 0 passed, 0 failed, 1 errored, 0 broken.
 while loading /home/vagrant/.julia/v0.6/GLM/test/runtests.jl, in expression starting on line 159
 =================================[ ERROR: GLM ]=================================
 
 failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/GLM/test/runtests.jl`, ProcessExited(1)) [1]
 
 ================================================================================
-INFO: Removing CSV v0.2.2
+INFO: Removing CSV v0.2.3
 ERROR: GLM had test errors
 
 >>> End of log
