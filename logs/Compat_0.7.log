@@ -13,20 +13,20 @@ Add `using InteractiveUtils` to your imports.
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
 Add `using InteractiveUtils` to your imports.
  in module Main
-Julia Version 0.7.0-DEV.4737
-Commit c4c93ea692 (2018-04-02 15:45 UTC)
+Julia Version 0.7.0-DEV.4747
+Commit bce5bbef9b (2018-04-04 21:54 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3500 MHz    2260704 s        296 s     181930 s     903532 s         25 s
-       #2  3500 MHz     761024 s       6982 s      74955 s    2941366 s          0 s
+       #1  3495 MHz    2442694 s        686 s     189569 s     901798 s         25 s
+       #2  3495 MHz     632279 s       7626 s      77515 s    3298846 s          0 s
        
-  Memory: 2.939197540283203 GB (782.28515625 MB free)
-  Uptime: 38921.0 sec
-  Load Avg:  1.03564453125  1.02734375  0.97607421875
+  Memory: 2.939197540283203 GB (772.28515625 MB free)
+  Uptime: 40865.0 sec
+  Load Avg:  1.0029296875  1.001953125  1.02392578125
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -88,27 +88,30 @@ Skipping Base.active_repl_backend
 ┌ Warning: `LinearIndices(inds::Vararg{AbstractUnitRange{Int}, N}) where N` is deprecated, use `LinearIndices(inds)` instead.
 │   caller = top-level scope
 └ @ Core :0
-Error During Test at /home/vagrant/.julia/v0.7/Compat/test/runtests.jl:1427
-  Test threw exception MethodError(keys, (IOBuffer(data=UInt8[...], readable=true, writable=false, seekable=true, append=false, size=2, maxsize=Inf, ptr=1, mark=-1),), 0x0000000000006ae1)
-  Expression: Compat.findfirst(isequal(UInt8(0)), IOBuffer(UInt8[1, 0])) == 2
-  MethodError: no method matching keys(::Base.GenericIOBuffer{Array{UInt8,1}})
+Error During Test at /home/vagrant/.julia/v0.7/Compat/test/runtests.jl:1233
+  Test threw exception MethodError(similar, ([1 4; 2 5; 3 6], Int64, (1:3, 1:2)), 0x0000000000006ad1)
+  Expression: l == l[c] == map((i->begin
+                l[i]
+            end), c)
+  MethodError: no method matching similar(::LinearIndices{2,Tuple{UnitRange{Int64},UnitRange{Int64}}}, ::Type{Int64}, ::Tuple{UnitRange{Int64},UnitRange{Int64}})
   Closest candidates are:
-    keys(!Matched::Cmd) at process.jl:838
-    keys(!Matched::Tuple) at tuple.jl:42
-    keys(!Matched::Tuple, !Matched::Tuple...) at tuple.jl:48
+    similar(::AbstractArray, ::Type{T}) where T at abstractarray.jl:555
+    similar(::AbstractArray, ::Type{T}, !Matched::Union{Integer, AbstractUnitRange}...) where T at abstractarray.jl:558
+    similar(::AbstractArray, ::Type{T}, !Matched::Tuple{Vararg{Int64,N}}) where {T, N} at abstractarray.jl:561
     ...
   Stacktrace:
-   [1] pairs(::Base.GenericIOBuffer{Array{UInt8,1}}) at ./abstractdict.jl:138
-   [2] findfirst(::Base.Fix2{typeof(isequal),UInt8}, ::Base.GenericIOBuffer{Array{UInt8,1}}) at ./array.jl:1682
-   [3] findfirst(::Function, ::Vararg{Any,N} where N) at /home/vagrant/.julia/v0.7/Compat/src/Compat.jl:1518
-   [4] top-level scope
-   [5] include at ./boot.jl:306 [inlined]
-   [6] include_relative(::Module, ::String) at ./loading.jl:1067
-   [7] include(::Module, ::String) at ./sysimg.jl:29
-   [8] exec_options(::Base.JLOptions) at ./client.jl:327
-   [9] _start() at ./client.jl:455
+   [1] similar(::LinearIndices{2,Tuple{UnitRange{Int64},UnitRange{Int64}}}, ::Tuple{UnitRange{Int64},UnitRange{Int64}}) at ./abstractarray.jl:556
+   [2] _unsafe_getindex at ./multidimensional.jl:635 [inlined]
+   [3] _getindex at ./multidimensional.jl:623 [inlined]
+   [4] getindex(::LinearIndices{2,Tuple{UnitRange{Int64},UnitRange{Int64}}}, ::CartesianIndices{2,Tuple{UnitRange{Int64},UnitRange{Int64}}}) at ./abstractarray.jl:958
+   [5] top-level scope at /home/vagrant/.julia/v0.7/Compat/test/runtests.jl:1233
+   [6] include at ./boot.jl:306 [inlined]
+   [7] include_relative(::Module, ::String) at ./loading.jl:1067
+   [8] include(::Module, ::String) at ./sysimg.jl:29
+   [9] exec_options(::Base.JLOptions) at ./client.jl:327
+   [10] _start() at ./client.jl:455
 ERROR: LoadError: There was an error during testing
-in expression starting at /home/vagrant/.julia/v0.7/Compat/test/runtests.jl:1427
+in expression starting at /home/vagrant/.julia/v0.7/Compat/test/runtests.jl:1233
 ┌ Error: ------------------------------------------------------------
 │ # Testing failed for Compat
 │   exception =
@@ -116,7 +119,7 @@ in expression starting at /home/vagrant/.julia/v0.7/Compat/test/runtests.jl:1427
 │    Stacktrace:
 │     [1] error(::String, ::Base.Process, ::String, ::Int64, ::String) at ./error.jl:42
 │     [2] pipeline_error(::Base.Process) at ./process.jl:712
-│     [3] #run#541(::Bool, ::Function, ::Cmd) at ./process.jl:670
+│     [3] #run#542(::Bool, ::Function, ::Cmd) at ./process.jl:670
 │     [4] run at ./process.jl:668 [inlined]
 │     [5] (::getfield(Pkg.Entry, Symbol("##56#57")){Bool,String,Array{AbstractString,1}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:729
 │     [6] cd(::getfield(Pkg.Entry, Symbol("##56#57")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:72
