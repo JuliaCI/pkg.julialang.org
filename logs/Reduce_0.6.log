@@ -5,9 +5,9 @@ INFO: Building Reduce
 Building redpsl ... 
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 96 15897   96 15325    0     0  25150      0 --:--:-- --:--:-- --:--:-- 25122100 15897  100 15897    0     0  26076      0 --:--:-- --:--:-- --:--:-- 26060
-100   423  100   423    0     0    425      0 --:--:-- --:--:-- --:--:--   425
-  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0 46 8151k   46 3775k    0     0  1063k      0  0:00:07  0:00:03  0:00:04 3623k100 8151k  100 8151k    0     0  1867k      0  0:00:04  0:00:04 --:--:-- 4387k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 15897  100 15897    0     0  30543      0 --:--:-- --:--:-- --:--:-- 30571
+100   423  100   423    0     0    473      0 --:--:-- --:--:-- --:--:--   473100   423  100   423    0     0    473      0 --:--:-- --:--:-- --:--:--     0
+ 46 8151k   46 3807k    0     0  2053k      0  0:00:03  0:00:01  0:00:02 2053k100 8151k  100 8151k    0     0  3022k      0  0:00:02  0:00:02 --:--:-- 5158k
 ./
 ./usr/
 ./usr/lib/
@@ -1164,13 +1164,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (672.57421875 MB free)
-Uptime: 39252.0 sec
-Load Avg:  0.982421875  0.97705078125  0.955078125
+Memory: 2.939197540283203 GB (680.4921875 MB free)
+Uptime: 37914.0 sec
+Load Avg:  0.97802734375  0.96240234375  0.95458984375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    2308653 s       7889 s     160532 s     886968 s         38 s
-#2  3500 MHz     508588 s         72 s      63397 s    3288882 s          0 s
+#1  3491 MHz    2205359 s       4930 s     147547 s     903423 s         36 s
+#2  3491 MHz     497572 s       2481 s      66342 s    3146355 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -1192,14 +1192,65 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Nullables                     0.0.5
 INFO: Testing Reduce
 Reduce: A Portable General-Purpose Computer Algebra System
+
+
+
      2        3
 3*i*x  - i + x  - 3*x
+
 \begin{eqnarray}
 
 {\mathrm{cosh}} \left(e^{i} z\right)/e^{i}
 
 
-\end{eqnarray}
-INFO: Reduce tests passed
+\end{eqnarray}Error During Test
+  Test threw an exception of type Reduce.ReduceError
+  Expression: begin 
+    x = Expr(:function, :fun, $(Expr(:quote, :(return y = a ^ 3 + 3 * a ^ 2 * b + 3 * a * b ^ 2 + b ^ 3))))
+    x == (x |> Reduce.factor) |> expand
+end
+  Reduce: 
+  
+  ^(+(a,b),$$$);
+  at line 1
+  
+  ***** Improper delimiter 
+  
+  Stacktrace:
+   [1] ReduceCheck(::String) at /home/vagrant/.julia/v0.6/Reduce/src/Reduce.jl:65
+   [2] read(::Reduce.PSL) at /home/vagrant/.julia/v0.6/Reduce/src/Reduce.jl:87
+   [3] readsp(::Reduce.PSL) at /home/vagrant/.julia/v0.6/Reduce/src/Reduce.jl:91
+   [4] #rcall#13(::Array{String,1}, ::Array{Symbol,1}, ::Function, ::Reduce.RExpr) at /home/vagrant/.julia/v0.6/Reduce/src/rexpr.jl:270
+   [5] (::Reduce.#kw##rcall)(::Array{Any,1}, ::Reduce.#rcall, ::Reduce.RExpr) at ./<missing>:0
+   [6] #parse_switch#89(::Int64, ::Function, ::String, ::Reduce.RExpr) at /home/vagrant/.julia/v0.6/Reduce/src/parser.jl:297
+   [7] (::Reduce.#kw##parse_switch)(::Array{Any,1}, ::Reduce.#parse_switch, ::String, ::Reduce.RExpr) at ./<missing>:0
+   [8] #r_switch#96(::Int64, ::Function, ::String, ::Reduce.RExpr) at /home/vagrant/.julia/v0.6/Reduce/src/parser.jl:321
+   [9] (::Reduce.#kw##r_switch)(::Array{Any,1}, ::Reduce.#r_switch, ::String, ::Reduce.RExpr) at ./<missing>:0
+   [10] #parse_switch#89(::Int64, ::Function, ::String, ::Reduce.RExpr) at /home/vagrant/.julia/v0.6/Reduce/src/parser.jl:145
+   [11] (::Reduce.#kw##parse_switch)(::Array{Any,1}, ::Reduce.#parse_switch, ::String, ::Reduce.RExpr) at ./<missing>:0
+   [12] #r_switch#95(::Int64, ::Function, ::String, ::Array{String,1}) at /home/vagrant/.julia/v0.6/Reduce/src/parser.jl:320
+   [13] (::Reduce.#kw##r_switch)(::Array{Any,1}, ::Reduce.#r_switch, ::String, ::Array{String,1}) at ./<missing>:0
+   [14] #parse_switch#89(::Int64, ::Function, ::String, ::Reduce.RExpr) at /home/vagrant/.julia/v0.6/Reduce/src/parser.jl:135
+   [15] (::Reduce.#kw##parse_switch)(::Array{Any,1}, ::Reduce.#parse_switch, ::String, ::Reduce.RExpr) at ./<missing>:0
+   [16] unfold_expr_force(::Symbol, ::Symbol, ::Expr) at /home/vagrant/.julia/v0.6/Reduce/src/parser.jl:633
+   [17] broadcast_t(::Function, ::Type{Any}, ::Tuple{Base.OneTo{Int64}}, ::CartesianRange{CartesianIndex{1}}, ::Symbol, ::Symbol, ::Array{Any,1}, ::Vararg{Array{Any,1},N} where N) at ./broadcast.jl:258
+   [18] broadcast_c at ./broadcast.jl:321 [inlined]
+   [19] broadcast at ./broadcast.jl:455 [inlined]
+   [20] #unfold_expr#140(::Bool, ::Function, ::Symbol, ::Symbol, ::Expr) at /home/vagrant/.julia/v0.6/Reduce/src/parser.jl:616
+   [21] unfold(::Symbol, ::Symbol, ::Expr) at /home/vagrant/.julia/v0.6/Reduce/src/parser.jl:654
+   [22] expand(::Expr) at /home/vagrant/.julia/v0.6/Reduce/src/parser.jl:591
+   [23] |>(::Expr, ::Base.#expand) at ./operators.jl:862
+   [24] include_from_node1(::String) at ./loading.jl:576
+   [25] include(::String) at ./sysimg.jl:14
+   [26] process_options(::Base.JLOptions) at ./client.jl:305
+   [27] _start() at ./client.jl:371
+ERROR: LoadError: There was an error during testing
+while loading /home/vagrant/.julia/v0.6/Reduce/test/runtests.jl, in expression starting on line 29
+===============================[ ERROR: Reduce ]================================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Reduce/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: Reduce had test errors
 
 >>> End of log

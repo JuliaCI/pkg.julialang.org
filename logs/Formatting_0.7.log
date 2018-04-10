@@ -13,20 +13,20 @@ Add `using InteractiveUtils` to your imports.
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
 Add `using InteractiveUtils` to your imports.
  in module Main
-Julia Version 0.7.0-DEV.4803
-Commit ff7b6452f8 (2018-04-06 17:16 UTC)
+Julia Version 0.7.0-DEV.4817
+Commit 7c2460930c (2018-04-08 17:02 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3514 MHz    5661624 s        136 s     405245 s    2005544 s        101 s
-       #2  3514 MHz    1656164 s       6408 s     169928 s    7319019 s          4 s
+       #1  3506 MHz    5645911 s        134 s     393804 s    1666415 s         87 s
+       #2  3506 MHz    1315342 s       8075 s     151634 s    7350604 s          2 s
        
-  Memory: 2.939197540283203 GB (1498.49609375 MB free)
-  Uptime: 93452.0 sec
-  Load Avg:  1.041015625  1.0146484375  0.96826171875
+  Memory: 2.939197540283203 GB (1404.16015625 MB free)
+  Uptime: 90243.0 sec
+  Load Avg:  0.98974609375  0.96240234375  0.95458984375
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -50,25 +50,92 @@ WARNING: Base.Pkg is deprecated, run `using Pkg` instead
 [ Info: Testing Formatting
 test cformat equality...
 ...Done
-  8.559252 seconds (6.22 M allocations: 357.475 MiB, 0.85% gc time)
+  9.781648 seconds (6.22 M allocations: 357.504 MiB, 0.84% gc time)
 
 Test speed
 integer @sprintf speed
-  0.068258 seconds (1.02 M allocations: 56.021 MiB, 5.91% gc time)
+  0.121136 seconds (1.02 M allocations: 56.023 MiB, 5.93% gc time)
 integer sprintf speed
- 13.893637 seconds (7.20 M allocations: 421.439 MiB, 0.41% gc time)
+ 13.964310 seconds (7.20 M allocations: 421.438 MiB, 0.42% gc time)
 integer sprintf speed, bypass repeated lookup
-  0.236369 seconds (1.38 M allocations: 67.837 MiB, 5.16% gc time)
+  0.229112 seconds (1.38 M allocations: 67.831 MiB, 6.20% gc time)
 
 float64 @sprintf speed
-  0.140107 seconds (1.03 M allocations: 56.818 MiB, 3.58% gc time)
+  0.159201 seconds (1.03 M allocations: 56.824 MiB, 4.08% gc time)
 float64 sprintf speed
- 12.950043 seconds (7.02 M allocations: 419.049 MiB, 0.42% gc time)
+ 14.652928 seconds (7.02 M allocations: 419.066 MiB, 0.37% gc time)
 float64 sprintf speed, bypass repeated lookup
-  0.172755 seconds (1.40 M allocations: 68.717 MiB, 3.77% gc time)
+  0.284458 seconds (1.40 M allocations: 68.689 MiB, 2.90% gc time)
 
 test commas...
 test format...
-[ Info: Formatting tests passed
+┌ Warning: `round(x::Number, digits)` is deprecated, use `round(x; digits=digits)` instead.
+│   caller = _pfmt_f(::Base.GenericIOBuffer{Array{UInt8,1}}, ::FormatSpec, ::Float64) at fmtcore.jl:172
+└ @ Formatting fmtcore.jl:172
+┌ Warning: `signif(x::Number, digits)` is deprecated, use `round(x; sigdigits=digits, base=base)` instead.
+│   caller = _pfmt_e(::Base.GenericIOBuffer{Array{UInt8,1}}, ::FormatSpec, ::Float64) at fmtcore.jl:227
+└ @ Formatting fmtcore.jl:227
+Error During Test at /home/vagrant/.julia/v0.7/Formatting/test/fmtspec.jl:156
+  Test threw exception MethodError(log, (base, 0.001), 0x0000000000006ae1)
+  Expression: fmt("e", 0.001) == "1.000000e-03"
+  MethodError: no method matching log(::typeof(base), ::Float64)
+  Closest candidates are:
+    log(!Matched::Irrational{:ℯ}, ::Number) at mathconstants.jl:91
+    log(!Matched::T<:Number, ::T<:Number) where T<:Number at math.jl:177
+    log(!Matched::Number, ::Number) at math.jl:205
+  Stacktrace:
+   [1] hidigit(::Float64, ::Function) at ./floatfuncs.jl:181
+   [2] _round at ./floatfuncs.jl:186 [inlined]
+   [3] #round#557 at ./floatfuncs.jl:127 [inlined]
+   [4] #round at ./<missing>:0 [inlined] (repeats 2 times)
+   [5] signif(::Float64, ::Int64) at ./deprecated.jl:57
+   [6] _pfmt_e(::Base.GenericIOBuffer{Array{UInt8,1}}, ::FormatSpec, ::Float64) at /home/vagrant/.julia/v0.7/Formatting/src/fmtcore.jl:227
+   [7] printfmt(::Base.GenericIOBuffer{Array{UInt8,1}}, ::FormatSpec, ::Float64) at /home/vagrant/.julia/v0.7/Formatting/src/fmtspec.jl:185
+   [8] #sprint#354(::Nothing, ::Int64, ::Function, ::Function, ::FormatSpec, ::Vararg{Any,N} where N) at ./strings/io.jl:99
+   [9] sprint at ./strings/io.jl:95 [inlined]
+   [10] fmt(::FormatSpec, ::Float64) at /home/vagrant/.julia/v0.7/Formatting/src/fmtspec.jl:200
+   [11] fmt(::String, ::Float64) at /home/vagrant/.julia/v0.7/Formatting/src/fmtspec.jl:201
+   [12] top-level scope
+   [13] include at ./boot.jl:314 [inlined]
+   [14] include_relative(::Module, ::String) at ./loading.jl:1067
+   [15] include(::Module, ::String) at ./sysimg.jl:29
+   [16] include(::String) at ./sysimg.jl:68
+   [17] top-level scope
+   [18] include at ./boot.jl:314 [inlined]
+   [19] include_relative(::Module, ::String) at ./loading.jl:1067
+   [20] include(::Module, ::String) at ./sysimg.jl:29
+   [21] exec_options(::Base.JLOptions) at ./client.jl:327
+   [22] _start() at ./client.jl:455
+ERROR: LoadError: LoadError: There was an error during testing
+in expression starting at /home/vagrant/.julia/v0.7/Formatting/test/fmtspec.jl:156
+in expression starting at /home/vagrant/.julia/v0.7/Formatting/test/runtests.jl:5
+┌ Error: ------------------------------------------------------------
+│ # Testing failed for Formatting
+│   exception =
+│    failed process: Process(`/home/vagrant/julia/bin/julia -Cnative -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --code-coverage=none --color=no --compiled-modules=yes --check-bounds=yes --warn-overwrite=yes --startup-file=yes /home/vagrant/.julia/v0.7/Formatting/test/runtests.jl`, ProcessExited(1)) [1]
+│    Stacktrace:
+│     [1] error(::String, ::Base.Process, ::String, ::Int64, ::String) at ./error.jl:42
+│     [2] pipeline_error(::Base.Process) at ./process.jl:712
+│     [3] #run#542(::Bool, ::Function, ::Cmd) at ./process.jl:670
+│     [4] run at ./process.jl:668 [inlined]
+│     [5] (::getfield(Pkg.Entry, Symbol("##56#57")){Bool,String,Array{AbstractString,1}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:729
+│     [6] cd(::getfield(Pkg.Entry, Symbol("##56#57")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:72
+│     [7] #test!#55(::Bool, ::Function, ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:717
+│     [8] (::getfield(Pkg.Entry, Symbol("#kw##test!")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Entry.test!), ::String, ::Array{AbstractString,1}, ::Array{AbstractString,1}, ::Array{AbstractString,1}) at ./<missing>:0
+│     [9] #test#59(::Bool, ::Function, ::Array{AbstractString,1}) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:756
+│     [10] #test at ./<missing>:0 [inlined]
+│     [11] #4 at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36 [inlined]
+│     [12] cd(::getfield(Pkg.Dir, Symbol("##4#7")){Base.Iterators.Pairs{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}},typeof(Pkg.Entry.test),Tuple{Array{AbstractString,1}}}, ::String) at ./file.jl:72
+│     [13] #cd#1(::Base.Iterators.Pairs{Symbol,Bool,Tuple{Symbol},NamedTuple{(:coverage,),Tuple{Bool}}}, ::Function, ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/dir.jl:36
+│     [14] (::getfield(Pkg.Dir, Symbol("#kw##cd")))(::NamedTuple{(:coverage,),Tuple{Bool}}, ::typeof(Pkg.Dir.cd), ::Function, ::Array{AbstractString,1}, ::Vararg{Array{AbstractString,1},N} where N) at ./<missing>:0
+│     [15] #test#3(::Bool, ::Function, ::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:278
+│     [16] test(::String, ::Vararg{String,N} where N) at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/Pkg.jl:278
+│     [17] top-level scope
+│     [18] eval at ./boot.jl:317 [inlined]
+│     [19] eval(::Module, ::Expr) at ./sysimg.jl:74
+│     [20] exec_options(::Base.JLOptions) at ./client.jl:304
+│     [21] _start() at ./client.jl:455
+└ @ Pkg.Entry entry.jl:732
+ERROR: Formatting had test errors
 
 >>> End of log
