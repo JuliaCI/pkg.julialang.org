@@ -5,9 +5,9 @@ INFO: Building Reduce
 Building redpsl ... 
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 15897  100 15897    0     0  30543      0 --:--:-- --:--:-- --:--:-- 30571
-100   423  100   423    0     0    473      0 --:--:-- --:--:-- --:--:--   473100   423  100   423    0     0    473      0 --:--:-- --:--:-- --:--:--     0
- 46 8151k   46 3807k    0     0  2053k      0  0:00:03  0:00:01  0:00:02 2053k100 8151k  100 8151k    0     0  3022k      0  0:00:02  0:00:02 --:--:-- 5158k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 15889  100 15889    0     0  32281      0 --:--:-- --:--:-- --:--:-- 32229
+  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0100   415  100   415    0     0    170      0  0:00:02  0:00:02 --:--:--  1175100   415  100   415    0     0    170      0  0:00:02  0:00:02 --:--:--  1175
+  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0 61 8151k   61 4975k    0     0   678k      0  0:00:12  0:00:07  0:00:05 1465k100 8151k  100 8151k    0     0  1092k      0  0:00:07  0:00:07 --:--:-- 2314k
 ./
 ./usr/
 ./usr/lib/
@@ -1152,8 +1152,6 @@ Building redpsl ...
 ./usr/share/reduce/pslbuild
 DONE
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of Reduce
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Reduce")' log
 Julia Version 0.6.2
@@ -1164,13 +1162,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (680.4921875 MB free)
-Uptime: 37914.0 sec
-Load Avg:  0.97802734375  0.96240234375  0.95458984375
+Memory: 2.939197540283203 GB (592.296875 MB free)
+Uptime: 38109.0 sec
+Load Avg:  0.90478515625  0.96875  0.94970703125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3491 MHz    2205359 s       4930 s     147547 s     903423 s         36 s
-#2  3491 MHz     497572 s       2481 s      66342 s    3146355 s          0 s
+#1  3495 MHz    2150437 s       7228 s     157982 s     981817 s         25 s
+#2  3495 MHz     559024 s        224 s      66114 s    3117719 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -1197,7 +1195,6 @@ Reduce: A Portable General-Purpose Computer Algebra System
 
      2        3
 3*i*x  - i + x  - 3*x
-
 \begin{eqnarray}
 
 {\mathrm{cosh}} \left(e^{i} z\right)/e^{i}
@@ -1205,47 +1202,26 @@ Reduce: A Portable General-Purpose Computer Algebra System
 
 \end{eqnarray}Error During Test
   Test threw an exception of type Reduce.ReduceError
-  Expression: begin 
-    x = Expr(:function, :fun, $(Expr(:quote, :(return y = a ^ 3 + 3 * a ^ 2 * b + 3 * a * b ^ 2 + b ^ 3))))
-    x == (x |> Reduce.factor) |> expand
-end
+  Expression: ($(Expr(:quote, :(int(sin(im * x + pi) ^ 2 - 1, x)))) |> rcall) |> typeof == Expr
   Reduce: 
-  
-  ^(+(a,b),$$$);
+  int(-(^(sin(+(*(i,x),pi)),$$$),1),x);
   at line 1
   
   ***** Improper delimiter 
-  
   Stacktrace:
    [1] ReduceCheck(::String) at /home/vagrant/.julia/v0.6/Reduce/src/Reduce.jl:65
    [2] read(::Reduce.PSL) at /home/vagrant/.julia/v0.6/Reduce/src/Reduce.jl:87
    [3] readsp(::Reduce.PSL) at /home/vagrant/.julia/v0.6/Reduce/src/Reduce.jl:91
-   [4] #rcall#13(::Array{String,1}, ::Array{Symbol,1}, ::Function, ::Reduce.RExpr) at /home/vagrant/.julia/v0.6/Reduce/src/rexpr.jl:270
+   [4] #rcall#13(::Array{Symbol,1}, ::Array{Symbol,1}, ::Function, ::Reduce.RExpr) at /home/vagrant/.julia/v0.6/Reduce/src/rexpr.jl:270
    [5] (::Reduce.#kw##rcall)(::Array{Any,1}, ::Reduce.#rcall, ::Reduce.RExpr) at ./<missing>:0
-   [6] #parse_switch#89(::Int64, ::Function, ::String, ::Reduce.RExpr) at /home/vagrant/.julia/v0.6/Reduce/src/parser.jl:297
-   [7] (::Reduce.#kw##parse_switch)(::Array{Any,1}, ::Reduce.#parse_switch, ::String, ::Reduce.RExpr) at ./<missing>:0
-   [8] #r_switch#96(::Int64, ::Function, ::String, ::Reduce.RExpr) at /home/vagrant/.julia/v0.6/Reduce/src/parser.jl:321
-   [9] (::Reduce.#kw##r_switch)(::Array{Any,1}, ::Reduce.#r_switch, ::String, ::Reduce.RExpr) at ./<missing>:0
-   [10] #parse_switch#89(::Int64, ::Function, ::String, ::Reduce.RExpr) at /home/vagrant/.julia/v0.6/Reduce/src/parser.jl:145
-   [11] (::Reduce.#kw##parse_switch)(::Array{Any,1}, ::Reduce.#parse_switch, ::String, ::Reduce.RExpr) at ./<missing>:0
-   [12] #r_switch#95(::Int64, ::Function, ::String, ::Array{String,1}) at /home/vagrant/.julia/v0.6/Reduce/src/parser.jl:320
-   [13] (::Reduce.#kw##r_switch)(::Array{Any,1}, ::Reduce.#r_switch, ::String, ::Array{String,1}) at ./<missing>:0
-   [14] #parse_switch#89(::Int64, ::Function, ::String, ::Reduce.RExpr) at /home/vagrant/.julia/v0.6/Reduce/src/parser.jl:135
-   [15] (::Reduce.#kw##parse_switch)(::Array{Any,1}, ::Reduce.#parse_switch, ::String, ::Reduce.RExpr) at ./<missing>:0
-   [16] unfold_expr_force(::Symbol, ::Symbol, ::Expr) at /home/vagrant/.julia/v0.6/Reduce/src/parser.jl:633
-   [17] broadcast_t(::Function, ::Type{Any}, ::Tuple{Base.OneTo{Int64}}, ::CartesianRange{CartesianIndex{1}}, ::Symbol, ::Symbol, ::Array{Any,1}, ::Vararg{Array{Any,1},N} where N) at ./broadcast.jl:258
-   [18] broadcast_c at ./broadcast.jl:321 [inlined]
-   [19] broadcast at ./broadcast.jl:455 [inlined]
-   [20] #unfold_expr#140(::Bool, ::Function, ::Symbol, ::Symbol, ::Expr) at /home/vagrant/.julia/v0.6/Reduce/src/parser.jl:616
-   [21] unfold(::Symbol, ::Symbol, ::Expr) at /home/vagrant/.julia/v0.6/Reduce/src/parser.jl:654
-   [22] expand(::Expr) at /home/vagrant/.julia/v0.6/Reduce/src/parser.jl:591
-   [23] |>(::Expr, ::Base.#expand) at ./operators.jl:862
-   [24] include_from_node1(::String) at ./loading.jl:576
-   [25] include(::String) at ./sysimg.jl:14
-   [26] process_options(::Base.JLOptions) at ./client.jl:305
-   [27] _start() at ./client.jl:371
+   [6] #rcall#14(::Array{Symbol,1}, ::Array{Symbol,1}, ::Function, ::Expr) at /home/vagrant/.julia/v0.6/Reduce/src/rexpr.jl:307
+   [7] |>(::Expr, ::Reduce.#rcall) at ./operators.jl:862
+   [8] include_from_node1(::String) at ./loading.jl:576
+   [9] include(::String) at ./sysimg.jl:14
+   [10] process_options(::Base.JLOptions) at ./client.jl:305
+   [11] _start() at ./client.jl:371
 ERROR: LoadError: There was an error during testing
-while loading /home/vagrant/.julia/v0.6/Reduce/test/runtests.jl, in expression starting on line 29
+while loading /home/vagrant/.julia/v0.6/Reduce/test/runtests.jl, in expression starting on line 46
 ===============================[ ERROR: Reduce ]================================
 
 failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Reduce/test/runtests.jl`, ProcessExited(1)) [1]
