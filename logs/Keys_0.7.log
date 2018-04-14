@@ -2,12 +2,14 @@
 WARNING: Base.Pkg is deprecated, run `using Pkg` instead
  in module Main
 [ Info: Cloning cache of Keys from https://github.com/bramtayl/Keys.jl.git
-[ Info: Installing Keys v0.1.1
+[ Info: Installing Keys v0.2.0
 [ Info: Installing MacroTools v0.4.0
 [ Info: Installing Missings v0.2.9
 [ Info: Installing RecurUnroll v0.1.0
 [ Info: Installing TypedBools v0.0.2
 [ Info: Package database updated
+┌ Info: METADATA is out-of-date — you may not have the latest version of Keys
+└ Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Keys")' log
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
@@ -16,20 +18,20 @@ Add `using InteractiveUtils` to your imports.
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
 Add `using InteractiveUtils` to your imports.
  in module Main
-Julia Version 0.7.0-DEV.4854
-Commit 18ac6e6aa4 (2018-04-10 22:31 UTC)
+Julia Version 0.7.0-DEV.4863
+Commit 3666ffad81 (2018-04-12 19:02 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3494 MHz    2557714 s       6796 s     208659 s     745655 s         25 s
-       #2  3494 MHz     617893 s        170 s      75648 s    3353459 s          0 s
+       #1  3500 MHz    2537781 s       7304 s     197681 s     719933 s         24 s
+       #2  3500 MHz     600998 s        111 s      75163 s    3314840 s          0 s
        
-  Memory: 2.939197540283203 GB (815.59375 MB free)
-  Uptime: 41212.0 sec
-  Load Avg:  1.0380859375  1.03759765625  0.98681640625
+  Memory: 2.939197540283203 GB (825.1328125 MB free)
+  Uptime: 40724.0 sec
+  Load Avg:  0.9970703125  0.9853515625  0.95458984375
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -44,7 +46,7 @@ Packages:
   Package Status:
 2 required packages:
  - JSON                          0.17.2
- - Keys                          0.1.1
+ - Keys                          0.2.0
 6 additional packages:
  - Compat                        0.63.0
  - MacroTools                    0.4.0
@@ -74,6 +76,9 @@ WARNING: Base.Pkg is deprecated, run `using Pkg` instead
 │   caller = isbinding at match.jl:14 [inlined]
 └ @ Core match.jl:14
 ┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
 │   caller = isslurp at match.jl:29 [inlined]
 └ @ Core match.jl:29
 ┌ Warning: `contains(haystack, needle)` is deprecated, use `occursin(needle, haystack)` instead.
@@ -87,100 +92,54 @@ Documenter: running document checks.
  > running doctests.
 =====[Test Error]==============================
 
-> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:219-227
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:195-200
 
 > Code block:
 
 ```jldoctest
 julia> using Keys
 
-julia> delete(@keyed_tuple(a = 1, b = 2.0), :b)
-(a = 1,)
-
-julia> delete(@keyed_tuple(a = 1, b = 2.0), (:a, :b))
-()
+julia> @keys delete((:a => 1, :b => 1.0), :a)
+(.b=>1.0,)
 ```
 
 > Subexpression:
 
-    delete(@keyed_tuple(a = 1, b = 2.0), :b)
+    @keys delete((:a => 1, :b => 1.0), :a)
 
 > Output Diff (REQUIRES COLOR):
 
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+(.b=>1.0,)┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
 │   caller = isbinding at match.jl:14 [inlined]
 └ @ Core match.jl:14
 ┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
 │   caller = isslurp at match.jl:29 [inlined]
 └ @ Core match.jl:29
 ┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
 │   caller = isslurp(::Symbol) at match.jl:29
 └ @ MacroTools match.jl:29
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
-│   caller = isbinding at match.jl:14 [inlined]
-└ @ Core match.jl:14
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
-│   caller = isbinding at match.jl:14 [inlined]
-└ @ Core match.jl:14
-(a = 1,)
+(.b => 1.0,)
 
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:219-227
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:81-86
 
 > Code block:
 
 ```jldoctest
 julia> using Keys
 
-julia> delete(@keyed_tuple(a = 1, b = 2.0), :b)
-(a = 1,)
-
-julia> delete(@keyed_tuple(a = 1, b = 2.0), (:a, :b))
-()
-```
-
-> Subexpression:
-
-    delete(@keyed_tuple(a = 1, b = 2.0), (:a, :b))
-
-> Output Diff (REQUIRES COLOR):
-
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
-│   caller = isbinding at match.jl:14 [inlined]
-└ @ Core match.jl:14
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
-│   caller = isslurp at match.jl:29 [inlined]
-└ @ Core match.jl:29
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
-│   caller = isslurp(::Symbol) at match.jl:29
-└ @ MacroTools match.jl:29
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
-│   caller = isbinding at match.jl:14 [inlined]
-└ @ Core match.jl:14
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
-│   caller = isbinding at match.jl:14 [inlined]
-└ @ Core match.jl:14
-()
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:70-75
-
-> Code block:
-
-```jldoctest
-julia> using Keys
-
-julia> map(key, @keyed_tuple(a = 1, b = 2.0))
+julia> @keys key.((:a => 1, :b => 2.0))
 (.a, .b)
 ```
 
 > Subexpression:
 
-    map(key, @keyed_tuple(a = 1, b = 2.0))
+    @keys key.((:a => 1, :b => 2.0))
 
 > Output Diff (REQUIRES COLOR):
 
@@ -193,9 +152,6 @@ julia> map(key, @keyed_tuple(a = 1, b = 2.0))
 ┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
 │   caller = isslurp(::Symbol) at match.jl:29
 └ @ MacroTools match.jl:29
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
-│   caller = isbinding at match.jl:14 [inlined]
-└ @ Core match.jl:14
 ┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
 │   caller = isbinding at match.jl:14 [inlined]
 └ @ Core match.jl:14
@@ -204,57 +160,122 @@ julia> map(key, @keyed_tuple(a = 1, b = 2.0))
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:251-256
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:232-237
 
 > Code block:
 
 ```jldoctest
 julia> using Keys
 
-julia> map_values(x -> x + 1, @keyed_tuple(a = 1, b = 1.0))
-(a = 2, b = 2.0)
+julia> @keys map_values(x -> x + 1, (:a => 1, :b => 1.0))
+(.a=>2, .b=>2.0)
 ```
 
 > Subexpression:
 
-    map_values(x -> x + 1, @keyed_tuple(a = 1, b = 1.0))
+    @keys map_values(x -> x + 1, (:a => 1, :b => 1.0))
 
 > Output Diff (REQUIRES COLOR):
 
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+(.a=>2, .b=>2.0)┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
 │   caller = isbinding at match.jl:14 [inlined]
 └ @ Core match.jl:14
 ┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
 │   caller = isslurp at match.jl:29 [inlined]
 └ @ Core match.jl:29
 ┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
 │   caller = isslurp(::Symbol) at match.jl:29
 └ @ MacroTools match.jl:29
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
-│   caller = isbinding at match.jl:14 [inlined]
-└ @ Core match.jl:14
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
-│   caller = isbinding at match.jl:14 [inlined]
-└ @ Core match.jl:14
-(a = 2, b = 2.0)
+(.a => 2, .b => 2.0)
 
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:85-90
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:213-218
 
 > Code block:
 
 ```jldoctest
 julia> using Keys
 
-julia> map(value, @keyed_tuple(a = 1, b = 1.0))
+julia> @keys push((:a => 1, :b => 1.0), :b => "a", :c => 1 // 1)
+(.a=>1, .b=>"a", .c=>1//1)
+```
+
+> Subexpression:
+
+    @keys push((:a => 1, :b => 1.0), :b => "a", :c => 1 // 1)
+
+> Output Diff (REQUIRES COLOR):
+
+(.a=>1, .b=>"a", .c=>1//1)┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp at match.jl:29 [inlined]
+└ @ Core match.jl:29
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp(::Symbol) at match.jl:29
+└ @ MacroTools match.jl:29
+(.a => 1, .b => "a", .c => 1//1)
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:264-269
+
+> Code block:
+
+```jldoctest
+julia> using Keys
+
+julia> @keys rename((:a => 1, :b => "a"), :c => :a)
+(.c=>1, .b=>"a")
+```
+
+> Subexpression:
+
+    @keys rename((:a => 1, :b => "a"), :c => :a)
+
+> Output Diff (REQUIRES COLOR):
+
+(.c=>1, .b=>"a")┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp at match.jl:29 [inlined]
+└ @ Core match.jl:29
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp(::Symbol) at match.jl:29
+└ @ MacroTools match.jl:29
+(.c => 1, .b => "a")
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:96-101
+
+> Code block:
+
+```jldoctest
+julia> using Keys
+
+julia> @keys value.((:a => 1, :b => 1.0))
 (1, 1.0)
 ```
 
 > Subexpression:
 
-    map(value, @keyed_tuple(a = 1, b = 1.0))
+    @keys value.((:a => 1, :b => 1.0))
 
 > Output Diff (REQUIRES COLOR):
 
@@ -267,9 +288,6 @@ julia> map(value, @keyed_tuple(a = 1, b = 1.0))
 ┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
 │   caller = isslurp(::Symbol) at match.jl:29
 └ @ MacroTools match.jl:29
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
-│   caller = isbinding at match.jl:14 [inlined]
-└ @ Core match.jl:14
 ┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
 │   caller = isbinding at match.jl:14 [inlined]
 └ @ Core match.jl:14
@@ -278,44 +296,200 @@ julia> map(value, @keyed_tuple(a = 1, b = 1.0))
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:133-162
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:121-143
 
 > Code block:
 
 ```jldoctest
 julia> using Keys
 
-julia> k = @keyed_tuple(a = 1, b = 1.0)
-(a = 1, b = 1.0)
+julia> @keys a_keyed_tuple = (:a => 1, :b => 1.0)
+(.a=>1, .b=>1.0)
 
 julia> if VERSION >= v"0.7.0-DEV"
-            k.b
+            a_keyed_tuple.b
         else
-            k[:b]
+            @keys a_keyed_tuple[:b]
         end
 1.0
 
-julia> getindex(k, (:a, :b))
-(a = 1, b = 1.0)
+julia> @keys a_keyed_tuple[(:a, :b)]
+(.a=>1, .b=>1.0)
 
-julia> k[:c]
+julia> @keys a_keyed_tuple[:c]
 ERROR: Key .c not found
 [...]
 
-julia> haskey(k, :b)
+julia> @keys haskey(a_keyed_tuple, :b)
 TypedBools.True()
-
-julia> merge(@keyed_tuple(a = 1, b = 1.0), @keyed_tuple(b = "a", c = 1 // 1))
-(a = 1, b = "a", c = 1//1)
-
-julia> @keyed_tuple(1)
-ERROR: All arguments to keyed_tuple must be an assignments
-[...]
 ```
 
 > Subexpression:
 
-    k = @keyed_tuple(a = 1, b = 1.0)
+    @keys a_keyed_tuple = (:a => 1, :b => 1.0)
+
+> Output Diff (REQUIRES COLOR):
+
+(.a=>1, .b=>1.0)┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp at match.jl:29 [inlined]
+└ @ Core match.jl:29
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp(::Symbol) at match.jl:29
+└ @ MacroTools match.jl:29
+(.a => 1, .b => 1.0)
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:121-143
+
+> Code block:
+
+```jldoctest
+julia> using Keys
+
+julia> @keys a_keyed_tuple = (:a => 1, :b => 1.0)
+(.a=>1, .b=>1.0)
+
+julia> if VERSION >= v"0.7.0-DEV"
+            a_keyed_tuple.b
+        else
+            @keys a_keyed_tuple[:b]
+        end
+1.0
+
+julia> @keys a_keyed_tuple[(:a, :b)]
+(.a=>1, .b=>1.0)
+
+julia> @keys a_keyed_tuple[:c]
+ERROR: Key .c not found
+[...]
+
+julia> @keys haskey(a_keyed_tuple, :b)
+TypedBools.True()
+```
+
+> Subexpression:
+
+    if VERSION >= v"0.7.0-DEV"
+         a_keyed_tuple.b
+     else
+         @keys a_keyed_tuple[:b]
+     end
+
+> Output Diff (REQUIRES COLOR):
+
+1.0┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp at match.jl:29 [inlined]
+└ @ Core match.jl:29
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp(::Symbol) at match.jl:29
+└ @ MacroTools match.jl:29
+ERROR: MethodError: Cannot `convert` an object of type Symbol to an object of type Key
+Closest candidates are:
+  convert(::Type{T}, !Matched::T) where T at essentials.jl:123
+Stacktrace:
+ [1] Key(::Symbol) at ./deprecated.jl:472
+ [2] getproperty(::Tuple{Pair{Key{:a},Int64},Pair{Key{:b},Float64}}, ::Symbol) at /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:223
+ [3] top-level scope at none:2
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:121-143
+
+> Code block:
+
+```jldoctest
+julia> using Keys
+
+julia> @keys a_keyed_tuple = (:a => 1, :b => 1.0)
+(.a=>1, .b=>1.0)
+
+julia> if VERSION >= v"0.7.0-DEV"
+            a_keyed_tuple.b
+        else
+            @keys a_keyed_tuple[:b]
+        end
+1.0
+
+julia> @keys a_keyed_tuple[(:a, :b)]
+(.a=>1, .b=>1.0)
+
+julia> @keys a_keyed_tuple[:c]
+ERROR: Key .c not found
+[...]
+
+julia> @keys haskey(a_keyed_tuple, :b)
+TypedBools.True()
+```
+
+> Subexpression:
+
+    @keys a_keyed_tuple[(:a, :b)]
+
+> Output Diff (REQUIRES COLOR):
+
+(.a=>1, .b=>1.0)┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp at match.jl:29 [inlined]
+└ @ Core match.jl:29
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp(::Symbol) at match.jl:29
+└ @ MacroTools match.jl:29
+(.a => 1, .b => 1.0)
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:121-143
+
+> Code block:
+
+```jldoctest
+julia> using Keys
+
+julia> @keys a_keyed_tuple = (:a => 1, :b => 1.0)
+(.a=>1, .b=>1.0)
+
+julia> if VERSION >= v"0.7.0-DEV"
+            a_keyed_tuple.b
+        else
+            @keys a_keyed_tuple[:b]
+        end
+1.0
+
+julia> @keys a_keyed_tuple[(:a, :b)]
+(.a=>1, .b=>1.0)
+
+julia> @keys a_keyed_tuple[:c]
+ERROR: Key .c not found
+[...]
+
+julia> @keys haskey(a_keyed_tuple, :b)
+TypedBools.True()
+```
+
+> Subexpression:
+
+    @keys a_keyed_tuple[:c]
 
 > Output Diff (REQUIRES COLOR):
 
@@ -326,139 +500,102 @@ ERROR: All arguments to keyed_tuple must be an assignments
 │   caller = isslurp at match.jl:29 [inlined]
 └ @ Core match.jl:29
 ┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
-│   caller = isslurp(::Symbol) at match.jl:29
-└ @ MacroTools match.jl:29
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
 │   caller = isbinding at match.jl:14 [inlined]
 └ @ Core match.jl:14
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
-│   caller = isbinding at match.jl:14 [inlined]
-└ @ Core match.jl:14
-(a = 1, b = 1.0)
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:133-162
-
-> Code block:
-
-```jldoctest
-julia> using Keys
-
-julia> k = @keyed_tuple(a = 1, b = 1.0)
-(a = 1, b = 1.0)
-
-julia> if VERSION >= v"0.7.0-DEV"
-            k.b
-        else
-            k[:b]
-        end
-1.0
-
-julia> getindex(k, (:a, :b))
-(a = 1, b = 1.0)
-
-julia> k[:c]
-ERROR: Key .c not found
-[...]
-
-julia> haskey(k, :b)
-TypedBools.True()
-
-julia> merge(@keyed_tuple(a = 1, b = 1.0), @keyed_tuple(b = "a", c = 1 // 1))
-(a = 1, b = "a", c = 1//1)
-
-julia> @keyed_tuple(1)
-ERROR: All arguments to keyed_tuple must be an assignments
-[...]
-```
-
-> Subexpression:
-
-    merge(@keyed_tuple(a = 1, b = 1.0), @keyed_tuple(b = "a", c = 1 // 1))
-
-> Output Diff (REQUIRES COLOR):
-
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
-│   caller = isbinding at match.jl:14 [inlined]
-└ @ Core match.jl:14
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
-│   caller = isslurp at match.jl:29 [inlined]
-└ @ Core match.jl:29
 ┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
 │   caller = isslurp(::Symbol) at match.jl:29
 └ @ MacroTools match.jl:29
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
-│   caller = isbinding at match.jl:14 [inlined]
-└ @ Core match.jl:14
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
-│   caller = isbinding at match.jl:14 [inlined]
-└ @ Core match.jl:14
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
-│   caller = isbinding at match.jl:14 [inlined]
-└ @ Core match.jl:14
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
-│   caller = isbinding at match.jl:14 [inlined]
-└ @ Core match.jl:14
-(a = 1, b = "a", c = 1//1)
-
-=====[End Error]===============================
-=====[Test Error]==============================
-
-> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:133-162
-
-> Code block:
-
-```jldoctest
-julia> using Keys
-
-julia> k = @keyed_tuple(a = 1, b = 1.0)
-(a = 1, b = 1.0)
-
-julia> if VERSION >= v"0.7.0-DEV"
-            k.b
-        else
-            k[:b]
-        end
-1.0
-
-julia> getindex(k, (:a, :b))
-(a = 1, b = 1.0)
-
-julia> k[:c]
 ERROR: Key .c not found
-[...]
-
-julia> haskey(k, :b)
-TypedBools.True()
-
-julia> merge(@keyed_tuple(a = 1, b = 1.0), @keyed_tuple(b = "a", c = 1 // 1))
-(a = 1, b = "a", c = 1//1)
-
-julia> @keyed_tuple(1)
-ERROR: All arguments to keyed_tuple must be an assignments
-[...]
-```
-
-> Subexpression:
-
-    @keyed_tuple(1)
-
-> Output Diff (REQUIRES COLOR):
-
-┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
-│   caller = isbinding at match.jl:14 [inlined]
-└ @ Core match.jl:14
-ERROR: LoadError: All arguments to keyed_tuple must be an assignments
 [...]Stacktrace:
  [1] error at ./error.jl:33 [inlined]
- [2] macro expansion at /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:44 [inlined]
- [3] macro expansion at /home/vagrant/.julia/v0.7/MacroTools/src/macro.jl:18 [inlined]
- [4] (::getfield(Keys, Symbol("##1#2")))(::Int64) at /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:166
- [5] map(::getfield(Keys, Symbol("##1#2")), ::Tuple{Int64}) at ./tuple.jl:151
- [6] @keyed_tuple(::LineNumberNode, ::Module, ::Vararg{Any,N} where N) at /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:165
-in expression starting at none:1
+ [2] first_error at /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:167 [inlined]
+ [3] getindex(::Tuple{Pair{Key{:a},Int64},Pair{Key{:b},Float64}}, ::Key{:c}) at /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:180
+ [4] top-level scope
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:121-143
+
+> Code block:
+
+```jldoctest
+julia> using Keys
+
+julia> @keys a_keyed_tuple = (:a => 1, :b => 1.0)
+(.a=>1, .b=>1.0)
+
+julia> if VERSION >= v"0.7.0-DEV"
+            a_keyed_tuple.b
+        else
+            @keys a_keyed_tuple[:b]
+        end
+1.0
+
+julia> @keys a_keyed_tuple[(:a, :b)]
+(.a=>1, .b=>1.0)
+
+julia> @keys a_keyed_tuple[:c]
+ERROR: Key .c not found
+[...]
+
+julia> @keys haskey(a_keyed_tuple, :b)
+TypedBools.True()
+```
+
+> Subexpression:
+
+    @keys haskey(a_keyed_tuple, :b)
+
+> Output Diff (REQUIRES COLOR):
+
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp at match.jl:29 [inlined]
+└ @ Core match.jl:29
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp(::Symbol) at match.jl:29
+└ @ MacroTools match.jl:29
+TypedBools.True()
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:56-61
+
+> Code block:
+
+```jldoctest
+julia> using Keys
+
+julia> @keys (:a => 1, :b => 2)
+(.a=>1, .b=>2)
+```
+
+> Subexpression:
+
+    @keys (:a => 1, :b => 2)
+
+> Output Diff (REQUIRES COLOR):
+
+(.a=>1, .b=>2)┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp at match.jl:29 [inlined]
+└ @ Core match.jl:29
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp(::Symbol) at match.jl:29
+└ @ MacroTools match.jl:29
+(.a => 1, .b => 2)
 
 =====[End Error]===============================
  > checking footnote links.
@@ -488,7 +625,7 @@ in expression starting at /home/vagrant/.julia/v0.7/Keys/test/runtests.jl:4
 │    Stacktrace:
 │     [1] error(::String, ::Base.Process, ::String, ::Int64, ::String) at ./error.jl:42
 │     [2] pipeline_error(::Base.Process) at ./process.jl:712
-│     [3] #run#542(::Bool, ::Function, ::Cmd) at ./process.jl:670
+│     [3] #run#544(::Bool, ::Function, ::Cmd) at ./process.jl:670
 │     [4] run at ./process.jl:668 [inlined]
 │     [5] (::getfield(Pkg.Entry, Symbol("##56#57")){Bool,String,Array{AbstractString,1}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:729
 │     [6] cd(::getfield(Pkg.Entry, Symbol("##56#57")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:72
