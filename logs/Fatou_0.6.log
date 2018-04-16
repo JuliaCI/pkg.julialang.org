@@ -13,7 +13,7 @@ INFO: Installing PyCall v1.15.0
 INFO: Installing PyPlot v2.5.0
 INFO: Installing RecipesBase v0.2.3
 INFO: Installing Reexport v0.1.0
-INFO: Installing SHA v0.5.6
+INFO: Installing SHA v0.5.7
 INFO: Installing SpecialFunctions v0.4.0
 INFO: Installing SymPy v0.6.0
 INFO: Installing URIParser v0.3.1
@@ -42,13 +42,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (1598.06640625 MB free)
-Uptime: 96393.0 sec
-Load Avg:  0.99072265625  1.03466796875  1.04150390625
+Memory: 2.939197540283203 GB (1601.30859375 MB free)
+Uptime: 96802.0 sec
+Load Avg:  1.0029296875  1.0224609375  1.01318359375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    5799926 s       2813 s     396738 s    2159408 s         92 s
-#2  3500 MHz    1852917 s       4030 s     198368 s    7381600 s          4 s
+#1  3497 MHz    5825981 s       7394 s     391792 s    2175767 s         82 s
+#2  3497 MHz    1714738 s        296 s     185551 s    7591597 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -79,7 +79,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - PyPlot                        2.5.0
  - RecipesBase                   0.2.3
  - Reexport                      0.1.0
- - SHA                           0.5.6
+ - SHA                           0.5.7
  - SpecialFunctions              0.4.0
  - SymPy                         0.6.0
  - URIParser                     0.3.1
@@ -87,8 +87,8 @@ INFO: Testing Fatou
 INFO: Installing sympy via the Conda sympy package...
 Solving environment: ...working... done
 fastcache 1.0.2           |   0% fastcache 1.0.2##5        |  26% fastcache 1.0.2########## | 100% 
-sympy 1.1.1           |   0% sympy 1.1.1           |   0% sympy 1.1.16          |   7% sympy 1.1.1#8         |  19% sympy 1.1.1###3       |  34% sympy 1.1.1####8      |  49% sympy 1.1.1######4    |  64% sympy 1.1.1#######5   |  76% sympy 1.1.1########3  |  84% sympy 1.1.1#########  |  91% sympy 1.1.1#########6 |  96% sympy 1.1.1########## | 100% 
-mpmath 1.0.0           |   0% mpmath 1.0.02          |   3% mpmath 1.0.0#######5   |  75% mpmath 1.0.0#########9 |  99% mpmath 1.0.0########## | 100% 
+sympy 1.1.1           |   0% sympy 1.1.1           |   0% sympy 1.1.16          |   6% sympy 1.1.1##         |  20% sympy 1.1.1###5       |  35% sympy 1.1.1####9      |  50% sympy 1.1.1######4    |  65% sympy 1.1.1#######6   |  76% sympy 1.1.1########4  |  84% sympy 1.1.1#########1 |  91% sympy 1.1.1#########6 |  97% sympy 1.1.1########## | 100% 
+mpmath 1.0.0           |   0% mpmath 1.0.02          |   3% mpmath 1.0.0#######5   |  75% mpmath 1.0.0########## | 100% 
 gmpy2 2.0.8           |   0% gmpy2 2.0.81          |   2% gmpy2 2.0.8#######5   |  75% gmpy2 2.0.8########## | 100% 
 
 ## Package Plan ##
@@ -123,10 +123,53 @@ Preparing transaction: ...working... done
 Verifying transaction: ...working... done
 Executing transaction: ...working... done
 WARNING: No working GUI backend found for matplotlib
-Fatou detected 1 julia threads.
-  0.152912 seconds (990.92 k allocations: 28.856 MiB, 5.34% gc time)
-  0.087478 seconds (1.32 M allocations: 36.171 MiB, 6.36% gc time)
-  0.098957 seconds (1.26 M allocations: 34.562 MiB, 9.95% gc time)
-INFO: Fatou tests passed
+ERROR: LoadError: LoadError: InitError: PyError (ccall(@pysym(:PyImport_ImportModule), PyPtr, (Cstring,), name)
+
+The Python package matplotlib.pyplot could not be found by pyimport. Usually this means
+that you did not install matplotlib.pyplot in the Python version being used by PyCall.
+
+PyCall is currently configured to use the Julia-specific Python distribution
+installed by the Conda.jl package.  To install the matplotlib.pyplot module, you can
+use `pyimport_conda("matplotlib.pyplot", PKG)`, where PKG is the Anaconda
+package the contains the module matplotlib.pyplot, or alternatively you can use the
+Conda package directly (via `using Conda` followed by `Conda.add` etcetera).
+
+Alternatively, if you want to use a different Python distribution on your
+system, such as a system-wide Python (as opposed to the Julia-specific Python),
+you can re-configure PyCall with that Python.   As explained in the PyCall
+documentation, set ENV["PYTHON"] to the path/name of the python executable
+you want to use, run Pkg.build("PyCall"), and re-launch Julia.
+
+) <type 'exceptions.ImportError'>
+ImportError("/lib/x86_64-linux-gnu/libz.so.1: version `ZLIB_1.2.9' not found (required by /home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/matplotlib/../../.././libpng16.so.16)",)
+  File "/home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/matplotlib/pyplot.py", line 31, in <module>
+    import matplotlib.colorbar
+  File "/home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/matplotlib/colorbar.py", line 36, in <module>
+    import matplotlib.contour as contour
+  File "/home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/matplotlib/contour.py", line 20, in <module>
+    import matplotlib.font_manager as font_manager
+  File "/home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/matplotlib/font_manager.py", line 55, in <module>
+    from matplotlib import afm, cbook, ft2font, rcParams, get_cachedir
+
+Stacktrace:
+ [1] pyerr_check at /home/vagrant/.julia/v0.6/PyCall/src/exception.jl:56 [inlined]
+ [2] pyerr_check at /home/vagrant/.julia/v0.6/PyCall/src/exception.jl:61 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/PyCall/src/exception.jl:81 [inlined]
+ [4] pyimport(::String) at /home/vagrant/.julia/v0.6/PyCall/src/PyCall.jl:374
+ [5] __init__() at /home/vagrant/.julia/v0.6/PyPlot/src/init.jl:198
+ [6] _include_from_serialized(::String) at ./loading.jl:157
+ [7] _require_from_serialized(::Int64, ::Symbol, ::String, ::Bool) at ./loading.jl:200
+ [8] _require(::Symbol) at ./loading.jl:464
+ [9] require(::Symbol) at ./loading.jl:405
+ [10] include_from_node1(::String) at ./loading.jl:576
+during initialization of module PyPlot
+while loading /home/vagrant/.julia/v0.6/Fatou/src/Fatou.jl, in expression starting on line 2
+while loading /home/vagrant/.julia/v0.6/Fatou/test/runtests.jl, in expression starting on line 1
+================================[ ERROR: Fatou ]================================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Fatou/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: Fatou had test errors
 
 >>> End of log

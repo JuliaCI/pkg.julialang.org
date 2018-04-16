@@ -2,7 +2,7 @@
 WARNING: Base.Pkg is deprecated, run `using Pkg` instead
  in module Main
 [ Info: Cloning cache of Parts from https://github.com/bramtayl/Parts.jl.git
-[ Info: Installing Parts v0.0.1
+[ Info: Installing Parts v0.0.2
 [ Info: Package database updated
 
 >>> 'Pkg.test("Parts")' log
@@ -12,20 +12,20 @@ Add `using InteractiveUtils` to your imports.
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
 Add `using InteractiveUtils` to your imports.
  in module Main
-Julia Version 0.7.0-DEV.4863
-Commit 3666ffad81 (2018-04-12 19:02 UTC)
+Julia Version 0.7.0-DEV.4880
+Commit 2eb9048f7b (2018-04-13 19:14 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3500 MHz     221397 s        110 s      23527 s     136656 s          3 s
-       #2  3500 MHz      65672 s         42 s      12040 s     347369 s          0 s
+       #1  3500 MHz     228142 s         59 s      23590 s     116038 s          3 s
+       #2  3500 MHz      55817 s         92 s      11296 s     344803 s          0 s
        
-  Memory: 2.939197540283203 GB (1120.734375 MB free)
-  Uptime: 4345.0 sec
-  Load Avg:  0.99609375  0.97119140625  1.0078125
+  Memory: 2.939197540283203 GB (1119.79296875 MB free)
+  Uptime: 4195.0 sec
+  Load Avg:  1.013671875  1.02001953125  1.0263671875
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -40,7 +40,7 @@ Packages:
   Package Status:
 2 required packages:
  - JSON                          0.17.2
- - Parts                         0.0.1
+ - Parts                         0.0.2
 2 additional packages:
  - Compat                        0.63.0
  - Nullables                     0.0.5
@@ -59,14 +59,14 @@ Documenter: running document checks.
  > running doctests.
 =====[Test Error]==============================
 
-> Location: /home/vagrant/.julia/v0.7/Parts/src/Parts.jl:17-33
+> Location: /home/vagrant/.julia/v0.7/Parts/src/Parts.jl:21-42
 
 > Code block:
 
 ```jldoctest
 julia> using Parts, Base.Test
 
-julia> a = @inferred Arrays([1, 3, 2, 4], [(1:2,), (3:4,)]);
+julia> a = @inferred Arrays([1, 3, 2, 4], [1:2, 3:4]);
 
 julia> @inferred a[1]
 2-element Array{Int64,1}:
@@ -79,6 +79,11 @@ julia> @inferred map(sum, a)
 2-element Array{Int64,1}:
  8
  6
+
+julia> @inferred Arrays([1 2 3; 4 5 6; 7 8 9], [(1:2, 2:3), (2:3, 1:2)])
+2-element Parts.Arrays{Array{Int64,2},1,Array{Int64,2},Array{Tuple{UnitRange{Int64},UnitRange{Int64}},1}}:
+ [2 3; 5 6]
+ [4 5; 7 8]
 ```
 
 > Subexpression:
@@ -93,14 +98,55 @@ WARNING: Base.Test is deprecated, run `using Test` instead
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> Location: /home/vagrant/.julia/v0.7/Parts/src/Parts.jl:97-117
+> Location: /home/vagrant/.julia/v0.7/Parts/src/Parts.jl:21-42
 
 > Code block:
 
 ```jldoctest
 julia> using Parts, Base.Test
 
-julia> a = @inferred Swaps([1, 3, 2, 4], [(1:2,), (3:4,)]);
+julia> a = @inferred Arrays([1, 3, 2, 4], [1:2, 3:4]);
+
+julia> @inferred a[1]
+2-element Array{Int64,1}:
+ 1
+ 3
+
+julia> a[1] = [3, 5];
+
+julia> @inferred map(sum, a)
+2-element Array{Int64,1}:
+ 8
+ 6
+
+julia> @inferred Arrays([1 2 3; 4 5 6; 7 8 9], [(1:2, 2:3), (2:3, 1:2)])
+2-element Parts.Arrays{Array{Int64,2},1,Array{Int64,2},Array{Tuple{UnitRange{Int64},UnitRange{Int64}},1}}:
+ [2 3; 5 6]
+ [4 5; 7 8]
+```
+
+> Subexpression:
+
+    @inferred Arrays([1 2 3; 4 5 6; 7 8 9], [(1:2, 2:3), (2:3, 1:2)])
+
+> Output Diff (REQUIRES COLOR):
+
+2-element Parts.Arrays{Array{Int64,2},1,Array{Int64,2},Array{Tuple{UnitRange{Int64},UnitRange{Int64}},1}}:
+ Arrays{Array{Int64,2},1,Array{Int64,2},Array{Tuple{UnitRange{Int64},UnitRange{Int64}},1}}:
+ [2 3; 5 6]
+ [4 5; 7 8]
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/Parts/src/Parts.jl:108-128
+
+> Code block:
+
+```jldoctest
+julia> using Parts, Base.Test
+
+julia> a = @inferred Swaps([1, 3, 2, 4], [1:2, 3:4]);
 
 julia> @inferred a[1]
 2-element Array{Int64,1}:
@@ -112,7 +158,7 @@ julia> @inferred map(sum, a)
  4
  6
 
-julia> b = @inferred Swaps([1, 3, 2, 4], [(1:3,), (4:4,)]);
+julia> b = @inferred Swaps([1, 3, 2, 4], [1:3, 4:4]);
 
 julia> @inferred b[2]
 ERROR: Swaps must all be the same size
@@ -131,14 +177,14 @@ WARNING: Base.Test is deprecated, run `using Test` instead
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> Location: /home/vagrant/.julia/v0.7/Parts/src/Parts.jl:58-72
+> Location: /home/vagrant/.julia/v0.7/Parts/src/Parts.jl:68-82
 
 > Code block:
 
 ```jldoctest
 julia> using Parts, Base.Test
 
-julia> a = @inferred Views([1, 3, 2, 4], [(1:2,), (3:4,)]);
+julia> a = @inferred Views([1, 3, 2, 4], [1:2, 3:4]);
 
 julia> @inferred a[1]
 2-element SubArray{Int64,1,Array{Int64,1},Tuple{UnitRange{Int64}},true}:
@@ -163,14 +209,14 @@ WARNING: Base.Test is deprecated, run `using Test` instead
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> Location: /home/vagrant/.julia/v0.7/Parts/src/Parts.jl:58-72
+> Location: /home/vagrant/.julia/v0.7/Parts/src/Parts.jl:68-82
 
 > Code block:
 
 ```jldoctest
 julia> using Parts, Base.Test
 
-julia> a = @inferred Views([1, 3, 2, 4], [(1:2,), (3:4,)]);
+julia> a = @inferred Views([1, 3, 2, 4], [1:2, 3:4]);
 
 julia> @inferred a[1]
 2-element SubArray{Int64,1,Array{Int64,1},Tuple{UnitRange{Int64}},true}:
@@ -222,7 +268,7 @@ in expression starting at /home/vagrant/.julia/v0.7/Parts/test/runtests.jl:4
 │    Stacktrace:
 │     [1] error(::String, ::Base.Process, ::String, ::Int64, ::String) at ./error.jl:42
 │     [2] pipeline_error(::Base.Process) at ./process.jl:712
-│     [3] #run#544(::Bool, ::Function, ::Cmd) at ./process.jl:670
+│     [3] #run#542(::Bool, ::Function, ::Cmd) at ./process.jl:670
 │     [4] run at ./process.jl:668 [inlined]
 │     [5] (::getfield(Pkg.Entry, Symbol("##56#57")){Bool,String,Array{AbstractString,1}})() at /buildworker/worker/package_linux64/build/usr/share/julia/site/v0.7/Pkg/src/entry.jl:729
 │     [6] cd(::getfield(Pkg.Entry, Symbol("##56#57")){Bool,String,Array{AbstractString,1}}, ::String) at ./file.jl:72

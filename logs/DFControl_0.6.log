@@ -21,13 +21,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (2030.97265625 MB free)
-Uptime: 67788.0 sec
-Load Avg:  0.9521484375  1.3203125  1.29443359375
+Memory: 2.939197540283203 GB (1930.67578125 MB free)
+Uptime: 69402.0 sec
+Load Avg:  0.9970703125  1.3359375  1.31103515625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    4061650 s       2813 s     293603 s    1523109 s         54 s
-#2  3500 MHz    1332342 s       4030 s     144848 s    5157923 s          0 s
+#1  3497 MHz    4126140 s       7394 s     285203 s    1636425 s         48 s
+#2  3497 MHz    1286268 s        296 s     140400 s    5377314 s          1 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -58,20 +58,26 @@ INFO: Installing BinDeps v0.8.7
 INFO: Installing Colors v0.8.2
 INFO: Installing Contour v0.4.0
 INFO: Installing DataStructures v0.7.4
+INFO: Installing GR v0.31.0
 INFO: Installing Measures v0.2.0
 INFO: Installing Missings v0.2.9
 INFO: Installing NaNMath v0.3.1
 INFO: Installing PlotThemes v0.2.0
 INFO: Installing PlotUtils v0.4.4
-INFO: Installing Plots v0.16.0
+INFO: Installing Plots v0.17.0
 INFO: Installing Reexport v0.1.0
 INFO: Installing Requires v0.4.3
-INFO: Installing SHA v0.5.6
+INFO: Installing SHA v0.5.7
 INFO: Installing Showoff v0.1.1
 INFO: Installing SortingAlgorithms v0.2.0
 INFO: Installing SpecialFunctions v0.4.0
 INFO: Installing StatsBase v0.20.1
 INFO: Installing URIParser v0.3.1
+INFO: Building GR
+INFO: Downloading pre-compiled GR 0.31.0 Ubuntu binary
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 38.8M    0  128k    0     0  87536      0  0:07:44  0:00:01  0:07:43 87497  3 38.8M    3 1264k    0     0   504k      0  0:01:18  0:00:02  0:01:16  504k 11 38.8M   11 4400k    0     0  1253k      0  0:00:31  0:00:03  0:00:28 1253k 31 38.8M   31 12.2M    0     0  2789k      0  0:00:14  0:00:04  0:00:10 2789k 69 38.8M   69 27.0M    0     0  5056k      0  0:00:07  0:00:05  0:00:02 5577k 83 38.8M   83 32.5M    0     0  4917k      0  0:00:08  0:00:06  0:00:02 6287k100 38.8M  100 38.8M    0     0  5665k      0  0:00:07  0:00:07 --:--:-- 8530k
 INFO: Building SpecialFunctions
 INFO: Building Plots
 INFO: Testing DFControl
@@ -746,27 +752,67 @@ Removed flag 'dis_win_max' from input 'wan_test.win'
 Removed flag 'dis_win_min' from input 'wan_test.win'
 Test Summary:         | Pass  Total
 File processing tests |   28     28
-Test Summary:  | Pass  Total
-Plotting tests |    8      8
-elapsed time: 53.276878521 seconds
-INFO: DFControl tests passed
+WARNING: Couldn't initialize gr.  (might need to install it?)
+INFO: To do a standard install of gr, copy and run this:
+
+Pkg.add("GR")
+Pkg.build("GR")
+
+
+Plotting tests: Error During Test
+  Test threw an exception of type InitError
+  Expression: plot(test_bands[1], fermi=3) != nothing
+  InitError: type UnionAll has no field isconnected
+  Stacktrace:
+   [1] isatom at /home/vagrant/.julia/v0.6/GR/src/GR.jl:195 [inlined]
+   [2] __init__() at /home/vagrant/.julia/v0.6/GR/src/GR.jl:244
+   [3] _include_from_serialized(::String) at ./loading.jl:157
+   [4] _require_from_serialized(::Int64, ::Symbol, ::String, ::Bool) at ./loading.jl:200
+   [5] _require_search_from_serialized(::Int64, ::Symbol, ::String, ::Bool) at ./loading.jl:236
+   [6] _require(::Symbol) at ./loading.jl:441
+   [7] require(::Symbol) at ./loading.jl:405
+   [8] _initialize_backend(::Plots.GRBackend) at /home/vagrant/.julia/v0.6/Plots/src/backends/gr.jl:69
+   [9] backend() at /home/vagrant/.julia/v0.6/Plots/src/backends.jl:185
+   [10] backend(::Symbol) at /home/vagrant/.julia/v0.6/Plots/src/backends.jl:212
+   [11] pickDefaultBackend() at /home/vagrant/.julia/v0.6/Plots/src/backends.jl:156
+   [12] backend() at /home/vagrant/.julia/v0.6/Plots/src/backends.jl:174
+   [13] Plots.Plot() at /home/vagrant/.julia/v0.6/Plots/src/types.jl:81
+   [14] #plot#208 at /home/vagrant/.julia/v0.6/Plots/src/plot.jl:56 [inlined]
+   [15] (::RecipesBase.#kw##plot)(::Array{Any,1}, ::RecipesBase.#plot, ::DFControl.DFBand{Float64}) at ./<missing>:0
+   [16] include_from_node1(::String) at ./loading.jl:576
+   [17] include(::String) at ./sysimg.jl:14
+   [18] macro expansion at /home/vagrant/.julia/v0.6/DFControl/test/runtests.jl:10 [inlined]
+   [19] macro expansion at ./test.jl:860 [inlined]
+   [20] anonymous at ./<missing>:?
+  during initialization of module GR
+Test Summary:  | Pass  Error  Total
+Plotting tests |    7      1      8
+ERROR: LoadError: Some tests did not pass: 7 passed, 0 failed, 1 errored, 0 broken.
+while loading /home/vagrant/.julia/v0.6/DFControl/test/runtests.jl, in expression starting on line 10
+==============================[ ERROR: DFControl ]==============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/DFControl/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing BinDeps v0.8.7
 INFO: Removing Colors v0.8.2
 INFO: Removing Contour v0.4.0
 INFO: Removing DataStructures v0.7.4
+INFO: Removing GR v0.31.0
 INFO: Removing Measures v0.2.0
 INFO: Removing Missings v0.2.9
 INFO: Removing NaNMath v0.3.1
 INFO: Removing PlotThemes v0.2.0
 INFO: Removing PlotUtils v0.4.4
-INFO: Removing Plots v0.16.0
+INFO: Removing Plots v0.17.0
 INFO: Removing Reexport v0.1.0
 INFO: Removing Requires v0.4.3
-INFO: Removing SHA v0.5.6
+INFO: Removing SHA v0.5.7
 INFO: Removing Showoff v0.1.1
 INFO: Removing SortingAlgorithms v0.2.0
 INFO: Removing SpecialFunctions v0.4.0
 INFO: Removing StatsBase v0.20.1
 INFO: Removing URIParser v0.3.1
+ERROR: DFControl had test errors
 
 >>> End of log
