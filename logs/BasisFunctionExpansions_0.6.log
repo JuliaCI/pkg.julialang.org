@@ -71,7 +71,7 @@ INFO: Building GR
 INFO: Downloading pre-compiled GR 0.31.0 Ubuntu binary
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 38.8M    0  112k    0     0  75170      0  0:09:01  0:00:01  0:09:00 75155  2 38.8M    2 1040k    0     0   421k      0  0:01:34  0:00:02  0:01:32  421k  7 38.8M    7 2800k    0     0   701k      0  0:00:56  0:00:03  0:00:53  701k 16 38.8M   16 6528k    0     0  1441k      0  0:00:27  0:00:04  0:00:23 1441k 42 38.8M   42 16.6M    0     0  3140k      0  0:00:12  0:00:05  0:00:07 3478k 79 38.8M   79 30.7M    0     0  4869k      0  0:00:08  0:00:06  0:00:02 6345k 81 38.8M   81 31.7M    0     0  4331k      0  0:00:09  0:00:07  0:00:02 6251k100 38.8M  100 38.8M    0     0  4816k      0  0:00:08  0:00:08 --:--:-- 8668k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 38.8M    0 65536    0     0  50949      0  0:13:18  0:00:01  0:13:17 50921  2 38.8M    2  912k    0     0   404k      0  0:01:38  0:00:02  0:01:36  404k  9 38.8M    9 3824k    0     0  1188k      0  0:00:33  0:00:03  0:00:30 1188k 29 38.8M   29 11.4M    0     0  2804k      0  0:00:14  0:00:04  0:00:10 2804k 78 38.8M   78 30.4M    0     0  6010k      0  0:00:06  0:00:05  0:00:01 6328k100 38.8M  100 38.8M    0     0  7224k      0  0:00:05  0:00:05 --:--:-- 9416k
 INFO: Building Plots
 INFO: Building SpecialFunctions
 INFO: Building Rmath
@@ -86,13 +86,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (581.3203125 MB free)
-Uptime: 14739.0 sec
-Load Avg:  0.8212890625  0.96630859375  0.9501953125
+Memory: 2.939197540283203 GB (528.8515625 MB free)
+Uptime: 15205.0 sec
+Load Avg:  0.947265625  0.96142578125  0.9541015625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3491 MHz     932454 s         66 s      71568 s     246509 s          9 s
-#2  3491 MHz     175986 s         87 s      29740 s    1243946 s          0 s
+#1  3499 MHz     901374 s        115 s      69713 s     335984 s          9 s
+#2  3499 MHz     247517 s         48 s      30202 s    1212121 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -210,8 +210,25 @@ Stacktrace:
  [14] process_options(::Base.JLOptions) at ./client.jl:305
  [15] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/BasisFunctionExpansions/test/runtests.jl, in expression starting on line 87
-RMS error: 0.31962351017820606
-RMS error: 0.21999510886556847
-INFO: BasisFunctionExpansions tests passed
+ERROR: LoadError: LoadError: ArgumentError: matrix is not symmetric/Hermitian. This error can be avoided by calling cholfact(Hermitian(A)) which will ignore either the upper or lower triangle of the matrix.
+Stacktrace:
+ [1] cholfact(::Array{Float64,2}, ::Symbol) at ./linalg/cholesky.jl:349 (repeats 2 times)
+ [2] fit_ss(::Array{Float64,2}, ::Array{Float64,2}, ::Array{Float64,2}, ::BasisFunctionExpansions.MultiRBFE{3}, ::Float64) at /home/vagrant/.julia/v0.6/BasisFunctionExpansions/src/dynamics.jl:192
+ [3] #LPVSS#90(::Bool, ::Float64, ::Type{T} where T, ::Array{Float64,2}, ::Array{Float64,2}, ::Int64) at /home/vagrant/.julia/v0.6/BasisFunctionExpansions/src/dynamics.jl:119
+ [4] (::Core.#kw#Type)(::Array{Any,1}, ::Type{BasisFunctionExpansions.LPVSS}, ::Array{Float64,2}, ::Array{Float64,2}, ::Int64) at ./<missing>:0
+ [5] include_from_node1(::String) at ./loading.jl:576
+ [6] include(::String) at ./sysimg.jl:14
+ [7] include_from_node1(::String) at ./loading.jl:576
+ [8] include(::String) at ./sysimg.jl:14
+ [9] process_options(::Base.JLOptions) at ./client.jl:305
+ [10] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/BasisFunctionExpansions/test/test_LPVSS.jl, in expression starting on line 25
+while loading /home/vagrant/.julia/v0.6/BasisFunctionExpansions/test/runtests.jl, in expression starting on line 123
+=======================[ ERROR: BasisFunctionExpansions ]=======================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/BasisFunctionExpansions/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: BasisFunctionExpansions had test errors
 
 >>> End of log
