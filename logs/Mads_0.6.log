@@ -22,6 +22,7 @@ INFO: Installing Calculus v0.3.0
 INFO: Installing CatIndices v0.1.0
 INFO: Installing Codecs v0.4.0
 INFO: Installing ColorVectorSpace v0.5.2
+INFO: Installing CommonSubexpressions v0.1.0
 INFO: Installing Compose v0.5.5
 INFO: Installing ComputationalResources v0.2.0
 INFO: Installing Conda v0.7.1
@@ -32,20 +33,24 @@ INFO: Installing CustomUnitRanges v0.1.0
 INFO: Installing DataArrays v0.6.2
 INFO: Installing DataFrames v0.10.1
 INFO: Installing DataStructures v0.8.1
-INFO: Installing DiffBase v0.2.0
-INFO: Installing DiffEqBase v1.14.1
-INFO: Installing DiffEqDiffTools v0.0.2
+INFO: Installing DiffBase v0.3.2
+INFO: Installing DiffEqBase v3.12.0
+INFO: Installing DiffEqDiffTools v0.4.1
+INFO: Installing DiffEqOperators v1.2.0
+INFO: Installing DiffResults v0.0.3
+INFO: Installing DiffRules v0.0.4
 INFO: Installing Distances v0.6.0
 INFO: Installing Distributions v0.15.0
 INFO: Installing DocStringExtensions v0.4.4
 INFO: Installing DocumentFunction v0.1.5
 INFO: Installing Documenter v0.17.0
 INFO: Installing DualNumbers v0.3.0
+INFO: Installing Expokit v0.0.1
 INFO: Installing FFTViews v0.1.0
 INFO: Installing FFTW v0.0.4
 INFO: Installing FileIO v0.7.0
 INFO: Installing Formatting v0.3.1
-INFO: Installing ForwardDiff v0.4.2
+INFO: Installing ForwardDiff v0.7.5
 INFO: Installing FunctionWrappers v0.1.0
 INFO: Installing GZip v0.3.0
 INFO: Installing Gadfly v0.6.5
@@ -67,35 +72,37 @@ INFO: Installing Interpolations v0.7.3
 INFO: Installing IntervalSets v0.2.0
 INFO: Installing IterTools v0.2.1
 INFO: Installing IterativeSolvers v0.5.0
-INFO: Installing Iterators v0.3.1
+INFO: Installing IteratorInterfaceExtensions v0.0.2
 INFO: Installing JLD v0.8.3
-INFO: Installing JuMP v0.17.1
+INFO: Installing JuMP v0.18.1
 INFO: Installing Juno v0.4.0
 INFO: Installing KernelDensity v0.4.1
-INFO: Installing Klara v0.9.2
+INFO: Installing Klara v0.9.3
 INFO: Installing Kriging v0.1.2
 INFO: Installing LaTeXStrings v0.3.0
 INFO: Installing LegacyStrings v0.3.0
-INFO: Installing LineSearches v0.1.5
+INFO: Installing LineSearches v3.2.5
 INFO: Installing LinearMaps v1.0.4
 INFO: Installing Loess v0.3.0
 INFO: Installing LsqFit v0.3.0
 INFO: Installing MacroTools v0.4.0
 INFO: Installing Mads v0.5.0
 INFO: Installing MappedArrays v0.0.7
-INFO: Installing MathProgBase v0.6.4
+INFO: Installing MathProgBase v0.7.1
 INFO: Installing Measures v0.2.0
 INFO: Installing Media v0.3.0
 INFO: Installing MetaProgTools v0.2.2
 INFO: Installing Missings v0.2.9
-INFO: Installing NLSolversBase v2.1.3
-INFO: Installing NLsolve v0.9.1
+INFO: Installing MuladdMacro v0.0.2
+INFO: Installing NLSolversBase v4.4.1
+INFO: Installing NLsolve v1.0.1
 INFO: Installing NMF v0.3.0
+INFO: Installing NamedTuples v4.0.1
 INFO: Installing NearestNeighbors v0.3.0
 INFO: Installing OffsetArrays v0.5.0
-INFO: Installing Optim v0.7.8
+INFO: Installing Optim v0.14.1
 INFO: Installing OptimBase v1.0.0
-INFO: Installing OrdinaryDiffEq v2.4.0
+INFO: Installing OrdinaryDiffEq v3.12.0
 INFO: Installing PDMats v0.8.0
 INFO: Installing PaddedViews v0.3.0
 INFO: Installing Parameters v0.8.1
@@ -107,13 +114,13 @@ INFO: Installing QuadGK v0.2.1
 INFO: Installing RangeArrays v0.2.0
 INFO: Installing Ratios v0.2.0
 INFO: Installing RecipesBase v0.2.3
-INFO: Installing RecursiveArrayTools v0.12.4
+INFO: Installing RecursiveArrayTools v0.14.6
 INFO: Installing ReusableFunctions v0.2.9
-INFO: Installing ReverseDiff v0.1.5
-INFO: Installing ReverseDiffSparse v0.7.3
+INFO: Installing ReverseDiff v0.2.0
+INFO: Installing ReverseDiffSparse v0.8.1
 INFO: Installing Rmath v0.3.2
 INFO: Installing RobustPmap v0.2.8
-INFO: Installing Roots v0.4.3
+INFO: Installing Roots v0.5.0
 INFO: Installing Rotations v0.6.1
 INFO: Installing SIUnits v0.1.0
 INFO: Installing SVR v0.2.8
@@ -125,6 +132,7 @@ INFO: Installing SpecialFunctions v0.4.0
 INFO: Installing StaticArrays v0.7.0
 INFO: Installing StatsBase v0.21.0
 INFO: Installing StatsFuns v0.6.0
+INFO: Installing TableTraits v0.2.0
 INFO: Installing TexExtensions v0.1.0
 INFO: Installing TiledIteration v0.1.0
 INFO: Installing VersionParsing v1.1.0
@@ -135,6 +143,36 @@ INFO: Building HDF5
 INFO: Building SpecialFunctions
 INFO: Building Rmath
 INFO: Building Conda
+INFO: Building DiffEqBase
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 INFO: Building FFTW
 INFO: Building PyCall
 Info: Using the Python distribution in the Conda package by default.
@@ -180,7 +218,7 @@ Building wheels for collected packages: pyyaml
 Successfully built pyyaml
 Installing collected packages: pyyaml
 Successfully installed pyyaml-3.12
-You are using pip version 9.0.1, however version 10.0.1 is available.
+You are using pip version 9.0.3, however version 10.0.1 is available.
 You should consider upgrading via the 'pip install --upgrade pip' command.
 PyImport_ImportModule
 
@@ -240,13 +278,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (933.265625 MB free)
-Uptime: 64732.0 sec
-Load Avg:  0.99072265625  1.0  0.986328125
+Memory: 2.939197540283203 GB (938.96875 MB free)
+Uptime: 65392.0 sec
+Load Avg:  1.00830078125  0.97314453125  0.96533203125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    3970278 s       1323 s     260138 s    1310075 s         52 s
-#2  3500 MHz     994054 s       5578 s     109814 s    5229369 s          0 s
+#1  3500 MHz    3956785 s       5566 s     271407 s    1363509 s         54 s
+#2  3500 MHz     888121 s        104 s     105176 s    5415457 s          2 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -263,7 +301,7 @@ Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - JSON                          0.17.2
  - Mads                          0.5.0
-138 additional packages:
+146 additional packages:
  - AbstractFFTs                  0.3.1
  - AffineInvariantMCMC           0.2.7
  - Anasol                        0.2.8
@@ -282,6 +320,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - ColorTypes                    0.6.7
  - ColorVectorSpace              0.5.2
  - Colors                        0.8.2
+ - CommonSubexpressions          0.1.0
  - Compat                        0.64.0
  - Compose                       0.5.5
  - ComputationalResources        0.2.0
@@ -293,21 +332,25 @@ Package Directory: /home/vagrant/.julia/v0.6
  - DataArrays                    0.6.2
  - DataFrames                    0.10.1
  - DataStructures                0.8.1
- - DiffBase                      0.2.0
- - DiffEqBase                    1.14.1
- - DiffEqDiffTools               0.0.2
+ - DiffBase                      0.3.2
+ - DiffEqBase                    3.12.0
+ - DiffEqDiffTools               0.4.1
+ - DiffEqOperators               1.2.0
+ - DiffResults                   0.0.3
+ - DiffRules                     0.0.4
  - Distances                     0.6.0
  - Distributions                 0.15.0
  - DocStringExtensions           0.4.4
  - DocumentFunction              0.1.5
  - Documenter                    0.17.0
  - DualNumbers                   0.3.0
+ - Expokit                       0.0.1
  - FFTViews                      0.1.0
  - FFTW                          0.0.4
  - FileIO                        0.7.0
  - FixedPointNumbers             0.4.6
  - Formatting                    0.3.1
- - ForwardDiff                   0.4.2
+ - ForwardDiff                   0.7.5
  - FunctionWrappers              0.1.0
  - GZip                          0.3.0
  - Gadfly                        0.6.5
@@ -331,37 +374,39 @@ Package Directory: /home/vagrant/.julia/v0.6
  - IntervalSets                  0.2.0
  - IterTools                     0.2.1
  - IterativeSolvers              0.5.0
- - Iterators                     0.3.1
+ - IteratorInterfaceExtensions   0.0.2
  - JLD                           0.8.3
- - JuMP                          0.17.1
+ - JuMP                          0.18.1
  - Juno                          0.4.0
  - KernelDensity                 0.4.1
- - Klara                         0.9.2
+ - Klara                         0.9.3
  - Kriging                       0.1.2
  - LaTeXStrings                  0.3.0
  - LegacyStrings                 0.3.0
- - LineSearches                  0.1.5
+ - LineSearches                  3.2.5
  - LinearMaps                    1.0.4
  - Loess                         0.3.0
  - LsqFit                        0.3.0
  - MacroTools                    0.4.0
  - MappedArrays                  0.0.7
- - MathProgBase                  0.6.4
+ - MathProgBase                  0.7.1
  - Measures                      0.2.0
  - Media                         0.3.0
  - MetaProgTools                 0.2.2
  - Missings                      0.2.9
- - NLSolversBase                 2.1.3
- - NLsolve                       0.9.1
+ - MuladdMacro                   0.0.2
+ - NLSolversBase                 4.4.1
+ - NLsolve                       1.0.1
  - NMF                           0.3.0
  - NaNMath                       0.3.1
+ - NamedTuples                   4.0.1
  - NearestNeighbors              0.3.0
  - NodeJS                        0.4.0
  - Nullables                     0.0.5
  - OffsetArrays                  0.5.0
- - Optim                         0.7.8
+ - Optim                         0.14.1
  - OptimBase                     1.0.0
- - OrdinaryDiffEq                2.4.0
+ - OrdinaryDiffEq                3.12.0
  - PDMats                        0.8.0
  - PaddedViews                   0.3.0
  - Parameters                    0.8.1
@@ -373,15 +418,15 @@ Package Directory: /home/vagrant/.julia/v0.6
  - RangeArrays                   0.2.0
  - Ratios                        0.2.0
  - RecipesBase                   0.2.3
- - RecursiveArrayTools           0.12.4
+ - RecursiveArrayTools           0.14.6
  - Reexport                      0.1.0
  - Requires                      0.4.3
  - ReusableFunctions             0.2.9
- - ReverseDiff                   0.1.5
- - ReverseDiffSparse             0.7.3
+ - ReverseDiff                   0.2.0
+ - ReverseDiffSparse             0.8.1
  - Rmath                         0.3.2
  - RobustPmap                    0.2.8
- - Roots                         0.4.3
+ - Roots                         0.5.0
  - Rotations                     0.6.1
  - Rsvg                          0.2.0
  - SHA                           0.5.7
@@ -395,6 +440,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - StaticArrays                  0.7.0
  - StatsBase                     0.21.0
  - StatsFuns                     0.6.0
+ - TableTraits                   0.2.0
  - TexExtensions                 0.1.0
  - TiledIteration                0.1.0
  - URIParser                     0.3.1
@@ -469,245 +515,30 @@ Use "ResamplingMemeticSearcher{E}(...) where E" instead.
 
 WARNING: deprecated syntax "inner constructor ShiftedAndBiasedProblem(...) around /home/vagrant/.julia/v0.6/BlackBoxOptim/src/problems/single_objective.jl:73".
 Use "ShiftedAndBiasedProblem{FS}(...) where FS" instead.
-WARNING: could not import Juno.Hiccup into Gadfly
-WARNING: No working GUI backend found for matplotlib
-InitError: PyError (PyImport_ImportModule
+ERROR: LoadError: LoadError: LoadError: LoadError: LoadError: MethodError: no method matching convert(::Type{AssertionError}, ::String)
+Closest candidates are:
+  convert(!Matched::Type{Any}, ::ANY) at essentials.jl:28
+  convert(::Type{T}, !Matched::T) where T at essentials.jl:29
+Stacktrace:
+ [1] include_from_node1(::String) at ./loading.jl:576
+ [2] include(::String) at ./sysimg.jl:14
+ [3] include_from_node1(::String) at ./loading.jl:576
+ [4] eval(::Module, ::Any) at ./boot.jl:235
+ [5] _require(::Symbol) at ./loading.jl:490
+ [6] require(::Symbol) at ./loading.jl:405
+ [7] include_from_node1(::String) at ./loading.jl:576
+ [8] include(::String) at ./sysimg.jl:14
+ [9] include_from_node1(::String) at ./loading.jl:576
+while loading /home/vagrant/.julia/v0.6/BIGUQ/src/BIGDT.jl, in expression starting on line 2
+while loading /home/vagrant/.julia/v0.6/BIGUQ/src/BIGUQ.jl, in expression starting on line 42
+while loading /home/vagrant/.julia/v0.6/Mads/src/MadsBayesInfoGap.jl, in expression starting on line 1
+while loading /home/vagrant/.julia/v0.6/Mads/src/Mads.jl, in expression starting on line 141
+while loading /home/vagrant/.julia/v0.6/Mads/test/runtests.jl, in expression starting on line 1
+================================[ ERROR: Mads ]=================================
 
-The Python package matplotlib.pyplot could not be found by pyimport. Usually this means
-that you did not install matplotlib.pyplot in the Python version being used by PyCall.
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Mads/test/runtests.jl`, ProcessExited(1)) [1]
 
-PyCall is currently configured to use the Julia-specific Python distribution
-installed by the Conda.jl package.  To install the matplotlib.pyplot module, you can
-use `pyimport_conda("matplotlib.pyplot", PKG)`, where PKG is the Anaconda
-package the contains the module matplotlib.pyplot, or alternatively you can use the
-Conda package directly (via `using Conda` followed by `Conda.add` etcetera).
-
-Alternatively, if you want to use a different Python distribution on your
-system, such as a system-wide Python (as opposed to the Julia-specific Python),
-you can re-configure PyCall with that Python.   As explained in the PyCall
-documentation, set ENV["PYTHON"] to the path/name of the python executable
-you want to use, run Pkg.build("PyCall"), and re-launch Julia.
-
-) <type 'exceptions.ImportError'>
-ImportError("/lib/x86_64-linux-gnu/libz.so.1: version `ZLIB_1.2.9' not found (required by /home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/matplotlib/../../.././libpng16.so.16)",)
-  File "/home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/matplotlib/pyplot.py", line 31, in <module>
-    import matplotlib.colorbar
-  File "/home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/matplotlib/colorbar.py", line 36, in <module>
-    import matplotlib.contour as contour
-  File "/home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/matplotlib/contour.py", line 20, in <module>
-    import matplotlib.font_manager as font_manager
-  File "/home/vagrant/.julia/v0.6/Conda/deps/usr/lib/python2.7/site-packages/matplotlib/font_manager.py", line 55, in <module>
-    from matplotlib import afm, cbook, ft2font, rcParams, get_cachedir
-
-during initialization of module PyPlotWARNING: Module PyPlot cannot be imported
-INFO: Module PkgDev is not available
-INFO: Module Ipopt is not available
-INFO: Module Ipopt is not available
-INFO: Running MADS tests:
-* miscellaneous ...
-INFO: Number of functions in module Mads: 386
-INFO: Number of functions in module Anasol: 7566
-INFO: Number of functions in module AffineInvariantMCMC: 2
-INFO: Number of functions in module GeostatInversion: 14
-INFO: Number of functions in module Kriging: 18
-INFO: Number of functions in module BIGUQ: 16
-INFO: Number of functions in module ReusableFunctions: 15
-INFO: Number of functions in module RobustPmap: 3
-INFO: Number of functions in module MetaProgTools: 8
-INFO: Number of functions in module SVR: 32
-INFO: Number of functions in module DocumentFunction: 10
-INFO: Total number of functions: 8070
-WARNING: Module ModuleThatDoesNotExist is not available
-INFO: Git status Mads ...
-INFO: Git status Anasol ...
-INFO: Git status AffineInvariantMCMC ...
-INFO: Git status GeostatInversion ...
-INFO: Git status Kriging ...
-INFO: Git status BIGUQ ...
-INFO: Git status ReusableFunctions ...
-INFO: Git status RobustPmap ...
-INFO: Git status MetaProgTools ...
-INFO: Git status SVR ...
-INFO: Git status DocumentFunction ...
-WARNING: Unknown parallel environment!
-WARNING: No processors found to add!
-INFO: Number of processors: 1 [1]
-function PNG does not accept keyword argumentsWARNING: 2018-05-01 18:06:33 function PNG does not accept keyword arguments
-WARNING: 2018-05-01 18:06:33 Plotseries: Gadfly fails!
-function PNG does not accept keyword argumentsWARNING: 2018-05-01 18:06:34 function PNG does not accept keyword arguments
-WARNING: 2018-05-01 18:06:34 Plotseries: Gadfly fails!
-WARNING: File `test.png` is missing!
-elapsed time: 68.933314963 seconds
-* io ...
-Test Summary: | Pass  Total
-IO            |   21     21
-elapsed time: 12.728244091 seconds
-* file naming ...
-Test Summary: | Pass  Total
-Filename      |    4      4
-elapsed time: 1.17480521 seconds
-* test functions ...
-Test Summary: | Pass  Total
-Functions     |   14     14
-elapsed time: 1.959553018 seconds
-* parameters ...
-Test Summary: | Pass  Total
-Parameters    |   17     17
-elapsed time: 1.525270019 seconds
-* observations ...
-Test Summary: | Pass  Total
-Observations  |    9      9
-elapsed time: 1.114174887 seconds
-* anasol ...
-Plot(...)
-Plot(...)
-Plot(...)
-Test Summary: | Pass  Total
-Observations  |    7      7
-Test Summary: | Pass  Total
-Anasol        |   17     17
-elapsed time: 78.489310685 seconds
-* bayesian_sampling ...
-Test Summary: | Pass  Total
-Bayesian      |    2      2
-elapsed time: 24.345605088 seconds
-* bigdt ...
-Test Summary: | Pass  Total
-Bigdt         |    2      2
-elapsed time: 12.415089186 seconds
-* blind_source_separation ...
-INFO: Module Ipopt is not available
-WARNING: Ipopt not available; blind source separation test (BSS) skipped!
-elapsed time: 5.070182257 seconds
-* contamination ...
-Test Summary: | Pass  Total
-Contamination |   13     13
-elapsed time: 17.544650876 seconds
-* embed_c ...
-LINUX
-
-MADS Library ...
-
-gcc -Wall -Winit-self  -fPIC -O3   -c -o my.o my.c
-
-Building MY MADS Shared Library ...
-
-gcc -shared -Wl,-soname,libmy.so.1 -Wl,--no-as-needed -ldl -o libmy.so -lm my.o
-# libtool --mode=link gcc -lm  -o libmy.so -rpath /usr/local/lib -version-info 1:1:14
-
-MY MADS Shared Library built!
-
-Test Summary: | Pass  Total
-Calling C     |    2      2
-elapsed time: 0.252769663 seconds
-* emcee ...
-Test Summary: | Pass  Total
-Emcee         |   30     30
-elapsed time: 16.786967344 seconds
-* kriging ...
-Test Summary: | Pass  Total
-Mads          |   13     13
-elapsed time: 1.408257411 seconds
-* minimization ...
-Test Summary: | Pass  Total
-Minimization  |    6      6
-elapsed time: 3.46669189 seconds
-* model_coupling ...
-Plot(...)
-Plot(...)
-Plot(...)
-Test Summary: | Pass  Total
-Internal      |    7      7
-Test Summary: | Pass  Total
-External      |    4      4
-elapsed time: 130.135458155 seconds
-* montecarlo ...
-Test Summary: | Pass  Total
-Monte Carlo   |    1      1
-elapsed time: 0.850292505 seconds
-* ode ...
-
-WARNING: deprecated syntax "abstract AbstractDifferentiableMultivariateFunction" at /home/vagrant/.julia/v0.6/NLsolve/src/differentiable_functions.jl:2.
-Use "abstract type AbstractDifferentiableMultivariateFunction end" instead.
-WARNING: OrdinaryDiffEq.jl is missing
-elapsed time: 65.581817784 seconds
-* optimization ...
-Test Summary: | Pass  Total
-Optimization  |   11     11
-elapsed time: 47.362722332 seconds
-* parallel ...
-Test Summary: | Pass  Total
-Parallel      |    4      4
-elapsed time: 6.727957302 seconds
-* reading_instructions ...
-Test Summary: | Pass  Total
-Instructions  |   42     42
-elapsed time: 0.918826314 seconds
-* restart ...
-HDF5-DIAG: Error detected in HDF5 (1.8.11) thread 0:
-  #000: ../../../src/H5Tfields.c line 87 in H5Tget_nmembers(): not a datatype
-    major: Invalid arguments to routine
-    minor: Inappropriate type
-HDF5-DIAG: Error detected in HDF5 (1.8.11) thread 0:
-  #000: ../../../src/H5Tfields.c line 87 in H5Tget_nmembers(): not a datatype
-    major: Invalid arguments to routine
-    minor: Inappropriate type
-HDF5-DIAG: Error detected in HDF5 (1.8.11) thread 0:
-  #000: ../../../src/H5Tfields.c line 87 in H5Tget_nmembers(): not a datatype
-    major: Invalid arguments to routine
-    minor: Inappropriate type
-HDF5-DIAG: Error detected in HDF5 (1.8.11) thread 0:
-  #000: ../../../src/H5Tfields.c line 87 in H5Tget_nmembers(): not a datatype
-    major: Invalid arguments to routine
-    minor: Inappropriate type
-HDF5-DIAG: Error detected in HDF5 (1.8.11) thread 0:
-  #000: ../../../src/H5Tfields.c line 87 in H5Tget_nmembers(): not a datatype
-    major: Invalid arguments to routine
-    minor: Inappropriate type
-HDF5-DIAG: Error detected in HDF5 (1.8.11) thread 0:
-  #000: ../../../src/H5Tfields.c line 87 in H5Tget_nmembers(): not a datatype
-    major: Invalid arguments to routine
-    minor: Inappropriate type
-HDF5-DIAG: Error detected in HDF5 (1.8.11) thread 0:
-  #000: ../../../src/H5Tfields.c line 87 in H5Tget_nmembers(): not a datatype
-    major: Invalid arguments to routine
-    minor: Inappropriate type
-HDF5-DIAG: Error detected in HDF5 (1.8.11) thread 0:
-  #000: ../../../src/H5Tfields.c line 87 in H5Tget_nmembers(): not a datatype
-    major: Invalid arguments to routine
-    minor: Inappropriate type
-HDF5-DIAG: Error detected in HDF5 (1.8.11) thread 0:
-  #000: ../../../src/H5Tfields.c line 87 in H5Tget_nmembers(): not a datatype
-    major: Invalid arguments to routine
-    minor: Inappropriate type
-HDF5-DIAG: Error detected in HDF5 (1.8.11) thread 0:
-  #000: ../../../src/H5Tfields.c line 87 in H5Tget_nmembers(): not a datatype
-    major: Invalid arguments to routine
-    minor: Inappropriate type
-HDF5-DIAG: Error detected in HDF5 (1.8.11) thread 0:
-  #000: ../../../src/H5Tfields.c line 87 in H5Tget_nmembers(): not a datatype
-    major: Invalid arguments to routine
-    minor: Inappropriate type
-HDF5-DIAG: Error detected in HDF5 (1.8.11) thread 0:
-  #000: ../../../src/H5Tfields.c line 87 in H5Tget_nmembers(): not a datatype
-    major: Invalid arguments to routine
-    minor: Inappropriate type
-Test Summary: | Pass  Total
-Restarting    |   23     23
-elapsed time: 23.953694512 seconds
-* sensitivity ...
-Test Summary: | Pass  Total
-Sensitivity   |    2      2
-elapsed time: 4.250421503 seconds
-* svr ...
-Test Summary: | Pass  Total
-SVR           |    5      5
-WARNING: svrmodels/internal-polynomial-1-100.svr does not exist
-WARNING: svrmodels/internal-polynomial-2-100.svr does not exist
-WARNING: svrmodels/internal-polynomial-3-100.svr does not exist
-WARNING: svrmodels/internal-polynomial-4-100.svr does not exist
-WARNING: svrmodels/internal-polynomial-5-100.svr does not exist
-elapsed time: 6.194467039 seconds
-INFO: Mads tests passed
+================================================================================
+ERROR: Mads had test errors
 
 >>> End of log
