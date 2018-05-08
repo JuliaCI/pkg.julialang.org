@@ -44,6 +44,8 @@ TestU01/src/gofw.c:629:7: warning: format not a string literal and no format arg
        printf (S);
        ^
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of RNGTest
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("RNGTest")' log
 Julia Version 0.6.2
@@ -54,13 +56,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (727.8359375 MB free)
-Uptime: 47518.0 sec
-Load Avg:  0.99560546875  0.9609375  0.83251953125
+Memory: 2.939197540283203 GB (817.75 MB free)
+Uptime: 47269.0 sec
+Load Avg:  0.9951171875  0.95654296875  0.822265625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3492 MHz    2718492 s       7332 s     193182 s    1188280 s         40 s
-#2  3492 MHz     686620 s         43 s      77140 s    3880619 s          1 s
+#1  3498 MHz    2733915 s       6479 s     185454 s    1140625 s         36 s
+#2  3498 MHz     653322 s        310 s      76211 s    3917007 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -90,7 +92,16 @@ Test: MaxOft: OK
 Test: WeightDistrib: OK
 Test: MatrixRank: OK
 Test: HammingIndep: OK
-Test: RandomWalk: OK
-INFO: RNGTest tests passed
+Test: RandomWalk: Test Failed
+  Expression: all(hcat(RNGTest.swalk_RandomWalk1(f, 1, 1000000, 0, 30, 150, 150)...) .> pval)
+ERROR: LoadError: LoadError: There was an error during testing
+while loading /home/vagrant/.julia/v0.6/RNGTest/test/tests.jl, in expression starting on line 51
+while loading /home/vagrant/.julia/v0.6/RNGTest/test/runtests.jl, in expression starting on line 4
+===============================[ ERROR: RNGTest ]===============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cx86-64 -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/RNGTest/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: RNGTest had test errors
 
 >>> End of log
