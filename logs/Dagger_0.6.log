@@ -2,9 +2,9 @@
 INFO: Cloning cache of Dagger from https://github.com/JuliaParallel/Dagger.jl.git
 INFO: Cloning cache of MemPool from https://github.com/JuliaComputing/MemPool.jl.git
 INFO: Installing Dagger v0.6.0
-INFO: Installing DataStructures v0.8.1
+INFO: Installing DataStructures v0.8.2
 INFO: Installing Logging v0.3.1
-INFO: Installing MemPool v0.0.9
+INFO: Installing MemPool v0.0.10
 INFO: Installing Missings v0.2.9
 INFO: Installing SortingAlgorithms v0.2.1
 INFO: Installing StatsBase v0.22.0
@@ -21,13 +21,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (1626.07421875 MB free)
-Uptime: 60069.0 sec
-Load Avg:  1.021484375  1.27490234375  1.5673828125
+Memory: 2.939197540283203 GB (1666.8125 MB free)
+Uptime: 59144.0 sec
+Load Avg:  1.005859375  1.3017578125  1.58740234375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3507 MHz    3705074 s       5750 s     255398 s    1215091 s         41 s
-#2  3507 MHz    1043676 s       1392 s     119871 s    4712523 s          1 s
+#1  3500 MHz    3532083 s       5684 s     239048 s    1323386 s         49 s
+#2  3500 MHz    1174591 s       2171 s     121279 s    4454085 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -46,9 +46,9 @@ Package Directory: /home/vagrant/.julia/v0.6
  - JSON                          0.17.2
 8 additional packages:
  - Compat                        0.64.0
- - DataStructures                0.8.1
+ - DataStructures                0.8.2
  - Logging                       0.3.1
- - MemPool                       0.0.9
+ - MemPool                       0.0.10
  - Missings                      0.2.9
  - Nullables                     0.0.5
  - SortingAlgorithms             0.2.1
@@ -98,6 +98,40 @@ Test Summary: | Pass  Total
 sharedarray   |    2      2
 tests done. cleaning up...
 all done.
+ERROR (unhandled task failure): ProcessExitedException()
+Stacktrace:
+ [1] try_yieldto(::Base.##296#297{Task}, ::Task) at ./event.jl:189
+ [2] wait() at ./event.jl:234
+ [3] wait(::Condition) at ./event.jl:27
+ [4] wait_impl(::Channel{Any}) at ./channels.jl:364
+ [5] wait(::Channel{Any}) at ./channels.jl:360
+ [6] take_buffered at ./channels.jl:319 [inlined]
+ [7] take!(::Channel{Any}) at ./channels.jl:317
+ [8] #remotecall_fetch#141(::Array{Any,1}, ::Function, ::Function, ::Base.Distributed.Worker, ::MemPool.DRef, ::Vararg{Any,N} where N) at ./distributed/remotecall.jl:350
+ [9] remotecall_fetch(::Function, ::Base.Distributed.Worker, ::MemPool.DRef, ::Vararg{Any,N} where N) at ./distributed/remotecall.jl:346
+ [10] #remotecall_fetch#144(::Array{Any,1}, ::Function, ::Function, ::Int64, ::MemPool.DRef, ::Vararg{Any,N} where N) at ./distributed/remotecall.jl:367
+ [11] addrefcount(::MemPool.DRef, ::Int64) at /home/vagrant/.julia/v0.6/Dagger/src/chunks.jl:121
+ [12] macro expansion at /home/vagrant/.julia/v0.6/Dagger/src/array/darray.jl:146 [inlined]
+ [13] macro expansion at ./task.jl:302 [inlined]
+ [14] free_chunks(::Array{Union{Dagger.Chunk, Dagger.Thunk},2}) at /home/vagrant/.julia/v0.6/Dagger/src/array/darray.jl:143
+ [15] (::Dagger.##85#86{Dagger.DArray{Any,2,Base.#cat}})() at ./event.jl:73
+ERROR (unhandled task failure): ProcessExitedException()
+Stacktrace:
+ [1] try_yieldto(::Base.##296#297{Task}, ::Task) at ./event.jl:189
+ [2] wait() at ./event.jl:234
+ [3] wait(::Condition) at ./event.jl:27
+ [4] wait_impl(::Channel{Any}) at ./channels.jl:364
+ [5] wait(::Channel{Any}) at ./channels.jl:360
+ [6] take_buffered at ./channels.jl:319 [inlined]
+ [7] take!(::Channel{Any}) at ./channels.jl:317
+ [8] #remotecall_fetch#141(::Array{Any,1}, ::Function, ::Function, ::Base.Distributed.Worker, ::MemPool.DRef, ::Vararg{Any,N} where N) at ./distributed/remotecall.jl:350
+ [9] remotecall_fetch(::Function, ::Base.Distributed.Worker, ::MemPool.DRef, ::Vararg{Any,N} where N) at ./distributed/remotecall.jl:346
+ [10] #remotecall_fetch#144(::Array{Any,1}, ::Function, ::Function, ::Int64, ::MemPool.DRef, ::Vararg{Any,N} where N) at ./distributed/remotecall.jl:367
+ [11] addrefcount(::MemPool.DRef, ::Int64) at /home/vagrant/.julia/v0.6/Dagger/src/chunks.jl:121
+ [12] macro expansion at /home/vagrant/.julia/v0.6/Dagger/src/array/darray.jl:146 [inlined]
+ [13] macro expansion at ./task.jl:302 [inlined]
+ [14] free_chunks(::Array{Union{Dagger.Chunk, Dagger.Thunk},2}) at /home/vagrant/.julia/v0.6/Dagger/src/array/darray.jl:143
+ [15] (::Dagger.##85#86{Dagger.DArray{Any,2,Base.#cat}})() at ./event.jl:73
 INFO: Dagger tests passed
 INFO: Removing BaseTestNext v0.2.2
 

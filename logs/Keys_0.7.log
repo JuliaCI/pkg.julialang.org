@@ -2,7 +2,7 @@
 WARNING: Base.Pkg is deprecated, run `using Pkg` instead
  in module Main
 [ Info: Cloning cache of Keys from https://github.com/bramtayl/Keys.jl.git
-[ Info: Installing Keys v0.2.0
+[ Info: Installing Keys v0.2.1
 [ Info: Installing MacroTools v0.4.0
 [ Info: Installing Missings v0.2.9
 [ Info: Installing RecurUnroll v0.1.1
@@ -18,20 +18,20 @@ Add `using InteractiveUtils` to your imports.
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
 Add `using InteractiveUtils` to your imports.
  in module Main
-Julia Version 0.7.0-DEV.5025
-Commit 74af87841b (2018-05-06 22:14 UTC)
+Julia Version 0.7.0-DEV.5042
+Commit b19ba88d9f (2018-05-08 15:17 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3500 MHz    2723743 s       4696 s     206386 s     748635 s         26 s
-       #2  3500 MHz     646650 s       2595 s      73593 s    3511171 s          0 s
+       #1  3500 MHz    2715140 s       8108 s     193564 s     809326 s         32 s
+       #2  3500 MHz     650665 s         48 s      75043 s    3572906 s          0 s
        
-  Memory: 2.939197540283203 GB (904.36328125 MB free)
-  Uptime: 43262.0 sec
-  Load Avg:  1.0029296875  0.9853515625  0.9599609375
+  Memory: 2.939197540283203 GB (910.72265625 MB free)
+  Uptime: 43757.0 sec
+  Load Avg:  0.93896484375  0.96533203125  0.9521484375
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-6.0.0 (ORCJIT, haswell)
@@ -46,7 +46,7 @@ Packages:
   Package Status:
 2 required packages:
  - JSON                          0.17.2
- - Keys                          0.2.0
+ - Keys                          0.2.1
 6 additional packages:
  - Compat                        0.64.0
  - MacroTools                    0.4.0
@@ -92,7 +92,7 @@ Documenter: running document checks.
  > running doctests.
 =====[Test Error]==============================
 
-> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:195-200
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:198-203
 
 > Code block:
 
@@ -126,7 +126,78 @@ julia> @keys delete((:a => 1, :b => 1.0), :a)
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:81-86
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:283-290
+
+> Code block:
+
+```jldoctest
+julia> using Keys
+
+julia> keyed_tuple = @keys (:a => "a", :b => 2, :c => 3);
+
+julia> @keys gather(keyed_tuple, :key, :value, :b, :c)
+((.a=>"a", .key=>:b, .value=>2), (.a=>"a", .key=>:c, .value=>3))
+```
+
+> Subexpression:
+
+    keyed_tuple = @keys (:a => "a", :b => 2, :c => 3);
+
+> Output Diff (REQUIRES COLOR):
+
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp at match.jl:29 [inlined]
+└ @ Core match.jl:29
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp(::Symbol) at match.jl:29
+└ @ MacroTools match.jl:29
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:283-290
+
+> Code block:
+
+```jldoctest
+julia> using Keys
+
+julia> keyed_tuple = @keys (:a => "a", :b => 2, :c => 3);
+
+julia> @keys gather(keyed_tuple, :key, :value, :b, :c)
+((.a=>"a", .key=>:b, .value=>2), (.a=>"a", .key=>:c, .value=>3))
+```
+
+> Subexpression:
+
+    @keys gather(keyed_tuple, :key, :value, :b, :c)
+
+> Output Diff (REQUIRES COLOR):
+
+((.a=>"a", .key=>:b, .value=>2), (.a=>"a", .key=>:c, .value=>3))┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp at match.jl:29 [inlined]
+└ @ Core match.jl:29
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp(::Symbol) at match.jl:29
+└ @ MacroTools match.jl:29
+((.a => "a", .key => :b, .value => 2), (.a => "a", .key => :c, .value => 3))
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:84-89
 
 > Code block:
 
@@ -160,7 +231,7 @@ julia> @keys key.((:a => 1, :b => 2.0))
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:232-237
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:235-240
 
 > Code block:
 
@@ -194,7 +265,7 @@ julia> @keys map_values(x -> x + 1, (:a => 1, :b => 1.0))
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:213-218
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:216-221
 
 > Code block:
 
@@ -228,7 +299,7 @@ julia> @keys push((:a => 1, :b => 1.0), :b => "a", :c => 1 // 1)
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:264-269
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:267-272
 
 > Code block:
 
@@ -262,7 +333,7 @@ julia> @keys rename((:a => 1, :b => "a"), :c => :a)
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:96-101
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:99-104
 
 > Code block:
 
@@ -296,37 +367,37 @@ julia> @keys value.((:a => 1, :b => 1.0))
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:121-143
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:124-146
 
 > Code block:
 
 ```jldoctest
 julia> using Keys
 
-julia> @keys a_keyed_tuple = (:a => 1, :b => 1.0)
+julia> @keys keyed_tuple = (:a => 1, :b => 1.0)
 (.a=>1, .b=>1.0)
 
 julia> if VERSION >= v"0.7.0-DEV"
-            a_keyed_tuple.b
+            keyed_tuple.b
         else
-            @keys a_keyed_tuple[:b]
+            @keys keyed_tuple[:b]
         end
 1.0
 
-julia> @keys a_keyed_tuple[(:a, :b)]
+julia> @keys keyed_tuple[(:a, :b)]
 (.a=>1, .b=>1.0)
 
-julia> @keys a_keyed_tuple[:c]
+julia> @keys keyed_tuple[:c]
 ERROR: Key .c not found
 [...]
 
-julia> @keys haskey(a_keyed_tuple, :b)
+julia> @keys haskey(keyed_tuple, :b)
 TypedBools.True()
 ```
 
 > Subexpression:
 
-    @keys a_keyed_tuple = (:a => 1, :b => 1.0)
+    @keys keyed_tuple = (:a => 1, :b => 1.0)
 
 > Output Diff (REQUIRES COLOR):
 
@@ -347,40 +418,40 @@ TypedBools.True()
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:121-143
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:124-146
 
 > Code block:
 
 ```jldoctest
 julia> using Keys
 
-julia> @keys a_keyed_tuple = (:a => 1, :b => 1.0)
+julia> @keys keyed_tuple = (:a => 1, :b => 1.0)
 (.a=>1, .b=>1.0)
 
 julia> if VERSION >= v"0.7.0-DEV"
-            a_keyed_tuple.b
+            keyed_tuple.b
         else
-            @keys a_keyed_tuple[:b]
+            @keys keyed_tuple[:b]
         end
 1.0
 
-julia> @keys a_keyed_tuple[(:a, :b)]
+julia> @keys keyed_tuple[(:a, :b)]
 (.a=>1, .b=>1.0)
 
-julia> @keys a_keyed_tuple[:c]
+julia> @keys keyed_tuple[:c]
 ERROR: Key .c not found
 [...]
 
-julia> @keys haskey(a_keyed_tuple, :b)
+julia> @keys haskey(keyed_tuple, :b)
 TypedBools.True()
 ```
 
 > Subexpression:
 
     if VERSION >= v"0.7.0-DEV"
-         a_keyed_tuple.b
+         keyed_tuple.b
      else
-         @keys a_keyed_tuple[:b]
+         @keys keyed_tuple[:b]
      end
 
 > Output Diff (REQUIRES COLOR):
@@ -402,43 +473,43 @@ Closest candidates are:
   convert(::Type{T}, !Matched::T) where T at essentials.jl:123
 Stacktrace:
  [1] Key(::Symbol) at ./deprecated.jl:473
- [2] getproperty(::Tuple{Pair{Key{:a},Int64},Pair{Key{:b},Float64}}, ::Symbol) at /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:223
+ [2] getproperty(::Tuple{Pair{Key{:a},Int64},Pair{Key{:b},Float64}}, ::Symbol) at /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:226
  [3] top-level scope at none:2
 
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:121-143
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:124-146
 
 > Code block:
 
 ```jldoctest
 julia> using Keys
 
-julia> @keys a_keyed_tuple = (:a => 1, :b => 1.0)
+julia> @keys keyed_tuple = (:a => 1, :b => 1.0)
 (.a=>1, .b=>1.0)
 
 julia> if VERSION >= v"0.7.0-DEV"
-            a_keyed_tuple.b
+            keyed_tuple.b
         else
-            @keys a_keyed_tuple[:b]
+            @keys keyed_tuple[:b]
         end
 1.0
 
-julia> @keys a_keyed_tuple[(:a, :b)]
+julia> @keys keyed_tuple[(:a, :b)]
 (.a=>1, .b=>1.0)
 
-julia> @keys a_keyed_tuple[:c]
+julia> @keys keyed_tuple[:c]
 ERROR: Key .c not found
 [...]
 
-julia> @keys haskey(a_keyed_tuple, :b)
+julia> @keys haskey(keyed_tuple, :b)
 TypedBools.True()
 ```
 
 > Subexpression:
 
-    @keys a_keyed_tuple[(:a, :b)]
+    @keys keyed_tuple[(:a, :b)]
 
 > Output Diff (REQUIRES COLOR):
 
@@ -459,37 +530,37 @@ TypedBools.True()
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:121-143
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:124-146
 
 > Code block:
 
 ```jldoctest
 julia> using Keys
 
-julia> @keys a_keyed_tuple = (:a => 1, :b => 1.0)
+julia> @keys keyed_tuple = (:a => 1, :b => 1.0)
 (.a=>1, .b=>1.0)
 
 julia> if VERSION >= v"0.7.0-DEV"
-            a_keyed_tuple.b
+            keyed_tuple.b
         else
-            @keys a_keyed_tuple[:b]
+            @keys keyed_tuple[:b]
         end
 1.0
 
-julia> @keys a_keyed_tuple[(:a, :b)]
+julia> @keys keyed_tuple[(:a, :b)]
 (.a=>1, .b=>1.0)
 
-julia> @keys a_keyed_tuple[:c]
+julia> @keys keyed_tuple[:c]
 ERROR: Key .c not found
 [...]
 
-julia> @keys haskey(a_keyed_tuple, :b)
+julia> @keys haskey(keyed_tuple, :b)
 TypedBools.True()
 ```
 
 > Subexpression:
 
-    @keys a_keyed_tuple[:c]
+    @keys keyed_tuple[:c]
 
 > Output Diff (REQUIRES COLOR):
 
@@ -508,44 +579,44 @@ TypedBools.True()
 ERROR: Key .c not found
 [...]Stacktrace:
  [1] error at ./error.jl:33 [inlined]
- [2] first_error at /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:167 [inlined]
- [3] getindex(::Tuple{Pair{Key{:a},Int64},Pair{Key{:b},Float64}}, ::Key{:c}) at /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:180
+ [2] first_error at /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:170 [inlined]
+ [3] getindex(::Tuple{Pair{Key{:a},Int64},Pair{Key{:b},Float64}}, ::Key{:c}) at /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:183
  [4] top-level scope
 
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:121-143
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:124-146
 
 > Code block:
 
 ```jldoctest
 julia> using Keys
 
-julia> @keys a_keyed_tuple = (:a => 1, :b => 1.0)
+julia> @keys keyed_tuple = (:a => 1, :b => 1.0)
 (.a=>1, .b=>1.0)
 
 julia> if VERSION >= v"0.7.0-DEV"
-            a_keyed_tuple.b
+            keyed_tuple.b
         else
-            @keys a_keyed_tuple[:b]
+            @keys keyed_tuple[:b]
         end
 1.0
 
-julia> @keys a_keyed_tuple[(:a, :b)]
+julia> @keys keyed_tuple[(:a, :b)]
 (.a=>1, .b=>1.0)
 
-julia> @keys a_keyed_tuple[:c]
+julia> @keys keyed_tuple[:c]
 ERROR: Key .c not found
 [...]
 
-julia> @keys haskey(a_keyed_tuple, :b)
+julia> @keys haskey(keyed_tuple, :b)
 TypedBools.True()
 ```
 
 > Subexpression:
 
-    @keys haskey(a_keyed_tuple, :b)
+    @keys haskey(keyed_tuple, :b)
 
 > Output Diff (REQUIRES COLOR):
 
@@ -566,7 +637,7 @@ TypedBools.True()
 =====[End Error]===============================
 =====[Test Error]==============================
 
-> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:56-61
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:59-64
 
 > Code block:
 
@@ -598,6 +669,40 @@ julia> @keys (:a => 1, :b => 2)
 (.a => 1, .b => 2)
 
 =====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/Keys/src/Keys.jl:304-309
+
+> Code block:
+
+```jldoctest
+julia> using Keys
+
+julia> @keys merge((:a => 1, :b => 2.0), (:a => 2, :c => 3.0))
+(.b=>2.0, .a=>2, .c=>3.0)
+```
+
+> Subexpression:
+
+    @keys merge((:a => 1, :b => 2.0), (:a => 2, :c => 3.0))
+
+> Output Diff (REQUIRES COLOR):
+
+(.b=>2.0, .a=>2, .c=>3.0)┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp at match.jl:29 [inlined]
+└ @ Core match.jl:29
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isbinding at match.jl:14 [inlined]
+└ @ Core match.jl:14
+┌ Warning: `ismatch(r::Regex, s::AbstractString)` is deprecated, use `occursin(r, s)` instead.
+│   caller = isslurp(::Symbol) at match.jl:29
+└ @ MacroTools match.jl:29
+(.b => 2.0, .a => 2, .c => 3.0)
+
+=====[End Error]===============================
  > checking footnote links.
  > checking external URLs:
    - index.md
@@ -615,7 +720,7 @@ Stacktrace:
  [9] include_relative(::Module, ::String) at ./loading.jl:1067
  [10] include(::Module, ::String) at ./sysimg.jl:29
  [11] exec_options(::Base.JLOptions) at ./client.jl:327
- [12] _start() at ./client.jl:455
+ [12] _start() at ./client.jl:457
 in expression starting at /home/vagrant/.julia/v0.7/Keys/test/runtests.jl:4
 ┌ Error: ------------------------------------------------------------
 │ # Testing failed for Keys
@@ -642,7 +747,7 @@ in expression starting at /home/vagrant/.julia/v0.7/Keys/test/runtests.jl:4
 │     [18] eval at ./boot.jl:317 [inlined]
 │     [19] eval(::Module, ::Expr) at ./sysimg.jl:74
 │     [20] exec_options(::Base.JLOptions) at ./client.jl:304
-│     [21] _start() at ./client.jl:455
+│     [21] _start() at ./client.jl:457
 └ @ Pkg.Entry entry.jl:732
 [ Info: Removing DocStringExtensions v0.4.4
 [ Info: Removing Documenter v0.17.0
