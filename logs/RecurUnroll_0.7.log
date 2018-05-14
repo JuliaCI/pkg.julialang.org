@@ -5,8 +5,6 @@ WARNING: Base.Pkg is deprecated, run `using Pkg` instead
 [ Info: Installing Missings v0.2.9
 [ Info: Installing RecurUnroll v0.1.1
 [ Info: Package database updated
-┌ Info: METADATA is out-of-date — you may not have the latest version of RecurUnroll
-└ Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("RecurUnroll")' log
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
@@ -15,20 +13,20 @@ Add `using InteractiveUtils` to your imports.
 WARNING: Base.versioninfo is deprecated: it has been moved to the standard library package `InteractiveUtils`.
 Add `using InteractiveUtils` to your imports.
  in module Main
-Julia Version 0.7.0-DEV.5059
-Commit f1b23284bb (2018-05-10 22:10 UTC)
+Julia Version 0.7.0-DEV.5095
+Commit 2a21849b10 (2018-05-12 22:13 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
       Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
               speed         user         nice          sys         idle          irq
-       #1  3499 MHz    2058836 s        189 s     150588 s     568250 s         17 s
-       #2  3499 MHz     436779 s       6910 s      49460 s    2718382 s          0 s
+       #1  3500 MHz    2016942 s       6476 s     153058 s     551009 s         18 s
+       #2  3500 MHz     412042 s        100 s      50462 s    2771878 s          1 s
        
-  Memory: 2.939197540283203 GB (928.9296875 MB free)
-  Uptime: 32729.0 sec
-  Load Avg:  0.9970703125  0.9853515625  0.95458984375
+  Memory: 2.939197540283203 GB (983.9765625 MB free)
+  Uptime: 32895.0 sec
+  Load Avg:  1.0029296875  1.0146484375  0.96533203125
   WORD_SIZE: 64
   LIBM: libopenlibm
   LLVM: libLLVM-6.0.0 (ORCJIT, haswell)
@@ -64,6 +62,67 @@ Documenter: running document checks.
  > running doctests.
 =====[Test Error]==============================
 
+> Location: /home/vagrant/.julia/v0.7/RecurUnroll/src/RecurUnroll.jl:162-169
+
+> Code block:
+
+```jldoctest
+julia> using RecurUnroll
+
+julia> import TypedBools: same_type
+
+julia> filter_unrolled(pair -> same_type(pair[1], pair[2]), ((1, 2), (1, "a")))
+((1, 2),)
+```
+
+> Subexpression:
+
+    import TypedBools: same_type
+
+> Output Diff (REQUIRES COLOR):
+
+ERROR: LoadError: cannot add methods to a builtin function
+Stacktrace:
+ [1] top-level scope
+ [2] include at ./boot.jl:314 [inlined]
+ [3] include_relative(::Module, ::String) at ./loading.jl:1067
+ [4] _require(::Base.PkgId) at ./loading.jl:993
+ [5] require(::Base.PkgId) at ./loading.jl:874
+ [6] require(::Module, ::Symbol) at ./loading.jl:869
+in expression starting at /home/vagrant/.julia/v0.7/TypedBools/src/TypedBools.jl:101
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/RecurUnroll/src/RecurUnroll.jl:162-169
+
+> Code block:
+
+```jldoctest
+julia> using RecurUnroll
+
+julia> import TypedBools: same_type
+
+julia> filter_unrolled(pair -> same_type(pair[1], pair[2]), ((1, 2), (1, "a")))
+((1, 2),)
+```
+
+> Subexpression:
+
+    filter_unrolled(pair -> same_type(pair[1], pair[2]), ((1, 2), (1, "a")))
+
+> Output Diff (REQUIRES COLOR):
+
+((1, 2),)ERROR: UndefVarError: same_type not defined
+Stacktrace:
+ [1] (::getfield( Symbol("##1#2")))(::Tuple{Int64,Int64}) at ./none:1
+ [2] map at ./tuple.jl:152 [inlined]
+ [3] filter_unrolled(::Function, ::Tuple{Tuple{Int64,Int64},Tuple{Int64,String}}) at /home/vagrant/.julia/v0.7/RecurUnroll/src/RecurUnroll.jl:171
+ [4] top-level scope
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
 > Location: /home/vagrant/.julia/v0.7/RecurUnroll/src/RecurUnroll.jl:102-107
 
 > Code block:
@@ -73,6 +132,56 @@ julia> using RecurUnroll, TypedBools, Base.Test
 
 julia> @inferred find_unrolled((True(), False(), True()))
 (1, 3)
+```
+
+> Subexpression:
+
+    using RecurUnroll, TypedBools, Base.Test
+
+> Output Diff (REQUIRES COLOR):
+
+WARNING: Base.Test is deprecated, run `using Test` instead
+  likely near /home/vagrant/.julia/v0.7/RecurUnroll/test/runtests.jl:4
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/RecurUnroll/src/RecurUnroll.jl:102-107
+
+> Code block:
+
+```jldoctest
+julia> using RecurUnroll, TypedBools, Base.Test
+
+julia> @inferred find_unrolled((True(), False(), True()))
+(1, 3)
+```
+
+> Subexpression:
+
+    @inferred find_unrolled((True(), False(), True()))
+
+> Output Diff (REQUIRES COLOR):
+
+(1, 3)ERROR: TypeError: non-boolean (TypedBools.True) used in boolean context
+Stacktrace:
+ [1] find_unrolled at /home/vagrant/.julia/v0.7/RecurUnroll/src/RecurUnroll.jl:111 [inlined]
+ [2] find_unrolled at /home/vagrant/.julia/v0.7/RecurUnroll/src/RecurUnroll.jl:110 [inlined] (repeats 2 times)
+ [3] find_unrolled(::Tuple{TypedBools.True,TypedBools.False,TypedBools.True}) at /home/vagrant/.julia/v0.7/RecurUnroll/src/RecurUnroll.jl:98
+ [4] top-level scope
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/RecurUnroll/src/RecurUnroll.jl:43-48
+
+> Code block:
+
+```jldoctest
+julia> using RecurUnroll, TypedBools, Base.Test
+
+julia> @inferred getindex_unrolled((1, "a", 1.0), (True(), False(), True()))
+(1, 1.0)
 ```
 
 > Subexpression:
@@ -100,12 +209,15 @@ julia> @inferred getindex_unrolled((1, "a", 1.0), (True(), False(), True()))
 
 > Subexpression:
 
-    using RecurUnroll, TypedBools, Base.Test
+    @inferred getindex_unrolled((1, "a", 1.0), (True(), False(), True()))
 
 > Output Diff (REQUIRES COLOR):
 
-WARNING: Base.Test is deprecated, run `using Test` instead
-  likely near /home/vagrant/.julia/v0.7/RecurUnroll/test/runtests.jl:4
+(1, 1.0)ERROR: TypeError: non-boolean (TypedBools.True) used in boolean context
+Stacktrace:
+ [1] getindex_unrolled at /home/vagrant/.julia/v0.7/RecurUnroll/src/RecurUnroll.jl:52 [inlined]
+ [2] getindex_unrolled at /home/vagrant/.julia/v0.7/RecurUnroll/src/RecurUnroll.jl:51 [inlined] (repeats 2 times)
+ [3] top-level scope
 
 =====[End Error]===============================
 =====[Test Error]==============================
@@ -157,6 +269,41 @@ julia> @inferred setindex_many_unrolled(
 
 WARNING: Base.Test is deprecated, run `using Test` instead
   likely near /home/vagrant/.julia/v0.7/RecurUnroll/test/runtests.jl:4
+
+=====[End Error]===============================
+=====[Test Error]==============================
+
+> Location: /home/vagrant/.julia/v0.7/RecurUnroll/src/RecurUnroll.jl:62-72
+
+> Code block:
+
+```jldoctest
+julia> using RecurUnroll, TypedBools, Base.Test
+
+julia> @inferred setindex_many_unrolled(
+            (1, "a", 1.0),
+            (1,),
+            (True(), False(), True()),
+            0
+        )
+(1, "a", 0)
+```
+
+> Subexpression:
+
+    @inferred setindex_many_unrolled(
+         (1, "a", 1.0),
+         (1,),
+         (True(), False(), True()),
+         0
+     )
+
+> Output Diff (REQUIRES COLOR):
+
+(1, "a", 0)ERROR: TypeError: non-boolean (TypedBools.True) used in boolean context
+Stacktrace:
+ [1] setindex_many_unrolled(::Tuple{Int64,String,Float64}, ::Tuple{Int64}, ::Tuple{TypedBools.True,TypedBools.False,TypedBools.True}, ::Int64) at /home/vagrant/.julia/v0.7/RecurUnroll/src/RecurUnroll.jl:85
+ [2] top-level scope
 
 =====[End Error]===============================
  > checking footnote links.
