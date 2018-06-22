@@ -1,77 +1,99 @@
 >>> 'Pkg.add("NLOptControl")' log
-INFO: Cloning cache of NLOptControl from https://github.com/JuliaMPC/NLOptControl.jl.git
-INFO: Cloning cache of Ranges from https://github.com/JuliaArrays/Ranges.jl.git
-INFO: Installing AbstractFFTs v0.3.1
 INFO: Installing AxisAlgorithms v0.2.0
-INFO: Installing AxisArrays v0.2.1
-INFO: Installing BinaryProvider v0.3.0
-INFO: Installing CSV v0.2.4
-INFO: Installing Calculus v0.3.1
-INFO: Installing CatIndices v0.1.0
-INFO: Installing CategoricalArrays v0.3.9
+INFO: Installing BinDeps v0.8.8
+INFO: Installing BinaryProvider v0.3.2
+INFO: Installing CSV v0.2.5
+INFO: Installing Calculus v0.4.0
+INFO: Installing CategoricalArrays v0.3.10
 INFO: Installing CodecZlib v0.4.3
-INFO: Installing ColorVectorSpace v0.5.2
 INFO: Installing CommonSubexpressions v0.1.0
-INFO: Installing ComputationalResources v0.2.0
-INFO: Installing CoordinateTransformations v0.4.1
-INFO: Installing CustomUnitRanges v0.1.0
 INFO: Installing DataFrames v0.11.6
-INFO: Installing DataStreams v0.3.4
-INFO: Installing DataStructures v0.8.2
+INFO: Installing DataStreams v0.3.6
+INFO: Installing DataStructures v0.8.3
+INFO: Installing DiffBase v0.3.2
+INFO: Installing DiffEqBase v3.12.1
+INFO: Installing DiffEqDiffTools v0.4.1
+INFO: Installing DiffEqOperators v1.3.0
 INFO: Installing DiffResults v0.0.3
 INFO: Installing DiffRules v0.0.4
 INFO: Installing Distances v0.6.0
-INFO: Installing DualNumbers v0.3.0
-INFO: Installing FFTViews v0.1.0
-INFO: Installing FFTW v0.0.4
+INFO: Installing DualNumbers v0.4.0
 INFO: Installing FastGaussQuadrature v0.3.0
-INFO: Installing FileIO v0.7.0
 INFO: Installing ForwardDiff v0.7.5
-INFO: Installing IdentityRanges v0.1.0
-INFO: Installing ImageAxes v0.4.0
-INFO: Installing ImageCore v0.5.0
-INFO: Installing ImageDistances v0.0.2
-INFO: Installing ImageFiltering v0.3.0
-INFO: Installing ImageMetadata v0.4.0
-INFO: Installing ImageMorphology v0.0.2
-INFO: Installing ImageTransformations v0.4.1
-INFO: Installing Images v0.13.0
-INFO: Installing IndirectArrays v0.4.2
+INFO: Installing FunctionWrappers v0.1.0
+INFO: Installing GenericSVD v0.1.0
+INFO: Installing InternedStrings v0.6.2
 INFO: Installing Interpolations v0.7.3
-INFO: Installing IntervalSets v0.2.0
 INFO: Installing Ipopt v0.3.0
-INFO: Installing IterTools v0.2.1
-INFO: Installing JuMP v0.18.1
+INFO: Installing IteratorInterfaceExtensions v0.0.2
+INFO: Installing JuMP v0.18.2
+INFO: Installing Juno v0.4.1
 INFO: Installing KNITRO v0.4.0
-INFO: Installing MacroTools v0.4.0
-INFO: Installing MappedArrays v0.0.7
+INFO: Installing LineSearches v4.0.0
+INFO: Installing LinearMaps v1.0.4
+INFO: Installing MacroTools v0.4.1
 INFO: Installing MathProgBase v0.7.1
+INFO: Installing Media v0.3.0
 INFO: Installing Missings v0.2.9
-INFO: Installing NLOptControl v0.1.5
+INFO: Installing MuladdMacro v0.0.2
+INFO: Installing NLOptControl v0.1.6
+INFO: Installing NLSolversBase v4.4.1
+INFO: Installing NLsolve v1.1.1
+INFO: Installing NaNMath v0.3.1
 INFO: Installing NamedTuples v4.0.2
-INFO: Installing OffsetArrays v0.5.0
-INFO: Installing PaddedViews v0.3.0
-INFO: Installing ProgressMeter v0.5.5
-INFO: Installing RangeArrays v0.2.0
-INFO: Installing Ranges v0.0.1
+INFO: Installing OrdinaryDiffEq v3.17.0
+INFO: Installing Parameters v0.9.0
 INFO: Installing Ratios v0.2.0
+INFO: Installing RecipesBase v0.3.1
+INFO: Installing RecursiveArrayTools v0.15.0
+INFO: Installing Reexport v0.1.0
+INFO: Installing Requires v0.4.4
 INFO: Installing ReverseDiffSparse v0.8.1
-INFO: Installing Rotations v0.6.1
-INFO: Installing SIUnits v0.1.0
+INFO: Installing Roots v0.6.0
+INFO: Installing SHA v0.5.7
 INFO: Installing ShowItLikeYouBuildIt v0.2.0
 INFO: Installing SimpleTraits v0.6.0
 INFO: Installing SortingAlgorithms v0.2.1
-INFO: Installing SpecialFunctions v0.4.0
-INFO: Installing StaticArrays v0.7.0
-INFO: Installing StatsBase v0.22.0
-INFO: Installing TexExtensions v0.1.0
-INFO: Installing TiledIteration v0.1.0
+INFO: Installing SpecialFunctions v0.5.0
+INFO: Installing StaticArrays v0.7.1
+INFO: Installing StatsBase v0.23.0
+INFO: Installing TableTraits v0.2.0
 INFO: Installing TranscodingStreams v0.5.2
-INFO: Installing WeakRefStrings v0.4.6
+INFO: Installing URIParser v0.3.1
+INFO: Installing WeakRefStrings v0.4.7
 INFO: Installing WoodburyMatrices v0.2.2
 INFO: Building CodecZlib
+INFO: Building DiffEqBase
+INFO: ~~~ DifferentialEquations.jl *BREAKING* changes  ~~~
+
+We have changed the front-end API on how
+users may define equations of motion and 
+problems, for all problem types that can
+be used in the DifferentialEquations.jl.
+These are *BREAKING* changes, and they
+also have *NO WARNINGS*!
+
+Please see our latest documentation here:
+http://docs.juliadiffeq.org/latest/
+
+or the blogpost that describes the changes:
+http://juliadiffeq.org/2018/01/24/Parameters.html
+
+In short, the mutated argument is the first argument,
+and parameters are now directly passed
+into the equations of motion function. For all
+types now mutation goes first, then dependent variables, 
+then parameters, then independent variables. 
+
+`f(mutated, dependent variables, p/integrator, independent variables)`
+
+For example, this means that the ODE syntax will be `f(u,p,t)` (for the
+out-of-place) and `f(du,u,p,t)` (for the in-place). Notice
+that this change also removes the need for ParameterizedFunctions
+as now parameters are part of the equations of motion.
+
+For more details please visit the above links!
 INFO: Building SpecialFunctions
-INFO: Building FFTW
 INFO: Building Ipopt
 WARNING: imported binding for srcdir overwritten in module __anon__
 INFO: Package database updated
@@ -79,21 +101,21 @@ INFO: METADATA is out-of-date — you may not have the latest version of NLOptCo
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("NLOptControl")' log
-Julia Version 0.6.2
-Commit d386e40c17 (2017-12-13 18:08 UTC)
+Julia Version 0.6.3
+Commit d55cadc350 (2018-05-28 20:20 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (725.30078125 MB free)
-Uptime: 93871.0 sec
-Load Avg:  1.01025390625  1.009765625  1.04736328125
+Memory: 2.939197540283203 GB (659.46875 MB free)
+Uptime: 76753.0 sec
+Load Avg:  1.09423828125  1.04833984375  1.11767578125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3504 MHz    5774097 s       1384 s     393644 s    1865504 s         84 s
-#2  3504 MHz    1370639 s       5624 s     150351 s    7667108 s          2 s
+#1  3492 MHz    4815867 s       5302 s     363665 s    1258807 s          8 s
+#2  3492 MHz     773691 s         42 s     112092 s    6690085 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -109,129 +131,73 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - JSON                          0.17.2
- - NLOptControl                  0.1.5
-84 additional packages:
- - AbstractFFTs                  0.3.1
+ - NLOptControl                  0.1.6
+64 additional packages:
  - AxisAlgorithms                0.2.0
- - AxisArrays                    0.2.1
  - BinDeps                       0.8.8
- - BinaryProvider                0.3.0
- - CSV                           0.2.4
- - Cairo                         0.5.1
- - Calculus                      0.3.1
- - CatIndices                    0.1.0
- - CategoricalArrays             0.3.9
+ - BinaryProvider                0.3.2
+ - CSV                           0.2.5
+ - Calculus                      0.4.0
+ - CategoricalArrays             0.3.10
  - CodecZlib                     0.4.3
- - ColorTypes                    0.6.7
- - ColorVectorSpace              0.5.2
- - Colors                        0.8.2
  - CommonSubexpressions          0.1.0
- - Compat                        0.64.0
- - ComputationalResources        0.2.0
- - CoordinateTransformations     0.4.1
- - CustomUnitRanges              0.1.0
+ - Compat                        0.69.0
  - DataFrames                    0.11.6
- - DataStreams                   0.3.4
- - DataStructures                0.8.2
+ - DataStreams                   0.3.6
+ - DataStructures                0.8.3
+ - DiffBase                      0.3.2
+ - DiffEqBase                    3.12.1
+ - DiffEqDiffTools               0.4.1
+ - DiffEqOperators               1.3.0
  - DiffResults                   0.0.3
  - DiffRules                     0.0.4
  - Distances                     0.6.0
- - DualNumbers                   0.3.0
- - FFTViews                      0.1.0
- - FFTW                          0.0.4
+ - DualNumbers                   0.4.0
  - FastGaussQuadrature           0.3.0
- - FileIO                        0.7.0
- - FixedPointNumbers             0.4.6
  - ForwardDiff                   0.7.5
- - Graphics                      0.3.0
- - Gtk                           0.13.1
- - IdentityRanges                0.1.0
- - ImageAxes                     0.4.0
- - ImageCore                     0.5.0
- - ImageDistances                0.0.2
- - ImageFiltering                0.3.0
- - ImageMetadata                 0.4.0
- - ImageMorphology               0.0.2
- - ImageTransformations          0.4.1
- - Images                        0.13.0
- - IndirectArrays                0.4.2
+ - FunctionWrappers              0.1.0
+ - GenericSVD                    0.1.0
+ - InternedStrings               0.6.2
  - Interpolations                0.7.3
- - IntervalSets                  0.2.0
  - Ipopt                         0.3.0
- - IterTools                     0.2.1
- - JuMP                          0.18.1
+ - IteratorInterfaceExtensions   0.0.2
+ - JuMP                          0.18.2
+ - Juno                          0.4.1
  - KNITRO                        0.4.0
- - MacroTools                    0.4.0
- - MappedArrays                  0.0.7
+ - LineSearches                  4.0.0
+ - LinearMaps                    1.0.4
+ - MacroTools                    0.4.1
  - MathProgBase                  0.7.1
+ - Media                         0.3.0
  - Missings                      0.2.9
+ - MuladdMacro                   0.0.2
+ - NLSolversBase                 4.4.1
+ - NLsolve                       1.1.1
  - NaNMath                       0.3.1
  - NamedTuples                   4.0.2
- - NodeJS                        0.4.0
  - Nullables                     0.0.5
- - OffsetArrays                  0.5.0
- - PaddedViews                   0.3.0
- - ProgressMeter                 0.5.5
- - RangeArrays                   0.2.0
- - Ranges                        0.0.1
+ - OrdinaryDiffEq                3.17.0
+ - Parameters                    0.9.0
  - Ratios                        0.2.0
+ - RecipesBase                   0.3.1
+ - RecursiveArrayTools           0.15.0
  - Reexport                      0.1.0
- - Requires                      0.4.3
+ - Requires                      0.4.4
  - ReverseDiffSparse             0.8.1
- - Rotations                     0.6.1
- - Rsvg                          0.2.0
+ - Roots                         0.6.0
  - SHA                           0.5.7
- - SIUnits                       0.1.0
  - ShowItLikeYouBuildIt          0.2.0
  - SimpleTraits                  0.6.0
  - SortingAlgorithms             0.2.1
- - SpecialFunctions              0.4.0
- - StaticArrays                  0.7.0
- - StatsBase                     0.22.0
- - TexExtensions                 0.1.0
- - TiledIteration                0.1.0
+ - SpecialFunctions              0.5.0
+ - StaticArrays                  0.7.1
+ - StatsBase                     0.23.0
+ - TableTraits                   0.2.0
  - TranscodingStreams            0.5.2
  - URIParser                     0.3.1
- - VegaLite                      0.1.0              ecb31725 (dirty)
- - WeakRefStrings                0.4.6
+ - WeakRefStrings                0.4.7
  - WoodburyMatrices              0.2.2
 INFO: Testing NLOptControl
-
-WARNING: deprecated syntax "inner constructor LinSpace(...) around /home/vagrant/.julia/v0.6/Ranges/src/linspace.jl:18".
-Use "LinSpace{T}(...) where T" instead.
-
-WARNING: deprecated syntax "function .+(...)".
-Use "function Base.broadcast(::typeof(+), ...)" instead.
-
-WARNING: deprecated syntax "function .+(...)".
-Use "function Base.broadcast(::typeof(+), ...)" instead.
-
-WARNING: deprecated syntax "function .-(...)".
-Use "function Base.broadcast(::typeof(-), ...)" instead.
-
-WARNING: deprecated syntax "function .-(...)".
-Use "function Base.broadcast(::typeof(-), ...)" instead.
-
-WARNING: deprecated syntax "function .-(...)".
-Use "function Base.broadcast(::typeof(-), ...)" instead.
-
-WARNING: deprecated syntax "function .-(...)".
-Use "function Base.broadcast(::typeof(-), ...)" instead.
-
-WARNING: deprecated syntax "function .*(...)".
-Use "function Base.broadcast(::typeof(*), ...)" instead.
-
-WARNING: deprecated syntax "function .*(...)".
-Use "function Base.broadcast(::typeof(*), ...)" instead.
-
-WARNING: deprecated syntax "function ./(...)".
-Use "function Base.broadcast(::typeof(/), ...)" instead.
-WARNING: Base.FloatRange is deprecated, use Base.Use_StepRangeLen_Instead{T} where T<:AbstractFloat instead.
-  likely near /home/vagrant/.julia/v0.6/Ranges/src/linspace.jl:141
-WARNING: Base.FloatRange is deprecated, use Base.Use_StepRangeLen_Instead{T} where T<:AbstractFloat instead.
-  likely near /home/vagrant/.julia/v0.6/Ranges/src/linspace.jl:143
-WARNING: Base.FloatRange is deprecated, use Base.Use_StepRangeLen_Instead{T} where T<:AbstractFloat instead.
-  likely near /home/vagrant/.julia/v0.6/Ranges/src/linspace.jl:145
 
 ******************************************************************************
 This program contains Ipopt, a library for large-scale nonlinear optimization.
@@ -239,40 +205,52 @@ This program contains Ipopt, a library for large-scale nonlinear optimization.
          For more information visit http://projects.coin-or.org/Ipopt
 ******************************************************************************
 
-((n.r.dfs_opt[1])[:t_solve])[1] = 7.316090106964111
+n.r.ocp.dfsOpt[:tSolve] = Any[6.74671]
 Test Summary:                                                          | Pass  Total
 BrysonDenham with (:integrationScheme=>lgrExplicit) using expressions) |    1      1
-((n.r.dfs_opt[1])[:t_solve])[1] = 0.02669382095336914
+n.r.ocp.dfsOpt[:tSolve] = Any[0.057987]
 Test Summary:                                                          | Pass  Total
 BrysonDenham with (:integrationScheme=>lgrImplicit) using expressions) |    1      1
-((n.r.dfs_opt[1])[:t_solve])[1] = 0.05297708511352539
+n.r.ocp.dfsOpt[:tSolve] = Any[0.041019]
 Test Summary:                                                          | Pass  Total
 BrysonDenham with (:integrationScheme=>trapezoidal) using expressions) |    1      1
-((n.r.dfs_opt[1])[:t_solve])[1] = 0.06094193458557129
+n.r.ocp.dfsOpt[:tSolve] = Any[0.062521]
 Test Summary:                                                       | Pass  Total
 BrysonDenham with (:integrationScheme=>bkwEuler) using expressions) |    1      1
-((n.r.dfs_opt[1])[:t_solve])[1] = 0.022309064865112305
+n.r.ocp.dfsOpt[:tSolve] = Any[0.0604441]
+Test Summary:                                                                               | Pass  Total
+BrysonDenham using slackVariables with (:integrationScheme=>lgrExplicit) using expressions) |    1      1
+n.r.ocp.dfsOpt[:tSolve] = Any[0.0597939]
+Test Summary:                                                                               | Pass  Total
+BrysonDenham using slackVariables with (:integrationScheme=>lgrImplicit) using expressions) |    1      1
+n.r.ocp.dfsOpt[:tSolve] = Any[0.0511892]
+Test Summary:                                                                               | Pass  Total
+BrysonDenham using slackVariables with (:integrationScheme=>trapezoidal) using expressions) |    1      1
+n.r.ocp.dfsOpt[:tSolve] = Any[0.076108]
+Test Summary:                                                                            | Pass  Total
+BrysonDenham using slackVariables with (:integrationScheme=>bkwEuler) using expressions) |    1      1
+n.r.ocp.dfsOpt[:tSolve] = Any[0.0168018]
 Test Summary:                                                                             | Pass  Total
 BeamProblem with (:integrationScheme=>lgrExplicit) using expressions and solver settings) |    1      1
-((n.r.dfs_opt[1])[:t_solve])[1] = 0.015558004379272461
+n.r.ocp.dfsOpt[:tSolve] = Any[0.0401268]
 Test Summary:                                                                             | Pass  Total
 BeamProblem with (:integrationScheme=>lgrImplicit) using expressions and solver settings) |    1      1
-((n.r.dfs_opt[1])[:t_solve])[1] = 0.021566152572631836
+n.r.ocp.dfsOpt[:tSolve] = Any[0.031302]
 Test Summary:                                                                             | Pass  Total
 BeamProblem with (:integrationScheme=>trapezoidal) using expressions and solver settings) |    1      1
-((n.r.dfs_opt[1])[:t_solve])[1] = 0.022500038146972656
+n.r.ocp.dfsOpt[:tSolve] = Any[0.0205939]
 Test Summary:                                                                          | Pass  Total
 BeamProblem with (:integrationScheme=>bkwEuler) using expressions and solver settings) |    1      1
-((n.r.dfs_opt[1])[:t_solve])[1] = 2.498387098312378
+n.r.ocp.dfsOpt[:tSolve] = Any[3.10642]
 Test Summary:                                                                                                                          | Pass  Total
 MoonLander with (:integrationScheme=>lgrExplicit) using new names for states and controls; also naming them x and u to check for bugs) |    1      1
-((n.r.dfs_opt[1])[:t_solve])[1] = 0.1375899314880371
+n.r.ocp.dfsOpt[:tSolve] = Any[0.424191]
 Test Summary:                                                                                                                          | Pass  Total
 MoonLander with (:integrationScheme=>lgrImplicit) using new names for states and controls; also naming them x and u to check for bugs) |    1      1
-((n.r.dfs_opt[1])[:t_solve])[1] = 0.9021220207214355
+n.r.ocp.dfsOpt[:tSolve] = Any[1.64074]
 Test Summary:                                                                                                                          | Pass  Total
 MoonLander with (:integrationScheme=>trapezoidal) using new names for states and controls; also naming them x and u to check for bugs) |    1      1
-((n.r.dfs_opt[1])[:t_solve])[1] = 0.1246800422668457
+n.r.ocp.dfsOpt[:tSolve] = Any[0.151757]
 Test Summary:                                                                                                                       | Pass  Total
 MoonLander with (:integrationScheme=>bkwEuler) using new names for states and controls; also naming them x and u to check for bugs) |    1      1
 maximum(max_error_ave) = 0.2543252129944562
@@ -287,6 +265,149 @@ MoonLander test to make sure that a benchmark test will be able to be executed w
 maximum(max_error_ave) = 0.4127819341442782
 Test Summary:                                                                                                       | Pass  Total
 MoonLander test to make sure that a benchmark test will be able to be executed with (:integrationScheme=>bkwEuler)  |    1      1
+WARNING: Not solved to optimality, status: Infeasible
+n.r.ocp.dfsOpt = 31×4 DataFrames.DataFrame
+│ Row │ tSolve    │ objVal  │ status     │ iterNum │
+├─────┼───────────┼─────────┼────────────┼─────────┤
+│ 1   │ 0.0638261 │ 8.92419 │ Optimal    │ 0       │
+│ 2   │ 0.0788381 │ 8.92435 │ Optimal    │ 0       │
+│ 3   │ 0.0860291 │ 8.92438 │ Optimal    │ 0       │
+│ 4   │ 0.0676999 │ 8.92436 │ Optimal    │ 0       │
+│ 5   │ 0.0661581 │ 8.92434 │ Optimal    │ 0       │
+│ 6   │ 0.0810499 │ 8.92427 │ Optimal    │ 0       │
+│ 7   │ 0.069787  │ 8.92414 │ Optimal    │ 0       │
+│ 8   │ 0.083504  │ 8.92428 │ Optimal    │ 0       │
+│ 9   │ 0.0880129 │ 8.9241  │ Optimal    │ 0       │
+│ 10  │ 0.0773771 │ 8.92422 │ Optimal    │ 0       │
+│ 11  │ 0.0838401 │ 8.92422 │ Optimal    │ 0       │
+│ 12  │ 0.11316   │ 8.9242  │ Optimal    │ 0       │
+│ 13  │ 0.190337  │ 8.87546 │ Optimal    │ 0       │
+│ 14  │ 0.201193  │ 8.7377  │ Optimal    │ 0       │
+│ 15  │ 0.211305  │ 8.43614 │ Optimal    │ 0       │
+│ 16  │ 0.174972  │ 8.13457 │ Optimal    │ 0       │
+│ 17  │ 0.201511  │ 7.833   │ Optimal    │ 0       │
+│ 18  │ 0.229473  │ 7.53143 │ Optimal    │ 0       │
+│ 19  │ 0.18753   │ 7.23179 │ Optimal    │ 0       │
+│ 20  │ 0.21519   │ 6.93256 │ Optimal    │ 0       │
+│ 21  │ 0.239841  │ 6.63293 │ Optimal    │ 0       │
+│ 22  │ 0.232863  │ 6.33296 │ Optimal    │ 0       │
+│ 23  │ 0.199834  │ 6.03269 │ Optimal    │ 0       │
+│ 24  │ 0.240431  │ 5.73217 │ Optimal    │ 0       │
+│ 25  │ 0.192628  │ 5.43141 │ Optimal    │ 0       │
+│ 26  │ 0.230594  │ 5.13044 │ Optimal    │ 0       │
+│ 27  │ 0.198753  │ 4.82928 │ Optimal    │ 0       │
+│ 28  │ 0.179222  │ 4.52795 │ Optimal    │ 0       │
+│ 29  │ 0.207966  │ 4.22696 │ Optimal    │ 0       │
+│ 30  │ 0.177566  │ 3.92773 │ Optimal    │ 0       │
+│ 31  │ 0.74135   │ 3.92773 │ Infeasible │ 0       │
+optIdx = 30
+n.r.ocp.dfs[optIdx] = 101×4 DataFrames.DataFrame
+│ Row │ t       │ h            │ v            │ T          │
+├─────┼─────────┼──────────────┼──────────────┼────────────┤
+│ 1   │ 3.0     │ 1.09905      │ -1.74031     │ 3.0        │
+│ 2   │ 3.01346 │ 1.07574      │ -1.7218      │ 3.0        │
+│ 3   │ 3.02692 │ 1.05269      │ -1.70329     │ 3.0        │
+│ 4   │ 3.04038 │ 1.02989      │ -1.68478     │ 3.0        │
+│ 5   │ 3.05384 │ 1.00733      │ -1.66627     │ 3.0        │
+│ 6   │ 3.06731 │ 0.985028     │ -1.64776     │ 3.0        │
+│ 7   │ 3.08077 │ 0.962972     │ -1.62926     │ 3.0        │
+│ 8   │ 3.09423 │ 0.941165     │ -1.61075     │ 3.0        │
+│ 9   │ 3.10769 │ 0.919607     │ -1.59224     │ 3.0        │
+│ 10  │ 3.12115 │ 0.898299     │ -1.57373     │ 3.0        │
+│ 11  │ 3.13461 │ 0.877239     │ -1.55522     │ 3.0        │
+│ 12  │ 3.14807 │ 0.856429     │ -1.53671     │ 3.0        │
+│ 13  │ 3.16153 │ 0.835868     │ -1.5182      │ 3.0        │
+│ 14  │ 3.17499 │ 0.815556     │ -1.49969     │ 3.0        │
+│ 15  │ 3.18845 │ 0.795493     │ -1.48118     │ 3.0        │
+│ 16  │ 3.20192 │ 0.775679     │ -1.46268     │ 3.0        │
+│ 17  │ 3.21538 │ 0.756115     │ -1.44417     │ 3.0        │
+│ 18  │ 3.22884 │ 0.736799     │ -1.42566     │ 3.0        │
+│ 19  │ 3.2423  │ 0.717733     │ -1.40715     │ 3.0        │
+│ 20  │ 3.25576 │ 0.698916     │ -1.38864     │ 3.0        │
+│ 21  │ 3.26922 │ 0.680348     │ -1.37013     │ 3.0        │
+│ 22  │ 3.28268 │ 0.662029     │ -1.35162     │ 3.0        │
+│ 23  │ 3.29614 │ 0.643959     │ -1.33311     │ 3.0        │
+│ 24  │ 3.3096  │ 0.626139     │ -1.3146      │ 3.0        │
+│ 25  │ 3.32307 │ 0.608568     │ -1.29609     │ 3.0        │
+│ 26  │ 3.33653 │ 0.591245     │ -1.27759     │ 3.0        │
+│ 27  │ 3.34999 │ 0.574172     │ -1.25908     │ 3.0        │
+│ 28  │ 3.36345 │ 0.557348     │ -1.24057     │ 3.0        │
+│ 29  │ 3.37691 │ 0.540774     │ -1.22206     │ 3.0        │
+│ 30  │ 3.39037 │ 0.524448     │ -1.20355     │ 3.0        │
+│ 31  │ 3.40383 │ 0.508371     │ -1.18504     │ 3.0        │
+│ 32  │ 3.41729 │ 0.492544     │ -1.16653     │ 3.0        │
+│ 33  │ 3.43075 │ 0.476966     │ -1.14802     │ 3.0        │
+│ 34  │ 3.44421 │ 0.461637     │ -1.12951     │ 3.0        │
+│ 35  │ 3.45768 │ 0.446557     │ -1.11101     │ 3.0        │
+│ 36  │ 3.47114 │ 0.431726     │ -1.0925      │ 3.0        │
+│ 37  │ 3.4846  │ 0.417145     │ -1.07399     │ 3.0        │
+│ 38  │ 3.49806 │ 0.402812     │ -1.05548     │ 3.0        │
+│ 39  │ 3.51152 │ 0.388729     │ -1.03697     │ 3.0        │
+│ 40  │ 3.52498 │ 0.374895     │ -1.01846     │ 3.0        │
+│ 41  │ 3.53844 │ 0.36131      │ -0.999952    │ 3.0        │
+│ 42  │ 3.5519  │ 0.347974     │ -0.981443    │ 3.0        │
+│ 43  │ 3.56536 │ 0.334888     │ -0.962934    │ 3.0        │
+│ 44  │ 3.57882 │ 0.32205      │ -0.944425    │ 3.0        │
+│ 45  │ 3.59229 │ 0.309462     │ -0.925916    │ 3.0        │
+│ 46  │ 3.60575 │ 0.297122     │ -0.907407    │ 3.0        │
+│ 47  │ 3.61921 │ 0.285032     │ -0.888898    │ 3.0        │
+│ 48  │ 3.63267 │ 0.273191     │ -0.870389    │ 3.0        │
+│ 49  │ 3.64613 │ 0.2616       │ -0.85188     │ 3.0        │
+│ 50  │ 3.65959 │ 0.250257     │ -0.833372    │ 3.0        │
+│ 51  │ 3.67305 │ 0.239163     │ -0.814863    │ 3.0        │
+│ 52  │ 3.68651 │ 0.228319     │ -0.796354    │ 3.0        │
+│ 53  │ 3.69997 │ 0.217724     │ -0.777845    │ 3.0        │
+│ 54  │ 3.71344 │ 0.207378     │ -0.759336    │ 3.0        │
+│ 55  │ 3.7269  │ 0.197281     │ -0.740827    │ 3.0        │
+│ 56  │ 3.74036 │ 0.187433     │ -0.722318    │ 3.0        │
+│ 57  │ 3.75382 │ 0.177835     │ -0.703809    │ 3.0        │
+│ 58  │ 3.76728 │ 0.168485     │ -0.6853      │ 3.0        │
+│ 59  │ 3.78074 │ 0.159385     │ -0.666791    │ 3.0        │
+│ 60  │ 3.7942  │ 0.150534     │ -0.648282    │ 3.0        │
+│ 61  │ 3.80766 │ 0.141932     │ -0.629773    │ 3.0        │
+│ 62  │ 3.82112 │ 0.133579     │ -0.611264    │ 3.0        │
+│ 63  │ 3.83458 │ 0.125475     │ -0.592755    │ 3.0        │
+│ 64  │ 3.84805 │ 0.117621     │ -0.574246    │ 3.0        │
+│ 65  │ 3.86151 │ 0.110016     │ -0.555737    │ 3.0        │
+│ 66  │ 3.87497 │ 0.102659     │ -0.537229    │ 3.0        │
+│ 67  │ 3.88843 │ 0.0955522    │ -0.51872     │ 3.0        │
+│ 68  │ 3.90189 │ 0.0886943    │ -0.500211    │ 3.0        │
+│ 69  │ 3.91535 │ 0.0820855    │ -0.481702    │ 3.0        │
+│ 70  │ 3.92881 │ 0.0757259    │ -0.463193    │ 3.0        │
+│ 71  │ 3.94227 │ 0.0696154    │ -0.444684    │ 3.0        │
+│ 72  │ 3.95573 │ 0.063754     │ -0.426175    │ 3.0        │
+│ 73  │ 3.9692  │ 0.0581419    │ -0.407666    │ 3.0        │
+│ 74  │ 3.98266 │ 0.0527788    │ -0.389157    │ 3.0        │
+│ 75  │ 3.99612 │ 0.0476649    │ -0.370648    │ 3.0        │
+│ 76  │ 4.00958 │ 0.0428002    │ -0.352139    │ 3.0        │
+│ 77  │ 4.02304 │ 0.0381846    │ -0.33363     │ 3.0        │
+│ 78  │ 4.0365  │ 0.0338182    │ -0.315121    │ 3.0        │
+│ 79  │ 4.04996 │ 0.0297009    │ -0.296612    │ 3.0        │
+│ 80  │ 4.06342 │ 0.0258328    │ -0.278103    │ 3.0        │
+│ 81  │ 4.07688 │ 0.0222138    │ -0.259594    │ 3.0        │
+│ 82  │ 4.09034 │ 0.0188439    │ -0.241086    │ 3.0        │
+│ 83  │ 4.10381 │ 0.0157232    │ -0.222577    │ 3.0        │
+│ 84  │ 4.11727 │ 0.0128517    │ -0.204068    │ 3.0        │
+│ 85  │ 4.13073 │ 0.0102293    │ -0.185559    │ 3.0        │
+│ 86  │ 4.14419 │ 0.00785608   │ -0.16705     │ 3.0        │
+│ 87  │ 4.15765 │ 0.00573199   │ -0.148541    │ 3.0        │
+│ 88  │ 4.17111 │ 0.00385705   │ -0.130032    │ 3.0        │
+│ 89  │ 4.18457 │ 0.00223126   │ -0.111523    │ 3.0        │
+│ 90  │ 4.19803 │ 0.000854617  │ -0.093014    │ 3.0        │
+│ 91  │ 4.21149 │ -0.000272874 │ -0.0745051   │ 3.0        │
+│ 92  │ 4.22496 │ -0.00115122  │ -0.0559962   │ 3.0        │
+│ 93  │ 4.23842 │ -0.00178041  │ -0.0374872   │ 3.0        │
+│ 94  │ 4.25188 │ -0.00216045  │ -0.0189783   │ 3.0        │
+│ 95  │ 4.26534 │ -0.00229134  │ -0.000469341 │ 3.0        │
+│ 96  │ 4.2788  │ -0.00217309  │ 0.0180396    │ 3.0        │
+│ 97  │ 4.29226 │ -0.00180568  │ 0.0365485    │ 3.0        │
+│ 98  │ 4.30572 │ -0.00122152  │ 0.0502442    │ 2.28487    │
+│ 99  │ 4.31918 │ -0.000588899 │ 0.0437484    │ 4.59554e-7 │
+│ 100 │ 4.33264 │ -0.000147225 │ 0.0218742    │ 2.24776e-7 │
+│ 101 │ 4.3461  │ 0.0          │ 0.0          │ 3.6564e-7  │
+n.mpc.v.t = 3.0000000000000013
+Test Summary:        | Pass  Total
+MoonLander MPC Tests |    8      8
 INFO: NLOptControl tests passed
 
 >>> End of log

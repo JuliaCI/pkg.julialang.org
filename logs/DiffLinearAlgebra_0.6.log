@@ -6,21 +6,21 @@ INFO: METADATA is out-of-date — you may not have the latest version of DiffLin
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("DiffLinearAlgebra")' log
-Julia Version 0.6.2
-Commit d386e40c17 (2017-12-13 18:08 UTC)
+Julia Version 0.6.3
+Commit d55cadc350 (2018-05-28 20:20 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (2320.95703125 MB free)
-Uptime: 76115.0 sec
-Load Avg:  1.15869140625  1.068359375  1.0400390625
+Memory: 2.939197540283203 GB (2006.90625 MB free)
+Uptime: 63882.0 sec
+Load Avg:  0.99853515625  0.986328125  1.02392578125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz    4527562 s       5350 s     314076 s    1703531 s         57 s
-#2  3499 MHz    1351257 s       1891 s     170068 s    5926708 s          0 s
+#1  3499 MHz    3924913 s       4300 s     285945 s    1201466 s          7 s
+#2  3499 MHz     883681 s         96 s     118485 s    5261818 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
   LAPACK: libopenblas64_
@@ -38,15 +38,74 @@ Package Directory: /home/vagrant/.julia/v0.6
  - DiffLinearAlgebra             0.0.1
  - JSON                          0.17.2
 2 additional packages:
- - Compat                        0.64.0
+ - Compat                        0.69.0
  - Nullables                     0.0.5
 INFO: Computing test dependencies for DiffLinearAlgebra...
 INFO: Cloning cache of FDM from https://github.com/invenia/FDM.jl.git
 INFO: Installing FDM v0.1.0
 INFO: Testing DiffLinearAlgebra
-Test Summary:     | Pass  Total
-DiffLinearAlgebra |  305    305
-INFO: DiffLinearAlgebra tests passed
+util: Test Failed
+  Expression: import_expr(DLA.DiffOp(:Foo, $(Expr(:quote, :(Tuple{Foo}))), [true])) == $(Expr(:quote, :(import Foo)))
+   Evaluated: import util: Error During Test
+  Got an exception of type BoundsError outside of a @test
+  BoundsError: attempt to access 1-element Array{Any,1} at index [2]
+  Stacktrace:
+   [1] show_unquoted(::Base.PipeEndpoint, ::Expr, ::Int64, ::Int64) at ./show.jl:705
+   [2] print(::Base.PipeEndpoint, ::Expr) at ./show.jl:431
+   [3] show_unquoted(::Base.PipeEndpoint, ::Expr, ::Int64, ::Int64) at ./show.jl:1014
+   [4] show_list(::Base.PipeEndpoint, ::Array{Any,1}, ::String, ::Int64, ::Int64, ::Bool) at ./show.jl:566
+   [5] show_unquoted(::Base.PipeEndpoint, ::Expr, ::Int64, ::Int64) at ./show.jl:843
+   [6] print(::Base.PipeEndpoint, ::Expr) at ./show.jl:431
+   [7] print(::Base.PipeEndpoint, ::String, ::Expr, ::Vararg{Expr,N} where N) at ./strings/io.jl:40
+   [8] show(::Base.PipeEndpoint, ::Base.Test.Fail) at ./test.jl:110
+   [9] print(::Base.PipeEndpoint, ::Base.Test.Fail) at ./strings/io.jl:29
+   [10] record(::Base.Test.DefaultTestSet, ::Base.Test.Fail) at ./test.jl:565
+   [11] do_test(::Base.Test.Returned, ::Expr) at ./test.jl:352
+   [12] macro expansion at /home/vagrant/.julia/v0.6/DiffLinearAlgebra/test/util.jl:8 [inlined]
+   [13] macro expansion at ./test.jl:860 [inlined]
+   [14] anonymous at ./<missing>:?
+   [15] include_from_node1(::String) at ./loading.jl:576
+   [16] include(::String) at ./sysimg.jl:14
+   [17] macro expansion at /home/vagrant/.julia/v0.6/DiffLinearAlgebra/test/runtests.jl:8 [inlined]
+   [18] macro expansion at ./test.jl:860 [inlined]
+   [19] anonymous at ./<missing>:?
+   [20] include_from_node1(::String) at ./loading.jl:576
+   [21] include(::String) at ./sysimg.jl:14
+   [22] process_options(::Base.JLOptions) at ./client.jl:305
+   [23] _start() at ./client.jl:371
+testimports: Error During Test
+  Got an exception of type TypeError outside of a @test
+  TypeError: import or using: expected Symbol, got Expr
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/DiffLinearAlgebra/test/test_imports.jl:5 [inlined]
+   [2] macro expansion at ./test.jl:860 [inlined]
+   [3] anonymous at ./<missing>:?
+   [4] include_from_node1(::String) at ./loading.jl:576
+   [5] include(::String) at ./sysimg.jl:14
+   [6] macro expansion at /home/vagrant/.julia/v0.6/DiffLinearAlgebra/test/runtests.jl:15 [inlined]
+   [7] macro expansion at ./test.jl:860 [inlined]
+   [8] anonymous at ./<missing>:?
+   [9] include_from_node1(::String) at ./loading.jl:576
+   [10] include(::String) at ./sysimg.jl:14
+   [11] process_options(::Base.JLOptions) at ./client.jl:305
+   [12] _start() at ./client.jl:371
+Test Summary:     | Pass  Error  Total
+DiffLinearAlgebra |  302      2    304
+  util            |    3      1      4
+  Generic         |   55            55
+  BLAS            |  188           188
+  Diagonal        |   17            17
+  Triangular      |   16            16
+  Cholesky        |   23            23
+  testimports     |           1      1
+ERROR: LoadError: Some tests did not pass: 302 passed, 0 failed, 2 errored, 0 broken.
+while loading /home/vagrant/.julia/v0.6/DiffLinearAlgebra/test/runtests.jl, in expression starting on line 6
+==========================[ ERROR: DiffLinearAlgebra ]==========================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cgeneric -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/DiffLinearAlgebra/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing FDM v0.1.0
+ERROR: DiffLinearAlgebra had test errors
 
 >>> End of log
