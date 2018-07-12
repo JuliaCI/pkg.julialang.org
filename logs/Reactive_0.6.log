@@ -5,23 +5,23 @@ INFO: METADATA is out-of-date — you may not have the latest version of Reactiv
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Reactive")' log
-Julia Version 0.6.3
-Commit d55cadc350 (2018-05-28 20:20 UTC)
+Julia Version 0.6.4
+Commit 9d11f62bcb (2018-07-09 19:09 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (602.12890625 MB free)
-Uptime: 29817.0 sec
-Load Avg:  1.0771484375  1.001953125  1.01318359375
+Memory: 2.939197540283203 GB (600.92578125 MB free)
+Uptime: 30099.0 sec
+Load Avg:  0.98681640625  0.9853515625  0.9755859375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3495 MHz    1775448 s       4111 s     131491 s     613710 s          8 s
-#2  3495 MHz     316262 s        429 s      42959 s    2577947 s          0 s
+#1  3499 MHz    1721181 s       5491 s     128563 s     711907 s          7 s
+#2  3499 MHz     347506 s         61 s      46207 s    2563255 s          0 s
 
-  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
+  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem MAX_THREADS=16)
   LAPACK: libopenblas64_
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -54,7 +54,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - D3Trees                       0.2.0
  - DataFrames                    0.11.6
  - DataStreams                   0.3.6
- - DataStructures                0.8.3
+ - DataStructures                0.8.4
  - DiscreteValueIteration        0.0.0-             master (unregistered)
  - Distributions                 0.15.0
  - FixedPointNumbers             0.4.6
@@ -72,7 +72,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Mustache                      0.3.3
  - Mux                           0.3.0
  - NamedTuples                   4.0.2
- - Nullables                     0.0.5
+ - Nullables                     0.0.6
  - PDMats                        0.8.0
  - POMDPToolbox                  0.2.7
  - POMDPs                        0.6.7
@@ -124,31 +124,49 @@ Test Summary: | Pass  Total
 Call counting |  600    600
 Test Summary: | Pass  Total
 Flatten       |   30     30
-dt = 1.057528812
-end_t = 1.531124343915419e9
-end_t .- accval = [1.50236, 1.0024, 0.500967, 5.31673e-5]
-z got 3
+dt = 1.053011355
+end_t = 1.531297425683825e9
+end_t .- accval = [1.50069, 1.00056, 0.50081, 6.60419e-5]
+z got 2
+z got 5
 z′ got [1, 2, 3, 4, 5, 6]
-z got 6
-z got 8
-z′ got [7, 8, 9, 10, 11]
-z got 11
-i = 11
-dt = 2.3164570331573486
+z got 7
+z got 10
+z′ got [7, 8, 9, 10, 11, 12]
+z got 12
+i = 12
+dt = 2.3287320137023926
 ydt = 0.5
 y′dt = 1.1
 zcount = 5.0
 z′count = 3.0
-value(y) = 11
-value(y′) = [7, 8, 9, 10, 11]
-value(z) = 4
+value(y) = 12
+value(y′) = [7, 8, 9, 10, 11, 12]
+value(z) = 5
 value(z′) = 2
-Test Summary:    | Pass  Total
-Timing functions |   28     28
-Test Summary: | Pass  Total
-Async         |    5      5
-Test Summary: | Pass  Total
-Queue runner  |   24     24
-INFO: Reactive tests passed
+throttle: Test Failed
+  Expression: length(value(y′)) < i / (z′count - 1)
+   Evaluated: 6 < 6.0
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/Reactive/test/time.jl:97 [inlined]
+ [2] macro expansion at ./test.jl:860 [inlined]
+ [3] macro expansion at /home/vagrant/.julia/v0.6/Reactive/test/time.jl:55 [inlined]
+ [4] macro expansion at ./test.jl:860 [inlined]
+ [5] anonymous at ./<missing>:?
+Test Summary:    | Pass  Fail  Total
+Timing functions |   27     1     28
+  fpswhen        |    4            4
+  every          |    3            3
+  throttle       |    5     1      6
+  debounce       |   15           15
+ERROR: LoadError: LoadError: Some tests did not pass: 27 passed, 1 failed, 0 errored, 0 broken.
+while loading /home/vagrant/.julia/v0.6/Reactive/test/time.jl, in expression starting on line 1
+while loading /home/vagrant/.julia/v0.6/Reactive/test/runtests.jl, in expression starting on line 29
+==============================[ ERROR: Reactive ]===============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cgeneric -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Reactive/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: Reactive had test errors
 
 >>> End of log

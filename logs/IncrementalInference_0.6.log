@@ -9,7 +9,7 @@ INFO: Installing Blosc v0.5.0
 INFO: Installing CMakeWrapper v0.1.0
 INFO: Installing Calculus v0.4.0
 INFO: Installing CommonSubexpressions v0.1.0
-INFO: Installing DataStructures v0.8.3
+INFO: Installing DataStructures v0.8.4
 INFO: Installing DiffBase v0.3.2
 INFO: Installing DiffEqDiffTools v0.4.1
 INFO: Installing DiffResults v0.0.3
@@ -54,23 +54,23 @@ INFO: METADATA is out-of-date — you may not have the latest version of Increme
 INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("IncrementalInference")' log
-Julia Version 0.6.3
-Commit d55cadc350 (2018-05-28 20:20 UTC)
+Julia Version 0.6.4
+Commit 9d11f62bcb (2018-07-09 19:09 UTC)
 Platform Info:
   OS: Linux (x86_64-pc-linux-gnu)
   CPU: Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (1063.59765625 MB free)
-Uptime: 27620.0 sec
-Load Avg:  0.9970703125  0.9853515625  0.9970703125
+Memory: 2.939197540283203 GB (1022.36328125 MB free)
+Uptime: 26948.0 sec
+Load Avg:  0.83154296875  0.9365234375  0.9443359375
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    1505508 s       3140 s     125420 s     759231 s         12 s
-#2  3500 MHz     318654 s       2412 s      52844 s    2344364 s          0 s
+#1  3494 MHz    1493815 s        838 s     124064 s     720009 s          6 s
+#2  3494 MHz     274297 s       4146 s      50209 s    2321467 s          0 s
 
-  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem)
+  BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem MAX_THREADS=16)
   LAPACK: libopenblas64_
   LIBM: libopenlibm
   LLVM: libLLVM-3.9.1 (ORCJIT, haswell)
@@ -93,7 +93,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - Calculus                      0.4.0
  - CommonSubexpressions          0.1.0
  - Compat                        0.69.0
- - DataStructures                0.8.3
+ - DataStructures                0.8.4
  - DiffBase                      0.3.2
  - DiffEqDiffTools               0.4.1
  - DiffResults                   0.0.3
@@ -113,7 +113,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - NLSolversBase                 4.4.1
  - NLsolve                       1.0.1
  - NaNMath                       0.3.1
- - Nullables                     0.0.5
+ - Nullables                     0.0.6
  - Optim                         0.14.1
  - PDMats                        0.8.0
  - Parameters                    0.9.0
@@ -142,8 +142,8 @@ Success
 WARNING: Method definition getType(KernelDensityEstimate.BallTreeDensity) in module KernelDensityEstimate at /home/vagrant/.julia/v0.6/KernelDensityEstimate/src/BallTreeDensity01.jl:28 overwritten at /home/vagrant/.julia/v0.6/KernelDensityEstimate/src/KDE01.jl:43.
 WARNING: using KernelDensityEstimate.root in module IncrementalInference conflicts with an existing identifier.
 WARNING: using KernelDensityEstimate.sample in module IncrementalInference conflicts with an existing identifier.
-WARNING: using KernelDensityEstimate.root in module IncrementalInference conflicts with an existing identifier.
 WARNING: using KernelDensityEstimate.sample in module IncrementalInference conflicts with an existing identifier.
+WARNING: using KernelDensityEstimate.root in module IncrementalInference conflicts with an existing identifier.
 WARNING: using IncrementalInference.evalPotential in module Main conflicts with an existing identifier.
 [drct][drct][2x0p,d1,N100],[drct]
 Building Bayes net...
@@ -201,15 +201,29 @@ WARNING: numericRootGenericRandomizedFnc!(fgr::FastGenericRoot{T}...) deprecated
 Test shuffling function
 x0 = collect(11:13) + 0.0 = [11.0, 12.0, 13.0]
 WARNING: numericRootGenericRandomizedFnc!(fgr::FastGenericRoot{T}...) deprecated, use numericRootGenericRandomizedFnc!(fgr::FastRootGenericWrapRoot{T}...) instead.
-res = [13.0, 12.0]
+res = [11.0, 12.0]
 x = [11.0, 12.0, 13.0]
-res = [6.93214e-310, 6.93214e-310]
-x = [11.0, 12.0, 13.0001]
-res = [0.0, 0.0]
-x = [11.0, 12.0, 12.9999]
-res = [-2.12861e10, 7.78616e9]
+res = [NaN, 6.93723e-310]
+x = [11.0001, 12.0, 13.0]
+res = [3.205e-320, 6.93737e-310]
+x = [10.9999, 12.0, 13.0]
+res = [-2.29777e10, -2.134e10]
 x = [11.0, 12.0001, 13.0]
-res = [1.61745e9, -1.1602e10]
+res = [7.34182e9, 3.39437e9]
+x = [11.0, 11.9999, 13.0]
+y = [11.0, 12.0, 13.0]
+y .% 10 = [1.0, 2.0, 3.0]
+yy = y .% 10.0 = [1.0, 2.0, 3.0]
+WARNING: numericRootGenericRandomizedFnc!(fgr::FastGenericRoot{T}...) deprecated, use numericRootGenericRandomizedFnc!(fgr::FastRootGenericWrapRoot{T}...) instead.
+res = [11.0, 12.0]
+x = [11.0, 12.0, 13.0]
+res = [NaN, 6.93735e-310]
+x = [11.0001, 12.0, 13.0]
+res = [2.68673e-320, 6.93736e-310]
+x = [10.9999, 12.0, 13.0]
+res = [1.16728e9, -1.69982e10]
+x = [11.0, 12.0001, 13.0]
+res = [1.31201e10, 2.78008e9]
 x = [11.0, 11.9999, 13.0]
 y = [11.0, 12.0, 13.0]
 y .% 10 = [1.0, 2.0, 3.0]
@@ -217,27 +231,41 @@ yy = y .% 10.0 = [1.0, 2.0, 3.0]
 WARNING: numericRootGenericRandomizedFnc!(fgr::FastGenericRoot{T}...) deprecated, use numericRootGenericRandomizedFnc!(fgr::FastRootGenericWrapRoot{T}...) instead.
 res = [12.0, 11.0]
 x = [11.0, 12.0, 13.0]
-res = [6.93213e-310, 6.93214e-310]
+res = [0.0, 0.0]
 x = [11.0, 12.0001, 13.0]
-res = [6.93213e-310, 6.93213e-310]
+res = [0.0, 0.0]
 x = [11.0, 11.9999, 13.0]
-res = [-6.96277e9, 1.33029e10]
+res = [1.57219e9, 1.12373e10]
 x = [11.0001, 12.0, 13.0]
-res = [-2.45247e9, -2.21927e10]
+res = [8.3153e9, 1.61861e9]
 x = [10.9999, 12.0, 13.0]
+y = [11.0, 12.0, 13.0]
+y .% 10 = [1.0, 2.0, 3.0]
+yy = y .% 10.0 = [1.0, 2.0, 3.0]
+WARNING: numericRootGenericRandomizedFnc!(fgr::FastGenericRoot{T}...) deprecated, use numericRootGenericRandomizedFnc!(fgr::FastRootGenericWrapRoot{T}...) instead.
+res = [12.0, 13.0]
+x = [11.0, 12.0, 13.0]
+res = [0.0, 0.0]
+x = [11.0, 12.0001, 13.0]
+res = [0.0, 0.0]
+x = [11.0, 11.9999, 13.0]
+res = [1.18203e10, 3.86411e9]
+x = [11.0, 12.0, 13.0001]
+res = [1.05916e10, 2.35877e9]
+x = [11.0, 12.0, 12.9999]
 y = [11.0, 12.0, 13.0]
 y .% 10 = [1.0, 2.0, 3.0]
 yy = y .% 10.0 = [1.0, 2.0, 3.0]
 WARNING: numericRootGenericRandomizedFnc!(fgr::FastGenericRoot{T}...) deprecated, use numericRootGenericRandomizedFnc!(fgr::FastRootGenericWrapRoot{T}...) instead.
 res = [13.0, 12.0]
 x = [11.0, 12.0, 13.0]
-res = [0.0, 0.0]
+res = [1.08097e-319, 6.93737e-310]
 x = [11.0, 12.0, 13.0001]
-res = [6.93213e-310, 6.93213e-310]
+res = [0.0, 0.0]
 x = [11.0, 12.0, 12.9999]
-res = [1.06316e10, 4.91163e9]
+res = [9.02872e9, 1.4919e9]
 x = [11.0, 12.0001, 13.0]
-res = [1.71006e9, -1.08597e10]
+res = [7.59768e9, 1.10407e9]
 x = [11.0, 11.9999, 13.0]
 y = [11.0, 12.0, 13.0]
 y .% 10 = [1.0, 2.0, 3.0]
@@ -245,27 +273,27 @@ yy = y .% 10.0 = [1.0, 2.0, 3.0]
 WARNING: numericRootGenericRandomizedFnc!(fgr::FastGenericRoot{T}...) deprecated, use numericRootGenericRandomizedFnc!(fgr::FastRootGenericWrapRoot{T}...) instead.
 res = [11.0, 12.0]
 x = [11.0, 12.0, 13.0]
-res = [6.93214e-310, 6.93213e-310]
+res = [6.93736e-310, 6.93737e-310]
 x = [11.0001, 12.0, 13.0]
-res = [6.93213e-310, 6.93214e-310]
+res = [6.93736e-310, 6.93736e-310]
 x = [10.9999, 12.0, 13.0]
-res = [1.36802e10, 4.76342e9]
+res = [9.55726e9, -4.89676e9]
 x = [11.0, 12.0001, 13.0]
-res = [5.73984e9, 3.27665e9]
+res = [3.57978e8, -2.50803e10]
 x = [11.0, 11.9999, 13.0]
 y = [11.0, 12.0, 13.0]
 y .% 10 = [1.0, 2.0, 3.0]
 yy = y .% 10.0 = [1.0, 2.0, 3.0]
 WARNING: numericRootGenericRandomizedFnc!(fgr::FastGenericRoot{T}...) deprecated, use numericRootGenericRandomizedFnc!(fgr::FastRootGenericWrapRoot{T}...) instead.
-res = [13.0, 12.0]
+res = [11.0, 12.0]
 x = [11.0, 12.0, 13.0]
-res = [NaN, 6.93214e-310]
-x = [11.0, 12.0, 13.0001]
-res = [0.0, 6.93214e-310]
-x = [11.0, 12.0, 12.9999]
-res = [1.33957e10, 1.19923e10]
+res = [NaN, 6.93738e-310]
+x = [11.0001, 12.0, 13.0]
+res = [0.0, 6.93737e-310]
+x = [10.9999, 12.0, 13.0]
+res = [8.05455e9, -7.68573e9]
 x = [11.0, 12.0001, 13.0]
-res = [-1.01507e10, 5.73537e9]
+res = [3.82494e9, 1.28005e10]
 x = [11.0, 11.9999, 13.0]
 y = [11.0, 12.0, 13.0]
 y .% 10 = [1.0, 2.0, 3.0]
@@ -273,69 +301,41 @@ yy = y .% 10.0 = [1.0, 2.0, 3.0]
 WARNING: numericRootGenericRandomizedFnc!(fgr::FastGenericRoot{T}...) deprecated, use numericRootGenericRandomizedFnc!(fgr::FastRootGenericWrapRoot{T}...) instead.
 res = [12.0, 11.0]
 x = [11.0, 12.0, 13.0]
-res = [6.93213e-310, 6.93214e-310]
+res = [0.0, 0.0]
 x = [11.0, 12.0001, 13.0]
-res = [6.93213e-310, 0.0]
+res = [0.0, 0.0]
 x = [11.0, 11.9999, 13.0]
-res = [-1.39992e10, 4.88848e9]
+res = [7.3645e9, -1.4994e9]
 x = [11.0001, 12.0, 13.0]
-res = [1.13866e10, 6.00805e9]
+res = [-9.31999e9, -9.58166e9]
 x = [10.9999, 12.0, 13.0]
 y = [11.0, 12.0, 13.0]
 y .% 10 = [1.0, 2.0, 3.0]
 yy = y .% 10.0 = [1.0, 2.0, 3.0]
 WARNING: numericRootGenericRandomizedFnc!(fgr::FastGenericRoot{T}...) deprecated, use numericRootGenericRandomizedFnc!(fgr::FastRootGenericWrapRoot{T}...) instead.
-res = [11.0, 12.0]
+res = [12.0, 11.0]
 x = [11.0, 12.0, 13.0]
-res = [NaN, 6.93214e-310]
+res = [NaN, 6.93736e-310]
+x = [11.0, 12.0001, 13.0]
+res = [1.69168e-320, 6.93737e-310]
+x = [11.0, 11.9999, 13.0]
+res = [-3.00264e9, 4.19154e9]
 x = [11.0001, 12.0, 13.0]
-res = [2.74453e-320, 6.93213e-310]
+res = [-1.39325e8, -1.97529e10]
 x = [10.9999, 12.0, 13.0]
-res = [-2.82681e9, -9.47415e9]
-x = [11.0, 12.0001, 13.0]
-res = [-1.09671e9, 2.07656e10]
-x = [11.0, 11.9999, 13.0]
-y = [11.0, 12.0, 13.0]
-y .% 10 = [1.0, 2.0, 3.0]
-yy = y .% 10.0 = [1.0, 2.0, 3.0]
-WARNING: numericRootGenericRandomizedFnc!(fgr::FastGenericRoot{T}...) deprecated, use numericRootGenericRandomizedFnc!(fgr::FastRootGenericWrapRoot{T}...) instead.
-res = [11.0, 12.0]
-x = [11.0, 12.0, 13.0]
-res = [6.93214e-310, 6.93214e-310]
-x = [11.0001, 12.0, 13.0]
-res = [6.93214e-310, 6.93213e-310]
-x = [10.9999, 12.0, 13.0]
-res = [1.84502e10, 2.26092e9]
-x = [11.0, 12.0001, 13.0]
-res = [-1.21419e10, -7.52918e8]
-x = [11.0, 11.9999, 13.0]
-y = [11.0, 12.0, 13.0]
-y .% 10 = [1.0, 2.0, 3.0]
-yy = y .% 10.0 = [1.0, 2.0, 3.0]
-WARNING: numericRootGenericRandomizedFnc!(fgr::FastGenericRoot{T}...) deprecated, use numericRootGenericRandomizedFnc!(fgr::FastRootGenericWrapRoot{T}...) instead.
-res = [13.0, 12.0]
-x = [11.0, 12.0, 13.0]
-res = [6.93214e-310, 6.93214e-310]
-x = [11.0, 12.0, 13.0001]
-res = [6.93214e-310, 6.93213e-310]
-x = [11.0, 12.0, 12.9999]
-res = [5.77867e9, -2.85484e9]
-x = [11.0, 12.0001, 13.0]
-res = [-5.15086e9, 1.65849e9]
-x = [11.0, 11.9999, 13.0]
 y = [11.0, 12.0, 13.0]
 y .% 10 = [1.0, 2.0, 3.0]
 yy = y .% 10.0 = [1.0, 2.0, 3.0]
 WARNING: numericRootGenericRandomizedFnc!(fgr::FastGenericRoot{T}...) deprecated, use numericRootGenericRandomizedFnc!(fgr::FastRootGenericWrapRoot{T}...) instead.
 res = [11.0, 13.0]
 x = [11.0, 12.0, 13.0]
-res = [1.10903e-319, 6.93212e-310]
+res = [0.0, 0.0]
 x = [11.0001, 12.0, 13.0]
-res = [NaN, 6.93213e-310]
+res = [6.93736e-310, 6.93736e-310]
 x = [10.9999, 12.0, 13.0]
-res = [-8.28279e9, -6.39385e9]
+res = [-4.3137e8, 2.25871e9]
 x = [11.0, 12.0, 13.0001]
-res = [1.30709e10, -1.40421e10]
+res = [-1.20708e9, -2.60856e8]
 x = [11.0, 12.0, 12.9999]
 y = [11.0, 12.0, 13.0]
 y .% 10 = [1.0, 2.0, 3.0]
@@ -387,9 +387,9 @@ Success
 WARNING: using Distributions.params in module Main conflicts with an existing identifier.
 FunctorWorks
 FunctorArray
-a1 = [-1.0 0.433263 0.996273; 0.673259 0.222795 0.613211]
+a1 = [-1.0 0.668305 0.116374; 0.433367 0.903224 0.691043]
 GenericWrapParam test
-  0.013871 seconds (2.11 k allocations: 109.534 KiB)
+  0.025063 seconds (2.11 k allocations: 109.534 KiB)
 Test in factor graph setting...
 
 WARNING: deprecated syntax "inner constructor Pose1Pose1Test(...) around /home/vagrant/.julia/v0.6/IncrementalInference/test/testGenericWrapParam.jl:100".
@@ -397,16 +397,16 @@ Use "Pose1Pose1Test{T}(...) where T" instead.
 
 WARNING: deprecated syntax "inner constructor Pose1Pose1Test(...) around /home/vagrant/.julia/v0.6/IncrementalInference/test/testGenericWrapParam.jl:101".
 Use "Pose1Pose1Test{#s33}(...) where #s33" instead.
-  0.015749 seconds (3.72 k allocations: 199.288 KiB)
+  0.027592 seconds (3.72 k allocations: 199.288 KiB)
 Test with NLsolve for root finding using generalwrapper functor.
-  0.135189 seconds (103.28 k allocations: 5.646 MiB)
+  0.281811 seconds (103.80 k allocations: 5.678 MiB)
 Test with FastRootGenericWrapParam for un-permuted root finding...
 gwp.varidx = 2
 zDim = size(gwp.measurement, 1) = 1
-  0.169569 seconds (137.22 k allocations: 6.692 MiB, 5.83% gc time)
+  0.220778 seconds (137.50 k allocations: 6.710 MiB, 7.00% gc time)
 and in the reverse direction, achieved by simply changing GenericWrapParam.varidx to 1...
 gwp.varidx = 1 = 1
-  0.004042 seconds (14.30 k allocations: 1.282 MiB)
+  0.003313 seconds (14.30 k allocations: 1.282 MiB)
 Test with FastRootGenericWrapParam for permuted root finding...
 WARNING: test not implemented yet
 GenericWrapParam testing in factor graph context...
@@ -481,7 +481,7 @@ End Clique x2,x1,:  =============================
 ====================== Clique x2,x1,:  =============================
 dwn---------- successive fnc approx ------------x2,x1,: 
 fmcmc! -- finished on x2,x1,: 
-Outgoing msg density on:   4.894953 seconds (5.06 M allocations: 307.330 MiB, 1.83% gc time)
+Outgoing msg density on:   4.599534 seconds (5.03 M allocations: 304.453 MiB, 1.84% gc time)
 Success
 [TEST] with simple local constraint examples Odo, Obsv2...
 [drct]x2 is not initialized, and will do so now...
@@ -839,24 +839,24 @@ updateFGBT! up -- finished updating x5,x2,l1,x4,:
 	From worker 2:	dwn---------- successive fnc approx ------------x5,x2,l1,x4,: 
 	From worker 2:	fmcmc! -- finished on x5,x2,l1,x4,: 
 	From worker 2:	Outgoing msg density on: =================== Iter Clique x7,x6,: x5, ===========================
+	From worker 2:	dwn=================== Iter Clique x3,: x2,x4,l1, ===========================
 	From worker 2:	dwn=================== Iter Clique x0,: x2, ===========================
 	From worker 2:	dwn---------- successive fnc approx ------------x7,x6,: x5,
-	From worker 2:	#1	 -- =================== Iter Clique x3,: x2,x4,l1, ===========================[2x0p,d1,N200],
-	From worker 2:	 dwn[2x0p,d1,N200],---------- successive fnc approx ------------x0,: x2, 
 	From worker 2:	#1	 -- ---------- successive fnc approx ------------x3,: x2,x4,l1,[2x0p,d1,N200],
-	From worker 2:	 #1	 -- [4x0p,d1,N200],
-	From worker 2:	 fmcmc! -- finished on x0,: x2,
+	From worker 2:	 #1	 -- [2x0p,d1,N200],---------- successive fnc approx ------------x0,: x2,[4x0p,d1,N200], 
+	From worker 2:	 #1	 -- [2x0p,d1,N200],
+	From worker 2:	 fmcmc! -- finished on x3,: x2,x4,l1,
 	From worker 2:	Dwn msg keys [13, 10, 3, 8]
 	From worker 2:	Outgoing msg density on: 
-	From worker 2:	fmcmc! -- finished on x3,: x2,x4,l1,
+	From worker 2:	fmcmc! -- finished on x0,: x2,
 	From worker 2:	Dwn msg keys [13, 10, 3, 8]
 	From worker 2:	Outgoing msg density on: 
 	From worker 2:	#2	 -- [2x0p,d1,N200],
+	From worker 2:	 [2x0p,d1,N200],
+	From worker 2:	 
+	From worker 2:	
+	From worker 2:	#3	 -- [2x0p,d1,N200],
 	From worker 2:	 [2x0p,d1,N200], 
-	From worker 2:	
-	From worker 2:	
-	From worker 2:	
-	From worker 2:	#3	 -- [2x0p,d1,N200], [2x0p,d1,N200], 
 	From worker 2:	fmcmc! -- finished on x7,x6,: x5,
 	From worker 2:	Dwn msg keys [13, 10, 3, 8]
 	From worker 2:	Outgoing msg density on: 
