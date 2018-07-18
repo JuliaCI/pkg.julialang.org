@@ -7,7 +7,7 @@ INFO: Cloning cache of Rectangle from https://github.com/sambitdash/Rectangle.jl
 INFO: Cloning cache of RomanNumerals from https://github.com/anthonyclays/RomanNumerals.jl.git
 INFO: Installing AdobeGlyphList v0.0.2
 INFO: Installing DocStringExtensions v0.4.5
-INFO: Installing Documenter v0.18.0
+INFO: Installing Documenter v0.19.0
 INFO: Installing LabelNumerals v0.0.4
 INFO: Installing PDFIO v0.0.11
 INFO: Installing Primes v0.3.0
@@ -26,13 +26,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (638.984375 MB free)
-Uptime: 7972.0 sec
-Load Avg:  0.9970703125  0.9853515625  0.93115234375
+Memory: 2.939197540283203 GB (601.921875 MB free)
+Uptime: 7755.0 sec
+Load Avg:  1.06640625  1.01416015625  0.96533203125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz     320125 s         91 s      25810 s     355650 s          5 s
-#2  3500 MHz      57040 s         68 s      10058 s     715342 s          0 s
+#1  3491 MHz     332901 s        115 s      30154 s     315859 s          6 s
+#2  3491 MHz      93633 s         40 s      13757 s     652748 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem MAX_THREADS=16)
   LAPACK: libopenblas64_
@@ -53,7 +53,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - AdobeGlyphList                0.0.2
  - Compat                        0.70.0
  - DocStringExtensions           0.4.5
- - Documenter                    0.18.0
+ - Documenter                    0.19.0
  - LabelNumerals                 0.0.4
  - Nullables                     0.0.6
  - Primes                        0.3.0
@@ -64,54 +64,107 @@ files/1.pdf
 
 15 0 obj
 <<
-	/Lang	(en-US)
 	/Pages	7 0 R
 	/Type	/Catalog
+	/Lang	(en-US)
 	/OpenAction	[1 0 R /XYZ null null 0 ]
 >>
 endobj
 
 
 <<
-	/Size	17
-	/Root	15 0 R
+	/DocChecksum	/50050975C4784AF41E735FDAD14F7206
 	/Info	16 0 R
 	/ID	[<2B20551C8BB10CE4F10C5F37D5777E0B> <2B20551C8BB10CE4F10C5F37D5777E0B> ]
-	/DocChecksum	/50050975C4784AF41E735FDAD14F7206
+	/Root	15 0 R
+	/Size	17
 >>
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  798k  100  798k    0     0  1221k      0 --:--:-- --:--:-- --:--:-- 1221k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 62  798k   62  501k    0     0   344k      0  0:00:02  0:00:01  0:00:01  344k100  798k  100  798k    0     0   531k      0  0:00:01  0:00:01 --:--:--  531k
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0 18  191k   18 36719    0     0  15053      0  0:00:13  0:00:02  0:00:11 37506100  191k  100  191k    0     0  73057      0  0:00:02  0:00:02 --:--:--  156k
+  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0 12489    0     0   6476      0 --:--:--  0:00:01 --:--:-- 49956
+Hybrid x-ref: Error During Test
+  Test threw an exception of type ErrorException
+  Expression: begin 
+    filename = "A1947-15.pdf"
+    DEBUG && println(filename)
+    isfile(filename) || download("http://indiacode.nic.in/bitstream/123456789/1419/1/194715.pdf", filename)
+    doc = pdDocOpen(filename)
+    (resfile, template) = testfiles(filename)
+    io = util_open(resfile, "w")
+    try 
+        extract_text(io, doc)
+    finally 
+        util_close(io)
+        pdDocClose(doc)
+    end
+    @assert files_equal(resfile, template)
+    length(utilPrintOpenFiles()) == 0
+end
+  Found '10' Expected '%' here
+  Stacktrace:
+   [1] skipv at /home/vagrant/.julia/v0.6/PDFIO/src/BufferParser.jl:19 [inlined]
+   [2] read_header(::IOStream) at /home/vagrant/.julia/v0.6/PDFIO/src/CosDoc.jl:213
+   [3] cosDocOpen(::String) at /home/vagrant/.julia/v0.6/PDFIO/src/CosDoc.jl:94
+   [4] PDFIO.PD.PDDocImpl(::String) at /home/vagrant/.julia/v0.6/PDFIO/src/PDDocImpl.jl:14
+   [5] pdDocOpen at /home/vagrant/.julia/v0.6/PDFIO/src/PDDoc.jl:32 [inlined]
+   [6] macro expansion at /home/vagrant/.julia/v0.6/PDFIO/test/runtests.jl:91 [inlined]
+   [7] macro expansion at ./test.jl:860 [inlined]
+   [8] macro expansion at /home/vagrant/.julia/v0.6/PDFIO/test/runtests.jl:90 [inlined]
+   [9] macro expansion at ./test.jl:860 [inlined]
+   [10] anonymous at ./<missing>:?
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0 43  489k   43  213k    0     0  93055      0  0:00:05  0:00:02  0:00:03  182k100  489k  100  489k    0     0   189k      0  0:00:02  0:00:02 --:--:--  348k
+  2  489k    2 13603    0     0   8221      0  0:01:00  0:00:01  0:00:59  8221 89  489k   89  436k    0     0   169k      0  0:00:02  0:00:02 --:--:--  462k100  489k  100  489k    0     0   190k      0  0:00:02  0:00:02 --:--:--  518k
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  2  493k    2 12556    0     0  15830      0  0:00:31 --:--:--  0:00:31 15833100  493k  100  493k    0     0   578k      0 --:--:-- --:--:-- --:--:--  578k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  5  493k    5 28940    0     0   330k      0  0:00:01 --:--:--  0:00:01  328k100  493k  100  493k    0     0  3506k      0 --:--:-- --:--:-- --:--:-- 3498k
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  6 98955    6  6877    0     0   5695      0  0:00:17  0:00:01  0:00:16  5697100 98955  100 98955    0     0  81859      0  0:00:01  0:00:01 --:--:-- 81916
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 98955  100 98955    0     0   892k      0 --:--:-- --:--:-- --:--:--  894k
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 59262  100 59262    0     0   538k      0 --:--:-- --:--:-- --:--:--  540k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 76 59262   76 45218    0     0  37520      0  0:00:01  0:00:01 --:--:-- 37525100 59262  100 59262    0     0  49153      0  0:00:01  0:00:01 --:--:-- 49180
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  302k  100  302k    0     0  3199k      0 --:--:-- --:--:-- --:--:-- 3219k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 14  302k   14 45216    0     0  61532      0  0:00:05 --:--:--  0:00:05 61518100  302k  100  302k    0     0   409k      0 --:--:-- --:--:-- --:--:--  409k
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  151k  100  151k    0     0   788k      0 --:--:-- --:--:-- --:--:--  789k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  151k  100  151k    0     0   820k      0 --:--:-- --:--:-- --:--:--  823k
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   212    0   212    0     0    315      0 --:--:-- --:--:-- --:--:--   315100   212    0   212    0     0    314      0 --:--:-- --:--:-- --:--:--   315
-100   246  100   246    0     0    326      0 --:--:-- --:--:-- --:--:--   326
-100  191k  100  191k    0     0   147k      0  0:00:01  0:00:01 --:--:--  147k
-Test Summary: | Pass  Total
-PDFIO tests   |   24     24
-INFO: PDFIO tests passed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   212    0   212    0     0    313      0 --:--:-- --:--:-- --:--:--   313100   212    0   212    0     0    313      0 --:--:-- --:--:-- --:--:--   313
+100   246  100   246    0     0    325      0 --:--:-- --:--:-- --:--:--   325
+100  191k  100  191k    0     0   144k      0  0:00:01  0:00:01 --:--:--  144k
+Test Summary:                 | Pass  Error  Total
+PDFIO tests                   |   23      1     24
+  Miscellaneous               |    8             8
+  Test FlateDecode            |    1             1
+  PDF File with ObjectStreams |    1             1
+  General File Opening 3      |    1             1
+  Hybrid x-ref                |           1      1
+  Corrupt File                |    1             1
+  Test RunLengthDecode        |    1             1
+  Test ASCIIHexDecode         |    1             1
+  Test ASCII85Decode          |    2             2
+  LZWDecode Filter            |    1             1
+  Test read_string            |    1             1
+  Page label test             |    1             1
+  Symbol Fonts test           |    1             1
+  Forms XObjects Test         |    1             1
+  Inline Image test           |    1             1
+  MacRomanEncoding Fonts test |    1             1
+ERROR: LoadError: Some tests did not pass: 23 passed, 0 failed, 1 errored, 0 broken.
+while loading /home/vagrant/.julia/v0.6/PDFIO/test/runtests.jl, in expression starting on line 12
+================================[ ERROR: PDFIO ]================================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cgeneric -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/PDFIO/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: PDFIO had test errors
 
 >>> End of log
