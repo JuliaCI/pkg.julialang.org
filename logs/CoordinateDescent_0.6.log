@@ -17,13 +17,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (837.19140625 MB free)
-Uptime: 40038.0 sec
-Load Avg:  1.0048828125  0.99560546875  0.96630859375
+Memory: 2.939197540283203 GB (829.3203125 MB free)
+Uptime: 40694.0 sec
+Load Avg:  1.05029296875  1.0146484375  1.0283203125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3510 MHz    2375349 s       4804 s     177750 s     835284 s          6 s
-#2  3510 MHz     466808 s        100 s      68312 s    3394412 s          0 s
+#1  3501 MHz    2393187 s       4397 s     180476 s     879144 s          8 s
+#2  3501 MHz     499904 s         87 s      72642 s    3435824 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem MAX_THREADS=16)
   LAPACK: libopenblas64_
@@ -116,8 +116,17 @@ Stacktrace:
  [15] process_options(::Base.JLOptions) at ./client.jl:305
  [16] _start() at ./client.jl:371
 while loading /home/vagrant/.julia/v0.6/CoordinateDescent/test/lasso.jl, in expression starting on line 93
+WARNING: Problem status Error; solution may be inaccurate.
+    Failure :: (line:272) :: kkt :: fact was false
+      Expression: max(0, maximum(abs.((X' * (Y - X * x2.value)) / vecnorm(Y - X * x2.value))) - λ) / λ --> roughly(0.0; atol=0.003)
+        Expected: 1.5936116468364148 ≅ 0.0
+    Failure :: (line:272) :: kkt :: fact was false
+      Expression: maximum(abs.(x1 - x2.value)) --> roughly(0.0; atol=0.002)
+        Expected: 1.7988734051289232 ≅ 0.0
   > interfaces
-1400 facts verified.
+Out of 1400 total facts:
+  Verified: 1398
+  Failed:   2
 scaled lasso
 300 facts verified.
 lasso path
@@ -130,7 +139,23 @@ coordinate descent
   > AProxL1
   > AProxL1 vs ProxL1
 1300 facts verified.
-INFO: CoordinateDescent tests passed
+ERROR: LoadError: FactCheck finished with 2 non-successful tests.
+Stacktrace:
+ [1] exitstatus() at /home/vagrant/.julia/v0.6/FactCheck/src/FactCheck.jl:568
+ [2] include_from_node1(::String) at ./loading.jl:576
+ [3] include(::String) at ./sysimg.jl:14
+ [4] process_options(::Base.JLOptions) at ./client.jl:305
+ [5] _start() at ./client.jl:371
+while loading /home/vagrant/.julia/v0.6/CoordinateDescent/test/runtests.jl, in expression starting on line 42
+number of rows in A inconsistent with input dimension
+invalid linear system input data
+ERROR: Validation returned failure
+ERROR: SCS_NULL input
+==========================[ ERROR: CoordinateDescent ]==========================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cgeneric -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/CoordinateDescent/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
 INFO: Removing BinDeps v0.8.8
 INFO: Removing Convex v0.5.0
 INFO: Removing FactCheck v0.4.3
@@ -138,5 +163,6 @@ INFO: Removing MathProgBase v0.7.1
 INFO: Removing SCS v0.3.3
 INFO: Removing SHA v0.5.7
 INFO: Removing URIParser v0.3.1
+ERROR: CoordinateDescent had test errors
 
 >>> End of log

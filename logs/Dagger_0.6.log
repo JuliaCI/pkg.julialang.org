@@ -22,13 +22,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (1271.9453125 MB free)
-Uptime: 49169.0 sec
-Load Avg:  1.0439453125  1.384765625  1.578125
+Memory: 2.939197540283203 GB (1335.12109375 MB free)
+Uptime: 49850.0 sec
+Load Avg:  1.01025390625  1.35693359375  1.5556640625
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3510 MHz    3051270 s       4804 s     229128 s     891951 s          6 s
-#2  3510 MHz     765225 s        100 s      94523 s    3938779 s          0 s
+#1  3501 MHz    3079288 s       4397 s     227281 s     934342 s         11 s
+#2  3501 MHz     792856 s         87 s     101218 s    3994472 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem MAX_THREADS=16)
   LAPACK: libopenblas64_
@@ -99,6 +99,42 @@ Test Summary: | Pass  Total
 sharedarray   |    2      2
 tests done. cleaning up...
 all done.
+ERROR (unhandled task failure): ProcessExitedException()
+Stacktrace:
+ [1] try_yieldto(::Base.##298#299{Task}, ::Task) at ./event.jl:189
+ [2] wait() at ./event.jl:234
+ [3] wait(::Condition) at ./event.jl:27
+ [4] wait_impl(::Channel{Any}) at ./channels.jl:364
+ [5] wait(::Channel{Any}) at ./channels.jl:360
+ [6] take_buffered at ./channels.jl:319 [inlined]
+ [7] take!(::Channel{Any}) at ./channels.jl:317
+ [8] #remotecall_fetch#141(::Array{Any,1}, ::Function, ::Function, ::Base.Distributed.Worker, ::MemPool.DRef, ::Vararg{Any,N} where N) at ./distributed/remotecall.jl:355
+ [9] remotecall_fetch(::Function, ::Base.Distributed.Worker, ::MemPool.DRef, ::Vararg{Any,N} where N) at ./distributed/remotecall.jl:351
+ [10] #remotecall_fetch#144(::Array{Any,1}, ::Function, ::Function, ::Int64, ::MemPool.DRef, ::Vararg{Any,N} where N) at ./distributed/remotecall.jl:372
+ [11] addrefcount(::MemPool.DRef, ::Int64) at /home/vagrant/.julia/v0.6/Dagger/src/chunks.jl:121
+ [12] macro expansion at /home/vagrant/.julia/v0.6/Dagger/src/array/darray.jl:146 [inlined]
+ [13] macro expansion at ./task.jl:302 [inlined]
+ [14] free_chunks(::Array{Union{Dagger.Chunk, Dagger.Thunk},2}) at /home/vagrant/.julia/v0.6/Dagger/src/array/darray.jl:143
+ [15] (::Dagger.##87#88{Dagger.DArray{Any,2,Base.#cat}})() at ./event.jl:73
+ERROR (unhandled task failure): ProcessExitedException()
+try_yieldto(::Base.##298#299{Task}, ::Task) at ./event.jl:189
+wait() at ./event.jl:234
+wait(::Condition) at ./event.jl:27
+wait_impl(::Channel{Any}) at ./channels.jl:364
+wait(::Channel{Any}) at ./channels.jl:360
+take_buffered at ./channels.jl:319 [inlined]
+take!(::Channel{Any}) at ./channels.jl:317
+#remotecall_fetch#141(::Array{Any,1}, ::Function, ::Function, ::Base.Distributed.Worker, ::MemPool.DRef, ::Vararg{Any,N} where N) at ./distributed/remotecall.jl:355
+remotecall_fetch(::Function, ::Base.Distributed.Worker, ::MemPool.DRef, ::Vararg{Any,N} where N) at ./distributed/remotecall.jl:351
+#remotecall_fetch#144(::Array{Any,1}, ::Function, ::Function, ::Int64, ::MemPool.DRef, ::Vararg{Any,N} where N) at ./distributed/remotecall.jl:372
+pooldelete at /home/vagrant/.julia/v0.6/MemPool/src/datastore.jl:195 [inlined]
+free!(::MemPool.DRef) at /home/vagrant/.julia/v0.6/Dagger/src/chunks.jl:108
+(::Dagger.##85#86)() at ./task.jl:335
+Stacktrace:
+ [1] sync_end() at ./task.jl:287
+ [2] macro expansion at ./task.jl:303 [inlined]
+ [3] free_chunks(::Array{Union{Dagger.Chunk, Dagger.Thunk},2}) at /home/vagrant/.julia/v0.6/Dagger/src/array/darray.jl:143
+ [4] (::Dagger.##87#88{Dagger.DArray{Any,2,Base.#cat}})() at ./event.jl:73
 INFO: Dagger tests passed
 INFO: Removing BaseTestNext v0.2.2
 
