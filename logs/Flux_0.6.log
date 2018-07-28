@@ -41,13 +41,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (1422.05859375 MB free)
-Uptime: 90753.0 sec
-Load Avg:  1.0029296875  1.0146484375  1.0185546875
+Memory: 2.939197540283203 GB (1391.9921875 MB free)
+Uptime: 89895.0 sec
+Load Avg:  0.9970703125  0.998046875  1.0361328125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3501 MHz    5636574 s       4397 s     402628 s    1633746 s         15 s
-#2  3501 MHz    1294084 s         87 s     189456 s    7436788 s          0 s
+#1  3500 MHz    5527171 s       4531 s     424157 s    1682886 s         16 s
+#2  3500 MHz    1348797 s         97 s     200511 s    7290107 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem MAX_THREADS=16)
   LAPACK: libopenblas64_
@@ -94,21 +94,54 @@ Package Directory: /home/vagrant/.julia/v0.6
  - URIParser                     0.3.1
  - ZipFile                       0.6.0
 INFO: Testing Flux
+Tracker: Test Failed
+  Expression: gradtest((x->begin 
+            repmat(x, 5, 5)
+        end), rand(4, 5))
+Stacktrace:
+ [1] macro expansion at /home/vagrant/.julia/v0.6/Flux/test/tracker.jl:114 [inlined]
+ [2] macro expansion at ./test.jl:860 [inlined]
+ [3] anonymous at ./<missing>:?
 INFO: Downloading CMUDict dataset
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   441  100   441    0     0   1677      0 --:--:-- --:--:-- --:--:--  1676
-100 3629k  100 3629k    0     0  4238k      0 --:--:-- --:--:-- --:--:-- 4238k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   441  100   441    0     0   1204      0 --:--:-- --:--:-- --:--:--  1208
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 3629k  100 3629k    0     0  3565k      0  0:00:01  0:00:01 --:--:-- 11.0M
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   455  100   455    0     0   2066      0 --:--:-- --:--:-- --:--:--  2068
-  0   382    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   382  100   382    0     0    993      0 --:--:-- --:--:-- --:--:--  373k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   455  100   455    0     0   2148      0 --:--:-- --:--:-- --:--:--  2156
+100   382  100   382    0     0   1151      0 --:--:-- --:--:-- --:--:--  1151
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   457  100   457    0     0   2131      0 --:--:-- --:--:-- --:--:--  2135
-100   281  100   281    0     0    838      0 --:--:-- --:--:-- --:--:--   838
-Test Summary: | Pass  Total
-Flux          |  311    311
-INFO: Flux tests passed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   457  100   457    0     0   2217      0 --:--:-- --:--:-- --:--:--  2229
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   281  100   281    0     0    738      0 --:--:-- --:--:-- --:--:--  1801
+Test Summary:     | Pass  Fail  Total
+Flux              |  310     1    311
+  Throttle        |   11           11
+  Jacobian        |    1            1
+  Initialization  |   14           14
+  Params          |    2            2
+  Tracker         |  235     1    236
+    concat        |  163          163
+    mean          |    5            5
+    maximum       |    5            5
+    minimum       |    5            5
+    reshape       |    8            8
+    Intermediates |    2            2
+    Fallbacks     |    2            2
+    collect       |    2            2
+  Dropout         |    8            8
+  BatchNorm       |   13           13
+  losses          |   12           12
+  Optimise        |   10           10
+  Training Loop   |    1            1
+ERROR: LoadError: Some tests did not pass: 310 passed, 1 failed, 0 errored, 0 broken.
+while loading /home/vagrant/.julia/v0.6/Flux/test/runtests.jl, in expression starting on line 5
+================================[ ERROR: Flux ]=================================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cgeneric -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Flux/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: Flux had test errors
 
 >>> End of log

@@ -11,9 +11,11 @@ INFO: Installing Documenter v0.19.1
 INFO: Installing LabelNumerals v0.0.5
 INFO: Installing PDFIO v0.0.12
 INFO: Installing Primes v0.3.0
-INFO: Installing Rectangle v0.0.6
-INFO: Installing RomanNumerals v0.2.2
+INFO: Installing Rectangle v0.0.7
+INFO: Installing RomanNumerals v0.3.1
 INFO: Package database updated
+INFO: METADATA is out-of-date — you may not have the latest version of PDFIO
+INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("PDFIO")' log
 Julia Version 0.6.4
@@ -24,13 +26,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (635.1953125 MB free)
-Uptime: 7952.0 sec
-Load Avg:  0.89501953125  0.7763671875  0.814453125
+Memory: 2.939197540283203 GB (651.12890625 MB free)
+Uptime: 7897.0 sec
+Load Avg:  1.06787109375  1.01318359375  0.97216796875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz     348640 s        110 s      32104 s     307892 s          6 s
-#2  3499 MHz      74428 s         41 s      13442 s     693085 s          0 s
+#1  3506 MHz     351114 s         90 s      31046 s     308578 s          5 s
+#2  3506 MHz      82155 s         64 s      15664 s     675477 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem MAX_THREADS=16)
   LAPACK: libopenblas64_
@@ -55,15 +57,15 @@ Package Directory: /home/vagrant/.julia/v0.6
  - LabelNumerals                 0.0.5
  - Nullables                     0.0.6
  - Primes                        0.3.0
- - Rectangle                     0.0.6
- - RomanNumerals                 0.2.2
+ - Rectangle                     0.0.7
+ - RomanNumerals                 0.3.1
 INFO: Testing PDFIO
 files/1.pdf
 
 15 0 obj
 <<
-	/Type	/Catalog
 	/Lang	(en-US)
+	/Type	/Catalog
 	/Pages	7 0 R
 	/OpenAction	[1 0 R /XYZ null null 0 ]
 >>
@@ -71,44 +73,152 @@ endobj
 
 
 <<
-	/DocChecksum	/50050975C4784AF41E735FDAD14F7206
-	/Info	16 0 R
 	/Size	17
-	/ID	[<2B20551C8BB10CE4F10C5F37D5777E0B> <2B20551C8BB10CE4F10C5F37D5777E0B> ]
 	/Root	15 0 R
+	/ID	[<2B20551C8BB10CE4F10C5F37D5777E0B> <2B20551C8BB10CE4F10C5F37D5777E0B> ]
+	/Info	16 0 R
+	/DocChecksum	/50050975C4784AF41E735FDAD14F7206
 >>
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  798k  100  798k    0     0  1719k      0 --:--:-- --:--:-- --:--:-- 1721k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  798k  100  798k    0     0  1877k      0 --:--:-- --:--:-- --:--:-- 1875k
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  4  211k    4 10683    0     0   6439      0  0:00:33  0:00:01  0:00:32  6439100  211k  100  211k    0     0  93235      0  0:00:02  0:00:02 --:--:-- 93255
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0
+curl: (60) SSL certificate problem: certificate has expired
+More details here: http://curl.haxx.se/docs/sslcerts.html
+
+curl performs SSL certificate verification by default, using a "bundle"
+ of Certificate Authority (CA) public keys (CA certs). If the default
+ bundle file isn't adequate, you can specify an alternate file
+ using the --cacert option.
+If this HTTPS server uses a certificate signed by a CA represented in
+ the bundle, the certificate verification probably failed due to a
+ problem with the certificate (it might be expired, or the name might
+ not match the domain name in the URL).
+If you'd like to turn off curl's verification of the certificate, use
+ the -k (or --insecure) option.
+Hybrid x-ref: Error During Test
+  Test threw an exception of type ErrorException
+  Expression: begin 
+    filename = "A1947-15.pdf"
+    DEBUG && println(filename)
+    isfile(filename) || download("https://indiacode.nic.in/bitstream/123456789/1419/1/A1947-15.pdf", filename)
+    doc = pdDocOpen(filename)
+    (resfile, template) = testfiles(filename)
+    io = util_open(resfile, "w")
+    try 
+        extract_text(io, doc)
+    finally 
+        util_close(io)
+        pdDocClose(doc)
+    end
+    @assert files_equal(resfile, template)
+    length(utilPrintOpenFiles()) == 0
+end
+  failed process: Process(`curl -L -f -o A1947-15.pdf https://indiacode.nic.in/bitstream/123456789/1419/1/A1947-15.pdf`, ProcessExited(60)) [60]
+  Stacktrace:
+   [1] pipeline_error(::Base.Process) at ./process.jl:682
+   [2] run(::Cmd) at ./process.jl:651
+   [3] download(::String, ::String) at ./interactiveutil.jl:640
+   [4] macro expansion at /home/vagrant/.julia/v0.6/PDFIO/test/runtests.jl:91 [inlined]
+   [5] macro expansion at ./test.jl:860 [inlined]
+   [6] macro expansion at /home/vagrant/.julia/v0.6/PDFIO/test/runtests.jl:90 [inlined]
+   [7] macro expansion at ./test.jl:860 [inlined]
+   [8] anonymous at ./<missing>:?
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0 27  489k   27  135k    0     0  62982      0  0:00:07  0:00:02  0:00:05  136k100  489k  100  489k    0     0   183k      0  0:00:02  0:00:02 --:--:--  335k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (60) SSL certificate problem: certificate has expired
+More details here: http://curl.haxx.se/docs/sslcerts.html
+
+curl performs SSL certificate verification by default, using a "bundle"
+ of Certificate Authority (CA) public keys (CA certs). If the default
+ bundle file isn't adequate, you can specify an alternate file
+ using the --cacert option.
+If this HTTPS server uses a certificate signed by a CA represented in
+ the bundle, the certificate verification probably failed due to a
+ problem with the certificate (it might be expired, or the name might
+ not match the domain name in the URL).
+If you'd like to turn off curl's verification of the certificate, use
+ the -k (or --insecure) option.
+Corrupt File: Error During Test
+  Test threw an exception of type ErrorException
+  Expression: begin 
+    filename = "A1947-14.pdf"
+    DEBUG && println(filename)
+    isfile(filename) || download("http://indiacode.nic.in/bitstream/123456789/2169/1/A1947-14.pdf", filename)
+    doc = pdDocOpen(filename)
+    try 
+        npage = pdDocGetPageCount(doc)
+        for i = 1:npage
+            page = pdDocGetPage(doc, i)
+            if pdPageIsEmpty(page) == false
+                pdPageGetContentObjects(page)
+                pdPageExtractText(IOBuffer(), page)
+            end
+        end
+    finally 
+        pdDocClose(doc)
+    end
+    length(utilPrintOpenFiles()) == 0
+end
+  failed process: Process(`curl -L -f -o A1947-14.pdf http://indiacode.nic.in/bitstream/123456789/2169/1/A1947-14.pdf`, ProcessExited(60)) [60]
+  Stacktrace:
+   [1] pipeline_error(::Base.Process) at ./process.jl:682
+   [2] run(::Cmd) at ./process.jl:651
+   [3] download(::String, ::String) at ./interactiveutil.jl:640
+   [4] macro expansion at /home/vagrant/.julia/v0.6/PDFIO/test/runtests.jl:111 [inlined]
+   [5] macro expansion at ./test.jl:860 [inlined]
+   [6] macro expansion at /home/vagrant/.julia/v0.6/PDFIO/test/runtests.jl:110 [inlined]
+   [7] macro expansion at ./test.jl:860 [inlined]
+   [8] anonymous at ./<missing>:?
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  493k  100  493k    0     0  2620k      0 --:--:-- --:--:-- --:--:-- 2624k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  493k  100  493k    0     0  3136k      0 --:--:-- --:--:-- --:--:-- 3142k
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 29 98955   29 28941    0     0   323k      0 --:--:-- --:--:-- --:--:--  321k100 98955  100 98955    0     0   895k      0 --:--:-- --:--:-- --:--:--  894k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 14 98955   14 14600    0     0  20746      0  0:00:04 --:--:--  0:00:04 20738100 98955  100 98955    0     0   132k      0 --:--:-- --:--:-- --:--:--  132k
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 59262  100 59262    0     0   515k      0 --:--:-- --:--:-- --:--:--  516k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 59262  100 59262    0     0   511k      0 --:--:-- --:--:-- --:--:--  516k
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  4  302k    4 12556    0     0  14466      0  0:00:21 --:--:--  0:00:21 14465 20  302k   20 62256    0     0  33295      0  0:00:09  0:00:01  0:00:08 33291100  302k  100  302k    0     0   157k      0  0:00:01  0:00:01 --:--:--  157k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 56  302k   56  169k    0     0   349k      0 --:--:-- --:--:-- --:--:--  349k100  302k  100  302k    0     0   623k      0 --:--:-- --:--:-- --:--:--  622k
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  151k  100  151k    0     0   861k      0 --:--:-- --:--:-- --:--:--  866k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 92  151k   92  140k    0     0   116k      0  0:00:01  0:00:01 --:--:--  116k100  151k  100  151k    0     0   125k      0  0:00:01  0:00:01 --:--:--  125k
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   212    0   212    0     0    315      0 --:--:-- --:--:-- --:--:--   315
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   212    0   212    0     0    316      0 --:--:-- --:--:-- --:--:--   316
 100   246  100   246    0     0    327      0 --:--:-- --:--:-- --:--:--   327
-100  191k  100  191k    0     0   147k      0  0:00:01  0:00:01 --:--:--  147k
-Test Summary: | Pass  Total
-PDFIO tests   |   24     24
-INFO: PDFIO tests passed
+  4  191k    4  8384    0     0   9192      0  0:00:21 --:--:--  0:00:21  9192100  191k  100  191k    0     0   147k      0  0:00:01  0:00:01 --:--:--  475k
+Test Summary:                 | Pass  Error  Total
+PDFIO tests                   |   22      2     24
+  Miscellaneous               |    8             8
+  Test FlateDecode            |    1             1
+  PDF File with ObjectStreams |    1             1
+  General File Opening 3      |    1             1
+  Hybrid x-ref                |           1      1
+  Corrupt File                |           1      1
+  Test RunLengthDecode        |    1             1
+  Test ASCIIHexDecode         |    1             1
+  Test ASCII85Decode          |    2             2
+  LZWDecode Filter            |    1             1
+  Test read_string            |    1             1
+  Page label test             |    1             1
+  Symbol Fonts test           |    1             1
+  Forms XObjects Test         |    1             1
+  Inline Image test           |    1             1
+  MacRomanEncoding Fonts test |    1             1
+ERROR: LoadError: Some tests did not pass: 22 passed, 0 failed, 2 errored, 0 broken.
+while loading /home/vagrant/.julia/v0.6/PDFIO/test/runtests.jl, in expression starting on line 13
+================================[ ERROR: PDFIO ]================================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cgeneric -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/PDFIO/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: PDFIO had test errors
 
 >>> End of log
