@@ -1,7 +1,7 @@
 >>> 'Pkg.add("LIBSVM")' log
 INFO: Cloning cache of LIBSVM from https://github.com/mpastell/LIBSVM.jl.git
 INFO: Installing LIBLINEAR v0.3.1
-INFO: Installing LIBSVM v0.1.1
+INFO: Installing LIBSVM v0.2.0
 INFO: Installing ScikitLearnBase v0.3.0
 INFO: Building LIBLINEAR
 if [ "Linux" = "Darwin" ]; then \
@@ -11,16 +11,14 @@ if [ "Linux" = "Darwin" ]; then \
 	fi; \
 	g++ ${SHARED_LIB_FLAG} linear.o tron.o blas/blas.a -o liblinear.so.3
 INFO: Building LIBSVM
-g++ -Wall -Wconversion -O3 -fPIC -c svm.cpp
+g++ -Wall -Wconversion -O3 -fPIC -fopenmp -c svm.cpp
 if [ "Linux" = "Darwin" ]; then \
 		SHARED_LIB_FLAG="-dynamiclib -Wl,-install_name,libsvm.so.2"; \
 	else \
 		SHARED_LIB_FLAG="-shared -Wl,-soname,libsvm.so.2"; \
 	fi; \
-	g++ ${SHARED_LIB_FLAG} svm.o -o libsvm.so.2
+	g++ ${SHARED_LIB_FLAG} -fopenmp svm.o -o libsvm.so.2
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of LIBSVM
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("LIBSVM")' log
 Julia Version 0.6.4
@@ -31,13 +29,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (865.6171875 MB free)
-Uptime: 48388.0 sec
-Load Avg:  0.98193359375  0.96728515625  1.015625
+Memory: 2.939197540283203 GB (866.9765625 MB free)
+Uptime: 49092.0 sec
+Load Avg:  1.0185546875  1.001953125  1.0185546875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3500 MHz    2882279 s         63 s     213968 s    1019341 s         22 s
-#2  3500 MHz     512651 s       3514 s      79166 s    4159738 s          0 s
+#1  3500 MHz    2900533 s       6260 s     244344 s    1025703 s          8 s
+#2  3500 MHz     478644 s        744 s      76018 s    4281984 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem MAX_THREADS=16)
   LAPACK: libopenblas64_
@@ -53,7 +51,7 @@ Environment:
 Package Directory: /home/vagrant/.julia/v0.6
 2 required packages:
  - JSON                          0.17.2
- - LIBSVM                        0.1.1
+ - LIBSVM                        0.2.0
 4 additional packages:
  - Compat                        1.0.0
  - LIBLINEAR                     0.3.1
