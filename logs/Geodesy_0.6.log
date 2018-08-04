@@ -2,13 +2,11 @@
 INFO: Cloning cache of CoordinateTransformations from https://github.com/FugroRoames/CoordinateTransformations.jl.git
 INFO: Cloning cache of Geodesy from https://github.com/JuliaGeo/Geodesy.jl.git
 INFO: Cloning cache of Rotations from https://github.com/FugroRoames/Rotations.jl.git
-INFO: Installing CoordinateTransformations v0.4.1
+INFO: Installing CoordinateTransformations v0.5.0
 INFO: Installing Geodesy v0.4.0
 INFO: Installing Rotations v0.7.2
 INFO: Installing StaticArrays v0.7.2
 INFO: Package database updated
-INFO: METADATA is out-of-date — you may not have the latest version of Geodesy
-INFO: Use `Pkg.update()` to get the latest versions of your packages
 
 >>> 'Pkg.test("Geodesy")' log
 Julia Version 0.6.4
@@ -19,13 +17,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (855.5703125 MB free)
-Uptime: 5006.0 sec
-Load Avg:  0.9970703125  1.0146484375  0.98046875
+Memory: 2.939197540283203 GB (851.28515625 MB free)
+Uptime: 5996.0 sec
+Load Avg:  0.97216796875  0.95703125  0.88720703125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3499 MHz     269058 s         31 s      33195 s     135941 s          4 s
-#2  3499 MHz      83108 s        147 s      20083 s     385938 s          0 s
+#1  3501 MHz     302240 s        125 s      35387 s     190828 s          3 s
+#2  3501 MHz      79853 s         52 s      18285 s     490715 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem MAX_THREADS=16)
   LAPACK: libopenblas64_
@@ -44,13 +42,56 @@ Package Directory: /home/vagrant/.julia/v0.6
  - JSON                          0.17.2
 5 additional packages:
  - Compat                        1.0.0
- - CoordinateTransformations     0.4.1
+ - CoordinateTransformations     0.5.0
  - Nullables                     0.0.6
  - Rotations                     0.7.2
  - StaticArrays                  0.7.2
 INFO: Testing Geodesy
-Test Summary: |  Pass  Total
-Geodesy       | 30216  30216
-INFO: Geodesy tests passed
+Basic example: Error During Test
+  Test threw an exception of type ErrorException
+  Expression: trans.m ≈ eye(3)
+  type AffineMap has no field m
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:18 [inlined]
+   [2] macro expansion at ./test.jl:860 [inlined]
+   [3] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:9 [inlined]
+   [4] macro expansion at ./test.jl:860 [inlined]
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:5 [inlined]
+   [6] macro expansion at ./test.jl:860 [inlined]
+   [7] anonymous at ./<missing>:?
+Basic example: Error During Test
+  Test threw an exception of type ErrorException
+  Expression: isapprox(trans.v, zeros(3), atol=10 * eps())
+  type AffineMap has no field v
+  Stacktrace:
+   [1] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:19 [inlined]
+   [2] macro expansion at ./test.jl:860 [inlined]
+   [3] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:9 [inlined]
+   [4] macro expansion at ./test.jl:860 [inlined]
+   [5] macro expansion at /home/vagrant/.julia/v0.6/Geodesy/test/datum_transformations.jl:5 [inlined]
+   [6] macro expansion at ./test.jl:860 [inlined]
+   [7] anonymous at ./<missing>:?
+Test Summary:                                |  Pass  Error  Total
+Geodesy                                      | 30274      2  30276
+  Point constructors                         |    14            14
+  Datums and ellipsoids                      |    14            14
+  Transverse Mercator projection and inverse | 10000         10000
+  Polar stereographic                        |    16            16
+  UTM functions                              |    18            18
+  Coordinate system transformations          |    38            38
+  Co-ordinate system conversion              | 20155         20155
+  Datum transforms                           |    19      2     21
+    GDA94 from ITRF                          |    19      2     21
+      Basic example                          |     1      2      3
+      ITRS realizations                      |     3             3
+      GDA94 from ITRF                        |    15            15
+ERROR: LoadError: Some tests did not pass: 30274 passed, 0 failed, 2 errored, 0 broken.
+while loading /home/vagrant/.julia/v0.6/Geodesy/test/runtests.jl, in expression starting on line 11
+===============================[ ERROR: Geodesy ]===============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cgeneric -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/Geodesy/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: Geodesy had test errors
 
 >>> End of log

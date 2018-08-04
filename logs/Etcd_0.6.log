@@ -31,13 +31,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (822.5390625 MB free)
-Uptime: 83289.0 sec
-Load Avg:  0.9951171875  0.998046875  0.95458984375
+Memory: 2.939197540283203 GB (797.6796875 MB free)
+Uptime: 84095.0 sec
+Load Avg:  1.0234375  1.0146484375  0.96533203125
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3501 MHz    5139956 s       1507 s     377280 s    1554667 s         11 s
-#2  3501 MHz    1254921 s       5857 s     180964 s    6741751 s          0 s
+#1  3500 MHz    5147217 s       4766 s     395270 s    1583041 s         16 s
+#2  3500 MHz    1237346 s         54 s     186633 s    6807664 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem MAX_THREADS=16)
   LAPACK: libopenblas64_
@@ -85,8 +85,8 @@ while loading /home/vagrant/.julia/v0.6/Etcd/test/runtests.jl, in expression sta
 [info] Downloading etcd...
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   621    0   621    0     0   3189      0 --:--:-- --:--:-- --:--:--  3201
- 28 10.0M   28 2956k    0     0  4178k      0  0:00:02 --:--:--  0:00:02 4178k100 10.0M  100 10.0M    0     0  8379k      0  0:00:01  0:00:01 --:--:-- 13.7M
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   621    0   621    0     0   5687      0 --:--:-- --:--:-- --:--:--  5697
+ 12 10.0M   12 1291k    0     0  2682k      0  0:00:03 --:--:--  0:00:03 2682k100 10.0M  100 10.0M    0     0  9254k      0  0:00:01  0:00:01 --:--:-- 13.9M
 etcd-v3.2.12-linux-amd64/
 etcd-v3.2.12-linux-amd64/Documentation/
 etcd-v3.2.12-linux-amd64/Documentation/tuning.md
@@ -228,22 +228,28 @@ etcd-v3.2.12-linux-amd64/READMEv2-etcdctl.md
 [error] EtcdError: Key already exists - /mydir (105).
 [error] EtcdError: Key not found - /mydir (100).
 [error] EtcdError: Key not found - /mymissingkey (100).
-ERROR (unhandled task failure): schedule: Task not runnable
+ERROR (unhandled task failure): InterruptException:
 Stacktrace:
- [1] enq_work(::Task) at ./event.jl:82
- [2] #schedule#297(::Bool, ::Function, ::Task, ::IPv4) at ./event.jl:127
- [3] schedule(::Task, ::IPv4) at ./event.jl:122
- [4] notify(::Condition, ::IPv4, ::Bool, ::Bool) at ./event.jl:49
- [5] (::Base.##354#355{Condition})(::IPv4) at ./socket.jl:642
- [6] uv_getaddrinfocb(::Ptr{Void}, ::Int32, ::Ptr{Void}) at ./socket.jl:602
- [7] process_events at ./libuv.jl:84 [inlined]
- [8] wait() at ./event.jl:241
- [9] wait(::Condition) at ./event.jl:27
- [10] stream_wait(::TCPSocket, ::Condition, ::Vararg{Condition,N} where N) at ./stream.jl:42
- [11] close(::TCPSocket) at ./stream.jl:326
- [12] close(::Requests.ResponseStream{TCPSocket}) at /home/vagrant/.julia/v0.6/Requests/src/streaming.jl:148
- [13] macro expansion at /home/vagrant/.julia/v0.6/Requests/src/Requests.jl:394 [inlined]
- [14] (::Requests.##24#25)() at ./event.jl:73
+ [1] try_yieldto(::Base.##298#299{Task}, ::Task) at ./event.jl:189
+ [2] wait() at ./event.jl:234
+ [3] wait(::Condition) at ./event.jl:27
+ [4] getaddrinfo(::String) at ./socket.jl:644
+ [5] open_stream(::HttpCommon.Request, ::MbedTLS.SSLConfig, ::Float64, ::Nullable{URIParser.URI}, ::Nullable{URIParser.URI}) at /home/vagrant/.julia/v0.6/Requests/src/streaming.jl:185
+ [6] #do_stream_request#23(::Dict{AbstractString,AbstractString}, ::Void, ::Void, ::Void, ::Array{Requests.FileParam,1}, ::Void, ::Dict{String,Any}, ::Bool, ::Int64, ::Array{HttpCommon.Response,1}, ::MbedTLS.SSLConfig, ::Bool, ::Bool, ::Bool, ::Nullable{URIParser.URI}, ::Nullable{URIParser.URI}, ::Requests.#do_stream_request, ::URIParser.URI, ::String) at /home/vagrant/.julia/v0.6/Requests/src/Requests.jl:369
+ [7] (::Requests.#kw##do_stream_request)(::Array{Any,1}, ::Requests.#do_stream_request, ::URIParser.URI, ::String) at ./<missing>:0
+ [8] #do_request#22(::Array{Any,1}, ::Function, ::URIParser.URI, ::String) at /home/vagrant/.julia/v0.6/Requests/src/Requests.jl:299
+ [9] (::Requests.#kw##do_request)(::Array{Any,1}, ::Requests.#do_request, ::URIParser.URI, ::String) at ./<missing>:0
+ [10] #get#29 at /home/vagrant/.julia/v0.6/Requests/src/Requests.jl:432 [inlined]
+ [11] (::Base.#kw##get)(::Array{Any,1}, ::Base.#get, ::URIParser.URI) at ./<missing>:0
+ [12] #get#28(::Array{Any,1}, ::Function, ::String) at /home/vagrant/.julia/v0.6/Requests/src/Requests.jl:431
+ [13] (::Base.#kw##get)(::Array{Any,1}, ::Base.#get, ::String) at ./<missing>:0
+ [14] (::Etcd.#retry_func#3{Base.#get,String,Dict{String,Any}})() at /home/vagrant/.julia/v0.6/Etcd/src/requests.jl:63
+ [15] (::Base.###49#50#52{ExponentialBackOff,Etcd.#retry_cond#2,Etcd.#retry_func#3{Base.#get,String,Dict{String,Any}}})(::Array{Any,1}, ::Function) at ./error.jl:139
+ [16] #request#1(::Int64, ::Float64, ::Function, ::Base.#get, ::String, ::Dict{String,Any}) at /home/vagrant/.julia/v0.6/Etcd/src/requests.jl:65
+ [17] #get#5(::Bool, ::Bool, ::Function, ::Etcd.Client, ::String, ::Dict{String,Any}) at /home/vagrant/.julia/v0.6/Etcd/src/api/keys.jl:20
+ [18] (::Base.#kw##get)(::Array{Any,1}, ::Base.#get, ::Etcd.Client, ::String, ::Dict{String,Any}) at ./<missing>:0
+ [19] macro expansion at /home/vagrant/.julia/v0.6/Etcd/src/api/watch.jl:53 [inlined]
+ [20] (::Etcd.##28#31{Bool,##2#5,Etcd.Client,String,Etcd.##29#32})() at ./task.jl:335
 Test Summary: | Pass  Total
 Etcd          |  120    120
 [info] Stopping etcd server...
