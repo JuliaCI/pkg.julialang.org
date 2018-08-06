@@ -5,7 +5,7 @@ INFO: Cloning cache of HORIZONS from https://github.com/PerezHz/HORIZONS.jl.git
 INFO: Cloning cache of LibCURL from https://github.com/JuliaWeb/LibCURL.jl.git
 INFO: Installing BinDeps v0.8.8
 INFO: Installing Expect v0.2.3
-INFO: Installing FTPClient v0.3.0
+INFO: Installing FTPClient v0.4.0
 INFO: Installing HORIZONS v0.0.1
 INFO: Installing LibCURL v0.2.2
 INFO: Installing SHA v0.5.7
@@ -27,13 +27,13 @@ Platform Info:
   WORD_SIZE: 64
            Ubuntu 14.04.5 LTS
   uname: Linux 3.13.0-143-generic #192-Ubuntu SMP Tue Feb 27 10:45:36 UTC 2018 x86_64 x86_64
-Memory: 2.939197540283203 GB (1573.90625 MB free)
-Uptime: 20493.0 sec
-Load Avg:  1.0029296875  1.00830078125  1.09716796875
+Memory: 2.939197540283203 GB (1637.046875 MB free)
+Uptime: 19850.0 sec
+Load Avg:  0.9521484375  0.962890625  1.08544921875
 Intel(R) Xeon(R) CPU E3-1241 v3 @ 3.50GHz: 
        speed         user         nice          sys         idle          irq
-#1  3501 MHz    1083404 s        130 s     105384 s     598794 s          6 s
-#2  3501 MHz     186968 s         52 s      41791 s    1793824 s          0 s
+#1  3502 MHz    1085964 s         26 s      99422 s     530453 s          3 s
+#2  3502 MHz     189092 s        154 s      40322 s    1726950 s          0 s
 
   BLAS: libopenblas (USE64BITINT DYNAMIC_ARCH NO_AFFINITY Nehalem MAX_THREADS=16)
   LAPACK: libopenblas64_
@@ -54,7 +54,7 @@ Package Directory: /home/vagrant/.julia/v0.6
  - BinDeps                       0.8.8
  - Compat                        1.0.0
  - Expect                        0.2.3
- - FTPClient                     0.3.0
+ - FTPClient                     0.4.0
  - LibCURL                       0.2.2
  - Nullables                     0.0.6
  - SHA                           0.5.7
@@ -67,10 +67,37 @@ Test Summary:                | Pass  Total
 Test for erroneous arguments |   17     17
 Test Summary:                    | Pass  Total
 Vector table generation: vec_tbl |   29     29
-Test Summary:                                    | Pass  Total
-Vector table generation and write output to file |    4      4
-Test Summary:                                        | Pass  Total
-Vector table generation with CSV format: vec_tbl_csv |   10     10
-INFO: HORIZONS tests passed
+Vector table generation and write output to file: Error During Test
+  Got an exception of type FTPClient.FTPClientError outside of a @test
+  Failed to connect. :: LibCURL error #6
+  Stacktrace:
+   [1] ftp_perform(::FTPClient.ConnContext, ::Bool) at /home/vagrant/.julia/v0.6/FTPClient/src/FTPC.jl:214
+   [2] #ftp_command#12(::Bool, ::Function, ::FTPClient.ConnContext, ::String) at /home/vagrant/.julia/v0.6/FTPClient/src/FTPC.jl:560
+   [3] (::FTPClient.#kw##ftp_command)(::Array{Any,1}, ::FTPClient.#ftp_command, ::FTPClient.ConnContext, ::String) at ./<missing>:0
+   [4] #ftp_connect#13(::Bool, ::Function, ::FTPClient.RequestOptions) at /home/vagrant/.julia/v0.6/FTPClient/src/FTPC.jl:587
+   [5] (::FTPClient.#kw##ftp_connect)(::Array{Any,1}, ::FTPClient.#ftp_connect, ::FTPClient.RequestOptions) at ./<missing>:0
+   [6] #FTP#14(::Bool, ::Type{T} where T, ::FTPClient.RequestOptions) at /home/vagrant/.julia/v0.6/FTPClient/src/FTPObject.jl:11
+   [7] (::Core.#kw#Type)(::Array{Any,1}, ::Type{FTPClient.FTP}, ::FTPClient.RequestOptions) at ./<missing>:0
+   [8] #FTP#15(::String, ::Int64, ::String, ::String, ::Bool, ::Bool, ::Bool, ::Bool, ::Bool, ::String, ::Type{T} where T) at /home/vagrant/.julia/v0.6/FTPClient/src/FTPObject.jl:61
+   [9] (::Core.#kw#Type)(::Array{Any,1}, ::Type{FTPClient.FTP}) at ./<missing>:0
+   [10] #vec_tbl#2(::String, ::Array{Any,1}, ::Function, ::String, ::String, ::Date, ::Date, ::Base.Dates.Year) at /home/vagrant/.julia/v0.6/HORIZONS/src/vec_tbl.jl:71
+   [11] (::HORIZONS.#kw##vec_tbl)(::Array{Any,1}, ::HORIZONS.#vec_tbl, ::String, ::String, ::Date, ::Date, ::Base.Dates.Year) at ./<missing>:0
+   [12] macro expansion at /home/vagrant/.julia/v0.6/HORIZONS/test/runtests.jl:109 [inlined]
+   [13] macro expansion at ./test.jl:860 [inlined]
+   [14] anonymous at ./<missing>:?
+   [15] include_from_node1(::String) at ./loading.jl:576
+   [16] include(::String) at ./sysimg.jl:14
+   [17] process_options(::Base.JLOptions) at ./client.jl:305
+   [18] _start() at ./client.jl:371
+Test Summary:                                    | Error  Total
+Vector table generation and write output to file |     1      1
+ERROR: LoadError: Some tests did not pass: 0 passed, 0 failed, 1 errored, 0 broken.
+while loading /home/vagrant/.julia/v0.6/HORIZONS/test/runtests.jl, in expression starting on line 104
+==============================[ ERROR: HORIZONS ]===============================
+
+failed process: Process(`/home/vagrant/julia/bin/julia -Cgeneric -J/home/vagrant/julia/lib/julia/sys.so --compile=yes --depwarn=yes --check-bounds=yes --code-coverage=none --color=no --compilecache=yes /home/vagrant/.julia/v0.6/HORIZONS/test/runtests.jl`, ProcessExited(1)) [1]
+
+================================================================================
+ERROR: HORIZONS had test errors
 
 >>> End of log
